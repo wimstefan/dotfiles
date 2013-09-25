@@ -1,0 +1,1009 @@
+" Just a few settings
+" Check settings with ":verbose set <setting>?"
+" swimmer@xs4all.nl - 2013-09-25
+" vim: fdl=0 tw=200
+
+" reset to vim-defaults
+if &compatible          " only if not set before:
+  set nocompatible      " use vim-defaults instead of vi-defaults (easier, more user friendly)
+endif
+
+" Neobundle " {{{1
+if has('vim_starting')
+  set rtp+=~/.vim/bundle/neobundle.vim
+endif
+call neobundle#rc(expand('~/.vim/bundle'))
+NeoBundleFetch 'Shougo/neobundle.vim'
+
+NeoBundle 'Shougo/neobundle-vim-scripts'
+NeoBundle 'Shougo/vimproc', {'build': {'unix': 'make -f make_unix.mak'}}
+NeoBundle 'Shougo/unite.vim'
+NeoBundleLazy 'Shougo/unite-ssh'
+NeoBundleLazy 'Shougo/unite-outline', {'autoload': {'unite_sources': 'outline'}}
+NeoBundleLazy 'Shougo/unite-session', {'autoload': {'unite_sources': 'session',
+            \ 'commands' : ['UniteSessionSave', 'UniteSessionLoad']}}
+NeoBundleLazy 'tsukkee/unite-help', {'autoload': {'unite_sources': 'help'}}
+NeoBundleLazy 'ujihisa/unite-colorscheme', {'autoload': {'unite_sources': 'colorscheme'}}
+NeoBundleLazy 'ujihisa/unite-locate', {'autoload': {'unite_sources': 'locate'}}
+NeoBundleLazy 'thinca/vim-unite-history', {'autoload': {'unite_sources':
+            \ ['history/command', 'history/search']}}
+NeoBundleLazy 'osyo-manga/unite-quickfix', {'autoload': {'unite_sources':
+            \ ['quickfix', 'location_list']}}
+NeoBundleLazy 'osyo-manga/unite-filetype', {'autoload': {'unite_sources': 'filetype', }}
+NeoBundleLazy 'osyo-manga/unite-fold', {'autoload': {'unite_sources': 'fold'}}
+NeoBundleLazy 'tacroe/unite-mark', {'autoload': {'unite_sources': 'mark'}}
+NeoBundleLazy 'Shougo/vimfiler', {'autoload': {'commands': ['VimFiler','VimFilerExplorer']}}
+"NeoBundle 'Shougo/neocomplcache'
+NeoBundle 'Valloric/YouCompleteMe', {'build': {'unix': './install.sh'}}
+NeoBundleLazy 'sjl/gundo.vim', {'autoload': {'commands': 'GundoToggle'}}
+NeoBundle 'Raimondi/delimitMate'
+NeoBundle 'scrooloose/syntastic'
+"NeoBundle 'xolox/vim-easytags', {'depends': ['xolox/vim-misc']}
+NeoBundle 'rkitover/vimpager'
+NeoBundle 'powerman/vim-plugin-viewdoc'
+NeoBundle 'majutsushi/tagbar'
+NeoBundle 'chrisbra/CheckAttach'
+NeoBundleLazy 'mattn/emmet-vim', {'autoload':
+            \ {'filetypes': ['html', 'xhttml', 'css', 'xml', 'xls', 'markdown']}}
+NeoBundleLazy 'HTML.zip', {'autoload': {'filetypes': ['html', 'xhttml', 'css']}}
+NeoBundle 'jamessan/vim-gnupg'
+NeoBundle 'renamer.vim'
+NeoBundle 'vim-scripts/vcscommand.vim'
+NeoBundle 'tpope/vim-fugitive'
+NeoBundle 'junegunn/vim-easy-align'
+NeoBundle 'dhruvasagar/vim-table-mode', {'depends': ['godlygeek/tabular']}
+NeoBundle 'HybridText'
+NeoBundle 'VOoM'
+NeoBundle 'achiang/muttrc'
+"NeoBundle 'bling/vim-airline'
+"NeoBundle 'bling/vim-bufferline'
+NeoBundle 'itchyny/lightline.vim'
+NeoBundle 'chriskempson/vim-tomorrow-theme'
+NeoBundle 'chriskempson/base16-vim'
+NeoBundle 'vim-scripts/zarniwoop.vim'
+NeoBundle 'w0ng/vim-hybrid'
+NeoBundle 'nanotech/jellybeans.vim'
+NeoBundle 'jonathanfilip/vim-lucius'
+
+
+NeoBundleCheck
+" " }}}
+
+" Plugins config " {{{1
+" 'Shougo/unite.vim' " {{{2
+  call unite#filters#matcher_default#use(['matcher_fuzzy'])
+  call unite#custom#source('file_rec,file_rec/async,grep,locate',
+    \ 'ignore_pattern', join(['\.cache/', 'cache/'], '\|'))
+  call unite#custom#source('file_rec,file_rec/async,grep', 'max_candidates', '0')
+  let g:unite_data_directory = $HOME.'/.cache/vim/unite/'
+  let g:unite_winheight = 20
+  let g:unite_prompt = '>>> '
+  let g:unite_source_history_yank_enable = 1
+  let g:unite_force_overwrite_statusline = 0
+  if executable('ag')
+    let g:unite_source_grep_command = 'ag'
+    "let g:unite_source_grep_default_opts =  '--line-numbers --nocolor --nogroup --hidden'
+    let g:unite_source_grep_default_opts =  '--line-numbers --nocolor --nogroup -a -S'
+    let g:unite_source_grep_recursive_opt = ''
+  elseif executable('ack')
+    let g:unite_source_grep_command = 'ack'
+    "let g:unite_source_grep_default_opts = '--column --no-color --nogroup --with-filename'
+    let g:unite_source_grep_default_opts = '--no-color --no-group'
+    let g:unite_source_grep_recursive_opt = ''
+  endif
+  nnoremap <Leader>b :<C-u>Unite -buffer-name=buffers -auto-resize -quick-match buffer bookmark<CR>
+  nnoremap <Leader>m :<C-u>Unite -buffer-name=mru -auto-resize file_mru<CR>
+  nnoremap <Leader>f :<C-u>Unite -buffer-name=files -auto-resize -start-insert file<CR>
+  nnoremap <Leader>r :<C-u>Unite -buffer-name=files -auto-resize -start-insert file_rec/async<CR>
+  nnoremap <Leader>y :<C-u>Unite -buffer-name=yank -auto-resize history/yank<cr>
+  nnoremap <space>/ :Unite grep:.<cr>
+
+  " Unite menus {{{3
+  " Kudos to https://github.com/joedicastro/dotfiles/blob/master/vim/vimrc
+  let g:unite_source_menu_menus = {}
+
+  " menu prefix key (for all Unite menus) {{{4
+  nnoremap [menu] <Nop>
+  "nmap <LocalLeader> [menu]
+  nmap , [menu]
+  " }}}
+
+  " menus menu
+  nnoremap <silent>[menu]u :Unite -silent -winheight=20 menu<CR>
+
+  " files and dirs menu {{{4
+  let g:unite_source_menu_menus.files = {
+      \ 'description' : '          files & dirs
+          \                                          ⌘ ,o',
+      \}
+  let g:unite_source_menu_menus.files.command_candidates = [
+      \['▷ open file                                                  ,o',
+          \'Unite -start-insert file'],
+      \['▷ open more recently used files                              \m',
+          \'Unite file_mru'],
+      \['▷ open file with recursive search                            \r',
+          \'Unite -start-insert file_rec/async'],
+      \['▷ edit new file',
+          \'Unite file/new'],
+      \['▷ search directory',
+          \'Unite directory'],
+      \['▷ search recently used directories',
+          \'Unite directory_mru'],
+      \['▷ search directory with recursive search',
+          \'Unite directory_rec/async'],
+      \['▷ make new directory',
+          \'Unite directory/new'],
+      \['▷ change working directory',
+          \'Unite -default-action=lcd directory'],
+      \['▷ know current working directory',
+          \'Unite output:pwd'],
+      \['▷ quick save                                                 \w',
+          \'normal \w'],
+      \['▷ open vimfiler                                              \e',
+          \'VimFilerExplorer'],
+      \]
+  nnoremap <silent>[menu]o :Unite -silent -winheight=17 -start-insert
+              \ menu:files<CR>
+  " }}}
+
+  " file searching menu {{{4
+  let g:unite_source_menu_menus.grep = {
+      \ 'description' : '           search files
+          \                                          ⌘ ,a',
+      \}
+  let g:unite_source_menu_menus.grep.command_candidates = [
+      \['▷ grep (ag → ack → grep)                                     ⌘ ,a',
+          \'Unite -no-quit grep'],
+      \['▷ find',
+          \'Unite find'],
+      \['▷ locate',
+          \'Unite -start-insert locate'],
+      \['▷ vimgrep (very slow)',
+          \'Unite vimgrep'],
+      \]
+  nnoremap <silent>[menu]a :Unite -silent menu:grep<CR>
+  " }}}
+
+  " buffers, tabs & windows menu {{{4
+  let g:unite_source_menu_menus.navigation = {
+      \ 'description' : '     navigate by buffers, tabs & windows
+          \                   ⌘ ,b',
+      \}
+  let g:unite_source_menu_menus.navigation.command_candidates = [
+      \['▷ buffers                                                    ⌘ ,b',
+          \'Unite buffer'],
+      \['▷ tabs',
+          \'Unite tab'],
+      \['▷ windows',
+          \'Unite window'],
+      \['▷ location list',
+          \'Unite location_list'],
+      \['▷ quickfix',
+          \'Unite quickfix'],
+      \['▷ new vertical window',
+          \'vsplit'],
+      \['▷ new horizontal window',
+          \'split'],
+      \['▷ close current window',
+          \'close'],
+      \['▷ toggle quickfix window',
+          \'normal ,q'],
+      \['▷ delete buffer                                              ⌘ ,bd',
+          \'bd'],
+      \]
+  nnoremap <silent>[menu]b :Unite -silent menu:navigation<CR>
+  " }}}
+
+  " buffer internal searching menu {{{4
+  let g:unite_source_menu_menus.searching = {
+      \ 'description' : '      searchs inside the current buffer
+          \                     ⌘ ,f',
+      \}
+  let g:unite_source_menu_menus.searching.command_candidates = [
+      \['▷ search line                                                ⌘ ,f',
+          \'Unite -auto-preview -start-insert line'],
+      \['▷ search word under the cursor',
+          \'UniteWithCursorWord -no-split -auto-preview line'],
+      \['▷ search outlines & tags (ctags)',
+          \'Unite -vertical -winwidth=40 -direction=topleft -toggle outline'],
+      \['▷ search marks',
+          \'Unite -auto-preview mark'],
+      \['▷ search folds',
+          \'Unite -vertical -winwidth=30 -auto-highlight fold'],
+      \['▷ search changes',
+          \'Unite change'],
+      \['▷ search jumps',
+          \'Unite jump'],
+      \['▷ search undos',
+          \'Unite undo'],
+      \['▷ search tasks',
+          \'Unite -toggle grep:%::FIXME|TODO|NOTE|XXX|COMBAK|@todo'],
+      \]
+  nnoremap <silent>[menu]f :Unite -silent menu:searching<CR>
+  " }}}
+
+  " yanks, registers & history menu {{{4
+  let g:unite_source_menu_menus.registers = {
+      \ 'description' : '      yanks, registers & history
+          \                            ⌘ ,i',
+      \}
+  let g:unite_source_menu_menus.registers.command_candidates = [
+      \['▷ yanks                                                      ⌘ \y',
+          \'Unite history/yank'],
+      \['▷ commands       (history)',
+          \'Unite history/command'],
+      \['▷ searches       (history)',
+          \'Unite history/search'],
+      \['▷ registers',
+          \'Unite register'],
+      \['▷ messages',
+          \'Unite output:messages'],
+      \['▷ undo tree      (gundo)                                     ⌘ ctrl-u',
+          \'GundoToggle'],
+      \]
+  nnoremap <silent>[menu]i :Unite -silent menu:registers<CR>
+  " }}}
+
+  " spelling menu {{{4
+  let g:unite_source_menu_menus.spelling = {
+      \ 'description' : '       spell checking
+          \                                        ⌘ ,s',
+      \}
+  let g:unite_source_menu_menus.spelling.command_candidates = [
+      \['▷ spell checking in English',
+          \'setlocal spell spelllang=en'],
+      \['▷ spell checking in Dutch',
+          \'setlocal spell spelllang=nl'],
+      \['▷ spell checking in German',
+          \'setlocal spell spelllang=de'],
+      \['▷ spell checking in Spanish',
+          \'setlocal spell spelllang=es'],
+      \['▷ jumps to next bad spell word and show suggestions',
+          \'normal ]sz='],
+      \['▷ jumps to next bad spell word',
+          \'normal ]s'],
+      \['▷ suggestions',
+          \'normal z='],
+      \['▷ add word to dictionary',
+          \'normal zg'],
+      \]
+  nnoremap <silent>[menu]s :Unite -silent menu:spelling<CR>
+  " }}}
+
+  " text edition menu {{{4
+  let g:unite_source_menu_menus.text = {
+      \ 'description' : '           text edition
+          \                                          ⌘ ,e',
+      \}
+  let g:unite_source_menu_menus.text.command_candidates = [
+      \['▷ toggle search results highlight',
+          \'set invhlsearch'],
+      \['▷ show hidden chars',
+          \'set list!'],
+      \['▷ toggle fold                                                ⌘ za',
+          \'normal za'],
+      \['▷ open all folds                                             ⌘ zR',
+          \'normal zR'],
+      \['▷ close all folds                                            ⌘ zM',
+          \'normal zM'],
+      \['▷ copy to the clipboard                                      ⌘ ,y',
+          \'normal ,y'],
+      \['▷ paste from the clipboard                                   ⌘ ,p',
+          \'normal ,p'],
+      \['▷ toggle paste mode                                          ⌘ ,P',
+          \'normal ,P'],
+      \['▷ remove trailing whitespaces                                ⌘ ,et',
+          \'normal ,et'],
+      \['▷ text statistics                                            ⌘ ,es',
+          \'Unite output:normal\ ,es -no-cursor-line'],
+      \['▷ show available digraphs',
+          \'digraphs'],
+      \['▷ show current char info                                     ⌘ ga',
+          \'normal ga'],
+      \]
+  nnoremap <silent>[menu]e :Unite -silent -winheight=20 menu:text <CR>
+  " }}}
+
+  " neobundle menu {{{4
+  let g:unite_source_menu_menus.neobundle = {
+      \ 'description' : '      plugins administration with neobundle
+          \                 ⌘ ,n',
+      \}
+  let g:unite_source_menu_menus.neobundle.command_candidates = [
+      \['▷ neobundle',
+          \'Unite neobundle'],
+      \['▷ neobundle log',
+          \'Unite neobundle/log'],
+      \['▷ neobundle lazy',
+          \'Unite neobundle/lazy'],
+      \['▷ neobundle update',
+          \'Unite neobundle/update:all'],
+      \['▷ neobundle search',
+          \'Unite neobundle/search'],
+      \['▷ neobundle install',
+          \'Unite neobundle/install'],
+      \['▷ neobundle check',
+          \'Unite -no-empty output:NeoBundleCheck'],
+      \['▷ neobundle docs',
+          \'Unite output:NeoBundleDocs'],
+      \['▷ neobundle clean',
+          \'NeoBundleClean'],
+      \['▷ neobundle list',
+          \'Unite output:NeoBundleList'],
+      \['▷ neobundle direct edit',
+          \'NeoBundleDirectEdit'],
+      \]
+  nnoremap <silent>[menu]n :Unite -silent -start-insert menu:neobundle<CR>
+  " }}}
+
+  " git & vcs menu {{{4
+  let g:unite_source_menu_menus.git = {
+      \ 'description' : '            admin git & other VCS repositories
+          \                    ⌘ ,g',
+      \}
+  let g:unite_source_menu_menus.git.command_candidates = [
+      \['▷ git status             (fugitive)',
+          \'Gstatus'],
+      \['▷ git diff               (fugitive)',
+          \'Gdiff'],
+      \['▷ git commit             (fugitive)',
+          \'Gcommit'],
+      \['▷ git log                (fugitive)',
+          \'exe "silent Glog | Unite -no-quit quickfix"'],
+      \['▷ git log - all          (fugitive)',
+          \'exe "silent Glog -all | Unite -no-quit quickfix"'],
+      \['▷ git blame              (fugitive)',
+          \'Gblame'],
+      \['▷ git add/stage          (fugitive)',
+          \'Gwrite'],
+      \['▷ git checkout           (fugitive)',
+          \'Gread'],
+      \['▷ git rm                 (fugitive)',
+          \'Gremove'],
+      \['▷ git mv                 (fugitive)',
+          \'exe "Gmove " input("destination: ")'],
+      \['▷ git push               (fugitive, buffer output)',
+          \'Git! push'],
+      \['▷ git pull               (fugitive, buffer output)',
+          \'Git! pull'],
+      \['▷ git command            (fugitive, buffer output)',
+          \'exe "Git! " input("git command: ")'],
+      \['▷ git edit               (fugitive)',
+          \'exe "command Gedit " input(":Gedit ")'],
+      \['▷ git grep               (fugitive)',
+          \'exe "silent Ggrep -i ".input("Pattern: ") | Unite -no-quit quickfix'],
+      \['▷ git grep - messages    (fugitive)',
+          \'exe "silent Glog --grep=".input("Pattern: ")." | Unite -no-quit quickfix"'],
+      \['▷ git grep - text        (fugitive)',
+          \'exe "silent Glog -S".input("Pattern: ")." | Unite -no-quit quickfix"'],
+      \['▷ git init',
+          \'Unite output:echo\ system("git\ init")'],
+      \['▷ git cd                 (fugitive)',
+          \'Gcd'],
+      \['▷ git lcd                (fugitive)',
+          \'Glcd'],
+      \['▷ git browse             (fugitive)',
+          \'Gbrowse'],
+      \['▷ vcs status             (vcscommand)',
+          \'VCSStatus'],
+      \['▷ vcs update             (vcscommand)',
+          \'VCSUpdate'],
+      \['▷ vcs diff               (vcscommand)',
+          \'VCSDiff'],
+      \['▷ vcs commit             (vcscommand)',
+          \'VCSCommit'],
+      \['▷ vcs log                (vcscommand)',
+          \'exe "silent VCSLog | Unite -no-quit quickfix"'],
+      \['▷ vcs blame              (vcscommand)',
+          \'VCSAnnotate'],
+      \]
+  nnoremap <silent>[menu]g :Unite -silent -winheight=26 -start-insert menu:git<CR>
+  " }}}
+
+  " code menu {{{4
+  let g:unite_source_menu_menus.code = {
+      \ 'description' : '           code tools
+          \                                            ⌘ ,p',
+      \}
+  let g:unite_source_menu_menus.code.command_candidates = [
+      \['▷ syntastic check                            (syntastic)',
+          \'SyntasticCheck'],
+      \['▷ syntastic errors                           (syntastic)',
+          \'Errors'],
+      \]
+  nnoremap <silent>[menu]p :Unite -silent -winheight=42 menu:code<CR>
+  " }}}
+
+  " sessions menu {{{4
+  let g:unite_source_menu_menus.sessions = {
+      \ 'description' : '       sessions
+          \                                              ⌘ ,h',
+      \}
+  let g:unite_source_menu_menus.sessions.command_candidates = [
+      \['▷ load session',
+          \'Unite session'],
+      \['▷ make session (default)',
+          \'UniteSessionSave'],
+      \['▷ make session (custom)',
+          \'exe "UniteSessionSave " input("name: ")'],
+      \]
+  nnoremap <silent>[menu]h :Unite -silent menu:sessions<CR>
+  " }}}
+
+  " bookmarks menu {{{4
+  let g:unite_source_menu_menus.bookmarks = {
+      \ 'description' : '      bookmarks
+          \                                             ⌘ ,m',
+      \}
+  let g:unite_source_menu_menus.bookmarks.command_candidates = [
+      \['▷ open bookmarks',
+          \'Unite bookmark:*'],
+      \['▷ add bookmark',
+          \'UniteBookmarkAdd'],
+      \]
+  nnoremap <silent>[menu]m :Unite -silent menu:bookmarks<CR>
+  " }}}
+
+  " vim menu {{{4
+  let g:unite_source_menu_menus.vim = {
+      \ 'description' : '            vim
+          \                                                   ⌘ ,v',
+      \}
+  let g:unite_source_menu_menus.vim.command_candidates = [
+      \['▷ choose colorscheme',
+          \'Unite colorscheme -auto-preview'],
+      \['▷ mappings',
+          \'Unite mapping -start-insert'],
+      \['▷ edit configuration file (vimrc)',
+          \'edit $MYVIMRC'],
+      \['▷ choose filetype',
+          \'Unite -start-insert filetype'],
+      \['▷ vim help',
+          \'Unite -start-insert help'],
+      \['▷ vim commands',
+          \'Unite -start-insert command'],
+      \['▷ vim functions',
+          \'Unite -start-insert function'],
+      \['▷ vim runtimepath',
+          \'Unite -start-insert runtimepath'],
+      \['▷ vim command output',
+          \'Unite output'],
+      \['▷ unite sources',
+          \'Unite source'],
+      \['▷ kill process',
+          \'Unite -default-action=sigkill -start-insert process'],
+      \['▷ launch executable (dmenu like)',
+          \'Unite -start-insert launcher'],
+      \]
+  nnoremap <silent>[menu]v :Unite menu:vim -silent -start-insert<CR>
+  " }}}
+    " " }}}
+  " " }}}
+
+" 'Shougo/neocomplcache' " {{{2
+  let g:neocomplcache_enable_at_startup = 1
+  let g:neocomplcache_enable_auto_select = 1
+  let g:neocomplcache_max_menu_width = 24
+  if !exists('g:neocomplcache_disabled_sources_list')
+    let g:neocomplcache_disabled_sources_list = {}
+  endif
+  "let g:neocomplcache_disabled_sources_list['_'] = ['filename_complete']
+  let g:neocomplcache_temporary_dir = $HOME.'/.cache/vim/neocon/'
+  " " }}}
+
+" 'Shougo/vimfiler' " {{{2
+  let g:vimfiler_data_directory = $HOME.'/.cache/vim/vimfiler/'
+  let g:vimfiler_force_overwrite_statusline = 0
+  let g:vimfiler_as_default_explorer = 1
+  let g:vimfiler_split_action = 'left'
+  "nnoremap <Leader>e :<C-u>VimFiler -buffer-name=explorer -split -simple -winwidth=35 -toggle -no-quit<CR>
+  nnoremap <Leader>e :<C-u>VimFilerExplorer<CR>
+  " " }}}
+
+" 'sjl/gundo.vim' " {{{2
+  nnoremap <C-u> :GundoToggle<CR>
+  " " }}}
+
+" 'scrooloose/syntastic' " {{{2
+  let g:syntastic_enable_signs=1
+  " " }}}
+
+" 'powerman/vim-plugin-viewdoc' " {{{2
+  "let g:viewdoc_open='leftabove new'
+  let g:viewdoc_open='rightbelow 82vnew'
+  let g:viewdoc_openempty = 0
+  let g:viewdoc_dontswitch = 0
+  nnoremap <Leader>h :ViewDocHelp 
+  " " }}}
+
+" 'xolox/vim-easytags' " {{{2
+  let g:easytags_file = $HOME.'/.cache/vim/tags'
+" " }}}
+
+" 'majutsushi/tagbar' " {{{2
+  let g:tagbar_autoshowtag = 1
+  let g:tagbar_iconchars = ['+', '-']
+  "autocmd FileType * nested :call tagbar#autoopen(0)
+  "autocmd BufEnter * nested :call tagbar#autoopen(0)
+  nnoremap <silent> <Leader>tl :TagbarToggle<CR>
+  " " }}}
+
+" 'junegunn/vim-easy-align' " {{{2
+  vnoremap <silent> <Enter> :EasyAlign<cr>
+" " }}}
+
+" 'chrisbra/CheckAttach' " {{{2
+  let g:checkattach_filebrowser = 'ranger'
+  " " }}}
+
+" 'dhruvasagar/vim-table-mode' " {{{2
+  let g:table_mode_corner = '+'
+  let g:table_mode_fillchar = '-'
+  " " }}}
+
+" 'VOoM' " {{{2
+  let g:voom_tree_width = 40
+  nnoremap <Leader>v :VoomToggle<CR>
+  " " }}}
+
+" 'bling/vim-airline' " {{{2
+  let g:airline_powerline_fonts = 1
+  let g:airline_symbols = {}
+  let g:airline_left_sep = '【'
+  "let g:airline_left_sep = '┊'
+  "let g:airline_left_sep = '»'
+  "let g:airline_left_sep = '▶'
+  let g:airline_right_sep = '】'
+  "let g:airline_right_sep = '┊'
+  "let g:airline_right_sep = '«'
+  "let g:airline_right_sep = '◀'
+  "let g:airline_left_sep = '》'
+  "let g:airline_right_sep = '《'
+  "let g:airline_symbols.linenr = '␊'
+  "let g:airline_symbols.linenr = '␤'
+  let g:airline_symbols.linenr = '¶'
+  "let g:airline_symbols.branch = '⎇'
+  let g:airline_symbols.branch = ''
+  let g:airline_symbols.paste = '☆ ☆ ☆'
+  let g:airline_symbols.whitespace = 'Ξ'
+  let g:airline#extensions#tabline#enabled = 1
+  let g:airline#extensions#tabline#excludes = ['vimfiler*']
+  if $USER=='root'
+    let g:airline_theme = 'ubaryd'
+  else
+    let g:airline_theme = 'wombat'
+  endif
+  " " }}}
+
+" 'bling/vim-bufferline' " {{{2
+  let g:bufferline_echo = 0
+  let g:bufferline_show_bufnr = 0
+  let g:bufferline_rotate = 1
+  let g:bufferline_fixed_index = -1
+  let g:bufferline_excludes = ['vimfiler*']
+  " " }}}
+
+" 'itchyny/lightline.vim' " {{{2
+  let g:lightline = {
+        \ 'colorscheme': 'landscape',
+	      \ 'active': {
+        \   'left': [ [ 'mode', 'paste' ], [ 'fugitive', 'filename' ] ],
+        \   'right': [ [ 'syntastic', 'lineinfo' ], ['percent'], [ 'filetype', 'fileencoding', 'fileformat' ] ]
+	      \ },
+	      \ 'component_function': {
+	      \   'fugitive': 'MyFugitive',
+	      \   'filename': 'MyFilename',
+	      \   'fileformat': 'MyFileformat',
+	      \   'filetype': 'MyFiletype',
+	      \   'fileencoding': 'MyFileencoding',
+	      \   'mode': 'MyMode',
+        \   'paste': 'MyPaste',
+        \ },
+	      \ 'component_expand': {
+	      \   'syntastic': 'SyntasticStatuslineFlag',
+	      \ },
+	      \ 'component_type': {
+	      \   'syntastic': 'error',
+	      \ },
+	      \ 'subseparator': { 'left': '|', 'right': '|' }
+	      \ }
+	
+	function! MyModified()
+	  return &ft =~ 'help' ? '' : &modified ? '✗' : &modifiable ? '' : '-'
+	endfunction
+	
+	function! MyReadonly()
+    return &ft !~? 'help' && &readonly ? ' ' : ''
+	endfunction
+	
+  function! MyFileformat()
+    "return winwidth('.') > 70 ? &fileformat : ''
+    return winwidth('.') > 70 ? (&fileformat =~ 'dos' ? '## DOS ##' : '') : ''
+	endfunction
+	
+	function! MyFiletype()
+	  return winwidth('.') > 70 ? (strlen(&filetype) ? &filetype : 'no ft') : ''
+	endfunction
+	
+	function! MyFileencoding()
+	  return winwidth('.') > 70 ? (strlen(&fenc) ? &fenc : &enc) : ''
+	endfunction
+	
+  function! MyPaste()
+    return &paste ? '(paste)' : ''
+	endfunction
+	
+	function! MyFilename()
+	  let fname = expand('%:t')
+    return fname == '__Tagbar__' ? g:lightline.fname :
+          \ fname =~ '__Gundo\|VOOM' ? '' :
+	        \ &ft == 'vimfiler' ? vimfiler#get_status_string() :
+	        \ &ft == 'unite' ? unite#get_status_string() :
+          \ &ft == 'help' ? '✠' :
+          \ &ft == 'man' ? '✠' :
+          \ &ft == 'perldoc' ? '✠' :
+          \ ('' != MyReadonly() ? MyReadonly() . ' ' : '') .
+	        \ ('' != fname ? fname : '[No Name]') .
+	        \ ('' != MyModified() ? ' ' . MyModified() : '')
+	endfunction
+	
+  function! MyMode()
+	  let fname = expand('%:t')
+	  return fname == '__Tagbar__' ? 'Tagbar' :
+          \ fname == '__Gundo__' ? 'Gundo' :
+	        \ fname == '__Gundo_Preview__' ? 'Gundo Preview' :
+          \ fname =~ 'VOOM' ? 'VoOM' :
+          \ &ft == 'help' ? '' :
+          \ &ft == 'man' ? '' :
+          \ &ft == 'perldoc' ? '' :
+	        \ &ft == 'unite' ? 'Unite' :
+	        \ &ft == 'vimfiler' ? 'VimFiler' :
+          \ winwidth('.') > 60 ? lightline#mode() : ''
+	endfunction
+	
+  function! MyFugitive()
+	  try
+      if expand('%:t') !~? 'Tagbar\|Gundo\|VOOM' && &ft !~? 'vimfiler' && exists('*fugitive#head')
+        let mark = ' '  " edit here for cool mark
+	      let _ = fugitive#head()
+	      return strlen(_) ? mark._ : ''
+	    endif
+	  catch
+	  endtry
+	  return ''
+	endfunction
+	
+  let g:tagbar_status_func = 'TagbarStatusFunc'
+	function! TagbarStatusFunc(current, sort, fname, ...) abort
+	    let g:lightline.fname = a:fname
+	  return lightline#statusline(0)
+	endfunction
+	
+	let g:syntastic_mode_map = { 'mode': 'passive' }
+	augroup AutoSyntastic
+	  autocmd!
+	  autocmd BufWritePost *.c,*.cpp call s:syntastic()
+	augroup END
+	function! s:syntastic()
+	  SyntasticCheck
+	  call lightline#update()
+	endfunction
+	
+  " " }}}
+
+" 'Lucius' " {{{2
+  let g:lucius_style="dark"
+  let g:lucius_contrast="high"
+  " " }}}
+" " }}}
+
+" Visual " {{{1
+set t_Co=256                           " configure for 256 colors terminal"
+if &term =~ "linux"
+  if $USER=='root'
+    colors delek
+  else
+    colors slate
+  endif
+else
+  if has('gui_running')
+    set background=light
+    let g:lucius_style='light'
+    if $USER=='root'
+      color lucius
+    else
+      color Tomorrow
+    endif
+  else
+    set background=dark
+    let g:hybrid_use_Xresources=1
+    if $USER=='root'
+      color lucius
+    else
+      color Tomorrow-Night-Bright
+      "color base16-tomorrow
+    endif
+  endif
+endif
+
+if exists('vimpager')
+  color zarniwoop
+endif
+
+"set guifont=Droid\ Sans\ Mono\ Slashed\ 9
+"set guifont=Verily\ Serif\ Mono\ 8
+set guifont=Consolas\ for\ Powerline\ 9
+
+filetype indent plugin on | syn on     " enable filetype, plugin and syntax support
+
+set laststatus=2                       " always show the statusline above
+"if has('statusline')
+"  "set statusline=%<%f\ %h%m%r%=%-14.(%l,%c%V%)\ %P " default statusline
+"  set statusline=
+"  if $USER=='root'
+"    set statusline+=%#ErrorMsg#
+"  else
+"    set statusline+=%#Folded#
+"  endif
+"  set statusline+=::\ %{$USER}\ ::
+"  set statusline+=%*
+"
+"  set statusline+=%#ColorColumn#[%n]%*
+"  set statusline+=%#DIffAdd#%{fugitive#statusline()}%*
+"  "set statusline+=\ %<%F
+"  set statusline+=\ %t%<
+"  set statusline+=\ %#DiffDelete#%r%m%*
+"  set statusline+=\ (%l/%L,\ %-2c)
+"  set statusline+=\ %p%%
+"  set statusline+=\ %#WarningMsg#%{SyntasticStatuslineFlag()}%*
+"  "set statusline+=%<%f%=%([%{Tlist_Get_Tagname_By_Line()}]%) " taglist
+"  "set statusline+=%<%f%=%([%{tagbar#currenttag('[%s] ','')}]%) " tagbar
+"  set statusline+=%=
+"  set statusline+=%h%w\ %y\ [%{&encoding}:%{&fileformat}]
+"  set statusline+=\ %#ColorColumn#
+"  set statusline+=\ %{strftime(\"%F\ %H:%M\ \")}
+"endif
+
+set foldenable                         " turn on folding
+set foldmethod=marker                  " fold on the marker
+set foldlevel=100                      " don't autofold anything (but I can still fold manually)
+
+set mouse=a                            " enable mouse in console
+set mousemodel=popup_setpos
+set ttymouse=xterm2
+
+set showtabline=2                      " always show tabline, even if there is just one tab, avoid
+                                       " redraw problems when Window is displayed in fullscreen mode
+
+" }}}2
+" " }}}
+
+" General Settings " {{{1
+set termencoding=utf-8                 " utf-8 rules
+set encoding=utf-8                     " utf-8 rules
+set textwidth=80                       " maximum width of text that is being inserted
+set backspace=2                        " allow backspacing over everything in insert mode
+set shiftwidth=2		                   " number of spaces used for indention
+set tabstop=2			                     " tabstop length
+set softtabstop=2                      " number of spaces that a <Tab> counts for
+set expandtab                          " use spaces to insert a <Tab>
+set smarttab                           " smart tab handling for indenting
+set autoindent	                       " set autoindenting on
+set hidden                             " allow buffers to go in background without saving etc.
+set autowrite			                     " save automatically before critical operations
+set autoread                           " automatically reads & loads changes
+set nobackup			                     " keep a backup file
+"set fileformat=unix                    " always on a linux box (!) :-) - 2012-12-06 doesn't work with vimpager :-/
+set viminfo='50,\"100,:100,%	         " read/write a viminfo file
+set viminfo+=n$HOME/.cache/vim/viminfo " specify where to write the viminfo
+set history=100			                   " keep 100 lines of command line history
+set number                             " show line numbers
+set cursorline                         " highlights the screen line of the cursor
+set colorcolumn=+1                     " highlights textwidth boundaries
+set gdefault                           " always use global substitutions
+set ignorecase                         " ignore case when using a search pattern
+set smartcase                          " override 'ignorecase' when pattern has upper case characters
+set incsearch                          " show matches while typing the query
+set hlsearch                           " highlight search results
+set wildchar=<tab>                     " the char used for 'expansion' on the command line
+set wildmenu                           " use a scrollable menu for filename completions
+set nolist                             " shows characters to show for expanded TABs,
+set listchars=tab:>·,trail:·           " trailing whitespace, and end-of-lines
+set digraph                            " enter characters that normally can't be entered by keyboard
+set ttimeoutlen=50                     " time in milliseconds that is waited for a key code or mapped key sequence to complete
+set modeline                           " allow the execution of modelines which is disabled in /etc/vim/vimrc
+set showmode                           " shows mode
+set showcmd                            " show uncompleted command
+set showmatch                          " show matching hyphens
+set diffopt=vertical,iwhite,filler     " split vertical, ignore whitespace & use filler
+set splitright                         " Set vertical splits to split to the right
+set splitbelow                         " Set horizontal splits to split to the bottom
+if executable('ag')                    " program to use for the :grep command
+  set grepprg=ag\ --nogroup\ --column\ --smart-case\ --nocolor\ --follow
+  set grepformat=%f:%l:%c:%m
+elseif executable('ack')
+  set grepprg=ack\ --nogroup\ --column\ --smart-case\ --nocolor\ --follow\ $*
+  set grepformat=%f:%l:%c:%m
+endif
+
+" Spell settings
+set spelllang=nl,en,de,es
+set spellfile=~/.vim/spell/myspell.utf-8.add
+set spellsuggest=fast
+if $USER=='root'
+  set nospell
+else
+  set nospell
+endif
+nmap <F8> :windo set spell! <CR>
+imap <F8> :windo set spell! <CR>
+
+" Set print options
+set printoptions=paper:A4,duplex:long,collate:y,syntax:n
+set printexpr=PrettyPrint(v:fname_in)
+function! PrettyPrint(fname)
+    call system('a2ps -B -2 -s2 -PSamsung_ML-1610 '.a:fname)
+    return v:shell_error
+endfunc
+" " }}}
+
+" Formatting " {{{1
+" Format texts. Really cool.
+set comments=b:#,fb:-,fb:*,fb:o,:%,n:>|
+set formatoptions=tcraqnw2              " autoformating with paragraphs (a) & gq (q)
+"set formatoptions=tcrnw2              " autoformatting without paragraphs & gq
+
+" Using Damian Conways Text::Autoformat
+if(has('perl'))
+  command! -range=% Format :
+                    \  perl {
+                    \          use Text::Autoformat;
+                    \          my $n_line1 = VIM::Eval('<line1>');
+                    \          my $n_line2 = VIM::Eval('<line2>');
+                    \          my $foo= join "\n", $curbuf->Get($n_line1 .. $n_line2);
+                    \          my $tw=VIM::Eval('&textwidth');
+                    \          $tw or $tw = 80;
+                    \          my $ft=VIM::Eval('&filetype');
+                    \          $ft = ($ft eq 'mail') ? 1 : 0;
+                    \          my $formatted = autoformat($foo, {right=>$tw, all=>1, mail=>$ft});
+                    \          my @formatted_lines = split '\n', $formatted;
+                    \          $curbuf->Delete($n_line1, $n_line2);
+                    \          $curbuf->Append($n_line1-1, @formatted_lines, '');
+                    \       }
+
+  "Shortcut for formatting the paragraph around the cursor:
+  nnoremap <F2> {}:'`,Format<CR>:silent!w<CR>
+
+  "Format the visual selection:
+  vnoremap <F2> :Format<CR>:silent!w<CR>
+endif
+
+nnoremap l !G perl -MText::Autoformat -e "{autoformat{justify=>'left', left=>'0', right=>'80'};}"<CR><CR>
+vnoremap l !perl -MText::Autoformat -e "{autoformat{justify=>'left', left=>'0', right=>'80'};}"<CR><CR>
+
+" " }}}
+
+" Key bindings & abbreviations " {{{1
+
+" open this file fast so that you can take notes below the line "finish" and
+" add more mappings:
+nnoremap <Leader>ev :edit    $MYVIMRC<CR>
+nnoremap <Leader>sv :source  $MYVIMRC<CR>
+
+" :w! is always bad to type. So create your own mapping for it. Example:
+nnoremap <Leader>w :w!<CR>
+
+" switch buffers
+" Note: :b foo  will also select some-foo-text.txt file if it was opened :)
+"noremap <Leader>b :ls<CR>:b<Space>
+nnoremap <Leader>bn :bnext<CR>
+nnoremap <Leader>bp :bprev<CR>
+nnoremap <Leader>bd :bdel<CR>
+
+set pastetoggle=<F3>                   " toggle paste
+nnoremap <F6> :set number!<CR>         " toggle numbers
+nnoremap <Leader>/ :nohl<CR>           " Don't highlight searchresults anymore
+
+" Replace signatures
+nnoremap <Leader>st G?--<CR>jVGd :r ~/.mutt/short-signature-tango<CR>
+nnoremap <Leader>ss G?--<CR>jVGd :r ~/.mutt/short-signature<CR>
+nnoremap <Leader>sl G?--<CR>jVGd :r ~/.mutt/signature<CR>
+
+" Abbreviations
+iab grz Greetz<CR>Stefan
+iab dATE <C-R>=strftime("%Y-%m-%d")<CR>
+" " }}}
+
+" Auto commands " {{{1
+" Automatically chmod +x Shell and Perl scripts
+"autocmd BufWritePost {*.sh,*.pl,*.py} silent !chmod +x %
+
+" Use VOoM for vimrc|zshrc
+au BufRead $HOME/.{vimrc,zshrc} Voom
+
+" Use HybridText
+au BufRead,BufNewFile {*.txt,*.log} set syntax=hybrid
+
+" Typical mutt thing ... replace > > with >>
+autocmd BufRead /tmp/mutt* silent! %s/^\([>|]\s\?\)\+/\=substitute(submatch(0), '\s', '', 'g').' '
+autocmd BufRead /tmp/mutt* set nonumber nohls ft=mail
+autocmd BufRead /tmp/mutt* setlocal spell
+
+" Syntax for conkyrc
+au BufNewFile,BufRead *conkyrc* set filetype=conkyrc
+
+" Syntax for htp files
+au BufNewFile,BufRead {*.htp,*.htt} set filetype=xhtml
+
+" Syntax for xmp files
+au BufNewFile,BufRead {*.xmp} set filetype=xml
+
+" Syntax for fvwm files
+au BufNewFile,BufRead */.fvwm*/* set filetype=fvwm syntax=fvwm
+
+" Change fileformat on playlist files (created by moc)
+au BufNewFile,BufRead *.m3u set encoding=utf-8 fileencoding=utf-8 ff=unix
+
+" Encoding for cddb files
+au BufNewFile,BufRead *cddb* set encoding=utf-8 fileencoding=utf-8 ff=unix
+
+" Disable numbers & spell inside manpages
+autocmd FileType {man,help,perldoc,pydoc}  set nonumber nospell
+
+" When editing a file, always jump to the last known cursor position.
+autocmd BufReadPost *
+  \ if line("'\"") > 0 && line("'\"") <= line("$") |
+  \       exe "normal g`\"" |
+  \ endif
+
+" Transparent editing of archived files.
+augroup gzip
+  " Remove all gzip autocommands
+  au!
+  " Enable editing of gzipped files
+  " set binary mode before reading the file
+  autocmd BufReadPre,FileReadPre *.gz,*.bz2 set bin
+  autocmd BufReadPost,FileReadPost *.gz call GZIP_read("gunzip")
+  autocmd BufReadPost,FileReadPost *.bz2 call GZIP_read("bunzip2")
+  autocmd BufWritePost,FileWritePost *.gz call GZIP_write("gzip")
+  autocmd BufWritePost,FileWritePost *.bz2 call GZIP_write("bzip2")
+  autocmd FileAppendPre   *.gz call GZIP_appre("gunzip")
+  autocmd FileAppendPre   *.bz2 call GZIP_appre("bunzip2")
+  autocmd FileAppendPost  *.gz call GZIP_write("gzip")
+  autocmd FileAppendPost  *.bz2 call GZIP_write("bzip2")
+  " After reading compressed file: Uncompress text in buffer with "cmd"
+  fun! GZIP_read(cmd)
+    let ch_save = &ch
+    set ch=2
+    execute "'[,']!" . a:cmd
+    set nobin
+    let &ch = ch_save
+    execute ":doautocmd BufReadPost " . expand("%:r")
+  endfun
+  " After writing compressed file: Compress written file with "cmd"
+  fun! GZIP_write(cmd)
+    if rename(expand("<afile>"), expand("<afile>:r")) == 0
+      execute "!" . a:cmd . " <afile>:r"
+    endif
+  endfun
+  " Before appending to compressed file: Uncompress file with "cmd"
+  fun! GZIP_appre(cmd)
+    execute "!" . a:cmd . " <afile>"
+    call rename(expand("<afile>:r"), expand("<afile>"))
+  endfun
+augroup END
+
+" " }}}
+
+" Runtime & commands " {{{1
+runtime macros/matchit.vim    " very nice extension to %-matching
+runtime compiler/tidy.vim     " use htmltidy
+" " }}}
+
+if !has('vim_starting')
+  " Call on_source hook when reloading .vimrc.
+  call neobundle#call_hook('on_source')
+endif
+
+finish
+Vim is ignoring *all* text after finish.
