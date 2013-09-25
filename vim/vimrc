@@ -919,7 +919,7 @@ iab dATE <C-R>=strftime("%Y-%m-%d")<CR>
 "autocmd BufWritePost {*.sh,*.pl,*.py} silent !chmod +x %
 
 " Use VOoM for vimrc|zshrc
-au BufRead $HOME/.{vimrc,zshrc} Voom
+"au BufRead $HOME/.{vimrc,zshrc} Voom
 
 " Use HybridText
 au BufRead,BufNewFile {*.txt,*.log} set syntax=hybrid
