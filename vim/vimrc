@@ -929,6 +929,9 @@ autocmd BufRead /tmp/mutt* silent! %s/^\([>|]\s\?\)\+/\=substitute(submatch(0), 
 autocmd BufRead /tmp/mutt* set nonumber nohls ft=mail
 autocmd BufRead /tmp/mutt* setlocal spell
 
+" Syntax for tmux
+au BufNewFile,BufRead *tmux*conf* set filetype=tmux
+
 " Syntax for conkyrc
 au BufNewFile,BufRead *conkyrc* set filetype=conkyrc
 
