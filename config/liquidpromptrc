@@ -4,7 +4,7 @@
 
 # If you want to use different themes and features,
 # you can load the corresponding files here:
-source ~/.zsh/external/liquidprompt.git/liquid.theme
+#source ~/.zsh/external/liquidprompt.git/liquid.theme
 #LP_PS1_FILE="~/code/liquidprompt/nojhan.ps1"
 
 #############
@@ -96,7 +96,7 @@ LP_ENABLE_BZR=0
 
 # Show time of the last prompt display
 # Recommended value is 0
-LP_ENABLE_TIME=1
+LP_ENABLE_TIME=0
 
 # Display the virtualenv that is currently activated, if any
 # Recommended value is 1

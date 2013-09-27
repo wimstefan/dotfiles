@@ -439,6 +439,7 @@ if [[ $USER != root ]]; then
 #-  else
 #-    RPROMPT='${vcs_info_msg_0_} $colorfg{blue}$bold$mytime$uncolorfg$unbold'
 #-  fi
+RPROMPT='$colorfg{blue}$bold$mytime$uncolorfg$unbold'
 
   # }}}3
   # - Exports {{{3
