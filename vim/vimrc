@@ -810,7 +810,7 @@ set wildmenu                           " use a scrollable menu for filename comp
 set nolist                             " shows characters to show for expanded TABs,
 set listchars=tab:>·,trail:·           " trailing whitespace, and end-of-lines
 set digraph                            " enter characters that normally can't be entered by keyboard
-set ttimeoutlen=50                     " time in milliseconds that is waited for a key code or mapped key sequence to complete
+set ttyfast                            " optimize for fast terminal connections
 set modeline                           " allow the execution of modelines which is disabled in /etc/vim/vimrc
 set showmode                           " shows mode
 set showcmd                            " show uncompleted command

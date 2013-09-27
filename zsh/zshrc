@@ -1,0 +1,867 @@
+# my zsh config
+# swimmer@xs4all.nl - 2013-09-24
+# vim: ft=zsh fdm=marker fdl=1 tw=200
+
+# BEGIN shell config # {{{1
+# - Options {{{2
+# Check them with: print -C2 -a ${(kv)options} | sort | less
+## 2013-01-21: for now I disable everything which I think I don't need and just enable it if lacking ...
+##             the rest will be eliminated ;-)
+# Changing Directories
+setopt    auto_cd                 # enables you to omit 'cd' before a path
+# Completion
+setopt    complete_in_word        # Complete from both ends of a word.
+setopt    always_to_end           # Move cursor to the end of a completed word.
+setopt    path_dirs               # Perform path search even on command names with slashes.
+setopt    auto_menu               # Show completion menu on a succesive tab press.
+setopt    auto_list               # Automatically list choices on ambiguous completion.
+setopt    auto_param_slash        # If completed parameter is a directory, add a trailing slash.
+setopt NO_menu_complete           # Do not autoselect the first completion entry.
+# Expansion and Globbing
+#setopt    brace_ccl               # {a-z} {0-2} etc expansion
+setopt    extended_glob           # treat the `#', `~' and `^' characters as part of patterns for filename generation
+#setopt NO_glob_dots               # files beginning with a . are matched without explicitly specifying the dot
+#setopt NO_nomatch                 # try to avoid the 'zsh: no matches found...'
+#setopt    numeric_glob_sort       # enables numeric order in globs
+# History
+setopt    append_history          # don't overwrite history
+setopt    share_history           # share history between all instances
+setopt    extended_history        # save each command's beginning timestamp and the duration to the history file
+setopt    hist_find_no_dups       # ignore dupes in history search
+setopt    hist_ignore_dups        # this will not put _consecutive_ duplicates in the history
+setopt    hist_ignore_space       # remove command lines from the history list when the first character on the line is a space
+setopt    hist_verify             # when doing history substitution, put the substituted line into the line editor
+# Input/Output
+setopt    clobber                 # this will probihbit 'cat foo > bar' if bar exists. use >! instead
+setopt    correct                 # try to correct the spelling of commands
+setopt NO_correct_all             # try to correct the spelling of all arguments in a line
+setopt    short_loops             # 'for i in *; echo $i;' instead of 'for i in *; do echo $i; done'
+# Job Control
+#setopt NO_hup                     # send *not* a HUP signal to running jobs when the shell exits
+#setopt NO_bg_nice                 # run all background jobs at a lower priority
+#setopt    long_list_jobs          # show job number & PID when suspending
+#setopt    notify                  # this will put info from finished background processes over the current line
+# Prompting
+setopt    prompt_subst            # allow substition with $PS1, etc. Needed for vcs_info
+# }}}2
+# - Colors {{{2
+autoload -U colors && colors
+eval `dircolors -b /etc/DIR_COLORS`
+export ZLS_COLORS=$LS_COLORS
+# }}}2
+# - Completion {{{2
+zmodload zsh/complist
+autoload -U compinit && compinit
+_force_rehash() {
+  (( CURRENT == 1 )) && rehash
+  return 1
+}
+# Use caching to make completion for cammands such as dpkg and apt usable.
+zstyle ':completion::complete:*' use-cache on
+zstyle ':completion::complete:*' cache-path "$HOME/.zsh/cache"
+
+# Case-insensitive (all), partial-word, and then substring completion.
+#if zstyle -t ':prezto:module:completion:*' case-sensitive; then
+  #zstyle ':completion:*' matcher-list 'r:|[._-]=* r:|=*' 'l:|=* r:|=*'
+  #setopt CASE_GLOB
+#else
+  zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r:|=*' 'l:|=* r:|=*'
+  #unsetopt CASE_GLOB
+#fi
+
+# Group matches and describe.
+zstyle ':completion:*:*:*:*:*' menu select
+zstyle ':completion:*:matches' group 'yes'
+zstyle ':completion:*:options' description 'yes'
+zstyle ':completion:*:options' auto-description '%d'
+zstyle ':completion:*:corrections' format ' %F{green}-- %d (errors: %e) --%f'
+zstyle ':completion:*:descriptions' format ' %F{yellow}-- %d --%f'
+zstyle ':completion:*:messages' format ' %F{purple} -- %d --%f'
+zstyle ':completion:*:warnings' format ' %F{red}-- no matches found --%f'
+zstyle ':completion:*:default' list-prompt '%S%M matches%s'
+zstyle ':completion:*' format ' %F{yellow}-- %d --%f'
+zstyle ':completion:*' group-name ''
+zstyle ':completion:*' verbose yes
+
+# Fuzzy match mistyped completions.
+zstyle ':completion:*' completer _complete _match _approximate
+zstyle ':completion:*:match:*' original only
+zstyle ':completion:*:approximate:*' max-errors 1 numeric
+
+# Increase the number of errors based on the length of the typed word.
+zstyle -e ':completion:*:approximate:*' max-errors 'reply=($((($#PREFIX+$#SUFFIX)/3))numeric)'
+
+# Don't complete unavailable commands.
+zstyle ':completion:*:functions' ignored-patterns '(_*|pre(cmd|exec))'
+
+# Array completion element sorting.
+zstyle ':completion:*:*:-subscript-:*' tag-order indexes parameters
+
+# Directories
+zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
+zstyle ':completion:*:*:cd:*' tag-order local-directories directory-stack path-directories
+zstyle ':completion:*:*:cd:*:directory-stack' menu yes select
+zstyle ':completion:*:-tilde-:*' group-order 'named-directories' 'path-directories' 'users' 'expand'
+zstyle ':completion:*' squeeze-slashes true
+
+# History
+zstyle ':completion:*:history-words' stop yes
+zstyle ':completion:*:history-words' remove-all-dups yes
+zstyle ':completion:*:history-words' list false
+zstyle ':completion:*:history-words' menu yes
+
+# Environmental Variables
+zstyle ':completion::*:(-command-|export):*' fake-parameters ${${${_comps[(I)-value-*]#*,}%%,*}:#-*-}
+
+# ssh
+users=(swimmer komala root)
+zstyle ':completion:*' users $users
+if [[ -f ~/.ssh/known_hosts ]]; then
+  _myhosts=(${${${${${${(f)"$(<$HOME/.ssh/known_hosts)"}:#[0-9]*}%%\ *}%%,*}#\[}/]:*/})
+  zstyle ':completion:*' hosts $_myhosts
+fi
+
+# ... unless we really want to.
+zstyle '*' single-ignored show
+
+# Ignore multiple entries.
+zstyle ':completion:*:(rm|kill|diff):*' ignore-line other
+zstyle ':completion:*:rm:*' file-patterns '*:all-files'
+
+# Kill
+zstyle ':completion:*:*:*:*:processes' command 'ps -uf'
+zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]#) ([0-9a-z-]#)*=01;36=0=01'
+zstyle ':completion:*:*:kill:*' menu yes select
+zstyle ':completion:*:*:kill:*' force-list always
+zstyle ':completion:*:*:kill:*' insert-ids single
+
+# Man
+zstyle ':completion:*:manuals' separate-sections true
+zstyle ':completion:*:manuals.(^1*)' insert-sections true
+
+# Media Players
+zstyle ':completion:*:*:mpg123:*' file-patterns '*.(mp3|MP3):mp3\ files *(-/):directories'
+zstyle ':completion:*:*:mpg321:*' file-patterns '*.(mp3|MP3):mp3\ files *(-/):directories'
+zstyle ':completion:*:*:ogg123:*' file-patterns '*.(ogg|OGG|flac):ogg\ files *(-/):directories'
+zstyle ':completion:*:*:mocp:*' file-patterns '*.(wav|WAV|mp3|MP3|ogg|OGG|flac):ogg\ files *(-/):directories'
+
+# Mutt
+if [[ -s "$HOME/.mutt/aliases" ]]; then
+  zstyle ':completion:*:*:mutt:*' menu yes select
+  zstyle ':completion:*:mutt:*' users ${${${(f)"$(<"$HOME/.mutt/aliases")"}#alias[[:space:]]}%%[[:space:]]*}
+fi
+
+# SSH/SCP/RSYNC
+zstyle ':completion:*:(scp|rsync):*' tag-order 'hosts:-host:host hosts:-domain:domain hosts:-ipaddr:ip\ address *'
+zstyle ':completion:*:(scp|rsync):*' group-order users files all-files hosts-domain hosts-host hosts-ipaddr
+zstyle ':completion:*:ssh:*' tag-order 'hosts:-host:host hosts:-domain:domain hosts:-ipaddr:ip\ address *'
+zstyle ':completion:*:ssh:*' group-order users hosts-domain hosts-host users hosts-ipaddr
+zstyle ':completion:*:(ssh|scp|rsync):*:hosts-host' ignored-patterns '*(.|:)*' loopback ip6-loopback localhost ip6-localhost broadcasthost
+zstyle ':completion:*:(ssh|scp|rsync):*:hosts-domain' ignored-patterns '<->.<->.<->.<->' '^[-[:alnum:]]##(.[-[:alnum:]]##)##' '*@*'
+zstyle ':completion:*:(ssh|scp|rsync):*:hosts-ipaddr' ignored-patterns '^(<->.<->.<->.<->|(|::)([[:xdigit:].]##:(#c,2))##(|%*))' '127.0.0.<->' '255.255.255.255' '::1' 'fe80::*'
+
+
+# Completion debugging
+bindkey '^Xh' _complete_help
+bindkey '^X?' _complete_debug
+# }}}2
+# - Key bindings {{{2
+# create a zkbd compatible hash;
+# to add other keys to this hash, see: man 5 terminfo
+typeset -A key
+
+key[Home]=${terminfo[khome]}
+key[End]=${terminfo[kend]}
+key[Insert]=${terminfo[kich1]}
+key[Delete]=${terminfo[kdch1]}
+key[Up]=${terminfo[kcuu1]}
+key[Down]=${terminfo[kcud1]}
+key[Left]=${terminfo[kcub1]}
+key[Right]=${terminfo[kcuf1]}
+key[PageUp]=${terminfo[kpp]}
+key[PageDown]=${terminfo[knp]}
+
+# setup key accordingly
+[[ -n "${key[Home]}"     ]]  && bindkey  "${key[Home]}"     beginning-of-line
+[[ -n "${key[End]}"      ]]  && bindkey  "${key[End]}"      end-of-line
+[[ -n "${key[Insert]}"   ]]  && bindkey  "${key[Insert]}"   overwrite-mode
+[[ -n "${key[Delete]}"   ]]  && bindkey  "${key[Delete]}"   delete-char
+[[ -n "${key[Up]}"       ]]  && bindkey  "${key[Up]}"       up-line-or-history
+[[ -n "${key[Down]}"     ]]  && bindkey  "${key[Down]}"     down-line-or-history
+[[ -n "${key[PageUp]}"   ]]  && bindkey  "${key[PageUp]}"   up-line-or-search
+[[ -n "${key[PageDown]}" ]]  && bindkey  "${key[PageDown]}" down-line-or-search
+[[ -n "${key[Left]}"     ]]  && bindkey  "${key[Left]}"     backward-char
+[[ -n "${key[Right]}"    ]]  && bindkey  "${key[Right]}"    forward-char
+
+bindkey "^R" history-incremental-search-backward
+bindkey "^S" history-incremental-search-forward
+# }}}2
+# - MIME types # {{{2
+autoload -U zsh-mime-setup zsh-mime-handler && zsh-mime-setup
+# }}}2
+# - Prompt {{{2
+local curdir="%d"
+local hostname="%M"
+local username="%n"
+local bold="%B"
+local unbold="%b"
+local standout="%S"
+local unstandout="%s"
+local underline="%U"
+local ununderline="%u"
+local colorfg="%F"
+local uncolorfg="%f"
+local colorbg="%K"
+local uncolorbg="%k"
+local mytime="%*"
+local mydate="%D"
+local line_tty="%y"
+local rootorwhat="%#"
+local return_status="%?"
+
+autoload -Uz vcs_info
+#-zstyle ':vcs_info:*' enable git cvs svn hg
+#-zstyle ':vcs_info:*' check-for-changes true
+#-zstyle ':vcs_info:*' get-revision true
+#-zstyle ':vcs_info:*' stagedstr '●'
+#-zstyle ':vcs_info:*' unstagedstr '●'
+#-zstyle ':vcs_info:*' formats "$colorfg{red}%c%u$uncolorfg [$colorfg{yellow}%s$uncolorfg] $colorfg{green}⭠ %b$uncolorfg rev:%i $colorfg{cyan}%m"
+#-zstyle ':vcs_info:*' actionformats "$colorfg{red}%c%u$uncolorfg [$colorfg{yellow}%s@%a$uncolorfg] $colorfg{green}⭠ %b$uncolorfg rev:%i $colorfg{cyan}%m"
+#-
+#-#-### git: Show marker (T) if there are untracked files in repository
+#-# Make sure you have added staged to your 'formats':  %c
+#-zstyle ':vcs_info:git*+set-message:*' hooks git-untracked
+#-function +vi-git-untracked() {
+#-    if [[ $(git rev-parse --is-inside-work-tree 2> /dev/null) == 'true' ]] && \
+#-        git status --porcelain | grep '??' &> /dev/null ; then
+#-        # This will show the marker if there are any untracked files in repo.
+#-        # If instead you want to show the marker only if there are untracked
+#-        # files in $PWD, use:
+#-        #[[ -n $(git ls-files --others --exclude-standard) ]] ; then
+#-        hook_com[staged]+='T'
+#-    fi
+#-}
+#-### git: Show +N/-N when your local branch is ahead-of or behind remote HEAD.
+#-# Make sure you have added misc to your 'formats':  %m
+#-zstyle ':vcs_info:git*+set-message:*' hooks git-st
+#-function +vi-git-st() {
+#-    local ahead behind
+#-    local -a gitstatus
+#-
+#-    ahead=$(git rev-list ${hook_com[branch]}@{upstream}..HEAD 2>/dev/null | wc -l)
+#-    (( $ahead )) && gitstatus+=( "+${ahead}" )
+#-
+#-    behind=$(git rev-list HEAD..${hook_com[branch]}@{upstream} 2>/dev/null | wc -l)
+#-    (( $behind )) && gitstatus+=( "-${behind}" )
+#-
+#-    hook_com[misc]+=${(j:/:)gitstatus}
+#-}
+#-### git: Show remote branch name for remote-tracking branches
+#-zstyle ':vcs_info:git*+set-message:*' hooks git-remotebranch
+#-function +vi-git-remotebranch() {
+#-    local remote
+#-
+#-    # Are we on a remote-tracking branch?
+#-    remote=${$(git rev-parse --verify ${hook_com[branch]}@{upstream} \
+#-        --symbolic-full-name 2>/dev/null)/refs\/remotes\/}
+#-
+#-    # The first test will show a tracking branch whenever there is one. The
+#-    # second test, however, will only show the remote branch's name if it
+#-    # differs from the local one.
+#-    if [[ -n ${remote} ]] ; then
+#-    #if [[ -n ${remote} && ${remote#*/} != ${hook_com[branch]} ]] ; then
+#-        hook_com[branch]="${hook_com[branch]} [${remote}]"
+#-    fi
+#-}
+#-
+#-precmd() {
+#-  vcs_info
+#-}
+
+if [[ -s $HOME/.zsh/external/liquidprompt.git/liquidprompt ]]; then
+  source $HOME/.zsh/external/liquidprompt.git/liquidprompt
+fi
+
+# }}}2
+# - Misc {{{2
+autoload -U run-help url-quote-magic zcalc zmv
+# }}}2
+# END shell config # }}}1
+# BEGIN user config # {{{1
+# * Common config for *every* user # {{{2
+# - Exports {{{3
+export MANPAGER="vimpager -"
+export EDITOR="vim"
+if [[ -s /usr/bin/google-chrome-unstable ]]; then 
+  export BROWSER="google-chrome-unstable"
+else
+  export BROWSER="google-chrome"
+fi
+export HISTFILE="$HOME/.zsh/histfile"
+export HISTSIZE="5000"
+export SAVEHIST="5000"
+export CVS_RSH="ssh"
+export XAUTHORITY="$HOME/.Xauthority"
+export DISPLAY=:0.0
+# anti aliasing in the two toolkits
+export QT_XFT=true
+export GDK_USE_XFT=1
+if [[ $TERM == "xterm" ]]; then
+  export TERM=xterm-256color
+fi
+# }}}3
+# - Aliases {{{3
+# generic aliases
+alias -g L="| less"
+alias -g G="| grep"
+alias -g C="| colordiff"
+# commands
+alias ls="ls --color=auto -v"
+alias lx="ls -lXB"
+alias lk="ls -lSr"
+alias ll="ls -l"
+alias lt="ls -lrt"
+alias la="ls -Al"
+alias lr="ls -lR $@"
+alias lm="ls -al $@"
+alias ss="ls -sSh1"
+alias b='${(z)BROWSER}'
+alias e='${(z)VISUAL:-${(z)EDITOR}}'
+alias p='${(z)PAGER}'
+alias rm="rm -i --preserve-root"
+alias cp="nocorrect cp -i"
+alias mv="nocorrect mv -i"
+alias mkdir="nocorrect mkdir -p --verbose"
+alias mdkir="mkdir"
+alias locate="locate -i"
+alias les="less"
+alias gvim="gvim -geom 110x60+4+40"
+alias grep="grep --color=auto"
+#alias ack="ack --group"
+#alias diff="colordiff -Bbw"
+alias diff="colordiff -y --suppress-common-lines -W 204"
+alias gcal="gcal -s1"
+alias mtr="mtr --curses"
+alias w3m="TERM=xterm-256color w3m"
+alias eix="eix --force-color"
+# shortcuts
+alias reload="source $HOME/.zshrc"
+alias restart="killall -SIGUSR1"
+alias el="equery list -p -o"
+alias sf="setfont ter-112n"
+alias setfb="fbset -g 1600 1200 1600 1200 32"
+# urls
+#alias packages="elinks http://packages.gentoo.org/"
+alias packages="w3m http://gpo.zugaina.org/Newest"
+alias 24bugs="elinks 'https://bugs.gentoo.org/buglist.cgi?query_format=advanced&chfieldfrom=-1D&chfieldto=Now&chfield=[Bug+creation]&order=bugs.bug_id'"
+# }}}3
+# - Functions {{{3
+function dus()	{ du -s "$@" | sort -rn; }
+
+function ff()	{ find . -iname '*'$1'*' ; }
+
+function fe()	{ find . -iname '*'$1'*' -exec $2 {} \; ; }
+
+function vam-update() {
+  #vim +UpdateAddons +qall
+  vim +NeoBundleUpdate! +q
+}
+
+function lowercase()  # move filenames to lowercase
+{
+    for file ; do
+        filename=${file##*/}
+        case "$filename" in
+        */*) dirname==${file%/*} ;;
+        *) dirname=.;;
+        esac
+        nf=$(echo $filename | tr A-Z a-z)
+        newname="${dirname}/${nf}"
+        if [ "$nf" != "$filename" ]; then
+            mv "$file" "$newname"
+            echo "lowercase: $file --> $newname"
+        else
+            echo "lowercase: $file not changed."
+        fi
+    done
+}
+
+function viz() # edit AND source ~/.zshrc
+{
+  vim $HOME/.zshrc
+  source $HOME/.zshrc
+}
+
+function xrefresh()
+{
+  xrdb -remove
+  xrdb -load $HOME/.Xresources
+}
+
+function et() {
+  echo "Trash size: "$(du -hs $HOME/.local/share/Trash | awk '{print $1}')
+  echo "Do you want to empty the trashbin?            [Yes/No]"
+  read RESPONSE
+  case $RESPONSE in
+    "Yes" | "Y" | "y" )
+      /bin/rm -r $HOME/.local/share/Trash/*
+      ;;
+    "No" | "N" | "n" )
+      /bin/echo "Ok for now"
+      ;;
+    *)
+      /bin/echo "Please answer with yes or no ..."
+  esac
+}
+# }}}3
+# }}}2
+# * Non-root config # {{{2
+if [[ $USER != root ]]; then
+  echo "Initializing user settings for $USER ..."
+  # - Prompt {{{3
+  #PROMPT="$colorfg{blue}$uncolorfg$bold$curdir$unbold$colorfg{blue}$uncolorfg
+  #$username$bold$colorfg{red}:${uncolorfg}$unbold$hostname$colorfg{yellow}»$uncolorfg #"
+#-  PROMPT="$bold$colorfg{black}$curdir$uncolorfg$unbold
+#-$colorfg{blue}$bold$username$unbold$colorfg{red} @ $uncolorfg$colorfg{blue}$hostname$uncolorfg$colorfg{yellow} »$uncolorfg "
+#-  if [[ -s $HOME/.zsh/external/zsh-vcs-prompt.git/zshrc.sh ]]; then
+#-    source ~/.zsh/external/zsh-vcs-prompt.git/zshrc.sh
+#-    ZSH_VCS_PROMPT_ENABLE_CACHING='true'
+#-    ZSH_VCS_PROMPT_AHEAD_SIGIL=' ↑ '
+#-    ZSH_VCS_PROMPT_BEHIND_SIGIL=' ↓ '
+#-    ZSH_VCS_PROMPT_STAGED_SIGIL=' ● '
+#-    ZSH_VCS_PROMPT_CONFLICTS_SIGIL=' ✖ '
+#-    ZSH_VCS_PROMPT_UNSTAGED_SIGIL=' ✚ '
+#-    ZSH_VCS_PROMPT_UNTRACKED_SIGIL=' ┄ '
+#-    ZSH_VCS_PROMPT_STASHED_SIGIL='⚑ '
+#-    ZSH_VCS_PROMPT_CLEAN_SIGIL='✔ '
+#-
+#-    RPROMPT='$(vcs_super_info) $colorfg{blue}$bold$mytime$uncolorfg$unbold'
+#-  else
+#-    RPROMPT='${vcs_info_msg_0_} $colorfg{blue}$bold$mytime$uncolorfg$unbold'
+#-  fi
+
+  # }}}3
+  # - Exports {{{3
+  export PATH="$PATH:$HOME/bin:/sbin:/usr/sbin"
+  export MANPATH="$MANPATH:$HOME/man"
+  export PAGER="vimpager"
+  export NNTPSERVER="news.xmsnet.nl"
+  export MPD_HOST="localhost"
+  export MPD_PORT="6600"
+  export GPG_TTY=`tty`
+  export GTK2_RC_FILES="$HOME/.gtkrc-2.0"
+  # }}}3
+  # - Aliases {{{3
+  alias less="$PAGER"
+  alias zless="$PAGER"
+  alias bless="/usr/bin/less"
+  # shortcuts
+  alias ta="tmux -2 attach -d -t"
+  alias errg="sudo eselect rc restart gpm"
+  alias fbmplayer="mplayer -vo fbdev -fs"
+  alias mc="mc -S modarin256"
+  ## read private aliases
+  if [[ -s $HOME/.zsh/zsh_aliases ]]; then
+    source $HOME/.zsh/zsh_aliases
+  fi
+  # }}}3
+  # - Functions # {{{3
+  function sync-music()
+  {
+    if [[ $# -le 0 ]]; then
+      echo "Usage: $0 <host>";
+      return 1;
+    fi
+
+    if (( $# != 1 )); then
+      echo "And please just one host at a time ;-)"
+      return 1
+    else
+      local mhost="$1"
+      echo "Syncing music with $mhost ..."
+      rsync -avz --delete /music/Tango/ $mhost:/music/Tango/
+      rsync -avz --delete /music/Non-Tango/ $mhost:/music/Non-Tango/
+      echo "Syncing CDDB info with $mhost ..."
+      rsync -avz /home/swimmer/.cddb/ $mhost:/home/swimmer/.cddb/
+      echo "Syncing playlists with $mhost ..."
+      rsync -avz --delete /music/playlists/ $mhost:/music/playlists/
+    fi
+  }
+
+  function sync-iriver()
+  {
+    rsync -rtvz --delete --ignore-existing /music/Tango/ /media/iriver/music/Tango/
+    rsync -rtvz /music/pytone/playlists/ /media/iriver/playlists/
+  }
+
+  function sync-ipod()
+  {
+    rsync -rtvz --delete --ignore-existing /music/Non-Tango/ /media/ipod/music/Non-Tango/
+    rsync -rtvz --delete --ignore-existing /music/Tango/ /media/ipod/music/Tango/
+    rsync -rtvz --delete --ignore-existing /music/playlists/ /media/ipod/playlists/
+  }
+
+  function etail()
+  {
+    tail -n$1 /var/log/emerge.log | awk -F: '{print strftime("%a %F %T", $1),$2}'
+  }
+
+  function fac-ec()
+  {
+    #### 200?-2007 ###
+    #echo "$1 practicas + $2 themas + $3 lessen (`wcalc "(($1*45) + ($2*75) + ($3*60)) / 60"` werkuren á 33 Euro)"
+    #echo "`wcalc "((($1*45) + ($2*75) + ($3*60)) / 60) * 33"` Euro"
+    #### 2007-2009 ###
+    ### met prácticas
+    #echo "$1 practicas + $2 themas + $3 lessen (`wcalc "(($1*45) + ($2*75) + ($3*60)) / 60"` werkuren á 35 Euro)"
+    #echo "`wcalc "((($1*45) + ($2*75) + ($3*60)) / 60) * 35"` Euro"
+    ### zonder prácticas
+    #echo "$1 themas + $2 lessen (`wcalc "(($1*75) + ($2*60)) / 60" | sed 's/ = //'` werkuren á € 35.00)"
+    #echo "€ `wcalc "((($1*75) + ($2*60)) / 60) * 35" | sed 's/ = //'`"
+    #### 2010-2011 ###
+    #echo "$1 themas + $2 lessen (`wcalc "(($1*75) + ($2*60)) / 60" | sed 's/ = //'` werkuren á € 37.00)"
+    #echo "€ `wcalc "((($1*75) + ($2*60)) / 60) * 37" | sed 's/ = //'`"
+    #### 2012-2013 ###
+    ### met prácticas & 21% BTW
+    #echo "$1 prácticas + $2 themas + $3 lessen (`wcalc "(($1*45) + ($2*75) + ($3*60)) / 60" | sed 's/ = //'` werkuren á € 39.66)"
+    #echo "€ `wcalc "((($1*45) + ($2*75) + ($3*60)) / 60) * 39.66" | sed 's/ = //'`"
+    #### 2013- ###
+    ### zonder prácticas & 21% BTW
+    echo "$1 themas + $2 lessen (`wcalc "(($1*75) + ($2*60)) / 60" | sed 's/ = //'` werkuren á € 39.66)"
+    echo "€ `wcalc "((($1*75) + ($2*60)) / 60) * 39.66" | sed 's/ = //'`"
+  }
+
+  function fac-tt()
+  {
+    #### 2010-2012 ###
+    echo "$1 lessen (75min) + $2 lessen (60min) (`wcalc "(($1*75) + ($2*60)) / 60" | sed 's/ = //'` werkuren á € 40.00)"
+    echo "€ `wcalc "((($1*75) + ($2*60)) / 60) * 40" | sed 's/ = //'`"
+    #### 2012-201  ###
+    #echo "$1 lessen (75min) + $2 lessen (60min) (`wcalc "(($1*75) + ($2*60)) / 60" | sed 's/ = //'` werkuren á € 44.00)"
+    #echo "€ `wcalc "((($1*75) + ($2*60)) / 60) * 44" | sed 's/ = //'`"
+  }
+
+  function h300-convert()
+  {
+    mencoder $1 -of mpeg -oac lavc -lavcopts acodec=mp2:abitrate=96:vmax_b_frames=16:vb_strategy=2 -af resample=44100:0:0 -ovc lavc -lavcopts vcodec=mpeg2video:vbitrate=600 -vf scale=220:176,harddup -ofps 25 -o $2.mpg
+  }
+
+  function ipod-convert()
+  {
+   mencoder -quiet -of mpeg -oac lavc -lavcopts acodec=mp2:abitrate=160 -af resample=44100:0:0 -ovc lavc -lavcopts vcodec=mpeg2video:vbitrate=300 -vf scale,harddup -ofps 12 -zoom -xy 320 "$1" -o $2.mpg
+  }
+
+  function avchd-convert()
+  {
+    ffmpeg -i $1 -f avi -b 16000k -ab 192k $(basename $1 .mts).dv
+  }
+
+  function inf-scp() {
+    scp "$@" loca@62.75.168.242:www/ ;
+  }
+  # }}}3
+  # + User config per host # {{{3
+  # . swimmer # {{{4
+  if [[ $HOST == swimmer ]]; then
+    echo "Loading host specific settings for swimmer ..."
+    # Don't forget your tasks ;-)
+    export TASKRC="$HOME/private/task/rc/taskrc"
+    task
+
+    # Key management
+    eval `keychain --quiet --quick --eval id_dsa DC35B4E3`
+
+    alias tcom="tmux -2 start-server && tmux -2 attach -d -t com"
+    alias lp="lp -o media=A4 -o page-border=single"
+    alias lp2="lp -o media=A4 -o number-up=2 -o page-border=single"
+    alias lp4="lp -o media=A4 -o number-up=4 -o page-border=single"
+    alias slrn="slrn --kill-log ~/News/Killed"
+    alias gnews="slrn -h news.gmane.org -f ~/.newsrc.news.gmane.org"
+    alias gnuvd="PAGER=dog gnuvd"
+    alias foobar="wine $HOME/.wine/drive_c/Program\ Files/foobar2000/foobar2000.exe"
+    alias exif="exiftool -@ $HOME/system/fotografie/tags -s2"
+
+    function sync-vimrc()
+    {
+      for i in asuca komala mimi xs8; do
+        echo "▷ $i"
+        if ping -c1 $i > /dev/null; then
+          rsync -az /home/swimmer/.vimrc $i:
+          echo "  ✓ "
+        else
+          echo "  ✗ "
+        fi
+      done
+    }
+
+    function sync-desktop()
+    {
+      if [[ $# -le 0 ]]; then
+        echo "Usage: $0 '<host>' or '<host> <host>' or 'all'"
+        return 1;
+      fi
+
+      function sync-dotfiles() {
+      # dotfiles on github
+        local host=$1
+        echo "Syncing dotfiles on $host ..."
+        rsync -az --delete /home/swimmer/.dotfiles/ $host:.dotfiles/
+      }
+
+      function sync-x() {
+      # terminal & X settings
+        local host=$1
+        echo "Syncing terminal & X settings on $host ..."
+        rsync -az /home/swimmer/.Xresources $host:
+        rsync -az --delete /usr/local/share/icons/ $host:/usr/local/share/icons/
+        rsync -rkptgoDz --delete /usr/local/share/themes/ $host:/usr/local/share/themes/
+        rsync -az --delete /usr/share/fonts/owned/ $host:/usr/share/fonts/owned/
+        rsync -az /home/swimmer/.gtkrc-2.0 $host:
+        rsync -az /home/swimmer/.config/gtk-3.0/ $host:.config/gtk-3.0/
+        rsync -az /home/swimmer/.config/Trolltech.conf $host:.config/
+        rsync -az --delete /home/swimmer/.config/awesome/ $host:.config/awesome/
+        rsync -az /home/swimmer/.fvwm/config $host:.fvwm/
+        rsync -az /home/swimmer/.fvwm/tint2rc $host:.fvwm/
+        rsync -az /home/swimmer/.w3m/config $host:.w3m/config
+        rsync -az /home/swimmer/.config/lilyterm/default.conf $host:.config/lilyterm/
+        rsync -az /home/swimmer/.config/termite/config $host:.config/termite/
+      }
+      function sync-cli() {
+      # zsh, vim, ranger
+        local host=$1
+        echo "Syncing zsh on $host ..."
+        rsync -az --delete /home/swimmer/.zsh/external/ $host:.zsh/external/
+        rsync -az          /home/swimmer/.zsh/zsh_aliases $host:.zsh/zsh_aliases
+        rsync -az          /home/swimmer/.zshrc $host:
+        echo "Syncing vim on $host ..."
+        rsync -az /home/swimmer/.vimrc $host:
+        rsync -az --exclude='bundle/vim-addon-manager-known-repositories' --delete /home/swimmer/.vim/ $host:.vim/
+        if [[ $host == "mimi" ]]; then
+          ssh $host 'cd ~/.vim/bundle/YouCompleteMe && ./install.sh'
+        fi
+        echo "Syncing ranger & mc on $host ..."
+        rsync -az           /home/swimmer/.config/ranger/rc.conf $host:.config/ranger/
+        rsync -az           /home/swimmer/.config/mc/ini $host:.config/mc/
+        rsync -az           /home/swimmer/.config/mc/mc.ext $host:.config/mc/
+        rsync -az --delete /home/swimmer/.local/share/mc/skins/ $host:.local/share/mc/skins/
+      }
+      function sync-misc() {
+      # wallpapers, aftershotpro
+        local host=$1
+        echo "Syncing wallpapers on $host ..."
+        rsync -az --delete --exclude '.thumbs' /home/swimmer/system/wallpapers/ $host\:system/wallpapers/
+        echo "Syncing Aftershot config & plugins on $host ..."
+        rsync -azL         /home/swimmer/.AfterShotPro/customToolsUI.txt $host:.AfterShotPro/
+        rsync -az --delete /home/swimmer/.AfterShotPro/Presets/ $host:.AfterShotPro/Presets/
+        rsync -az --delete /home/swimmer/.AfterShotPro/Plugins/ $host:.AfterShotPro/Plugins/
+      }
+
+      for i in "$@"; do
+        case $i in
+          (asuca)
+            echo "<< $i >>"
+            #if [ "$(ping -c1 $i)" ]; then
+            if ping -c1 $i > /dev/null; then
+              sync-dotfiles $i
+              sync-x $i
+              sync-cli $i
+              sync-misc $i
+            else
+              echo "$i is down"
+            fi
+            ;;
+          (komala)
+            echo "<< $i >>"
+            #if [ "$(ping -c1 $i)" ]; then
+            if ping -c1 $i > /dev/null; then
+              sync-dotfiles $i
+              sync-x $i
+              sync-cli $i
+            else
+              echo "$i is down"
+            fi
+            ;;
+          (mimi)
+            echo "<< $i >>"
+            #if [ "$(ping -c1 $i)" ]; then
+            if ping -c1 $i > /dev/null; then
+              sync-dotfiles $i
+              sync-x $i
+              sync-cli $i
+              sync-misc $i
+            else
+              echo "$i is down"
+            fi
+            ;;
+          (all)
+            for h in asuca komala mimi; do
+              echo "<< $h >>"
+              #if [ "$(ping -c1 $h)" ]; then
+              if ping -c1 $h > /dev/null; then
+                sync-dotfiles $h
+                sync-x $h
+                sync-cli $h
+              else
+                echo "$h is down"
+              fi
+            done
+            ;;
+          (*)
+            echo
+            echo "<< $i >>"
+            echo "Unknown host. Please proceed ..."
+            ;;
+        esac
+      done
+    }
+
+    function scan() {
+      scanimage -p --mode Color --format=tiff
+    }
+
+    function clean-chrome() {
+      for i in {google-,}chrome{,-unstable}; pkill -9 $i
+    }
+
+  fi
+  # }}}4
+  # . asuca # {{{4
+  if [[ $HOST == asuca ]]; then
+    echo "Loading host specific settings for $HOST ..."
+
+    # Key management
+    eval `keychain --quiet --eval id_dsa`
+
+    alias tj="tmux -2 start-server && tmux -2 attach -d -t tj"
+    alias hdmi-mplayer="mplayer -ao alsa:device=hdmi"
+    alias hdmi-vlc="vlc --alsa-audio-device=hdmi"
+    alias exif="exiftool -@ ${HOME}/system/tags '$@'"
+  fi
+  # }}}4
+  # . mimi # {{{4
+  if [[ $HOST == mimi ]]; then
+    echo "Loading host specific settings for $HOST ..."
+
+    # Key management
+    eval `keychain --quiet --eval id_dsa`
+
+    alias tj="tmux -2 start-server && tmux -2 attach -d -t tj"
+  fi
+  # }}}4
+  # . komala # {{{4
+  if [[ $HOST == komala ]]; then
+    echo "Loading host specific settings for $HOST ..."
+
+    # need that TERM ;-)
+    export TERM="xterm"
+
+    # Key management
+    eval `keychain --quiet --eval id_dsa`
+
+  fi
+  # }}}4
+  # }}}3
+  # }}}2
+# * Root config # {{{2
+else
+  echo "Initializing user settings for $USER ..."
+  # - Prompt # {{{3
+#-  PROMPT="$colorfg{red}$bold$username$unbold$uncolorfg@$colorfg{blue}$hostname $colorfg{yellow}$curdir $uncolorfg%% "
+  # }}}3
+  # - Exports # {{{3
+  export PATH=$PATH:$HOME/bin
+  # }}}3
+  # - Key management # {{{3
+  eval `keychain --quiet --eval`
+  # }}}3
+  # - Aliases # {{{3
+  alias mess="multitail -Z red,black,inverse -T -x '%m %u@%h %f (%t) [%l]' -m 0 -wh 12 -n 70 -f -cS syslog '/var/log/sshd' -m 0 -n 70 -f -cS syslog '/var/log/mail' -m 0 -n 70 -f -cS syslog -ev '---- MARK ----' '/var/log/messages'"
+  alias fire="tail -f /var/log/shorewall.log | fwfilter"
+  alias fwlogwatch="fwlogwatch -Ddys /var/log/shorewall"
+  alias eva="emerge -va"
+  alias epre="emerge -va @preserved-rebuild"
+  alias ere="revdep-rebuild -- -a"
+  alias ta="tmux -2 attach -d"
+  alias mc="mc -S modarin256root"
+  # }}}3
+  # - Functions # {{{3
+  function all-update ()
+  {
+     rkhunter --propupd
+     eselect env update;
+     source /etc/profile;
+     source $HOME/.zshrc
+  }
+
+  function fc() {
+    OPT=$1
+    shift
+    case $OPT in
+    (e*)
+        eselect fontconfig enable "$@"
+        ;;
+    (d*)
+        eselect fontconfig disable "$@"
+        ;;
+    (l*)
+        eselect fontconfig list
+        ;;
+    esac
+  }
+
+  function installs() {
+      PACKAGE=$1
+      emerge $PACKAGE -p --color n|grep ebuild|awk '{print $4}' >> ${HOME}/system/installs/$PACKAGE
+  }
+
+  # }}}3
+  # + Root config per host # {{{4
+  # . swimmer # {{{5
+  if [[ $HOST == swimmer ]]; then
+    echo "Loading host specific settings for $HOST ..."
+
+  fi
+  # }}}5
+  # . asuca # {{{5
+  if [[ $HOST == asuca ]]; then
+    echo "Loading host specific settings for $HOST ..."
+
+    function wlan-restart() {
+      rc-config stop net.wlan0
+      rmmod -f iwl{wifi,dvm} {mac,cfg}80211
+      modprobe iwlwifi
+      rc-config start net.wlan0
+    }
+
+  fi
+  # }}}5
+  # . mimi # {{{5
+  if [[ $HOST == mimi ]]; then
+    echo "Loading host specific settings for $HOST ..."
+
+    function wlan-restart() {
+      rc-config stop net.wlan0
+      rmmod -f iwl{4965,egacy} {mac,cfg}80211
+      modprobe iwl4965
+      rc-config start net.wlan0
+    }
+
+  fi
+  # }}}5
+  # . komala # {{{5
+  if [[ $HOST == komala ]]; then
+    echo "Loading host specific settings for $HOST ..."
+
+  fi
+  # }}}5
+fi
+# }}}4
+# }}}2
+# }}}2
+# END user config # }}}1
+
+# - External modules # {{{6
+if [[ -s $HOME/.zsh/external/zsh-syntax-highlighting.git/zsh-syntax-highlighting.zsh ]]; then
+  source $HOME/.zsh/external/zsh-syntax-highlighting.git/zsh-syntax-highlighting.zsh
+fi
+# }}}6
