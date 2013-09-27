@@ -768,6 +768,7 @@ else
   echo "Initializing user settings for $USER ..."
   # - Prompt # {{{3
 #-  PROMPT="$colorfg{red}$bold$username$unbold$uncolorfg@$colorfg{blue}$hostname $colorfg{yellow}$curdir $uncolorfg%% "
+RPROMPT='$colorfg{blue}$bold$mytime$uncolorfg$unbold'
   # }}}3
   # - Exports # {{{3
   export PATH=$PATH:$HOME/bin
