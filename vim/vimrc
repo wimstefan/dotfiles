@@ -38,7 +38,6 @@ NeoBundle 'Valloric/YouCompleteMe', {'build': {'unix': './install.sh'}}
 NeoBundleLazy 'sjl/gundo.vim', {'autoload': {'commands': 'GundoToggle'}}
 NeoBundle 'Raimondi/delimitMate'
 NeoBundle 'scrooloose/syntastic'
-"NeoBundle 'xolox/vim-easytags', {'depends': ['xolox/vim-misc']}
 NeoBundle 'rkitover/vimpager'
 NeoBundle 'powerman/vim-plugin-viewdoc'
 NeoBundle 'majutsushi/tagbar'
@@ -50,6 +49,7 @@ NeoBundle 'jamessan/vim-gnupg'
 NeoBundle 'renamer.vim'
 NeoBundle 'vim-scripts/vcscommand.vim'
 NeoBundle 'tpope/vim-fugitive'
+NeoBundle 'airblade/vim-gitgutter'
 NeoBundle 'junegunn/vim-easy-align'
 NeoBundle 'dhruvasagar/vim-table-mode', {'depends': ['godlygeek/tabular']}
 NeoBundle 'HybridText'
@@ -58,8 +58,7 @@ NeoBundle 'achiang/muttrc'
 "NeoBundle 'bling/vim-airline'
 "NeoBundle 'bling/vim-bufferline'
 NeoBundle 'itchyny/lightline.vim'
-NeoBundle 'chriskempson/vim-tomorrow-theme'
-NeoBundle 'chriskempson/base16-vim'
+NeoBundle 'wimstefan/vim-tomorrow-theme'
 NeoBundle 'vim-scripts/zarniwoop.vim'
 NeoBundle 'w0ng/vim-hybrid'
 NeoBundle 'nanotech/jellybeans.vim'
@@ -707,7 +706,6 @@ if &term =~ "linux"
   endif
 else
   if has('gui_running')
-    set background=light
     let g:lucius_style='light'
     if $USER=='root'
       color lucius
@@ -715,16 +713,26 @@ else
       color Tomorrow
     endif
   else
-    set background=dark
     let g:hybrid_use_Xresources=1
     if $USER=='root'
       color lucius
+      set background=dark
     else
       color Tomorrow-Night-Bright
       "color base16-tomorrow
+      set background=dark
     endif
   endif
 endif
+
+function! Check_Gui()
+  if has("gui_running") 
+    echo "has gui_running" 
+  else 
+    echo "does not have gui_running" 
+  endif
+endfunction
+
 
 if exists('vimpager')
   color zarniwoop
