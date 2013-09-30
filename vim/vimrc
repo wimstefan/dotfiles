@@ -38,19 +38,20 @@ NeoBundle 'Valloric/YouCompleteMe', {'build': {'unix': './install.sh'}}
 NeoBundleLazy 'sjl/gundo.vim', {'autoload': {'commands': 'GundoToggle'}}
 NeoBundle 'Raimondi/delimitMate'
 NeoBundle 'scrooloose/syntastic'
-NeoBundle 'dbakker/vim-lint'
+NeoBundle 'dbakker/vim-lint', {'depends': ['scrooloose/syntastic']}
 NeoBundle 'rkitover/vimpager'
 NeoBundle 'powerman/vim-plugin-viewdoc'
 NeoBundle 'majutsushi/tagbar'
 NeoBundle 'chrisbra/CheckAttach'
 NeoBundleLazy 'mattn/emmet-vim', {'autoload':
-            \ {'filetypes': ['html', 'xhttml', 'css', 'xml', 'xls', 'markdown']}}
-NeoBundleLazy 'HTML.zip', {'autoload': {'filetypes': ['html', 'xhttml', 'css']}}
+            \ {'filetypes': ['html', 'xhtml', 'css', 'xml', 'xls', 'markdown']}}
+NeoBundleLazy 'HTML.zip', {'autoload': {'filetypes': ['html', 'xhtml', 'css']}}
 NeoBundle 'jamessan/vim-gnupg'
 NeoBundle 'renamer.vim'
 NeoBundle 'vim-scripts/vcscommand.vim'
 NeoBundle 'tpope/vim-fugitive'
 NeoBundle 'airblade/vim-gitgutter'
+NeoBundle 'gregsexton/gitv', {'depends': ['tpope/vim-fugitive']}
 NeoBundle 'junegunn/vim-easy-align'
 NeoBundle 'dhruvasagar/vim-table-mode', {'depends': ['godlygeek/tabular']}
 NeoBundle 'HybridText'
@@ -64,7 +65,6 @@ NeoBundle 'vim-scripts/zarniwoop.vim'
 NeoBundle 'w0ng/vim-hybrid'
 NeoBundle 'nanotech/jellybeans.vim'
 NeoBundle 'jonathanfilip/vim-lucius'
-
 
 NeoBundleCheck
 " " }}}
@@ -342,6 +342,12 @@ NeoBundleCheck
           \                    ⌘ ,g',
       \}
   let g:unite_source_menu_menus.git.command_candidates = [
+      \['▷ tig                                                        ⌘ \gt',
+          \'normal <Leader>gt'],
+      \['▷ git viewer             (gitv)                              ⌘ \gv',
+          \'normal <Leader>gv'],
+      \['▷ git viewer - buffer    (gitv)                              ⌘ \gV',
+        \'normal <Leader>gV'],
       \['▷ git status             (fugitive)',
           \'Gstatus'],
       \['▷ git diff               (fugitive)',
@@ -504,6 +510,15 @@ NeoBundleCheck
   nnoremap <C-u> :GundoToggle<CR>
   " " }}}
 
+" 'gregsexton/gitv' " {{{2
+  let g:Gitv_OpenHorizontal = 'auto'
+
+  nnoremap <Leader>gt :!tig<CR>:redraw!<CR>
+  nnoremap <silent> <leader>gv :Gitv --all<CR>
+  nnoremap <silent> <leader>gV :Gitv! --all<CR>
+  vnoremap <silent> <leader>gV :Gitv! --all<CR>
+" " }}}
+
 " 'scrooloose/syntastic' " {{{2
   let g:syntastic_enable_signs=1
   " " }}}
@@ -515,10 +530,6 @@ NeoBundleCheck
   let g:viewdoc_dontswitch = 0
   nnoremap <Leader>h :ViewDocHelp 
   " " }}}
-
-" 'xolox/vim-easytags' " {{{2
-  let g:easytags_file = $HOME.'/.cache/vim/tags'
-" " }}}
 
 " 'majutsushi/tagbar' " {{{2
   let g:tagbar_autoshowtag = 1
@@ -714,6 +725,7 @@ else
       color Tomorrow
     endif
   else
+    "set background=dark
     let g:hybrid_use_Xresources=1
     if $USER=='root'
       color lucius

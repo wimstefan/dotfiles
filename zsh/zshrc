@@ -388,8 +388,8 @@ function lowercase()  # move filenames to lowercase
 
 function viz() # edit AND source ~/.zshrc
 {
-  vim $HOME/.zshrc
-  source $HOME/.zshrc
+  vim $HOME/.dotfiles/zsh/zshrc
+  source $HOME/.dotfiles/zsh/zshrc
 }
 
 function xrefresh()
