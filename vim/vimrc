@@ -38,6 +38,7 @@ NeoBundle 'Valloric/YouCompleteMe', {'build': {'unix': './install.sh'}}
 NeoBundleLazy 'sjl/gundo.vim', {'autoload': {'commands': 'GundoToggle'}}
 NeoBundle 'Raimondi/delimitMate'
 NeoBundle 'scrooloose/syntastic'
+NeoBundle 'dbakker/vim-lint'
 NeoBundle 'rkitover/vimpager'
 NeoBundle 'powerman/vim-plugin-viewdoc'
 NeoBundle 'majutsushi/tagbar'
@@ -700,9 +701,9 @@ NeoBundleCheck
 set t_Co=256                           " configure for 256 colors terminal"
 if &term =~ "linux"
   if $USER=='root'
-    colors delek
+    color delek
   else
-    colors slate
+    color slate
   endif
 else
   if has('gui_running')
@@ -716,23 +717,11 @@ else
     let g:hybrid_use_Xresources=1
     if $USER=='root'
       color lucius
-      set background=dark
     else
       color Tomorrow-Night-Bright
-      "color base16-tomorrow
-      set background=dark
     endif
   endif
 endif
-
-function! Check_Gui()
-  if has("gui_running") 
-    echo "has gui_running" 
-  else 
-    echo "does not have gui_running" 
-  endif
-endfunction
-
 
 if exists('vimpager')
   color zarniwoop
@@ -1009,6 +998,17 @@ augroup END
 " Runtime & commands " {{{1
 runtime macros/matchit.vim    " very nice extension to %-matching
 runtime compiler/tidy.vim     " use htmltidy
+" " }}}
+
+" Functions " {{{1
+function! Check_Gui()
+  if has("gui_running") 
+    echo "has gui_running" 
+  else 
+    echo "does not have gui_running" 
+  endif
+endfunction
+
 " " }}}
 
 if !has('vim_starting')
