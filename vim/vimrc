@@ -43,19 +43,19 @@ NeoBundle 'rkitover/vimpager'
 NeoBundle 'powerman/vim-plugin-viewdoc'
 NeoBundle 'majutsushi/tagbar'
 NeoBundle 'chrisbra/CheckAttach'
+NeoBundle 'renamer.vim'
+NeoBundle 'DirDiff.vim'
 NeoBundleLazy 'mattn/emmet-vim', {'autoload':
             \ {'filetypes': ['html', 'xhtml', 'css', 'xml', 'xls', 'markdown']}}
 NeoBundleLazy 'HTML.zip', {'autoload': {'filetypes': ['html', 'xhtml', 'css']}}
 NeoBundle 'jamessan/vim-gnupg'
-NeoBundle 'renamer.vim'
-NeoBundle 'vim-scripts/vcscommand.vim'
 NeoBundle 'tpope/vim-fugitive'
 NeoBundle 'airblade/vim-gitgutter'
 NeoBundle 'gregsexton/gitv', {'depends': ['tpope/vim-fugitive']}
 NeoBundle 'junegunn/vim-easy-align'
 NeoBundle 'dhruvasagar/vim-table-mode', {'depends': ['godlygeek/tabular']}
-NeoBundle 'HybridText'
 NeoBundle 'VOoM'
+NeoBundle 'HybridText'
 NeoBundle 'achiang/muttrc'
 "NeoBundle 'bling/vim-airline'
 "NeoBundle 'bling/vim-bufferline'
