@@ -585,12 +585,22 @@ RPROMPT='$colorfg{blue}$bold$mytime$uncolorfg$unbold'
     function sync-vimrc()
     {
       for i in asuca komala mimi xs8; do
-        echo "▷ $i"
-        if ping -c1 $i > /dev/null; then
-          rsync -az /home/swimmer/.vimrc $i:
-          echo "  ✓ "
+        if [[ $i == xs8 ]]; then
+          echo "▷ $i"
+          if ping -c1 $i > /dev/null; then
+            scp /home/swimmer/.dotfiles/vim/vimrc $i:.vimrc
+            echo "  ✓ "
+          else
+            echo "  ✗ "
+          fi
         else
-          echo "  ✗ "
+          echo "▷ $i"
+          if ping -c1 $i > /dev/null; then
+            rsync -az /home/swimmer/.vimrc $i:
+            echo "  ✓ "
+          else
+            echo "  ✗ "
+          fi
         fi
       done
     }
