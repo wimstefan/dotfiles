@@ -36,6 +36,7 @@ NeoBundleLazy 'Shougo/vimfiler', {'autoload': {'commands': ['VimFiler','VimFiler
 "NeoBundle 'Shougo/neocomplcache'
 NeoBundle 'Valloric/YouCompleteMe', {'build': {'unix': './install.sh'}}
 NeoBundleLazy 'sjl/gundo.vim', {'autoload': {'commands': 'GundoToggle'}}
+NeoBundle 'tpope/vim-abolish'
 NeoBundle 'Raimondi/delimitMate'
 NeoBundle 'scrooloose/syntastic'
 NeoBundle 'dbakker/vim-lint', {'depends': ['scrooloose/syntastic']}
@@ -62,9 +63,11 @@ NeoBundle 'achiang/muttrc'
 NeoBundle 'itchyny/lightline.vim'
 NeoBundle 'wimstefan/vim-tomorrow-theme'
 NeoBundle 'vim-scripts/zarniwoop.vim'
-NeoBundle 'w0ng/vim-hybrid'
 NeoBundle 'nanotech/jellybeans.vim'
 NeoBundle 'jonathanfilip/vim-lucius'
+NeoBundle 'pasela/edark.vim'
+NeoBundle 'joedicastro/vim-molokai256'
+NeoBundle 'joedicastro/vim-github256'
 
 NeoBundleCheck
 " " }}}
@@ -525,7 +528,7 @@ NeoBundleCheck
 
 " 'powerman/vim-plugin-viewdoc' " {{{2
   "let g:viewdoc_open='leftabove new'
-  let g:viewdoc_open='rightbelow 82vnew'
+  let g:viewdoc_open='rightbelow 84vnew'
   let g:viewdoc_openempty = 0
   let g:viewdoc_dontswitch = 0
   nnoremap <Leader>h :ViewDocHelp 
@@ -596,7 +599,7 @@ NeoBundleCheck
 
 " 'itchyny/lightline.vim' " {{{2
   let g:lightline = {
-        \ 'colorscheme': 'landscape',
+        \ 'colorscheme': 'default',
 	      \ 'active': {
         \   'left': [ [ 'mode', 'paste' ], [ 'fugitive', 'filename' ] ],
         \   'right': [ [ 'syntastic', 'lineinfo' ], ['percent'], [ 'filetype', 'fileencoding', 'fileformat' ] ]
@@ -706,85 +709,7 @@ NeoBundleCheck
   let g:lucius_style="dark"
   let g:lucius_contrast="high"
   " " }}}
-" " }}}
 
-" Visual " {{{1
-set t_Co=256                           " configure for 256 colors terminal"
-if &term =~ "linux"
-  if $USER=='root'
-    color delek
-  else
-    color slate
-  endif
-else
-  if has('gui_running')
-    let g:lucius_style='light'
-    if $USER=='root'
-      color lucius
-    else
-      color Tomorrow
-    endif
-  else
-    "set background=dark
-    let g:hybrid_use_Xresources=1
-    if $USER=='root'
-      color lucius
-    else
-      color Tomorrow-Night-Bright
-    endif
-  endif
-endif
-
-if exists('vimpager')
-  color zarniwoop
-endif
-
-"set guifont=Droid\ Sans\ Mono\ Slashed\ 9
-"set guifont=Verily\ Serif\ Mono\ 8
-set guifont=Consolas\ for\ Powerline\ 9
-
-filetype indent plugin on | syn on     " enable filetype, plugin and syntax support
-
-set laststatus=2                       " always show the statusline above
-"if has('statusline')
-"  "set statusline=%<%f\ %h%m%r%=%-14.(%l,%c%V%)\ %P " default statusline
-"  set statusline=
-"  if $USER=='root'
-"    set statusline+=%#ErrorMsg#
-"  else
-"    set statusline+=%#Folded#
-"  endif
-"  set statusline+=::\ %{$USER}\ ::
-"  set statusline+=%*
-"
-"  set statusline+=%#ColorColumn#[%n]%*
-"  set statusline+=%#DIffAdd#%{fugitive#statusline()}%*
-"  "set statusline+=\ %<%F
-"  set statusline+=\ %t%<
-"  set statusline+=\ %#DiffDelete#%r%m%*
-"  set statusline+=\ (%l/%L,\ %-2c)
-"  set statusline+=\ %p%%
-"  set statusline+=\ %#WarningMsg#%{SyntasticStatuslineFlag()}%*
-"  "set statusline+=%<%f%=%([%{Tlist_Get_Tagname_By_Line()}]%) " taglist
-"  "set statusline+=%<%f%=%([%{tagbar#currenttag('[%s] ','')}]%) " tagbar
-"  set statusline+=%=
-"  set statusline+=%h%w\ %y\ [%{&encoding}:%{&fileformat}]
-"  set statusline+=\ %#ColorColumn#
-"  set statusline+=\ %{strftime(\"%F\ %H:%M\ \")}
-"endif
-
-set foldenable                         " turn on folding
-set foldmethod=marker                  " fold on the marker
-set foldlevel=100                      " don't autofold anything (but I can still fold manually)
-
-set mouse=a                            " enable mouse in console
-set mousemodel=popup_setpos
-set ttymouse=xterm2
-
-set showtabline=2                      " always show tabline, even if there is just one tab, avoid
-                                       " redraw problems when Window is displayed in fullscreen mode
-
-" }}}2
 " " }}}
 
 " General Settings " {{{1
@@ -854,6 +779,83 @@ function! PrettyPrint(fname)
     call system('a2ps -B -2 -s2 -PSamsung_ML-1610 '.a:fname)
     return v:shell_error
 endfunc
+" " }}}
+
+" Visual " {{{1
+set t_Co=256                           " configure for 256 colors terminal"
+if &term =~ "linux"
+  if $USER=='root'
+    color delek
+  else
+    color slate
+  endif
+else
+  if has('gui_running')
+    let g:lucius_style='light'
+    if $USER=='root'
+      color lucius
+    else
+      color github256
+    endif
+  else
+    if $USER=='root'
+      color lucius
+    else
+      "color Tomorrow-Night-Bright
+      color edark
+    endif
+  endif
+endif
+
+if exists('vimpager')
+  color molokai256
+  set colorcolumn=0
+endif
+
+set guifont=Consolas\ for\ Powerline\ 9
+
+filetype indent plugin on | syn on     " enable filetype, plugin and syntax support
+
+set laststatus=2                       " always show the statusline above
+"if has('statusline')
+"  "set statusline=%<%f\ %h%m%r%=%-14.(%l,%c%V%)\ %P " default statusline
+"  set statusline=
+"  if $USER=='root'
+"    set statusline+=%#ErrorMsg#
+"  else
+"    set statusline+=%#Folded#
+"  endif
+"  set statusline+=::\ %{$USER}\ ::
+"  set statusline+=%*
+"
+"  set statusline+=%#ColorColumn#[%n]%*
+"  set statusline+=%#DIffAdd#%{fugitive#statusline()}%*
+"  "set statusline+=\ %<%F
+"  set statusline+=\ %t%<
+"  set statusline+=\ %#DiffDelete#%r%m%*
+"  set statusline+=\ (%l/%L,\ %-2c)
+"  set statusline+=\ %p%%
+"  set statusline+=\ %#WarningMsg#%{SyntasticStatuslineFlag()}%*
+"  "set statusline+=%<%f%=%([%{Tlist_Get_Tagname_By_Line()}]%) " taglist
+"  "set statusline+=%<%f%=%([%{tagbar#currenttag('[%s] ','')}]%) " tagbar
+"  set statusline+=%=
+"  set statusline+=%h%w\ %y\ [%{&encoding}:%{&fileformat}]
+"  set statusline+=\ %#ColorColumn#
+"  set statusline+=\ %{strftime(\"%F\ %H:%M\ \")}
+"endif
+
+set foldenable                         " turn on folding
+set foldmethod=marker                  " fold on the marker
+set foldlevel=100                      " don't autofold anything (but I can still fold manually)
+
+set mouse=a                            " enable mouse in console
+set mousemodel=popup_setpos
+set ttymouse=xterm2
+
+set showtabline=2                      " always show tabline, even if there is just one tab, avoid
+                                       " redraw problems when Window is displayed in fullscreen mode
+
+" }}}2
 " " }}}
 
 " Formatting " {{{1
