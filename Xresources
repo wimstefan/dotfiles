@@ -4,8 +4,10 @@ Xcursor*theme: Neutral_Plus
 !*faceName: xft:Liberation Mono:pixelsize=12
 !*font: xft:Droid Serif Slashed for Powerline:pixelsize=12
 !*faceName: xft:Droid Serif Slashed for Powerline:pixelsize=12
-*font: xft:Verily Serif Mono:pixelsize=12
-*faceName: xft:Verily Serif Mono:pixelsize=12
+!*font: xft:Verily Serif Mono:pixelsize=12
+!*faceName: xft:Verily Serif Mono:pixelsize=12
+*font: xft:Envy Code R for Powerline:pixelsize=12
+*faceName: xft:Envy Code R for Powerline:pixelsize=12
 
 !xterm*colorMode: true
 !xterm*dynamicColors: true
