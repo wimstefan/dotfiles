@@ -30,7 +30,7 @@ uppercase no
 use_spacer right
 use_xft yes
 xftalpha 0.8
-xftfont  Cousine:size=9:weight=bold
+xftfont  Envy Code R:size=10:weight=bold
 
 ### Text junk ###
 

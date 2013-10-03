@@ -801,18 +801,18 @@ else
     if $USER=='root'
       color lucius
     else
-      "color Tomorrow-Night-Bright
-      color edark
+      color molokai256
     endif
   endif
 endif
 
 if exists('vimpager')
-  color molokai256
+  color edark
   set colorcolumn=0
 endif
 
-set guifont=Consolas\ for\ Powerline\ 9
+"set guifont=Consolas\ for\ Powerline\ 9
+set guifont=Envy\ Code\ R\ for\ Powerline\ 9
 
 filetype indent plugin on | syn on     " enable filetype, plugin and syntax support
 

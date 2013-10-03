@@ -646,9 +646,10 @@ RPROMPT='$colorfg{blue}$bold$mytime$uncolorfg$unbold'
         rsync -az          /home/swimmer/.zshrc $host:
         echo "Syncing vim on $host ..."
         rsync -az /home/swimmer/.vimrc $host:
-        rsync -az --exclude='bundle/vim-addon-manager-known-repositories' --delete /home/swimmer/.vim/ $host:.vim/
         if [[ $host == "mimi" ]]; then
-          ssh $host 'cd ~/.vim/bundle/YouCompleteMe && ./install.sh'
+          rsync -az --exclude='bundle/YouCompleteMe' --exclude='bundle/vimproc' --delete /home/swimmer/.vim/ $host:.vim/
+        else
+          rsync -az --delete /home/swimmer/.vim/ $host:.vim/
         fi
         echo "Syncing ranger & mc on $host ..."
         rsync -az           /home/swimmer/.config/ranger/rc.conf $host:.config/ranger/

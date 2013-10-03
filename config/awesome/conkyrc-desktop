@@ -31,7 +31,7 @@ uppercase no
 use_spacer right
 use_xft yes
 xftalpha 0.8
-xftfont  Cousine:size=10:weight=bold
+xftfont  Envy Code R:size=10:weight=bold
 
 ### Text junk ###
 #${color}${offset 8}${font StyleBats:size=12}q${font}   Nvidia:${color1} ${execi 14 nvidia-settings -t -q GPUCoreTemp}° :: ${nvidia gpufreq}Mhz :: ${nvidia memfreq}Mhz

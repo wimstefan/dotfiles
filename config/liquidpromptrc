@@ -4,7 +4,7 @@
 
 # If you want to use different themes and features,
 # you can load the corresponding files here:
-#source ~/.zsh/external/liquidprompt.git/liquid.theme
+source ~/.dotfiles/config/my-liquid.theme
 #LP_PS1_FILE="~/code/liquidprompt/nojhan.ps1"
 
 #############
