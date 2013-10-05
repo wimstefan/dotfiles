@@ -898,8 +898,8 @@ vnoremap l !perl -MText::Autoformat -e "{autoformat{justify=>'left', left=>'0', 
 
 " open this file fast so that you can take notes below the line "finish" and
 " add more mappings:
-nnoremap <Leader>ev :edit    $MYVIMRC<CR>
-nnoremap <Leader>sv :source  $MYVIMRC<CR>
+nnoremap <Leader>ev :edit    $HOME/.dotfiles/vim/vimrc<CR>
+nnoremap <Leader>sv :source  $HOME/.dotfiles/vim/vimrc<CR>
 
 " :w! is always bad to type. So create your own mapping for it. Example:
 nnoremap <Leader>w :w!<CR>
