@@ -339,7 +339,7 @@ NeoBundleCheck
   nnoremap <silent>[menu]n :Unite -silent -start-insert menu:neobundle<CR>
   " }}}
 
-  " git & vcs menu {{{4
+  " git menu {{{4
   let g:unite_source_menu_menus.git = {
       \ 'description' : '            admin git & other VCS repositories
           \                    ⌘ ,g',
@@ -393,18 +393,6 @@ NeoBundleCheck
           \'Glcd'],
       \['▷ git browse             (fugitive)',
           \'Gbrowse'],
-      \['▷ vcs status             (vcscommand)',
-          \'VCSStatus'],
-      \['▷ vcs update             (vcscommand)',
-          \'VCSUpdate'],
-      \['▷ vcs diff               (vcscommand)',
-          \'VCSDiff'],
-      \['▷ vcs commit             (vcscommand)',
-          \'VCSCommit'],
-      \['▷ vcs log                (vcscommand)',
-          \'exe "silent VCSLog | Unite -no-quit quickfix"'],
-      \['▷ vcs blame              (vcscommand)',
-          \'VCSAnnotate'],
       \]
   nnoremap <silent>[menu]g :Unite -silent -winheight=26 -start-insert menu:git<CR>
   " }}}
@@ -898,8 +886,8 @@ vnoremap l !perl -MText::Autoformat -e "{autoformat{justify=>'left', left=>'0', 
 
 " open this file fast so that you can take notes below the line "finish" and
 " add more mappings:
-nnoremap <Leader>ev :edit    $HOME/.dotfiles/vim/vimrc<CR>
-nnoremap <Leader>sv :source  $HOME/.dotfiles/vim/vimrc<CR>
+nnoremap <Leader>ev :edit    $MYVIMRC<CR>
+nnoremap <Leader>sv :source  $MYVIMRC<CR>
 
 " :w! is always bad to type. So create your own mapping for it. Example:
 nnoremap <Leader>w :w!<CR>
