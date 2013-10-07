@@ -1,0 +1,62 @@
+article-sort-order date-desc
+articlelist-format  "%4i %f %D   %?T?|%-30T|  ?%t"
+datetime-format "%F %R"
+show-read-feeds no
+show-read-articles no
+display-article-progress yes
+max-items 144
+#html-renderer internal
+html-renderer "w3m -T text/html -I %{charset} -dump"
+#html-renderer elinks
+browser "TERM=xterm-256color w3m"
+#browser elinks
+#browser lynx
+refresh-on-startup yes
+cleanup-on-quit yes
+auto-reload yes
+reload-time 14
+#text-width 114
+text-width 0
+error-log ~/.config/newsbeuter/errors
+save-path ~/.config/newsbeuter/saved-articles
+macro o open-in-browser ; toggle-article-read read
+use-proxy no
+
+# colors
+#
+### blue ###
+#color background  cyan    default
+#color listnormal  cyan    default
+#color listfocus   blue  default  bold
+#color info        blue  black    bold
+#color article     cyan    default
+## grey ###
+color background         color248    default
+color listnormal         color248    default
+color listnormal_unread  color248    default
+#color listfocus         color234    color001
+#color info              color001    color234 bold
+color listfocus          default     color242
+color listfocus_unread   default     color242
+color info               default     color239
+color article            color248    default
+
+# highlights
+#
+highlight article       "^Feed:.*"                          color244  default
+#highlight article       "^Title:.*"                         color234  color001
+highlight article       "^Title:.*"                         default  color242
+highlight article       "^Author:.*"                        color244  default
+highlight article       "^Date:.*"                          color006  default
+highlight article       "^Link:.*"                          magenta default
+highlight article       "^Podcast Download URL:.*"          blue    default
+highlight article       "^Links:"                           white   blue
+highlight article       "\\[[0-9][0-9]*\\]"                 green   default
+highlight article       "\\[image [0-9][0-9]*\\]"           green   default
+highlight article       "\\[embedded flash: [0-9][0-9]*\\]" green   default
+highlight article       ":.*\\(link\\)$"                    magenta default
+highlight article       ":.*\\(image\\)$"                   magenta default
+highlight article       ":.*\\(embedded flash\\)$"          magenta default
+#highlight feedlist      "^  *[0-9]+  *N  *.*"               color250   default
+#highlight articlelist   "^  *[0-9]+  *N  *.*"               color250   default
+
