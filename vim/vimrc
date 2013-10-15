@@ -58,9 +58,8 @@ NeoBundle 'dhruvasagar/vim-table-mode', {'depends': ['godlygeek/tabular']}
 NeoBundle 'VOoM'
 NeoBundle 'HybridText'
 NeoBundle 'achiang/muttrc'
-"NeoBundle 'bling/vim-airline'
-"NeoBundle 'bling/vim-bufferline'
-NeoBundle 'itchyny/lightline.vim'
+NeoBundle 'bling/vim-airline'
+"NeoBundle 'itchyny/lightline.vim'
 NeoBundle 'wimstefan/vim-tomorrow-theme'
 NeoBundle 'vim-scripts/zarniwoop.vim'
 NeoBundle 'nanotech/jellybeans.vim'
@@ -550,39 +549,27 @@ NeoBundleCheck
 
 " 'bling/vim-airline' " {{{2
   let g:airline_powerline_fonts = 1
-  let g:airline_symbols = {}
-  let g:airline_left_sep = '【'
+  if !exists('g:airline_symbols')
+    let g:airline_symbols = {}
+  endif
+
+  "let g:airline_left_sep = '【'
   "let g:airline_left_sep = '┊'
-  "let g:airline_left_sep = '»'
-  "let g:airline_left_sep = '▶'
-  let g:airline_right_sep = '】'
-  "let g:airline_right_sep = '┊'
-  "let g:airline_right_sep = '«'
-  "let g:airline_right_sep = '◀'
   "let g:airline_left_sep = '》'
+  "let g:airline_right_sep = '】'
+  "let g:airline_right_sep = '┊'
   "let g:airline_right_sep = '《'
-  "let g:airline_symbols.linenr = '␊'
-  "let g:airline_symbols.linenr = '␤'
   let g:airline_symbols.linenr = '¶'
-  "let g:airline_symbols.branch = '⎇'
-  let g:airline_symbols.branch = ''
-  let g:airline_symbols.paste = '☆ ☆ ☆'
   let g:airline_symbols.whitespace = 'Ξ'
+  let g:airline_detect_iminsert=1
+  let g:airline#extensions#whitespace#checks = ['']
   let g:airline#extensions#tabline#enabled = 1
   let g:airline#extensions#tabline#excludes = ['vimfiler*']
   if $USER=='root'
-    let g:airline_theme = 'ubaryd'
+    let g:airline_theme = 'base16'
   else
-    let g:airline_theme = 'wombat'
+    let g:airline_theme = 'sol'
   endif
-  " " }}}
-
-" 'bling/vim-bufferline' " {{{2
-  let g:bufferline_echo = 0
-  let g:bufferline_show_bufnr = 0
-  let g:bufferline_rotate = 1
-  let g:bufferline_fixed_index = -1
-  let g:bufferline_excludes = ['vimfiler*']
   " " }}}
 
 " 'itchyny/lightline.vim' " {{{2
