@@ -18,8 +18,7 @@ search_wrap = true
 geometry = 1200x744
 
 # 0.0: opaque, 1.0: transparent
-transparency = 0.34
-pseudo_transparency = true
+#transparency = 0.14
 
 # "system", "on" or "off"
 cursor_blink = system
