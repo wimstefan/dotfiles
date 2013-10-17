@@ -1,3 +1,12 @@
+! basic settings for infinality
+Xft.antialias:  1
+Xft.autohint:   0
+Xft.dpi:        96
+Xft.hinting:    1
+Xft.hintstyle:  hintfull
+Xft.lcdfilter:  lcddefault
+Xft.rgba:       rgb
+
 Xcursor*theme: Neutral_Plus
 
 !*font: xft:Liberation Mono:pixelsize=12
@@ -9,12 +18,32 @@ Xcursor*theme: Neutral_Plus
 *font: xft:Envy Code R for Powerline:pixelsize=14
 *faceName: xft:Envy Code R for Powerline:pixelsize=14
 
-!xterm*colorMode: true
-!xterm*dynamicColors: true
+URxvt.termName: rxvt-unicode-256color
+URxvt.font: xft:Envy Code R for Powerline:pixelsize=14,xft:Dejavu Sans Mono
+URxvt.depth: 32
+URxvt.letterSpace: -1
+URxvt.loginShell: true
+URxvt.visualBell: true
+URxvt.urgentOnBell: true
+URxvt.scrollBar: false
+URxvt.scrollTtyKeypress: true
+URxvt.scrollTtyOutput: false
+URxvt.scrollWithBuffer: false
+URxvt.saveLines: 4444
+URxvt.transparent: true
+URxvt.shading: 64
+URxvt.perl-ext: default,matcher,clipboard
+URxvt.keysym.F11: perl:fullscreen:switch
+URxvt.keysym.Shift-Control-C: perl:clipboard:copy
+URxvt.keysym.Shift-Control-V: perl:clipboard:paste
+URxvt.url-launcher: google-chrome-unstable
+URxvt.url-select.underline: false
+URxvt.matcher.button: 1
+URxvt.colorUL: #4682B4
+
 xterm*loginShell: true
 xterm*utf8: true
 xterm*bellIsUrgent: true
-
 
 !!! Color settings
 !!! <BEGIN HYBRID>
