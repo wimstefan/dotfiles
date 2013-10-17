@@ -11,7 +11,8 @@
 if [[ "$(locale -k LC_CTYPE | sed -n 's/^charmap="\(.*\)"/\1/p')" == *"UTF-8"* ]] ; then
     # If charset is UTF-8.
     LP_MARK_BATTERY="⌁"     # in front of the battery charge
-    LP_MARK_ADAPTER="∵"     # displayed when plugged
+    #LP_MARK_ADAPTER="∵"     # displayed when plugged
+    LP_MARK_ADAPTER="⏚"     # displayed when plugged
     #LP_MARK_LOAD="⌂"        # in front of the load
     LP_MARK_LOAD="↕"        # in front of the load
     #LP_MARK_TEMP="θ"        # in front of the temp
