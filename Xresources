@@ -18,8 +18,7 @@ Xcursor*theme: Neutral_Plus
 *font: xft:Envy Code R for Powerline:pixelsize=14
 *faceName: xft:Envy Code R for Powerline:pixelsize=14
 
-URxvt.termName: rxvt-unicode-256color
-URxvt.font: xft:Envy Code R for Powerline:pixelsize=14,xft:Dejavu Sans Mono
+URxvt.font: xft:Envy Code R for Powerline:pixelsize=14,xft:unifont:pixelsize=15
 URxvt.depth: 32
 URxvt.letterSpace: -1
 URxvt.loginShell: true
@@ -29,12 +28,12 @@ URxvt.scrollBar: false
 URxvt.scrollTtyKeypress: true
 URxvt.scrollTtyOutput: false
 URxvt.scrollWithBuffer: false
+URxvt.secondaryScroll: true
 URxvt.saveLines: 4444
 URxvt.transparent: true
-URxvt.shading: 64
-URxvt.perl-lib: /usr/lib64/urxvt/perl
-URxvt.perl-ext-common: default,clipboard,keyboard-select,url-select
-URxvt.keysym.F11: perl:fullscreen:switch
+URxvt.shading: 40
+URxvt.perl-lib: /usr/lib/urxvt/perl
+URxvt.perl-ext-common: default,clipboard,keyboard-select,url-select,matcher
 URxvt.keysym.Shift-Control-C: perl:clipboard:copy
 URxvt.keysym.Shift-Control-V: perl:clipboard:paste
 URxvt.url-launcher: google-chrome-unstable
