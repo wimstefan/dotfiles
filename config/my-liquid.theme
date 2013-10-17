@@ -15,7 +15,7 @@ if [[ "$(locale -k LC_CTYPE | sed -n 's/^charmap="\(.*\)"/\1/p')" == *"UTF-8"* ]
     #LP_MARK_LOAD="⌂"        # in front of the load
     LP_MARK_LOAD="↕"        # in front of the load
     #LP_MARK_TEMP="θ"        # in front of the temp
-    LP_MARK_TEMP="⊚ "        # in front of the temp
+    LP_MARK_TEMP="⊚"        # in front of the temp
     LP_MARK_PROXY="↥"       # indicate a proxy in use
     LP_MARK_HG="☿"   # prompt mark in hg repositories
     LP_MARK_SVN="‡"  # prompt mark in svn repositories
