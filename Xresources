@@ -32,7 +32,8 @@ URxvt.scrollWithBuffer: false
 URxvt.saveLines: 4444
 URxvt.transparent: true
 URxvt.shading: 64
-URxvt.perl-ext: default,matcher,clipboard
+URxvt.perl-lib: /usr/lib64/urxvt/perl
+URxvt.perl-ext-common: default,clipboard,keyboard-select,url-select
 URxvt.keysym.F11: perl:fullscreen:switch
 URxvt.keysym.Shift-Control-C: perl:clipboard:copy
 URxvt.keysym.Shift-Control-V: perl:clipboard:paste
