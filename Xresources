@@ -9,11 +9,15 @@ Xft.rgba:       rgb
 
 Xcursor*theme: Neutral_Plus
 
-#if ( SERVERHOST == asuca ) || ( SERVERHOST == mimi )
+#ifdef SRVR_asuca
   *font: xft:Envy Code R for Powerline:pixelsize=12
   *faceName: xft:Envy Code R for Powerline:pixelsize=12
   URxvt.font: xft:Envy Code R for Powerline:pixelsize=12,xft:unifont:pixelsize=14
-#elif ( SERVERHOST == swimmer )
+#elif SRVR_mimi
+  *font: xft:Envy Code R for Powerline:pixelsize=12
+  *faceName: xft:Envy Code R for Powerline:pixelsize=12
+  URxvt.font: xft:Envy Code R for Powerline:pixelsize=12,xft:unifont:pixelsize=14
+#elif SRVR_swimmer
   *font: xft:Envy Code R for Powerline:pixelsize=14
   *faceName: xft:Envy Code R for Powerline:pixelsize=14
   URxvt.font: xft:Envy Code R for Powerline:pixelsize=14,xft:unifont:pixelsize=15
