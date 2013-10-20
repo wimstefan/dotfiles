@@ -18,7 +18,7 @@ NeoBundleFetch 'Shougo/neobundle.vim'
 NeoBundle 'Shougo/neobundle-vim-scripts'
 NeoBundle 'Shougo/vimproc', {'build': {'unix': 'make -f make_unix.mak'}}
 NeoBundle 'Shougo/unite.vim'
-NeoBundleLazy 'Shougo/unite-ssh'
+NeoBundleLazy 'Shougo/unite-ssh', {'autoload': {'unite_sources': 'ssh'}}
 NeoBundleLazy 'Shougo/unite-outline', {'autoload': {'unite_sources': 'outline'}}
 NeoBundleLazy 'Shougo/unite-session', {'autoload': {'unite_sources': 'session',
             \ 'commands' : ['UniteSessionSave', 'UniteSessionLoad']}}
@@ -901,6 +901,9 @@ iab dATE <C-R>=strftime("%Y-%m-%d")<CR>
 " " }}}
 
 " Auto commands " {{{1
+" Auto-load Vim configuration after a change
+autocmd BufWritePost *.vimrc nested source ~/.vimrc"
+
 " Automatically chmod +x Shell and Perl scripts
 "autocmd BufWritePost {*.sh,*.pl,*.py} silent !chmod +x %
 
