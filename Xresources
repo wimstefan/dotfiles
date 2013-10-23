@@ -20,7 +20,7 @@ Xcursor*theme: Neutral_Plus
 #elif SRVR_swimmer
   *font: xft:Envy Code R for Powerline:pixelsize=14
   *faceName: xft:Envy Code R for Powerline:pixelsize=14
-  URxvt.font: xft:Envy Code R for Powerline:pixelsize=14,xft:unifont:pixelsize=15
+  URxvt.font: xft:Envy Code R for Powerline:pixelsize=14,xft:unifont:pixelsize=16
 #endif
 
 URxvt.depth: 32
