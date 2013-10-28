@@ -12,15 +12,16 @@ Xcursor*theme: Neutral_Plus
 #ifdef SRVR_asuca
   *font: xft:Envy Code R for Powerline:pixelsize=12
   *faceName: xft:Envy Code R for Powerline:pixelsize=12
-  URxvt.font: xft:Envy Code R for Powerline:pixelsize=12,xft:unifont:pixelsize=14
+  URxvt.font: xft:Envy Code R for Powerline:pixelsize=12,xft:Free Mono:pixelsize=12
 #elif SRVR_mimi
   *font: xft:Envy Code R for Powerline:pixelsize=12
   *faceName: xft:Envy Code R for Powerline:pixelsize=12
-  URxvt.font: xft:Envy Code R for Powerline:pixelsize=12,xft:unifont:pixelsize=14
+  URxvt.font: xft:Envy Code R for Powerline:pixelsize=12,xft:Free Mono:pixelsize=12
 #elif SRVR_swimmer
   *font: xft:Envy Code R for Powerline:pixelsize=14
   *faceName: xft:Envy Code R for Powerline:pixelsize=14
-  URxvt.font: xft:Envy Code R for Powerline:pixelsize=14,xft:unifont:pixelsize=16
+  URxvt.font: xft:Envy Code R for Powerline:pixelsize=14,xft:Free Mono:pixelsize=14
+  !URxvt.font: xft:Hermit:pixelsize=14,xft:Free Mono:pixelsize=14
 #endif
 
 URxvt.depth: 32
