@@ -538,7 +538,9 @@ globalkeys = awful.util.table.join(
     -- Applications
     keydoc.group("05. Applications"),
     awful.key({ modkey,           }, "Return", function () awful.util.spawn(terminal) end, "Open a terminal"),
+    awful.key({ modkey,           }, "a", function () awful.util.spawn("audacity") end, "Audacity"),
     awful.key({ modkey,           }, "b", function () awful.util.spawn("google-chrome-unstable") end, "Chrome"),
+    awful.key({ modkey            }, "c", function () scratch.drop(terminal .." -e wcalc","top","right",250,300) end, "Calculator"),
     awful.key({ modkey,           }, "d", function () awful.util.spawn("darktable") end, "Darktable"),
     awful.key({ modkey,           }, "e", function () awful.util.spawn(editor_cmd) end, "Editor"),
     awful.key({ modkey,           }, "g", function () awful.util.spawn("gimp") end, "Gimp"),
@@ -546,7 +548,6 @@ globalkeys = awful.util.table.join(
     awful.key({ modkey,           }, "o", function () awful.util.spawn("opera") end, "Opera"),
     awful.key({ modkey,           }, "s", function () awful.util.spawn("spacefm") end, "Spacefm"),
     awful.key({ modkey,           }, "t", function () awful.util.spawn("thunderbird") end, "Thunderbird"),
-    awful.key({ modkey            }, "c", function () scratch.drop(terminal .." -e wcalc","top","right",250,300) end, "Calculator"),
 
     -- Miscellaneous stuff
     keydoc.group("06. Misc"),
