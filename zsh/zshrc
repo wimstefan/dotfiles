@@ -529,18 +529,24 @@ RPROMPT='$colorfg{blue}$bold$mytime$uncolorfg$unbold'
     #echo "€ `wcalc "((($1*45) + ($2*75) + ($3*60)) / 60) * 39.66" | sed 's/ = //'`"
     #### 2013- ###
     ### zonder prácticas & 21% BTW
-    echo "$1 themas + $2 lessen (`wcalc "(($1*75) + ($2*60)) / 60" | sed 's/ = //'` werkuren á € 39.66)"
-    echo "€ `wcalc "((($1*75) + ($2*60)) / 60) * 39.66" | sed 's/ = //'`"
+    #echo "$1 themas + $2 lessen (`wcalc "(($1*75) + ($2*60)) / 60" | sed 's/ = //'` werkuren á € 39.66)"
+    #echo "€ `wcalc "((($1*75) + ($2*60)) / 60) * 39.66" | sed 's/ = //'`"
+    ### met lessen á 1 uur & prácticas á 0.5 uur & 21% BTW
+    echo "$1 lessen + $2 prácticas (`wcalc "(($1*60) + ($2*30)) / 60" | sed 's/ = //'` werkuren á € 39.66)"
+    echo "€ `wcalc "((($1*60) + ($2*30)) / 60) * 39.66" | sed 's/ = //'`"
   }
 
   function fac-tt()
   {
     #### 2010-2012 ###
-    echo "$1 lessen (75min) + $2 lessen (60min) (`wcalc "(($1*75) + ($2*60)) / 60" | sed 's/ = //'` werkuren á € 40.00)"
-    echo "€ `wcalc "((($1*75) + ($2*60)) / 60) * 40" | sed 's/ = //'`"
-    #### 2012-201  ###
+    #echo "$1 lessen (75min) + $2 lessen (60min) (`wcalc "(($1*75) + ($2*60)) / 60" | sed 's/ = //'` werkuren á € 40.00)"
+    #echo "€ `wcalc "((($1*75) + ($2*60)) / 60) * 40" | sed 's/ = //'`"
+    #### 2013 zonder korting ###
     #echo "$1 lessen (75min) + $2 lessen (60min) (`wcalc "(($1*75) + ($2*60)) / 60" | sed 's/ = //'` werkuren á € 44.00)"
     #echo "€ `wcalc "((($1*75) + ($2*60)) / 60) * 44" | sed 's/ = //'`"
+    #### 2013 met korting ###
+    echo "$1 lessen (75min) + $2 lessen (60min) (`wcalc "(($1*75) + ($2*60)) / 60" | sed 's/ = //'` werkuren á € 40.00)"
+    echo "€ `wcalc "((($1*75) + ($2*60)) / 60) * 40" | sed 's/ = //'`"
   }
 
   function h300-convert()
