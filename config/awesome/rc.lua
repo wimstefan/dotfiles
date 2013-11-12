@@ -27,7 +27,7 @@ wallpaper_dir     = home_dir .. "/system/wallpapers/"
 icon_path         = config_dir .. "/icons/"
 
 terminal          = "urxvt"
-browser           = os.getenv("BROWSER") or "google-chrome-unstable"
+browser           = os.getenv("BROWSER") or "google-chrome"
 editor            = os.getenv("EDITOR") or "gvim"
 editor_cmd        = "gvim"
 modkey            = "Mod4"
@@ -539,7 +539,7 @@ globalkeys = awful.util.table.join(
     keydoc.group("05. Applications"),
     awful.key({ modkey,           }, "Return", function () awful.util.spawn(terminal) end, "Open a terminal"),
     awful.key({ modkey,           }, "a", function () awful.util.spawn("audacity") end, "Audacity"),
-    awful.key({ modkey,           }, "b", function () awful.util.spawn("google-chrome-unstable") end, "Chrome"),
+    awful.key({ modkey,           }, "b", function () awful.util.spawn("google-chrome") end, "Chrome"),
     awful.key({ modkey            }, "c", function () scratch.drop(terminal .." -e wcalc","top","right",250,300) end, "Calculator"),
     awful.key({ modkey,           }, "d", function () awful.util.spawn("darktable") end, "Darktable"),
     awful.key({ modkey,           }, "e", function () awful.util.spawn(editor_cmd) end, "Editor"),

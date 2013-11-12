@@ -292,11 +292,7 @@ autoload -U run-help url-quote-magic zcalc zmv
 # - Exports {{{3
 export MANPAGER="vimpager -"
 export EDITOR="vim"
-if [[ -s /usr/bin/google-chrome-unstable ]]; then 
-  export BROWSER="google-chrome-unstable"
-else
-  export BROWSER="google-chrome"
-fi
+export BROWSER="google-chrome"
 export HISTFILE="$HOME/.zsh/histfile"
 export HISTSIZE="5000"
 export SAVEHIST="5000"
@@ -739,7 +735,7 @@ RPROMPT='$colorfg{blue}$bold$mytime$uncolorfg$unbold'
     }
 
     function clean-chrome() {
-      for i in {google-,}chrome{,-unstable}; pkill -9 $i
+      for i in {google-,}chrome{,-unstable,-beta}; pkill -9 $i
     }
 
   fi
