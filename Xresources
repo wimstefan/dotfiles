@@ -12,15 +12,15 @@ Xcursor*theme: Neutral_Plus
 #ifdef SRVR_asuca
   *font: xft:Envy Code R for Powerline:pixelsize=12
   *faceName: xft:Envy Code R for Powerline:pixelsize=12
-  URxvt.font: xft:Envy Code R for Powerline:pixelsize=12,xft:Free Mono:pixelsize=12
+  URxvt.font: xft:Envy Code R for Powerline:pixelsize=12,xft:Free Mono:pixelsize=11,xft:Symbola:pixelsize=10
 #elif SRVR_mimi
   *font: xft:Envy Code R for Powerline:pixelsize=12
   *faceName: xft:Envy Code R for Powerline:pixelsize=12
-  URxvt.font: xft:Envy Code R for Powerline:pixelsize=12,xft:Free Mono:pixelsize=12
+  URxvt.font: xft:Envy Code R for Powerline:pixelsize=12,xft:Free Mono:pixelsize=11,xft:Symbola:pixelsize=10
 #elif SRVR_swimmer
   *font: xft:Envy Code R for Powerline:pixelsize=14
   *faceName: xft:Envy Code R for Powerline:pixelsize=14
-  URxvt.font: xft:Envy Code R for Powerline:pixelsize=14,xft:Free Mono:pixelsize=14
+  URxvt.font: xft:Envy Code R for Powerline:pixelsize=14,xft:Free Mono:pixelsize=12,xft:Symbola:pixelsize=12
   !URxvt.font: xft:Hermit:pixelsize=14,xft:Free Mono:pixelsize=14
 #endif
 
@@ -38,7 +38,7 @@ URxvt.saveLines: 4444
 URxvt.transparent: true
 URxvt.shading: 40
 URxvt.perl-lib: /usr/lib/urxvt/perl
-URxvt.perl-ext-common: default,clipboard,keyboard-select,url-select
+URxvt.perl-ext-common: default,clipboard,selection,keyboard-select,url-select
 URxvt.keysym.Shift-Control-C: perl:clipboard:copy
 URxvt.keysym.Shift-Control-V: perl:clipboard:paste
 URxvt.keysym.M-Escape: perl:keyboard-select:activate
