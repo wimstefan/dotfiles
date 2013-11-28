@@ -518,7 +518,9 @@ NeoBundleCheck
   let g:viewdoc_open='rightbelow 84vnew'
   let g:viewdoc_openempty = 0
   let g:viewdoc_dontswitch = 0
+  let g:no_viewdoc_maps = 1
   nnoremap <Leader>h :ViewDocHelp 
+  nnoremap <F1> :call ViewDoc('new', '<cword>')<CR>
   " " }}}
 
 " 'majutsushi/tagbar' " {{{2
@@ -727,13 +729,17 @@ set showmatch                          " show matching hyphens
 set diffopt=vertical,iwhite,filler     " split vertical, ignore whitespace & use filler
 set splitright                         " Set vertical splits to split to the right
 set splitbelow                         " Set horizontal splits to split to the bottom
-if executable('ag')                    " program to use for the :grep command
+
+" Search settings
+if executable('ag')
   set grepprg=ag\ --nogroup\ --column\ --smart-case\ --nocolor\ --follow
   set grepformat=%f:%l:%c:%m
 elseif executable('ack')
   set grepprg=ack\ --nogroup\ --column\ --smart-case\ --nocolor\ --follow\ $*
   set grepformat=%f:%l:%c:%m
 endif
+" bind K to grep word under cursor
+nnoremap K :grep! "\b<C-R><C-W>\b"<CR>:cw<CR>
 
 " Spell settings
 set spelllang=nl,en,de,es
