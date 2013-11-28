@@ -59,10 +59,9 @@ NeoBundle 'VOoM'
 NeoBundle 'HybridText'
 NeoBundle 'achiang/muttrc'
 NeoBundle 'bling/vim-airline'
+NeoBundle 'paranoida/vim-airlineish'
 "NeoBundle 'itchyny/lightline.vim'
 NeoBundle 'wimstefan/vim-tomorrow-theme'
-NeoBundle 'vim-scripts/zarniwoop.vim'
-NeoBundle 'nanotech/jellybeans.vim'
 NeoBundle 'jonathanfilip/vim-lucius'
 NeoBundle 'pasela/edark.vim'
 NeoBundle 'joedicastro/vim-molokai256'
@@ -569,7 +568,7 @@ NeoBundleCheck
   if $USER=='root'
     let g:airline_theme = 'base16'
   else
-    let g:airline_theme = 'sol'
+    let g:airline_theme = 'airlineish'
   endif
   " " }}}
 
@@ -902,14 +901,8 @@ iab dATE <C-R>=strftime("%Y-%m-%d")<CR>
 " " }}}
 
 " Auto commands " {{{1
-" Auto-load Vim configuration after a change
-autocmd BufWritePost *.vimrc nested source ~/.vimrc"
-
 " Automatically chmod +x Shell and Perl scripts
 "autocmd BufWritePost {*.sh,*.pl,*.py} silent !chmod +x %
-
-" Use VOoM for vimrc|zshrc
-"au BufRead $HOME/.{vimrc,zshrc} Voom
 
 " Use HybridText
 au BufRead,BufNewFile {*.txt,*.log} set syntax=hybrid
@@ -948,6 +941,12 @@ autocmd BufReadPost *
   \ if line("'\"") > 0 && line("'\"") <= line("$") |
   \       exe "normal g`\"" |
   \ endif
+
+augroup AutoReloadVimRC
+  au!
+  " automatically reload vimrc when it's saved
+  au BufWritePost $MYVIMRC so $MYVIMRC
+augroup END
 
 " Transparent editing of archived files.
 augroup gzip
