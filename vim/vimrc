@@ -705,7 +705,8 @@ set autowrite			                     " save automatically before critical operat
 set autoread                           " automatically reads & loads changes
 set nobackup			                     " keep a backup file
 "set fileformat=unix                    " always on a linux box (!) :-) - 2012-12-06 doesn't work with vimpager :-/
-set viminfo='50,\"100,:100,%	         " read/write a viminfo file
+"set viminfo='50,\"100,:100,%	         " read/write a viminfo file with buffer list
+set viminfo='50,\"100,:100  	         " read/write a viminfo file without buffer list
 set viminfo+=n$HOME/.cache/vim/viminfo " specify where to write the viminfo
 set history=100			                   " keep 100 lines of command line history
 set number                             " show line numbers
