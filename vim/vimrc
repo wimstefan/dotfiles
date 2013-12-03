@@ -37,6 +37,7 @@ NeoBundleLazy 'Shougo/vimfiler', {'autoload': {'commands': ['VimFiler','VimFiler
 NeoBundle 'Valloric/YouCompleteMe', {'build': {'unix': './install.sh'}}
 NeoBundleLazy 'sjl/gundo.vim', {'autoload': {'commands': 'GundoToggle'}}
 NeoBundle 'tpope/vim-abolish'
+NeoBundle 'tpope/vim-characterize'
 NeoBundle 'Raimondi/delimitMate'
 NeoBundle 'scrooloose/syntastic'
 NeoBundle 'dbakker/vim-lint', {'depends': ['scrooloose/syntastic']}
