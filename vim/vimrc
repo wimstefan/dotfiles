@@ -44,6 +44,9 @@ NeoBundle 'dbakker/vim-lint', {'depends': ['scrooloose/syntastic']}
 NeoBundle 'rkitover/vimpager'
 NeoBundle 'powerman/vim-plugin-viewdoc'
 NeoBundle 'majutsushi/tagbar'
+NeoBundle 'junegunn/vim-easy-align'
+NeoBundle 'dhruvasagar/vim-table-mode', {'depends': ['godlygeek/tabular']}
+NeoBundle 'achiang/muttrc'
 NeoBundle 'chrisbra/CheckAttach'
 NeoBundle 'renamer.vim'
 NeoBundle 'DirDiff.vim'
@@ -52,13 +55,11 @@ NeoBundleLazy 'mattn/emmet-vim', {'autoload':
 NeoBundleLazy 'HTML.zip', {'autoload': {'filetypes': ['html', 'xhtml', 'css']}}
 NeoBundle 'jamessan/vim-gnupg'
 NeoBundle 'tpope/vim-fugitive'
-NeoBundle 'airblade/vim-gitgutter'
 NeoBundle 'gregsexton/gitv', {'depends': ['tpope/vim-fugitive']}
-NeoBundle 'junegunn/vim-easy-align'
-NeoBundle 'dhruvasagar/vim-table-mode', {'depends': ['godlygeek/tabular']}
+NeoBundle 'mhinz/vim-signify'
+NeoBundle 'mhinz/vim-startify'
 NeoBundle 'VOoM'
 NeoBundle 'HybridText'
-NeoBundle 'achiang/muttrc'
 NeoBundle 'bling/vim-airline'
 NeoBundle 'paranoida/vim-airlineish'
 "NeoBundle 'itchyny/lightline.vim'
@@ -548,6 +549,24 @@ NeoBundleCheck
 " 'VOoM' " {{{2
   let g:voom_tree_width = 40
   nnoremap <Leader>v :VoomToggle<CR>
+  " " }}}
+
+" 'mhinz/vim-signify' {{{2
+  let g:signify_sign_add               = '+'
+  let g:signify_sign_change            = '!'
+  let g:signify_sign_delete            = '-'
+  let g:signify_sign_delete_first_line = '‾'
+  let g:signify_line_highlight = 1
+  " " }}}
+
+" 'mhinz/vim-startify' {{{2
+  let g:startify_session_dir = $HOME.'/.cache/vim/session'
+  let g:startify_skiplist = [
+                \ 'COMMIT_EDITMSG',
+                \ ]
+  let g:startify_bookmarks = [
+              \ '~/.dotfiles/vim/vimrc',
+              \ ]
   " " }}}
 
 " 'bling/vim-airline' " {{{2
