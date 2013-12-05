@@ -587,7 +587,7 @@ RPROMPT='$colorfg{blue}$bold$mytime$uncolorfg$unbold'
 
     function sync-vimrc()
     {
-      for i in asuca komala mimi xs8; do
+      for i in asuca komala mimi tj xs8; do
         if [[ $i == xs8 ]]; then
           echo "▷ $i"
           if ping -c1 $i > /dev/null; then
@@ -627,6 +627,7 @@ RPROMPT='$colorfg{blue}$bold$mytime$uncolorfg$unbold'
         local host=$1
         echo "Syncing terminal & X settings on $host ..."
         rsync -az /home/swimmer/.Xresources $host:
+        rsync -az --delete --exclude '.thumbs' /home/swimmer/system/wallpapers/ $host:system/wallpapers/
         rsync -az --delete /usr/local/share/icons/ $host:/usr/local/share/icons/
         rsync -rkptgoDz --delete /usr/local/share/themes/ $host:/usr/local/share/themes/
         rsync -az --delete /usr/share/fonts/owned/ $host:/usr/share/fonts/owned/
@@ -663,8 +664,6 @@ RPROMPT='$colorfg{blue}$bold$mytime$uncolorfg$unbold'
       function sync-misc() {
       # wallpapers, aftershotpro
         local host=$1
-        echo "Syncing wallpapers on $host ..."
-        rsync -az --delete --exclude '.thumbs' /home/swimmer/system/wallpapers/ $host\:system/wallpapers/
         echo "Syncing Aftershot config & plugins on $host ..."
         rsync -azL         /home/swimmer/.AfterShotPro/customToolsUI.txt $host:.AfterShotPro/
         rsync -az --delete /home/swimmer/.AfterShotPro/Presets/ $host:.AfterShotPro/Presets/
@@ -708,8 +707,19 @@ RPROMPT='$colorfg{blue}$bold$mytime$uncolorfg$unbold'
               echo "$i is down"
             fi
             ;;
+          (tj)
+            echo "<< $i >>"
+            #if [ "$(ping -c1 $i)" ]; then
+            if ping -c1 $i > /dev/null; then
+              sync-dotfiles $i
+              sync-x $i
+              sync-cli $i
+            else
+              echo "$i is down"
+            fi
+            ;;
           (all)
-            for h in asuca komala mimi; do
+            for h in asuca komala mimi tj; do
               echo "<< $h >>"
               #if [ "$(ping -c1 $h)" ]; then
               if ping -c1 $h > /dev/null; then
@@ -742,6 +752,19 @@ RPROMPT='$colorfg{blue}$bold$mytime$uncolorfg$unbold'
   # }}}4
   # . asuca # {{{4
   if [[ $HOST == asuca ]]; then
+    echo "Loading host specific settings for $HOST ..."
+
+    # Key management
+    eval `keychain --quiet --eval id_dsa`
+
+    alias tj="tmux -2 start-server && tmux -2 attach -d -t tj"
+    alias hdmi-mplayer="mplayer -ao alsa:device=hdmi"
+    alias hdmi-vlc="vlc --alsa-audio-device=hdmi"
+    alias exif="exiftool -@ ${HOME}/system/tags '$@'"
+  fi
+  # }}}4
+  # . tj # {{{4
+  if [[ $HOST == tj ]]; then
     echo "Loading host specific settings for $HOST ..."
 
     # Key management
