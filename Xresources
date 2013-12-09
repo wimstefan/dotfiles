@@ -14,9 +14,9 @@ Xcursor*theme: Neutral_Plus
   *faceName: xft:Envy Code R for Powerline:pixelsize=12
   URxvt.font: xft:Envy Code R for Powerline:pixelsize=12,xft:Free Mono:pixelsize=11,xft:Symbola:pixelsize=10
 #elif SRVR_tj
-  *font: xft:Envy Code R for Powerline:pixelsize=12
-  *faceName: xft:Envy Code R for Powerline:pixelsize=12
-  URxvt.font: xft:Envy Code R for Powerline:pixelsize=12,xft:Free Mono:pixelsize=11,xft:Symbola:pixelsize=10
+  *font: xft:Envy Code R for Powerline:pixelsize=13
+  *faceName: xft:Envy Code R for Powerline:pixelsize=13
+  URxvt.font: xft:Envy Code R for Powerline:pixelsize=13,xft:Free Mono:pixelsize=13,xft:Symbola:pixelsize=12
 #elif SRVR_mimi
   *font: xft:Envy Code R for Powerline:pixelsize=12
   *faceName: xft:Envy Code R for Powerline:pixelsize=12
