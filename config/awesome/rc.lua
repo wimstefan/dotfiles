@@ -367,6 +367,11 @@ if hostname == 'mimi' then
   mybat = "BAT1"
   battery_widget()
 end
+if hostname == 'tj' then
+  mybat = "BAT0"
+  battery_widget()
+end
+
 -- }}}
 
 -- Create a wibox for each screen and add it {{{2
@@ -645,7 +650,7 @@ awful.rules.rules = {
     { rule = { class = "Termite", name = "tj" }, properties = { tag = tags[3] } },
     { rule = { class = "Termite", name = "mimi" }, properties = { tag = tags[4] } },
     { rule = { class = "Termite", name = "komala" }, properties = { tag = tags[5] } },
-    { rule = { class = "Termite", name = "asuca" }, properties = { tag = tags[6] } },
+    { rule = { class = "Termite", name = "tj-laptop" }, properties = { tag = tags[6] } },
     { rule = { class = "Termite", name = "swimmer" }, properties = { tag = tags[6] } },
     { rule = { class = "URxvt", name = "sys" }, properties = { tag = tags[1] } },
     { rule = { class = "URxvt", name = "work" }, properties = { tag = tags[2] } },
@@ -653,7 +658,7 @@ awful.rules.rules = {
     { rule = { class = "URxvt", name = "tj" }, properties = { tag = tags[3] } },
     { rule = { class = "URxvt", name = "mimi" }, properties = { tag = tags[4] } },
     { rule = { class = "URxvt", name = "komala" }, properties = { tag = tags[5] } },
-    { rule = { class = "URxvt", name = "asuca" }, properties = { tag = tags[6] } },
+    { rule = { class = "URxvt", name = "tj-laptop" }, properties = { tag = tags[6] } },
     { rule = { class = "URxvt", name = "swimmer" }, properties = { tag = tags[6] } },
     { rule = { class = "Thunderbird" }, properties = { tag = tags[7] } },
     { rule = { class = "Darktable" }, properties = { tag = tags[8] } },
