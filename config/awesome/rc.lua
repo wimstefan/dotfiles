@@ -363,15 +363,15 @@ if hostname == 'asuca' then
   battery_widget()
 end
 
-if hostname == 'mimi' then
-  mybat = "BAT1"
-  battery_widget()
-end
 if hostname == 'tj' then
   mybat = "BAT0"
   battery_widget()
 end
 
+if hostname == 'mimi' then
+  mybat = "BAT1"
+  battery_widget()
+end
 -- }}}
 
 -- Create a wibox for each screen and add it {{{2
@@ -451,7 +451,7 @@ mytasklist.buttons = awful.util.table.join(
     --if s == 1 then right_layout:add(wibox.widget.systray()) end
     right_layout:add(wibox.widget.systray())
     right_layout:add(mycpuwidget)
-    if (hostname == 'asuca' or hostname == 'mimi') then
+    if (hostname == 'asuca' or hostname == 'mimi' or hostname == 'tj') then
       right_layout:add(mybatwidget)
       right_layout:add(space)
     end
