@@ -634,12 +634,6 @@ RPROMPT='$colorfg{blue}$bold$mytime$uncolorfg$unbold'
         rsync -az /home/swimmer/.gtkrc-2.0 $host:
         rsync -az /home/swimmer/.config/gtk-3.0/ $host:.config/gtk-3.0/
         rsync -az /home/swimmer/.config/Trolltech.conf $host:.config/
-        rsync -az --delete /home/swimmer/.config/awesome/ $host:.config/awesome/
-        rsync -az /home/swimmer/.fvwm/config $host:.fvwm/
-        rsync -az /home/swimmer/.fvwm/tint2rc $host:.fvwm/
-        rsync -az /home/swimmer/.w3m/config $host:.w3m/config
-        rsync -az /home/swimmer/.config/lilyterm/default.conf $host:.config/lilyterm/
-        rsync -az /home/swimmer/.config/termite/config $host:.config/termite/
       }
       function sync-cli() {
       # zsh, vim, ranger
@@ -660,6 +654,9 @@ RPROMPT='$colorfg{blue}$bold$mytime$uncolorfg$unbold'
         rsync -az           /home/swimmer/.config/mc/ini $host:.config/mc/
         rsync -az           /home/swimmer/.config/mc/mc.ext $host:.config/mc/
         rsync -az --delete /home/swimmer/.local/share/mc/skins/ $host:.local/share/mc/skins/
+        echo "Syncing cli browsers on $host ..."
+        rsync -az /home/swimmer/.w3m/config $host:.w3m/config
+        rsync -az /home/swimmer/.elinks/elinks.conf $host:.elinks/elinks.conf
       }
       function sync-misc() {
       # wallpapers, aftershotpro
