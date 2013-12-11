@@ -13,6 +13,7 @@ require("awful.autofocus")
 local wibox       = require("wibox")
 local vicious     = require("vicious")
 local menubar     = require("menubar")
+local lain        = require("lain")
 -- Theme handling library
 local beautiful   = require("beautiful")
 -- Notification library
