@@ -43,6 +43,7 @@ URxvt.transparent: true
 URxvt.shading: 40
 URxvt.perl-lib: /usr/lib/urxvt/perl
 URxvt.perl-ext-common: default,clipboard,selection,keyboard-select,url-select
+URxvt.selection.pattern-0: .+?@.+? .+? %%?[ ]+(.+)
 URxvt.keysym.Shift-Control-C: perl:clipboard:copy
 URxvt.keysym.Shift-Control-V: perl:clipboard:paste
 URxvt.keysym.M-Escape: perl:keyboard-select:activate
