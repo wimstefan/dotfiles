@@ -1,6 +1,6 @@
 " Just a few settings
 " Check settings with ":verbose set <setting>?"
-" swimmer@xs4all.nl - 2013-09-25
+" swimmer@xs4all.nl - 2013-12-13
 " vim: fdl=0 tw=200
 
 " reset to vim-defaults
@@ -33,8 +33,8 @@ NeoBundleLazy 'osyo-manga/unite-filetype', {'autoload': {'unite_sources': 'filet
 NeoBundleLazy 'osyo-manga/unite-fold', {'autoload': {'unite_sources': 'fold'}}
 NeoBundleLazy 'tacroe/unite-mark', {'autoload': {'unite_sources': 'mark'}}
 NeoBundleLazy 'Shougo/vimfiler', {'autoload': {'commands': ['VimFiler','VimFilerExplorer']}}
-"NeoBundle 'Shougo/neocomplcache'
-NeoBundle 'Valloric/YouCompleteMe', {'build': {'unix': './install.sh'}}
+NeoBundle 'Shougo/neocomplcache'
+"NeoBundle 'Valloric/YouCompleteMe', {'build': {'unix': './install.sh'}}
 NeoBundleLazy 'sjl/gundo.vim', {'autoload': {'commands': 'GundoToggle'}}
 NeoBundle 'tpope/vim-abolish'
 NeoBundle 'tpope/vim-characterize'
