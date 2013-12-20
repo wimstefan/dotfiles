@@ -314,15 +314,15 @@ NeoBundleCheck
       \}
   let g:unite_source_menu_menus.neobundle.command_candidates = [
       \['▷ neobundle',
-          \'Unite neobundle'],
+          \'Unite -tab neobundle'],
       \['▷ neobundle log',
-          \'Unite neobundle/log'],
+          \'Unite -tab neobundle/log'],
       \['▷ neobundle lazy',
           \'Unite neobundle/lazy'],
       \['▷ neobundle update',
-          \'Unite neobundle/update:all'],
+          \'Unite -tab -log neobundle/update:all'],
       \['▷ neobundle search',
-          \'Unite neobundle/search'],
+          \'Unite -tab neobundle/search'],
       \['▷ neobundle install',
           \'Unite neobundle/install'],
       \['▷ neobundle check',
@@ -332,7 +332,7 @@ NeoBundleCheck
       \['▷ neobundle clean',
           \'NeoBundleClean'],
       \['▷ neobundle list',
-          \'Unite output:NeoBundleList'],
+          \'Unite -tab output:NeoBundleList'],
       \['▷ neobundle direct edit',
           \'NeoBundleDirectEdit'],
       \]
@@ -535,6 +535,8 @@ NeoBundleCheck
 
 " 'junegunn/vim-easy-align' " {{{2
   vnoremap <silent> <Enter> :EasyAlign<cr>
+  nmap <Leader>a <Plug>(EasyAlign)
+  vmap . <Plug>(EasyAlignRepeat)
 " " }}}
 
 " 'chrisbra/CheckAttach' " {{{2
