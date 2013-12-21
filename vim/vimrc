@@ -58,6 +58,7 @@ NeoBundle 'tpope/vim-fugitive'
 NeoBundle 'gregsexton/gitv', {'depends': ['tpope/vim-fugitive']}
 NeoBundle 'mhinz/vim-signify'
 NeoBundle 'mhinz/vim-startify'
+NeoBundle 'atweiden/vim-vmath'
 NeoBundle 'VOoM'
 NeoBundle 'HybridText'
 NeoBundle 'bling/vim-airline'
@@ -571,6 +572,11 @@ NeoBundleCheck
               \ ]
   " " }}}
 
+" 'atweiden/vim-vmath' {{{2
+  vmap <expr>  ++  VMATH_YankAndAnalyse()
+  nmap         ++  vip++
+  " " }}}
+
 " 'bling/vim-airline' " {{{2
   let g:airline_powerline_fonts = 1
   if !exists('g:airline_symbols')
@@ -735,16 +741,16 @@ set number                             " show line numbers
 set cursorline                         " highlights the screen line of the cursor
 set colorcolumn=+1                     " highlights textwidth boundaries
 set gdefault                           " always use global substitutions
+set digraph                            " enter characters that normally can't be entered by keyboard
 set ignorecase                         " ignore case when using a search pattern
 set smartcase                          " override 'ignorecase' when pattern has upper case characters
 set incsearch                          " show matches while typing the query
 set hlsearch                           " highlight search results
 set wildchar=<tab>                     " the char used for 'expansion' on the command line
+set wildmode=list:longest,full         " show list of completions and complete as much as possible, then iterate full completions
 set wildmenu                           " use a scrollable menu for filename completions
-set nolist                             " shows characters to show for expanded TABs,
-set listchars=tab:>·,trail:·           " trailing whitespace, and end-of-lines
-set digraph                            " enter characters that normally can't be entered by keyboard
-set ttyfast                            " optimize for fast terminal connections
+set list                               " shows characters to show for expanded TABs,
+set listchars=tab:»·,trail:·,nbsp:~    " trailing whitespace, and end-of-lines
 set modeline                           " allow the execution of modelines which is disabled in /etc/vim/vimrc
 set showmode                           " shows mode
 set showcmd                            " show uncompleted command
@@ -752,6 +758,13 @@ set showmatch                          " show matching hyphens
 set diffopt=vertical,iwhite,filler     " split vertical, ignore whitespace & use filler
 set splitright                         " Set vertical splits to split to the right
 set splitbelow                         " Set horizontal splits to split to the bottom
+
+" Use persistent undo
+if has('persistent_undo')
+    set undodir=$HOME/.cache/vim/undo
+    set undolevels=5000
+    set undofile
+endif
 
 " Search settings
 if executable('ag')
@@ -900,13 +913,19 @@ vnoremap l !perl -MText::Autoformat -e "{autoformat{justify=>'left', left=>'0', 
 
 " Key bindings & abbreviations " {{{1
 
-" open this file fast so that you can take notes below the line "finish" and
-" add more mappings:
+" open/source $MYVIMRC
 nnoremap <Leader>ev :edit    $MYVIMRC<CR>
 nnoremap <Leader>sv :source  $MYVIMRC<CR>
 
-" :w! is always bad to type. So create your own mapping for it. Example:
+" :w! is always bad to type ...
 nnoremap <Leader>w :w!<CR>
+
+" shorter version of search+replace
+nmap S  [Shortcut for :s###g]  :%s##g<LEFT><LEFT>
+vmap S  [Shortcut for :s###g]  :s##g<LEFT><LEFT>
+
+" a better version of digraphs from Damian Conway
+inoremap <expr>  <C-K>   HUDG_GetDigraph()
 
 " switch buffers
 " Note: :b foo  will also select some-foo-text.txt file if it was opened :)
@@ -971,10 +990,10 @@ autocmd BufReadPost *
   \       exe "normal g`\"" |
   \ endif
 
+" Automatically reload vimrc when it's saved
 augroup AutoReloadVimRC
-  au!
-  " automatically reload vimrc when it's saved
-  au BufWritePost $MYVIMRC so $MYVIMRC
+  autocmd!
+  autocmd BufWritePost $MYVIMRC source $MYVIMRC
 augroup END
 
 " Transparent editing of archived files.
