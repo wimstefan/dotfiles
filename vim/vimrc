@@ -924,9 +924,6 @@ nnoremap <Leader>w :w!<CR>
 nmap S  [Shortcut for :s###g]  :%s##g<LEFT><LEFT>
 vmap S  [Shortcut for :s###g]  :s##g<LEFT><LEFT>
 
-" a better version of digraphs from Damian Conway
-inoremap <expr>  <C-K>   HUDG_GetDigraph()
-
 " switch buffers
 " Note: :b foo  will also select some-foo-text.txt file if it was opened :)
 "noremap <Leader>b :ls<CR>:b<Space>
