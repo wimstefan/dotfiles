@@ -605,109 +605,109 @@ NeoBundleCheck
 " 'itchyny/lightline.vim' " {{{2
   let g:lightline = {
         \ 'colorscheme': 'default',
-	      \ 'active': {
+        \ 'active': {
         \   'left': [ [ 'mode', 'paste' ], [ 'fugitive', 'filename' ] ],
         \   'right': [ [ 'syntastic', 'lineinfo' ], ['percent'], [ 'filetype', 'fileencoding', 'fileformat' ] ]
-	      \ },
-	      \ 'component_function': {
-	      \   'fugitive': 'MyFugitive',
-	      \   'filename': 'MyFilename',
-	      \   'fileformat': 'MyFileformat',
-	      \   'filetype': 'MyFiletype',
-	      \   'fileencoding': 'MyFileencoding',
-	      \   'mode': 'MyMode',
+        \ },
+        \ 'component_function': {
+        \   'fugitive': 'MyFugitive',
+        \   'filename': 'MyFilename',
+        \   'fileformat': 'MyFileformat',
+        \   'filetype': 'MyFiletype',
+        \   'fileencoding': 'MyFileencoding',
+        \   'mode': 'MyMode',
         \   'paste': 'MyPaste',
         \ },
-	      \ 'component_expand': {
-	      \   'syntastic': 'SyntasticStatuslineFlag',
-	      \ },
-	      \ 'component_type': {
-	      \   'syntastic': 'error',
-	      \ },
-	      \ 'subseparator': { 'left': '|', 'right': '|' }
-	      \ }
-	
-	function! MyModified()
-	  return &ft =~ 'help' ? '' : &modified ? '✗' : &modifiable ? '' : '-'
-	endfunction
-	
-	function! MyReadonly()
+        \ 'component_expand': {
+        \   'syntastic': 'SyntasticStatuslineFlag',
+        \ },
+        \ 'component_type': {
+        \   'syntastic': 'error',
+        \ },
+        \ 'subseparator': { 'left': '|', 'right': '|' }
+        \ }
+  
+  function! MyModified()
+    return &ft =~ 'help' ? '' : &modified ? '✗' : &modifiable ? '' : '-'
+  endfunction
+  
+  function! MyReadonly()
     return &ft !~? 'help' && &readonly ? ' ' : ''
-	endfunction
-	
+  endfunction
+  
   function! MyFileformat()
     "return winwidth('.') > 70 ? &fileformat : ''
     return winwidth('.') > 70 ? (&fileformat =~ 'dos' ? '## DOS ##' : '') : ''
-	endfunction
-	
-	function! MyFiletype()
-	  return winwidth('.') > 70 ? (strlen(&filetype) ? &filetype : 'no ft') : ''
-	endfunction
-	
-	function! MyFileencoding()
-	  return winwidth('.') > 70 ? (strlen(&fenc) ? &fenc : &enc) : ''
-	endfunction
-	
+  endfunction
+  
+  function! MyFiletype()
+    return winwidth('.') > 70 ? (strlen(&filetype) ? &filetype : 'no ft') : ''
+  endfunction
+  
+  function! MyFileencoding()
+    return winwidth('.') > 70 ? (strlen(&fenc) ? &fenc : &enc) : ''
+  endfunction
+  
   function! MyPaste()
     return &paste ? '(paste)' : ''
-	endfunction
-	
-	function! MyFilename()
-	  let fname = expand('%:t')
+  endfunction
+  
+  function! MyFilename()
+    let fname = expand('%:t')
     return fname == '__Tagbar__' ? g:lightline.fname :
           \ fname =~ '__Gundo\|VOOM' ? '' :
-	        \ &ft == 'vimfiler' ? vimfiler#get_status_string() :
-	        \ &ft == 'unite' ? unite#get_status_string() :
+          \ &ft == 'vimfiler' ? vimfiler#get_status_string() :
+          \ &ft == 'unite' ? unite#get_status_string() :
           \ &ft == 'help' ? '✠' :
           \ &ft == 'man' ? '✠' :
           \ &ft == 'perldoc' ? '✠' :
           \ ('' != MyReadonly() ? MyReadonly() . ' ' : '') .
-	        \ ('' != fname ? fname : '[No Name]') .
-	        \ ('' != MyModified() ? ' ' . MyModified() : '')
-	endfunction
-	
+          \ ('' != fname ? fname : '[No Name]') .
+          \ ('' != MyModified() ? ' ' . MyModified() : '')
+  endfunction
+  
   function! MyMode()
-	  let fname = expand('%:t')
-	  return fname == '__Tagbar__' ? 'Tagbar' :
+    let fname = expand('%:t')
+    return fname == '__Tagbar__' ? 'Tagbar' :
           \ fname == '__Gundo__' ? 'Gundo' :
-	        \ fname == '__Gundo_Preview__' ? 'Gundo Preview' :
+          \ fname == '__Gundo_Preview__' ? 'Gundo Preview' :
           \ fname =~ 'VOOM' ? 'VoOM' :
           \ &ft == 'help' ? '' :
           \ &ft == 'man' ? '' :
           \ &ft == 'perldoc' ? '' :
-	        \ &ft == 'unite' ? 'Unite' :
-	        \ &ft == 'vimfiler' ? 'VimFiler' :
+          \ &ft == 'unite' ? 'Unite' :
+          \ &ft == 'vimfiler' ? 'VimFiler' :
           \ winwidth('.') > 60 ? lightline#mode() : ''
-	endfunction
-	
+  endfunction
+  
   function! MyFugitive()
-	  try
+    try
       if expand('%:t') !~? 'Tagbar\|Gundo\|VOOM' && &ft !~? 'vimfiler' && exists('*fugitive#head')
         let mark = ' '  " edit here for cool mark
-	      let _ = fugitive#head()
-	      return strlen(_) ? mark._ : ''
-	    endif
-	  catch
-	  endtry
-	  return ''
-	endfunction
-	
+        let _ = fugitive#head()
+        return strlen(_) ? mark._ : ''
+      endif
+    catch
+    endtry
+    return ''
+  endfunction
+  
   let g:tagbar_status_func = 'TagbarStatusFunc'
-	function! TagbarStatusFunc(current, sort, fname, ...) abort
-	    let g:lightline.fname = a:fname
-	  return lightline#statusline(0)
-	endfunction
-	
-	let g:syntastic_mode_map = { 'mode': 'passive' }
-	augroup AutoSyntastic
-	  autocmd!
-	  autocmd BufWritePost *.c,*.cpp call s:syntastic()
-	augroup END
-	function! s:syntastic()
-	  SyntasticCheck
-	  call lightline#update()
-	endfunction
-	
+  function! TagbarStatusFunc(current, sort, fname, ...) abort
+      let g:lightline.fname = a:fname
+    return lightline#statusline(0)
+  endfunction
+  
+  let g:syntastic_mode_map = { 'mode': 'passive' }
+  augroup AutoSyntastic
+    autocmd!
+    autocmd BufWritePost *.c,*.cpp call s:syntastic()
+  augroup END
+  function! s:syntastic()
+    SyntasticCheck
+    call lightline#update()
+  endfunction
+  
   " " }}}
 
 " 'Lucius' " {{{2
@@ -722,21 +722,21 @@ set termencoding=utf-8                 " utf-8 rules
 set encoding=utf-8                     " utf-8 rules
 set textwidth=80                       " maximum width of text that is being inserted
 set backspace=2                        " allow backspacing over everything in insert mode
-set shiftwidth=2		                   " number of spaces used for indention
-set tabstop=2			                     " tabstop length
+set shiftwidth=2                       " number of spaces used for indention
+set tabstop=2                          " tabstop length
 set softtabstop=2                      " number of spaces that a <Tab> counts for
 set expandtab                          " use spaces to insert a <Tab>
 set smarttab                           " smart tab handling for indenting
-set autoindent	                       " set autoindenting on
+set autoindent                         " set autoindenting on
 set hidden                             " allow buffers to go in background without saving etc.
-set autowrite			                     " save automatically before critical operations
+set autowrite                          " save automatically before critical operations
 set autoread                           " automatically reads & loads changes
-set nobackup			                     " keep a backup file
+set nobackup                           " keep a backup file
 "set fileformat=unix                    " always on a linux box (!) :-) - 2012-12-06 doesn't work with vimpager :-/
-"set viminfo='50,\"100,:100,%	         " read/write a viminfo file with buffer list
-set viminfo='50,\"100,:100  	         " read/write a viminfo file without buffer list
+"set viminfo='50,\"100,:100,%          " read/write a viminfo file with buffer list
+set viminfo='50,\"100,:100             " read/write a viminfo file without buffer list
 set viminfo+=n$HOME/.cache/vim/viminfo " specify where to write the viminfo
-set history=100			                   " keep 100 lines of command line history
+set history=100                        " keep 100 lines of command line history
 set number                             " show line numbers
 set cursorline                         " highlights the screen line of the cursor
 set colorcolumn=+1                     " highlights textwidth boundaries
@@ -750,7 +750,7 @@ set wildchar=<tab>                     " the char used for 'expansion' on the co
 set wildmode=list:longest,full         " show list of completions and complete as much as possible, then iterate full completions
 set wildmenu                           " use a scrollable menu for filename completions
 set list                               " shows characters to show for expanded TABs,
-set listchars=tab:»·,trail:·,nbsp:~    " trailing whitespace, and end-of-lines
+set listchars=tab:→\ ,trail:·,eol:¶    " trailing whitespace, and end-of-lines
 set modeline                           " allow the execution of modelines which is disabled in /etc/vim/vimrc
 set showmode                           " shows mode
 set showcmd                            " show uncompleted command
@@ -933,6 +933,7 @@ nnoremap <Leader>bd :bdel<CR>
 
 set pastetoggle=<F3>                   " toggle paste
 nnoremap <F6> :set number!<CR>         " toggle numbers
+nnoremap <F7> :set list!<CR>           " toggle listchars
 nnoremap <Leader>/ :nohl<CR>           " Don't highlight searchresults anymore
 
 " Replace signatures
