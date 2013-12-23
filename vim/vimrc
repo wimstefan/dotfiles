@@ -980,7 +980,7 @@ au BufNewFile,BufRead *.m3u set encoding=utf-8 fileencoding=utf-8 ff=unix
 au BufNewFile,BufRead *cddb* set encoding=utf-8 fileencoding=utf-8 ff=unix
 
 " Disable numbers & spell inside manpages
-autocmd FileType {man,help,perldoc,pydoc}  set nonumber nospell
+autocmd FileType {man,help,perldoc,pydoc}  set nonumber nospell nolist
 
 " When editing a file, always jump to the last known cursor position.
 autocmd BufReadPost *
