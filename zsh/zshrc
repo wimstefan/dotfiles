@@ -290,7 +290,7 @@ autoload -U run-help url-quote-magic zcalc zmv
 # BEGIN user config # {{{1
 # * Common config for *every* user # {{{2
 # - Exports {{{3
-export MANPAGER="vimpager -"
+export MANPAGER="vimpager -c"
 export EDITOR="vim"
 export BROWSER="google-chrome"
 export HISTFILE="$HOME/.zsh/histfile"
