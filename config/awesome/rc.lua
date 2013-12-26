@@ -1,5 +1,5 @@
 -- my awesome config
--- swimmer@xs4all.nl - 2013-06-20
+-- swimmer@xs4all.nl - 2013-12-24
 -- vim: fdl=0 tw=200
 
 print("Reading rc.lua: " .. os.date())
@@ -13,28 +13,31 @@ require("awful.autofocus")
 local wibox       = require("wibox")
 local vicious     = require("vicious")
 local menubar     = require("menubar")
-local lain        = require("lain")
 -- Theme handling library
 local beautiful   = require("beautiful")
 -- Notification library
 local naughty     = require("naughty")
-local blingbling  = require("blingbling")
 
 -- Basic configuration {{{1
-local hostname    = io.lines("/proc/sys/kernel/hostname")()
+hostname          = io.lines("/proc/sys/kernel/hostname")()
 home_dir          = os.getenv("HOME")
 config_dir        = awful.util.getdir("config")
+theme_dir         = config_dir .. "/themes/minimal/"
 wallpaper_dir     = home_dir .. "/system/wallpapers/"
 icon_path         = config_dir .. "/icons/"
 
 terminal          = "urxvt"
 browser           = os.getenv("BROWSER") or "google-chrome"
 editor            = os.getenv("EDITOR") or "gvim"
+musicplr1         = "urxvt -title Music -geometry 130x34-320+16 -e ncmpcpp"
+musicplr2         = "urxvt -title Music -geometry 130x34-320+16 -e mocp"
+mixer             = "urxvt -title Music -geometry 130x34-320+16 -e alsamixer"
+iptraf            = "urxvt -title 'IP traffic monitor' -geometry 160x44-20+34 -e sudo iptraf-ng -i all"
 editor_cmd        = "gvim"
 modkey            = "Mod4"
 altkey            = "Mod1"
 
-beautiful.init(config_dir .. "/themes/theme.lua")
+beautiful.init(theme_dir .. "theme.lua")
 if beautiful.wallpaper then
   gears.wallpaper.maximized(beautiful.wallpaper, 1, true)
 end
@@ -46,16 +49,16 @@ local layouts =
     awful.layout.suit.tile.left,          --2
     --awful.layout.suit.tile.bottom,
     awful.layout.suit.tile.top,           --3
-    --awful.layout.suit.fair,
+    awful.layout.suit.fair,               --4
     --awful.layout.suit.fair.horizontal,
     --awful.layout.suit.spiral,
     --awful.layout.suit.spiral.dwindle,
-    awful.layout.suit.max,                --4
+    awful.layout.suit.max,                --5
     --awful.layout.suit.max.fullscreen,
-    awful.layout.suit.magnifier           --5
+    --awful.layout.suit.magnifier
 }
 
-tags = awful.tag({ "➊", "➋", "➌", "➍", "➎", "➏", "➐", "➑", "➒", "➓" }, 1, layouts[4])
+tags = awful.tag({ "➊", "➋", "➌", "➍", "➎", "➏", "➐", "➑", "➒" }, 1, layouts[5])
 --}}}
 
 -- Error handling {{{1
@@ -155,49 +158,6 @@ function table.tostring( tbl )
 end
 -- }}}
 
--- Conky HUD {{{2
-function get_conky()
-    local clients = client.get()
-    local conky = nil
-    local i = 1
-    while clients[i]
-    do
-        if clients[i].class == "Conky"
-        then
-            conky = clients[i]
-        end
-        i = i + 1
-    end
-    return conky
-end
-function raise_conky()
-    local conky = get_conky()
-    if conky
-    then
-        conky.ontop = true
-    end
-end
-function lower_conky()
-    local conky = get_conky()
-    if conky
-    then
-        conky.ontop = false
-    end
-end
-function toggle_conky()
-    local conky = get_conky()
-    if conky
-    then
-        if conky.ontop
-        then
-            conky.ontop = false
-        else
-            conky.ontop = true
-        end
-    end
-end
--- }}}
-
 -- Awesome restart {{{2
 function save_tag()
   local screen = mouse.screen
@@ -216,69 +176,6 @@ function restore_tag()
 end
 -- }}}
 
--- Battery status {{{2
-function batstate()
-  local file = io.open("/sys/class/power_supply/" .. mybat .. "/status", "r")
-  if (file == nil) then
-    return "Cable plugged"
-  end
-  local batstate = file:read("*line")
-  file:close()
-  if (batstate == 'Discharging' or batstate == 'Charging') then
-    return batstate
-  else
-    return "Fully charged"
-  end
-end
-function battery_widget()
---  mybatwidget = awful.widget.progressbar()
---  mybatwidget:set_width(11)
---  mybatwidget:set_vertical(true)
---  mybatwidget:set_background_color("#ff0000")
---  mybatwidget:set_border_color(nil)
---  mybatwidget:set_color("#6fb126")
-
-  mybatwidget = blingbling.progress_graph()
-  mybatwidget:set_width(14)
-  mybatwidget:set_height(26)
-  mybatwidget:set_rounded_size(0.1)
-  mybatwidget:set_label("$percent %")
-  mybatwidget:set_graph_color("#6fb126")
-  mybatwidget:set_graph_background_color("#ff0000")
-  vicious.register(mybatwidget, vicious.widgets.bat,
-  function (widget, args)
-    -- plugged
-    if (batstate() == 'Cable plugged') then
-      return ''
-      -- critical
-    elseif (args[2] <= 5 and batstate() == 'Discharging') then
-      naughty.notify{
-        text = "Shutdown imminent...",
-        title = "Battery running out!",
-        position = "top_right",
-        timeout = 0,
-        fg="#000000",
-        bg="#ffffff",
-        screen = 1,
-        ontop = true,
-      }
-      -- low
-    elseif (args[2] <= 10 and batstate() == 'Discharging') then
-      naughty.notify({
-        text = "Plug the cable!",
-        title = "Low battery",
-        position = "top_right",
-        timeout = 0,
-        fg="#ffffff",
-        bg="#262729",
-        screen = 1,
-        ontop = true,
-      })
-    end
-    return args[2]
-  end, 144, mybat)
-end
--- }}}
 -- Wallpaper changer {{{2
 local wallmenu = {}
 local function wall_load(wall)
@@ -333,46 +230,95 @@ freedesktop.desktop.add_dirs_and_files_icons({screen = 1, showlabels = true})
 --}}}
 
 -- Wibox {{{1
-space = wibox.widget.textbox("  ")
 
--- Time {{{2
-mydatewidget = wibox.widget.textbox()
-vicious.register(mydatewidget, vicious.widgets.date, "%a %b %d, %H:%M", 10)
--- Calendar popup
-cal.register(mydatewidget)
--- }}}
+-- Music widget {{{2
+musicwidget = wibox.widget.textbox()
+vicious.register(musicwidget, vicious.widgets.volume,
+  '<span background="#222222"><span color="#DDDDDD">$2  $1%  </span></span>', 60, "Master")
+musicwidget:buttons(awful.util.table.join(
+  awful.button({ }, 1, function () awful.util.spawn_with_shell(mixer) end),
+  awful.button({ modkey }, 1, function () awful.util.spawn_with_shell(musicplr1) end),
+  awful.button({ altkey }, 1, function () awful.util.spawn_with_shell(musicplr2) end)))
+-- Music widget }}}
 
--- System {{{2
---mycpuwidget = awful.widget.graph()
---mycpuwidget:set_width(50)
---mycpuwidget:set_background_color("#707070")
---mycpuwidget:set_color({ type = "linear", from = { 0, 0 }, to = { 10,0 }, stops = { {0, "#ee2c2c"}, {0.5, "#b6e354"}, {1, "#6fb126" } } })
---vicious.register(mycpuwidget, vicious.widgets.cpu, "$1")
+-- Memory widget {{{2
+memwidget = wibox.widget.textbox()
+vicious.register(memwidget, vicious.widgets.mem,
+  '<span background="#777E76"> <span color="#EEEEEE"><span font="whhglyphs 8"></span>  $2MB   </span></span>', 13)
+-- Memory widget }}}
 
-mycpuwidget = blingbling.line_graph()
-mycpuwidget:set_height(26)
-mycpuwidget:set_rounded_size(0.1)
-mycpuwidget:set_graph_background_color("#c6c6c644")
-mycpuwidget:set_show_text(false)
-mycpuwidget:set_label("Load $percent %")
-vicious.register(mycpuwidget, vicious.widgets.cpu,"$1",2)
--- }}}
+-- CPU widget {{{2
+cpuwidget = wibox.widget.textbox()
+vicious.register(cpuwidget, vicious.widgets.cpu,
+  '<span background="#4B696D"> <span color="#DDDDDD"><span font="whhglyphs 8"></span>   $1%   </span></span>', 3)
+-- CPU widget }}}
 
--- Battery {{{2
-if hostname == 'asuca' then
+-- Temperature widget {{{2
+tempwidget = wibox.widget.textbox()
+vicious.register(tempwidget, vicious.widgets.thermal,
+  '<span background="#4B3B51"> <span color="#DDDDDD"><span font="whhglyphs 8"></span>  $1°   </span></span>', 20, { "coretemp.0", "core"} )
+-- Temperature widget }}}
+
+-- Filesystem widget {{{2
+fswidget = wibox.widget.textbox()
+vicious.register(fswidget, vicious.widgets.fs,
+  '<span background="#D0785D"><span color="#EEEEEE"><span font="whhglyphs 8"></span>   ${/ used_gb}/${/ size_gb}GB   </span></span>', 8)
+-- Filesystem widget }}}
+
+-- Battery widget {{{2
+if hostname == 'asuca' or hostname == 'tj' then
   mybat = "BAT0"
-  battery_widget()
-end
-
-if hostname == 'tj' then
-  mybat = "BAT0"
-  battery_widget()
-end
-
-if hostname == 'mimi' then
+elseif hostname == 'mimi' then
   mybat = "BAT1"
-  battery_widget()
 end
+if hostname == 'asuca' or hostname == 'mimi' or hostname == 'tj' then
+  batwidget = wibox.widget.textbox()
+  vicious.register( batwidget, vicious.widgets.bat,
+    '<span background="#92B0A0"> <span color="#FFFFFF" background="#92B0A0"><span font="whhglyphs 8"></span>  $1$2%  </span></span>', 1, mybat )
+  end
+acwidget = wibox.widget.textbox('<span background="#92B0A0"> <span color="#FFFFFF" background="#92B0A0"><span font="whhglyphs 8"></span> AC  </span></span>')
+-- Battery widget }}}
+
+-- Net widget {{{2
+netwidget = wibox.widget.textbox()
+vicious.register(netwidget, vicious.widgets.net, function(widgets,args)
+        if args["{wlan0 carrier}"] == 1 then
+                interface = "wlan0"
+        elseif args["{eth0 carrier}"] == 1 then
+                interface = "eth0"
+        else
+                return ""
+        end
+        return '<span background="#C2C2A4"><span color="#848466" font="whhglyphs 8"></span>  '
+            .. '<span color="#A52A2A">' .. args["{" .. interface .. " down_kb}"] .. '</span>'
+            .. '<span font="Symbola 10" color="#84846D"> 🔃 </span>'
+            .. '<span color="#185A9F">' .. args["{" .. interface .. " up_kb}"] .. '   </span></span>' end, 3)
+if interface == "eth0" then
+  netwidget:buttons(awful.util.table.join(awful.button({ }, 1, function () awful.util.spawn_with_shell(iptraf) end)))
+elseif interface == "wlan0" then
+  netwidget:buttons(awful.util.table.join(awful.button({ }, 1, function () awful.util.spawn_with_shell(wicd-client -n) end)))
+end
+-- Net widget }}}
+
+-- Calendar/time widget {{{2
+mytextclock = awful.widget.textclock( '<span background="#777E76" color="#FFFFFF">%a %b %d, %H:%M</span>')
+cal.register(mytextclock)
+-- }}}
+
+-- Separator widgets {{{2
+spr = wibox.widget.textbox(' ')
+sprd = wibox.widget.textbox('<span background="#313131">  </span>')
+spr3f = wibox.widget.textbox('<span background="#777e76">   </span>')
+arr0 = wibox.widget.imagebox(beautiful.arr0)
+arr1 = wibox.widget.imagebox(beautiful.arr1)
+arr2 = wibox.widget.imagebox(beautiful.arr2)
+arr3 = wibox.widget.imagebox(beautiful.arr3)
+arr4 = wibox.widget.imagebox(beautiful.arr4)
+arr5 = wibox.widget.imagebox(beautiful.arr5)
+arr6 = wibox.widget.imagebox(beautiful.arr6)
+arr7 = wibox.widget.imagebox(beautiful.arr7)
+arr8 = wibox.widget.imagebox(beautiful.arr8)
+arr9 = wibox.widget.imagebox(beautiful.arr9)
 -- }}}
 
 -- Create a wibox for each screen and add it {{{2
@@ -440,7 +386,7 @@ mytasklist.buttons = awful.util.table.join(
     mytasklist[1] = awful.widget.tasklist(1, awful.widget.tasklist.filter.currenttags, mytasklist.buttons)
 
     -- Create the wibox
-    mywibox[1] = awful.wibox({ position = "top" })
+    mywibox[1] = awful.wibox({ position = "top", height = 16 })
 
     -- Widgets that are aligned to the left
     local left_layout = wibox.layout.fixed.horizontal()
@@ -449,15 +395,29 @@ mytasklist.buttons = awful.util.table.join(
 
     -- Widgets that are aligned to the right
     local right_layout = wibox.layout.fixed.horizontal()
-    --if s == 1 then right_layout:add(wibox.widget.systray()) end
     right_layout:add(wibox.widget.systray())
-    right_layout:add(mycpuwidget)
+    right_layout:add(musicwidget)
+    right_layout:add(arr8)
+    right_layout:add(memwidget)
+    right_layout:add(arr7)
+    right_layout:add(cpuwidget)
+    right_layout:add(arr6)
+    right_layout:add(tempwidget)
+    right_layout:add(arr5)
+    right_layout:add(fswidget)
+    right_layout:add(arr4)
     if (hostname == 'asuca' or hostname == 'mimi' or hostname == 'tj') then
-      right_layout:add(mybatwidget)
-      right_layout:add(space)
+      right_layout:add(batwidget)
+    else
+      right_layout:add(acwidget)
     end
-    right_layout:add(mydatewidget)
-    right_layout:add(space)
+    right_layout:add(arr3)
+    right_layout:add(netwidget)
+    right_layout:add(arr2)
+    right_layout:add(spr3f)
+    right_layout:add(mytextclock)
+    right_layout:add(spr3f)
+    right_layout:add(arr1)
     right_layout:add(mylayoutbox[1])
 
     -- Now bring it all together (with the tasklist in the middle)
@@ -569,7 +529,7 @@ globalkeys = awful.util.table.join(
 )
 
 clientkeys = awful.util.table.join(
-    keydoc.group("06. Clients"),
+    keydoc.group("04. Clients"),
     awful.key({ modkey,           }, "f",      function (c) c.fullscreen = not c.fullscreen  end, "Fullscreen"),
     awful.key({ modkey, "Shift"   }, "c",      function (c) c:kill()                         end, "Kill client"),
     awful.key({ modkey, "Control" }, "space",  awful.client.floating.toggle                     , "Toggle client floating status"),
@@ -661,6 +621,8 @@ awful.rules.rules = {
     { rule = { class = "URxvt", name = "komala" }, properties = { tag = tags[5] } },
     { rule = { class = "URxvt", name = "tj-laptop" }, properties = { tag = tags[6] } },
     { rule = { class = "URxvt", name = "swimmer" }, properties = { tag = tags[6] } },
+    { rule = { class = "URxvt", name = "Music" }, properties = { floating = true, honor_size_hints = true,  size_hints = {"program_position", "program_size"}} },
+    { rule = { class = "URxvt", name = "IP traffic monitor" }, properties = { floating = true, honor_size_hints = true,  size_hints = {"program_position", "program_size"} } },
     { rule = { class = "Thunderbird" }, properties = { tag = tags[7] } },
     { rule = { class = "Darktable" }, properties = { tag = tags[8] } },
     { rule = { class = "AftershotPro" }, properties = { tag = tags[8] } },
@@ -767,9 +729,6 @@ awesome.connect_signal("exit", save_tag)
 --}}}
 
 -- Autostart applications {{{1
-awful.util.spawn_with_shell("killall conky")
-awful.util.spawn_with_shell("conky -c " .. config_dir  .. "/" .. hostname .. "-conkyrc")
-
 -- Return to last tag at restart
 restore_tag()
 --}}}
