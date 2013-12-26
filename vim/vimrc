@@ -738,7 +738,7 @@ set viminfo='50,\"100,:100             " read/write a viminfo file without buffe
 set viminfo+=n$HOME/.cache/vim/viminfo " specify where to write the viminfo
 set history=100                        " keep 100 lines of command line history
 set number                             " show line numbers
-set cursorline                         " highlights the screen line of the cursor
+"set cursorline                         " highlights the screen line of the cursor
 set colorcolumn=+1                     " highlights textwidth boundaries
 set gdefault                           " always use global substitutions
 set digraph                            " enter characters that normally can't be entered by keyboard
@@ -786,8 +786,8 @@ if $USER=='root'
 else
   set nospell
 endif
-nmap <F8> :windo set spell! <CR>
-imap <F8> :windo set spell! <CR>
+nmap <F9> :windo set spell! <CR>
+imap <F9> :windo set spell! <CR>
 
 " Set print options
 set printoptions=paper:A4,duplex:long,collate:y,syntax:n
@@ -829,7 +829,7 @@ if exists('vimpager')
 endif
 
 "set guifont=Consolas\ for\ Powerline\ 9
-set guifont=Envy\ Code\ R\ for\ Powerline\ 9
+set guifont=Envy\ Code\ R\ for\ Powerline\ 10
 
 filetype indent plugin on | syn on     " enable filetype, plugin and syntax support
 
@@ -930,6 +930,7 @@ nnoremap <Leader>bd :bdel<CR>
 set pastetoggle=<F3>                   " toggle paste
 nnoremap <F6> :set number!<CR>         " toggle numbers
 nnoremap <F7> :set list!<CR>           " toggle listchars
+nnoremap <F8> :set cursorline!<CR>     " toggle cursorline
 nnoremap <Leader>/ :nohl<CR>           " Don't highlight searchresults anymore
 
 " Replace signatures
