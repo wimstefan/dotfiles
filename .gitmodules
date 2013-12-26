@@ -1,12 +1,6 @@
-[submodule "config/awesome/blingbling"]
-	path = config/awesome/blingbling
-	url = git://github.com/cedlemo/blingbling.git
 [submodule "config/awesome/utils"]
 	path = config/awesome/utils
 	url = git://github.com/Mic92/utils.git
 [submodule "config/awesome/vicious"]
 	path = config/awesome/vicious
 	url = http://git.sysphere.org/vicious
-[submodule "config/awesome/lain"]
-	path = config/awesome/lain
-	url = git://github.com/copycat-killer/lain.git
