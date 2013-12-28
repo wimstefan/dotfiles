@@ -34,8 +34,8 @@ NeoBundleLazy 'osyo-manga/unite-fold', {'autoload': {'unite_sources': 'fold'}}
 NeoBundleLazy 'tacroe/unite-mark', {'autoload': {'unite_sources': 'mark'}}
 NeoBundleLazy 'Shougo/vimfiler', {'autoload': {'commands': ['VimFiler','VimFilerExplorer']}}
 NeoBundle 'Shougo/neocomplcache'
-"NeoBundle 'Valloric/YouCompleteMe', {'build': {'unix': './install.sh'}}
 NeoBundleLazy 'sjl/gundo.vim', {'autoload': {'commands': 'GundoToggle'}}
+NeoBundle 'tpope/vim-vinegar'
 NeoBundle 'tpope/vim-abolish'
 NeoBundle 'tpope/vim-characterize'
 NeoBundle 'Raimondi/delimitMate'
@@ -74,6 +74,12 @@ NeoBundleCheck
 " " }}}
 
 " Plugins config " {{{1
+" 'netrw' " {{{2
+  let g:netrw_liststyle       = 3
+  let g:netrw_preview         = 1
+  let g:netrw_browse_split    = 2
+  " " }}}
+
 " 'Shougo/unite.vim' " {{{2
   call unite#filters#matcher_default#use(['matcher_fuzzy'])
   call unite#custom#source('file_rec,file_rec/async,grep,locate',
@@ -569,6 +575,7 @@ NeoBundleCheck
                 \ ]
   let g:startify_bookmarks = [
               \ '~/.dotfiles/vim/vimrc',
+              \ '~/.dotfiles/config/awesome/rc.lua'
               \ ]
   " " }}}
 
@@ -810,15 +817,15 @@ else
   if has('gui_running')
     let g:lucius_style='light'
     if $USER=='root'
-      color lucius
-    else
       color github256
+    else
+      color lucius
     endif
   else
     if $USER=='root'
-      color lucius
+      color Tomorrow-Night-Bright
     else
-      color molokai256
+      color lucius
     endif
   endif
 endif
