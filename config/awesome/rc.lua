@@ -29,13 +29,22 @@ icon_path         = config_dir .. "/icons/"
 terminal          = "urxvt"
 browser           = os.getenv("BROWSER") or "google-chrome"
 editor            = os.getenv("EDITOR") or "gvim"
-musicplr1         = "urxvt -title Music -geometry 130x34-320+16 -e ncmpcpp"
-musicplr2         = "urxvt -title Music -geometry 130x34-320+16 -e mocp"
-mixer             = "urxvt -title Music -geometry 130x34-320+16 -e alsamixer"
-iptraf            = "urxvt -title 'IP traffic monitor' -geometry 160x44-20+34 -e sudo iptraf-ng -i all"
+musicplr1         = terminal .. " -title 'Music' -geometry 130x34-320+16 -e ncmpcpp"
+musicplr2         = terminal .. " -title 'Music' -geometry 130x34-320+16 -e mocp"
+mixer             = terminal .. " -title 'Music' -geometry 130x34-320+16 -e alsamixer"
+iptraf            = terminal .. " -title 'IP traffic monitor' -geometry 160x44-20+34 -e sudo iptraf-ng -i all"
+mytop             = terminal .. " -title 'Htop' -geometry 160x44-20+34 -e htop"
 editor_cmd        = "gvim"
 modkey            = "Mod4"
 altkey            = "Mod1"
+
+timeout_tooltip   = 1
+
+if hostname == 'asuca' or hostname == 'tj' then
+  BAT = "BAT0"
+elseif hostname == 'mimi' then
+  BAT = "BAT1"
+end
 
 beautiful.init(theme_dir .. "theme.lua")
 if beautiful.wallpaper then
@@ -231,52 +240,158 @@ freedesktop.desktop.add_dirs_and_files_icons({screen = 1, showlabels = true})
 
 -- Wibox {{{1
 
+local stats_grad = { type = "linear", from = { 0, 0 }, to = { 0, 18 }, stops = { { 0, "#A52A2A" }, { 0.5, beautiful.bg_widget_6 }, { 1, "#92B0A0" } } }
+
 -- Music widget {{{2
-musicwidget = wibox.widget.textbox()
-vicious.register(musicwidget, vicious.widgets.volume,
-  '<span background="#222222"><span color="#DDDDDD">$2  $1%  </span></span>', 60, "Master")
-musicwidget:buttons(awful.util.table.join(
+local widget_music = wibox.widget.textbox()
+vicious.register(widget_music, vicious.widgets.volume,
+  '<span background="'..beautiful.bg_widget_1..'"><span color="'..beautiful.fg_widget_1..'">   $2  $1%  </span></span>', 144, "Master")
+widget_music:buttons(awful.util.table.join(
   awful.button({ }, 1, function () awful.util.spawn_with_shell(mixer) end),
   awful.button({ modkey }, 1, function () awful.util.spawn_with_shell(musicplr1) end),
   awful.button({ altkey }, 1, function () awful.util.spawn_with_shell(musicplr2) end)))
 -- Music widget }}}
 
 -- Memory widget {{{2
-memwidget = wibox.widget.textbox()
-vicious.register(memwidget, vicious.widgets.mem,
-  '<span background="#777E76"> <span color="#EEEEEE"><span font="whhglyphs 8"></span>  $2MB   </span></span>', 13)
+vicious.cache(vicious.widgets.mem)
+local widget_mem = wibox.layout.fixed.horizontal()
+local widget_mem_text = wibox.widget.textbox()
+local tooltip_mem
+
+vicious.register(widget_mem_text, vicious.widgets.mem,
+  '<span background="'..beautiful.bg_widget_2..'"> <span color="'..beautiful.fg_widget_2..'"><span font="whhglyphs 8"></span>  $2MB   </span></span>', 10)
+
+tooltip_mem = awful.tooltip({ objects = { widget_mem }, timeout = timeout_tooltip, timer_function = function()
+  local info_mem = vicious.widgets.mem()
+  local title = "memory &amp; swap usage"
+  local tlen = string.len(title)
+  local text
+  text = ' <span font="'..beautiful.mono_font..'">'..
+         ' <span weight="bold" color="'..beautiful.fg_normal..'">'..title..'</span> \n'..
+         ' <span weight="bold">'..string.rep("-", tlen)..'</span> \n'..
+         ' ◌ memory <span color="'..beautiful.fg_normal..'">'..info_mem[2]..'/'..info_mem[3]..'</span> MB \n'..
+         ' ○ swap   <span color="'..beautiful.fg_normal..'">'..info_mem[6]..'/'..info_mem[7]..'</span> MB </span>'
+   return text
+ end})
+
+widget_mem:add(widget_mem_text)
 -- Memory widget }}}
 
 -- CPU widget {{{2
-cpuwidget = wibox.widget.textbox()
-vicious.register(cpuwidget, vicious.widgets.cpu,
-  '<span background="#4B696D"> <span color="#DDDDDD"><span font="whhglyphs 8"></span>   $1%   </span></span>', 3)
+vicious.cache(vicious.widgets.cpu)
+local widget_cpu = wibox.layout.fixed.horizontal()
+local widget_cpu_text = wibox.widget.textbox()
+local widget_cpu_graph = awful.widget.graph()
+local tooltip_cpu
+
+vicious.register(widget_cpu_text, vicious.widgets.cpu,
+  '<span background="'..beautiful.bg_widget_3..'"> <span color="'..beautiful.fg_widget_3..'"><span font="whhglyphs 8"></span>   $1%   </span></span>', 4)
+widget_cpu_text:buttons(awful.util.table.join(
+    awful.button({ }, 1, function () awful.util.spawn_with_shell(mytop) end)))
+
+widget_cpu_graph:set_width(20)
+widget_cpu_graph:set_background_color(beautiful.bg_widget_3)
+widget_cpu_graph:set_color(stats_grad)
+widget_cpu_graph:set_border_color(beautiful.bg_widget_3)
+vicious.register(widget_cpu_graph, vicious.widgets.cpu, "$1", 3)
+
+tooltip_cpu = awful.tooltip({ objects = { widget_cpu }, timeout = timeout_tooltip, timer_function = function()
+  info_cpu = vicious.widgets.cpu()
+  local title = "cpu usage"
+  local tlen = string.len(title)
+  local text
+  text = ' <span font="'..beautiful.mono_font..'">'..
+         ' <span weight="bold" color="'..beautiful.fg_normal..'">'..title..'</span> \n'..
+         ' <span weight="bold">'..string.rep("-", tlen)..'</span> \n'
+  for core = 2, #info_cpu do
+    text = text..' ◈ core'..(core-1)..' <span color="'..beautiful.fg_normal..'">'..info_cpu[core]..'</span> % '
+    if core < #info_cpu then
+      text = text..'\n'
+    end
+  end
+  text = text..'</span>'
+  return text
+end})
+
+widget_cpu:add(widget_cpu_text)
+widget_cpu:add(widget_cpu_graph)
 -- CPU widget }}}
 
 -- Temperature widget {{{2
-tempwidget = wibox.widget.textbox()
-vicious.register(tempwidget, vicious.widgets.thermal,
-  '<span background="#4B3B51"> <span color="#DDDDDD"><span font="whhglyphs 8"></span>  $1°   </span></span>', 20, { "coretemp.0", "core"} )
+local widget_temp = wibox.layout.fixed.horizontal()
+local widget_temp_cpu = wibox.widget.textbox()
+local widget_temp_hdd = wibox.widget.textbox()
+
+vicious.register(widget_temp_cpu, vicious.widgets.thermal,
+  '<span background="'..beautiful.bg_widget_4..'"> <span color="'..beautiful.fg_widget_4..'"><span font="whhglyphs 8"></span>  <span font="whhglyphs 5"></span> $1° </span></span>', 9, { "coretemp.0", "core"} )
+--vicious.register(widget_temp_hdd, vicious.widgets.thermal,
+  --'<span background="'..beautiful.bg_widget_4..'"> <span color="'..beautiful.fg_widget_4..'"><span font="whhglyphs 5"></span> $1° </span></span>', 48, { "f71882fg.2560", "core"} )
+
+widget_temp:add(widget_temp_cpu)
+--widget_temp:add(widget_temp_hdd)
 -- Temperature widget }}}
 
 -- Filesystem widget {{{2
-fswidget = wibox.widget.textbox()
-vicious.register(fswidget, vicious.widgets.fs,
-  '<span background="#D0785D"><span color="#EEEEEE"><span font="whhglyphs 8"></span>   ${/ used_gb}/${/ size_gb}GB   </span></span>', 8)
+vicious.cache(vicious.widgets.fs)
+local widget_hdd = wibox.layout.fixed.horizontal()
+local widget_hdd_text = wibox.widget.textbox()
+local tooltip_hdd
+
+vicious.register(widget_hdd_text, vicious.widgets.fs,
+  '<span background="'..beautiful.bg_widget_5..'"><span color="'..beautiful.fg_widget_5..'"><span font="whhglyphs 8"></span>  ${/ used_gb} GB  </span></span>', 244)
+
+tooltip_hdd = awful.tooltip({ objects = { widget_hdd } , timeout = timeout_tooltip, timer_function = function()
+  local info_hdd = vicious.widgets.fs()
+  local title = "harddisk information"
+  local tlen = string.len(title)
+  local text
+  text = ' <span font="'..beautiful.mono_font..'">'..
+         ' <span weight="bold" color="'..beautiful.fg_normal..'">'..title..'</span> \n'..
+         ' <span weight="bold">'..string.rep('-', tlen)..'</span> \n'..
+         ' ⛁ on / <span color="'..beautiful.fg_normal..'">'..
+         info_hdd['{/ used_p}']..'%  '..
+         info_hdd['{/ used_gb}']..'/'..
+         info_hdd['{/ size_gb}']..'</span> GB</span> '
+  return text
+end})
+
+widget_hdd:add(widget_hdd_text)
 -- Filesystem widget }}}
 
--- Battery widget {{{2
-if hostname == 'asuca' or hostname == 'tj' then
-  mybat = "BAT0"
-elseif hostname == 'mimi' then
-  mybat = "BAT1"
+-- Battery/AC widget {{{2
+local widget_bat
+if BAT then
+  widget_bat = wibox.layout.fixed.horizontal()
+  vicious.cache(vicious.widgets.bat)
+  local widget_bat_text = wibox.widget.textbox()
+  local tooltip_bat
+
+  vicious.register(widget_bat_text, vicious.widgets.bat,
+    '<span background="'..beautiful.bg_widget_6..'"> <span color="'..beautiful.fg_widget_6..'"><span font="whhglyphs 8"></span>  $1$2%  </span></span>', 14, BAT )
+
+  tooltip_bat = awful.tooltip({ objects = { widget_bat }, timeout = timeout_tooltip, timer_function = function()
+    local info_bat = vicious.widgets.bat(widget, BAT)
+    local title = "battery information"
+    local tlen = string.len(title)
+    local text
+    text = ' <span font="'..beautiful.mono_font..'">'..
+           ' <span weight="bold" color="'..beautiful.fg_normal..'">'..title..'</span> \n'..
+           ' <span weight="bold">'..string.rep('-', tlen)..'</span> \n'
+    if info_bat[1] == '-' then
+      text = text..' ⚫ status    <span color="'..beautiful.fg_normal..'">discharging</span>\n'
+    else
+      text = text..' ⚫ status    <span color="'..beautiful.fg_normal..'">charging</span>\n'
+    end
+    text = text..' ⚡ charge    <span color="'..beautiful.fg_normal..'">'..info_bat[2]..'% </span>\n'..
+                 ' ◴ time left <span color="'..beautiful.fg_normal..'">'..info_bat[3]..' </span>'
+    text = text..'</span>'
+    return text
+  end})
+
+  widget_bat:add(widget_bat_text)
 end
-if hostname == 'asuca' or hostname == 'mimi' or hostname == 'tj' then
-  batwidget = wibox.widget.textbox()
-  vicious.register( batwidget, vicious.widgets.bat,
-    '<span background="#92B0A0"> <span color="#FFFFFF" background="#92B0A0"><span font="whhglyphs 8"></span>  $1$2%  </span></span>', 1, mybat )
-  end
-acwidget = wibox.widget.textbox('<span background="#92B0A0"> <span color="#FFFFFF" background="#92B0A0"><span font="whhglyphs 8"></span> AC  </span></span>')
+
+local widget_ac = wibox.widget.textbox('<span background="'..beautiful.bg_widget_6..'"> <span color="'..beautiful.fg_widget_6..'"><span font="whhglyphs 8"></span> AC  </span></span>')
 -- Battery widget }}}
 
 -- Net widget {{{2
@@ -289,15 +404,11 @@ vicious.register(netwidget, vicious.widgets.net, function(widgets,args)
         else
                 return ""
         end
-        return '<span background="#C2C2A4"><span color="#848466" font="whhglyphs 8"></span>  '
+        return '<span background="'..beautiful.bg_widget_7..'"><span color="'..beautiful.fg_widget_7..'" font="whhglyphs 8"></span>  '
             .. '<span color="#A52A2A">' .. args["{" .. interface .. " down_kb}"] .. '</span>'
-            .. '<span font="Symbola 10" color="#84846D"> 🔃 </span>'
-            .. '<span color="#185A9F">' .. args["{" .. interface .. " up_kb}"] .. '   </span></span>' end, 3)
-if interface == "eth0" then
-  netwidget:buttons(awful.util.table.join(awful.button({ }, 1, function () awful.util.spawn_with_shell(iptraf) end)))
-elseif interface == "wlan0" then
-  netwidget:buttons(awful.util.table.join(awful.button({ }, 1, function () awful.util.spawn_with_shell(wicd-client -n) end)))
-end
+            .. '<span font="Symbola 10" color="'..beautiful.fg_widget_7..'"> 🔃 </span>'
+            .. '<span color="#185A9F">' .. args["{" .. interface .. " up_kb}"] .. '   </span></span>' end, 6)
+netwidget:buttons(awful.util.table.join(awful.button({ }, 1, function () awful.util.spawn_with_shell(iptraf) end)))
 -- Net widget }}}
 
 -- Calendar/time widget {{{2
@@ -396,20 +507,20 @@ mytasklist.buttons = awful.util.table.join(
     -- Widgets that are aligned to the right
     local right_layout = wibox.layout.fixed.horizontal()
     right_layout:add(wibox.widget.systray())
-    right_layout:add(musicwidget)
+    right_layout:add(widget_music)
     right_layout:add(arr8)
-    right_layout:add(memwidget)
+    right_layout:add(widget_mem)
     right_layout:add(arr7)
-    right_layout:add(cpuwidget)
+    right_layout:add(widget_cpu)
     right_layout:add(arr6)
-    right_layout:add(tempwidget)
+    right_layout:add(widget_temp)
     right_layout:add(arr5)
-    right_layout:add(fswidget)
+    right_layout:add(widget_hdd)
     right_layout:add(arr4)
-    if (hostname == 'asuca' or hostname == 'mimi' or hostname == 'tj') then
-      right_layout:add(batwidget)
+    if BAT then
+      right_layout:add(widget_bat)
     else
-      right_layout:add(acwidget)
+      right_layout:add(widget_ac)
     end
     right_layout:add(arr3)
     right_layout:add(netwidget)
@@ -604,15 +715,7 @@ awful.rules.rules = {
                      focus = awful.client.focus.filter,
                      keys = clientkeys,
                      buttons = clientbuttons } },
-    { rule = { class = "Termite"}, properties = { max = true } },
-    { rule = { class = "Termite", name = "sys" }, properties = { tag = tags[1] } },
-    { rule = { class = "Termite", name = "work" }, properties = { tag = tags[2] } },
-    { rule = { class = "Termite", name = "com" }, properties = { tag = tags[3] } },
-    { rule = { class = "Termite", name = "tj" }, properties = { tag = tags[3] } },
-    { rule = { class = "Termite", name = "mimi" }, properties = { tag = tags[4] } },
-    { rule = { class = "Termite", name = "komala" }, properties = { tag = tags[5] } },
-    { rule = { class = "Termite", name = "tj-laptop" }, properties = { tag = tags[6] } },
-    { rule = { class = "Termite", name = "swimmer" }, properties = { tag = tags[6] } },
+    { rule = { class = "URxvt"}, properties = { max = true } },
     { rule = { class = "URxvt", name = "sys" }, properties = { tag = tags[1] } },
     { rule = { class = "URxvt", name = "work" }, properties = { tag = tags[2] } },
     { rule = { class = "URxvt", name = "com" }, properties = { tag = tags[3] } },
@@ -622,6 +725,7 @@ awful.rules.rules = {
     { rule = { class = "URxvt", name = "tj-laptop" }, properties = { tag = tags[6] } },
     { rule = { class = "URxvt", name = "swimmer" }, properties = { tag = tags[6] } },
     { rule = { class = "URxvt", name = "Music" }, properties = { floating = true, honor_size_hints = true,  size_hints = {"program_position", "program_size"}} },
+    { rule = { class = "URxvt", name = "Htop" }, properties = { floating = true, honor_size_hints = true,  size_hints = {"program_position", "program_size"} } },
     { rule = { class = "URxvt", name = "IP traffic monitor" }, properties = { floating = true, honor_size_hints = true,  size_hints = {"program_position", "program_size"} } },
     { rule = { class = "Thunderbird" }, properties = { tag = tags[7] } },
     { rule = { class = "Darktable" }, properties = { tag = tags[8] } },

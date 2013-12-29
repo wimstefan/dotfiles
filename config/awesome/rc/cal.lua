@@ -75,7 +75,7 @@ end
         if stDay + mthDays < 29 then
                 lines = lines .. "\n"
         end
-        local header = os.date(" <span weight='bold' foreground='" .. beautiful.fg_focus .. "' background='" .. beautiful.bg_em .. "'><big>          %B %Y          </big></span>\n",os.time{year=year,month=month,day=1})
+        local header = os.date(" <span weight='bold' foreground='" .. beautiful.fg_focus .. "' background='" .. beautiful.bg_em .. "'><big>      %B %Y     </big></span>\n",os.time{year=year,month=month,day=1})
 
 return header .. "\n" .. lines
 end
