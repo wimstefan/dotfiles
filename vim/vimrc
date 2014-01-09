@@ -19,10 +19,8 @@ NeoBundle 'Shougo/neobundle-vim-scripts'
 NeoBundle 'Shougo/vimproc', {'build': {'unix': 'make -f make_unix.mak'}}
 NeoBundle 'Shougo/unite.vim'
 NeoBundleLazy 'Shougo/unite-ssh', {'autoload': {'unite_sources': 'ssh'}}
-NeoBundleLazy 'Shougo/unite-outline', {'autoload': {'unite_sources': 'outline'}}
 NeoBundleLazy 'Shougo/unite-session', {'autoload': {'unite_sources': 'session',
             \ 'commands' : ['UniteSessionSave', 'UniteSessionLoad']}}
-NeoBundleLazy 'tsukkee/unite-help', {'autoload': {'unite_sources': 'help'}}
 NeoBundleLazy 'ujihisa/unite-colorscheme', {'autoload': {'unite_sources': 'colorscheme'}}
 NeoBundleLazy 'ujihisa/unite-locate', {'autoload': {'unite_sources': 'locate'}}
 NeoBundleLazy 'thinca/vim-unite-history', {'autoload': {'unite_sources':
@@ -31,7 +29,6 @@ NeoBundleLazy 'osyo-manga/unite-quickfix', {'autoload': {'unite_sources':
             \ ['quickfix', 'location_list']}}
 NeoBundleLazy 'osyo-manga/unite-filetype', {'autoload': {'unite_sources': 'filetype', }}
 NeoBundleLazy 'osyo-manga/unite-fold', {'autoload': {'unite_sources': 'fold'}}
-NeoBundleLazy 'tacroe/unite-mark', {'autoload': {'unite_sources': 'mark'}}
 NeoBundleLazy 'Shougo/vimfiler', {'autoload': {'commands': ['VimFiler','VimFilerExplorer']}}
 NeoBundle 'Shougo/neocomplcache'
 NeoBundleLazy 'sjl/gundo.vim', {'autoload': {'commands': 'GundoToggle'}}
@@ -217,10 +214,6 @@ NeoBundleCheck
           \'Unite -auto-preview -start-insert line'],
       \['▷ search word under the cursor',
           \'UniteWithCursorWord -no-split -auto-preview line'],
-      \['▷ search outlines & tags (ctags)',
-          \'Unite -vertical -winwidth=40 -direction=topleft -toggle outline'],
-      \['▷ search marks',
-          \'Unite -auto-preview mark'],
       \['▷ search folds',
           \'Unite -vertical -winwidth=30 -auto-highlight fold'],
       \['▷ search changes',
@@ -467,8 +460,6 @@ NeoBundleCheck
           \'edit $MYVIMRC'],
       \['▷ choose filetype',
           \'Unite -start-insert filetype'],
-      \['▷ vim help',
-          \'Unite -start-insert help'],
       \['▷ vim commands',
           \'Unite -start-insert command'],
       \['▷ vim functions',
