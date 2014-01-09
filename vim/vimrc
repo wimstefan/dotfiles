@@ -61,14 +61,17 @@ NeoBundle 'mhinz/vim-startify'
 NeoBundle 'atweiden/vim-vmath'
 NeoBundle 'VOoM'
 NeoBundle 'HybridText'
-NeoBundle 'bling/vim-airline'
-NeoBundle 'paranoida/vim-airlineish'
-"NeoBundle 'itchyny/lightline.vim'
+NeoBundle 'itchyny/calendar.vim'
+NeoBundle 'itchyny/lightline.vim'
+"NeoBundle 'bling/vim-airline'
+"NeoBundle 'paranoida/vim-airlineish'
 NeoBundle 'wimstefan/vim-tomorrow-theme'
 NeoBundle 'jonathanfilip/vim-lucius'
 NeoBundle 'pasela/edark.vim'
 NeoBundle 'joedicastro/vim-molokai256'
 NeoBundle 'joedicastro/vim-github256'
+NeoBundle 'zeis/vim-kolor'
+
 
 NeoBundleCheck
 " " }}}
@@ -410,6 +413,8 @@ NeoBundleCheck
           \                                            ⌘ ,p',
       \}
   let g:unite_source_menu_menus.code.command_candidates = [
+      \['▷ syntastic toggle                           (syntastic)',
+          \'SyntasticToggleMode'],
       \['▷ syntastic check                            (syntastic)',
           \'SyntasticCheck'],
       \['▷ syntastic errors                           (syntastic)',
@@ -584,55 +589,36 @@ NeoBundleCheck
   nmap         ++  vip++
   " " }}}
 
-" 'bling/vim-airline' " {{{2
-  let g:airline_powerline_fonts = 1
-  if !exists('g:airline_symbols')
-    let g:airline_symbols = {}
-  endif
-
-  "let g:airline_left_sep = '【'
-  "let g:airline_left_sep = '┊'
-  "let g:airline_left_sep = '》'
-  "let g:airline_right_sep = '】'
-  "let g:airline_right_sep = '┊'
-  "let g:airline_right_sep = '《'
-  let g:airline_symbols.linenr = '¶'
-  let g:airline_symbols.whitespace = 'Ξ'
-  let g:airline_detect_iminsert=1
-  let g:airline#extensions#whitespace#checks = ['']
-  let g:airline#extensions#tabline#enabled = 1
-  let g:airline#extensions#tabline#excludes = ['vimfiler*']
-  if $USER=='root'
-    let g:airline_theme = 'base16'
-  else
-    let g:airline_theme = 'airlineish'
-  endif
+" 'itchyny/calendar.vim' {{{2
+  let g:calendar_cache_directory = expand($HOME.'/.cache/vim/calendar/')
+  let g:calendar_google_calendar = 1
+  let g:calendar_google_task = 1
+  let g:calendar_first_day = 'monday'
   " " }}}
 
 " 'itchyny/lightline.vim' " {{{2
   let g:lightline = {
-        \ 'colorscheme': 'default',
-        \ 'active': {
-        \   'left': [ [ 'mode', 'paste' ], [ 'fugitive', 'filename' ] ],
-        \   'right': [ [ 'syntastic', 'lineinfo' ], ['percent'], [ 'filetype', 'fileencoding', 'fileformat' ] ]
-        \ },
-        \ 'component_function': {
-        \   'fugitive': 'MyFugitive',
-        \   'filename': 'MyFilename',
-        \   'fileformat': 'MyFileformat',
-        \   'filetype': 'MyFiletype',
-        \   'fileencoding': 'MyFileencoding',
-        \   'mode': 'MyMode',
-        \   'paste': 'MyPaste',
-        \ },
-        \ 'component_expand': {
-        \   'syntastic': 'SyntasticStatuslineFlag',
-        \ },
-        \ 'component_type': {
-        \   'syntastic': 'error',
-        \ },
-        \ 'subseparator': { 'left': '|', 'right': '|' }
-        \ }
+    \ 'colorscheme': 'Tomorrow_Night_Bright',
+    \ 'active': {
+    \   'left': [ [ 'mode', 'paste' ], [ 'fugitive', 'filename' ] ],
+    \   'right': [ [ 'syntastic', 'lineinfo' ], ['percent'], [ 'filetype', 'fileencoding', 'fileformat' ] ]
+    \ },
+    \ 'component_function': {
+    \   'fugitive': 'MyFugitive',
+    \   'filename': 'MyFilename',
+    \   'fileformat': 'MyFileformat',
+    \   'filetype': 'MyFiletype',
+    \   'fileencoding': 'MyFileencoding',
+    \   'mode': 'MyMode',
+    \   'paste': 'MyPaste',
+    \ },
+    \ 'component_expand': {
+    \   'syntastic': 'SyntasticStatuslineFlag',
+    \ },
+    \ 'component_type': {
+    \   'syntastic': 'error',
+    \ }
+  \ }
   
   function! MyModified()
     return &ft =~ 'help' ? '' : &modified ? '✗' : &modifiable ? '' : '-'
@@ -644,7 +630,7 @@ NeoBundleCheck
   
   function! MyFileformat()
     "return winwidth('.') > 70 ? &fileformat : ''
-    return winwidth('.') > 70 ? (&fileformat =~ 'dos' ? '## DOS ##' : '') : ''
+    return winwidth('.') > 70 ? (&fileformat =~ 'dos' ? 'DOS' : '') : ''
   endfunction
   
   function! MyFiletype()
@@ -665,9 +651,9 @@ NeoBundleCheck
           \ fname =~ '__Gundo\|VOOM' ? '' :
           \ &ft == 'vimfiler' ? vimfiler#get_status_string() :
           \ &ft == 'unite' ? unite#get_status_string() :
-          \ &ft == 'help' ? '✠' :
-          \ &ft == 'man' ? '✠' :
-          \ &ft == 'perldoc' ? '✠' :
+          \ &ft == 'help' ? '¿?' :
+          \ &ft == 'man' ? '¿?' :
+          \ &ft == 'perldoc' ? '¿?' :
           \ ('' != MyReadonly() ? MyReadonly() . ' ' : '') .
           \ ('' != fname ? fname : '[No Name]') .
           \ ('' != MyModified() ? ' ' . MyModified() : '')
@@ -679,6 +665,7 @@ NeoBundleCheck
           \ fname == '__Gundo__' ? 'Gundo' :
           \ fname == '__Gundo_Preview__' ? 'Gundo Preview' :
           \ fname =~ 'VOOM' ? 'VoOM' :
+          \ fname =~ '__vimfiler__' ? 'VimFiler' :
           \ &ft == 'help' ? '' :
           \ &ft == 'man' ? '' :
           \ &ft == 'perldoc' ? '' :
@@ -714,7 +701,36 @@ NeoBundleCheck
     SyntasticCheck
     call lightline#update()
   endfunction
-  
+
+let g:unite_force_overwrite_statusline = 0
+let g:vimfiler_force_overwrite_statusline = 0
+let g:vimshell_force_overwrite_statusline = 0
+
+  " " }}}
+
+" 'bling/vim-airline' " {{{2
+  let g:airline_powerline_fonts = 1
+  if !exists('g:airline_symbols')
+    let g:airline_symbols = {}
+  endif
+
+  "let g:airline_left_sep = '【'
+  "let g:airline_left_sep = '┊'
+  "let g:airline_left_sep = '》'
+  "let g:airline_right_sep = '】'
+  "let g:airline_right_sep = '┊'
+  "let g:airline_right_sep = '《'
+  let g:airline_symbols.linenr = '¶'
+  let g:airline_symbols.whitespace = 'Ξ'
+  let g:airline_detect_iminsert=1
+  let g:airline#extensions#whitespace#checks = ['']
+  let g:airline#extensions#tabline#enabled = 1
+  let g:airline#extensions#tabline#excludes = ['vimfiler*']
+  if $USER=='root'
+    let g:airline_theme = 'base16'
+  else
+    let g:airline_theme = 'airlineish'
+  endif
   " " }}}
 
 " 'Lucius' " {{{2
@@ -825,7 +841,7 @@ else
     if $USER=='root'
       color Tomorrow-Night-Bright
     else
-      color lucius
+      color kolor
     endif
   endif
 endif
@@ -959,7 +975,7 @@ au BufRead,BufNewFile {*.txt,*.log} set syntax=hybrid
 
 " Typical mutt thing ... replace > > with >>
 autocmd BufRead /tmp/mutt* silent! %s/^\([>|]\s\?\)\+/\=substitute(submatch(0), '\s', '', 'g').' '
-autocmd BufRead /tmp/mutt* set nonumber nohls ft=mail
+autocmd BufRead /tmp/mutt* set nonumber nohls nolist ft=mail
 autocmd BufRead /tmp/mutt* setlocal spell
 
 " Syntax for tmux
