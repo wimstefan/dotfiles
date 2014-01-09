@@ -16,8 +16,8 @@ theme = {}
 
 theme.wallpaper = config_dir .. "/themes/wallpaper.png"
 
-theme.font                                  = "Alegreya Sans Bold 10"
-theme.mono_font                             = "Envy Code R Bold 9"
+theme.font                                  = "Terminal Dosis Bold 10"
+theme.mono_font                             = "Envy Code R Bold 10"
 theme.fg_normal                             = "#AAAAAA"
 theme.fg_focus                              = "#F0DFAF"
 theme.fg_em                                 = "#D6D6D6"
