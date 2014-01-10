@@ -1,6 +1,5 @@
 -- my awesome config
--- swimmer@xs4all.nl - 2013-12-24
--- vim: fdl=0 tw=200
+-- vim: fdm=marker fdl=0 tw=200
 
 print("Reading rc.lua: " .. os.date())
 
@@ -11,8 +10,10 @@ awful.rules       = require("awful.rules")
 require("awful.autofocus")
 -- Widget and layout library
 local wibox       = require("wibox")
-local vicious     = require("vicious")
 local menubar     = require("menubar")
+-- Vicious library
+vicious           = require("vicious")
+vicious.contrib   = require("vicious.contrib")
 -- Theme handling library
 local beautiful   = require("beautiful")
 -- Notification library
@@ -285,7 +286,7 @@ local widget_cpu_graph = awful.widget.graph()
 local tooltip_cpu
 
 vicious.register(widget_cpu_text, vicious.widgets.cpu,
-  '<span background="'..beautiful.bg_widget_3..'"> <span color="'..beautiful.fg_widget_3..'"><span font="whhglyphs 8"></span>   $1%   </span></span>', 4)
+  '<span background="'..beautiful.bg_widget_3..'"> <span color="'..beautiful.fg_widget_3..'"><span font="whhglyphs 8"></span>  $1% </span></span>', 4)
 widget_cpu_text:buttons(awful.util.table.join(
     awful.button({ }, 1, function () awful.util.spawn_with_shell(mytop) end)))
 
@@ -321,14 +322,15 @@ widget_cpu:add(widget_cpu_graph)
 local widget_temp = wibox.layout.fixed.horizontal()
 local widget_temp_cpu = wibox.widget.textbox()
 local widget_temp_hdd = wibox.widget.textbox()
+local tooltip_temp
 
 vicious.register(widget_temp_cpu, vicious.widgets.thermal,
-  '<span background="'..beautiful.bg_widget_4..'"> <span color="'..beautiful.fg_widget_4..'"><span font="whhglyphs 8"></span>  <span font="whhglyphs 5"></span> $1° </span></span>', 9, { "coretemp.0", "core"} )
---vicious.register(widget_temp_hdd, vicious.widgets.thermal,
-  --'<span background="'..beautiful.bg_widget_4..'"> <span color="'..beautiful.fg_widget_4..'"><span font="whhglyphs 5"></span> $1° </span></span>', 48, { "f71882fg.2560", "core"} )
+  '<span background="'..beautiful.bg_widget_4..'"> <span color="'..beautiful.fg_widget_4..'"><span font="whhglyphs 8"></span> $1°  </span></span>', 9, { "coretemp.0", "core"} )
+
+--tooltip_temp = awful.tooltip({ objects = {widget_temp_cpu}, timeout = timeout_tooltip, timer_function = function ()
+--end})
 
 widget_temp:add(widget_temp_cpu)
---widget_temp:add(widget_temp_hdd)
 -- Temperature widget }}}
 
 -- Filesystem widget {{{2
@@ -379,6 +381,8 @@ if BAT then
            ' <span weight="bold">'..string.rep('-', tlen)..'</span> \n'
     if info_bat[1] == '-' then
       text = text..' ⚫ status    <span color="'..beautiful.fg_normal..'">discharging</span>\n'
+    elseif info_bat[1] == '↯' then
+      text = text..' ⚫ status    <span color="'..beautiful.fg_normal..'">charged</span>\n'
     else
       text = text..' ⚫ status    <span color="'..beautiful.fg_normal..'">charging</span>\n'
     end
@@ -602,13 +606,6 @@ globalkeys = awful.util.table.join(
       --  awful.util.spawn("dmenu_run -i -p 'Run command:' -fn 'Terminal Dosis-10' -nb '" ..  beautiful.bg_normal .. "' -nf '" .. beautiful.fg_normal ..  "' -sb '" .. beautiful.bg_focus ..  "' -sf '" .. beautiful.fg_focus .. "'") 
       --end, "Draw menu bar"),
     awful.key({ modkey,           }, "r",     function () mypromptbox[mouse.screen]:run() end, "Run prompt"),
-    awful.key({ modkey,           }, "x",
-              function ()
-                  awful.prompt.run({ prompt = "Run Lua code: " },
-                  mypromptbox[mouse.screen].widget,
-                  awful.util.eval, nil,
-                  awful.util.getdir("cache") .. "/history_eval")
-              end, "Lua prompt"),
     awful.key({ modkey, "Control" }, "r", awesome.restart, "Restart awesome"),
     awful.key({ modkey, "Shift"   }, "q", awesome.quit, "Quit awesome"),
 
@@ -644,7 +641,7 @@ clientkeys = awful.util.table.join(
     awful.key({ modkey,           }, "f",      function (c) c.fullscreen = not c.fullscreen  end, "Fullscreen"),
     awful.key({ modkey, "Shift"   }, "c",      function (c) c:kill()                         end, "Kill client"),
     awful.key({ modkey, "Control" }, "space",  awful.client.floating.toggle                     , "Toggle client floating status"),
-    awful.key({ modkey, "Control" }, "Return", function (c) c:swap(awful.client.getmaster()) end),
+    awful.key({ modkey, "Control" }, "Return", function (c) c:swap(awful.client.getmaster()) end, "Swap current slave with master"),
     awful.key({ modkey, "Control" }, "o",      awful.client.movetoscreen                        ),
     awful.key({ modkey, "Control" }, "t",      function (c) c.ontop = not c.ontop            end, "Mark client"),
     awful.key({ modkey,           }, "n",
@@ -715,7 +712,7 @@ awful.rules.rules = {
                      focus = awful.client.focus.filter,
                      keys = clientkeys,
                      buttons = clientbuttons } },
-    { rule = { class = "URxvt"}, properties = { max = true } },
+    { rule = { class = "URxvt"}, properties = { border_width = "0", size_hints_honor = false } },
     { rule = { class = "URxvt", name = "sys" }, properties = { tag = tags[1] } },
     { rule = { class = "URxvt", name = "work" }, properties = { tag = tags[2] } },
     { rule = { class = "URxvt", name = "com" }, properties = { tag = tags[3] } },
@@ -724,10 +721,11 @@ awful.rules.rules = {
     { rule = { class = "URxvt", name = "komala" }, properties = { tag = tags[5] } },
     { rule = { class = "URxvt", name = "tj-laptop" }, properties = { tag = tags[6] } },
     { rule = { class = "URxvt", name = "swimmer" }, properties = { tag = tags[6] } },
-    { rule = { class = "URxvt", name = "Music" }, properties = { floating = true, honor_size_hints = true,  size_hints = {"program_position", "program_size"}} },
-    { rule = { class = "URxvt", name = "Htop" }, properties = { floating = true, honor_size_hints = true,  size_hints = {"program_position", "program_size"} } },
-    { rule = { class = "URxvt", name = "IP traffic monitor" }, properties = { floating = true, honor_size_hints = true,  size_hints = {"program_position", "program_size"} } },
+    { rule = { class = "URxvt", name = "Music" }, properties = { floating = true, size_hints_honor = true,  size_hints = {"program_position", "program_size"}} },
+    { rule = { class = "URxvt", name = "Htop" }, properties = { floating = true, size_hints_honor = true,  size_hints = {"program_position", "program_size"} } },
+    { rule = { class = "URxvt", name = "IP traffic monitor" }, properties = { floating = true, size_hints_honor = true,  size_hints = {"program_position", "program_size"} } },
     { rule = { class = "Thunderbird" }, properties = { tag = tags[7] } },
+    { rule = { class = "VirtualBox" }, properties = { tag = tags[7] } },
     { rule = { class = "Darktable" }, properties = { tag = tags[8] } },
     { rule = { class = "AftershotPro" }, properties = { tag = tags[8] } },
     { rule = { class = "Rawtherapee" }, properties = { tag = tags[8] } },
@@ -744,7 +742,7 @@ awful.rules.rules = {
           sticky = true,
           ontop = true,
           focusable = false,
-          honor_size_hints = false,
+          size_hints_honor = false,
           size_hints = {"program_position", "program_size"} } },
 
 }
