@@ -1,7 +1,6 @@
 " Just a few settings
 " Check settings with ":verbose set <setting>?"
-" swimmer@xs4all.nl - 2013-12-13
-" vim: fdl=0 tw=200
+" vim: fdm=marker fdl=0 tw=200
 
 " reset to vim-defaults
 if &compatible          " only if not set before:
@@ -68,7 +67,6 @@ NeoBundle 'pasela/edark.vim'
 NeoBundle 'joedicastro/vim-molokai256'
 NeoBundle 'joedicastro/vim-github256'
 NeoBundle 'zeis/vim-kolor'
-
 
 NeoBundleCheck
 " " }}}
@@ -780,6 +778,13 @@ if has('persistent_undo')
     set undofile
 endif
 
+" Use seamless system copy+paste
+if has('unnamedplus')
+  set clipboard+=unnamedplus            " Share X windows clipboard
+else
+  set clipboard+=unnamed                " Share system clipboard
+endif
+
 " Search settings
 if executable('ag')
   set grepprg=ag\ --nogroup\ --column\ --smart-case\ --nocolor\ --follow
@@ -876,7 +881,7 @@ set laststatus=2                       " always show the statusline above
 "endif
 
 set foldenable                         " turn on folding
-set foldmethod=marker                  " fold on the marker
+set foldmethod=indent                  " fold on indentation (only use marker if explicitly defined)
 set foldlevel=100                      " don't autofold anything (but I can still fold manually)
 
 set mouse=a                            " enable mouse in console
