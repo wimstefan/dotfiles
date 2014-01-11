@@ -2,25 +2,22 @@
 alignment top_right
 background yes
 border_width 0
-color1 dodgerblue
-color2 dodgerblue
+color1 1E90FF
+color2 104E8B
 default_color white
 draw_borders no
 draw_graph_borders yes
-draw_outline no
-draw_shades no
 double_buffer yes
 extra_newline yes
 gap_x 5
 gap_y 22
-minimum_size 200 1200
-maximum_width 300
+minimum_size 300 800
+maximum_width 400
 no_buffers yes
 own_window_hints undecorated,below,sticky,skip_taskbar,skip_pager
 own_window_type desktop
 own_window yes
 short_units yes
-stippled_borders 2
 uppercase no
 use_spacer right
 use_xft yes
@@ -29,32 +26,33 @@ xftfont Hermit:size=9
 
 TEXT
 ${font Hermit:size=20}${alignr}${color}gentoo${color1} linux$font$color
-${color1}${font Hermit:style=bold:size=9}MACHINE${hr 2}
+${color1}${font Hermit:style=bold:size=9}MACHINE${hr 3}
 ${color}${font Hermit:size=11}${alignr}::: $nodename :::
 ${alignr}$sysname $kernel
-${color1}${font Hermit:style=bold:size=9}SYSTEM${hr 2}
+${color1}${font Hermit:style=bold:size=9}SYSTEM${hr 3}
 ${color}${offset 8}${font whhglyphs:size=9}${font}   Uptime:${color1} $uptime ${color}
 ${color}${offset 8}${font whhglyphs:size=9}${font}   Load:${color1} $loadavg
 ${color}${offset 8}${font whhglyphs:size=9}${font}   Frequency:${color1} $freq MHz
 ${color}${offset 8}${font whhglyphs:size=9}${font}   Procs:${color1} $processes ${color} Run:${color1} $running_processes
-${color1}${font Hermit:style=bold:size=9}TEMP${hr 2}
+${color1}${font Hermit:style=bold:size=9}TEMP${hr 3}
 ${color}${offset 8}${font whhglyphs:size=9}${font}   Temp:${color1} ${hwmon 0 temp 1}°
-${color1}${font Hermit:style=bold:size=9}CPU${hr 2}
-${color}${offset 8}${font whhglyphs:size=9}${font}  CPU 1: ${alignr 120}${color1}${execi 6 sensors | grep 'Core 0:' | cut -c18-21}°${color} @ ${color1}${cpu cpu1}% ${color2} ${cpubar cpu1 6}
-${color}${offset 8}${font whhglyphs:size=9}${font}  CPU 2: ${alignr 120}${color1}${execi 6 sensors | grep 'Core 1:' | cut -c18-21}°${color} @ ${color1}${cpu cpu2}% ${color2} ${cpubar cpu2 6}
-${color1}${font Hermit:style=bold:size=9}RAM${hr 2}
-${color}${offset 8}${font whhglyphs:size=9}${font}  $mem/$memmax ${alignr 120}${color1}$memperc%  ${color2}$membar
-${color1}${font Hermit:style=bold:size=9}DISKS${hr 2}
-${color}${offset 8}${font whhglyphs:size=9}${font}  /root ${alignr 100}${fs_used /}/${fs_size /} ${color1}${fs_used_perc /}% ${color2}${fs_bar /}
-${if_mounted /media/ipod}${color}${offset 8}${font whhglyphs:size=9}${font}  /media/ipod${alignr 100}${fs_used /media/ipod}/${fs_size /media/ipod} ${color1}${fs_used_perc /media/ipod}% ${color2}${fs_bar /media/ipod}${endif}
+${color1}${font Hermit:style=bold:size=9}CPU${hr 3}
+${color}${offset 8}${font whhglyphs:size=9}${font}  CPU 1: ${alignr 120}${color1}${execi 6 sensors | grep 'Core 0:' | cut -c18-21}°${color} @ ${color1}${cpu cpu1}% ${color2}${cpugraph cpu1 14,0 1E90FF A52A2A -t}
+${color}${offset 8}${font whhglyphs:size=9}${font}  CPU 2: ${alignr 120}${color1}${execi 6 sensors | grep 'Core 1:' | cut -c18-21}°${color} @ ${color1}${cpu cpu2}% ${color2}${cpugraph cpu2 14,0 1E90FF A52A2A -t}
+${color1}${font Hermit:style=bold:size=9}RAM${hr 3}
+${color}${offset 8}${font whhglyphs:size=9}${font}  $mem/$memmax ${alignr 120}${color1}$memperc%  ${color2}${memgraph 12,0 1E90FF A52A2A -t}
+${color1}${font Hermit:style=bold:size=9}DISKS${hr 3}
+${color}${offset 8}${font whhglyphs:size=9}${font}  /root ${alignr 100}${fs_used /}/${fs_size /} ${color1}${fs_used_perc /}% ${color1}${fs_bar /}
+${if_mounted /media/ipod}${color}${offset 8}${font whhglyphs:size=9}${font}  /media/ipod${alignr 100}${fs_used /media/ipod}/${fs_size /media/ipod} ${color1}${fs_used_perc /media/ipod}% ${color1}${fs_bar /media/ipod}${endif}
 ${color}${offset 8}${font whhglyphs:size=9}${font}   Disk I/O sda:${color1} ${diskio sda}
-${color} ${diskiograph sda 24,0 4f4f4f 6e6e6e}
-${color1}${font Hermit:style=bold:size=9}NET${hr 2}
+${color2}${diskiograph sda 20,0 1E90FF A52A2A -t}
+${color1}${font Hermit:style=bold:size=9}NET${hr 3}
 ${color}${offset 8}${font whhglyphs:size=9}${font}  Net Down:${color1}  ${downspeed wlan0} k/s
-${color} ${downspeedgraph eth0 24,0 4f4f4f 6e6e6e}
+${color2}${downspeedgraph wlan0 20,0 1E90FF A52A2A -t}
 ${color}${offset 9}${font whhglyphs:size=9}${font}  Net Up:${color1}  ${upspeed wlan0} k/s
-${color} ${upspeedgraph eth0 24,0 4f4f4f 6e6e6e}
-${color1}${font Hermit:style=bold:size=9}TOP${hr 2}
+${color2}${upspeedgraph wlan0 20,0 1E90FF A52A2A -t}
+
+${color1}${font Hermit:style=bold:size=9}TOP${hr 3}
 ${font FreeMono:style=bold:size=10}${color}Name             ${color1}PID   CPU%  MEM%
 ${font FreeMono:size=9}${color1} ${top name 1} ${color}${top pid 1} ${top cpu 1} ${top mem 1}
 ${color1} ${top name 2} ${color}${top pid 2} ${top cpu 2} ${top mem 2}
