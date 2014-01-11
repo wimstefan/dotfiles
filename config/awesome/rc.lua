@@ -1,7 +1,7 @@
 -- my awesome config
 -- vim: fdm=marker fdl=0 tw=200
 
-print("Reading rc.lua: " .. os.date())
+print("Reading rc.lua: "..os.date())
 
 -- Standard awesome library
 local gears       = require("gears")
@@ -21,33 +21,37 @@ local naughty     = require("naughty")
 
 -- Basic configuration {{{1
 hostname          = io.lines("/proc/sys/kernel/hostname")()
+if hostname == 'asuca' or hostname == 'tj' then
+  TYPE = "laptop"
+  BAT = "BAT0"
+elseif hostname == 'mimi' then
+  TYPE = "laptop"
+  BAT = "BAT1"
+elseif hostname == 'swimmer' or hostname == 'komala' then
+  TYPE = "desktop"
+end
+
 home_dir          = os.getenv("HOME")
 config_dir        = awful.util.getdir("config")
-theme_dir         = config_dir .. "/themes/minimal/"
-wallpaper_dir     = home_dir .. "/system/wallpapers/"
-icon_path         = config_dir .. "/icons/"
+theme_dir         = config_dir.."/themes/minimal/"
+wallpaper_dir     = home_dir.."/system/wallpapers/"
+icon_path         = config_dir.."/icons/"
 
 terminal          = "urxvt"
 browser           = os.getenv("BROWSER") or "google-chrome"
 editor            = os.getenv("EDITOR") or "gvim"
-musicplr1         = terminal .. " -title 'Music' -geometry 130x34-320+16 -e ncmpcpp"
-musicplr2         = terminal .. " -title 'Music' -geometry 130x34-320+16 -e mocp"
-mixer             = terminal .. " -title 'Music' -geometry 130x34-320+16 -e alsamixer"
-iptraf            = terminal .. " -title 'IP traffic monitor' -geometry 160x44-20+34 -e sudo iptraf-ng -i all"
-mytop             = terminal .. " -title 'Htop' -geometry 160x44-20+34 -e htop"
+musicplr1         = terminal.." -title 'Music' -geometry 130x34-320+16 -e ncmpcpp"
+musicplr2         = terminal.." -title 'Music' -geometry 130x34-320+16 -e mocp"
+mixer             = terminal.." -title 'Music' -geometry 130x34-320+16 -e alsamixer"
+iptraf            = terminal.." -title 'IP traffic monitor' -geometry 160x44-20+34 -e sudo iptraf-ng -i all"
+mytop             = terminal.." -title 'Htop' -geometry 160x44-20+34 -e htop"
 editor_cmd        = "gvim"
 modkey            = "Mod4"
 altkey            = "Mod1"
 
 timeout_tooltip   = 1
 
-if hostname == 'asuca' or hostname == 'tj' then
-  BAT = "BAT0"
-elseif hostname == 'mimi' then
-  BAT = "BAT1"
-end
-
-beautiful.init(theme_dir .. "theme.lua")
+beautiful.init(theme_dir.."theme.lua")
 if beautiful.wallpaper then
   gears.wallpaper.maximized(beautiful.wallpaper, 1, true)
 end
@@ -103,9 +107,7 @@ function loadrc(name, mod)
    local result
 
    -- Which file? In rc/ or in lib/?
-   local path = config_dir .. "/" .. 
-      (mod and "lib" or "rc") .. 
-      "/" .. name .. ".lua"
+   local path = config_dir.."/".. (mod and "lib" or "rc").. "/"..name..".lua"
 
    -- If the module is already loaded, don't load it again
    if mod and package.loaded[mod] then return package.loaded[mod] end
@@ -114,11 +116,10 @@ function loadrc(name, mod)
    success, result = pcall(function() return dofile(path) end)
    if not success then
       naughty.notify({ title = "Error while loading an RC file",
-           text = "When loading `" .. name .. 
-        "`, got the following error:\n" .. result,
+           text = "When loading `"..name.. "`, got the following error:\n"..result,
            preset = naughty.config.presets.critical
          })
-      return print("E: error loading RC file '" .. name .. "': " .. result)
+      return print("E: error loading RC file '"..name.."': "..result)
    end
 
    -- Is it a module?
@@ -168,17 +169,60 @@ function table.tostring( tbl )
 end
 -- }}}
 
+-- Conky HUD {{{2
+function get_conky()
+    local clients = client.get()
+    local conky = nil
+    local i = 1
+    while clients[i]
+    do
+        if clients[i].class == "Conky"
+        then
+            conky = clients[i]
+        end
+        i = i + 1
+    end
+    return conky
+end
+function raise_conky()
+    local conky = get_conky()
+    if conky
+    then
+        conky.ontop = true
+    end
+end
+function lower_conky()
+    local conky = get_conky()
+    if conky
+    then
+        conky.ontop = false
+    end
+end
+function toggle_conky()
+    local conky = get_conky()
+    if conky
+    then
+        if conky.ontop
+        then
+            conky.ontop = false
+        else
+            conky.ontop = true
+        end
+    end
+end
+-- }}}
+
 -- Awesome restart {{{2
 function save_tag()
   local screen = mouse.screen
   local curtag = awful.tag.getidx(awful.tag.selected(screen))
-  local f = io.open( config_dir .. "/tag.id", 'w+')
+  local f = io.open( config_dir.."/tag.id", 'w+')
   f:write(curtag)
   f:close()
 end
 
 function restore_tag()
-  local f = io.open( config_dir .. "/tag.id", 'r')
+  local f = io.open( config_dir.."/tag.id", 'r')
   local lasttag = f:read("*all")
   f:close()
   awful.tag.viewidx(lasttag)
@@ -189,11 +233,11 @@ end
 -- Wallpaper changer {{{2
 local wallmenu = {}
 local function wall_load(wall)
-  local f = io.popen('ln -sfn ' .. wallpaper_dir .. wall .. ' ' .. config_dir .. '/themes/wallpaper.png')
+  local f = io.popen('ln -sfn '..wallpaper_dir..wall..' '..config_dir..'/themes/wallpaper.png')
   awesome.restart()
 end
 local function wall_menu()
-  local f = io.popen('ls -1 ' .. wallpaper_dir)
+  local f = io.popen('ls -1 '..wallpaper_dir)
   for l in f:lines() do
     local item = { l, function () wall_load(l) end }
     table.insert(wallmenu, item)
@@ -219,8 +263,8 @@ freedesktop.utils.icon_theme = { 'Clarity', 'Faenza' }
 require("freedesktop.menu")
 menu_items = freedesktop.menu.new()
 myawesomemenu = {
-   { "manual", terminal .. " -e man awesome", freedesktop.utils.lookup_icon({ icon = 'help' }) },
-   { "edit config", editor_cmd .. " " .. config_dir .. "/rc.lua", freedesktop.utils.lookup_icon({ icon = 'package_settings' }) },
+   { "manual", terminal.." -e man awesome", freedesktop.utils.lookup_icon({ icon = 'help' }) },
+   { "edit config", editor_cmd.." "..config_dir.."/rc.lua", freedesktop.utils.lookup_icon({ icon = 'package_settings' }) },
    { "restart", awesome.restart, freedesktop.utils.lookup_icon({ icon = 'gtk-refresh' }) },
    { "quit", awesome.quit, freedesktop.utils.lookup_icon({ icon = 'gtk-quit' }) }
 }
@@ -321,14 +365,11 @@ widget_cpu:add(widget_cpu_graph)
 -- Temperature widget {{{2
 local widget_temp = wibox.layout.fixed.horizontal()
 local widget_temp_cpu = wibox.widget.textbox()
-local widget_temp_hdd = wibox.widget.textbox()
-local tooltip_temp
 
 vicious.register(widget_temp_cpu, vicious.widgets.thermal,
   '<span background="'..beautiful.bg_widget_4..'"> <span color="'..beautiful.fg_widget_4..'"><span font="whhglyphs 8"></span> $1°  </span></span>', 9, { "coretemp.0", "core"} )
-
---tooltip_temp = awful.tooltip({ objects = {widget_temp_cpu}, timeout = timeout_tooltip, timer_function = function ()
---end})
+widget_temp_cpu:buttons(awful.util.table.join(
+    awful.button({ }, 1, function () toggle_conky() end)))
 
 widget_temp:add(widget_temp_cpu)
 -- Temperature widget }}}
@@ -409,9 +450,9 @@ vicious.register(netwidget, vicious.widgets.net, function(widgets,args)
                 return ""
         end
         return '<span background="'..beautiful.bg_widget_7..'"><span color="'..beautiful.fg_widget_7..'" font="whhglyphs 8"></span>  '
-            .. '<span color="#A52A2A">' .. args["{" .. interface .. " down_kb}"] .. '</span>'
-            .. '<span font="Symbola 10" color="'..beautiful.fg_widget_7..'"> 🔃 </span>'
-            .. '<span color="#185A9F">' .. args["{" .. interface .. " up_kb}"] .. '   </span></span>' end, 6)
+           ..'<span color="#A52A2A">'..args["{"..interface.." down_kb}"]..'</span>'
+           ..'<span font="Symbola 10" color="'..beautiful.fg_widget_7..'"> 🔃 </span>'
+           ..'<span color="#185A9F">'..args["{"..interface.." up_kb}"]..'   </span></span>' end, 6)
 netwidget:buttons(awful.util.table.join(awful.button({ }, 1, function () awful.util.spawn_with_shell(iptraf) end)))
 -- Net widget }}}
 
@@ -603,8 +644,7 @@ globalkeys = awful.util.table.join(
     awful.key({ modkey,           }, "p", function() menubar.show() end, "Draw menu bar"),
     --awful.key({ modkey,           }, "p",
      -- function()
-      --  awful.util.spawn("dmenu_run -i -p 'Run command:' -fn 'Terminal Dosis-10' -nb '" ..  beautiful.bg_normal .. "' -nf '" .. beautiful.fg_normal ..  "' -sb '" .. beautiful.bg_focus ..  "' -sf '" .. beautiful.fg_focus .. "'") 
-      --end, "Draw menu bar"),
+      --  awful.util.spawn("dmenu_run -i -p 'Run command:' -fn 'Terminal Dosis-10' -nb '".. beautiful.bg_normal.."' -nf '"..beautiful.fg_normal.. "' -sb '"..beautiful.bg_focus.. "' -sf '"..beautiful.fg_focus.."'") end, "Draw menu bar"),
     awful.key({ modkey,           }, "r",     function () mypromptbox[mouse.screen]:run() end, "Run prompt"),
     awful.key({ modkey, "Control" }, "r", awesome.restart, "Restart awesome"),
     awful.key({ modkey, "Shift"   }, "q", awesome.quit, "Quit awesome"),
@@ -831,8 +871,12 @@ awesome.connect_signal("exit", save_tag)
 --}}}
 
 -- Autostart applications {{{1
+-- conky
+awful.util.spawn_with_shell("killall conky")
+awful.util.spawn_with_shell("conky -c "..config_dir.."/conkyrc-"..TYPE)
+
 -- Return to last tag at restart
 restore_tag()
 --}}}
 
-print("Finished reading rc.lua: " .. os.date())
+print("Finished reading rc.lua: "..os.date())
