@@ -31,7 +31,7 @@ local cal = {}
 local tooltip
 local state = {}
 --local current_day_format = "<u>%s</u>"
-local current_day_format = "<span foreground='black' background='white'>%s</span>"
+local current_day_format = "<span foreground='"..beautiful.bg_normal.."' background='"..beautiful.fg_normal.."'>%s</span>"
 local weekStart = 2
 
 function displayMonth(month,year,weekStart)
@@ -45,7 +45,7 @@ for x=0,6 do
 lines = lines .. os.date("<b><u>%a</u></b> ",os.time{year=2006,month=1,day=x+wkSt})
 end
 
-lines = lines .. "\n" .. os.date(" <span background='" .. beautiful.bg_em .. "'><b>%U</b></span>",os.time{year=year,month=month,day=1})
+lines = lines .. "\n" .. os.date(" <span foreground='"..beautiful.bg_normal.."' background='"..beautiful.fg_em.."'><b>%U</b></span>",os.time{year=year,month=month,day=1})
 
 local writeLine = 1
 while writeLine < (stDay + 1) do
@@ -58,7 +58,7 @@ end
                 local t = os.time{year=year,month=month,day=d}
                 if writeLine == 8 then
                         writeLine = 1
-                        lines = lines .. "\n" .. os.date(" <span background='" .. beautiful.bg_em .. "'><b>%U</b></span>",t)
+                        lines = lines .. "\n" .. os.date(" <span foreground='"..beautiful.bg_normal.."' background='"..beautiful.fg_em.."'><b>%U</b></span>",t)
                 end
                 if os.date("%Y-%m-%d") == os.date("%Y-%m-%d", t) then
                         x = string.format(current_day_format, d)
@@ -75,7 +75,7 @@ end
         if stDay + mthDays < 29 then
                 lines = lines .. "\n"
         end
-        local header = os.date(" <span weight='bold' foreground='" .. beautiful.fg_focus .. "' background='" .. beautiful.bg_em .. "'><big>      %B %Y     </big></span>\n",os.time{year=year,month=month,day=1})
+        local header = os.date(" <span weight='bold' foreground='"..beautiful.fg_focus.."' background='"..beautiful.fg_em.."'><big>      %B %Y     </big></span>\n",os.time{year=year,month=month,day=1})
 
 return header .. "\n" .. lines
 end

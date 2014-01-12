@@ -2,7 +2,7 @@
 alignment top_right
 background yes
 border_width 0
-color1 1E90FF
+color1 729FCF
 color2 104E8B
 default_color white
 draw_borders no
@@ -40,7 +40,7 @@ ${color1}${font Hermit:style=bold:size=9}CPU${hr 3}
 ${color}${offset 8}${font whhglyphs:size=9}${font}  CPU 1: ${alignr 120}${color1}${execi 6 sensors | grep 'Core 0:' | cut -c18-21}°${color} @ ${color1}${cpu cpu1}% ${color2}${cpugraph cpu1 14,0 1E90FF A52A2A -t}
 ${color}${offset 8}${font whhglyphs:size=9}${font}  CPU 2: ${alignr 120}${color1}${execi 6 sensors | grep 'Core 1:' | cut -c18-21}°${color} @ ${color1}${cpu cpu2}% ${color2}${cpugraph cpu2 14,0 1E90FF A52A2A -t}
 ${color1}${font Hermit:style=bold:size=9}RAM${hr 3}
-${color}${offset 8}${font whhglyphs:size=9}${font}  $mem/$memmax ${alignr 120}${color1}$memperc%  ${color2}${memgraph 12,0 1E90FF A52A2A -t}
+${color}${offset 8}${font whhglyphs:size=9}${font}  $mem/$memmax ${alignr 120}${color1}$memperc%  ${color1}${membar}
 ${color1}${font Hermit:style=bold:size=9}DISKS${hr 3}
 ${color}${offset 8}${font whhglyphs:size=9}${font}  /root ${alignr 100}${fs_used /}/${fs_size /} ${color1}${fs_used_perc /}% ${color1}${fs_bar /}
 ${if_mounted /media/ipod}${color}${offset 8}${font whhglyphs:size=9}${font}  /media/ipod${alignr 100}${fs_used /media/ipod}/${fs_size /media/ipod} ${color1}${fs_used_perc /media/ipod}% ${color1}${fs_bar /media/ipod}${endif}

@@ -2,7 +2,7 @@
 alignment top_right
 background yes
 border_width 0
-color1 1E90FF
+color1 729FCF
 color2 104E8B
 default_color white
 draw_borders no
@@ -52,7 +52,7 @@ ${color}${offset 8}${font whhglyphs:size=10}${font}  CPU 6: ${alignr 100}${co
 ${color}${offset 8}${font whhglyphs:size=10}${font}  CPU 7: ${alignr 100}${color1}${execi 6 sensors | grep 'Core 3:' | cut -c16-21}${color} @ ${color1}${cpu cpu7}% ${color1}${cpugraph cpu7 14,0 1E90FF A52A2A -t}
 ${color}${offset 8}${font whhglyphs:size=10}${font}  CPU 8: ${alignr 100}${color1}${execi 6 sensors | grep 'Core 3:' | cut -c16-21}${color} @ ${color1}${cpu cpu8}% ${color1}${cpugraph cpu8 14,0 1E90FF A52A2A -t}
 ${color1}${font Hermit:style=bold:size=10}RAM${hr 3}
-${color}${offset 8}${font whhglyphs:size=10}${font}  $mem/$memmax${alignr 100}${color1}$memperc% ${color2}${color1} ${memgraph 12,0 1E90FF A52A2A -t}
+${color}${offset 8}${font whhglyphs:size=10}${font}  $mem/$memmax${alignr 100}${color1}$memperc% ${color1} ${membar}
 
 ${color1}${font Hermit:style=bold:size=10}DISKS${hr 3}
 ${color}${offset 8}${font whhglyphs:size=10}${font}  /root    ${alignr 70}${fs_used /}/${fs_size /} ${color1}${fs_used_perc /}% ${color1}${fs_bar /}

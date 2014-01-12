@@ -92,9 +92,9 @@ local function markup(keys)
    local help, group = doc[key].help, doc[key].group
    local skey = key2str(key)
    result[group] = (result[group] or "") ..
-      '<span color="' .. beautiful.fg_widget_clock .. '"> ' ..
+      '<span color="' .. beautiful.fg_keydoc_option .. '"> ' ..
       string.format("%" .. (longest - unilen(skey)) .. "s  ", "") .. skey ..
-      ':</span>  <span color="' .. beautiful.fg_widget_value .. '">' ..
+      ':</span>  <span color="' .. beautiful.fg_keydoc_value .. '">' ..
       help .. '</span>\n'
       end
    end
@@ -113,7 +113,7 @@ function display()
    for group, res in pairs(strings) do
       if #result > 0 then result = result .. "\n" end
       result = result ..
-   '<span weight="bold" color="' .. beautiful.fg_widget_value_important .. '">' ..
+   '<span weight="bold" color="' .. beautiful.fg_keydoc_value_important .. '">' ..
    group .. "</span>\n" .. res
    end
    nid = naughty.notify({ text = result,

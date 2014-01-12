@@ -45,6 +45,7 @@ musicplr2         = terminal.." -title 'Music' -geometry 130x34-320+16 -e mocp"
 mixer             = terminal.." -title 'Music' -geometry 130x34-320+16 -e alsamixer"
 iptraf            = terminal.." -title 'IP traffic monitor' -geometry 160x44-20+34 -e sudo iptraf-ng -i all"
 mytop             = terminal.." -title 'Htop' -geometry 160x44-20+34 -e htop"
+myfile            = terminal.." -title 'Explore' -geometry 180x64-10+16 -e mc"
 editor_cmd        = "gvim"
 modkey            = "Mod4"
 altkey            = "Mod1"
@@ -659,6 +660,7 @@ globalkeys = awful.util.table.join(
     awful.key({ modkey,           }, "e", function () awful.util.spawn(editor_cmd) end, "Editor"),
     awful.key({ modkey,           }, "g", function () awful.util.spawn("gimp") end, "Gimp"),
     awful.key({ modkey,           }, "l", function () awful.util.spawn("libreoffice") end, "Libreoffice"),
+    awful.key({ modkey,           }, "m", function () awful.util.spawn(myfile) end, "Explore"),
     awful.key({ modkey,           }, "o", function () awful.util.spawn("opera") end, "Opera"),
     awful.key({ modkey,           }, "s", function () awful.util.spawn("spacefm") end, "Spacefm"),
     awful.key({ modkey,           }, "t", function () awful.util.spawn("thunderbird") end, "Thunderbird"),
@@ -764,6 +766,7 @@ awful.rules.rules = {
     { rule = { class = "URxvt", name = "Music" }, properties = { floating = true, size_hints_honor = true,  size_hints = {"program_position", "program_size"}} },
     { rule = { class = "URxvt", name = "Htop" }, properties = { floating = true, size_hints_honor = true,  size_hints = {"program_position", "program_size"} } },
     { rule = { class = "URxvt", name = "IP traffic monitor" }, properties = { floating = true, size_hints_honor = true,  size_hints = {"program_position", "program_size"} } },
+    { rule = { class = "URxvt", name = "Explore" }, properties = { floating = true, size_hints_honor = true,  size_hints = {"program_position", "program_size"} } },
     { rule = { class = "Thunderbird" }, properties = { tag = tags[7] } },
     { rule = { class = "VirtualBox" }, properties = { tag = tags[7] } },
     { rule = { class = "Darktable" }, properties = { tag = tags[8] } },
