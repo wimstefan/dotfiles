@@ -21,12 +21,14 @@ local naughty     = require("naughty")
 
 -- Basic configuration {{{1
 hostname          = io.lines("/proc/sys/kernel/hostname")()
-if hostname == 'asuca' or hostname == 'tj' then
+if hostname == 'asuca' then
   TYPE = "laptop"
-  BAT = "BAT0"
 elseif hostname == 'mimi' then
   TYPE = "laptop"
-  BAT = "BAT1"
+  BAT  = "BAT1"
+elseif hostname == 'tj' then
+  TYPE = "laptop"
+  BAT  = "BAT0"
 elseif hostname == 'swimmer' or hostname == 'komala' then
   TYPE = "desktop"
 end
@@ -291,7 +293,7 @@ local stats_grad = { type = "linear", from = { 0, 0 }, to = { 0, 18 }, stops = {
 -- Music widget {{{2
 local widget_music = wibox.widget.textbox()
 vicious.register(widget_music, vicious.widgets.volume,
-  '<span background="'..beautiful.bg_widget_1..'"><span color="'..beautiful.fg_widget_1..'">   $2  $1%  </span></span>', 144, "Master")
+  '<span background="'..beautiful.bg_widget_1..'"><span color="'..beautiful.fg_widget_1..'">  $2  $1%  </span></span>', 144, "Master")
 widget_music:buttons(awful.util.table.join(
   awful.button({ }, 1, function () awful.util.spawn_with_shell(mixer) end),
   awful.button({ modkey }, 1, function () awful.util.spawn_with_shell(musicplr1) end),
