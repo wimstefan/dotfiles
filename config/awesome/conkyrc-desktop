@@ -57,8 +57,7 @@ ${color}${offset 8}${font whhglyphs:size=10}${font}  $mem/$memmax${alignr 100
 ${color1}${font Hermit:style=bold:size=10}DISKS${hr 3}
 ${color}${offset 8}${font whhglyphs:size=10}${font}  /root    ${alignr 70}${fs_used /}/${fs_size /} ${color1}${fs_used_perc /}% ${color1}${fs_bar /}
 ${color}${offset 8}${font whhglyphs:size=10}${font}  /backups ${alignr 70}${fs_used /backups}/${fs_size /backups} ${color1}${fs_used_perc /backups}% ${color1}${fs_bar /backups}
-${if_mounted /media/ipod}${color}${offset 8}${font whhglyphs:size=10}${font}   /media/ipod ${alignr 80}${fs_used /media/ipod}/${fs_size /media/ipod} ${color1}${fs_used_perc /media/ipod}% 
-${color2}${fs_bar /media/ipod}${endif}
+${if_mounted /media/ipod}${color}${offset 8}${font whhglyphs:size=10}${font}   /media/ipod ${alignr 80}${fs_used /media/ipod}/${fs_size /media/ipod} ${color1}${fs_used_perc /media/ipod}% ${color1}${fs_bar /media/ipod}${endif}
 ${color}${offset 8}${font whhglyphs:size=10}${font}   Disk I/O sda:${color1} ${diskio sda}
 ${color1} ${diskiograph sda 24,0 1E90FF A52A2A -t}
 

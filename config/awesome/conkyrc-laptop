@@ -37,20 +37,20 @@ ${color}${offset 8}${font whhglyphs:size=9}${font}   Procs:${color1} $process
 ${color1}${font Hermit:style=bold:size=9}TEMP${hr 3}
 ${color}${offset 8}${font whhglyphs:size=9}${font}   Temp:${color1} ${hwmon 0 temp 1}°
 ${color1}${font Hermit:style=bold:size=9}CPU${hr 3}
-${color}${offset 8}${font whhglyphs:size=9}${font}  CPU 1: ${alignr 120}${color1}${execi 6 sensors | grep 'Core 0:' | cut -c18-21}°${color} @ ${color1}${cpu cpu1}% ${color2}${cpugraph cpu1 14,0 1E90FF A52A2A -t}
-${color}${offset 8}${font whhglyphs:size=9}${font}  CPU 2: ${alignr 120}${color1}${execi 6 sensors | grep 'Core 1:' | cut -c18-21}°${color} @ ${color1}${cpu cpu2}% ${color2}${cpugraph cpu2 14,0 1E90FF A52A2A -t}
+${color}${offset 8}${font whhglyphs:size=9}${font}  CPU 1: ${alignr 120}${color1}${execi 6 sensors | grep 'Core 0:' | cut -c18-21}°${color} @ ${color1}${cpu cpu1}% ${color1}${cpugraph cpu1 14,0 1E90FF A52A2A -t}
+${color}${offset 8}${font whhglyphs:size=9}${font}  CPU 2: ${alignr 120}${color1}${execi 6 sensors | grep 'Core 1:' | cut -c18-21}°${color} @ ${color1}${cpu cpu2}% ${color1}${cpugraph cpu2 14,0 1E90FF A52A2A -t}
 ${color1}${font Hermit:style=bold:size=9}RAM${hr 3}
 ${color}${offset 8}${font whhglyphs:size=9}${font}  $mem/$memmax ${alignr 120}${color1}$memperc%  ${color1}${membar}
 ${color1}${font Hermit:style=bold:size=9}DISKS${hr 3}
 ${color}${offset 8}${font whhglyphs:size=9}${font}  /root ${alignr 100}${fs_used /}/${fs_size /} ${color1}${fs_used_perc /}% ${color1}${fs_bar /}
 ${if_mounted /media/ipod}${color}${offset 8}${font whhglyphs:size=9}${font}  /media/ipod${alignr 100}${fs_used /media/ipod}/${fs_size /media/ipod} ${color1}${fs_used_perc /media/ipod}% ${color1}${fs_bar /media/ipod}${endif}
 ${color}${offset 8}${font whhglyphs:size=9}${font}   Disk I/O sda:${color1} ${diskio sda}
-${color2}${diskiograph sda 20,0 1E90FF A52A2A -t}
+${color1}${diskiograph sda 20,0 1E90FF A52A2A -t}
 ${color1}${font Hermit:style=bold:size=9}NET${hr 3}
 ${color}${offset 8}${font whhglyphs:size=9}${font}  Net Down:${color1}  ${downspeed wlan0} k/s
-${color2}${downspeedgraph wlan0 20,0 1E90FF A52A2A -t}
+${color1}${downspeedgraph wlan0 20,0 1E90FF A52A2A -t}
 ${color}${offset 9}${font whhglyphs:size=9}${font}  Net Up:${color1}  ${upspeed wlan0} k/s
-${color2}${upspeedgraph wlan0 20,0 1E90FF A52A2A -t}
+${color1}${upspeedgraph wlan0 20,0 1E90FF A52A2A -t}
 
 ${color1}${font Hermit:style=bold:size=9}TOP${hr 3}
 ${font FreeMono:style=bold:size=10}${color}Name             ${color1}PID   CPU%  MEM%
