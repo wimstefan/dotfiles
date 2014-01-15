@@ -1,15 +1,15 @@
 --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---
 --  Awesome Minimal theme - based on Powerarrow theme by Rom Ockee   --
---  vim: fdm=marker
+--  vim: fdm=marker fdl=0
 --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---
 
 green = "#B6E354"
 cyan  = "#7F4DE6"
 red   = "#E04613"
 blue  = "#729FCF"
-black = "#3F3F3F"
+black = "#000000"
 lgrey = "#EEEEEE"
-dgrey = "#333333"
+dgrey = "#313131"
 white = "#FFFFFF"
 
 theme = {}
