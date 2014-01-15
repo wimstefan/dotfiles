@@ -28,7 +28,6 @@ NeoBundleLazy 'osyo-manga/unite-quickfix', {'autoload': {'unite_sources':
             \ ['quickfix', 'location_list']}}
 NeoBundleLazy 'osyo-manga/unite-filetype', {'autoload': {'unite_sources': 'filetype', }}
 NeoBundleLazy 'osyo-manga/unite-fold', {'autoload': {'unite_sources': 'fold'}}
-NeoBundleLazy 'Shougo/vimfiler', {'autoload': {'commands': ['VimFiler','VimFilerExplorer']}}
 NeoBundle 'Shougo/neocomplcache'
 NeoBundleLazy 'sjl/gundo.vim', {'autoload': {'commands': 'GundoToggle'}}
 NeoBundle 'tpope/vim-vinegar'
@@ -73,10 +72,12 @@ NeoBundleCheck
 
 " Plugins config " {{{1
 " 'netrw' " {{{2
-  let g:netrw_winsize         = 30
+  let g:netrw_winsize         = 14
   let g:netrw_liststyle       =  3
+  let g:netrw_browse_split    =  4
+  let g:netrw_altv            =  1
   let g:netrw_preview         =  1
-  let g:netrw_browse_split    =  2
+  nnoremap <silent> <Leader>e :call ToggleVexplorer()<CR>
   " " }}}
 
 " 'Shougo/unite.vim' " {{{2
@@ -148,8 +149,8 @@ NeoBundleCheck
           \'Unite output:pwd'],
       \['▷ quick save                                                 \w',
           \'normal \w'],
-      \['▷ open vimfiler                                              \e',
-          \'VimFilerExplorer'],
+      \['▷ open explorer                                              \e',
+          \'Vexplore'],
       \]
   nnoremap <silent>[menu]o :Unite -silent -winheight=17 -start-insert
               \ menu:files<CR>
@@ -490,15 +491,6 @@ NeoBundleCheck
   let g:neocomplcache_temporary_dir = $HOME.'/.cache/vim/neocon/'
   " " }}}
 
-" 'Shougo/vimfiler' " {{{2
-  let g:vimfiler_data_directory = $HOME.'/.cache/vim/vimfiler/'
-  let g:vimfiler_force_overwrite_statusline = 0
-  let g:vimfiler_as_default_explorer = 1
-  let g:vimfiler_split_action = 'left'
-  "nnoremap <Leader>e :<C-u>VimFiler -buffer-name=explorer -split -simple -winwidth=35 -toggle -no-quit<CR>
-  nnoremap <Leader>e :<C-u>VimFilerExplorer<CR>
-  " " }}}
-
 " 'sjl/gundo.vim' " {{{2
   nnoremap <C-u> :GundoToggle<CR>
   " " }}}
@@ -639,7 +631,6 @@ NeoBundleCheck
     let fname = expand('%:t')
     return fname == '__Tagbar__' ? g:lightline.fname :
           \ fname =~ '__Gundo\|VOOM' ? '' :
-          \ &ft == 'vimfiler' ? vimfiler#get_status_string() :
           \ &ft == 'unite' ? unite#get_status_string() :
           \ &ft == 'help' ? '¿?' :
           \ &ft == 'man' ? '¿?' :
@@ -655,18 +646,16 @@ NeoBundleCheck
           \ fname == '__Gundo__' ? 'Gundo' :
           \ fname == '__Gundo_Preview__' ? 'Gundo Preview' :
           \ fname =~ 'VOOM' ? 'VoOM' :
-          \ fname =~ '__vimfiler__' ? 'VimFiler' :
           \ &ft == 'help' ? '' :
           \ &ft == 'man' ? '' :
           \ &ft == 'perldoc' ? '' :
           \ &ft == 'unite' ? 'Unite' :
-          \ &ft == 'vimfiler' ? 'VimFiler' :
           \ winwidth('.') > 60 ? lightline#mode() : ''
   endfunction
   
   function! MyFugitive()
     try
-      if expand('%:t') !~? 'Tagbar\|Gundo\|VOOM' && &ft !~? 'vimfiler' && exists('*fugitive#head')
+      if expand('%:t') !~? 'Tagbar\|Gundo\|VOOM' && exists('*fugitive#head')
         let mark = ' '  " edit here for cool mark
         let _ = fugitive#head()
         return strlen(_) ? mark._ : ''
@@ -693,7 +682,6 @@ NeoBundleCheck
   endfunction
 
 let g:unite_force_overwrite_statusline = 0
-let g:vimfiler_force_overwrite_statusline = 0
 let g:vimshell_force_overwrite_statusline = 0
 
   " " }}}
@@ -715,7 +703,6 @@ let g:vimshell_force_overwrite_statusline = 0
   let g:airline_detect_iminsert=1
   let g:airline#extensions#whitespace#checks = ['']
   let g:airline#extensions#tabline#enabled = 1
-  let g:airline#extensions#tabline#excludes = ['vimfiler*']
   if $USER=='root'
     let g:airline_theme = 'base16'
   else
@@ -743,6 +730,7 @@ set autoindent                         " set autoindenting on
 set hidden                             " allow buffers to go in background without saving etc.
 set autowrite                          " save automatically before critical operations
 set autoread                           " automatically reads & loads changes
+set autochdir                          " change directory to the current buffer when opening files
 set nobackup                           " keep a backup file
 "set fileformat=unix                    " always on a linux box (!) :-) - 2012-12-06 doesn't work with vimpager :-/
 "set viminfo='50,\"100,:100,%          " read/write a viminfo file with buffer list
@@ -1063,6 +1051,26 @@ function! Check_Gui()
     echo "has gui_running" 
   else 
     echo "does not have gui_running" 
+  endif
+endfunction
+
+" Toggle netrw
+function! ToggleVexplorer()
+  if exists("t:expl_buf_num")
+      let expl_win_num = bufwinnr(t:expl_buf_num)
+      if expl_win_num != -1
+          let cur_win_nr = winnr()
+          exec expl_win_num . 'wincmd w'
+          close
+          exec cur_win_nr . 'wincmd w'
+          unlet t:expl_buf_num
+      else
+          unlet t:expl_buf_num
+      endif
+  else
+      exec '1wincmd w'
+      Vexplore
+      let t:expl_buf_num = bufnr("%")
   endif
 endfunction
 
