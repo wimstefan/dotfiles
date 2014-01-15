@@ -62,9 +62,9 @@ NeoBundle 'itchyny/lightline.vim'
 "NeoBundle 'bling/vim-airline'
 "NeoBundle 'paranoida/vim-airlineish'
 NeoBundle 'wimstefan/vim-tomorrow-theme'
+NeoBundle 'w0ng/vim-hybrid'
 NeoBundle 'jonathanfilip/vim-lucius'
 NeoBundle 'pasela/edark.vim'
-NeoBundle 'joedicastro/vim-molokai256'
 NeoBundle 'joedicastro/vim-github256'
 NeoBundle 'zeis/vim-kolor'
 
@@ -723,9 +723,8 @@ let g:vimshell_force_overwrite_statusline = 0
   endif
   " " }}}
 
-" 'Lucius' " {{{2
-  let g:lucius_style="dark"
-  let g:lucius_contrast="high"
+" 'jonathanfilip/vim-lucius' " {{{2
+  let g:lucius_use_bold = 1
   " " }}}
 
 " " }}}
@@ -833,12 +832,14 @@ else
       color github256
     else
       color lucius
+      LuciusWhiteHighContrast
     endif
   else
     if $USER=='root'
       color Tomorrow-Night-Bright
     else
-      color kolor
+      color lucius
+      LuciusBlackLowContrast
     endif
   endif
 endif
@@ -846,6 +847,7 @@ endif
 if exists('vimpager')
   color edark
   set colorcolumn=0
+  set nolist
 endif
 
 "set guifont=Consolas\ for\ Powerline\ 9
