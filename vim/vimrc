@@ -30,10 +30,11 @@ NeoBundleLazy 'osyo-manga/unite-filetype', {'autoload': {'unite_sources': 'filet
 NeoBundleLazy 'osyo-manga/unite-fold', {'autoload': {'unite_sources': 'fold'}}
 NeoBundle 'Shougo/neocomplcache'
 NeoBundleLazy 'sjl/gundo.vim', {'autoload': {'commands': 'GundoToggle'}}
-NeoBundle 'tpope/vim-vinegar'
 NeoBundle 'tpope/vim-abolish'
 NeoBundle 'tpope/vim-characterize'
+NeoBundle 'tomtom/tcomment_vim'
 NeoBundle 'Raimondi/delimitMate'
+NeoBundle 'scrooloose/nerdtree'
 NeoBundle 'scrooloose/syntastic'
 NeoBundle 'dbakker/vim-lint', {'depends': ['scrooloose/syntastic']}
 NeoBundle 'rkitover/vimpager'
@@ -58,28 +59,19 @@ NeoBundle 'VOoM'
 NeoBundle 'HybridText'
 NeoBundle 'itchyny/calendar.vim'
 NeoBundle 'itchyny/lightline.vim'
-"NeoBundle 'bling/vim-airline'
-"NeoBundle 'paranoida/vim-airlineish'
+NeoBundle 'itchyny/lightline-powerful'
 NeoBundle 'wimstefan/vim-tomorrow-theme'
 NeoBundle 'w0ng/vim-hybrid'
 NeoBundle 'jonathanfilip/vim-lucius'
 NeoBundle 'pasela/edark.vim'
 NeoBundle 'joedicastro/vim-github256'
-NeoBundle 'zeis/vim-kolor'
+NeoBundle 'Pychimp/vim-luna'
+NeoBundle 'junegunn/seoul256.vim'
 
 NeoBundleCheck
 " " }}}
 
 " Plugins config " {{{1
-" 'netrw' " {{{2
-  let g:netrw_winsize         = 14
-  let g:netrw_liststyle       =  3
-  let g:netrw_browse_split    =  4
-  let g:netrw_altv            =  1
-  let g:netrw_preview         =  1
-  nnoremap <silent> <Leader>e :call ToggleVexplorer()<CR>
-  " " }}}
-
 " 'Shougo/unite.vim' " {{{2
   call unite#filters#matcher_default#use(['matcher_fuzzy'])
   call unite#custom#source('file_rec,file_rec/async,grep,locate',
@@ -504,6 +496,14 @@ NeoBundleCheck
   vnoremap <silent> <leader>gV :Gitv! --all<CR>
 " " }}}
 
+" 'scrooloose/nerdtree' " {{{2
+  let NERDTreeMinimalUI = 1
+  let NERDTreeDirArrows = 1
+  let NERDChristmasTree = 1
+  let NERDTreeShowHidden = 0
+  nnoremap <Leader>e :NERDTreeToggle<CR>
+  " " }}}
+
 " 'scrooloose/syntastic' " {{{2
   let g:syntastic_check_on_open=1
   let g:syntastic_auto_loc_list=1
@@ -578,138 +578,6 @@ NeoBundleCheck
   let g:calendar_first_day = 'monday'
   " " }}}
 
-" 'itchyny/lightline.vim' " {{{2
-  let g:lightline = {
-    \ 'colorscheme': 'Tomorrow_Night_Bright',
-    \ 'active': {
-    \   'left': [ [ 'mode', 'paste' ], [ 'fugitive', 'filename' ] ],
-    \   'right': [ [ 'syntastic', 'lineinfo' ], ['percent'], [ 'filetype', 'fileencoding', 'fileformat' ] ]
-    \ },
-    \ 'component_function': {
-    \   'fugitive': 'MyFugitive',
-    \   'filename': 'MyFilename',
-    \   'fileformat': 'MyFileformat',
-    \   'filetype': 'MyFiletype',
-    \   'fileencoding': 'MyFileencoding',
-    \   'mode': 'MyMode',
-    \   'paste': 'MyPaste',
-    \ },
-    \ 'component_expand': {
-    \   'syntastic': 'SyntasticStatuslineFlag',
-    \ },
-    \ 'component_type': {
-    \   'syntastic': 'error',
-    \ }
-  \ }
-  
-  function! MyModified()
-    return &ft =~ 'help' ? '' : &modified ? '✗' : &modifiable ? '' : '-'
-  endfunction
-  
-  function! MyReadonly()
-    return &ft !~? 'help' && &readonly ? ' ' : ''
-  endfunction
-  
-  function! MyFileformat()
-    "return winwidth('.') > 70 ? &fileformat : ''
-    return winwidth('.') > 70 ? (&fileformat =~ 'dos' ? 'DOS' : '') : ''
-  endfunction
-  
-  function! MyFiletype()
-    return winwidth('.') > 70 ? (strlen(&filetype) ? &filetype : 'no ft') : ''
-  endfunction
-  
-  function! MyFileencoding()
-    return winwidth('.') > 70 ? (strlen(&fenc) ? &fenc : &enc) : ''
-  endfunction
-  
-  function! MyPaste()
-    return &paste ? '(paste)' : ''
-  endfunction
-  
-  function! MyFilename()
-    let fname = expand('%:t')
-    return fname == '__Tagbar__' ? g:lightline.fname :
-          \ fname =~ '__Gundo\|VOOM' ? '' :
-          \ &ft == 'unite' ? unite#get_status_string() :
-          \ &ft == 'help' ? '¿?' :
-          \ &ft == 'man' ? '¿?' :
-          \ &ft == 'perldoc' ? '¿?' :
-          \ ('' != MyReadonly() ? MyReadonly() . ' ' : '') .
-          \ ('' != fname ? fname : '[No Name]') .
-          \ ('' != MyModified() ? ' ' . MyModified() : '')
-  endfunction
-  
-  function! MyMode()
-    let fname = expand('%:t')
-    return fname == '__Tagbar__' ? 'Tagbar' :
-          \ fname == '__Gundo__' ? 'Gundo' :
-          \ fname == '__Gundo_Preview__' ? 'Gundo Preview' :
-          \ fname =~ 'VOOM' ? 'VoOM' :
-          \ &ft == 'help' ? '' :
-          \ &ft == 'man' ? '' :
-          \ &ft == 'perldoc' ? '' :
-          \ &ft == 'unite' ? 'Unite' :
-          \ winwidth('.') > 60 ? lightline#mode() : ''
-  endfunction
-  
-  function! MyFugitive()
-    try
-      if expand('%:t') !~? 'Tagbar\|Gundo\|VOOM' && exists('*fugitive#head')
-        let mark = ' '  " edit here for cool mark
-        let _ = fugitive#head()
-        return strlen(_) ? mark._ : ''
-      endif
-    catch
-    endtry
-    return ''
-  endfunction
-  
-  let g:tagbar_status_func = 'TagbarStatusFunc'
-  function! TagbarStatusFunc(current, sort, fname, ...) abort
-      let g:lightline.fname = a:fname
-    return lightline#statusline(0)
-  endfunction
-  
-  let g:syntastic_mode_map = { 'mode': 'passive' }
-  augroup AutoSyntastic
-    autocmd!
-    autocmd BufWritePost *.c,*.cpp call s:syntastic()
-  augroup END
-  function! s:syntastic()
-    SyntasticCheck
-    call lightline#update()
-  endfunction
-
-let g:unite_force_overwrite_statusline = 0
-let g:vimshell_force_overwrite_statusline = 0
-
-  " " }}}
-
-" 'bling/vim-airline' " {{{2
-  let g:airline_powerline_fonts = 1
-  if !exists('g:airline_symbols')
-    let g:airline_symbols = {}
-  endif
-
-  "let g:airline_left_sep = '【'
-  "let g:airline_left_sep = '┊'
-  "let g:airline_left_sep = '》'
-  "let g:airline_right_sep = '】'
-  "let g:airline_right_sep = '┊'
-  "let g:airline_right_sep = '《'
-  let g:airline_symbols.linenr = '¶'
-  let g:airline_symbols.whitespace = 'Ξ'
-  let g:airline_detect_iminsert=1
-  let g:airline#extensions#whitespace#checks = ['']
-  let g:airline#extensions#tabline#enabled = 1
-  if $USER=='root'
-    let g:airline_theme = 'base16'
-  else
-    let g:airline_theme = 'airlineish'
-  endif
-  " " }}}
-
 " 'jonathanfilip/vim-lucius' " {{{2
   let g:lucius_use_bold = 1
   " " }}}
@@ -766,13 +634,6 @@ if has('persistent_undo')
     set undofile
 endif
 
-" Use seamless system copy+paste
-if has('unnamedplus')
-  set clipboard+=unnamedplus            " Share X windows clipboard
-else
-  set clipboard+=unnamed                " Share system clipboard
-endif
-
 " Search settings
 if executable('ag')
   set grepprg=ag\ --nogroup\ --column\ --smart-case\ --nocolor\ --follow
@@ -824,10 +685,10 @@ else
     endif
   else
     if $USER=='root'
-      color Tomorrow-Night-Bright
-    else
       color lucius
       LuciusBlackLowContrast
+    else
+      color Tomorrow-Night-Bright
     endif
   endif
 endif
@@ -1051,26 +912,6 @@ function! Check_Gui()
     echo "has gui_running" 
   else 
     echo "does not have gui_running" 
-  endif
-endfunction
-
-" Toggle netrw
-function! ToggleVexplorer()
-  if exists("t:expl_buf_num")
-      let expl_win_num = bufwinnr(t:expl_buf_num)
-      if expl_win_num != -1
-          let cur_win_nr = winnr()
-          exec expl_win_num . 'wincmd w'
-          close
-          exec cur_win_nr . 'wincmd w'
-          unlet t:expl_buf_num
-      else
-          unlet t:expl_buf_num
-      endif
-  else
-      exec '1wincmd w'
-      Vexplore
-      let t:expl_buf_num = bufnr("%")
   endif
 endfunction
 
