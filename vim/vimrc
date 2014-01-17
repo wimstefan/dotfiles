@@ -57,7 +57,6 @@ NeoBundle 'mhinz/vim-startify'
 NeoBundle 'atweiden/vim-vmath'
 NeoBundle 'VOoM'
 NeoBundle 'HybridText'
-NeoBundle 'itchyny/calendar.vim'
 NeoBundle 'itchyny/lightline.vim'
 NeoBundle 'itchyny/lightline-powerful'
 NeoBundle 'wimstefan/vim-tomorrow-theme'
@@ -569,13 +568,6 @@ NeoBundleCheck
 " 'atweiden/vim-vmath' {{{2
   vmap <expr>  ++  VMATH_YankAndAnalyse()
   nmap         ++  vip++
-  " " }}}
-
-" 'itchyny/calendar.vim' {{{2
-  let g:calendar_cache_directory = expand($HOME.'/.cache/vim/calendar/')
-  let g:calendar_google_calendar = 1
-  let g:calendar_google_task = 1
-  let g:calendar_first_day = 'monday'
   " " }}}
 
 " 'jonathanfilip/vim-lucius' " {{{2
