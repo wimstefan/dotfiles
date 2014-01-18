@@ -6,6 +6,10 @@
 if &compatible          " only if not set before:
   set nocompatible      " use vim-defaults instead of vi-defaults (easier, more user friendly)
 endif
+" utf-8 settings
+scriptencoding utf-8
+set encoding=utf-8
+set termencoding=utf-8
 
 " Neobundle " {{{1
 if has('vim_starting')
@@ -546,6 +550,14 @@ NeoBundleCheck
   nnoremap <Leader>v :VoomToggle<CR>
   " " }}}
 
+" 'itchyny/lightline.vim' " {{{2
+  if $USER=='root'
+    let g:lightline = { 'colorscheme' : 'Tomorrow_Night_Bright', }
+  else
+    let g:lightline = { 'colorscheme' : 'default', }
+  endif
+  " " }}}
+
 " 'mhinz/vim-signify' {{{2
   let g:signify_sign_add               = '+'
   let g:signify_sign_change            = '!'
@@ -577,8 +589,6 @@ NeoBundleCheck
 " " }}}
 
 " General Settings " {{{1
-set termencoding=utf-8                 " utf-8 rules
-set encoding=utf-8                     " utf-8 rules
 set textwidth=80                       " maximum width of text that is being inserted
 set backspace=2                        " allow backspacing over everything in insert mode
 set shiftwidth=2                       " number of spaces used for indention
