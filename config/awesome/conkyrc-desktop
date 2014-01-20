@@ -43,16 +43,16 @@ ${color}${offset 8}${font whhglyphs:size=10}${font}   SDA Temp:${color1} ${ex
 ${color}${offset 8}${font whhglyphs:size=10}${font}   SDB Temp:${color1} ${execi 14 /usr/sbin/hddtemp -q /dev/sdb | awk '{print $3}' | sed 's/\([0-9]\)°C/\1°/'}
 ${color}${offset 8}${font whhglyphs:size=10}${font}   MB Temp:${color1} ${execi 14 cat /sys/class/hwmon/hwmon1/device/temp2_input | sed 's/000$//'}°
 ${color1}${font Hermit:style=bold:size=10}CPU${hr 3}
-${color}${offset 8}${font whhglyphs:size=10}${font}  CPU 1: ${color1}${execi 6 sensors | grep 'Core 0:' | awk '{print $3}' | sed 's#+\(..\).*#\1°#'}${alignr 100}${color1}${cpu cpu1}% ${color1}${cpugraph cpu1 14,0 1E90FF A52A2A -t}
-${color}${offset 8}${font whhglyphs:size=10}${font}  CPU 2: ${color1}${execi 6 sensors | grep 'Core 0:' | awk '{print $3}' | sed 's#+\(..\).*#\1°#'}${alignr 100}${color1}${cpu cpu2}% ${color1}${cpugraph cpu2 14,0 1E90FF A52A2A -t}
-${color}${offset 8}${font whhglyphs:size=10}${font}  CPU 3: ${color1}${execi 6 sensors | grep 'Core 1:' | awk '{print $3}' | sed 's#+\(..\).*#\1°#'}${alignr 100}${color1}${cpu cpu3}% ${color1}${cpugraph cpu3 14,0 1E90FF A52A2A -t}
-${color}${offset 8}${font whhglyphs:size=10}${font}  CPU 4: ${color1}${execi 6 sensors | grep 'Core 1:' | awk '{print $3}' | sed 's#+\(..\).*#\1°#'}${alignr 100}${color1}${cpu cpu4}% ${color1}${cpugraph cpu4 14,0 1E90FF A52A2A -t}
-${color}${offset 8}${font whhglyphs:size=10}${font}  CPU 5: ${color1}${execi 6 sensors | grep 'Core 2:' | awk '{print $3}' | sed 's#+\(..\).*#\1°#'}${alignr 100}${color1}${cpu cpu5}% ${color1}${cpugraph cpu5 14,0 1E90FF A52A2A -t}
-${color}${offset 8}${font whhglyphs:size=10}${font}  CPU 6: ${color1}${execi 6 sensors | grep 'Core 2:' | awk '{print $3}' | sed 's#+\(..\).*#\1°#'}${alignr 100}${color1}${cpu cpu6}% ${color1}${cpugraph cpu6 14,0 1E90FF A52A2A -t}
-${color}${offset 8}${font whhglyphs:size=10}${font}  CPU 7: ${color1}${execi 6 sensors | grep 'Core 3:' | awk '{print $3}' | sed 's#+\(..\).*#\1°#'}${alignr 100}${color1}${cpu cpu7}% ${color1}${cpugraph cpu7 14,0 1E90FF A52A2A -t}
-${color}${offset 8}${font whhglyphs:size=10}${font}  CPU 8: ${color1}${execi 6 sensors | grep 'Core 3:' | awk '{print $3}' | sed 's#+\(..\).*#\1°#'}${alignr 100}${color1}${cpu cpu8}% ${color1}${cpugraph cpu8 14,0 1E90FF A52A2A -t}
+${color}${offset 8}${font whhglyphs:size=10}${font}  CPU 1: ${color1}${execi 6 sensors | grep 'Core 0:' | awk '{print $3}' | sed 's#+\(..\).*#\1°#'}${alignr 140}${color1}${cpu cpu1}% ${color1}${cpugraph cpu1 14,0 1E90FF A52A2A -t}
+${color}${offset 8}${font whhglyphs:size=10}${font}  CPU 2: ${color1}${execi 6 sensors | grep 'Core 0:' | awk '{print $3}' | sed 's#+\(..\).*#\1°#'}${alignr 140}${color1}${cpu cpu2}% ${color1}${cpugraph cpu2 14,0 1E90FF A52A2A -t}
+${color}${offset 8}${font whhglyphs:size=10}${font}  CPU 3: ${color1}${execi 6 sensors | grep 'Core 1:' | awk '{print $3}' | sed 's#+\(..\).*#\1°#'}${alignr 140}${color1}${cpu cpu3}% ${color1}${cpugraph cpu3 14,0 1E90FF A52A2A -t}
+${color}${offset 8}${font whhglyphs:size=10}${font}  CPU 4: ${color1}${execi 6 sensors | grep 'Core 1:' | awk '{print $3}' | sed 's#+\(..\).*#\1°#'}${alignr 140}${color1}${cpu cpu4}% ${color1}${cpugraph cpu4 14,0 1E90FF A52A2A -t}
+${color}${offset 8}${font whhglyphs:size=10}${font}  CPU 5: ${color1}${execi 6 sensors | grep 'Core 2:' | awk '{print $3}' | sed 's#+\(..\).*#\1°#'}${alignr 140}${color1}${cpu cpu5}% ${color1}${cpugraph cpu5 14,0 1E90FF A52A2A -t}
+${color}${offset 8}${font whhglyphs:size=10}${font}  CPU 6: ${color1}${execi 6 sensors | grep 'Core 2:' | awk '{print $3}' | sed 's#+\(..\).*#\1°#'}${alignr 140}${color1}${cpu cpu6}% ${color1}${cpugraph cpu6 14,0 1E90FF A52A2A -t}
+${color}${offset 8}${font whhglyphs:size=10}${font}  CPU 7: ${color1}${execi 6 sensors | grep 'Core 3:' | awk '{print $3}' | sed 's#+\(..\).*#\1°#'}${alignr 140}${color1}${cpu cpu7}% ${color1}${cpugraph cpu7 14,0 1E90FF A52A2A -t}
+${color}${offset 8}${font whhglyphs:size=10}${font}  CPU 8: ${color1}${execi 6 sensors | grep 'Core 3:' | awk '{print $3}' | sed 's#+\(..\).*#\1°#'}${alignr 140}${color1}${cpu cpu8}% ${color1}${cpugraph cpu8 14,0 1E90FF A52A2A -t}
 ${color1}${font Hermit:style=bold:size=10}RAM${hr 3}
-${color}${offset 8}${font whhglyphs:size=10}${font}  $mem/$memmax${alignr 100}${color1}$memperc% ${color1}${membar}
+${color}${offset 8}${font whhglyphs:size=10}${font}  $mem/$memmax${alignr 140}${color1}$memperc% ${color1}${membar}
 
 ${color1}${font Hermit:style=bold:size=10}DISKS${hr 3}
 ${color}${offset 8}${font whhglyphs:size=10}${font}  /root    ${alignc}${fs_used /}/${fs_size /} ${alignr 70}${color1}${fs_used_perc /}% ${color1}${fs_bar /}
