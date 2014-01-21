@@ -644,7 +644,7 @@ globalkeys = awful.util.table.join(
     -- WM control
     keydoc.group("01. Control"),
     awful.key({ modkey,           }, "w", function () mymainmenu:show() end, "Show menu"),
-    awful.key({ modkey,           }, "p", function() menubar.show() end, "Draw menu bar"),
+    awful.key({ modkey, "Shift"   }, "p", function() menubar.show() end, "Draw menu bar"),
     --awful.key({ modkey,           }, "p",
      -- function()
       --  awful.util.spawn("dmenu_run -i -p 'Run command:' -fn 'Terminal Dosis-10' -nb '".. beautiful.bg_normal.."' -nf '"..beautiful.fg_normal.. "' -sb '"..beautiful.bg_focus.. "' -sf '"..beautiful.fg_focus.."'") end, "Draw menu bar"),
@@ -664,6 +664,7 @@ globalkeys = awful.util.table.join(
     awful.key({ modkey,           }, "l", function () awful.util.spawn("libreoffice") end, "Libreoffice"),
     awful.key({ modkey,           }, "m", function () awful.util.spawn(myfile) end, "Explore"),
     awful.key({ modkey,           }, "o", function () awful.util.spawn("opera") end, "Opera"),
+    awful.key({ modkey,           }, "p", function () awful.util.spawn("puddletag") end, "Puddletag"),
     awful.key({ modkey,           }, "s", function () awful.util.spawn("spacefm") end, "Spacefm"),
     awful.key({ modkey,           }, "t", function () awful.util.spawn("thunderbird") end, "Thunderbird"),
 
