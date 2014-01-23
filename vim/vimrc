@@ -40,6 +40,7 @@ NeoBundle 'tpope/vim-repeat'
 NeoBundle 'tomtom/tcomment_vim'
 NeoBundle 'Raimondi/delimitMate'
 NeoBundle 'scrooloose/nerdtree'
+NeoBundle 'jistr/vim-nerdtree-tabs'
 NeoBundle 'scrooloose/syntastic'
 NeoBundle 'dbakker/vim-lint', {'depends': ['scrooloose/syntastic']}
 NeoBundle 'rkitover/vimpager'
@@ -508,6 +509,10 @@ NeoBundleCheck
   nnoremap <Leader>e :NERDTreeToggle<CR>
   " " }}}
 
+" 'jistr/vim-nerdtree-tabs' " {{{2
+  nnoremap <Leader>n :NERDTreeTabsToggle<CR>
+" " }}}
+
 " 'scrooloose/syntastic' " {{{2
   let g:syntastic_check_on_open=1
   let g:syntastic_auto_loc_list=1
@@ -620,8 +625,8 @@ set hlsearch                           " highlight search results
 set wildchar=<tab>                     " the char used for 'expansion' on the command line
 set wildmode=list:longest,full         " show list of completions and complete as much as possible, then iterate full completions
 set wildmenu                           " use a scrollable menu for filename completions
-set list                               " shows characters to show for expanded TABs,
-set listchars=tab:→\ ,trail:·,eol:¶    " trailing whitespace, and end-of-lines
+set list                               " display unprintable characters
+set listchars=tab:→\ ,trail:·,eol:¶    " tabstops, trailing whitespace, and end-of-lines
 set modeline                           " allow the execution of modelines which is disabled in /etc/vim/vimrc
 set showmode                           " shows mode
 set showcmd                            " show uncompleted command
@@ -670,12 +675,11 @@ endfunc
 " " }}}
 
 " Visual " {{{1
-set t_Co=256                           " configure for 256 colors terminal"
 if &term =~ "linux"
   if $USER=='root'
-    color delek
+    color default
   else
-    color slate
+    color evening
   endif
 else
   if has('gui_running')
@@ -691,7 +695,7 @@ else
       color lucius
       LuciusBlackLowContrast
     else
-      color Tomorrow-Night-Bright
+      color luna-term
     endif
   endif
 endif
@@ -811,6 +815,10 @@ nnoremap <Leader>/ :nohl<CR>           " Don't highlight searchresults anymore
 nnoremap <Leader>st G?--<CR>jVGd :r ~/.mutt/short-signature-tango<CR>
 nnoremap <Leader>ss G?--<CR>jVGd :r ~/.mutt/short-signature<CR>
 nnoremap <Leader>sl G?--<CR>jVGd :r ~/.mutt/signature<CR>
+
+" stay in visual mode while indenting
+vnoremap < <gv
+vnoremap > >gv
 
 " Abbreviations
 iab grz Greetz<CR>Stefan
