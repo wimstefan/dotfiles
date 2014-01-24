@@ -819,6 +819,10 @@ RPROMPT='$colorfg{blue}$bold$mytime$uncolorfg$unbold'
   alias ere="revdep-rebuild -- -a"
   alias ta="tmux -2 attach -d"
   alias mc="mc -S modarin256root"
+  ## read private aliases
+  if [[ -s $HOME/.zsh/zsh_aliases ]]; then
+    source $HOME/.zsh/zsh_aliases
+  fi
   # }}}3
   # - Functions # {{{3
   function all-update ()
