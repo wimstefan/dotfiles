@@ -61,11 +61,11 @@ end
 
 local layouts =
 {
-    awful.layout.suit.floating,           --1
     --awful.layout.suit.tile,
-    awful.layout.suit.tile.left,          --2
+    awful.layout.suit.tile.left,          --1
     --awful.layout.suit.tile.bottom,
-    awful.layout.suit.tile.top,           --3
+    awful.layout.suit.tile.top,           --2
+    awful.layout.suit.floating,           --3
     awful.layout.suit.fair,               --4
     --awful.layout.suit.fair.horizontal,
     --awful.layout.suit.spiral,
@@ -757,7 +757,7 @@ awful.rules.rules = {
                      focus = awful.client.focus.filter,
                      keys = clientkeys,
                      buttons = clientbuttons } },
-    { rule = { class = "URxvt"}, properties = { border_width = "0", size_hints_honor = false } },
+    { rule = { class = "URxvt"}, properties = { size_hints_honor = false } },
     { rule = { class = "URxvt", name = "sys" }, properties = { tag = tags[1] } },
     { rule = { class = "URxvt", name = "work" }, properties = { tag = tags[2] } },
     { rule = { class = "URxvt", name = "com" }, properties = { tag = tags[3] } },

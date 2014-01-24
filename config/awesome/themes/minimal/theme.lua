@@ -14,8 +14,9 @@ white = "#FFFFFF"
 
 theme = {}
 
--- Theme wallpaper {{{
-theme.wallpaper = config_dir .. "/themes/wallpaper.png"
+-- Theme settings {{{
+theme.wallpaper                 = config_dir .. "/themes/wallpaper.png"
+theme.border_width              = "4"
 --}}}
 
 -- Theme fonts {{{
@@ -32,9 +33,8 @@ theme.bg_normal                             = dgrey
 theme.bg_focus                              = dgrey
 theme.bg_em                                 = "#5C5C5C"
 theme.bg_urgent                             = red
-theme.border_width                          = "1"
 theme.border_normal                         = black
-theme.border_focus                          = "#6F6F6F"
+theme.border_focus                          = dgrey
 theme.border_marked                         = "#CC9393"
 theme.fg_widget_1                           = lgrey
 theme.fg_widget_2                           = lgrey
