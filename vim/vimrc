@@ -510,6 +510,7 @@ NeoBundleCheck
   " " }}}
 
 " 'jistr/vim-nerdtree-tabs' " {{{2
+  let g:nerdtree_tabs_open_on_gui_startup = 1
   nnoremap <Leader>n :NERDTreeTabsToggle<CR>
 " " }}}
 
@@ -626,7 +627,8 @@ set wildchar=<tab>                     " the char used for 'expansion' on the co
 set wildmode=list:longest,full         " show list of completions and complete as much as possible, then iterate full completions
 set wildmenu                           " use a scrollable menu for filename completions
 set list                               " display unprintable characters
-set listchars=tab:→\ ,trail:·,eol:¶    " tabstops, trailing whitespace, and end-of-lines
+set listchars=tab:→\ ,trail:·,eol:«    " tabstops, trailing whitespace, and end-of-lines
+"set listchars=tab:→\ ,trail:·,eol:¶    " tabstops, trailing whitespace, and end-of-lines
 set modeline                           " allow the execution of modelines which is disabled in /etc/vim/vimrc
 set showmode                           " shows mode
 set showcmd                            " show uncompleted command
