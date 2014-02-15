@@ -33,6 +33,7 @@ NeoBundleLazy 'osyo-manga/unite-quickfix', {'autoload': {'unite_sources':
 NeoBundleLazy 'osyo-manga/unite-filetype', {'autoload': {'unite_sources': 'filetype', }}
 NeoBundleLazy 'osyo-manga/unite-fold', {'autoload': {'unite_sources': 'fold'}}
 NeoBundle 'Shougo/neocomplcache'
+NeoBundleLazy 'Shougo/vimfiler', {'autoload': {'commands': ['VimFiler','VimFilerExplorer']}}
 NeoBundleLazy 'sjl/gundo.vim', {'autoload': {'commands': 'GundoToggle'}}
 NeoBundle 'tpope/vim-abolish'
 NeoBundle 'tpope/vim-characterize'
@@ -62,21 +63,25 @@ NeoBundle 'mhinz/vim-signify'
 NeoBundle 'mhinz/vim-startify'
 NeoBundle 'atweiden/vim-vmath'
 NeoBundle 'VOoM'
-NeoBundle 'HybridText'
 NeoBundle 'itchyny/lightline.vim'
 NeoBundle 'itchyny/lightline-powerful'
 NeoBundle 'wimstefan/vim-tomorrow-theme'
-NeoBundle 'w0ng/vim-hybrid'
 NeoBundle 'jonathanfilip/vim-lucius'
-NeoBundle 'pasela/edark.vim'
 NeoBundle 'joedicastro/vim-github256'
 NeoBundle 'Pychimp/vim-luna'
-NeoBundle 'junegunn/seoul256.vim'
+NeoBundle 'reedes/vim-colors-pencil'
 
 NeoBundleCheck
 " " }}}
 
 " Plugins config " {{{1
+" 'netrw' " {{{2
+  let g:netrw_winsize         = 30
+  let g:netrw_liststyle       =  3
+  let g:netrw_preview         =  1
+  let g:netrw_browse_split    =  2
+  " " }}}
+
 " 'Shougo/unite.vim' " {{{2
   call unite#filters#matcher_default#use(['matcher_fuzzy'])
   call unite#custom#source('file_rec,file_rec/async,grep,locate',
@@ -360,7 +365,7 @@ NeoBundleCheck
       \['▷ git log                (fugitive)',
           \'exe "silent Glog | Unite -no-quit quickfix"'],
       \['▷ git log - all          (fugitive)',
-          \'exe "silent Glog -all | Unite -no-quit quickfix"'],
+          \'exe "silent Glog --all | Unite -no-quit quickfix"'],
       \['▷ git blame              (fugitive)',
           \'Gblame'],
       \['▷ git add/stage          (fugitive)',
@@ -488,6 +493,11 @@ NeoBundleCheck
   let g:neocomplcache_temporary_dir = $HOME.'/.cache/vim/neocon/'
   " " }}}
 
+" 'Shougo/vimfiler' " {{{2
+  let g:vimfiler_data_directory = $HOME.'/.cache/vim/vimfiler/'
+  let g:vimfiler_force_overwrite_statusline = 0
+  " " }}}
+
 " 'sjl/gundo.vim' " {{{2
   nnoremap <C-u> :GundoToggle<CR>
   " " }}}
@@ -592,7 +602,6 @@ NeoBundleCheck
 " 'jonathanfilip/vim-lucius' " {{{2
   let g:lucius_use_bold = 1
   " " }}}
-
 " " }}}
 
 " General Settings " {{{1
@@ -703,7 +712,8 @@ else
 endif
 
 if exists('vimpager')
-  color edark
+  set background=dark
+  color pencil
   set colorcolumn=0
   set nolist
 endif
@@ -758,7 +768,8 @@ set showtabline=2                      " always show tabline, even if there is j
 " Formatting " {{{1
 " Format texts. Really cool.
 set comments=b:#,fb:-,fb:*,fb:o,:%,n:>|
-set formatoptions=tcraqnw2              " autoformating with paragraphs (a) & gq (q)
+"set formatoptions=tcraqnw2              " autoformating with paragraphs (a) & gq (q)
+set formatoptions=tcrqnw2              " autoformatting without paragraphs
 "set formatoptions=tcrnw2              " autoformatting without paragraphs & gq
 
 " Using Damian Conways Text::Autoformat
