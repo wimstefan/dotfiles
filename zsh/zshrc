@@ -829,7 +829,6 @@ RPROMPT='$colorfg{blue}$bold$mytime$uncolorfg$unbold'
   {
      rkhunter --propupd
      eselect env update;
-     source /etc/profile;
      source $HOME/.zshrc
   }
 
