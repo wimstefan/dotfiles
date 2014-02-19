@@ -825,6 +825,7 @@ nnoremap <F8> :set cursorline!<CR>     " toggle cursorline
 nnoremap <Leader>/ :nohl<CR>           " Don't highlight searchresults anymore
 
 " Replace signatures
+nnoremap <Leader>sa G?--<CR>jVGd :r ~/.mutt/short-signature-artisan<CR>
 nnoremap <Leader>st G?--<CR>jVGd :r ~/.mutt/short-signature-tango<CR>
 nnoremap <Leader>ss G?--<CR>jVGd :r ~/.mutt/short-signature<CR>
 nnoremap <Leader>sl G?--<CR>jVGd :r ~/.mutt/signature<CR>
