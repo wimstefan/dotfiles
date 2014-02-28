@@ -602,6 +602,12 @@ NeoBundleCheck
 " 'jonathanfilip/vim-lucius' " {{{2
   let g:lucius_use_bold = 1
   " " }}}
+
+
+" 'reedes/vim-colors-pencil' " {{{2
+  let g:pencil_higher_contrast_ui = 1
+  let loaded_matchparen = 1
+  " " }}}
 " " }}}
 
 " General Settings " {{{1
