@@ -631,7 +631,7 @@ set viminfo+=n$HOME/.cache/vim/viminfo " specify where to write the viminfo
 set history=100                        " keep 100 lines of command line history
 set number                             " show line numbers
 "set cursorline                         " highlights the screen line of the cursor
-set colorcolumn=+1                     " highlights textwidth boundaries
+let &cc='+'.join(range(1,255),',+')    " highlights textwidth boundaries
 set gdefault                           " always use global substitutions
 set digraph                            " enter characters that normally can't be entered by keyboard
 set ignorecase                         " ignore case when using a search pattern
