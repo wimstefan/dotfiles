@@ -487,12 +487,6 @@ RPROMPT='$colorfg{blue}$bold$mytime$uncolorfg$unbold'
     fi
   }
 
-  function sync-iriver()
-  {
-    rsync -rtvz --delete --ignore-existing /music/Tango/ /media/iriver/music/Tango/
-    rsync -rtvz /music/pytone/playlists/ /media/iriver/playlists/
-  }
-
   function sync-ipod()
   {
     rsync -rtvz --delete --ignore-existing /music/Non-Tango/ /media/ipod/music/Non-Tango/
@@ -545,23 +539,11 @@ RPROMPT='$colorfg{blue}$bold$mytime$uncolorfg$unbold'
     #echo "$1 lessen (75min) + $2 lessen (60min) (`wcalc "(($1*75) + ($2*60)) / 60" | sed 's/ = //'` werkuren á € 44.00)"
     #echo "€ `wcalc "((($1*75) + ($2*60)) / 60) * 44" | sed 's/ = //'`"
     #### 2013 met korting ###
-    echo "$1 lessen (75min) + $2 lessen (60min) (`wcalc "(($1*75) + ($2*60)) / 60" | sed 's/ = //'` werkuren á € 40.00)"
-    echo "€ `wcalc "((($1*75) + ($2*60)) / 60) * 40" | sed 's/ = //'`"
-  }
-
-  function h300-convert()
-  {
-    mencoder $1 -of mpeg -oac lavc -lavcopts acodec=mp2:abitrate=96:vmax_b_frames=16:vb_strategy=2 -af resample=44100:0:0 -ovc lavc -lavcopts vcodec=mpeg2video:vbitrate=600 -vf scale=220:176,harddup -ofps 25 -o $2.mpg
-  }
-
-  function ipod-convert()
-  {
-   mencoder -quiet -of mpeg -oac lavc -lavcopts acodec=mp2:abitrate=160 -af resample=44100:0:0 -ovc lavc -lavcopts vcodec=mpeg2video:vbitrate=300 -vf scale,harddup -ofps 12 -zoom -xy 320 "$1" -o $2.mpg
-  }
-
-  function avchd-convert()
-  {
-    ffmpeg -i $1 -f avi -b 16000k -ab 192k $(basename $1 .mts).dv
+    #echo "$1 lessen (75min) + $2 lessen (60min) (`wcalc "(($1*75) + ($2*60)) / 60" | sed 's/ = //'` werkuren á € 40.00)"
+    #echo "€ `wcalc "((($1*75) + ($2*60)) / 60) * 40" | sed 's/ = //'`"
+    #### 2014 zonder korting ###
+    echo "$1 lessen (75min) + $2 lessen (60min) (`wcalc "(($1*75) + ($2*60)) / 60" | sed 's/ = //'` werkuren á € 44.00)"
+    echo "€ `wcalc "((($1*75) + ($2*60)) / 60) * 44" | sed 's/ = //'`"
   }
 
   function inf-scp() {
