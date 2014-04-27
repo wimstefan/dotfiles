@@ -65,6 +65,7 @@ NeoBundle 'atweiden/vim-vmath'
 NeoBundle 'VOoM'
 NeoBundle 'itchyny/lightline.vim'
 NeoBundle 'itchyny/lightline-powerful'
+NeoBundle 'itchyny/thumbnail.vim'
 NeoBundle 'wimstefan/vim-tomorrow-theme'
 NeoBundle 'jonathanfilip/vim-lucius'
 NeoBundle 'joedicastro/vim-github256'
@@ -571,7 +572,7 @@ NeoBundleCheck
   if $USER=='root'
     let g:lightline = { 'colorscheme' : 'Tomorrow_Night_Bright', }
   else
-    let g:lightline = { 'colorscheme' : 'default', }
+    let g:lightline = { 'colorscheme' : 'Tomorrow', }
   endif
   " " }}}
 
@@ -712,7 +713,8 @@ else
       color lucius
       LuciusBlackLowContrast
     else
-      color luna-term
+      color lucius
+      LuciusWhiteHighContrast
     endif
   endif
 endif
