@@ -617,6 +617,7 @@ RPROMPT='$colorfg{blue}$bold$mytime$uncolorfg$unbold'
         rsync -az --delete /usr/local/share/icons/ $host:/usr/local/share/icons/
         rsync -rkptgoDz --delete /usr/local/share/themes/ $host:/usr/local/share/themes/
         rsync -az --delete /usr/share/fonts/owned/ $host:/usr/share/fonts/owned/
+        rsync -az --delete /home/swimmer/.config/libreoffice/4/user/template/ $host:.config/libreoffice/4/user/template/
         rsync -az /home/swimmer/.gtkrc-2.0 $host:
         rsync -az /home/swimmer/.config/gtk-3.0/ $host:.config/gtk-3.0/
         rsync -az /home/swimmer/.config/Trolltech.conf $host:.config/
