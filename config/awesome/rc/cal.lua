@@ -94,7 +94,7 @@ tooltip = awful.tooltip({})
                 function tooltip:update()
                         local month, year = os.date('%m'), os.date('%Y')
                         state = {month, year}
-                        tooltip:set_text(string.format('<span font="%s">%s</span>', beautiful.mono_font, displayMonth(month, year, weekStart)))
+                        tooltip:set_markup(string.format('<span font="%s">%s</span>', beautiful.mono_font, displayMonth(month, year, weekStart)))
                 end
                 tooltip:update()
 end
@@ -132,7 +132,7 @@ end
 function switchMonth(delta)
 state[1] = state[1] + (delta or 1)
 local text = string.format('<span font="%s">%s</span>', beautiful.mono_font, displayMonth(state[1], state[2], weekStart))
-tooltip:set_text(text)
+tooltip:set_markup(text)
 end
 
 return cal
