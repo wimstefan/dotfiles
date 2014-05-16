@@ -9,24 +9,28 @@ Xft.rgba:       rgb
 
 Xcursor*theme: Neutral_Plus
 
-#ifdef SRVR_asuca
-  *font: xft:Envy Code R for Powerline:pixelsize=12
-  *faceName: xft:Envy Code R for Powerline:pixelsize=12
-  URxvt.font: xft:Envy Code R for Powerline:pixelsize=12,xft:Free Mono for Powerline:pixelsize=11,xft:Symbola:pixelsize=10
-#elif SRVR_tj
-  *font: xft:Envy Code R for Powerline:pixelsize=13
-  *faceName: xft:Envy Code R for Powerline:pixelsize=13
-  URxvt.font: xft:Envy Code R for Powerline:pixelsize=13,xft:Free Mono for Powerline:pixelsize=13,xft:Symbola:pixelsize=12
-#elif SRVR_mimi
-  *font: xft:Envy Code R for Powerline:pixelsize=12
-  *faceName: xft:Envy Code R for Powerline:pixelsize=12
-  URxvt.font: xft:Envy Code R for Powerline:pixelsize=12,xft:Free Mono for Powerline:pixelsize=11,xft:Symbola:pixelsize=10
-#elif SRVR_swimmer
-  *font: xft:Envy Code R for Powerline:pixelsize=14
-  *faceName: xft:Envy Code R for Powerline:pixelsize=14
-  URxvt.font: xft:Envy Code R for Powerline:pixelsize=14,xft:Free Mono for Powerline:pixelsize=12,xft:Symbola:pixelsize=12
-  !URxvt.font: xft:Hermit:pixelsize=14,xft:Free Mono for Powerline:pixelsize=14
-#endif
+! #ifdef SRVR_asuca
+!   *font: xft:Envy Code R for Powerline:pixelsize=12
+!   *faceName: xft:Envy Code R for Powerline:pixelsize=12
+!   URxvt.font: xft:Envy Code R for Powerline:pixelsize=12,xft:Free Mono for Powerline:pixelsize=11,xft:Symbola:pixelsize=10
+! #elif SRVR_tj
+!   *font: xft:Envy Code R for Powerline:pixelsize=13
+!   *faceName: xft:Envy Code R for Powerline:pixelsize=13
+!   URxvt.font: xft:Envy Code R for Powerline:pixelsize=13,xft:Free Mono for Powerline:pixelsize=13,xft:Symbola:pixelsize=12
+! #elif SRVR_mimi
+!   *font: xft:Envy Code R for Powerline:pixelsize=12
+!   *faceName: xft:Envy Code R for Powerline:pixelsize=12
+!   URxvt.font: xft:Envy Code R for Powerline:pixelsize=12,xft:Free Mono for Powerline:pixelsize=11,xft:Symbola:pixelsize=10
+! #elif SRVR_swimmer
+!   *font: xft:Envy Code R for Powerline:pixelsize=14
+!   *faceName: xft:Envy Code R for Powerline:pixelsize=14
+!   URxvt.font: xft:Envy Code R for Powerline:pixelsize=14,xft:Free Mono for Powerline:pixelsize=12,xft:Symbola:pixelsize=12
+!   !URxvt.font: xft:Hermit:pixelsize=14,xft:Free Mono for Powerline:pixelsize=14
+! #endif
+
+*font: xft:Source Code Pro for Powerline:pixelsize=13
+*faceName: xft:Source Code Pro for Powerline:pixelsize=13
+URxvt.font: xft:Source Code Pro for Powerline:pixelsize=13,xft:Free Mono for Powerline:pixelsize=12,xft:Symbola:pixelsize=12
 
 URxvt.depth: 32
 URxvt.letterSpace: -1
