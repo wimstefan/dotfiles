@@ -65,7 +65,7 @@ NeoBundle 'atweiden/vim-vmath'
 NeoBundle 'VOoM'
 NeoBundle 'itchyny/lightline.vim'
 NeoBundle 'itchyny/lightline-powerful'
-NeoBundle 'itchyny/thumbnail.vim'
+NeoBundle 'itchyny/landscape.vim'
 NeoBundle 'wimstefan/vim-tomorrow-theme'
 NeoBundle 'jonathanfilip/vim-lucius'
 NeoBundle 'joedicastro/vim-github256'
@@ -693,13 +693,7 @@ endfunc
 " " }}}
 
 " Visual " {{{1
-if &term =~ "linux"
-  if $USER=='root'
-    color default
-  else
-    color evening
-  endif
-else
+if exists('$SHLVL') && $SHLVL > 1
   if has('gui_running')
     let g:lucius_style='light'
     if $USER=='root'
@@ -717,11 +711,17 @@ else
       LuciusWhiteHighContrast
     endif
   endif
+else
+  if $USER=='root'
+    color default
+  else
+    color elflord
+  endif
 endif
 
 if exists('vimpager')
   set background=dark
-  color pencil
+  color landscape
   set colorcolumn=0
   set nolist
 endif
