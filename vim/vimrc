@@ -33,6 +33,7 @@ NeoBundleLazy 'osyo-manga/unite-quickfix', {'autoload': {'unite_sources':
 NeoBundleLazy 'osyo-manga/unite-filetype', {'autoload': {'unite_sources': 'filetype', }}
 NeoBundleLazy 'osyo-manga/unite-fold', {'autoload': {'unite_sources': 'fold'}}
 NeoBundle 'Shougo/neocomplcache'
+NeoBundle 'Shougo/vimshell.vim'
 NeoBundleLazy 'Shougo/vimfiler', {'autoload': {'commands': ['VimFiler','VimFilerExplorer']}}
 NeoBundleLazy 'sjl/gundo.vim', {'autoload': {'commands': 'GundoToggle'}}
 NeoBundle 'tpope/vim-abolish'
@@ -623,7 +624,7 @@ set autoindent                         " set autoindenting on
 set hidden                             " allow buffers to go in background without saving etc.
 set autowrite                          " save automatically before critical operations
 set autoread                           " automatically reads & loads changes
-set autochdir                          " change directory to the current buffer when opening files
+"set autochdir                          " change directory to the current buffer when opening files
 set nobackup                           " keep a backup file
 "set fileformat=unix                    " always on a linux box (!) :-) - 2012-12-06 doesn't work with vimpager :-/
 "set viminfo='50,\"100,:100,%          " read/write a viminfo file with buffer list
