@@ -615,7 +615,7 @@ RPROMPT='$colorfg{blue}$bold$mytime$uncolorfg$unbold'
         rsync -az /home/swimmer/.Xresources $host:
         rsync -az --delete --exclude '.thumbs' /home/swimmer/system/wallpapers/ $host\:system/wallpapers/
         rsync -az --delete /usr/local/share/icons/ $host:/usr/local/share/icons/
-        rsync -rkptgoDz --delete /usr/local/share/themes/ $host:/usr/local/share/themes/
+        rsync --recursive --links --keep-dirlinks --perms --times --group --owner -D --compress --delete /usr/local/share/themes/ $host:/usr/local/share/themes/
         rsync -az --delete /usr/share/fonts/owned/ $host:/usr/share/fonts/owned/
         rsync -az --delete /home/swimmer/.config/libreoffice/4/user/template/ $host:.config/libreoffice/4/user/template/
         rsync -az /home/swimmer/.gtkrc-2.0 $host:
@@ -646,12 +646,8 @@ RPROMPT='$colorfg{blue}$bold$mytime$uncolorfg$unbold'
         rsync -az /home/swimmer/.elinks/elinks.conf $host:.elinks/elinks.conf
       }
       function sync-misc() {
-      # wallpapers, aftershotpro
+      # diverse
         local host=$1
-        echo "Syncing Aftershot config & plugins on $host ..."
-        rsync -azL         /home/swimmer/.AfterShotPro/customToolsUI.txt $host:.AfterShotPro/
-        rsync -az --delete /home/swimmer/.AfterShotPro/Presets/ $host:.AfterShotPro/Presets/
-        rsync -az --delete /home/swimmer/.AfterShotPro/Plugins/ $host:.AfterShotPro/Plugins/
       }
 
       for i in "$@"; do
@@ -663,7 +659,6 @@ RPROMPT='$colorfg{blue}$bold$mytime$uncolorfg$unbold'
               sync-dotfiles $i
               sync-x $i
               sync-cli $i
-              sync-misc $i
             else
               echo "$i is down"
             fi
@@ -686,7 +681,6 @@ RPROMPT='$colorfg{blue}$bold$mytime$uncolorfg$unbold'
               sync-dotfiles $i
               sync-x $i
               sync-cli $i
-              sync-misc $i
             else
               echo "$i is down"
             fi
