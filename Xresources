@@ -28,9 +28,9 @@ Xcursor*theme: Neutral_Plus
 !   !URxvt.font: xft:Hermit:pixelsize=14,xft:Free Mono for Powerline:pixelsize=14
 ! #endif
 
-*font: xft:Source Code Pro for Powerline:pixelsize=13
-*faceName: xft:Source Code Pro for Powerline:pixelsize=13
-URxvt.font: xft:Source Code Pro for Powerline:pixelsize=13,xft:Free Mono for Powerline:pixelsize=12,xft:Symbola:pixelsize=12
+*font: xft:DejaVu Sans Mono for Powerline:pixelsize=13
+*faceName: xft:DejaVu Sans Mono for Powerline:pixelsize=13
+URxvt.font: xft:DejaVu Sans Mono for Powerline:pixelsize=13,xft:Symbola:pixelsize=12,xft:OpenSymbol:pixelsize=12
 
 URxvt.depth: 32
 URxvt.letterSpace: -1
