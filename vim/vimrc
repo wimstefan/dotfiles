@@ -41,6 +41,7 @@ NeoBundle 'tpope/vim-characterize'
 NeoBundle 'tpope/vim-repeat'
 NeoBundle 'tomtom/tcomment_vim'
 NeoBundle 'Raimondi/delimitMate'
+NeoBundle 'kien/rainbow_parentheses.vim'
 NeoBundle 'scrooloose/nerdtree'
 NeoBundle 'jistr/vim-nerdtree-tabs'
 NeoBundle 'scrooloose/syntastic'
@@ -70,8 +71,6 @@ NeoBundle 'itchyny/landscape.vim'
 NeoBundle 'wimstefan/vim-tomorrow-theme'
 NeoBundle 'jonathanfilip/vim-lucius'
 NeoBundle 'joedicastro/vim-github256'
-NeoBundle 'Pychimp/vim-luna'
-NeoBundle 'reedes/vim-colors-pencil'
 
 NeoBundleCheck
 " " }}}
@@ -632,7 +631,7 @@ set viminfo='50,\"100,:100             " read/write a viminfo file without buffe
 set viminfo+=n$HOME/.cache/vim/viminfo " specify where to write the viminfo
 set history=100                        " keep 100 lines of command line history
 set number                             " show line numbers
-"set cursorline                         " highlights the screen line of the cursor
+set cursorline                         " highlights the screen line of the cursor
 let &cc='+'.join(range(1,255),',+')    " highlights textwidth boundaries
 set gdefault                           " always use global substitutions
 set digraph                            " enter characters that normally can't be entered by keyboard
@@ -694,7 +693,6 @@ endfunc
 " " }}}
 
 " Visual " {{{1
-if exists('$SHLVL') && $SHLVL > 1
   if has('gui_running')
     let g:lucius_style='light'
     if $USER=='root'
@@ -705,19 +703,27 @@ if exists('$SHLVL') && $SHLVL > 1
     endif
   else
     if $USER=='root'
-      color lucius
-      LuciusBlackLowContrast
+      color Tomorrow
     else
       color lucius
       LuciusWhiteHighContrast
     endif
   endif
-else
-  if $USER=='root'
-    color default
+
+if &term =~ "xterm\\|rxvt"
+  if &background == "light"
+    silent !echo -ne "\033]12;darkgrey\007"
   else
-    color elflord
+    silent !echo -ne "\033]12;white\007"
   endif
+  " reset cursor when vim exits
+  autocmd VimLeave * silent !echo -ne "\033]112\007"
+endif
+if &term =~ "screen"
+  set t_vs+=[34l
+  au InsertEnter * set t_vs+=[34h[?25h    " cnorm
+  au InsertLeave * set t_vs+=[34l           " cvvis
+  autocmd VimLeave * set t_vs+=[34h[?25h
 endif
 
 if exists('vimpager')
