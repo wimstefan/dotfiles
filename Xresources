@@ -8,8 +8,8 @@ Xft.lcdfilter:  lcddefault
 Xft.rgba:       rgb
 
 Xcursor*theme: Neutral_Plus
-! *cursorColor:  #313131
-! *cursorColor2: #eeeeee
+*cursorColor:  #787878
+*cursorColor2: #eeeeee
 
 ! #ifdef SRVR_asuca
 !   *font: xft:Envy Code R for Powerline:pixelsize=12

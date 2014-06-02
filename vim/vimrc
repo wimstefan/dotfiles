@@ -63,7 +63,8 @@ NeoBundle 'tpope/vim-fugitive'
 NeoBundle 'gregsexton/gitv', {'depends': ['tpope/vim-fugitive']}
 NeoBundle 'mhinz/vim-signify'
 NeoBundle 'mhinz/vim-startify'
-NeoBundle 'atweiden/vim-vmath'
+NeoBundle 'mattn/gist-vim'
+NeoBundle 'mattn/webapi-vim'
 NeoBundle 'VOoM'
 NeoBundle 'itchyny/lightline.vim'
 NeoBundle 'itchyny/lightline-powerful'
@@ -693,37 +694,30 @@ endfunc
 " " }}}
 
 " Visual " {{{1
-  if has('gui_running')
-    let g:lucius_style='light'
-    if $USER=='root'
-      color github256
-    else
-      color lucius
-      LuciusWhiteHighContrast
-    endif
-  else
-    if $USER=='root'
-      color Tomorrow
-    else
-      color lucius
-      LuciusWhiteHighContrast
-    endif
+if &term =~ "linux"
+  color delek
+  if has("terminfo")
+    set t_Co=16
+    set t_AB=[%?%p1%{7}%>%t5%p1%{8}%-%e25%p1%;m[4%dm
+    set t_AF=[%?%p1%{7}%>%t1%p1%{8}%-%e22%p1%;m[3%dm
   endif
-
-if &term =~ "xterm\\|rxvt"
-  if &background == "light"
-    silent !echo -ne "\033]12;darkgrey\007"
-  else
-    silent !echo -ne "\033]12;white\007"
-  endif
-  " reset cursor when vim exits
-  autocmd VimLeave * silent !echo -ne "\033]112\007"
 endif
-if &term =~ "screen"
-  set t_vs+=[34l
-  au InsertEnter * set t_vs+=[34h[?25h    " cnorm
-  au InsertLeave * set t_vs+=[34l           " cvvis
-  autocmd VimLeave * set t_vs+=[34h[?25h
+
+if has('gui_running')
+  let g:lucius_style='light'
+  if $USER=='root'
+    color github256
+  else
+    color lucius
+    LuciusWhiteHighContrast
+  endif
+else
+  if $USER=='root'
+    color Tomorrow
+  else
+    color lucius
+    LuciusWhiteHighContrast
+  endif
 endif
 
 if exists('vimpager')
@@ -733,7 +727,6 @@ if exists('vimpager')
   set nolist
 endif
 
-"set guifont=Consolas\ for\ Powerline\ 9
 set guifont=Envy\ Code\ R\ for\ Powerline\ 10
 
 filetype indent plugin on | syn on     " enable filetype, plugin and syntax support
