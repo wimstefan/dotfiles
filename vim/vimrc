@@ -701,22 +701,22 @@ if &term =~ "linux"
     set t_AB=[%?%p1%{7}%>%t5%p1%{8}%-%e25%p1%;m[4%dm
     set t_AF=[%?%p1%{7}%>%t1%p1%{8}%-%e22%p1%;m[3%dm
   endif
-endif
-
-if has('gui_running')
-  let g:lucius_style='light'
-  if $USER=='root'
-    color github256
-  else
-    color lucius
-    LuciusWhiteHighContrast
-  endif
 else
-  if $USER=='root'
-    color Tomorrow
+  if has('gui_running')
+    let g:lucius_style='light'
+    if $USER=='root'
+      color github256
+    else
+      color lucius
+      LuciusWhiteHighContrast
+    endif
   else
-    color lucius
-    LuciusWhiteHighContrast
+    if $USER=='root'
+      color Tomorrow
+    else
+      color lucius
+      LuciusWhiteHighContrast
+    endif
   endif
 endif
 
