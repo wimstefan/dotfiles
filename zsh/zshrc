@@ -615,7 +615,7 @@ RPROMPT='$colorfg{blue}$bold$mytime$uncolorfg$unbold'
         echo "Syncing terminal & X settings on $host ..."
         rsync -az /home/swimmer/.Xresources $host:
         rsync -az --delete --exclude '.thumbs' /home/swimmer/system/wallpapers/ $host\:system/wallpapers/
-        rsync -az --delete /usr/local/share/icons/ $host:/usr/local/share/icons/
+        rsync --recursive --links --keep-dirlinks --perms --times --group --owner -D --compress --delete /usr/local/share/icons/ $host:/usr/local/share/icons/
         rsync --recursive --links --keep-dirlinks --perms --times --group --owner -D --compress --delete /usr/local/share/themes/ $host:/usr/local/share/themes/
         rsync -az --delete /usr/share/fonts/owned/ $host:/usr/share/fonts/owned/
         rsync -az --delete /home/swimmer/.config/libreoffice/4/user/template/ $host:.config/libreoffice/4/user/template/
