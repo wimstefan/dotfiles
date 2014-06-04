@@ -21,6 +21,8 @@ NeoBundleFetch 'Shougo/neobundle.vim'
 NeoBundle 'Shougo/neobundle-vim-scripts'
 NeoBundle 'Shougo/vimproc', {'build': {'unix': 'make -f make_unix.mak'}}
 NeoBundle 'Shougo/unite.vim'
+NeoBundle 'Shougo/neocomplete'
+NeoBundle 'Shougo/vimshell.vim'
 NeoBundleLazy 'Shougo/unite-ssh', {'autoload': {'unite_sources': 'ssh'}}
 NeoBundleLazy 'Shougo/unite-session', {'autoload': {'unite_sources': 'session',
             \ 'commands' : ['UniteSessionSave', 'UniteSessionLoad']}}
@@ -32,8 +34,6 @@ NeoBundleLazy 'osyo-manga/unite-quickfix', {'autoload': {'unite_sources':
             \ ['quickfix', 'location_list']}}
 NeoBundleLazy 'osyo-manga/unite-filetype', {'autoload': {'unite_sources': 'filetype', }}
 NeoBundleLazy 'osyo-manga/unite-fold', {'autoload': {'unite_sources': 'fold'}}
-NeoBundle 'Shougo/neocomplcache'
-NeoBundle 'Shougo/vimshell.vim'
 NeoBundleLazy 'Shougo/vimfiler', {'autoload': {'commands': ['VimFiler','VimFilerExplorer']}}
 NeoBundleLazy 'sjl/gundo.vim', {'autoload': {'commands': 'GundoToggle'}}
 NeoBundle 'tpope/vim-abolish'
@@ -484,15 +484,11 @@ NeoBundleCheck
     " " }}}
   " " }}}
 
-" 'Shougo/neocomplcache' " {{{2
-  let g:neocomplcache_enable_at_startup = 1
-  let g:neocomplcache_enable_auto_select = 1
-  let g:neocomplcache_max_menu_width = 24
-  if !exists('g:neocomplcache_disabled_sources_list')
-    let g:neocomplcache_disabled_sources_list = {}
-  endif
-  "let g:neocomplcache_disabled_sources_list['_'] = ['filename_complete']
-  let g:neocomplcache_temporary_dir = $HOME.'/.cache/vim/neocon/'
+" 'Shougo/neocomplete' " {{{2
+  let g:neocomplete#enable_at_startup = 1
+  let g:neocomplete#enable_auto_select = 1
+  let g:neocomplete#enable_auto_delimiter = 1
+  let g:neocomplete#data_directory = $HOME.'/.cache/vim/neocomplete/'
   " " }}}
 
 " 'Shougo/vimfiler' " {{{2
@@ -596,19 +592,8 @@ NeoBundleCheck
               \ ]
   " " }}}
 
-" 'atweiden/vim-vmath' {{{2
-  vmap <expr>  ++  VMATH_YankAndAnalyse()
-  nmap         ++  vip++
-  " " }}}
-
 " 'jonathanfilip/vim-lucius' " {{{2
   let g:lucius_use_bold = 1
-  " " }}}
-
-
-" 'reedes/vim-colors-pencil' " {{{2
-  let g:pencil_higher_contrast_ui = 1
-  let loaded_matchparen = 1
   " " }}}
 " " }}}
 
@@ -644,14 +629,15 @@ set wildchar=<tab>                     " the char used for 'expansion' on the co
 set wildmode=list:longest,full         " show list of completions and complete as much as possible, then iterate full completions
 set wildmenu                           " use a scrollable menu for filename completions
 set list                               " display unprintable characters
-set listchars=tab:→\ ,trail:·,eol:«    " tabstops, trailing whitespace, and end-of-lines
-"set listchars=tab:→\ ,trail:·,eol:¶    " tabstops, trailing whitespace, and end-of-lines
+"set listchars=tab:→\ ,trail:·,eol:«    " tabstops, trailing whitespace, and end-of-lines
+set listchars=tab:→\ ,trail:·,eol:«,extends:↷,precedes:↶
 set modeline                           " allow the execution of modelines which is disabled in /etc/vim/vimrc
 set showmode                           " shows mode
 set showcmd                            " show uncompleted command
 set showmatch                          " show matching hyphens
 set diffopt=vertical,iwhite,filler     " split vertical, ignore whitespace & use filler
 set splitright                         " Set vertical splits to split to the right
+set clipboard+=unnamed                 " yank+paste without the "* register
 set splitbelow                         " Set horizontal splits to split to the bottom
 
 " Use persistent undo
@@ -688,7 +674,7 @@ imap <F9> :windo set spell! <CR>
 set printoptions=paper:A4,duplex:long,collate:y,syntax:n
 set printexpr=PrettyPrint(v:fname_in)
 function! PrettyPrint(fname)
-    call system('a2ps -B -2 -s2 -PSamsung_ML-1610 '.a:fname)
+    call system('a2ps -B -2 -s2 -PHL-2250DN '.a:fname)
     return v:shell_error
 endfunc
 " " }}}
