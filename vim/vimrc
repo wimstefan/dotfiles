@@ -68,10 +68,10 @@ NeoBundle 'mattn/webapi-vim'
 NeoBundle 'VOoM'
 NeoBundle 'itchyny/lightline.vim'
 NeoBundle 'itchyny/lightline-powerful'
-NeoBundle 'itchyny/landscape.vim'
 NeoBundle 'wimstefan/vim-tomorrow-theme'
 NeoBundle 'jonathanfilip/vim-lucius'
 NeoBundle 'joedicastro/vim-github256'
+NeoBundle 'vim-scripts/xterm16.vim'
 
 NeoBundleCheck
 " " }}}
@@ -496,6 +496,10 @@ NeoBundleCheck
   let g:vimfiler_force_overwrite_statusline = 0
   " " }}}
 
+" 'Shougo/vimshell' " {{{2
+  let g:vimshell_data_directory = $HOME.'/.cache/vim/vimshell/'
+  " " }}}
+
 " 'sjl/gundo.vim' " {{{2
   nnoremap <C-u> :GundoToggle<CR>
   " " }}}
@@ -595,6 +599,12 @@ NeoBundleCheck
 " 'jonathanfilip/vim-lucius' " {{{2
   let g:lucius_use_bold = 1
   " " }}}
+
+" 'vim-scripts/xterm16' " {{{2
+  let xterm16_brightness = 'high'
+  " " }}}
+" " }}}
+
 " " }}}
 
 " General Settings " {{{1
@@ -681,7 +691,9 @@ endfunc
 
 " Visual " {{{1
 if &term =~ "linux"
-  color delek
+  let xterm16_NoRemap = 1
+  let xterm16_CRTColors = 1
+  color xterm16
   if has("terminfo")
     set t_Co=16
     set t_AB=[%?%p1%{7}%>%t5%p1%{8}%-%e25%p1%;m[4%dm
@@ -707,8 +719,8 @@ else
 endif
 
 if exists('vimpager')
-  set background=dark
-  color landscape
+  let xterm16_colormap = 'softlight'
+  color xterm16
   set colorcolumn=0
   set nolist
 endif
