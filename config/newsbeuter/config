@@ -30,26 +30,48 @@ use-proxy no
 #color listfocus   blue  default  bold
 #color info        blue  black    bold
 #color article     cyan    default
-## grey ###
-color background         color248    default
-color listnormal         color248    default
-color listnormal_unread  color248    default
-#color listfocus         color234    color001
-#color info              color001    color234 bold
-color listfocus          default     color242
-color listfocus_unread   default     color242
-color info               default     color239
-color article            color248    default
 
-# highlights
-#
+## dark ###
+#color background         color248    default
+#color listnormal         color248    default
+#color listnormal_unread  color248    default
+##color listfocus         color234    color001
+##color info              color001    color234 bold
+#color listfocus          default     color242
+#color listfocus_unread   default     color242
+#color info               default     color239
+#color article            color248    default
+#highlight article       "^Feed:.*"                          color244  default
+##highlight article       "^Title:.*"                         color234  color001
+#highlight article       "^Title:.*"                         default  color242
+#highlight article       "^Author:.*"                        color244  default
+#highlight article       "^Date:.*"                          color006  default
+#highlight article       "^Link:.*"                          magenta default
+#highlight article       "^Podcast Download URL:.*"          blue    default
+#highlight article       "^Links:"                           white   blue
+#highlight article       "\\[[0-9][0-9]*\\]"                 green   default
+#highlight article       "\\[image [0-9][0-9]*\\]"           green   default
+#highlight article       "\\[embedded flash: [0-9][0-9]*\\]" green   default
+#highlight article       ":.*\\(link\\)$"                    magenta default
+#highlight article       ":.*\\(image\\)$"                   magenta default
+#highlight article       ":.*\\(embedded flash\\)$"          magenta default
+##highlight feedlist      "^  *[0-9]+  *N  *.*"               color250   default
+##highlight articlelist   "^  *[0-9]+  *N  *.*"               color250   default
+
+## light ###
+color background         default    default
+color listnormal         default    default
+color listnormal_unread  default    default
+color listfocus          default     color252
+color listfocus_unread   default     color249
+color info               white     color239
+color article            default    default
 highlight article       "^Feed:.*"                          color244  default
-#highlight article       "^Title:.*"                         color234  color001
-highlight article       "^Title:.*"                         default  color242
+highlight article       "^Title:.*"                         white  color242
 highlight article       "^Author:.*"                        color244  default
 highlight article       "^Date:.*"                          color006  default
 highlight article       "^Link:.*"                          magenta default
-highlight article       "^Podcast Download URL:.*"          blue    default
+highlight article       "^Podcast Download URL:.*"          color020    default
 highlight article       "^Links:"                           white   blue
 highlight article       "\\[[0-9][0-9]*\\]"                 green   default
 highlight article       "\\[image [0-9][0-9]*\\]"           green   default
@@ -57,6 +79,4 @@ highlight article       "\\[embedded flash: [0-9][0-9]*\\]" green   default
 highlight article       ":.*\\(link\\)$"                    magenta default
 highlight article       ":.*\\(image\\)$"                   magenta default
 highlight article       ":.*\\(embedded flash\\)$"          magenta default
-#highlight feedlist      "^  *[0-9]+  *N  *.*"               color250   default
-#highlight articlelist   "^  *[0-9]+  *N  *.*"               color250   default
 

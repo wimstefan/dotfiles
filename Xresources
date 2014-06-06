@@ -8,27 +8,8 @@ Xft.lcdfilter:  lcddefault
 Xft.rgba:       rgb
 
 Xcursor*theme: Neutral_Plus
-*cursorColor:  #787878
-*cursorColor2: #eeeeee
-
-! #ifdef SRVR_asuca
-!   *font: xft:Envy Code R for Powerline:pixelsize=12
-!   *faceName: xft:Envy Code R for Powerline:pixelsize=12
-!   URxvt.font: xft:Envy Code R for Powerline:pixelsize=12,xft:Free Mono for Powerline:pixelsize=11,xft:Symbola:pixelsize=10
-! #elif SRVR_tj
-!   *font: xft:Envy Code R for Powerline:pixelsize=13
-!   *faceName: xft:Envy Code R for Powerline:pixelsize=13
-!   URxvt.font: xft:Envy Code R for Powerline:pixelsize=13,xft:Free Mono for Powerline:pixelsize=13,xft:Symbola:pixelsize=12
-! #elif SRVR_mimi
-!   *font: xft:Envy Code R for Powerline:pixelsize=12
-!   *faceName: xft:Envy Code R for Powerline:pixelsize=12
-!   URxvt.font: xft:Envy Code R for Powerline:pixelsize=12,xft:Free Mono for Powerline:pixelsize=11,xft:Symbola:pixelsize=10
-! #elif SRVR_swimmer
-!   *font: xft:Envy Code R for Powerline:pixelsize=14
-!   *faceName: xft:Envy Code R for Powerline:pixelsize=14
-!   URxvt.font: xft:Envy Code R for Powerline:pixelsize=14,xft:Free Mono for Powerline:pixelsize=12,xft:Symbola:pixelsize=12
-!   !URxvt.font: xft:Hermit:pixelsize=14,xft:Free Mono for Powerline:pixelsize=14
-! #endif
+*cursorColor:  #B3B3B3
+*cursorColor2: #EEEEEE
 
 *font: xft:DejaVu Sans Mono for Powerline:pixelsize=13
 *faceName: xft:DejaVu Sans Mono for Powerline:pixelsize=13
@@ -46,7 +27,7 @@ URxvt.scrollWithBuffer: false
 URxvt.secondaryScroll: true
 URxvt.saveLines: 4444
 URxvt.transparent: true
-URxvt.shading: 40
+URxvt.shading: 180
 URxvt.perl-lib: /usr/lib/urxvt/perl
 URxvt.perl-ext-common: default,clipboard,selection,keyboard-select,url-select
 URxvt.selection.pattern-0: .+?@.+? .+? %%?[ ]+(.+)
@@ -64,75 +45,59 @@ xterm*utf8: true
 xterm*bellIsUrgent: true
 
 !!! Color settings
-!!! <BEGIN HYBRID>
-!#define t_background #1d1f21
-!#define t_current_line #282a2e
-!!#define t_selection #373b41
-!#define t_selection #787878
-!#define t_foreground #c5c8c6
-!#define t_comment #969896
-!#define t_red #cc6666
-!#define t_orange #de935f
-!#define t_yellow #f0c674
-!#define t_green #b5bd68
-!#define t_aqua #8abeb7
-!#define t_blue #81a2be
-!#define t_purple #b294bb
-!
-!! terminal colours
-!*background: t_background
-!*foreground: t_foreground
-!! black
-!*color0: t_current_line
-!*color8: t_selection
-!! red
-!*color1: #a54242
-!*color9: t_red
-!! green
-!*color2: #8c9440
-!*color10: t_green
-!! yellow
-!*color3: t_orange
-!*color11: t_yellow
-!! blue
-!*color4: #5f819d
-!*color12: t_blue
-!! magenta
-!*color5: #85678f
-!*color13: t_purple
-!! cyan
-!*color6: #5e8d87
-!*color14: t_aqua
-!! white
-!*color7: t_comment
-!*color15: t_foreground
-!!! <END HYBRID>
+! !! dark background
+! *background: #1d1f21
+! *foreground: #e4e4e4
+! ! black
+! *color0: #1f1f1f
+! *color8: #787878
+! ! red
+! *color1: #a54242
+! *color9: #ee2c2c
+! ! green
+! *color2: #6fb126
+! *color10: #b6e354
+! ! yellow
+! *color3: #fd971f
+! *color11: #feed6c
+! ! blue
+! *color4: #4682d0
+! *color12: #729fcf
+! ! magenta
+! *color5: #ba55d3
+! *color13: #dda0dd
+! ! cyan
+! *color6: #56c2d6
+! *color14: #8cedff
+! ! white
+! *color7: #e0e0e0
+! *color15: #e4e4e4
 
-! terminal colours
-*background: #1d1f21
-*foreground: #e4e4e4
+!! light background
+*background: #F4F4F4
+*foreground: #1D1F21
 ! black
-*color0: #1f1f1f
+*color0: #1F1F1F
 *color8: #787878
 ! red
-*color1: #a54242
-*color9: #ee2c2c
+*color1: #C50000
+*color9: #E64545
 ! green
-*color2: #6fb126
-*color10: #b6e354
+*color2: #009E00
+*color10: #3C963C
 ! yellow
-*color3: #fd971f
-*color11: #feed6c
+*color3: #D58600
+*color11: #D56A00
 ! blue
-*color4: #4682d0
-*color12: #729fcf
+*color4: #3C49C3
+*color12: #6E7AE9
 ! magenta
-*color5: #ba55d3
-*color13: #dda0dd
+*color5: #006E88
+*color13: #DF5CA6
 ! cyan
-*color6: #56c2d6
-*color14: #8cedff
+*color6: #02566A
+*color14: #16819B
 ! white
-*color7: #e0e0e0
-*color15: #e4e4e4
+*color7: #FAFAFA
+*color15: #C7C7C7
 
