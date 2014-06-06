@@ -343,6 +343,7 @@ alias eix="eix --force-color"
 alias apg="apg -M SNCL -k -m 12"
 alias terminal-colors="terminal-colors -cl"
 # shortcuts
+alias xreload="xrdb $HOME/.Xresources"
 alias reload="source $HOME/.zshrc"
 alias restart="killall -SIGUSR1"
 alias el="equery list -p -o"
@@ -388,12 +389,6 @@ function viz() # edit AND source ~/.zshrc
 {
   vim $HOME/.dotfiles/zsh/zshrc
   source $HOME/.dotfiles/zsh/zshrc
-}
-
-function xrefresh()
-{
-  xrdb -remove
-  xrdb -load $HOME/.Xresources
 }
 
 function et() {
