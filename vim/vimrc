@@ -603,7 +603,6 @@ NeoBundleCheck
 " 'vim-scripts/xterm16' " {{{2
   let xterm16_brightness = 'high'
   " " }}}
-" " }}}
 
 " " }}}
 
@@ -839,6 +838,10 @@ nnoremap <Leader>sl G?--<CR>jVGd :r ~/.mutt/signature<CR>
 " stay in visual mode while indenting
 vnoremap < <gv
 vnoremap > >gv
+
+" underline mappings
+map h1 yypVr=o
+map h2 yypVr-o
 
 " Abbreviations
 iab grz Greetz<CR>Stefan
