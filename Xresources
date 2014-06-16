@@ -81,8 +81,8 @@ xterm*bellIsUrgent: true
 *color0: #1F1F1F
 *color8: #454545
 ! red
-*color1: #E61717
-*color9: #CC2944
+*color1: #CC2929
+*color9: #B30000
 ! green
 *color2: #34B31B
 *color10: #338033
