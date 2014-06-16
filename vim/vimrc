@@ -48,7 +48,6 @@ NeoBundle 'scrooloose/syntastic'
 NeoBundle 'dbakker/vim-lint', {'depends': ['scrooloose/syntastic']}
 NeoBundle 'rkitover/vimpager'
 NeoBundle 'powerman/vim-plugin-viewdoc'
-NeoBundle 'majutsushi/tagbar'
 NeoBundle 'junegunn/vim-easy-align'
 NeoBundle 'dhruvasagar/vim-table-mode', {'depends': ['godlygeek/tabular']}
 NeoBundle 'achiang/muttrc'
@@ -541,14 +540,6 @@ NeoBundleCheck
   nnoremap <F1> :call ViewDoc('new', '<cword>')<CR>
   " " }}}
 
-" 'majutsushi/tagbar' " {{{2
-  let g:tagbar_autoshowtag = 1
-  let g:tagbar_iconchars = ['+', '-']
-  "autocmd FileType * nested :call tagbar#autoopen(0)
-  "autocmd BufEnter * nested :call tagbar#autoopen(0)
-  nnoremap <silent> <Leader>tl :TagbarToggle<CR>
-  " " }}}
-
 " 'junegunn/vim-easy-align' " {{{2
   vnoremap <silent> <Enter> :EasyAlign<cr>
   nmap <Leader>a <Plug>(EasyAlign)
@@ -748,8 +739,6 @@ set laststatus=2                       " always show the statusline above
 "  set statusline+=\ (%l/%L,\ %-2c)
 "  set statusline+=\ %p%%
 "  set statusline+=\ %#WarningMsg#%{SyntasticStatuslineFlag()}%*
-"  "set statusline+=%<%f%=%([%{Tlist_Get_Tagname_By_Line()}]%) " taglist
-"  "set statusline+=%<%f%=%([%{tagbar#currenttag('[%s] ','')}]%) " tagbar
 "  set statusline+=%=
 "  set statusline+=%h%w\ %y\ [%{&encoding}:%{&fileformat}]
 "  set statusline+=\ %#ColorColumn#
