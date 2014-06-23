@@ -23,6 +23,7 @@ NeoBundle 'Shougo/vimproc', {'build': {'unix': 'make -f make_unix.mak'}}
 NeoBundle 'Shougo/unite.vim'
 NeoBundle 'Shougo/neocomplete'
 NeoBundle 'Shougo/vimshell.vim'
+NeoBundleLazy 'Shougo/neomru.vim', {'autoload': {'unite_sources': 'file_mru'}}
 NeoBundleLazy 'Shougo/unite-ssh', {'autoload': {'unite_sources': 'ssh'}}
 NeoBundleLazy 'Shougo/unite-session', {'autoload': {'unite_sources': 'session',
             \ 'commands' : ['UniteSessionSave', 'UniteSessionLoad']}}
@@ -106,6 +107,7 @@ NeoBundleCheck
   endif
   nnoremap <Leader>b :<C-u>Unite -buffer-name=buffers -auto-resize -quick-match buffer bookmark<CR>
   nnoremap <Leader>m :<C-u>Unite -buffer-name=mru -auto-resize file_mru<CR>
+  nnoremap <Leader>l :<C-u>Unite -buffer-name=locate -auto-resize -start-insert locate<CR>
   nnoremap <Leader>f :<C-u>Unite -buffer-name=files -auto-resize -start-insert file<CR>
   nnoremap <Leader>r :<C-u>Unite -buffer-name=files -auto-resize -start-insert file_rec/async<CR>
   nnoremap <Leader>y :<C-u>Unite -buffer-name=yank -auto-resize history/yank<cr>
@@ -169,10 +171,8 @@ NeoBundleCheck
           \'Unite -no-quit grep'],
       \['▷ find',
           \'Unite find'],
-      \['▷ locate',
+      \['▷ locate                                                     \l',
           \'Unite -start-insert locate'],
-      \['▷ vimgrep (very slow)',
-          \'Unite vimgrep'],
       \]
   nnoremap <silent>[menu]a :Unite -silent menu:grep<CR>
   " }}}
@@ -598,7 +598,6 @@ NeoBundleCheck
 " " }}}
 
 " General Settings " {{{1
-set textwidth=80                       " maximum width of text that is being inserted
 set backspace=2                        " allow backspacing over everything in insert mode
 set shiftwidth=2                       " number of spaces used for indention
 set tabstop=2                          " tabstop length
