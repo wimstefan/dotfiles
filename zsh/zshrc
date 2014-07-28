@@ -485,9 +485,9 @@ RPROMPT='$colorfg{blue}$bold$mytime$uncolorfg$unbold'
 
   function sync-ipod()
   {
-    rsync -rtvz --delete /music/Non-Tango/ /media/ipod/music/Non-Tango/
-    rsync -rtvz --delete /music/Tango/ /media/ipod/music/Tango/
-    rsync -rtvz --delete /music/playlists/ /media/ipod/playlists/
+    rsync -ruLtvz --delete --ignore-existing /music/Non-Tango/ /media/ipod/music/Non-Tango/
+    rsync -ruLtvz --delete --ignore-existing /music/Tango/ /media/ipod/music/Tango/
+    rsync -ruLtvz --delete --ignore-existing /music/playlists/ /media/ipod/playlists/
   }
 
   function etail()
