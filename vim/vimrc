@@ -63,7 +63,16 @@ NeoBundle 'tpope/vim-fugitive'
 NeoBundle 'gregsexton/gitv', {'depends': ['tpope/vim-fugitive']}
 NeoBundle 'mhinz/vim-signify'
 NeoBundle 'mhinz/vim-startify'
-NeoBundle 'mattn/gist-vim'
+NeoBundleLazy 'lambdalisue/vim-gista', {
+    \ 'depends': [
+    \ 'Shougo/unite.vim',
+    \ 'tyru/open-browser.vim',
+    \ ],
+    \ 'autoload': {
+    \    'commands': ['Gista'],
+    \    'mappings': '<Plug>(gista-',
+    \    'unite_sources': 'gista',
+    \}}
 NeoBundle 'mattn/webapi-vim'
 NeoBundle 'VOoM'
 NeoBundle 'itchyny/lightline.vim'
@@ -586,6 +595,10 @@ NeoBundleCheck
               \ '~/.dotfiles/config/awesome/rc.lua'
               \ ]
   " " }}}
+
+" 'lambdalisue/vim-gista' {{{2
+  let g:gista#github_user = 'wimstefan'
+" }}}
 
 " 'jonathanfilip/vim-lucius' " {{{2
   let g:lucius_use_bold = 1
