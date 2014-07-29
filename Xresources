@@ -14,7 +14,7 @@ Xcursor*theme: Neutral_Plus
 *font: xft:DejaVu Sans Mono for Powerline:pixelsize=13
 *font1: xft:Symbola:pixelsize=15
 *faceName: xft:DejaVu Sans Mono for Powerline:pixelsize=13
-URxvt.font: xft:DejaVu Sans Mono for Powerline:pixelsize=13,xft:Symbola:pixelsize=15
+URxvt.font: xft:DejaVu Sans Mono for Powerline:pixelsize=13,xft:Symbola:pixelsize=12
 
 URxvt.depth: 32
 URxvt.letterSpace: -1
