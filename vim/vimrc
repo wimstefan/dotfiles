@@ -78,6 +78,7 @@ NeoBundle 'VOoM'
 NeoBundle 'itchyny/lightline.vim'
 NeoBundle 'itchyny/lightline-powerful'
 NeoBundle 'wimstefan/vim-tomorrow-theme'
+NeoBundle 'romainl/Apprentice'
 NeoBundle 'jonathanfilip/vim-lucius'
 NeoBundle 'joedicastro/vim-github256'
 NeoBundle 'vim-scripts/xterm16.vim'
@@ -496,6 +497,7 @@ NeoBundleCheck
   let g:neocomplete#enable_at_startup = 1
   let g:neocomplete#enable_auto_select = 1
   let g:neocomplete#enable_auto_delimiter = 1
+  let g:neocomplete#enable_smart_case = 1
   let g:neocomplete#data_directory = $HOME.'/.cache/vim/neocomplete/'
   " " }}}
 
