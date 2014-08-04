@@ -22,9 +22,11 @@ NeoBundle 'Shougo/neobundle-vim-scripts'
 NeoBundle 'Shougo/vimproc', {'build': {'unix': 'make -f make_unix.mak'}}
 NeoBundle 'Shougo/unite.vim'
 NeoBundle 'Shougo/neocomplete'
-NeoBundle 'Shougo/vimshell.vim'
+NeoBundle 'Shougo/vimfiler'
+NeoBundleLazy 'itchyny/unite-preview', {'autoload': {'unite_sources': ['vimfiler']}}
 NeoBundleLazy 'Shougo/neomru.vim', {'autoload': {'unite_sources': 'file_mru'}}
-NeoBundleLazy 'Shougo/unite-ssh', {'autoload': {'unite_sources': 'ssh'}}
+NeoBundleLazy 'Shougo/unite-outline', {'autoload': {'unite_sources': 'outline'}}
+NeoBundleLazy 'Shougo/neossh.vim', {'autoload': {'unite_sources': 'ssh'}}
 NeoBundleLazy 'Shougo/unite-session', {'autoload': {'unite_sources': 'session',
             \ 'commands' : ['UniteSessionSave', 'UniteSessionLoad']}}
 NeoBundleLazy 'ujihisa/unite-colorscheme', {'autoload': {'unite_sources': 'colorscheme'}}
@@ -34,17 +36,12 @@ NeoBundleLazy 'thinca/vim-unite-history', {'autoload': {'unite_sources':
 NeoBundleLazy 'osyo-manga/unite-quickfix', {'autoload': {'unite_sources':
             \ ['quickfix', 'location_list']}}
 NeoBundleLazy 'osyo-manga/unite-filetype', {'autoload': {'unite_sources': 'filetype', }}
-NeoBundleLazy 'osyo-manga/unite-fold', {'autoload': {'unite_sources': 'fold'}}
-NeoBundleLazy 'Shougo/vimfiler', {'autoload': {'commands': ['VimFiler','VimFilerExplorer']}}
 NeoBundleLazy 'sjl/gundo.vim', {'autoload': {'commands': 'GundoToggle'}}
 NeoBundle 'tpope/vim-abolish'
 NeoBundle 'tpope/vim-characterize'
 NeoBundle 'tpope/vim-repeat'
 NeoBundle 'tomtom/tcomment_vim'
 NeoBundle 'Raimondi/delimitMate'
-NeoBundle 'kien/rainbow_parentheses.vim'
-NeoBundle 'scrooloose/nerdtree'
-NeoBundle 'jistr/vim-nerdtree-tabs'
 NeoBundle 'scrooloose/syntastic'
 NeoBundle 'dbakker/vim-lint', {'depends': ['scrooloose/syntastic']}
 NeoBundle 'rkitover/vimpager'
@@ -55,25 +52,20 @@ NeoBundle 'achiang/muttrc'
 NeoBundle 'chrisbra/CheckAttach'
 NeoBundle 'renamer.vim'
 NeoBundle 'DirDiff.vim'
-NeoBundleLazy 'mattn/emmet-vim', {'autoload':
-            \ {'filetypes': ['html', 'xhtml', 'css', 'xml', 'xls', 'markdown']}}
-NeoBundleLazy 'HTML.zip', {'autoload': {'filetypes': ['html', 'xhtml', 'css']}}
 NeoBundle 'jamessan/vim-gnupg'
 NeoBundle 'tpope/vim-fugitive'
 NeoBundle 'gregsexton/gitv', {'depends': ['tpope/vim-fugitive']}
 NeoBundle 'mhinz/vim-signify'
 NeoBundle 'mhinz/vim-startify'
-NeoBundleLazy 'lambdalisue/vim-gista', {
-    \ 'depends': [
-    \ 'Shougo/unite.vim',
-    \ 'tyru/open-browser.vim',
-    \ ],
-    \ 'autoload': {
-    \    'commands': ['Gista'],
-    \    'mappings': '<Plug>(gista-',
-    \    'unite_sources': 'gista',
-    \}}
-NeoBundle 'mattn/webapi-vim'
+NeoBundleLazy 'HTML.zip', {'autoload': {'filetypes': ['html', 'xhtml', 'css']}}
+NeoBundleLazy 'mattn/emmet-vim', {'autoload':
+            \ {'filetypes': ['html', 'xhtml', 'css', 'xml', 'xls', 'markdown']}}
+NeoBundleLazy 'mattn/gist-vim', {
+            \ 'depends': [ 'mattn/webapi-vim' ],
+            \ 'autoload': {
+            \    'commands': ['Gist'],
+            \    'unite_sources': 'gist',
+            \}}
 NeoBundle 'VOoM'
 NeoBundle 'itchyny/lightline.vim'
 NeoBundle 'itchyny/lightline-powerful'
@@ -87,13 +79,6 @@ NeoBundleCheck
 " " }}}
 
 " Plugins config " {{{1
-" 'netrw' " {{{2
-  let g:netrw_winsize         = 30
-  let g:netrw_liststyle       =  3
-  let g:netrw_preview         =  1
-  let g:netrw_browse_split    =  2
-  " " }}}
-
 " 'Shougo/unite.vim' " {{{2
   call unite#filters#matcher_default#use(['matcher_fuzzy'])
   call unite#custom#source('file_rec,file_rec/async,grep,locate',
@@ -104,6 +89,7 @@ NeoBundleCheck
   let g:unite_prompt = '>>> '
   let g:unite_source_history_yank_enable = 1
   let g:unite_force_overwrite_statusline = 0
+  let g:unite_source_rec_max_cache_files = 0
   if executable('ag')
     let g:unite_source_grep_command = 'ag'
     "let g:unite_source_grep_default_opts =  '--line-numbers --nocolor --nogroup --hidden'
@@ -164,7 +150,7 @@ NeoBundleCheck
           \'Unite output:pwd'],
       \['▷ quick save                                                 \w',
           \'normal \w'],
-      \['▷ open explorer                                              \e',
+      \['▷ open explorer                                              \x',
           \'Vexplore'],
       \]
   nnoremap <silent>[menu]o :Unite -silent -winheight=17 -start-insert
@@ -209,9 +195,7 @@ NeoBundleCheck
           \'split'],
       \['▷ close current window',
           \'close'],
-      \['▷ toggle quickfix window',
-          \'normal ,q'],
-      \['▷ delete buffer                                              ⌘ ,bd',
+      \['▷ delete buffer                                              ⌘ \bd',
           \'bd'],
       \]
   nnoremap <silent>[menu]b :Unite -silent menu:navigation<CR>
@@ -227,8 +211,6 @@ NeoBundleCheck
           \'Unite -auto-preview -start-insert line'],
       \['▷ search word under the cursor',
           \'UniteWithCursorWord -no-split -auto-preview line'],
-      \['▷ search folds',
-          \'Unite -vertical -winwidth=30 -auto-highlight fold'],
       \['▷ search changes',
           \'Unite change'],
       \['▷ search jumps',
@@ -295,8 +277,8 @@ NeoBundleCheck
           \                                          ⌘ ,e',
       \}
   let g:unite_source_menu_menus.text.command_candidates = [
-      \['▷ toggle search results highlight',
-          \'set invhlsearch'],
+      \['▷ toggle search results highlight                            ⌘ \/',
+          \'set invhlsearch!'],
       \['▷ show hidden chars',
           \'set list!'],
       \['▷ toggle fold                                                ⌘ za',
@@ -305,16 +287,12 @@ NeoBundleCheck
           \'normal zR'],
       \['▷ close all folds                                            ⌘ zM',
           \'normal zM'],
-      \['▷ copy to the clipboard                                      ⌘ ,y',
-          \'normal ,y'],
-      \['▷ paste from the clipboard                                   ⌘ ,p',
-          \'normal ,p'],
-      \['▷ toggle paste mode                                          ⌘ ,P',
-          \'normal ,P'],
-      \['▷ remove trailing whitespaces                                ⌘ ,et',
-          \'normal ,et'],
-      \['▷ text statistics                                            ⌘ ,es',
-          \'Unite output:normal\ ,es -no-cursor-line'],
+      \['▷ copy to the clipboard                                      ⌘ "*y',
+          \'normal "*y'],
+      \['▷ paste from the clipboard                                   ⌘ "*p',
+          \'normal "*p'],
+      \['▷ toggle paste mode                                          ⌘ <F3>',
+          \'normal <F3>'],
       \['▷ show available digraphs',
           \'digraphs'],
       \['▷ show current char info                                     ⌘ ga',
@@ -357,16 +335,16 @@ NeoBundleCheck
 
   " git menu {{{4
   let g:unite_source_menu_menus.git = {
-      \ 'description' : '            admin git & other VCS repositories
+      \ 'description' : '            use git                           
           \                    ⌘ ,g',
       \}
   let g:unite_source_menu_menus.git.command_candidates = [
       \['▷ tig                                                        ⌘ \gt',
-          \'normal <Leader>gt'],
+          \'normal \gt'],
       \['▷ git viewer             (gitv)                              ⌘ \gv',
-          \'normal <Leader>gv'],
+          \'normal \gv'],
       \['▷ git viewer - buffer    (gitv)                              ⌘ \gV',
-        \'normal <Leader>gV'],
+        \'normal \gV'],
       \['▷ git status             (fugitive)',
           \'Gstatus'],
       \['▷ git diff               (fugitive)',
@@ -411,6 +389,30 @@ NeoBundleCheck
           \'Gbrowse'],
       \]
   nnoremap <silent>[menu]g :Unite -silent -winheight=26 -start-insert menu:git<CR>
+  " }}}
+
+  " gist menu {{{4
+  let g:unite_source_menu_menus.gist = {
+      \ 'description' : '           manage gists
+          \                                          ⌘ ,G',
+      \}
+  let g:unite_source_menu_menus.gist.command_candidates = [
+      \['▷ List your gists        (vim-gist)',
+          \'Gist -l'],
+      \['▷ List all gists         (vim-gist)',
+          \'Gist -la'],
+      \['▷ create private gist    (vim-gist)',
+          \'Gist -p'],
+      \['▷ create public gist     (vim-gist)',
+          \'Gist -P'],
+      \['▷ create anonymous gist  (vim-gist)',
+          \'Gist -a'],
+      \['▷ edit (open!) gist      (vim-gist)',
+          \'Gist -e'],
+      \['▷ delete (open!) gist    (vim-gist)',
+          \'Gist -d'],
+      \]
+  nnoremap <silent>[menu]G :Unite -silent -winheight=26 -start-insert menu:gist<CR>
   " }}}
 
   " code menu {{{4
@@ -483,8 +485,6 @@ NeoBundleCheck
           \'Unite output'],
       \['▷ unite sources',
           \'Unite source'],
-      \['▷ kill process',
-          \'Unite -default-action=sigkill -start-insert process'],
       \['▷ launch executable (dmenu like)',
           \'Unite -start-insert launcher'],
       \]
@@ -503,15 +503,22 @@ NeoBundleCheck
 
 " 'Shougo/vimfiler' " {{{2
   let g:vimfiler_data_directory = $HOME.'/.cache/vim/vimfiler/'
+  let g:vimfiler_as_default_explorer = 1
   let g:vimfiler_force_overwrite_statusline = 0
-  " " }}}
-
-" 'Shougo/vimshell' " {{{2
-  let g:vimshell_data_directory = $HOME.'/.cache/vim/vimshell/'
+  let g:vimfiler_preview_action = 'auto_preview'
+  nnoremap <Leader>e :VimFilerExplorer<CR>
   " " }}}
 
 " 'sjl/gundo.vim' " {{{2
   nnoremap <C-u> :GundoToggle<CR>
+  " " }}}
+
+" 'netrw' " {{{2
+  let g:netrw_winsize         = 30
+  let g:netrw_liststyle       =  3
+  let g:netrw_preview         =  1
+  let g:netrw_browse_split    =  2
+  nnoremap <Leader>x :Vexplore<CR>
   " " }}}
 
 " 'gregsexton/gitv' " {{{2
@@ -523,21 +530,8 @@ NeoBundleCheck
   vnoremap <silent> <leader>gV :Gitv! --all<CR>
 " " }}}
 
-" 'scrooloose/nerdtree' " {{{2
-  let NERDTreeMinimalUI = 1
-  let NERDTreeDirArrows = 1
-  let NERDChristmasTree = 1
-  let NERDTreeShowHidden = 0
-  nnoremap <Leader>e :NERDTreeToggle<CR>
-  " " }}}
-
-" 'jistr/vim-nerdtree-tabs' " {{{2
-  let g:nerdtree_tabs_open_on_gui_startup = 0
-  nnoremap <Leader>n :NERDTreeTabsToggle<CR>
-" " }}}
-
 " 'scrooloose/syntastic' " {{{2
-  let g:syntastic_check_on_open=1
+  let g:syntastic_check_on_open=0
   let g:syntastic_auto_loc_list=1
   " " }}}
 
@@ -598,9 +592,10 @@ NeoBundleCheck
               \ ]
   " " }}}
 
-" 'lambdalisue/vim-gista' {{{2
-  let g:gista#github_user = 'wimstefan'
-" }}}
+" 'mattn/gist-vim' " {{{2
+  let g:gist_post_private = 1
+  let g:gist_clip_command = 'xclip -selection clipboard'
+" " }}}
 
 " 'jonathanfilip/vim-lucius' " {{{2
   let g:lucius_use_bold = 1
@@ -729,7 +724,7 @@ if exists('vimpager')
   set nolist
 endif
 
-set guifont=Envy\ Code\ R\ for\ Powerline\ 10
+set guifont=Envy\ Code\ R\ for\ Powerline\ 11
 
 filetype indent plugin on | syn on     " enable filetype, plugin and syntax support
 
@@ -826,11 +821,11 @@ nnoremap <Leader>bn :bnext<CR>
 nnoremap <Leader>bp :bprev<CR>
 nnoremap <Leader>bd :bdel<CR>
 
-set pastetoggle=<F3>                   " toggle paste
-nnoremap <F6> :set number!<CR>         " toggle numbers
-nnoremap <F7> :set list!<CR>           " toggle listchars
-nnoremap <F8> :set cursorline!<CR>     " toggle cursorline
-nnoremap <Leader>/ :nohl<CR>           " Don't highlight searchresults anymore
+set pastetoggle=<F3>                      " toggle paste
+nnoremap <F6> :set number!<CR>            " toggle numbers
+nnoremap <F7> :set list!<CR>              " toggle listchars
+nnoremap <F8> :set cursorline!<CR>        " toggle cursorline
+nnoremap <Leader>/ :set invhlsearch!<CR>  " toggle highlight searchresults
 
 " Replace signatures
 nnoremap <Leader>sa G?--<CR>jVGd :r ~/.mutt/short-signature-artisan<CR>
