@@ -12,12 +12,12 @@ Xcursor*theme: Neutral_Plus
 *cursorColor2: #EEEEEE
 
 *font: xft:DejaVu Sans Mono for Powerline:pixelsize=13
-*font1: xft:Symbola:pixelsize=15
+*font1: xft:Symbola:pixelsize=12
 *faceName: xft:DejaVu Sans Mono for Powerline:pixelsize=13
-URxvt.font: xft:DejaVu Sans Mono for Powerline:pixelsize=13,xft:Symbola:pixelsize=12
+URxvt.font: xft:Hermit:pixelsize=13:width=condensed,xft:DejaVu Sans Mono for Powerline:pixelsize=13,xft:Symbola:pixelsize=10
 
 URxvt.depth: 32
-URxvt.letterSpace: -1
+!URxvt.letterSpace: -1
 URxvt.loginShell: true
 URxvt.visualBell: true
 URxvt.urgentOnBell: true
