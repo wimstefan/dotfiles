@@ -40,20 +40,22 @@ NeoBundleLazy 'sjl/gundo.vim', {'autoload': {'commands': 'GundoToggle'}}
 NeoBundle 'tpope/vim-abolish'
 NeoBundle 'tpope/vim-characterize'
 NeoBundle 'tpope/vim-repeat'
-NeoBundle 'tomtom/tcomment_vim'
+NeoBundle 'tpope/vim-vinegar'
+NeoBundle 'tpope/vim-commentary'
 NeoBundle 'Raimondi/delimitMate'
-NeoBundle 'scrooloose/syntastic'
 NeoBundle 'dbakker/vim-lint', {'depends': ['scrooloose/syntastic']}
 NeoBundle 'rkitover/vimpager'
 NeoBundle 'powerman/vim-plugin-viewdoc'
 NeoBundle 'junegunn/vim-easy-align'
 NeoBundle 'dhruvasagar/vim-table-mode', {'depends': ['godlygeek/tabular']}
+NeoBundle 'plasticboy/vim-markdown'
+NeoBundle 'dahu/vim-asciidoc', {'depends': ['tomtom/tlib_vim','dahu/Asif','SyntaxRange']}
+NeoBundle 'VOoM'
 NeoBundle 'achiang/muttrc'
 NeoBundle 'chrisbra/CheckAttach'
 NeoBundle 'renamer.vim'
 NeoBundle 'DirDiff.vim'
 NeoBundle 'jamessan/vim-gnupg'
-NeoBundle 'tpope/vim-fugitive'
 NeoBundle 'gregsexton/gitv', {'depends': ['tpope/vim-fugitive']}
 NeoBundle 'mhinz/vim-signify'
 NeoBundle 'mhinz/vim-startify'
@@ -66,7 +68,6 @@ NeoBundleLazy 'mattn/gist-vim', {
             \    'commands': ['Gist'],
             \    'unite_sources': 'gist',
             \}}
-NeoBundle 'VOoM'
 NeoBundle 'itchyny/lightline.vim'
 NeoBundle 'itchyny/lightline-powerful'
 NeoBundle 'wimstefan/vim-tomorrow-theme'
@@ -560,6 +561,11 @@ NeoBundleCheck
   let g:table_mode_fillchar = '-'
   " " }}}
 
+" 'plasticboy/vim-markdown' " {{{2
+  let g:vim_markdown_folding_disabled=0
+  let g:vim_markdown_initial_foldlevel=3
+  " " }}}
+
 " 'VOoM' " {{{2
   let g:voom_tree_width = 40
   nnoremap <Leader>v :VoomToggle<CR>
@@ -850,8 +856,8 @@ iab dATE <C-R>=strftime("%Y-%m-%d")<CR>
 " Automatically chmod +x Shell and Perl scripts
 "autocmd BufWritePost {*.sh,*.pl,*.py} silent !chmod +x %
 
-" Use HybridText
-au BufRead,BufNewFile {*.txt,*.log} set syntax=hybrid
+" Some more colours in text files
+au BufRead,BufNewFile {*.txt,*.log} set syntax=asciidoc
 
 " Typical mutt thing ... replace > > with >>
 autocmd BufRead /tmp/mutt* silent! %s/^\([>|]\s\?\)\+/\=substitute(submatch(0), '\s', '', 'g').' '
