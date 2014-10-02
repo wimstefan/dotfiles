@@ -490,6 +490,11 @@ RPROMPT='$colorfg{blue}$bold$mytime$uncolorfg$unbold'
     rsync -ruLtvz --delete --ignore-existing /music/playlists/ /media/ipod/playlists/
   }
 
+  function flac2ogg()
+  {
+    find . -name "*flac" -exec oggenc -q 10 {} \;
+  }
+
   function etail()
   {
     tail -n$1 /var/log/emerge.log | awk -F: '{print strftime("%a %F %T", $1),$2}'
@@ -693,7 +698,7 @@ RPROMPT='$colorfg{blue}$bold$mytime$uncolorfg$unbold'
             fi
             ;;
           (all)
-            for h in asuca komala mimi tj; do
+            for h in komala mimi tj; do
               echo "<< $h >>"
               #if [ "$(ping -c1 $h)" ]; then
               if ping -c1 $h > /dev/null; then
@@ -805,7 +810,7 @@ RPROMPT='$colorfg{blue}$bold$mytime$uncolorfg$unbold'
   function all-update ()
   {
      rkhunter --propupd
-     eselect env update;
+     env-update;
      source $HOME/.zshrc
   }
 
