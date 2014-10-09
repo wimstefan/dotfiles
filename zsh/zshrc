@@ -350,8 +350,8 @@ alias el="equery list -p -o"
 alias sf="setfont ter-112n"
 alias setfb="fbset -g 1600 1200 1600 1200 32"
 # urls
-#alias packages="elinks http://packages.gentoo.org/"
-alias packages="w3m http://gpo.zugaina.org/Newest"
+alias packages="elinks http://packages.gentoo.org/"
+#alias packages="w3m http://gpo.zugaina.org/Newest"
 alias 24bugs="elinks 'https://bugs.gentoo.org/buglist.cgi?query_format=advanced&chfieldfrom=-1D&chfieldto=Now&chfield=[Bug+creation]&order=bugs.bug_id'"
 # }}}3
 # - Functions {{{3
