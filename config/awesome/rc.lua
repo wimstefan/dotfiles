@@ -645,10 +645,8 @@ globalkeys = awful.util.table.join(
     keydoc.group("01. Control"),
     awful.key({ modkey,           }, "w", function () mymainmenu:show() end, "Show menu"),
     awful.key({ modkey, "Shift"   }, "p", function() menubar.show() end, "Draw menu bar"),
-    --awful.key({ modkey,           }, "p",
-     -- function()
-      --  awful.util.spawn("dmenu_run -i -p 'Run command:' -fn 'Terminal Dosis-10' -nb '".. beautiful.bg_normal.."' -nf '"..beautiful.fg_normal.. "' -sb '"..beautiful.bg_focus.. "' -sf '"..beautiful.fg_focus.."'") end, "Draw menu bar"),
-    awful.key({ modkey,           }, "r",     function () mypromptbox[mouse.screen]:run() end, "Run prompt"),
+    --awful.key({ modkey,           }, "r",     function () mypromptbox[mouse.screen]:run() end, "Run prompt"),
+    awful.key({ modkey,           }, "r", function () awful.util.spawn("rofi -rnow") end, "Run dialog"),
     awful.key({ modkey, "Control" }, "r", awesome.restart, "Restart awesome"),
     awful.key({ modkey, "Shift"   }, "q", awesome.quit, "Quit awesome"),
 

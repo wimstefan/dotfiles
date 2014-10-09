@@ -17,7 +17,7 @@ Xcursor*theme: Neutral_Plus
 URxvt.font: xft:Hermit:pixelsize=13:width=condensed,xft:DejaVu Sans Mono for Powerline:pixelsize=13,xft:Symbola:pixelsize=10
 
 URxvt.depth: 32
-!URxvt.letterSpace: -1
+!URxvt.letterSpace: 1
 URxvt.loginShell: true
 URxvt.visualBell: true
 URxvt.urgentOnBell: true
@@ -45,6 +45,19 @@ URxvt.colorUL: #729FCF
 xterm*loginShell: true
 xterm*utf8: true
 xterm*bellIsUrgent: true
+
+rofi.font: Hermit 9
+rofi.background: #E6E4DC
+rofi.foreground: #1D1F21
+rofi.highlightbg: #729FCF
+rofi.highlightfg: #1D1F21
+rofi.bordercolor: #000000
+rofi.opacity: 100
+rofi.width: 1600
+rofi.location: 1
+rofi.padding: 2
+rofi.bw: 2
+rofi.terminal: urxvt
 
 !!! Color settings
 ! !! dark background
