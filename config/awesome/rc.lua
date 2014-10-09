@@ -21,16 +21,19 @@ local naughty     = require("naughty")
 
 -- Basic configuration {{{1
 hostname          = io.lines("/proc/sys/kernel/hostname")()
-if hostname == 'asuca' then
-  TYPE = "laptop"
+if hostname == 'tj' then
+  TYPE    = "laptop"
+  BAT     = "BAT0"
+  SYSTEMP = "coretemp.0/hwmon/hwmon1"
 elseif hostname == 'mimi' then
-  TYPE = "laptop"
-  BAT  = "BAT1"
-elseif hostname == 'tj' then
-  TYPE = "laptop"
-  BAT  = "BAT0"
+  TYPE    = "laptop"
+  BAT     = "BAT1"
+  SYSTEMP = "coretemp.0/hwmon/hwmon1"
+elseif hostname == 'asuca' then
+  TYPE    = "laptop"
 elseif hostname == 'swimmer' or hostname == 'komala' then
-  TYPE = "desktop"
+  TYPE    = "desktop"
+  SYSTEMP = "coretemp.0/hwmon/hwmon0"
 end
 
 home_dir          = os.getenv("HOME")
@@ -370,7 +373,7 @@ local widget_temp = wibox.layout.fixed.horizontal()
 local widget_temp_cpu = wibox.widget.textbox()
 
 vicious.register(widget_temp_cpu, vicious.widgets.thermal,
-  '<span background="'..beautiful.bg_widget_4..'"> <span color="'..beautiful.fg_widget_4..'"><span font="whhglyphs 8"></span> $1°  </span></span>', 9, { "coretemp.0", "core"} )
+  '<span background="'..beautiful.bg_widget_4..'"> <span color="'..beautiful.fg_widget_4..'"><span font="whhglyphs 8"></span> $1°  </span></span>', 9, { SYSTEMP, "core"} )
 widget_temp_cpu:buttons(awful.util.table.join(
     awful.button({ }, 1, function () toggle_conky() end)))
 
