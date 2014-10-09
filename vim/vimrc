@@ -35,7 +35,7 @@ NeoBundleLazy 'thinca/vim-unite-history', {'autoload': {'unite_sources':
             \ ['history/command', 'history/search']}}
 NeoBundleLazy 'osyo-manga/unite-quickfix', {'autoload': {'unite_sources':
             \ ['quickfix', 'location_list']}}
-NeoBundleLazy 'osyo-manga/unite-filetype', {'autoload': {'unite_sources': 'filetype', }}
+NeoBundleLazy 'osyo-manga/unite-filetype', {'autoload': {'unite_sources': 'filetype'}}
 NeoBundleLazy 'sjl/gundo.vim', {'autoload': {'commands': 'GundoToggle'}}
 NeoBundle 'tpope/vim-abolish'
 NeoBundle 'tpope/vim-characterize'
@@ -71,7 +71,6 @@ NeoBundleLazy 'mattn/gist-vim', {
 NeoBundle 'itchyny/lightline.vim'
 NeoBundle 'itchyny/lightline-powerful'
 NeoBundle 'wimstefan/vim-tomorrow-theme'
-NeoBundle 'romainl/Apprentice'
 NeoBundle 'jonathanfilip/vim-lucius'
 NeoBundle 'joedicastro/vim-github256'
 NeoBundle 'vim-scripts/xterm16.vim'
