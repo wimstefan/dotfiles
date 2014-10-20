@@ -74,6 +74,8 @@ NeoBundle 'wimstefan/vim-tomorrow-theme'
 NeoBundle 'jonathanfilip/vim-lucius'
 NeoBundle 'joedicastro/vim-github256'
 NeoBundle 'vim-scripts/xterm16.vim'
+NeoBundle 'romainl/Apprentice'
+NeoBundle 'romainl/Disciple'
 
 call neobundle#end()
 NeoBundleCheck
@@ -81,13 +83,14 @@ NeoBundleCheck
 
 " Plugins config " {{{1
 " 'Shougo/unite.vim' " {{{2
-  call unite#filters#matcher_default#use(['matcher_fuzzy'])
-  call unite#custom#source('file_rec,file_rec/async,grep,locate',
-    \ 'ignore_pattern', join(['\.cache/', 'cache/'], '\|'))
-  call unite#custom#source('file_rec,file_rec/async,grep', 'max_candidates', '0')
   let g:unite_data_directory = $HOME.'/.cache/vim/unite/'
-  let g:unite_winheight = 20
-  let g:unite_prompt = '>>> '
+  call unite#filters#matcher_default#use(['matcher_fuzzy'])
+  call unite#custom#source('file,file/async,file_rec,file_rec/async,grep,locate',
+    \ 'ignore_pattern', join(['\.cache/', 'cache/'], '\|'))
+  call unite#custom#profile('default', 'context', {
+  \ 'prompt': '» ',
+  \ 'winheight': 10,
+  \ })
   let g:unite_source_history_yank_enable = 1
   let g:unite_force_overwrite_statusline = 0
   let g:unite_source_rec_max_cache_files = 0
@@ -104,10 +107,9 @@ NeoBundleCheck
   endif
   nnoremap <Leader>b :<C-u>Unite -buffer-name=buffers -auto-resize -quick-match buffer bookmark<CR>
   nnoremap <Leader>m :<C-u>Unite -buffer-name=mru -auto-resize file_mru<CR>
-  nnoremap <Leader>l :<C-u>Unite -buffer-name=locate -auto-resize -start-insert locate<CR>
-  nnoremap <Leader>f :<C-u>Unite -buffer-name=files -auto-resize -start-insert file<CR>
-  nnoremap <Leader>r :<C-u>Unite -buffer-name=files -auto-resize -start-insert file_rec/async<CR>
-  nnoremap <Leader>y :<C-u>Unite -buffer-name=yank -auto-resize history/yank<cr>
+  nnoremap <Leader>l :<C-u>Unite -buffer-name=locate -auto-resize -no-quit -keep-focus -start-insert locate<CR>
+  nnoremap <Leader>f :<C-u>Unite -buffer-name=files -auto-resize -no-quit -keep-focus -start-insert file<CR>
+  nnoremap <Leader>y :<C-u>Unite -buffer-name=yank -auto-resize -no-quit history/yank<CR>
   nnoremap <space>/ :Unite grep:.<cr>
 
   " Unite menus {{{3
