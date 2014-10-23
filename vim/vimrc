@@ -23,6 +23,7 @@ NeoBundle 'Shougo/vimproc', {'build': {'unix': 'make -f make_unix.mak'}}
 NeoBundle 'Shougo/unite.vim'
 NeoBundle 'Shougo/neocomplete'
 NeoBundle 'Shougo/vimfiler'
+NeoBundle 'Shougo/vimshell.vim'
 NeoBundleLazy 'itchyny/unite-preview', {'autoload': {'unite_sources': ['vimfiler']}}
 NeoBundleLazy 'Shougo/neomru.vim', {'autoload': {'unite_sources': 'file_mru'}}
 NeoBundleLazy 'Shougo/unite-outline', {'autoload': {'unite_sources': 'outline'}}
