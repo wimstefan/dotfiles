@@ -62,9 +62,9 @@ use-proxy no
 color background         default    default
 color listnormal         default    default
 color listnormal_unread  default    default
-color listfocus          default     color252
-color listfocus_unread   default     color249
-color info               white     color239
+color listfocus          default    color252 bold
+color listfocus_unread   default    color249 bold
+color info               white      color239
 color article            default    default
 highlight article       "^Feed:.*"                          color244  default
 highlight article       "^Title:.*"                         white  color242
