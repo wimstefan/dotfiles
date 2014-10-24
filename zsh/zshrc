@@ -835,6 +835,12 @@ RPROMPT='$colorfg{blue}$bold$mytime$uncolorfg$unbold'
       emerge $PACKAGE -p --color n|grep ebuild|awk '{print $4}' >> ${HOME}/system/installs/$PACKAGE
   }
 
+  function obcli() {
+    CLIENT=$1
+    shift
+    obnam --verbose --client-name=$CLIENT -r /backups/$CLIENT "$@"
+}
+
   # }}}3
   # + Root config per host # {{{4
   # . swimmer # {{{5
