@@ -483,6 +483,28 @@ RPROMPT='$colorfg{blue}$bold$mytime$uncolorfg$unbold'
     fi
   }
 
+  function sync-music-pretend()
+  {
+    if [[ $# -le 0 ]]; then
+      echo "Usage: $0 <host>";
+      return 1;
+    fi
+
+    if (( $# != 1 )); then
+      echo "And please just one host at a time ;-)"
+      return 1
+    else
+      local mhost="$1"
+      echo "Syncing music with $mhost ..."
+      rsync -avzn --delete /music/Tango/ $mhost:/music/Tango/
+      rsync -avzn --delete /music/Non-Tango/ $mhost:/music/Non-Tango/
+      echo "Syncing CDDB info with $mhost ..."
+      rsync -avzn /home/swimmer/.cddb/ $mhost:/home/swimmer/.cddb/
+      echo "Syncing playlists with $mhost ..."
+      rsync -avzn --delete /music/playlists/ $mhost:/music/playlists/
+    fi
+  }
+
   function sync-ipod()
   {
     rsync -ruLtvz --delete --ignore-existing /music/Non-Tango/ /media/ipod/music/Non-Tango/
