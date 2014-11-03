@@ -820,6 +820,7 @@ RPROMPT='$colorfg{blue}$bold$mytime$uncolorfg$unbold'
   alias fwlogwatch="fwlogwatch -Ddys /var/log/shorewall"
   alias eva="emerge -va"
   alias epre="emerge -va @preserved-rebuild"
+  alias emod="emerge @module-rebuild"
   alias ere="revdep-rebuild -- -a"
   alias ta="tmux -2 attach -d"
   alias mc="mc -S modarin256root"
