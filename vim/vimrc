@@ -51,6 +51,7 @@ NeoBundle 'junegunn/vim-easy-align'
 NeoBundle 'dhruvasagar/vim-table-mode', {'depends': ['godlygeek/tabular']}
 NeoBundle 'plasticboy/vim-markdown'
 NeoBundle 'dahu/vim-asciidoc', {'depends': ['tomtom/tlib_vim','dahu/Asif','SyntaxRange']}
+NeoBundle 'majutsushi/tagbar'
 NeoBundle 'VOoM'
 NeoBundle 'achiang/muttrc'
 NeoBundle 'chrisbra/CheckAttach'
@@ -568,6 +569,46 @@ NeoBundleCheck
 " 'plasticboy/vim-markdown' " {{{2
   let g:vim_markdown_folding_disabled=0
   let g:vim_markdown_initial_foldlevel=3
+  " " }}}
+
+" 'majutsushi/tagbar' " {{{2
+  let g:tagbar_expand = 1
+  let g:tagbar_autoshowtag = 1
+  "let g:tagbar_iconchars = ['+', '-']
+  let g:tagbar_iconchars = ['▷', '◢']
+  nnoremap <silent> <Leader>tl :TagbarToggle<CR>
+  let g:tagbar_type_asciidoc = {
+    \ 'ctagstype' : 'asciidoc',
+    \ 'kinds' : [
+        \ 'h:table of contents',
+        \ 'a:anchors:1',
+        \ 't:titles:1',
+        \ 'n:includes:1',
+        \ 'i:images:1',
+        \ 'I:inline images:1'
+    \ ],
+    \ 'sort' : 0
+  \ }
+  let g:tagbar_type_html = {
+    \ 'ctagstype' : 'html',
+    \ 'kinds' : [
+        \ 'f:JavaScript funtions',
+        \ 'a:named anchors',
+        \ 'r:html',
+        \ 'b:body',
+        \ 'o:object',
+        \ 'c:class',
+    \ ],
+    \ 'ctagsargs' : '-f - --html-kinds=fabr'
+  \ }
+  let g:tagbar_type_markdown = {
+      \ 'ctagstype' : 'markdown',
+      \ 'kinds' : [
+          \ 'h:Heading_L1',
+          \ 'i:Heading_L2',
+          \ 'k:Heading_L3'
+      \ ]
+  \ }
   " " }}}
 
 " 'VOoM' " {{{2
