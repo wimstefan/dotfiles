@@ -43,6 +43,7 @@ NeoBundle 'tpope/vim-characterize'
 NeoBundle 'tpope/vim-repeat'
 NeoBundle 'tpope/vim-vinegar'
 NeoBundle 'tpope/vim-commentary'
+NeoBundle 'tpope/vim-surround'
 NeoBundle 'Raimondi/delimitMate'
 NeoBundle 'dbakker/vim-lint', {'depends': ['scrooloose/syntastic']}
 NeoBundle 'rkitover/vimpager'
