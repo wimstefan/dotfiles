@@ -96,7 +96,7 @@ NeoBundleCheck
   call unite#filters#sorter_default#use(['sorter_rank'])
   call unite#custom#source('buffer,file,file_rec','sorters','sorter_rank')
   call unite#custom#source('file_rec,file_rec/async',
-  \ 'max_candidates', 0)
+    \ 'max_candidates', 0)
   call unite#custom#source('file,file_rec,file_rec/async,grep,locate',
     \ 'ignore_pattern', join(['\.cache/', 'cache/', '\.icons/', '\.maildir/', '\.offlineimap', '\.thunderbird/'], '\|'))
   call unite#custom#profile('default', 'context', {
@@ -544,6 +544,7 @@ NeoBundleCheck
 
 " 'tpope/vim-commentary' " {{{2
   autocmd Filetype xdefaults set commentstring=!\ %s
+  autocmd Filetype mail set commentstring=>\%s
 " " }}}
 
 " 'scrooloose/syntastic' " {{{2
