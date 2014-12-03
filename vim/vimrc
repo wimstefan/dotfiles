@@ -38,7 +38,7 @@ NeoBundleLazy 'thinca/vim-unite-history', {'autoload': {'unite_sources':
 NeoBundleLazy 'osyo-manga/unite-quickfix', {'autoload': {'unite_sources':
             \ ['quickfix', 'location_list']}}
 NeoBundleLazy 'osyo-manga/unite-filetype', {'autoload': {'unite_sources': 'filetype'}}
-NeoBundleLazy 'sjl/gundo.vim', {'autoload': {'commands': 'GundoToggle'}}
+NeoBundleLazy 'mbbill/undotree', {'autoload': {'commands': 'UndotreeToggle'}}
 NeoBundle 'tpope/vim-abolish'
 NeoBundle 'tpope/vim-characterize'
 NeoBundle 'tpope/vim-repeat'
@@ -225,8 +225,6 @@ NeoBundleCheck
           \'Unite change'],
       \['▷ search jumps',
           \'Unite jump'],
-      \['▷ search undos',
-          \'Unite undo'],
       \['▷ search tasks',
           \'Unite -toggle grep:%::FIXME|TODO|NOTE|XXX|COMBAK|@todo'],
       \]
@@ -249,8 +247,8 @@ NeoBundleCheck
           \'Unite register'],
       \['▷ messages',
           \'Unite output:messages'],
-      \['▷ undo tree      (gundo)                                     ⌘ ctrl-u',
-          \'GundoToggle'],
+      \['▷ undo tree      (undotree)                                  ⌘ \ut',
+          \'UndotreeToggle'],
       \]
   nnoremap <silent>[menu]i :Unite -silent menu:registers<CR>
   " }}}
@@ -521,8 +519,8 @@ NeoBundleCheck
   nnoremap <Leader>e :VimFilerExplorer<CR>
   " " }}}
 
-" 'sjl/gundo.vim' " {{{2
-  nnoremap <C-u> :GundoToggle<CR>
+" 'mbbill/undotree' " {{{2
+  nnoremap <leader>ut :UndotreeToggle<CR>
   " " }}}
 
 " 'netrw' " {{{2
@@ -550,6 +548,7 @@ NeoBundleCheck
 " 'scrooloose/syntastic' " {{{2
   let g:syntastic_check_on_open=0
   let g:syntastic_auto_loc_list=1
+  nnoremap <leader>syt :SyntasticToggleMode<CR>
   " " }}}
 
 " 'powerman/vim-plugin-viewdoc' " {{{2
@@ -667,6 +666,7 @@ NeoBundleCheck
   let g:signify_sign_delete            = '-'
   let g:signify_sign_delete_first_line = '‾'
   let g:signify_line_highlight = 1
+  nnoremap <leader>sgt :SignifyToggle<CR>
   " " }}}
 
 " 'mhinz/vim-startify' {{{2
@@ -676,6 +676,7 @@ NeoBundleCheck
                 \ ]
   let g:startify_bookmarks = [
               \ '~/.dotfiles/vim/vimrc',
+              \ '~/.dotfiles/zsh/zshrc',
               \ '~/.dotfiles/config/awesome/rc.lua'
               \ ]
   " " }}}
@@ -807,14 +808,13 @@ else
 endif
 
 if exists('vimpager')
-  let xterm16_colormap = 'softlight'
-  color xterm16
-  let g:airline_theme = 'luna'
+  color default
+  let g:airline_theme = 'silver'
   set colorcolumn=0
   set nolist
 endif
 
-set guifont=Envy\ Code\ R\ for\ Powerline\ 11
+set guifont=Envy\ Code\ R\ for\ Powerline\ 10
 
 filetype indent plugin on | syn on     " enable filetype, plugin and syntax support
 
