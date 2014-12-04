@@ -47,6 +47,7 @@ setopt    prompt_subst            # allow substition with $PS1, etc. Needed for 
 autoload -U colors && colors
 eval `dircolors -b /etc/DIR_COLORS`
 export ZLS_COLORS=$LS_COLORS
+
 # }}}2
 # - Completion {{{2
 zmodload zsh/complist
@@ -199,7 +200,7 @@ bindkey "^S" history-incremental-search-forward
 autoload -U zsh-mime-setup zsh-mime-handler && zsh-mime-setup
 # }}}2
 # - Prompt {{{2
-local curdir="%d"
+local curdir="%~"
 local hostname="%M"
 local username="%n"
 local bold="%B"
@@ -219,67 +220,103 @@ local rootorwhat="%#"
 local return_status="%?"
 
 autoload -Uz vcs_info
-#-zstyle ':vcs_info:*' enable git cvs svn hg
-#-zstyle ':vcs_info:*' check-for-changes true
-#-zstyle ':vcs_info:*' get-revision true
-#-zstyle ':vcs_info:*' stagedstr '●'
-#-zstyle ':vcs_info:*' unstagedstr '●'
-#-zstyle ':vcs_info:*' formats "$colorfg{red}%c%u$uncolorfg [$colorfg{yellow}%s$uncolorfg] $colorfg{green}⭠ %b$uncolorfg rev:%i $colorfg{cyan}%m"
-#-zstyle ':vcs_info:*' actionformats "$colorfg{red}%c%u$uncolorfg [$colorfg{yellow}%s@%a$uncolorfg] $colorfg{green}⭠ %b$uncolorfg rev:%i $colorfg{cyan}%m"
-#-
-#-#-### git: Show marker (T) if there are untracked files in repository
-#-# Make sure you have added staged to your 'formats':  %c
-#-zstyle ':vcs_info:git*+set-message:*' hooks git-untracked
-#-function +vi-git-untracked() {
-#-    if [[ $(git rev-parse --is-inside-work-tree 2> /dev/null) == 'true' ]] && \
-#-        git status --porcelain | grep '??' &> /dev/null ; then
-#-        # This will show the marker if there are any untracked files in repo.
-#-        # If instead you want to show the marker only if there are untracked
-#-        # files in $PWD, use:
-#-        #[[ -n $(git ls-files --others --exclude-standard) ]] ; then
-#-        hook_com[staged]+='T'
-#-    fi
-#-}
-#-### git: Show +N/-N when your local branch is ahead-of or behind remote HEAD.
-#-# Make sure you have added misc to your 'formats':  %m
-#-zstyle ':vcs_info:git*+set-message:*' hooks git-st
-#-function +vi-git-st() {
-#-    local ahead behind
-#-    local -a gitstatus
-#-
-#-    ahead=$(git rev-list ${hook_com[branch]}@{upstream}..HEAD 2>/dev/null | wc -l)
-#-    (( $ahead )) && gitstatus+=( "+${ahead}" )
-#-
-#-    behind=$(git rev-list HEAD..${hook_com[branch]}@{upstream} 2>/dev/null | wc -l)
-#-    (( $behind )) && gitstatus+=( "-${behind}" )
-#-
-#-    hook_com[misc]+=${(j:/:)gitstatus}
-#-}
-#-### git: Show remote branch name for remote-tracking branches
-#-zstyle ':vcs_info:git*+set-message:*' hooks git-remotebranch
-#-function +vi-git-remotebranch() {
-#-    local remote
-#-
-#-    # Are we on a remote-tracking branch?
-#-    remote=${$(git rev-parse --verify ${hook_com[branch]}@{upstream} \
-#-        --symbolic-full-name 2>/dev/null)/refs\/remotes\/}
-#-
-#-    # The first test will show a tracking branch whenever there is one. The
-#-    # second test, however, will only show the remote branch's name if it
-#-    # differs from the local one.
-#-    if [[ -n ${remote} ]] ; then
-#-    #if [[ -n ${remote} && ${remote#*/} != ${hook_com[branch]} ]] ; then
-#-        hook_com[branch]="${hook_com[branch]} [${remote}]"
-#-    fi
-#-}
-#-
-#-precmd() {
-#-  vcs_info
-#-}
 
-if [[ -s $HOME/.zsh/external/liquidprompt.git/liquidprompt ]]; then
-  source $HOME/.zsh/external/liquidprompt.git/liquidprompt
-fi
+zstyle ':vcs_info:*' enable git hg svn
+zstyle ':vcs_info:*' check-for-changes true
+zstyle ':vcs_info:*' use-simple true
+zstyle ':vcs_info:*' unstagedstr '%F{red}u%f'
+zstyle ':vcs_info:*' stagedstr '%F{yellow}s%f'
+
+zstyle ':vcs_info:*' formats "%B[%F{yellow}%s%f]%%b-[%F{green}%b%f%m]-[%F{red}%c%u%f]"
+zstyle ':vcs_info:*' actionformats "%B[%F{yellow}%s%f]%%b-[%F{green}%b@%a%f%m]-[%F{red}%c%u%f]"
+
+zstyle ':vcs_info:git*+set-message:*' hooks git-untracked git-aheadbehind git-remotebranch git-changes
+### git: Show marker if there are untracked files in repository
++vi-git-untracked(){
+  if [[ $(git rev-parse --is-inside-work-tree 2> /dev/null) == 'true' ]] && \
+    git status --porcelain | fgrep '??' &> /dev/null ; then
+    # This will show the marker if there are any untracked files in repo.
+    # If instead you want to show the marker only if there are untracked
+    # files in $PWD, use:
+    #[[ -n $(git ls-files --others --exclude-standard) ]] ; then
+    hook_com[unstaged]+='%F{cyan}x%f'
+  fi
+}
+
+### git: Show +N/-N when your local branch is ahead-of or behind remote HEAD.
+function +vi-git-aheadbehind() {
+  local ahead behind remote
+  local -a gitstatus
+
+  ahead=$(git rev-list ${hook_com[branch]}@{upstream}..HEAD 2>/dev/null | wc -l | tr -d ' ')
+  (( $ahead )) && gitstatus+=( " %F{magenta}+${ahead}%f " )
+
+  behind=$(git rev-list HEAD..${hook_com[branch]}@{upstream} 2>/dev/null | wc -l | tr -d ' ')
+  (( $behind )) && gitstatus+=( " %B%F{magenta}-${behind}%f%b " )
+
+  hook_com[misc]+=${(j::)gitstatus}
+}
+
+### git: Show remote branch name for remote-tracking branches
+function +vi-git-remotebranch() {
+  local remote
+
+  # Are we on a remote-tracking branch?
+  remote=${$(git rev-parse --verify ${hook_com[branch]}@{upstream} \
+    --symbolic-full-name 2>/dev/null)/refs\/remotes\/}
+
+  # The first test will show a tracking branch whenever there is one. The
+  # second test, however, will only show the remote branch's name if it
+  # differs from the local one.
+  #if [[ -n ${remote} ]] ; then
+  if [[ -n ${remote} && ${remote#*/} != ${hook_com[branch]} ]] ; then
+    hook_com[branch]="${hook_com[branch]}(%F{cyan}${remote}%f)"
+  fi
+}
+
+### git: Show changes, insertions + deletions
+function +vi-git-changes() {
+  local stats
+  local -a gitdiff
+
+  stats="$(git diff --shortstat 2>/dev/null)"
+
+  local s_ch
+  if [[ "$stats" = *changed* ]]; then
+    s_ch="$( echo $stats | sed -s 's/^ \([0-9]*\)\s*file.*/\1/')"
+  else
+    s_ch=''
+  fi
+
+  local s_ins
+  if [[ "$stats" = *insertion* ]]; then
+    s_ins=${stats/*changed, /}
+    s_ins=${s_ins/ inser*}
+  else
+    s_ins=''
+  fi
+
+  local s_del
+  if [[ "$stats" = *deletion* ]]; then
+    s_del=${stats/*\(+\), /}
+    s_del=${s_del/ del*}
+  else
+    s_del=''
+  fi
+
+  if [[ -n $s_ch ]]; then 
+    s_lines="(~$s_ch,%F{green}+$s_ins%f/%F{red}-$s_del%f)"
+  else
+    s_lines=''
+  fi
+  gitdiff+=( "${s_lines}" )
+
+  hook_com[misc]+=${(j::)gitdiff}
+}
+
+precmd() {
+  vcs_info
+}
 
 # }}}2
 # - Misc {{{2
@@ -412,27 +449,11 @@ function et() {
 if [[ $USER != root ]]; then
   echo "Initializing user settings for $USER ..."
   # - Prompt {{{3
-  #PROMPT="$colorfg{blue}$uncolorfg$bold$curdir$unbold$colorfg{blue}$uncolorfg
-  #$username$bold$colorfg{red}:${uncolorfg}$unbold$hostname$colorfg{yellow}»$uncolorfg #"
-#-  PROMPT="$bold$colorfg{black}$curdir$uncolorfg$unbold
-#-$colorfg{blue}$bold$username$unbold$colorfg{red} @ $uncolorfg$colorfg{blue}$hostname$uncolorfg$colorfg{yellow} »$uncolorfg "
-#-  if [[ -s $HOME/.zsh/external/zsh-vcs-prompt.git/zshrc.sh ]]; then
-#-    source ~/.zsh/external/zsh-vcs-prompt.git/zshrc.sh
-#-    ZSH_VCS_PROMPT_ENABLE_CACHING='true'
-#-    ZSH_VCS_PROMPT_AHEAD_SIGIL=' ↑ '
-#-    ZSH_VCS_PROMPT_BEHIND_SIGIL=' ↓ '
-#-    ZSH_VCS_PROMPT_STAGED_SIGIL=' ● '
-#-    ZSH_VCS_PROMPT_CONFLICTS_SIGIL=' ✖ '
-#-    ZSH_VCS_PROMPT_UNSTAGED_SIGIL=' ✚ '
-#-    ZSH_VCS_PROMPT_UNTRACKED_SIGIL=' ┄ '
-#-    ZSH_VCS_PROMPT_STASHED_SIGIL='⚑ '
-#-    ZSH_VCS_PROMPT_CLEAN_SIGIL='✔ '
-#-
-#-    RPROMPT='$(vcs_super_info) $colorfg{blue}$bold$mytime$uncolorfg$unbold'
-#-  else
-#-    RPROMPT='${vcs_info_msg_0_} $colorfg{blue}$bold$mytime$uncolorfg$unbold'
-#-  fi
-RPROMPT='$colorfg{blue}$bold$mytime$uncolorfg$unbold'
+  PROMPT="$bold$colorfg{blue}$mytime $colorfg{green}[$username$uncolorfg:$curdir$colorfg{green}]$uncolorfg $rootorwhat $unbold"
+  RPROMPT='${vcs_info_msg_0_}'
+  if [[ -n $SSH_CONNECTION ]]; then
+    RPROMPT+=' $bold$colorfg{red}[%m]$uncolorfg$unbold'
+  fi
 
   # }}}3
   # - Exports {{{3
@@ -637,6 +658,8 @@ RPROMPT='$colorfg{blue}$bold$mytime$uncolorfg$unbold'
         echo "Syncing terminal & X settings on $host ..."
         rsync -az /home/swimmer/.Xresources $host:
         rsync -az --delete --exclude '.thumbs' /home/swimmer/system/wallpapers/ $host\:system/wallpapers/
+        rsync -az --delete /usr/local/src/Tools/numix.git/ $host\:/usr/local/src/Tools/numix.git/
+        rsync -az --delete /usr/local/src/Tools/numix-icon-theme.git/ $host\:/usr/local/src/Tools/numix-icon-theme.git/
         rsync --recursive --links --keep-dirlinks --perms --times --group --owner -D --compress --delete /usr/local/share/icons/ $host:/usr/local/share/icons/
         rsync --recursive --links --keep-dirlinks --perms --times --group --owner -D --compress --delete /usr/local/share/themes/ $host:/usr/local/share/themes/
         rsync -az --delete /usr/share/fonts/owned/ $host:/usr/share/fonts/owned/
@@ -805,8 +828,7 @@ RPROMPT='$colorfg{blue}$bold$mytime$uncolorfg$unbold'
 else
   echo "Initializing user settings for $USER ..."
   # - Prompt # {{{3
-#-  PROMPT="$colorfg{red}$bold$username$unbold$uncolorfg@$colorfg{blue}$hostname $colorfg{yellow}$curdir $uncolorfg%% "
-RPROMPT='$colorfg{blue}$bold$mytime$uncolorfg$unbold'
+  PROMPT='$bold$colorfg{blue}$mytime$uncolorfg [$colorfg{red}$username@$colorfg{green}$hostname$uncolorfg:$curdir] $colorfg{red}$rootorwhat $uncolorfg$unbold'
   # }}}3
   # - Exports # {{{3
   export PATH=$PATH:$HOME/bin
