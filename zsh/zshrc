@@ -200,6 +200,8 @@ bindkey "^S" history-incremental-search-forward
 autoload -U zsh-mime-setup zsh-mime-handler && zsh-mime-setup
 # }}}2
 # - Prompt {{{2
+autoload -Uz promptinit
+promptinit
 local curdir="%~"
 local hostname="%M"
 local username="%n"
