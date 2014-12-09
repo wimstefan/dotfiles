@@ -540,11 +540,6 @@ NeoBundleCheck
   vnoremap <silent> <leader>gV :Gitv! --all<CR>
 " " }}}
 
-" 'tpope/vim-commentary' " {{{2
-  autocmd Filetype xdefaults set commentstring=!\ %s
-  autocmd Filetype mail set commentstring=>\%s
-" " }}}
-
 " 'scrooloose/syntastic' " {{{2
   let g:syntastic_check_on_open=0
   let g:syntastic_auto_loc_list=1
@@ -939,6 +934,10 @@ iab dATE <C-R>=strftime("%Y-%m-%d")<CR>
 " Auto commands " {{{1
 " Automatically chmod +x Shell and Perl scripts
 "autocmd BufWritePost {*.sh,*.pl,*.py} silent !chmod +x %
+
+" Differing commentstrings
+autocmd Filetype xdefaults set commentstring=!\%s
+autocmd Filetype mail set commentstring=>\%s
 
 " Some more colours in text files
 au BufRead,BufNewFile {*.txt,*.log} set syntax=asciidoc
