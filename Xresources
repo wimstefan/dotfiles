@@ -28,8 +28,8 @@ URxvt.scrollWithBuffer: false
 URxvt.secondaryScroll: true
 URxvt.saveLines: 4444
 URxvt.transparent: true
-URxvt.shading: 190
-URxvt.tintColor: #A1A1A1
+URxvt.shading: 180
+URxvt.tintColor: #D1D1D1
 URxvt.perl-lib: /usr/lib/urxvt/perl
 URxvt.perl-ext-common: default,clipboard,selection,keyboard-select,url-select
 URxvt.selection.pattern-0: .+?@.+? .+? %%?[ ]+(.+)
@@ -59,8 +59,8 @@ rofi.padding: 2
 rofi.bw: 2
 rofi.terminal: urxvt
 
-!!! Color settings
-! !! dark background
+!!!! Color settings
+!!! My dark background
 ! *background: #1d1f21
 ! *foreground: #e4e4e4
 ! ! black
@@ -88,7 +88,7 @@ rofi.terminal: urxvt
 ! *color7: #e0e0e0
 ! *color15: #e4e4e4
 
-!! light background
+!!! My light background
 *background: #E4E4E4
 *foreground: #1D1F21
 ! black
