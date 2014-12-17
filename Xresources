@@ -101,7 +101,7 @@ rofi.terminal: urxvt
 *color2: #34B31B
 *color10: #338033
 ! yellow
-*color3: #FFAA00
+*color3: #E27E00
 *color11: #F27F0C
 ! blue
 *color4: #175CE6
