@@ -336,7 +336,7 @@ NeoBundleCheck
       \['▷ neobundle list',
           \'Unite -tab output:NeoBundleList'],
       \['▷ neobundle direct edit',
-          \'NeoBundleDirectEdit'],
+          \'NeoBundleExtraEdit'],
       \]
   nnoremap <silent>[menu]n :Unite -silent -start-insert menu:neobundle<CR>
   " }}}
