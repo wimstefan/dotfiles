@@ -28,7 +28,7 @@ URxvt.scrollWithBuffer: false
 URxvt.secondaryScroll: true
 URxvt.saveLines: 4444
 URxvt.transparent: true
-URxvt.shading: 180
+URxvt.shading: 172
 URxvt.tintColor: #D1D1D1
 URxvt.perl-lib: /usr/lib/urxvt/perl
 URxvt.perl-ext-common: default,clipboard,selection,keyboard-select,url-select
