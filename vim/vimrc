@@ -508,7 +508,7 @@ NeoBundleCheck
 
 " 'Shougo/vimfiler' " {{{2
   let g:vimfiler_data_directory = $HOME.'/.cache/vim/vimfiler/'
-  let g:vimfiler_as_default_explorer = 1
+  let g:vimfiler_as_default_explorer = 0
   let g:vimfiler_force_overwrite_statusline = 0
   let g:vimfiler_preview_action = 'auto_preview'
   nnoremap <Leader>e :VimFilerExplorer<CR>
@@ -522,8 +522,7 @@ NeoBundleCheck
   let g:netrw_winsize         = 30
   let g:netrw_liststyle       =  3
   let g:netrw_preview         =  1
-  let g:netrw_browse_split    =  2
-  nnoremap <Leader>x :Vexplore<CR>
+  nnoremap <Leader>x :Explore<CR>
   " " }}}
 
 " 'gregsexton/gitv' " {{{2
