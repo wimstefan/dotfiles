@@ -114,5 +114,5 @@ rofi.terminal: urxvt
 *color14: #0F9999
 ! white
 *color7: #FAFAFA
-*color15: #C7C7C7
+*color15: #E4E4E4
 
