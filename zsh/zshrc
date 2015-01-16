@@ -671,7 +671,7 @@ if [[ $USER != root ]]; then
         rsync -az /home/swimmer/.config/Trolltech.conf $host:.config/
       }
       function sync-cli() {
-      # zsh, vim, ranger
+      # zsh, vim, mc
         local host=$1
         echo "Syncing zsh on $host ..."
         rsync -az --delete /home/swimmer/.zsh/external/ $host:.zsh/external/
@@ -684,8 +684,7 @@ if [[ $USER != root ]]; then
         else
           rsync -az --delete /home/swimmer/.vim/ $host:.vim/
         fi
-        echo "Syncing ranger & mc on $host ..."
-        rsync -az           /home/swimmer/.config/ranger/rc.conf $host:.config/ranger/
+        echo "Syncing mc on $host ..."
         rsync -az           /home/swimmer/.config/mc/ini $host:.config/mc/
         rsync -az           /home/swimmer/.config/mc/mc.ext $host:.config/mc/
         rsync -az --delete /home/swimmer/.local/share/mc/skins/ $host:.local/share/mc/skins/

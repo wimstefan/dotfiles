@@ -557,10 +557,6 @@ NeoBundleCheck
   vmap . <Plug>(EasyAlignRepeat)
 " " }}}
 
-" 'chrisbra/CheckAttach' " {{{2
-  let g:checkattach_filebrowser = 'ranger'
-  " " }}}
-
 " 'dhruvasagar/vim-table-mode' " {{{2
   let g:table_mode_corner = '+'
   let g:table_mode_fillchar = '-'
