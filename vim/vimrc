@@ -59,6 +59,7 @@ NeoBundle 'achiang/muttrc'
 NeoBundle 'chrisbra/CheckAttach'
 NeoBundle 'renamer.vim'
 NeoBundle 'DirDiff.vim'
+NeoBundle 'farseer90718/vim-taskwarrior'
 NeoBundle 'jamessan/vim-gnupg'
 NeoBundle 'gregsexton/gitv', {'depends': ['tpope/vim-fugitive']}
 NeoBundle 'mhinz/vim-signify'
