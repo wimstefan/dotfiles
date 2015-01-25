@@ -110,9 +110,6 @@ zstyle ':completion:*:history-words' remove-all-dups yes
 zstyle ':completion:*:history-words' list false
 zstyle ':completion:*:history-words' menu yes
 
-# Environmental Variables
-zstyle ':completion::*:(-command-|export):*' fake-parameters ${${${_comps[(I)-value-*]#*,}%%,*}:#-*-}
-
 # ssh
 users=(swimmer komala root)
 zstyle ':completion:*' users $users
@@ -601,6 +598,7 @@ if [[ $USER != root ]]; then
   if [[ $HOST == swimmer ]]; then
     echo "Loading host specific settings for swimmer ..."
     # Don't forget your tasks ;-)
+    export TASKDDATA="/var/lib/taskd"
     export TASKRC="$HOME/private/task/rc/taskrc"
     task
 
@@ -895,8 +893,8 @@ else
 
   fi
   # }}}5
-  # . asuca # {{{5
-  if [[ $HOST == asuca ]]; then
+  # . tj # {{{5
+  if [[ $HOST == tj ]]; then
     echo "Loading host specific settings for $HOST ..."
 
     function wlan-restart() {
