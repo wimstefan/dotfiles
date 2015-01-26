@@ -59,7 +59,7 @@ NeoBundle 'achiang/muttrc'
 NeoBundle 'chrisbra/CheckAttach'
 NeoBundle 'renamer.vim'
 NeoBundle 'DirDiff.vim'
-NeoBundle 'farseer90718/vim-taskwarrior'
+NeoBundle 'farseer90718/vim-taskwarrior', {'external_commands': 'task' }
 NeoBundle 'jamessan/vim-gnupg'
 NeoBundle 'gregsexton/gitv', {'depends': ['tpope/vim-fugitive']}
 NeoBundle 'mhinz/vim-signify'
@@ -243,7 +243,7 @@ NeoBundleCheck
           \'Unite register'],
       \['▷ messages',
           \'Unite output:messages'],
-      \['▷ undo tree      (undotree)                                  ⌘ \ut',
+      \['▷ undo tree      (undotree)                                  ⌘ ,tu',
           \'UndotreeToggle'],
       \]
   nnoremap <silent>[menu]i :Unite -silent menu:registers<CR>
@@ -281,7 +281,7 @@ NeoBundleCheck
           \                                          ⌘ ,e',
       \}
   let g:unite_source_menu_menus.text.command_candidates = [
-      \['▷ toggle search results highlight                            ⌘ \/',
+      \['▷ toggle search results highlight                            ⌘ ,/',
           \'set invhlsearch!'],
       \['▷ show hidden chars',
           \'set list!'],
@@ -425,7 +425,7 @@ NeoBundleCheck
           \                                            ⌘ ,p',
       \}
   let g:unite_source_menu_menus.code.command_candidates = [
-      \['▷ syntastic toggle                           (syntastic)',
+      \['▷ syntastic toggle                           (syntastic)     ⌘ ,tsy',
           \'SyntasticToggleMode'],
       \['▷ syntastic check                            (syntastic)',
           \'SyntasticCheck'],
@@ -516,7 +516,7 @@ NeoBundleCheck
   " " }}}
 
 " 'mbbill/undotree' " {{{2
-  nnoremap <leader>ut :UndotreeToggle<CR>
+  nnoremap ,tu :UndotreeToggle<CR>
   " " }}}
 
 " 'netrw' " {{{2
@@ -538,7 +538,7 @@ NeoBundleCheck
 " 'scrooloose/syntastic' " {{{2
   let g:syntastic_check_on_open=0
   let g:syntastic_auto_loc_list=1
-  nnoremap <leader>syt :SyntasticToggleMode<CR>
+  nnoremap ,tsy :SyntasticToggleMode<CR>
   " " }}}
 
 " 'powerman/vim-plugin-viewdoc' " {{{2
@@ -572,7 +572,7 @@ NeoBundleCheck
   let g:tagbar_autoshowtag = 1
   "let g:tagbar_iconchars = ['+', '-']
   let g:tagbar_iconchars = ['▷', '◢']
-  nnoremap <silent> <Leader>tl :TagbarToggle<CR>
+  nnoremap <silent> ,tt :TagbarToggle<CR>
   let g:tagbar_type_asciidoc = {
     \ 'ctagstype' : 'asciidoc',
     \ 'kinds' : [
@@ -609,7 +609,7 @@ NeoBundleCheck
 
 " 'VOoM' " {{{2
   let g:voom_tree_width = 40
-  nnoremap <Leader>v :VoomToggle<CR>
+  nnoremap ,tv :VoomToggle<CR>
   " " }}}
 
 " 'bling/vim-airline' " {{{2
@@ -644,7 +644,7 @@ NeoBundleCheck
   let g:signify_sign_delete            = '-'
   let g:signify_sign_delete_first_line = '‾'
   let g:signify_line_highlight = 1
-  nnoremap <leader>sgt :SignifyToggle<CR>
+  nnoremap ,tsg :SignifyToggle<CR>
   " " }}}
 
 " 'mhinz/vim-startify' {{{2
@@ -792,30 +792,30 @@ set guifont=Envy\ Code\ R\ for\ Powerline\ 10
 filetype indent plugin on | syn on     " enable filetype, plugin and syntax support
 
 set laststatus=2                       " always show the statusline above
-"if has('statusline')
-"  "set statusline=%<%f\ %h%m%r%=%-14.(%l,%c%V%)\ %P " default statusline
-"  set statusline=
-"  if $USER=='root'
-"    set statusline+=%#ErrorMsg#
-"  else
-"    set statusline+=%#Folded#
-"  endif
-"  set statusline+=::\ %{$USER}\ ::
-"  set statusline+=%*
-"
-"  set statusline+=%#ColorColumn#[%n]%*
-"  set statusline+=%#DIffAdd#%{fugitive#statusline()}%*
-"  "set statusline+=\ %<%F
-"  set statusline+=\ %t%<
-"  set statusline+=\ %#DiffDelete#%r%m%*
-"  set statusline+=\ (%l/%L,\ %-2c)
-"  set statusline+=\ %p%%
-"  set statusline+=\ %#WarningMsg#%{SyntasticStatuslineFlag()}%*
-"  set statusline+=%=
-"  set statusline+=%h%w\ %y\ [%{&encoding}:%{&fileformat}]
-"  set statusline+=\ %#ColorColumn#
-"  set statusline+=\ %{strftime(\"%F\ %H:%M\ \")}
-"endif
+" if has('statusline')
+"   "set statusline=%<%f\ %h%m%r%=%-14.(%l,%c%V%)\ %P " default statusline
+"   set statusline=
+"   if $USER=='root'
+"     set statusline+=%#ErrorMsg#
+"   else
+"     set statusline+=%#Folded#
+"   endif
+"   set statusline+=[%{$USER}]\ 
+"   set statusline+=%*
+
+"   set statusline+=%#ColorColumn#[%n]%*
+"   set statusline+=%#DIffAdd#%{fugitive#statusline()}%*
+"   "set statusline+=\ %<%F
+"   set statusline+=\ %t%<
+"   set statusline+=\ %#DiffDelete#%r%m%*
+"   set statusline+=\ (%l/%L,\ %-2c)
+"   set statusline+=\ %p%%
+"   set statusline+=\ %#WarningMsg#%{SyntasticStatuslineFlag()}%*
+"   set statusline+=%=
+"   set statusline+=%h%w\ %y\ [%{&encoding}:%{&fileformat}]
+"   set statusline+=\ %#ColorColumn#
+"   " set statusline+=\ %{strftime(\"%F\ %H:%M\ \")}
+" endif
 
 set foldenable                         " turn on folding
 set foldmethod=indent                  " fold on indentation (only use marker if explicitly defined)
@@ -888,7 +888,7 @@ set pastetoggle=<F3>                      " toggle paste
 nnoremap <F6> :set number!<CR>            " toggle numbers
 nnoremap <F7> :set list!<CR>              " toggle listchars
 nnoremap <F8> :set cursorline!<CR>        " toggle cursorline
-nnoremap <Leader>/ :set invhlsearch!<CR>  " toggle highlight searchresults
+nnoremap ,/   :set invhlsearch!<CR>       " toggle highlight searchresults
 
 " Replace signatures
 nnoremap <Leader>sa G?--<CR>jVGd :r ~/.mutt/short-signature-artisan<CR>
