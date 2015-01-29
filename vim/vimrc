@@ -329,6 +329,8 @@ NeoBundleCheck
           \'Unite output:NeoBundleDocs'],
       \['▷ neobundle clean',
           \'NeoBundleClean'],
+      \['▷ neobundle run GarbageCollect',
+          \'Unite -tab -log output:NeoBundleGC'],
       \['▷ neobundle list',
           \'Unite -tab output:NeoBundleList'],
       \['▷ neobundle direct edit',
@@ -517,6 +519,7 @@ NeoBundleCheck
 
 " 'mbbill/undotree' " {{{2
   nnoremap ,tu :UndotreeToggle<CR>
+  let g:undotree_WindowLayout = 2
   " " }}}
 
 " 'netrw' " {{{2
@@ -617,10 +620,10 @@ NeoBundleCheck
   if !exists('g:airline_symbols')
     let g:airline_symbols = {}
   endif
-  let g:airline_left_sep = '⮀'
-  let g:airline_left_alt_sep = '⮁'
-  let g:airline_right_sep = '⮂'
-  let g:airline_right_alt_sep = '⮃'
+  let g:airline_left_sep = ''
+  let g:airline_left_alt_sep = '|'
+  let g:airline_right_sep = ''
+  let g:airline_right_alt_sep = '|'
   let g:airline_symbols.branch = '⭠'
   let g:airline_symbols.readonly = '⭤'
   let g:airline_symbols.linenr = '¶'
@@ -665,7 +668,7 @@ NeoBundleCheck
 " " }}}
 
 " 'jonathanfilip/vim-lucius' " {{{2
-  let g:lucius_no_term_bg = 1
+  let g:lucius_no_term_bg = 0
   let g:lucius_use_bold = 1
   " " }}}
 
@@ -765,10 +768,11 @@ else
   if has('gui_running')
     let g:lucius_style='light'
     if $USER=='root'
-      color Tomorrow
+      color Tomorrow-Night-Bright
     else
-      color lucius
-      LuciusWhiteHighContrast
+      color Tomorrow
+      " color lucius
+      " LuciusWhiteHighContrast
     endif
   else
     if $USER=='root'
