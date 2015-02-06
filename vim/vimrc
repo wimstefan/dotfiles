@@ -58,7 +58,7 @@ NeoBundle 'VOoM'
 NeoBundle 'achiang/muttrc'
 NeoBundle 'chrisbra/CheckAttach'
 NeoBundle 'renamer.vim'
-NeoBundle 'DirDiff.vim'
+NeoBundle 'will133/vim-dirdiff'
 NeoBundle 'farseer90718/vim-taskwarrior', {'external_commands': 'task' }
 NeoBundle 'jamessan/vim-gnupg'
 NeoBundle 'gregsexton/gitv', {'depends': ['tpope/vim-fugitive']}
@@ -921,7 +921,7 @@ autocmd Filetype xdefaults set commentstring=!\%s
 autocmd Filetype mail set commentstring=>\%s
 
 " Some more colours in text files
-au BufRead,BufNewFile {*.txt,*.log} set syntax=asciidoc
+au BufNewFile,BufRead {*.txt,*.log} set filetype=asciidoc
 
 " Typical mutt thing ... replace > > with >>
 autocmd BufRead /tmp/mutt* silent! %s/^\([>|]\s\?\)\+/\=substitute(submatch(0), '\s', '', 'g').' '
