@@ -757,7 +757,7 @@ endfunc
 
 " Visual " {{{1
 if &term =~ "linux"
-  color apprentice
+  color lightning
   if has("terminfo")
     set t_Co=16
     set t_AB=[%?%p1%{7}%>%t5%p1%{8}%-%e25%p1%;m[4%dm
@@ -768,18 +768,15 @@ else
   if has('gui_running')
     let g:lucius_style='light'
     if $USER=='root'
-      color Tomorrow-Night-Bright
-    else
       color Tomorrow
-      " color lucius
-      " LuciusWhiteHighContrast
+    else
+      color lightning
     endif
   else
     if $USER=='root'
       color Tomorrow
     else
-      color lucius
-      LuciusWhiteHighContrast
+      color lightning
     endif
   endif
 endif
@@ -791,7 +788,7 @@ if exists('vimpager')
   set nolist
 endif
 
-set guifont=Envy\ Code\ R\ for\ Powerline\ 10
+set guifont=Monaco\ for\ Powerline\ 10
 
 filetype indent plugin on | syn on     " enable filetype, plugin and syntax support
 
