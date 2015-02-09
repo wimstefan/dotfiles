@@ -52,7 +52,7 @@ NeoBundle 'powerman/vim-plugin-viewdoc'
 NeoBundle 'junegunn/vim-easy-align'
 NeoBundle 'dhruvasagar/vim-table-mode', {'depends': ['godlygeek/tabular']}
 NeoBundle 'plasticboy/vim-markdown'
-NeoBundle 'dahu/vim-asciidoc', {'depends': ['tomtom/tlib_vim','dahu/Asif','SyntaxRange']}
+NeoBundle 'dahu/vim-asciidoc', {'depends': ['dahu/vimple','dahu/Asif','SyntaxRange']}
 NeoBundle 'majutsushi/tagbar'
 NeoBundle 'VOoM'
 NeoBundle 'achiang/muttrc'
