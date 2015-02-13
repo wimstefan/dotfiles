@@ -51,7 +51,7 @@ NeoBundle 'rkitover/vimpager'
 NeoBundle 'powerman/vim-plugin-viewdoc'
 NeoBundle 'junegunn/vim-easy-align'
 NeoBundle 'dhruvasagar/vim-table-mode', {'depends': ['godlygeek/tabular']}
-NeoBundle 'plasticboy/vim-markdown'
+NeoBundle 'gabrielelana/vim-markdown'
 NeoBundle 'dahu/vim-asciidoc', {'depends': ['dahu/vimple','dahu/Asif','SyntaxRange']}
 NeoBundle 'majutsushi/tagbar'
 NeoBundle 'VOoM'
@@ -75,6 +75,7 @@ NeoBundleLazy 'mattn/gist-vim', {
             \}}
 NeoBundle 'bling/vim-airline'
 NeoBundle 'jonathanfilip/vim-lucius'
+NeoBundle 'freeo/vim-kalisi'
 NeoBundle 'wimstefan/vim-tomorrow-theme'
 NeoBundle 'wimstefan/Lightning'
 NeoBundle 'romainl/Apprentice'
