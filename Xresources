@@ -11,13 +11,13 @@ Xcursor*theme: Neutral_Plus
 *cursorColor:  #B3B3B3
 *cursorColor2: #EEEEEE
 
-*font: xft:DejaVu Sans Mono for Powerline:pixelsize=13
-*font1: xft:Symbola:pixelsize=12
-*faceName: xft:DejaVu Sans Mono for Powerline:pixelsize=13
-URxvt.font: xft:Hermit:pixelsize=13:width=condensed,xft:DejaVu Sans Mono for Powerline:pixelsize=13,xft:Symbola:pixelsize=10
+*font: xft:MonacoB for Powerline:pixelsize=14
+*font1: xft:Symbola
+*faceName: xft:MonacoB for Powerline:pixelsize=14
+URxvt.font: xft:MonacoB for Powerline:pixelsize=14:width=condensed,xft:DejaVu Sans Mono for Powerline:pixelsize=13,xft:Symbola
 
 URxvt.depth: 32
-!URxvt.letterSpace: 1
+URxvt.letterSpace: -1
 URxvt.loginShell: true
 URxvt.visualBell: true
 URxvt.urgentOnBell: true
@@ -40,7 +40,7 @@ URxvt.url-select.launcher: google-chrome
 URxvt.url-select.button: 1
 URxvt.url-select.underline: true
 URxvt.keysym.M-u: perl:url-select:select_next
-URxvt.colorUL: #729FCF
+URxvt.colorUL: #005FAF
 
 xterm*loginShell: true
 xterm*utf8: true
