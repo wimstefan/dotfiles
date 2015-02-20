@@ -8,8 +8,7 @@ Xft.lcdfilter:  lcddefault
 Xft.rgba:       rgb
 
 Xcursor*theme: Neutral_Plus
-*cursorColor:  #B3B3B3
-*cursorColor2: #EEEEEE
+! *cursorColor:  #3A3A3A
 
 *font: xft:MonacoB for Powerline:pixelsize=14
 *font1: xft:Symbola
@@ -89,11 +88,11 @@ rofi.terminal: urxvt
 ! *color15: #e4e4e4
 
 !!! My light background
-*background: #E4E4E4
-*foreground: #1D1F21
+*background: #EEEEEE
+*foreground: #303030
 ! black
-*color0: #1F1F1F
-*color8: #454545
+*color0: #080808
+*color8: #585858
 ! red
 *color1: #CC2929
 *color9: #B30000
