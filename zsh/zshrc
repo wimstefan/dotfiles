@@ -467,7 +467,6 @@ if [[ $USER != root ]]; then
   alias ta="tmux -2 attach -d -t"
   alias errg="sudo eselect rc restart gpm"
   alias fbmplayer="mplayer -vo fbdev -fs"
-  alias mc="mc -S modarin256"
   alias lprhq='lpr -o "Resolution=2400x600dpi"'
   ## read private aliases
   if [[ -s $HOME/.zsh/zsh_aliases ]]; then
@@ -837,7 +836,6 @@ else
   alias emod="emerge @module-rebuild"
   alias ere="revdep-rebuild -- -a"
   alias ta="tmux -2 attach -d"
-  alias mc="mc -S modarin256root"
   ## read private aliases
   if [[ -s $HOME/.zsh/zsh_aliases ]]; then
     source $HOME/.zsh/zsh_aliases
