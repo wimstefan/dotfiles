@@ -43,14 +43,14 @@ wallpaper_dir     = home_dir.."/system/wallpapers/"
 icon_path         = config_dir.."/icons/"
 
 terminal          = "urxvt"
-browser           = os.getenv("BROWSER") or "google-chrome"
+browser           = os.getenv("BROWSER") or "firefox-bin"
 editor            = os.getenv("EDITOR") or "gvim"
 musicplr1         = terminal.." -title 'Music' -geometry 130x34-320+16 -e ncmpcpp"
 musicplr2         = terminal.." -title 'Music' -geometry 130x34-320+16 -e mocp"
 mixer             = terminal.." -title 'Music' -geometry 130x34-320+16 -e alsamixer"
 iptraf            = terminal.." -title 'IP traffic monitor' -geometry 160x44-20+34 -e sudo iptraf-ng -i all"
 mytop             = terminal.." -title 'Htop' -geometry 160x44-20+34 -e htop"
-myfile            = terminal.." -title 'Explore' -geometry 180x64-10+16 -e mc"
+myfile            = terminal.." -title 'Explore' -geometry 160x64-10+16 -e mc"
 editor_cmd        = "gvim"
 modkey            = "Mod4"
 altkey            = "Mod1"
@@ -657,7 +657,7 @@ globalkeys = awful.util.table.join(
     keydoc.group("05. Applications"),
     awful.key({ modkey,           }, "Return", function () awful.util.spawn(terminal) end, "Open a terminal"),
     awful.key({ modkey,           }, "a", function () awful.util.spawn("audacity") end, "Audacity"),
-    awful.key({ modkey,           }, "b", function () awful.util.spawn("google-chrome") end, "Chrome"),
+    awful.key({ modkey,           }, "b", function () awful.util.spawn(browser) end, "Browser"),
     awful.key({ modkey            }, "c", function () scratch.drop(terminal .." -e wcalc","top","right",250,300) end, "Calculator"),
     awful.key({ modkey,           }, "d", function () awful.util.spawn("darktable") end, "Darktable"),
     awful.key({ modkey,           }, "e", function () awful.util.spawn(editor_cmd) end, "Editor"),
@@ -666,7 +666,7 @@ globalkeys = awful.util.table.join(
     awful.key({ modkey,           }, "m", function () awful.util.spawn(myfile) end, "Explore"),
     awful.key({ modkey,           }, "o", function () awful.util.spawn("opera") end, "Opera"),
     awful.key({ modkey,           }, "p", function () awful.util.spawn("puddletag") end, "Puddletag"),
-    awful.key({ modkey,           }, "s", function () awful.util.spawn("spacefm") end, "Spacefm"),
+    awful.key({ modkey,           }, "s", function () scratch.drop(terminal .."","top","left",800,600) end, "Drop-down terminal"),
     awful.key({ modkey,           }, "t", function () awful.util.spawn("thunderbird") end, "Thunderbird"),
 
     -- Miscellaneous stuff

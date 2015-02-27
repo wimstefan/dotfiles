@@ -327,7 +327,7 @@ autoload -U run-help url-quote-magic zcalc zmv
 # - Exports {{{3
 export MANPAGER="vimpager -c"
 export EDITOR="vim"
-export BROWSER="google-chrome"
+export BROWSER="firefox-bin"
 export HISTFILE="$HOME/.zsh/histfile"
 export HISTSIZE="5000"
 export SAVEHIST="5000"
@@ -652,7 +652,6 @@ if [[ $USER != root ]]; then
         echo "Syncing terminal & X settings on $host ..."
         rsync -az /home/swimmer/.Xresources $host:
         rsync -az --delete --exclude '.thumbs' /home/swimmer/system/wallpapers/ $host\:system/wallpapers/
-        rsync -az --delete /usr/local/src/Tools/numix.git/ $host\:/usr/local/src/Tools/numix.git/
         rsync -az --delete /usr/local/src/Tools/numix-icon-theme.git/ $host\:/usr/local/src/Tools/numix-icon-theme.git/
         rsync --recursive --links --keep-dirlinks --perms --times --group --owner -D --compress --delete /usr/local/share/icons/ $host:/usr/local/share/icons/
         rsync --recursive --links --keep-dirlinks --perms --times --group --owner -D --compress --delete /usr/local/share/themes/ $host:/usr/local/share/themes/
