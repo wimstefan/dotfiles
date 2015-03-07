@@ -682,6 +682,7 @@ NeoBundleCheck
 " " }}}
 
 " General Settings " {{{1
+set textwidth=80                       " define an acceptable standard textwidth
 set backspace=2                        " allow backspacing over everything in insert mode
 set shiftwidth=2                       " number of spaces used for indention
 set tabstop=2                          " tabstop length
@@ -842,37 +843,7 @@ set showtabline=2                      " always show tabline, even if there is j
 " Formatting " {{{1
 " Format texts. Really cool.
 set comments=b:#,fb:-,fb:*,fb:o,:%,n:>|
-"set formatoptions=tcraqnw2              " autoformating with paragraphs (a) & gq (q)
-set formatoptions=tcrqnw2              " autoformatting without paragraphs
-"set formatoptions=tcrnw2              " autoformatting without paragraphs & gq
-
-" Using Damian Conways Text::Autoformat
-if(has('perl'))
-  command! -range=% Format :
-                    \  perl {
-                    \          use Text::Autoformat;
-                    \          my $n_line1 = VIM::Eval('<line1>');
-                    \          my $n_line2 = VIM::Eval('<line2>');
-                    \          my $foo= join "\n", $curbuf->Get($n_line1 .. $n_line2);
-                    \          my $tw=VIM::Eval('&textwidth');
-                    \          $tw or $tw = 80;
-                    \          my $ft=VIM::Eval('&filetype');
-                    \          $ft = ($ft eq 'mail') ? 1 : 0;
-                    \          my $formatted = autoformat($foo, {right=>$tw, all=>1, mail=>$ft});
-                    \          my @formatted_lines = split '\n', $formatted;
-                    \          $curbuf->Delete($n_line1, $n_line2);
-                    \          $curbuf->Append($n_line1-1, @formatted_lines, '');
-                    \       }
-
-  "Shortcut for formatting the paragraph around the cursor:
-  nnoremap <F2> {}:'`,Format<CR>:silent!w<CR>
-
-  "Format the visual selection:
-  vnoremap <F2> :Format<CR>:silent!w<CR>
-endif
-
-nnoremap l !G perl -MText::Autoformat -e "{autoformat{justify=>'left', left=>'0', right=>'80'};}"<CR><CR>
-vnoremap l !perl -MText::Autoformat -e "{autoformat{justify=>'left', left=>'0', right=>'80'};}"<CR><CR>
+set formatoptions=tcrqn2b
 
 " " }}}
 
@@ -918,14 +889,11 @@ source $HOME/.vim/abbreviations.vim
 
 " Auto commands " {{{1
 " Automatically chmod +x Shell and Perl scripts
-"autocmd BufWritePost {*.sh,*.pl,*.py} silent !chmod +x %
+autocmd BufWritePost {*.sh,*.pl,*.py} silent !chmod +x %
 
 " Differing commentstrings
-autocmd Filetype xdefaults set commentstring=!\%s
-autocmd Filetype mail set commentstring=>\%s
-
-" Some more colours in text files
-au BufNewFile,BufRead {*.txt,*.log} set filetype=asciidoc
+autocmd FileType xdefaults set commentstring=!\%s
+autocmd FileType mail set commentstring=>\%s
 
 " Typical mutt thing ... replace > > with >>
 autocmd BufRead /tmp/mutt* silent! %s/^\([>|]\s\?\)\+/\=substitute(submatch(0), '\s', '', 'g').' '
