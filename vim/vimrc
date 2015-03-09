@@ -571,9 +571,8 @@ NeoBundleCheck
   let g:asciidoc_title_style_atx = "symmetric"
   " " }}}
 
-" 'plasticboy/vim-markdown' " {{{2
-  let g:vim_markdown_folding_disabled=0
-  let g:vim_markdown_initial_foldlevel=3
+" 'gabrielelana/vim-markdown' " {{{2
+  let g:markdown_enable_folding=1
   " " }}}
 
 " 'majutsushi/tagbar' " {{{2
