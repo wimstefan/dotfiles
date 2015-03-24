@@ -56,6 +56,7 @@ NeoBundle 'dahu/vim-asciidoc', {'depends': ['dahu/vimple','dahu/Asif','SyntaxRan
 NeoBundle 'majutsushi/tagbar'
 NeoBundle 'VOoM'
 NeoBundle 'achiang/muttrc'
+NeoBundle 'dbeniamine/vim-mail'
 NeoBundle 'chrisbra/CheckAttach'
 NeoBundle 'renamer.vim'
 NeoBundle 'will133/vim-dirdiff'
@@ -503,14 +504,6 @@ NeoBundleCheck
     " " }}}
   " " }}}
 
-" 'Shougo/neocomplete' " {{{2
-  let g:neocomplete#enable_at_startup = 1
-  let g:neocomplete#enable_auto_select = 1
-  let g:neocomplete#enable_auto_delimiter = 1
-  let g:neocomplete#enable_smart_case = 1
-  let g:neocomplete#data_directory = $HOME.'/.cache/vim/neocomplete/'
-  " " }}}
-
 " 'Shougo/vimfiler' " {{{2
   let g:vimfiler_data_directory = $HOME.'/.cache/vim/vimfiler/'
   let g:vimfiler_as_default_explorer = 0
@@ -573,6 +566,11 @@ NeoBundleCheck
 
 " 'gabrielelana/vim-markdown' " {{{2
   let g:markdown_enable_folding=1
+  " " }}}
+
+" 'dbeniamine/vim-mail' " {{{2
+  let g:VimMailDontUseComplete=1
+  let g:VimMailClient="/usr/bin/tmux split-window -h mutt -R"
   " " }}}
 
 " 'majutsushi/tagbar' " {{{2
@@ -789,7 +787,6 @@ else
 endif
 
 if exists('vimpager')
-  color default
   let g:airline_theme = 'silver'
   set colorcolumn=0
   set nolist
