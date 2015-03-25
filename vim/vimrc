@@ -76,7 +76,6 @@ NeoBundleLazy 'mattn/gist-vim', {
             \}}
 NeoBundle 'bling/vim-airline'
 NeoBundle 'jonathanfilip/vim-lucius'
-NeoBundle 'freeo/vim-kalisi'
 NeoBundle 'wimstefan/vim-tomorrow-theme'
 NeoBundle 'wimstefan/Lightning'
 NeoBundle 'romainl/Apprentice'
