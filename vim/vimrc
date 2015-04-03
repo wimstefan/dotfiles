@@ -547,6 +547,9 @@ NeoBundleCheck
   nnoremap <Leader>h :ViewDocHelp 
   nnoremap <F1> :call ViewDoc('new', '<cword>')<CR>
   " " }}}
+" 'will133/vim-dirdiff' " {{{2
+  let g:DirDiffExcludes = ".git,.svn,CVS,*.class,*.exe,.*.swp,*.pyc,*.so"
+" " }}}
 
 " 'junegunn/vim-easy-align' " {{{2
   vnoremap <silent> <Enter> :EasyAlign<cr>
