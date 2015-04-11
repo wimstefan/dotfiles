@@ -45,7 +45,6 @@ NeoBundle 'tpope/vim-repeat'
 NeoBundle 'tpope/vim-vinegar'
 NeoBundle 'tpope/vim-commentary'
 NeoBundle 'tpope/vim-surround'
-NeoBundle 'Raimondi/delimitMate'
 NeoBundle 'dbakker/vim-lint', {'depends': ['scrooloose/syntastic']}
 NeoBundle 'rkitover/vimpager'
 NeoBundle 'powerman/vim-plugin-viewdoc'
@@ -75,10 +74,12 @@ NeoBundleLazy 'mattn/gist-vim', {
             \    'unite_sources': 'gist',
             \}}
 NeoBundle 'bling/vim-airline'
+NeoBundle 'SyntaxAttr.vim'
 NeoBundle 'jonathanfilip/vim-lucius'
 NeoBundle 'wimstefan/vim-tomorrow-theme'
 NeoBundle 'wimstefan/Lightning'
 NeoBundle 'romainl/Apprentice'
+NeoBundle 'acarapetis/vim-colors-github'
 
 call neobundle#end()
 NeoBundleCheck
