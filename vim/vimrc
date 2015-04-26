@@ -79,7 +79,8 @@ NeoBundle 'jonathanfilip/vim-lucius'
 NeoBundle 'wimstefan/vim-tomorrow-theme'
 NeoBundle 'wimstefan/Lightning'
 NeoBundle 'romainl/Apprentice'
-NeoBundle 'acarapetis/vim-colors-github'
+NeoBundle 'reedes/vim-colors-pencil'
+NeoBundle 'google/vim-colorscheme-primary'
 
 call neobundle#end()
 NeoBundleCheck
@@ -548,6 +549,7 @@ NeoBundleCheck
   nnoremap <Leader>h :ViewDocHelp 
   nnoremap <F1> :call ViewDoc('new', '<cword>')<CR>
   " " }}}
+
 " 'will133/vim-dirdiff' " {{{2
   let g:DirDiffExcludes = ".git,.svn,CVS,*.class,*.exe,.*.swp,*.pyc,*.so"
 " " }}}
@@ -561,6 +563,7 @@ NeoBundleCheck
 " 'dhruvasagar/vim-table-mode' " {{{2
   let g:table_mode_corner = '+'
   let g:table_mode_fillchar = '-'
+  let g:table_mode_align_char = ':'
   " " }}}
 
 " 'dahu/vim-asciidoc' " {{{2
@@ -679,6 +682,10 @@ NeoBundleCheck
   let g:lucius_use_bold = 1
   " " }}}
 
+" 'reedes/vim-colors-pencil' " {{{2
+  let g:pencil_higher_contrast_ui = 1
+  let g:pencil_terminal_italics = 1
+  " " }}}
 " " }}}
 
 " General Settings " {{{1
@@ -765,7 +772,8 @@ endfunc
 
 " Visual " {{{1
 if &term =~ "linux"
-  color lightning
+  set background=dark
+  color primary
   if has("terminfo")
     set t_Co=16
     set t_AB=[%?%p1%{7}%>%t5%p1%{8}%-%e25%p1%;m[4%dm
@@ -888,6 +896,9 @@ nnoremap <Leader>w :w!<CR>
 nnoremap <Leader>bn :bnext<CR>
 nnoremap <Leader>bp :bprev<CR>
 nnoremap <Leader>bd :bdel<CR>
+
+" switch colorscheme for console
+nnoremap <C-b> :set background=dark<CR>:colorscheme primary<CR>
 
 set pastetoggle=<F3>                      " toggle paste
 nnoremap <F6> :set number!<CR>            " toggle numbers
