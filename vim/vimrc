@@ -898,7 +898,7 @@ nnoremap <Leader>bp :bprev<CR>
 nnoremap <Leader>bd :bdel<CR>
 
 " switch colorscheme for console
-nnoremap <C-b> :set background=dark<CR>:colorscheme primary<CR>
+nnoremap <C-d> :set background=dark<CR>:colorscheme primary<CR>
 
 set pastetoggle=<F3>                      " toggle paste
 nnoremap <F6> :set number!<CR>            " toggle numbers
