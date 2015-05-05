@@ -776,10 +776,11 @@ awful.rules.rules = {
     { rule = { class = "Darktable" }, properties = { tag = tags[8] } },
     { rule = { class = "AftershotPro" }, properties = { tag = tags[8] } },
     { rule = { class = "Rawtherapee" }, properties = { tag = tags[8] } },
+    { rule = { class = "Gimp" }, properties = { floating = true, tag = tags[8] } },
     { rule = { class = "Scribus" }, properties = { floating = true, tag = tags[8] } },
+    { rule = { class = "Audacious" }, properties = { tag = tags[9] } },
     { rule = { class = "Audacity" }, properties = { floating = true, tag = tags[9] } },
     { rule = { class = "Puddletag" }, properties = { tag = tags[9] } },
-    { rule = { class = "Gimp" }, properties = { floating = true, tag = tags[9] } },
 
     { rule = { class = "Conky" },
       properties = {
