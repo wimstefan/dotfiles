@@ -932,6 +932,7 @@ autocmd BufWritePost {*.sh,*.pl,*.py} silent !chmod +x %
 " Differing commentstrings
 autocmd FileType xdefaults set commentstring=!\%s
 autocmd FileType mail set commentstring=>\%s
+autocmd FileType gentoo-package* set commentstring=#\%s
 
 " Typical mutt thing ... replace > > with >>
 autocmd BufRead /tmp/mutt* silent! %s/^\([>|]\s\?\)\+/\=substitute(submatch(0), '\s', '', 'g').' '
