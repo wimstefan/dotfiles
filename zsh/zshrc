@@ -385,16 +385,11 @@ alias packages="elinks http://packages.gentoo.org/"
 alias 24bugs="elinks 'https://bugs.gentoo.org/buglist.cgi?query_format=advanced&chfieldfrom=-1D&chfieldto=Now&chfield=[Bug+creation]&order=bugs.bug_id'"
 # }}}3
 # - Functions {{{3
-function dus()	{ du -s "$@" | sort -rn; }
+function dus()  { du -s "$@" | sort -rn; }
 
-function ff()	{ find . -iname '*'$1'*' ; }
+function ff() { find . -iname '*'$1'*' ; }
 
-function fe()	{ find . -iname '*'$1'*' -exec $2 {} \; ; }
-
-function vam-update() {
-  #vim +UpdateAddons +qall
-  vim +NeoBundleUpdate! +q
-}
+function fe() { find . -iname '*'$1'*' -exec $2 {} \; ; }
 
 function lowercase()  # move filenames to lowercase
 {
@@ -605,7 +600,6 @@ if [[ $USER != root ]]; then
     alias slrn="slrn --kill-log ~/News/Killed"
     alias gnews="slrn -h news.gmane.org -f ~/.newsrc.news.gmane.org"
     alias gnuvd="PAGER=dog gnuvd"
-    alias foobar="wine $HOME/.wine/drive_c/Program\ Files/foobar2000/foobar2000.exe"
     alias exif="exiftool -@ $HOME/system/fotografie/tags -s2"
 
     function sync-vimrc()
@@ -763,19 +757,6 @@ if [[ $USER != root ]]; then
       for i in {google-,}chrome{,-unstable,-beta}; pkill -9 $i
     }
 
-  fi
-  # }}}4
-  # . asuca # {{{4
-  if [[ $HOST == asuca ]]; then
-    echo "Loading host specific settings for $HOST ..."
-
-    # Key management
-    eval `keychain --quiet --eval id_dsa`
-
-    alias tj="tmux -2 start-server && tmux -2 attach -d -t tj"
-    alias hdmi-mplayer="mplayer -ao alsa:device=hdmi"
-    alias hdmi-vlc="vlc --alsa-audio-device=hdmi"
-    alias exif="exiftool -@ ${HOME}/system/tags '$@'"
   fi
   # }}}4
   # . tj # {{{4
