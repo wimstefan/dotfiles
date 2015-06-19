@@ -48,6 +48,7 @@ NeoBundle 'tpope/vim-surround'
 NeoBundle 'dbakker/vim-lint', {'depends': ['scrooloose/syntastic']}
 NeoBundle 'rkitover/vimpager'
 NeoBundle 'powerman/vim-plugin-viewdoc'
+NeoBundle 'gastonsimone/vim-dokumentary'
 NeoBundle 'junegunn/vim-easy-align'
 NeoBundle 'dhruvasagar/vim-table-mode', {'depends': ['godlygeek/tabular']}
 NeoBundle 'gabrielelana/vim-markdown'
@@ -62,6 +63,7 @@ NeoBundle 'will133/vim-dirdiff'
 NeoBundle 'farseer90718/vim-taskwarrior', {'external_commands': 'task' }
 NeoBundle 'jamessan/vim-gnupg'
 NeoBundle 'gregsexton/gitv', {'depends': ['tpope/vim-fugitive']}
+NeoBundle 'mhinz/vim-sayonara'
 NeoBundle 'mhinz/vim-signify'
 NeoBundle 'mhinz/vim-startify'
 NeoBundleLazy 'HTML.zip', {'autoload': {'filetypes': ['html', 'xhtml', 'css']}}
@@ -73,7 +75,6 @@ NeoBundleLazy 'mattn/gist-vim', {
             \    'commands': ['Gist'],
             \    'unite_sources': 'gist',
             \}}
-NeoBundle 'bling/vim-airline'
 NeoBundle 'SyntaxAttr.vim'
 NeoBundle 'jonathanfilip/vim-lucius'
 NeoBundle 'wimstefan/vim-tomorrow-theme'
@@ -81,6 +82,7 @@ NeoBundle 'wimstefan/Lightning'
 NeoBundle 'romainl/Apprentice'
 NeoBundle 'reedes/vim-colors-pencil'
 NeoBundle 'google/vim-colorscheme-primary'
+NeoBundle 'NLKNguyen/papercolor-theme'
 
 call neobundle#end()
 NeoBundleCheck
@@ -625,33 +627,6 @@ NeoBundleCheck
   nnoremap ,tv :VoomToggle<CR>
   " " }}}
 
-" 'bling/vim-airline' " {{{2
-  let g:airline_theme = 'tomorrow'
-  let g:airline_powerline_fonts = 1
-  if !exists('g:airline_symbols')
-    let g:airline_symbols = {}
-  endif
-  let g:airline_left_sep = ''
-  let g:airline_left_alt_sep = '|'
-  let g:airline_right_sep = ''
-  let g:airline_right_alt_sep = '|'
-  let g:airline_symbols.branch = '⭠'
-  let g:airline_symbols.readonly = '⭤'
-  let g:airline_symbols.linenr = '¶'
-  let g:airline#extensions#whitespace#enabled = 0
-  let g:airline#extensions#tabline#enabled = 1
-  let g:airline#extensions#tabline#buffer_idx_mode = 1
-  nmap <leader>1 <Plug>AirlineSelectTab1
-  nmap <leader>2 <Plug>AirlineSelectTab2
-  nmap <leader>3 <Plug>AirlineSelectTab3
-  nmap <leader>4 <Plug>AirlineSelectTab4
-  nmap <leader>5 <Plug>AirlineSelectTab5
-  nmap <leader>6 <Plug>AirlineSelectTab6
-  nmap <leader>7 <Plug>AirlineSelectTab7
-  nmap <leader>8 <Plug>AirlineSelectTab8
-  nmap <leader>9 <Plug>AirlineSelectTab9
-  " " }}}
-
 " 'mhinz/vim-signify' {{{2
   let g:signify_sign_add               = '+'
   let g:signify_sign_change            = '!'
@@ -785,13 +760,13 @@ else
   if has('gui_running')
     let g:lucius_style='light'
     if $USER=='root'
-      color Tomorrow
+      color PaperColor
     else
       color lightning
     endif
   else
     if $USER=='root'
-      color Tomorrow
+      color PaperColor
     else
       color lightning
     endif
@@ -799,7 +774,6 @@ else
 endif
 
 if exists('vimpager')
-  let g:airline_theme = 'silver'
   set colorcolumn=0
   set nolist
 endif
@@ -808,31 +782,44 @@ set guifont=Monaco\ for\ Powerline\ 10
 
 filetype indent plugin on | syn on     " enable filetype, plugin and syntax support
 
+" Statusline " {{{2
 set laststatus=2                       " always show the statusline above
-" if has('statusline')
-"   "set statusline=%<%f\ %h%m%r%=%-14.(%l,%c%V%)\ %P " default statusline
-"   set statusline=
-"   if $USER=='root'
-"     set statusline+=%#ErrorMsg#
-"   else
-"     set statusline+=%#Folded#
-"   endif
-"   set statusline+=[%{$USER}]\ 
-"   set statusline+=%*
+set showtabline=2                      " always show tabline, even if there is just one tab, avoid
+                                       " redraw problems when Window is displayed in fullscreen mode
+set guioptions-=e                      " disables the GUI tab line in favor of the plain text version
 
-"   set statusline+=%#ColorColumn#[%n]%*
-"   set statusline+=%#DIffAdd#%{fugitive#statusline()}%*
-"   "set statusline+=\ %<%F
-"   set statusline+=\ %t%<
-"   set statusline+=\ %#DiffDelete#%r%m%*
-"   set statusline+=\ (%l/%L,\ %-2c)
-"   set statusline+=\ %p%%
-"   set statusline+=\ %#WarningMsg#%{SyntasticStatuslineFlag()}%*
-"   set statusline+=%=
-"   set statusline+=%h%w\ %y\ [%{&encoding}:%{&fileformat}]
-"   set statusline+=\ %#ColorColumn#
-"   " set statusline+=\ %{strftime(\"%F\ %H:%M\ \")}
-" endif
+hi User1 ctermbg=238 ctermfg=160 guibg=#444444 guifg=#d70000 cterm=NONE gui=NONE
+hi User2 ctermbg=238 ctermfg=153 guibg=#444444 guifg=#afd7ff cterm=NONE gui=NONE
+hi User3 ctermbg=238 ctermfg=111 guibg=#444444 guifg=#87afff cterm=NONE gui=NONE
+hi User4 ctermbg=238 ctermfg=229 guibg=#444444 guifg=#ffffaf cterm=NONE gui=NONE
+hi User5 ctermbg=238 ctermfg=46  guibg=#444444 guifg=#00ff00 cterm=NONE gui=NONE
+
+function! SetStatusline()
+  let stl  = ''
+  if $USER=='root'
+    let stl .= '%#ErrorMsg#'
+  else
+    let stl .= '%#Folded#'
+  endif
+  let stl .= '  =%{$USER}= %*'
+  let stl .= '%#TabLineSel# %t %*'
+  let stl .= '%1*%{&modified ? " ± " : ""}%*'
+  let stl .= '%1*%{&ro ? " ⭤ " : ""}%*'
+
+  if exists('b:git_dir')
+    let branch  = fugitive#head(8)
+    let stl    .= (branch == 'master') ? '%2* ⭠ master %*' : '%3*'. branch .'%*'
+    let stl    .= '%4*'.s:sy_stats_wrapper().'%*'
+  endif
+
+  let stl .= '%= '
+        \ .  '%w %y [%{&encoding}:%{&fileformat}]'
+        \ .  ' (%l/%L, %-2c) '
+        \ .  ' %p%% '
+
+  return stl
+endfunction
+set statusline=%!SetStatusline()
 
 set foldenable                         " turn on folding
 set foldmethod=indent                  " fold on indentation (only use marker if explicitly defined)
@@ -842,10 +829,7 @@ set mouse=a                            " enable mouse in console
 set mousemodel=popup_setpos
 set ttymouse=xterm2
 
-set showtabline=2                      " always show tabline, even if there is just one tab, avoid
-                                       " redraw problems when Window is displayed in fullscreen mode
-
-" }}}2
+" " }}}2
 " " }}}
 
 " Formatting " {{{1
@@ -896,16 +880,17 @@ nnoremap <Leader>w :w!<CR>
 "noremap <Leader>b :ls<CR>:b<Space>
 nnoremap <Leader>bn :bnext<CR>
 nnoremap <Leader>bp :bprev<CR>
-nnoremap <Leader>bd :bdel<CR>
+nnoremap <Leader>bd :Sayonara<CR>
 
 " switch colorscheme for console
 nnoremap <C-d> :set background=dark<CR>:colorscheme primary<CR>
 
-set pastetoggle=<F3>                      " toggle paste
-nnoremap <F6> :set number!<CR>            " toggle numbers
-nnoremap <F7> :set list!<CR>              " toggle listchars
-nnoremap <F8> :set cursorline!<CR>        " toggle cursorline
-nnoremap ,/   :set invhlsearch!<CR>       " toggle highlight searchresults
+set pastetoggle=<F3>                       " toggle paste
+nnoremap <F6>  :set number!<CR>            " toggle numbers
+nnoremap <F7>  :set list!<CR>              " toggle listchars
+nnoremap <F8>  :set cursorline!<CR>        " toggle cursorline
+nnoremap <F12> :call SyntaxAttr()<CR>      " toggle syntax info
+nnoremap ,/    :set invhlsearch!<CR>       " toggle highlight searchresults
 
 " Replace signatures
 nnoremap <Leader>sa G?--<CR>jVGd :r ~/.mutt/short-signature-artisan<CR>
@@ -1021,12 +1006,23 @@ runtime compiler/tidy.vim     " use htmltidy
 " " }}}
 
 " Functions " {{{1
-function! Check_Gui()
-  if has("gui_running")
-    echo "has gui_running"
-  else
-    echo "does not have gui_running"
+function! s:sy_stats_wrapper()
+  let symbols = ['+', '-', '~']
+  let [added, modified, removed] = sy#repo#get_stats()
+  let stats = [added, removed, modified]  " reorder
+  let hunkline = ''
+
+  for i in range(3)
+    if stats[i] > 0
+      let hunkline .= printf('%s%s ', symbols[i], stats[i])
+    endif
+  endfor
+
+  if !empty(hunkline)
+    let hunkline = printf('[%s]', hunkline[:-2])
   endif
+
+  return hunkline
 endfunction
 
 " " }}}
