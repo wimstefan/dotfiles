@@ -808,7 +808,7 @@ function! SetStatusline()
 
   if exists('b:git_dir')
     let branch  = fugitive#head(8)
-    let stl    .= (branch == 'master') ? '%2* ⭠ master %*' : '%3*'. branch .'%*'
+    let stl    .= (branch == 'master') ? '%2* ⭠ master %*' : '%3* ⭠ '. branch .'%*'
     let stl    .= '%4*'.s:sy_stats_wrapper().'%*'
   endif
 
