@@ -782,26 +782,35 @@ set guifont=Monaco\ for\ Powerline\ 10
 
 filetype indent plugin on | syn on     " enable filetype, plugin and syntax support
 
+set foldenable                         " turn on folding
+set foldmethod=indent                  " fold on indentation (only use marker if explicitly defined)
+set foldlevel=100                      " don't autofold anything (but I can still fold manually)
+
+set mouse=a                            " enable mouse in console
+set mousemodel=popup_setpos
+set ttymouse=xterm2
+
+
 " Statusline " {{{2
 set laststatus=2                       " always show the statusline above
 set showtabline=2                      " always show tabline, even if there is just one tab, avoid
                                        " redraw problems when Window is displayed in fullscreen mode
 set guioptions-=e                      " disables the GUI tab line in favor of the plain text version
 
-hi User1 ctermbg=238 ctermfg=160 guibg=#444444 guifg=#d70000 cterm=NONE gui=NONE
+hi User1 ctermbg=238 ctermfg=204 guibg=#444444 guifg=#ff5f87 cterm=NONE gui=NONE
 hi User2 ctermbg=238 ctermfg=153 guibg=#444444 guifg=#afd7ff cterm=NONE gui=NONE
 hi User3 ctermbg=238 ctermfg=111 guibg=#444444 guifg=#87afff cterm=NONE gui=NONE
 hi User4 ctermbg=238 ctermfg=229 guibg=#444444 guifg=#ffffaf cterm=NONE gui=NONE
 hi User5 ctermbg=238 ctermfg=46  guibg=#444444 guifg=#00ff00 cterm=NONE gui=NONE
 
-function! SetStatusline()
+function! MyStatusline()
   let stl  = ''
   if $USER=='root'
     let stl .= '%#ErrorMsg#'
   else
     let stl .= '%#Folded#'
   endif
-  let stl .= '  =%{$USER}= %*'
+  let stl .= '―%{$USER}―%*'
   let stl .= '%#TabLineSel# %t %*'
   let stl .= '%1*%{&modified ? " ± " : ""}%*'
   let stl .= '%1*%{&ro ? " ⭤ " : ""}%*'
@@ -819,16 +828,85 @@ function! SetStatusline()
 
   return stl
 endfunction
-set statusline=%!SetStatusline()
+set statusline=%!MyStatusline()
+" " }}}2
+" Tabline " {{{2
+function! MyTabLine()
+  let s = ''
+  let t = tabpagenr()
+  let i = 1
+  while i <= tabpagenr('$')
+    let buflist = tabpagebuflist(i)
+    let winnr = tabpagewinnr(i)
+    let s .= '%' . i . 'T'
+    let s .= (i == t ? '%1*' : '%2*')
 
-set foldenable                         " turn on folding
-set foldmethod=indent                  " fold on indentation (only use marker if explicitly defined)
-set foldlevel=100                      " don't autofold anything (but I can still fold manually)
+    " let s .= (i == t ? '%#TabLineSel#' : '%#TabLine#')
+    " let s .= ' '
+    let s .= (i == t ? '%#TabNumSel#' : '%#TabNum#')
+    let s .= ' ' . i . ' '
+    let s .= (i == t ? '%#TabLineSel#' : '%#TabLine#')
 
-set mouse=a                            " enable mouse in console
-set mousemodel=popup_setpos
-set ttymouse=xterm2
+    let bufnr = buflist[winnr - 1]
+    let file = bufname(bufnr)
+    let buftype = getbufvar(bufnr, '&buftype')
 
+    if buftype == 'help'
+      let file = 'help:' . fnamemodify(file, ':t:r')
+
+    elseif buftype == 'quickfix'
+      let file = 'quickfix'
+
+    elseif buftype == 'nofile'
+      if file =~ '\/.'
+        let file = substitute(file, '.*\/\ze.', '', '')
+      endif
+
+    else
+      let file = pathshorten(fnamemodify(file, ':p:~:.'))
+      if getbufvar(bufnr, '&modified')
+        let file = file . ' ±'
+      endif
+
+    endif
+
+    if file == ''
+      let file = '[No Name]'
+    endif
+
+    let s .= ' ' . file
+
+    let nwins = tabpagewinnr(i, '$')
+    if nwins > 1
+      let modified = ''
+      for b in buflist
+        if getbufvar(b, '&modified') && b != bufnr
+          let modified = '*'
+          break
+        endif
+      endfor
+      let hl = (i == t ? '%#WinNumSel#' : '%#WinNum#')
+      let nohl = (i == t ? '%#TabLineSel#' : '%#TabLine#')
+      let s .= ' ' . modified . '(' . hl . winnr . nohl . '/' . nwins . ')'
+    endif
+
+    if i < tabpagenr('$')
+      let s .= ' %#TabLine#|'
+    else
+      let s .= ' '
+    endif
+
+    let i = i + 1
+
+  endwhile
+
+  let s .= '%T%#TabLineFill#%='
+  let s .= (tabpagenr('$') > 1 ? '%999XX' : 'X')
+  return s
+
+endfunction
+
+set tabline=%!MyTabLine()
 " " }}}2
 " " }}}
 
