@@ -325,7 +325,6 @@ autoload -U run-help url-quote-magic zcalc zmv
 # BEGIN user config # {{{1
 # * Common config for *every* user # {{{2
 # - Exports {{{3
-export MANPAGER="vimpager -c"
 export EDITOR="vim"
 export BROWSER="firefox-bin"
 export HISTFILE="$HOME/.zsh/histfile"
@@ -447,8 +446,8 @@ if [[ $USER != root ]]; then
   # - Exports {{{3
   export PATH="$PATH:$HOME/bin:/sbin:/usr/sbin"
   export MANPATH="$MANPATH:$HOME/man"
+  export MANPAGER="vimpager -c"
   export PAGER="vimpager"
-  export NNTPSERVER="news.xmsnet.nl"
   export MPD_HOST="localhost"
   export MPD_PORT="6600"
   export GPG_TTY=`tty`
