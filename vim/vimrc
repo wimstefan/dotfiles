@@ -11,657 +11,110 @@ scriptencoding utf-8
 set encoding=utf-8
 set termencoding=utf-8
 
-" Neobundle " {{{1
-if has('vim_starting')
-  set rtp+=~/.vim/bundle/neobundle.vim
+" Plugins " {{{1
+nnoremap ,pi :PlugInstall<CR>
+nnoremap ,ps :PlugStatus<CR>
+nnoremap ,pu :PlugUpdate<CR>
+
+silent! if  plug#begin('~/.vim/plugged')
+Plug 'kien/ctrlp.vim'
+      let g:ctrlp_map = '<Leader>p'
+      let g:ctrlp_working_path_mode = 'ra'
+      nnoremap <Leader>b :CtrlPBuffer<CR>
+      nnoremap <Leader>m :CtrlPMRU<CR>
+Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' }
+      let g:undotree_WindowLayout = 2
+      nnoremap ,tu :UndotreeToggle<CR>
+Plug 'ajh17/VimCompletesMe'
+Plug 'mileszs/ack.vim'
+      nnoremap ,a :Ack 
+      if executable('ag')
+        let ackprg = 'ag --vimgrep'
+      endif
+Plug 'tpope/vim-abolish'
+Plug 'tpope/vim-characterize'
+Plug 'tpope/vim-commentary'
+Plug 'tpope/vim-dispatch'
+Plug 'tpope/vim-repeat'
+Plug 'tpope/vim-surround'
+Plug 'tpope/vim-vinegar'
+Plug 'tpope/vim-fugitive' | Plug 'gregsexton/gitv'
+      let g:Gitv_OpenHorizontal = 'auto'
+      nnoremap <Leader>gt :!tig<CR>:redraw!<CR>
+      nnoremap <silent> <leader>gv :Gitv --all<CR>
+      nnoremap <silent> <leader>gV :Gitv! --all<CR>
+      vnoremap <silent> <leader>gV :Gitv! --all<CR>
+Plug 'mhinz/vim-signify'
+      let g:signify_sign_add               = '+'
+      let g:signify_sign_change            = '!'
+      let g:signify_sign_delete            = '-'
+      let g:signify_sign_delete_first_line = '‾'
+      let g:signify_line_highlight = 1
+      nnoremap ,tsg :SignifyToggle<CR>
+Plug 'mhinz/vim-startify'
+      let g:startify_session_dir = $HOME.'/.cache/vim/session'
+      let g:startify_skiplist = [
+                    \ 'COMMIT_EDITMSG',
+                    \ ]
+      let g:startify_bookmarks = [
+                  \ '~/.dotfiles/vim/vimrc',
+                  \ '~/.dotfiles/zsh/zshrc',
+                  \ '~/.dotfiles/config/awesome/rc.lua'
+                  \ ]
+Plug 'mhinz/vim-sayonara'
+Plug 'renamer.vim'
+Plug 'will133/vim-dirdiff'
+      let g:DirDiffExcludes = ".git,.svn,CVS,*.class,*.exe,.*.swp,*.pyc,*.so"
+Plug 'VOoM'
+      let g:voom_tree_width = 40
+      nnoremap ,tv :VoomToggle<CR>
+Plug 'scrooloose/syntastic' | Plug 'dbakker/vim-lint'
+      let g:syntastic_check_on_open=0
+      let g:syntastic_auto_loc_list=1
+      let g:syntastic_always_populate_loc_list=1
+      nnoremap ,tsy :SyntasticToggleMode<CR>
+Plug 'rkitover/vimpager'
+Plug 'powerman/vim-plugin-viewdoc'
+      let g:viewdoc_open='rightbelow 84vnew'
+      let g:viewdoc_openempty = 0
+      let g:viewdoc_dontswitch = 0
+      let g:no_viewdoc_maps = 1
+      nnoremap <Leader>h :ViewDocHelp 
+      nnoremap <F1> :call ViewDoc('new', '<cword>')<CR>
+Plug 'gastonsimone/vim-dokumentary'
+Plug 'junegunn/vim-easy-align'
+      vnoremap <silent> <Enter> :EasyAlign<cr>
+      nmap <Leader>a <Plug>(EasyAlign)
+      vmap . <Plug>(EasyAlignRepeat)
+Plug 'godlygeek/tabular' | Plug 'dhruvasagar/vim-table-mode'
+      let g:table_mode_corner = '+'
+      let g:table_mode_fillchar = '-'
+      let g:table_mode_align_char = ':'
+Plug 'gabrielelana/vim-markdown'
+      let g:markdown_enable_folding=1
+Plug 'dahu/vimple' | Plug 'dahu/Asif' | Plug 'SyntaxRange' | Plug 'dahu/vim-asciidoc'
+      let g:asciidoc_title_style_atx = "symmetric"
+Plug 'farseer90718/vim-taskwarrior'
+Plug 'jamessan/vim-gnupg'
+Plug 'mattn/emmet-vim', { 'for': ['html', 'xhtml', 'css', 'xml', 'xls', 'markdown'] }
+Plug 'mattn/webapi-vim' | Plug 'mattn/gist-vim', { 'on': 'Gist' }
+      let g:gist_post_private = 1
+      let g:gist_clip_command = 'xclip -selection clipboard'
+Plug 'achiang/muttrc'
+Plug 'dbeniamine/vim-mail'
+      let g:vimmaildontusecomplete=1
+      let g:vimmailclient="/usr/bin/tmux split-window -h mutt -r"
+Plug 'SyntaxAttr.vim'
+Plug 'jonathanfilip/vim-lucius'
+      let g:lucius_no_term_bg = 0
+      let g:lucius_use_bold = 1
+Plug 'wimstefan/vim-tomorrow-theme'
+Plug 'wimstefan/Lightning'
+Plug 'romainl/Apprentice'
+Plug 'google/vim-colorscheme-primary'
+Plug 'NLKNguyen/papercolor-theme'
+call plug#end()
 endif
-call neobundle#begin(expand('~/.vim/bundle'))
-NeoBundleFetch 'Shougo/neobundle.vim'
-
-NeoBundle 'Shougo/neobundle-vim-scripts'
-NeoBundle 'Shougo/vimproc', {'build': {'unix': 'make -f make_unix.mak'}}
-NeoBundle 'Shougo/unite.vim'
-NeoBundle 'Shougo/vimfiler'
-NeoBundle 'Shougo/vimshell.vim'
-NeoBundleLazy 'itchyny/unite-preview', {'autoload': {'unite_sources': ['vimfiler']}}
-NeoBundleLazy 'Shougo/neomru.vim', {'autoload': {'unite_sources': 'file_mru'}}
-NeoBundleLazy 'Shougo/unite-outline', {'autoload': {'unite_sources': 'outline'}}
-NeoBundleLazy 'Shougo/neossh.vim', {'autoload': {'unite_sources': 'ssh'}}
-NeoBundleLazy 'Shougo/unite-session', {'autoload': {'unite_sources': 'session',
-            \ 'commands' : ['UniteSessionSave', 'UniteSessionLoad']}}
-NeoBundleLazy 'ujihisa/unite-colorscheme', {'autoload': {'unite_sources': 'colorscheme'}}
-NeoBundleLazy 'osyo-manga/unite-airline_themes', {'autoload': {'unite_sources': 'airline_themes'}}
-NeoBundleLazy 'ujihisa/unite-locate', {'autoload': {'unite_sources': 'locate'}}
-NeoBundleLazy 'thinca/vim-unite-history', {'autoload': {'unite_sources':
-            \ ['history/command', 'history/search']}}
-NeoBundleLazy 'osyo-manga/unite-quickfix', {'autoload': {'unite_sources':
-            \ ['quickfix', 'location_list']}}
-NeoBundleLazy 'osyo-manga/unite-filetype', {'autoload': {'unite_sources': 'filetype'}}
-NeoBundleLazy 'mbbill/undotree', {'autoload': {'commands': 'UndotreeToggle'}}
-NeoBundle 'ajh17/VimCompletesMe'
-NeoBundle 'tpope/vim-abolish'
-NeoBundle 'tpope/vim-characterize'
-NeoBundle 'tpope/vim-repeat'
-NeoBundle 'tpope/vim-vinegar'
-NeoBundle 'tpope/vim-commentary'
-NeoBundle 'tpope/vim-surround'
-NeoBundle 'dbakker/vim-lint', {'depends': ['scrooloose/syntastic']}
-NeoBundle 'rkitover/vimpager'
-NeoBundle 'powerman/vim-plugin-viewdoc'
-NeoBundle 'gastonsimone/vim-dokumentary'
-NeoBundle 'junegunn/vim-easy-align'
-NeoBundle 'dhruvasagar/vim-table-mode', {'depends': ['godlygeek/tabular']}
-NeoBundle 'gabrielelana/vim-markdown'
-NeoBundle 'dahu/vim-asciidoc', {'depends': ['dahu/vimple','dahu/Asif','SyntaxRange']}
-NeoBundle 'majutsushi/tagbar'
-NeoBundle 'VOoM'
-NeoBundle 'achiang/muttrc'
-NeoBundle 'dbeniamine/vim-mail'
-NeoBundle 'chrisbra/CheckAttach'
-NeoBundle 'renamer.vim'
-NeoBundle 'will133/vim-dirdiff'
-NeoBundle 'farseer90718/vim-taskwarrior', {'external_commands': 'task' }
-NeoBundle 'jamessan/vim-gnupg'
-NeoBundle 'gregsexton/gitv', {'depends': ['tpope/vim-fugitive']}
-NeoBundle 'mhinz/vim-sayonara'
-NeoBundle 'mhinz/vim-signify'
-NeoBundle 'mhinz/vim-startify'
-NeoBundleLazy 'HTML.zip', {'autoload': {'filetypes': ['html', 'xhtml', 'css']}}
-NeoBundleLazy 'mattn/emmet-vim', {'autoload':
-            \ {'filetypes': ['html', 'xhtml', 'css', 'xml', 'xls', 'markdown']}}
-NeoBundleLazy 'mattn/gist-vim', {
-            \ 'depends': [ 'mattn/webapi-vim' ],
-            \ 'autoload': {
-            \    'commands': ['Gist'],
-            \    'unite_sources': 'gist',
-            \}}
-NeoBundle 'SyntaxAttr.vim'
-NeoBundle 'jonathanfilip/vim-lucius'
-NeoBundle 'wimstefan/vim-tomorrow-theme'
-NeoBundle 'wimstefan/Lightning'
-NeoBundle 'romainl/Apprentice'
-NeoBundle 'reedes/vim-colors-pencil'
-NeoBundle 'google/vim-colorscheme-primary'
-NeoBundle 'NLKNguyen/papercolor-theme'
-
-call neobundle#end()
-NeoBundleCheck
-" " }}}
-
-" Plugins config " {{{1
-" 'Shougo/unite.vim' " {{{2
-  let g:unite_data_directory = $HOME.'/.cache/vim/unite/'
-  let g:unite_source_history_yank_enable = 1
-  let g:unite_force_overwrite_statusline = 0
-  let g:unite_source_rec_max_cache_files = 0
-  call unite#filters#matcher_default#use(['matcher_fuzzy'])
-  call unite#filters#sorter_default#use(['sorter_rank'])
-  call unite#custom#source('buffer,file,file_rec','sorters','sorter_rank')
-  call unite#custom#source('file_rec,file_rec/async',
-    \ 'max_candidates', 0)
-  call unite#custom#source('file,file_rec,file_rec/async,grep,locate',
-    \ 'ignore_pattern', join(['\.cache/', 'cache/', '\.icons/', '\.maildir/', '\.offlineimap', '\.thunderbird/'], '\|'))
-  call unite#custom#profile('default', 'context', {
-  \ 'prompt': '» ',
-  \ })
-  if executable('ag')
-    let g:unite_source_rec_async_command= 'ag --follow --nocolor --nogroup --hidden -g ""'
-    let g:unite_source_grep_command = 'ag'
-    let g:unite_source_grep_default_opts =  '--line-numbers --nocolor --nogroup -a -S'
-    let g:unite_source_grep_recursive_opt = ''
-  elseif executable('ack')
-    let g:unite_source_grep_command = 'ack'
-    let g:unite_source_grep_default_opts = '--no-color --no-group'
-    let g:unite_source_grep_recursive_opt = ''
-  endif
-  nnoremap <Leader>b :<C-u>Unite -buffer-name=buffers -auto-resize -quick-match buffer bookmark<CR>
-  nnoremap <Leader>m :<C-u>Unite -buffer-name=mru -auto-resize file_mru<CR>
-  nnoremap <Leader>l :<C-u>Unite -buffer-name=locate -auto-resize -no-quit -keep-focus -start-insert locate<CR>
-  nnoremap <Leader>f :<C-u>Unite -buffer-name=files -auto-resize -no-quit -keep-focus -start-insert file_rec/async<CR>
-  nnoremap <Leader>y :<C-u>Unite -buffer-name=yank -auto-resize -no-quit history/yank<CR>
-  nnoremap <space>/ :Unite grep:.<cr>
-
-  " Unite menus {{{3
-  " Kudos to https://github.com/joedicastro/dotfiles/blob/master/vim/vimrc
-  let g:unite_source_menu_menus = {}
-
-  " menu prefix key (for all Unite menus) {{{4
-  nnoremap [menu] <Nop>
-  "nmap <LocalLeader> [menu]
-  nmap , [menu]
-  " }}}
-
-  " menus menu
-  nnoremap <silent>[menu]u :Unite -silent -winheight=20 menu<CR>
-
-  " files and dirs menu {{{4
-  let g:unite_source_menu_menus.files = {
-      \ 'description' : '          files & dirs
-          \                                          ⌘ ,o',
-      \}
-  let g:unite_source_menu_menus.files.command_candidates = [
-      \['▷ open file                                                  ,o',
-          \'Unite -start-insert file'],
-      \['▷ open more recently used files                              \m',
-          \'Unite file_mru'],
-      \['▷ open file with recursive search                            \r',
-          \'Unite -start-insert file_rec/async'],
-      \['▷ edit new file',
-          \'Unite file/new'],
-      \['▷ search directory',
-          \'Unite directory'],
-      \['▷ search recently used directories',
-          \'Unite directory_mru'],
-      \['▷ search directory with recursive search',
-          \'Unite directory_rec/async'],
-      \['▷ make new directory',
-          \'Unite directory/new'],
-      \['▷ change working directory',
-          \'Unite -default-action=lcd directory'],
-      \['▷ know current working directory',
-          \'Unite output:pwd'],
-      \['▷ quick save                                                 \w',
-          \'normal \w'],
-      \['▷ open explorer                                              \x',
-          \'Vexplore'],
-      \]
-  nnoremap <silent>[menu]o :Unite -silent -winheight=17 -start-insert
-              \ menu:files<CR>
-  " }}}
-
-  " file searching menu {{{4
-  let g:unite_source_menu_menus.grep = {
-      \ 'description' : '           search files
-          \                                          ⌘ ,a',
-      \}
-  let g:unite_source_menu_menus.grep.command_candidates = [
-      \['▷ grep (ag → ack → grep)                                     ⌘ ,a',
-          \'Unite -no-quit grep'],
-      \['▷ find',
-          \'Unite find'],
-      \['▷ locate                                                     \l',
-          \'Unite -start-insert locate'],
-      \]
-  nnoremap <silent>[menu]a :Unite -silent menu:grep<CR>
-  " }}}
-
-  " buffers, tabs & windows menu {{{4
-  let g:unite_source_menu_menus.navigation = {
-      \ 'description' : '     navigate by buffers, tabs & windows
-          \                   ⌘ ,b',
-      \}
-  let g:unite_source_menu_menus.navigation.command_candidates = [
-      \['▷ buffers                                                    ⌘ ,b',
-          \'Unite buffer'],
-      \['▷ tabs',
-          \'Unite tab'],
-      \['▷ windows',
-          \'Unite window'],
-      \['▷ location list',
-          \'Unite location_list'],
-      \['▷ quickfix',
-          \'Unite quickfix'],
-      \['▷ new vertical window',
-          \'vsplit'],
-      \['▷ new horizontal window',
-          \'split'],
-      \['▷ close current window',
-          \'close'],
-      \['▷ delete buffer                                              ⌘ \bd',
-          \'bd'],
-      \]
-  nnoremap <silent>[menu]b :Unite -silent menu:navigation<CR>
-  " }}}
-
-  " buffer internal searching menu {{{4
-  let g:unite_source_menu_menus.searching = {
-      \ 'description' : '      searchs inside the current buffer
-          \                     ⌘ ,f',
-      \}
-  let g:unite_source_menu_menus.searching.command_candidates = [
-      \['▷ search line                                                ⌘ ,f',
-          \'Unite -auto-preview -start-insert line'],
-      \['▷ search word under the cursor',
-          \'UniteWithCursorWord -no-split -auto-preview line'],
-      \['▷ search changes',
-          \'Unite change'],
-      \['▷ search jumps',
-          \'Unite jump'],
-      \['▷ search tasks',
-          \'Unite -toggle grep:%::FIXME|TODO|NOTE|XXX|COMBAK|@todo'],
-      \]
-  nnoremap <silent>[menu]f :Unite -silent menu:searching<CR>
-  " }}}
-
-  " yanks, registers & history menu {{{4
-  let g:unite_source_menu_menus.registers = {
-      \ 'description' : '      yanks, registers & history
-          \                            ⌘ ,i',
-      \}
-  let g:unite_source_menu_menus.registers.command_candidates = [
-      \['▷ yanks                                                      ⌘ \y',
-          \'Unite history/yank'],
-      \['▷ commands       (history)',
-          \'Unite history/command'],
-      \['▷ searches       (history)',
-          \'Unite history/search'],
-      \['▷ registers',
-          \'Unite register'],
-      \['▷ messages',
-          \'Unite output:messages'],
-      \['▷ undo tree      (undotree)                                  ⌘ ,tu',
-          \'UndotreeToggle'],
-      \]
-  nnoremap <silent>[menu]i :Unite -silent menu:registers<CR>
-  " }}}
-
-  " spelling menu {{{4
-  let g:unite_source_menu_menus.spelling = {
-      \ 'description' : '       spell checking
-          \                                        ⌘ ,s',
-      \}
-  let g:unite_source_menu_menus.spelling.command_candidates = [
-      \['▷ spell checking in English',
-          \'setlocal spell spelllang=en'],
-      \['▷ spell checking in Dutch',
-          \'setlocal spell spelllang=nl'],
-      \['▷ spell checking in German',
-          \'setlocal spell spelllang=de'],
-      \['▷ spell checking in Spanish',
-          \'setlocal spell spelllang=es'],
-      \['▷ jumps to next bad spell word and show suggestions',
-          \'normal ]sz='],
-      \['▷ jumps to next bad spell word',
-          \'normal ]s'],
-      \['▷ suggestions',
-          \'normal z='],
-      \['▷ add word to dictionary',
-          \'normal zg'],
-      \]
-  nnoremap <silent>[menu]s :Unite -silent menu:spelling<CR>
-  " }}}
-
-  " text edition menu {{{4
-  let g:unite_source_menu_menus.text = {
-      \ 'description' : '           text edition
-          \                                          ⌘ ,e',
-      \}
-  let g:unite_source_menu_menus.text.command_candidates = [
-      \['▷ toggle search results highlight                            ⌘ ,/',
-          \'set invhlsearch!'],
-      \['▷ show hidden chars',
-          \'set list!'],
-      \['▷ toggle fold                                                ⌘ za',
-          \'normal za'],
-      \['▷ open all folds                                             ⌘ zR',
-          \'normal zR'],
-      \['▷ close all folds                                            ⌘ zM',
-          \'normal zM'],
-      \['▷ copy to the clipboard                                      ⌘ "*y',
-          \'normal "*y'],
-      \['▷ paste from the clipboard                                   ⌘ "*p',
-          \'normal "*p'],
-      \['▷ toggle paste mode                                          ⌘ <F3>',
-          \'normal <F3>'],
-      \['▷ show available digraphs',
-          \'digraphs'],
-      \['▷ show current char info                                     ⌘ ga',
-          \'normal ga'],
-      \]
-  nnoremap <silent>[menu]e :Unite -silent -winheight=20 menu:text <CR>
-  " }}}
-
-  " neobundle menu {{{4
-  let g:unite_source_menu_menus.neobundle = {
-      \ 'description' : '      plugins administration with neobundle
-          \                 ⌘ ,n',
-      \}
-  let g:unite_source_menu_menus.neobundle.command_candidates = [
-      \['▷ neobundle',
-          \'Unite -tab neobundle'],
-      \['▷ neobundle log',
-          \'Unite -tab neobundle/log'],
-      \['▷ neobundle lazy',
-          \'Unite neobundle/lazy'],
-      \['▷ neobundle update',
-          \'Unite -tab -log neobundle/update:all'],
-      \['▷ neobundle search',
-          \'Unite -tab neobundle/search'],
-      \['▷ neobundle install',
-          \'Unite neobundle/install'],
-      \['▷ neobundle check',
-          \'Unite -no-empty output:NeoBundleCheck'],
-      \['▷ neobundle docs',
-          \'Unite output:NeoBundleDocs'],
-      \['▷ neobundle clean',
-          \'NeoBundleClean'],
-      \['▷ neobundle run GarbageCollect',
-          \'Unite -tab -log output:NeoBundleGC'],
-      \['▷ neobundle list',
-          \'Unite -tab output:NeoBundleList'],
-      \['▷ neobundle direct edit',
-          \'NeoBundleExtraEdit'],
-      \]
-  nnoremap <silent>[menu]n :Unite -silent -start-insert menu:neobundle<CR>
-  " }}}
-
-  " git menu {{{4
-  let g:unite_source_menu_menus.git = {
-      \ 'description' : '            use git
-          \                                               ⌘ ,g',
-      \}
-  let g:unite_source_menu_menus.git.command_candidates = [
-      \['▷ tig                                                        ⌘ \gt',
-          \'normal \gt'],
-      \['▷ git viewer             (gitv)                              ⌘ \gv',
-          \'normal \gv'],
-      \['▷ git viewer - buffer    (gitv)                              ⌘ \gV',
-        \'normal \gV'],
-      \['▷ git status             (fugitive)',
-          \'Gstatus'],
-      \['▷ git diff               (fugitive)',
-          \'Gdiff'],
-      \['▷ git commit             (fugitive)',
-          \'Gcommit'],
-      \['▷ git log                (fugitive)',
-          \'exe "silent Glog | Unite -no-quit quickfix"'],
-      \['▷ git log - all          (fugitive)',
-          \'exe "silent Glog --all | Unite -no-quit quickfix"'],
-      \['▷ git blame              (fugitive)',
-          \'Gblame'],
-      \['▷ git add/stage          (fugitive)',
-          \'Gwrite'],
-      \['▷ git checkout           (fugitive)',
-          \'Gread'],
-      \['▷ git rm                 (fugitive)',
-          \'Gremove'],
-      \['▷ git mv                 (fugitive)',
-          \'exe "Gmove " input("destination: ")'],
-      \['▷ git push               (fugitive, buffer output)',
-          \'Git! push'],
-      \['▷ git pull               (fugitive, buffer output)',
-          \'Git! pull'],
-      \['▷ git command            (fugitive, buffer output)',
-          \'exe "Git! " input("git command: ")'],
-      \['▷ git edit               (fugitive)',
-          \'exe "command Gedit " input(":Gedit ")'],
-      \['▷ git grep               (fugitive)',
-          \'exe "silent Ggrep -i ".input("Pattern: ") | Unite -no-quit quickfix'],
-      \['▷ git grep - messages    (fugitive)',
-          \'exe "silent Glog --grep=".input("Pattern: ")." | Unite -no-quit quickfix"'],
-      \['▷ git grep - text        (fugitive)',
-          \'exe "silent Glog -S".input("Pattern: ")." | Unite -no-quit quickfix"'],
-      \['▷ git init',
-          \'Unite output:echo\ system("git\ init")'],
-      \['▷ git cd                 (fugitive)',
-          \'Gcd'],
-      \['▷ git lcd                (fugitive)',
-          \'Glcd'],
-      \['▷ git browse             (fugitive)',
-          \'Gbrowse'],
-      \]
-  nnoremap <silent>[menu]g :Unite -silent -winheight=26 -start-insert menu:git<CR>
-  " }}}
-
-  " gist menu {{{4
-  let g:unite_source_menu_menus.gist = {
-      \ 'description' : '           manage gists
-          \                                          ⌘ ,G',
-      \}
-  let g:unite_source_menu_menus.gist.command_candidates = [
-      \['▷ List your gists        (vim-gist)',
-          \'Gist -l'],
-      \['▷ List all gists         (vim-gist)',
-          \'Gist -la'],
-      \['▷ create private gist    (vim-gist)',
-          \'Gist -p'],
-      \['▷ create public gist     (vim-gist)',
-          \'Gist -P'],
-      \['▷ create anonymous gist  (vim-gist)',
-          \'Gist -a'],
-      \['▷ edit (open!) gist      (vim-gist)',
-          \'Gist -e'],
-      \['▷ delete (open!) gist    (vim-gist)',
-          \'Gist -d'],
-      \]
-  nnoremap <silent>[menu]G :Unite -silent -winheight=26 -start-insert menu:gist<CR>
-  " }}}
-
-  " code menu {{{4
-  let g:unite_source_menu_menus.code = {
-      \ 'description' : '           code tools
-          \                                            ⌘ ,p',
-      \}
-  let g:unite_source_menu_menus.code.command_candidates = [
-      \['▷ syntastic toggle                           (syntastic)     ⌘ ,tsy',
-          \'SyntasticToggleMode'],
-      \['▷ syntastic check                            (syntastic)',
-          \'SyntasticCheck'],
-      \['▷ syntastic errors                           (syntastic)',
-          \'Errors'],
-      \]
-  nnoremap <silent>[menu]p :Unite -silent -winheight=42 menu:code<CR>
-  " }}}
-
-  " sessions menu {{{4
-  let g:unite_source_menu_menus.sessions = {
-      \ 'description' : '       sessions
-          \                                              ⌘ ,h',
-      \}
-  let g:unite_source_menu_menus.sessions.command_candidates = [
-      \['▷ load session',
-          \'Unite session'],
-      \['▷ make session (default)',
-          \'UniteSessionSave'],
-      \['▷ make session (custom)',
-          \'exe "UniteSessionSave " input("name: ")'],
-      \]
-  nnoremap <silent>[menu]h :Unite -silent menu:sessions<CR>
-  " }}}
-
-  " bookmarks menu {{{4
-  let g:unite_source_menu_menus.bookmarks = {
-      \ 'description' : '      bookmarks
-          \                                             ⌘ ,m',
-      \}
-  let g:unite_source_menu_menus.bookmarks.command_candidates = [
-      \['▷ open bookmarks',
-          \'Unite bookmark:*'],
-      \['▷ add bookmark',
-          \'UniteBookmarkAdd'],
-      \]
-  nnoremap <silent>[menu]m :Unite -silent menu:bookmarks<CR>
-  " }}}
-
-  " vim menu {{{4
-  let g:unite_source_menu_menus.vim = {
-      \ 'description' : '            vim
-          \                                                   ⌘ ,v',
-      \}
-  let g:unite_source_menu_menus.vim.command_candidates = [
-      \['▷ choose colorscheme',
-          \'Unite colorscheme -auto-preview'],
-      \['▷ choose airline theme',
-          \'Unite airline_themes -auto-preview'],
-      \['▷ mappings',
-          \'Unite mapping -start-insert'],
-      \['▷ edit configuration file (vimrc)',
-          \'edit $MYVIMRC'],
-      \['▷ choose filetype',
-          \'Unite -start-insert filetype'],
-      \['▷ vim commands',
-          \'Unite -start-insert command'],
-      \['▷ vim functions',
-          \'Unite -start-insert function'],
-      \['▷ vim runtimepath',
-          \'Unite -start-insert runtimepath'],
-      \['▷ vim command output',
-          \'Unite output'],
-      \['▷ unite sources',
-          \'Unite source'],
-      \['▷ launch executable (dmenu like)',
-          \'Unite -start-insert launcher'],
-      \]
-  nnoremap <silent>[menu]v :Unite menu:vim -silent -start-insert<CR>
-  " }}}
-    " " }}}
-  " " }}}
-
-" 'Shougo/vimfiler' " {{{2
-  let g:vimfiler_data_directory = $HOME.'/.cache/vim/vimfiler/'
-  let g:vimfiler_as_default_explorer = 0
-  let g:vimfiler_force_overwrite_statusline = 0
-  let g:vimfiler_preview_action = 'auto_preview'
-  nnoremap <Leader>e :VimFilerExplorer<CR>
-  " " }}}
-
-" 'mbbill/undotree' " {{{2
-  nnoremap ,tu :UndotreeToggle<CR>
-  let g:undotree_WindowLayout = 2
-  " " }}}
-
-" 'netrw' " {{{2
-  let g:netrw_winsize         = 30
-  let g:netrw_liststyle       =  3
-  let g:netrw_preview         =  1
-  nnoremap <Leader>x :Explore<CR>
-  " " }}}
-
-" 'gregsexton/gitv' " {{{2
-  let g:Gitv_OpenHorizontal = 'auto'
-
-  nnoremap <Leader>gt :!tig<CR>:redraw!<CR>
-  nnoremap <silent> <leader>gv :Gitv --all<CR>
-  nnoremap <silent> <leader>gV :Gitv! --all<CR>
-  vnoremap <silent> <leader>gV :Gitv! --all<CR>
-" " }}}
-
-" 'scrooloose/syntastic' " {{{2
-  let g:syntastic_check_on_open=0
-  let g:syntastic_auto_loc_list=1
-  let g:syntastic_always_populate_loc_list=1
-  nnoremap ,tsy :SyntasticToggleMode<CR>
-  " " }}}
-
-" 'powerman/vim-plugin-viewdoc' " {{{2
-  "let g:viewdoc_open='leftabove new'
-  let g:viewdoc_open='rightbelow 84vnew'
-  let g:viewdoc_openempty = 0
-  let g:viewdoc_dontswitch = 0
-  let g:no_viewdoc_maps = 1
-  nnoremap <Leader>h :ViewDocHelp 
-  nnoremap <F1> :call ViewDoc('new', '<cword>')<CR>
-  " " }}}
-
-" 'will133/vim-dirdiff' " {{{2
-  let g:DirDiffExcludes = ".git,.svn,CVS,*.class,*.exe,.*.swp,*.pyc,*.so"
-" " }}}
-
-" 'junegunn/vim-easy-align' " {{{2
-  vnoremap <silent> <Enter> :EasyAlign<cr>
-  nmap <Leader>a <Plug>(EasyAlign)
-  vmap . <Plug>(EasyAlignRepeat)
-" " }}}
-
-" 'dhruvasagar/vim-table-mode' " {{{2
-  let g:table_mode_corner = '+'
-  let g:table_mode_fillchar = '-'
-  let g:table_mode_align_char = ':'
-  " " }}}
-
-" 'dahu/vim-asciidoc' " {{{2
-  let g:asciidoc_title_style_atx = "symmetric"
-  " " }}}
-
-" 'gabrielelana/vim-markdown' " {{{2
-  let g:markdown_enable_folding=1
-  " " }}}
-
-" 'dbeniamine/vim-mail' " {{{2
-  let g:VimMailDontUseComplete=1
-  let g:VimMailClient="/usr/bin/tmux split-window -h mutt -R"
-  " " }}}
-
-" 'majutsushi/tagbar' " {{{2
-  let g:tagbar_expand = 1
-  let g:tagbar_autoshowtag = 1
-  "let g:tagbar_iconchars = ['+', '-']
-  let g:tagbar_iconchars = ['▷', '◢']
-  nnoremap <silent> ,tt :TagbarToggle<CR>
-  let g:tagbar_type_asciidoc = {
-    \ 'ctagstype' : 'asciidoc',
-    \ 'kinds' : [
-        \ 'h:table of contents',
-        \ 'a:anchors:1',
-        \ 't:titles:1',
-        \ 'n:includes:1',
-        \ 'i:images:1',
-        \ 'I:inline images:1'
-    \ ],
-    \ 'sort' : 0
-  \ }
-  let g:tagbar_type_html = {
-    \ 'ctagstype' : 'html',
-    \ 'kinds' : [
-        \ 'f:JavaScript funtions',
-        \ 'a:named anchors',
-        \ 'r:html',
-        \ 'b:body',
-        \ 'o:object',
-        \ 'c:class',
-    \ ],
-    \ 'ctagsargs' : '-f - --html-kinds=fabr'
-  \ }
-  let g:tagbar_type_markdown = {
-      \ 'ctagstype' : 'markdown',
-      \ 'kinds' : [
-          \ 'h:Heading_L1',
-          \ 'i:Heading_L2',
-          \ 'k:Heading_L3'
-      \ ]
-  \ }
-  " " }}}
-
-" 'VOoM' " {{{2
-  let g:voom_tree_width = 40
-  nnoremap ,tv :VoomToggle<CR>
-  " " }}}
-
-" 'mhinz/vim-signify' {{{2
-  let g:signify_sign_add               = '+'
-  let g:signify_sign_change            = '!'
-  let g:signify_sign_delete            = '-'
-  let g:signify_sign_delete_first_line = '‾'
-  let g:signify_line_highlight = 1
-  nnoremap ,tsg :SignifyToggle<CR>
-  " " }}}
-
-" 'mhinz/vim-startify' {{{2
-  let g:startify_session_dir = $HOME.'/.cache/vim/session'
-  let g:startify_skiplist = [
-                \ 'COMMIT_EDITMSG',
-                \ ]
-  let g:startify_bookmarks = [
-              \ '~/.dotfiles/vim/vimrc',
-              \ '~/.dotfiles/zsh/zshrc',
-              \ '~/.dotfiles/config/awesome/rc.lua'
-              \ ]
-  " " }}}
-
-" 'mattn/gist-vim' " {{{2
-  let g:gist_post_private = 1
-  let g:gist_clip_command = 'xclip -selection clipboard'
-" " }}}
-
-" 'jonathanfilip/vim-lucius' " {{{2
-  let g:lucius_no_term_bg = 0
-  let g:lucius_use_bold = 1
-  " " }}}
-
-" 'reedes/vim-colors-pencil' " {{{2
-  let g:pencil_higher_contrast_ui = 1
-  let g:pencil_terminal_italics = 1
-  " " }}}
 " " }}}
 
 " General Settings " {{{1
@@ -714,16 +167,21 @@ if has('persistent_undo')
     set undofile
 endif
 
+" Netrw settings
+  let g:netrw_winsize         = 30
+  let g:netrw_liststyle       =  3
+  let g:netrw_preview         =  1
+  nnoremap <Leader>x :Explore<CR>
+
 " Search settings
 if executable('ag')
-  set grepprg=ag\ --nogroup\ --column\ --smart-case\ --nocolor\ --follow
+  " set grepprg=ag\ --nogroup\ --column\ --smart-case\ --nocolor\ --follow
+  set grepprg=ag\ --vimgrep
   set grepformat=%f:%l:%c:%m
 elseif executable('ack')
   set grepprg=ack\ --nogroup\ --column\ --smart-case\ --nocolor\ --follow\ $*
   set grepformat=%f:%l:%c:%m
 endif
-" bind K to grep word under cursor
-nnoremap K :grep! "\b<C-R><C-W>\b"<CR>:cw<CR>
 
 " Spell settings
 set spelllang=nl,en,de,es
@@ -797,11 +255,11 @@ set showtabline=2                      " always show tabline, even if there is j
                                        " redraw problems when Window is displayed in fullscreen mode
 set guioptions-=e                      " disables the GUI tab line in favor of the plain text version
 
-hi User1 ctermbg=238 ctermfg=204 guibg=#444444 guifg=#ff5f87 cterm=NONE gui=NONE
-hi User2 ctermbg=238 ctermfg=153 guibg=#444444 guifg=#afd7ff cterm=NONE gui=NONE
-hi User3 ctermbg=238 ctermfg=111 guibg=#444444 guifg=#87afff cterm=NONE gui=NONE
-hi User4 ctermbg=238 ctermfg=229 guibg=#444444 guifg=#ffffaf cterm=NONE gui=NONE
-hi User5 ctermbg=238 ctermfg=46  guibg=#444444 guifg=#00ff00 cterm=NONE gui=NONE
+hi User1 ctermfg=NONE ctermbg=204 guifg=NONE guibg=#ff5f87 cterm=standout gui=standout
+hi User2 ctermfg=NONE ctermbg=153 guifg=NONE guibg=#afd7ff cterm=standout gui=standout
+hi User3 ctermfg=NONE ctermbg=111 guifg=NONE guibg=#87afff cterm=standout gui=standout
+hi User4 ctermfg=NONE ctermbg=229 guifg=NONE guibg=#ffffaf cterm=standout gui=standout
+hi User5 ctermfg=NONE ctermbg=46  guifg=NONE guibg=#00ff00 cterm=standout gui=standout
 
 function! MyStatusline()
   let stl  = ''
@@ -818,7 +276,7 @@ function! MyStatusline()
   if exists('b:git_dir')
     let branch  = fugitive#head(8)
     let stl    .= (branch == 'master') ? '%2* ⭠ master %*' : '%3* ⭠ '. branch .'%*'
-    let stl    .= '%4*'.s:sy_stats_wrapper().'%*'
+    let stl    .= '%4*'.s:sy_stats_wrapper().' %*'
   endif
 
   let stl .= '%= '
@@ -1104,11 +562,6 @@ function! s:sy_stats_wrapper()
 endfunction
 
 " " }}}
-
-if !has('vim_starting')
-  " Call on_source hook when reloading .vimrc.
-  call neobundle#call_hook('on_source')
-endif
 
 finish
 Vim is ignoring *all* text after finish.
