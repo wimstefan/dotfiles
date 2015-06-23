@@ -12,7 +12,7 @@ set encoding=utf-8
 set termencoding=utf-8
 
 " Plugins " {{{1
-nnoremap ,pc :PlugClean
+nnoremap ,pc :PlugClean<CR>
 nnoremap ,pi :PlugInstall<CR>
 nnoremap ,ps :PlugStatus<CR>
 nnoremap ,pu :PlugUpdate<CR>
@@ -105,7 +105,7 @@ Plug 'gabrielelana/vim-markdown'
       let g:markdown_enable_folding=1
 Plug 'dahu/vimple' | Plug 'dahu/Asif' | Plug 'SyntaxRange' | Plug 'dahu/vim-asciidoc'
       let g:asciidoc_title_style_atx = "symmetric"
-Plug 'farseer90718/vim-taskwarrior'
+Plug 'farseer90718/vim-taskwarrior', { 'on': 'TW' }
 Plug 'jamessan/vim-gnupg'
 Plug 'mattn/emmet-vim', { 'for': ['html', 'xhtml', 'css', 'xml', 'xls', 'markdown'] }
 Plug 'mattn/webapi-vim' | Plug 'mattn/gist-vim', { 'on': 'Gist' }
@@ -116,6 +116,9 @@ Plug 'dbeniamine/vim-mail'
       let g:vimmaildontusecomplete=1
       let g:vimmailclient="/usr/bin/tmux split-window -h mutt -r"
 Plug 'SyntaxAttr.vim'
+Plug 'hara/ctrlp-colorscheme'
+      command! CtrlPColorScheme call ctrlp#init(ctrlp#colorscheme#id())
+      nnoremap <Leader>c :CtrlPColorScheme<CR>
 Plug 'jonathanfilip/vim-lucius'
       let g:lucius_no_term_bg = 0
       let g:lucius_use_bold = 1
@@ -182,7 +185,7 @@ endif
   let g:netrw_winsize         = 30
   let g:netrw_liststyle       =  3
   let g:netrw_preview         =  1
-  nnoremap <Leader>x :Lexplore<CR>
+  nnoremap <silent> <Leader>x :Lexplore<CR>
 
 " Search settings
 if executable('ag')
