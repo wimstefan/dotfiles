@@ -12,22 +12,33 @@ set encoding=utf-8
 set termencoding=utf-8
 
 " Plugins " {{{1
+nnoremap ,pc :PlugClean
 nnoremap ,pi :PlugInstall<CR>
 nnoremap ,ps :PlugStatus<CR>
 nnoremap ,pu :PlugUpdate<CR>
 
 silent! if  plug#begin('~/.vim/plugged')
-Plug 'kien/ctrlp.vim'
+Plug 'ctrlpvim/ctrlp.vim' | Plug 'sgur/ctrlp-extensions.vim'
       let g:ctrlp_map = '<Leader>p'
       let g:ctrlp_working_path_mode = 'ra'
+      let g:ctrlp_match_window = 'bottom,order:btt,min:1,max:100,results:20'
+      let g:ctrlp_cache_dir = $HOME.'/.cache/ctrlp'
+      let g:ctrlp_user_command = {
+        \ 'types': {
+          \ 1: ['.git', 'cd %s && git ls-files'],
+          \ 2: ['.hg', 'hg --cwd %s locate -I .'],
+          \ },
+        \ 'fallback': 'find %s -type f'
+        \ }
       nnoremap <Leader>b :CtrlPBuffer<CR>
       nnoremap <Leader>m :CtrlPMRU<CR>
+      nnoremap <Leader>u :CtrlPUndo<CR>
 Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' }
       let g:undotree_WindowLayout = 2
       nnoremap ,tu :UndotreeToggle<CR>
 Plug 'ajh17/VimCompletesMe'
 Plug 'mileszs/ack.vim'
-      nnoremap ,a :Ack 
+      nnoremap ,a :Ack!<Space>
       if executable('ag')
         let ackprg = 'ag --vimgrep'
       endif
@@ -171,7 +182,7 @@ endif
   let g:netrw_winsize         = 30
   let g:netrw_liststyle       =  3
   let g:netrw_preview         =  1
-  nnoremap <Leader>x :Explore<CR>
+  nnoremap <Leader>x :Lexplore<CR>
 
 " Search settings
 if executable('ag')
@@ -271,7 +282,7 @@ function! MyStatusline()
   let stl .= '―%{$USER}―%*'
   let stl .= '%#TabLineSel# %t %*'
   let stl .= '%1*%{&modified ? " ± " : ""}%*'
-  let stl .= '%1*%{&ro ? " ⭤ " : ""}%*'
+  let stl .= '%1*%{&ro ? " ✗ " : ""}%*'
 
   if exists('b:git_dir')
     let branch  = fugitive#head(8)
