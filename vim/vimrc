@@ -73,6 +73,11 @@ Plug 'mhinz/vim-startify'
                   \ '~/.dotfiles/config/awesome/rc.lua'
                   \ ]
 Plug 'mhinz/vim-sayonara'
+Plug 'junegunn/vim-peekaboo'
+Plug 'junegunn/vim-easy-align'
+      vnoremap <silent> <Enter> :EasyAlign<cr>
+      nmap <Leader>a <Plug>(EasyAlign)
+      vmap . <Plug>(EasyAlignRepeat)
 Plug 'renamer.vim'
 Plug 'will133/vim-dirdiff'
       let g:DirDiffExcludes = ".git,.svn,CVS,*.class,*.exe,.*.swp,*.pyc,*.so"
@@ -86,17 +91,14 @@ Plug 'scrooloose/syntastic' | Plug 'dbakker/vim-lint'
       nnoremap ,tsy :SyntasticToggleMode<CR>
 Plug 'rkitover/vimpager'
 Plug 'powerman/vim-plugin-viewdoc'
-      let g:viewdoc_open='rightbelow 84vnew'
+      let g:viewdoc_open='rightbelow 79vnew'
       let g:viewdoc_openempty = 0
       let g:viewdoc_dontswitch = 0
       let g:no_viewdoc_maps = 1
       nnoremap <Leader>h :ViewDocHelp 
       nnoremap <F1> :call ViewDoc('new', '<cword>')<CR>
 Plug 'gastonsimone/vim-dokumentary'
-Plug 'junegunn/vim-easy-align'
-      vnoremap <silent> <Enter> :EasyAlign<cr>
-      nmap <Leader>a <Plug>(EasyAlign)
-      vmap . <Plug>(EasyAlignRepeat)
+      let g:dokumentary_open='rightbelow 79vnew'
 Plug 'godlygeek/tabular' | Plug 'dhruvasagar/vim-table-mode'
       let g:table_mode_corner = '+'
       let g:table_mode_fillchar = '-'
@@ -262,18 +264,20 @@ set mouse=a                            " enable mouse in console
 set mousemodel=popup_setpos
 set ttymouse=xterm2
 
-
 " Statusline " {{{2
 set laststatus=2                       " always show the statusline above
 set showtabline=2                      " always show tabline, even if there is just one tab, avoid
                                        " redraw problems when Window is displayed in fullscreen mode
 set guioptions-=e                      " disables the GUI tab line in favor of the plain text version
 
-hi User1 ctermfg=NONE ctermbg=204 guifg=NONE guibg=#ff5f87 cterm=standout gui=standout
-hi User2 ctermfg=NONE ctermbg=153 guifg=NONE guibg=#afd7ff cterm=standout gui=standout
-hi User3 ctermfg=NONE ctermbg=111 guifg=NONE guibg=#87afff cterm=standout gui=standout
-hi User4 ctermfg=NONE ctermbg=229 guifg=NONE guibg=#ffffaf cterm=standout gui=standout
-hi User5 ctermfg=NONE ctermbg=46  guifg=NONE guibg=#00ff00 cterm=standout gui=standout
+function! s:user_highlights()
+  hi User1 ctermfg=NONE ctermbg=204 guifg=NONE guibg=#ff5f87 cterm=reverse gui=reverse
+  hi User2 ctermfg=NONE ctermbg=43  guifg=NONE guibg=#00d7af cterm=reverse gui=reverse
+  hi User3 ctermfg=NONE ctermbg=111 guifg=NONE guibg=#87afff cterm=reverse gui=reverse
+  hi User4 ctermfg=NONE ctermbg=229 guifg=NONE guibg=#ffffaf cterm=reverse gui=reverse
+  hi User5 ctermfg=NONE ctermbg=46  guifg=NONE guibg=#00ff00 cterm=reverse gui=reverse
+endfunction
+call s:user_highlights()
 
 function! MyStatusline()
   let stl  = ''
@@ -282,22 +286,19 @@ function! MyStatusline()
   else
     let stl .= '%#Folded#'
   endif
-  let stl .= '―%{$USER}―%*'
-  let stl .= '%#TabLineSel# %t %*'
-  let stl .= '%1*%{&modified ? " ± " : ""}%*'
-  let stl .= '%1*%{&ro ? " ✗ " : ""}%*'
-
+  let stl .= '-%{$USER}-%*'
+  let stl .= '%#TabLineSel# %F %*'
   if exists('b:git_dir')
     let branch  = fugitive#head(8)
-    let stl    .= (branch == 'master') ? '%2* ⭠ master %*' : '%3* ⭠ '. branch .'%*'
-    let stl    .= '%4*'.s:sy_stats_wrapper().' %*'
+    let stl    .= (branch == 'master') ? '%2* ※ master%*' : '%3* ※ '. branch .'%*'
+    let stl    .= '%4* '.s:sy_stats_wrapper().'%*'
   endif
-
+  let stl .= '%1*%{&modified ? " ±" : ""}%*'
+  let stl .= '%1*%{&ro ? " ✗" : ""}%*'
   let stl .= '%= '
         \ .  '%w %y [%{&encoding}:%{&fileformat}]'
         \ .  ' (%l/%L, %-2c) '
         \ .  ' %p%% '
-
   return stl
 endfunction
 set statusline=%!MyStatusline()
@@ -373,7 +374,7 @@ function! MyTabLine()
   endwhile
 
   let s .= '%T%#TabLineFill#%='
-  let s .= (tabpagenr('$') > 1 ? '%999XX' : 'X')
+  let s .= (tabpagenr('$') > 1 ? '%#TabNum#%999XX%*' : '%#TabNum#X%*')
   return s
 
 endfunction
@@ -433,7 +434,7 @@ nnoremap <Leader>bp :bprev<CR>
 nnoremap <Leader>bd :Sayonara<CR>
 
 " switch colorscheme for console
-nnoremap <C-d> :set background=dark<CR>:colorscheme primary<CR>
+nnoremap <C-d> :set background=dark<CR>:colorscheme primary<CR>:silent! call s:user_highlights()<CR>
 
 set pastetoggle=<F3>                       " toggle paste
 nnoremap <F6>  :set number!<CR>            " toggle numbers
