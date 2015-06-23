@@ -271,11 +271,11 @@ set showtabline=2                      " always show tabline, even if there is j
 set guioptions-=e                      " disables the GUI tab line in favor of the plain text version
 
 function! s:user_highlights()
-  hi User1 ctermfg=NONE ctermbg=204 guifg=NONE guibg=#ff5f87 cterm=reverse gui=reverse
-  hi User2 ctermfg=NONE ctermbg=43  guifg=NONE guibg=#00d7af cterm=reverse gui=reverse
-  hi User3 ctermfg=NONE ctermbg=111 guifg=NONE guibg=#87afff cterm=reverse gui=reverse
-  hi User4 ctermfg=NONE ctermbg=229 guifg=NONE guibg=#ffffaf cterm=reverse gui=reverse
-  hi User5 ctermfg=NONE ctermbg=46  guifg=NONE guibg=#00ff00 cterm=reverse gui=reverse
+  hi User1 ctermbg=232 ctermfg=204 guibg=#080808 guifg=#ff5f87 cterm=NONE gui=NONE
+  hi User2 ctermbg=232 ctermfg=43  guibg=#080808 guifg=#00d7af cterm=NONE gui=NONE
+  hi User3 ctermbg=232 ctermfg=111 guibg=#080808 guifg=#87afff cterm=NONE gui=NONE
+  hi User4 ctermbg=232 ctermfg=229 guibg=#080808 guifg=#ffffaf cterm=NONE gui=NONE
+  hi User5 ctermbg=232 ctermfg=46  guibg=#080808 guifg=#00ff00 cterm=NONE gui=NONE
 endfunction
 call s:user_highlights()
 
@@ -290,11 +290,11 @@ function! MyStatusline()
   let stl .= '%#TabLineSel# %F %*'
   if exists('b:git_dir')
     let branch  = fugitive#head(8)
-    let stl    .= (branch == 'master') ? '%2* ※ master%*' : '%3* ※ '. branch .'%*'
-    let stl    .= '%4* '.s:sy_stats_wrapper().'%*'
+    let stl    .= (branch == 'master') ? '%2* ※ master %*' : '%3* ※ '. branch .' %*'
+    let stl    .= '%4*'.s:sy_stats_wrapper().' %*'
   endif
-  let stl .= '%1*%{&modified ? " ±" : ""}%*'
-  let stl .= '%1*%{&ro ? " ✗" : ""}%*'
+  let stl .= '%1*%{&modified ? " ± " : ""}%*'
+  let stl .= '%1*%{&ro ? " ✗ " : ""}%*'
   let stl .= '%= '
         \ .  '%w %y [%{&encoding}:%{&fileformat}]'
         \ .  ' (%l/%L, %-2c) '
@@ -434,7 +434,7 @@ nnoremap <Leader>bp :bprev<CR>
 nnoremap <Leader>bd :Sayonara<CR>
 
 " switch colorscheme for console
-nnoremap <C-d> :set background=dark<CR>:colorscheme primary<CR>:silent! call s:user_highlights()<CR>
+nnoremap <C-d> :set background=dark<CR>:colorscheme primary<CR>
 
 set pastetoggle=<F3>                       " toggle paste
 nnoremap <F6>  :set number!<CR>            " toggle numbers
@@ -505,6 +505,9 @@ autocmd BufReadPost *
   \ if line("'\"") > 0 && line("'\"") <= line("$") |
   \       exe "normal g`\"" |
   \ endif
+
+" Reload user defined highlights after changing colorschemes
+autocmd ColorScheme * call s:user_highlights()
 
 " Automatically reload vimrc when it's saved
 augroup AutoReloadVimRC
