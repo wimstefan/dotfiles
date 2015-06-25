@@ -137,10 +137,7 @@ Plug 'gabrielelana/vim-markdown'
 " vim-markdown config " {{{2
       let g:markdown_enable_folding=1
 " }}}
-Plug 'dahu/vimple' | Plug 'dahu/Asif' | Plug 'dahu/vim-asciidoc'
-" vim-asciidoc config " {{{2
-      let g:asciidoc_title_style_atx = "symmetric"
-" }}}
+Plug 'dahu/vimple' | Plug 'dahu/Asif' | Plug 'SyntaxRange' | Plug 'dahu/vim-asciidoc'
 Plug 'farseer90718/vim-taskwarrior', { 'on': 'TW' }
 Plug 'jamessan/vim-gnupg'
 Plug 'mattn/emmet-vim', { 'for': ['html', 'xhtml', 'css', 'xml', 'xls', 'markdown'] }
