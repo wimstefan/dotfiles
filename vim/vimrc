@@ -153,6 +153,7 @@ Plug 'dbeniamine/vim-mail'
       let g:vimmailclient="/usr/bin/tmux split-window -h mutt -r"
 " }}}
 Plug 'SyntaxAttr.vim'
+Plug 'gorodinskiy/vim-coloresque'
 Plug 'hara/ctrlp-colorscheme'
 " ctrlp-colorscheme config " {{{2
       command! CtrlPColorScheme call ctrlp#init(ctrlp#colorscheme#id())
@@ -262,7 +263,7 @@ endfunc
 " Visual " {{{1
 if &term =~ "linux"
   set background=dark
-  color primary
+  color delek
   if has("terminfo")
     set t_Co=16
     set t_AB=[%?%p1%{7}%>%t5%p1%{8}%-%e25%p1%;m[4%dm
@@ -473,7 +474,7 @@ nnoremap <Leader>bp :bprev<CR>
 nnoremap <Leader>bd :Sayonara<CR>
 
 " switch colorscheme for console
-nnoremap <C-d> :set background=dark<CR>:colorscheme primary<CR>
+nnoremap <C-d> :set background=dark<CR>:colorscheme delek<CR>
 
 set pastetoggle=<F3>                       " toggle paste
 nnoremap <F6>  :set number!<CR>            " toggle numbers
@@ -487,10 +488,6 @@ nnoremap <Leader>sa G?--<CR>jVGd :r ~/.mutt/short-signature-artisan<CR>
 nnoremap <Leader>st G?--<CR>jVGd :r ~/.mutt/short-signature-tango<CR>
 nnoremap <Leader>ss G?--<CR>jVGd :r ~/.mutt/short-signature<CR>
 nnoremap <Leader>sl G?--<CR>jVGd :r ~/.mutt/signature<CR>
-
-" stay in visual mode while indenting
-vnoremap < <gv
-vnoremap > >gv
 
 " underline mappings
 map h1 yypVr=o
