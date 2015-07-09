@@ -89,6 +89,10 @@ Plug 'Shougo/vimproc.vim', { 'do': 'make' } | Plug 'Shougo/vimshell.vim'
 " vimshell config " {{{2
       let g:vimshell_data_directory = $HOME.'/.cache/vim/vimshell'
 " }}}
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': 'yes \| ./install' }
+" fzf config " {{{2
+      set rtp+=~/.fzf
+" }}}
 Plug 'junegunn/vim-peekaboo'
 Plug 'junegunn/vim-easy-align'
 " vim-easy-align config " {{{2
