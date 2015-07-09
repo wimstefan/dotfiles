@@ -298,9 +298,9 @@ else
     endif
   else
     if $USER=='root'
-      color PaperColor
-    else
       color lightning
+    else
+      color PaperColor
     endif
   endif
 endif
