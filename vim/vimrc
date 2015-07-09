@@ -153,6 +153,20 @@ Plug 'dbeniamine/vim-mail'
       let g:vimmailclient="/usr/bin/tmux split-window -h mutt -r"
 " }}}
 Plug 'SyntaxAttr.vim'
+Plug 'reedes/vim-pencil'
+" vim-pencil config {{{2
+     augroup pencil
+       autocmd!
+       autocmd FileType markdown,mkd,asciidoc,text,mail call pencil#init()
+     augroup END
+" }}}
+Plug 'reedes/vim-colors-pencil'
+" vim-colors-pencil config {{{2
+     augroup pencil
+       autocmd!
+       autocmd FileType markdown,mkd,asciidoc,text,mail colorscheme pencil
+     augroup END
+" }}}
 Plug 'gorodinskiy/vim-coloresque'
 Plug 'hara/ctrlp-colorscheme'
 " ctrlp-colorscheme config " {{{2
@@ -263,7 +277,7 @@ endfunc
 " Visual " {{{1
 if &term =~ "linux"
   set background=dark
-  color delek
+  color PaperColor-Dark
   if has("terminfo")
     set t_Co=16
     set t_AB=[%?%p1%{7}%>%t5%p1%{8}%-%e25%p1%;m[4%dm
@@ -274,9 +288,9 @@ else
   if has('gui_running')
     let g:lucius_style='light'
     if $USER=='root'
-      color PaperColor
-    else
       color lightning
+    else
+      color PaperColor
     endif
   else
     if $USER=='root'
@@ -474,7 +488,7 @@ nnoremap <Leader>bp :bprev<CR>
 nnoremap <Leader>bd :Sayonara<CR>
 
 " switch colorscheme for console
-nnoremap <C-d> :set background=dark<CR>:colorscheme delek<CR>
+nnoremap <C-d> :set background=dark<CR>:colorscheme PaperColor-Dark<CR>
 
 set pastetoggle=<F3>                       " toggle paste
 nnoremap <F6>  :set number!<CR>            " toggle numbers
