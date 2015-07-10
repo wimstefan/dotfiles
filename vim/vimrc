@@ -123,13 +123,7 @@ Plug 'powerman/vim-plugin-viewdoc'
       let g:viewdoc_open='rightbelow 79vnew'
       let g:viewdoc_openempty = 0
       let g:viewdoc_dontswitch = 0
-      let g:no_viewdoc_maps = 1
       nnoremap <Leader>h :ViewDocHelp 
-      nnoremap <F1> :call ViewDoc('new', '<cword>')<CR>
-" }}}
-Plug 'gastonsimone/vim-dokumentary'
-" vim-dokumentary config {{{2
-      let g:dokumentary_open='rightbelow 79vnew'
 " }}}
 Plug 'godlygeek/tabular' | Plug 'dhruvasagar/vim-table-mode'
 " vim-table-mode config {{{2
