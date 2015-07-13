@@ -46,12 +46,11 @@ Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' }
       nnoremap ,tu :UndotreeToggle<CR>
 " }}}
 Plug 'ajh17/VimCompletesMe'
-Plug 'mileszs/ack.vim'
-" ack.vim config {{{2
-      nnoremap ,a :Ack!<Space>
-      if executable('ag')
-        let ackprg = 'ag --vimgrep'
-      endif
+Plug 'wincent/ferret'
+" ferret config {{{2
+      nmap ,a <Plug>(FerretAck)
+      nmap ,l <Plug>(FerretLack)
+      nmap ,w <Plug>(FerretAckWord)
 " }}}
 Plug 'tpope/vim-abolish'
 Plug 'tpope/vim-characterize'
