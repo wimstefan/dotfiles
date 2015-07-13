@@ -35,6 +35,11 @@ Plug 'ctrlpvim/ctrlp.vim' | Plug 'sgur/ctrlp-extensions.vim'
       nnoremap <Leader>m :CtrlPMRU<CR>
       nnoremap <Leader>u :CtrlPUndo<CR>
 " }}}
+Plug 'ompugao/ctrlp-locate'
+" ctrlp-locate config {{{2
+      let g:ctrlp_locate_max_candidates=44
+      nnoremap <Leader>l :CtrlPLocate<CR>
+" }}}
 Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' }
 " undotree config {{{2
       let g:undotree_WindowLayout = 2
@@ -145,11 +150,6 @@ Plug 'mattn/webapi-vim' | Plug 'mattn/gist-vim', { 'on': 'Gist' }
       let g:gist_clip_command = 'xclip -selection clipboard'
 " }}}
 Plug 'achiang/muttrc'
-Plug 'dbeniamine/vim-mail'
-" vim-mail config {{{2
-      let g:vimmaildontusecomplete=1
-      let g:vimmailclient="/usr/bin/tmux split-window -h mutt -r"
-" }}}
 Plug 'SyntaxAttr.vim'
 Plug 'reedes/vim-pencil'
 " vim-pencil config {{{2
@@ -179,7 +179,6 @@ Plug 'jonathanfilip/vim-lucius'
 Plug 'wimstefan/vim-tomorrow-theme'
 Plug 'wimstefan/Lightning'
 Plug 'romainl/Apprentice'
-Plug 'google/vim-colorscheme-primary'
 Plug 'NLKNguyen/papercolor-theme'
 call plug#end()
 endif
