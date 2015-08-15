@@ -273,7 +273,7 @@ endfunc
 " Visual " {{{1
 if &term =~ "linux"
   set background=dark
-  color PaperColor-Dark
+  color PaperColor
   if has("terminfo")
     set t_Co=16
     set t_AB=[%?%p1%{7}%>%t5%p1%{8}%-%e25%p1%;m[4%dm
@@ -298,6 +298,7 @@ else
 endif
 
 if exists('vimpager')
+  set background=light
   set colorcolumn=0
   set nolist
 endif
@@ -484,7 +485,7 @@ nnoremap <Leader>bp :bprev<CR>
 nnoremap <Leader>bd :Sayonara<CR>
 
 " switch colorscheme for console
-nnoremap <C-d> :set background=dark<CR>:colorscheme PaperColor-Dark<CR>
+nnoremap <C-d> :set background=dark<CR>:colorscheme PaperColor<CR>
 
 set pastetoggle=<F3>                       " toggle paste
 nnoremap <F6>  :set number!<CR>            " toggle numbers
