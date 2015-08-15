@@ -10,10 +10,10 @@ Xft.rgba:       rgb
 Xcursor*theme: Neutral_Plus
 ! *cursorColor:  #3A3A3A
 
-*font: xft:MonacoB for Powerline:pixelsize=14
+*font: xft:Input Mono Compressed:pixelsize=17
 *font1: xft:Symbola
-*faceName: xft:MonacoB for Powerline:pixelsize=14
-URxvt.font: xft:MonacoB for Powerline:pixelsize=14:width=condensed,xft:DejaVu Sans Mono for Powerline:pixelsize=13,xft:Symbola
+*faceName: xft:Input Mono Compressed:pixelsize=17
+URxvt.font: xft:Input Mono Compressed:pixelsize=17,xft:DejaVu Sans Mono for Powerline:pixelsize=13,xft:Symbola
 
 URxvt.depth: 32
 URxvt.letterSpace: -1
