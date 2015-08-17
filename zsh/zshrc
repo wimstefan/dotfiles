@@ -590,7 +590,7 @@ if [[ $USER != root ]]; then
     task
 
     # Key management
-    eval `keychain --quiet --quick --eval id_dsa DC35B4E3`
+    eval `keychain --quiet --quick --eval id_rsa 36BBF00C`
 
     alias tcom="tmux -2 start-server && tmux -2 attach -d -t com"
     alias lp="lp -o media=A4 -o page-border=single"
@@ -763,7 +763,7 @@ if [[ $USER != root ]]; then
     echo "Loading host specific settings for $HOST ..."
 
     # Key management
-    eval `keychain --quiet --eval id_dsa`
+    eval `keychain --quiet --eval id_rsa`
 
     alias tj="tmux -2 start-server && tmux -2 attach -d -t tj"
     alias hdmi-mplayer="mplayer -ao alsa:device=hdmi"
@@ -776,7 +776,7 @@ if [[ $USER != root ]]; then
     echo "Loading host specific settings for $HOST ..."
 
     # Key management
-    eval `keychain --quiet --eval id_dsa`
+    eval `keychain --quiet --eval id_rsa`
 
     alias tj="tmux -2 start-server && tmux -2 attach -d -t tj"
   fi
@@ -789,7 +789,7 @@ if [[ $USER != root ]]; then
     export TERM="xterm"
 
     # Key management
-    eval `keychain --quiet --eval id_dsa`
+    eval `keychain --quiet --eval id_rsa`
 
   fi
   # }}}4
@@ -805,7 +805,7 @@ else
   export PATH=$PATH:$HOME/bin
   # }}}3
   # - Key management # {{{3
-  eval `keychain --quiet --eval`
+  eval `keychain --quiet --eval id_rsa`
   # }}}3
   # - Aliases # {{{3
   alias mess="multitail -Z red,black,inverse -T -x '%m %u@%h %f (%t) [%l]' -m 0 -wh 12 -n 70 -f -cS syslog '/var/log/sshd' -m 0 -n 70 -f -cS syslog '/var/log/mail' -m 0 -n 70 -f -cS syslog -ev '---- MARK ----' '/var/log/messages'"
