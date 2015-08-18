@@ -50,7 +50,7 @@ musicplr2         = terminal.." -title 'Music' -geometry 130x34-320+16 -e mocp"
 mixer             = terminal.." -title 'Music' -geometry 130x34-320+16 -e alsamixer"
 iptraf            = terminal.." -title 'IP traffic monitor' -geometry 160x44-20+34 -e sudo iptraf-ng -i all"
 mytop             = terminal.." -title 'Htop' -geometry 160x44-20+34 -e htop"
-myfile            = terminal.." -title 'Explore' -geometry 160x64-10+16 -e mc"
+myfile            = terminal.." -title 'Explore' -geometry 160x54-2+16 -e mc"
 editor_cmd        = "gvim"
 modkey            = "Mod4"
 altkey            = "Mod1"
@@ -658,7 +658,7 @@ globalkeys = awful.util.table.join(
     awful.key({ modkey,           }, "Return", function () awful.util.spawn(terminal) end, "Open a terminal"),
     awful.key({ modkey,           }, "a", function () awful.util.spawn("audacity") end, "Audacity"),
     awful.key({ modkey,           }, "b", function () awful.util.spawn(browser) end, "Browser"),
-    awful.key({ modkey            }, "c", function () scratch.drop(terminal .." -e wcalc","top","right",250,300) end, "Calculator"),
+    awful.key({ modkey            }, "c", function () scratch.drop(terminal .." -e wcalc","top","right",290,300) end, "Calculator"),
     awful.key({ modkey,           }, "d", function () awful.util.spawn("darktable") end, "Darktable"),
     awful.key({ modkey,           }, "e", function () awful.util.spawn(editor_cmd) end, "Editor"),
     awful.key({ modkey,           }, "g", function () awful.util.spawn("gimp") end, "Gimp"),
