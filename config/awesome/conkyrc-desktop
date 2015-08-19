@@ -2,7 +2,7 @@
 alignment top_right
 background yes
 border_width 0
-color1 729FCF
+color1 3469B3
 color2 104E8B
 default_color 1D1F21
 draw_borders no
@@ -15,7 +15,7 @@ gap_y 22
 minimum_size 280 1200
 maximum_width 320
 no_buffers yes
-own_window_colour E6E4DC
+own_window_colour CACBCC
 own_window_hints undecorated,below,sticky,skip_taskbar,skip_pager
 own_window_type desktop
 own_window yes
