@@ -662,11 +662,8 @@ if [[ $USER != root ]]; then
         rsync -az          /home/swimmer/.zshrc $host:
         echo "Syncing vim on $host ..."
         rsync -az /home/swimmer/.vimrc $host:
-        if [[ $host == "mimi" ]]; then
-          rsync -az --exclude='bundle/YouCompleteMe' --exclude='bundle/vimproc' --delete /home/swimmer/.vim/ $host:.vim/
-        else
-          rsync -az --delete /home/swimmer/.vim/ $host:.vim/
-        fi
+        rsync -az --delete /home/swimmer/.vim/ $host:.vim/
+        rsync -az --delete /home/swimmer/.fzf/ $host:.fzf/
         echo "Syncing mc on $host ..."
         rsync -az           /home/swimmer/.config/mc/ini $host:.config/mc/
         rsync -az           /home/swimmer/.config/mc/mc.ext $host:.config/mc/
