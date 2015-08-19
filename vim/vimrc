@@ -150,6 +150,7 @@ Plug 'mattn/webapi-vim' | Plug 'mattn/gist-vim', { 'on': 'Gist' }
 " }}}
 Plug 'achiang/muttrc'
 Plug 'SyntaxAttr.vim'
+Plug 'visSum.vim'
 Plug 'reedes/vim-pencil'
 " vim-pencil config {{{2
      augroup pencil
