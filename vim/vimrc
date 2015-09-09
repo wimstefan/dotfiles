@@ -155,14 +155,14 @@ Plug 'reedes/vim-pencil'
 " vim-pencil config {{{2
      augroup pencil
        autocmd!
-       autocmd FileType markdown,mkd,asciidoc,text,mail call pencil#init()
+       autocmd FileType markdown,mkd,asciidoc,text call pencil#init()
      augroup END
 " }}}
 Plug 'reedes/vim-colors-pencil'
 " vim-colors-pencil config {{{2
      augroup pencil
        autocmd!
-       autocmd FileType markdown,mkd,asciidoc,text,mail colorscheme pencil
+       autocmd FileType markdown,mkd,asciidoc,text colorscheme pencil
      augroup END
 " }}}
 Plug 'gorodinskiy/vim-coloresque'
