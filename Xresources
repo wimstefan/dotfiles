@@ -10,10 +10,11 @@ Xft.rgba:       rgb
 Xcursor*theme: Neutral_Plus
 ! *cursorColor:  #3A3A3A
 
-*font: xft:Input Mono Compressed:pixelsize=17
+*font: xft:Input Mono Compressed:pixelsize=16.5
 *font1: xft:Symbola
-*faceName: xft:Input Mono Compressed:pixelsize=17
-URxvt.font: xft:Input Mono Compressed:pixelsize=17,xft:DejaVu Sans Mono for Powerline:pixelsize=13,xft:Symbola
+*faceName: xft:Input Mono Compressed:pixelsize=16.5
+URxvt.font: xft:Input Mono Compressed:pixelsize=16.5,xft:DejaVu Sans Mono for Powerline:pixelsize=15.5,xft:Symbola:pixelsize=15.5
+URxvt.boldFont: xft:Input Mono Compressed:pixelsize=16.5:style=Bold
 
 URxvt.depth: 32
 URxvt.letterSpace: -1
@@ -28,7 +29,7 @@ URxvt.secondaryScroll: true
 URxvt.saveLines: 4444
 URxvt.transparent: true
 URxvt.shading: 172
-URxvt.tintColor: #D1D1D1
+URxvt.tintColor: #BACADA
 URxvt.perl-lib: /usr/lib/urxvt/perl
 URxvt.perl-ext-common: default,clipboard,selection,keyboard-select,url-select
 URxvt.selection.pattern-0: .+?@.+? .+? %%?[ ]+(.+)
