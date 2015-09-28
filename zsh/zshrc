@@ -644,7 +644,6 @@ if [[ $USER != root ]]; then
         echo "Syncing terminal & X settings on $host ..."
         rsync -az /home/swimmer/.Xresources $host:
         rsync -az --delete --exclude '.thumbs' /home/swimmer/system/wallpapers/ $host\:system/wallpapers/
-        rsync -az --delete /usr/local/src/Tools/numix-icon-theme.git/ $host\:/usr/local/src/Tools/numix-icon-theme.git/
         rsync --recursive --links --keep-dirlinks --perms --times --group --owner -D --compress --delete /usr/local/share/icons/ $host:/usr/local/share/icons/
         rsync --recursive --links --keep-dirlinks --perms --times --group --owner -D --compress --delete /usr/local/share/themes/ $host:/usr/local/share/themes/
         rsync --recursive --copy-links --copy-dirlinks --perms --times --group --owner -D --compress --delete /usr/share/fonts/owned/ $host:/usr/share/fonts/owned/
