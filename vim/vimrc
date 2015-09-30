@@ -438,34 +438,7 @@ set tabline=%!MyTabLine()
 " Formatting " {{{1
 " Format texts. Really cool.
 set comments=b:#,fb:-,fb:*,fb:o,:%,n:>|
-set formatoptions=tcrqn2b
-
-" Using Damian Conways Text::Autoformat
-if(has('perl'))
-  command! -range=% Format :  
-    \  perl {
-    \    use Text::Autoformat;
-    \    my $n_line1 = VIM::Eval('<line1>');
-    \    my $n_line2 = VIM::Eval('<line2>');
-    \    my $foo= join "\n", $curbuf->Get($n_line1 .. $n_line2);
-    \    my $tw=VIM::Eval('&textwidth');
-    \    $tw or $tw = 80;
-    \    my $ft=VIM::Eval('&filetype');
-    \    $ft = ($ft eq 'mail') ? 1 : 0;
-    \    my $formatted = autoformat($foo, {right=>$tw, mail=>$ft});
-    \    my @formatted_lines = split '\n', $formatted;
-    \    $curbuf->Delete($n_line1, $n_line2);
-    \    $curbuf->Append($n_line1-1, @formatted_lines, '');
-    \    }
- 
-  "Shortcut for formatting the paragraph around the cursor:
-  nnoremap Q {}:'`,Format<cr>:silent!w<CR>
-
-  "Format the visual selection:
-  vnoremap Q :Format<cr>:silent!w<CR>
-else
-  nnoremap Q :execute '!perl -MText::Autoformat -e "{autoformat{right=>'.(&tw?&tw:80).', mail=>'.(&ft=='mail'?1:0).'};}"'<CR><CR>
-endif
+set formatoptions=tcrqwnbj
 
 " " }}}
 
