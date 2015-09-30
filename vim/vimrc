@@ -33,6 +33,7 @@ Plug 'ctrlpvim/ctrlp.vim' | Plug 'sgur/ctrlp-extensions.vim'
         \ }
       nnoremap <Leader>b :CtrlPBuffer<CR>
       nnoremap <Leader>m :CtrlPMRU<CR>
+      nnoremap <Leader>t :CtrlPBufTagAll<CR>
       nnoremap <Leader>u :CtrlPUndo<CR>
 " }}}
 Plug 'ompugao/ctrlp-locate'
