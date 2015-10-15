@@ -604,7 +604,7 @@ if [[ $USER != root ]]; then
 
     function sync-vimrc()
     {
-      for i in asuca komala mimi tj xs8; do
+      for i in komala mimi tj xs; do
         if [[ $i == xs8 ]]; then
           echo "▷ $i"
           if ping -c1 $i > /dev/null; then
@@ -679,20 +679,8 @@ if [[ $USER != root ]]; then
 
       for i in "$@"; do
         case $i in
-          (asuca)
-            echo "<< $i >>"
-            #if [ "$(ping -c1 $i)" ]; then
-            if ping -c1 $i > /dev/null; then
-              sync-dotfiles $i
-              sync-x $i
-              sync-cli $i
-            else
-              echo "$i is down"
-            fi
-            ;;
           (komala)
             echo "<< $i >>"
-            #if [ "$(ping -c1 $i)" ]; then
             if ping -c1 $i > /dev/null; then
               sync-dotfiles $i
               sync-x $i
@@ -703,7 +691,6 @@ if [[ $USER != root ]]; then
             ;;
           (mimi)
             echo "<< $i >>"
-            #if [ "$(ping -c1 $i)" ]; then
             if ping -c1 $i > /dev/null; then
               sync-dotfiles $i
               sync-x $i
@@ -714,7 +701,6 @@ if [[ $USER != root ]]; then
             ;;
           (tj)
             echo "<< $i >>"
-            #if [ "$(ping -c1 $i)" ]; then
             if ping -c1 $i > /dev/null; then
               sync-dotfiles $i
               sync-x $i
@@ -726,7 +712,6 @@ if [[ $USER != root ]]; then
           (all)
             for h in komala mimi tj; do
               echo "<< $h >>"
-              #if [ "$(ping -c1 $h)" ]; then
               if ping -c1 $h > /dev/null; then
                 sync-dotfiles $h
                 sync-x $h
