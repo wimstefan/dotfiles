@@ -331,6 +331,7 @@ export HISTFILE="$HOME/.zsh/histfile"
 export HISTSIZE="5000"
 export SAVEHIST="5000"
 export CVS_RSH="ssh"
+export FZF_DEFAULT_OPTS="-x -m --cycle --color=light"
 export XAUTHORITY="$HOME/.Xauthority"
 export DISPLAY=:0.0
 # anti aliasing in the two toolkits
@@ -389,7 +390,13 @@ function dus()  { du -s "$@" | sort -rn; }
 
 function ff() { find . -iname '*'$1'*' ; }
 
-function fe() { find . -iname '*'$1'*' -exec $2 {} \; ; }
+function fr() { find . -iname '*'$1'*' -exec $2 {} \; ; }
+
+fe() {
+  local file
+  file=$(fzf --query="$1" --select-1 --exit-0)
+  [ -n "$file" ] && ${EDITOR:-vim} "$file"
+}
 
 function lowercase()  # move filenames to lowercase
 {
@@ -428,7 +435,7 @@ function et() {
       /bin/echo "Ok for now"
       ;;
     *)
-      /bin/echo "Please answer with yes or no ..."
+      /bin/echo "Please answer with Yes or No ..."
   esac
 }
 # }}}3

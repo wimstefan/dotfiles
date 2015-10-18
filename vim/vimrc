@@ -18,28 +18,25 @@ nnoremap ,ps :PlugStatus<CR>
 nnoremap ,pu :PlugUpdate<CR>
 
 silent! if  plug#begin('~/.vim/plugged')
-Plug 'ctrlpvim/ctrlp.vim' | Plug 'sgur/ctrlp-extensions.vim'
-" ctrlp config {{{2
-      let g:ctrlp_map = '<Leader>p'
-      let g:ctrlp_working_path_mode = 'ra'
-      let g:ctrlp_match_window = 'bottom,order:btt,min:1,max:100,results:20'
-      let g:ctrlp_cache_dir = $HOME.'/.cache/vim/ctrlp'
-      let g:ctrlp_user_command = {
-        \ 'types': {
-          \ 1: ['.git', 'cd %s && git ls-files'],
-          \ 2: ['.hg', 'hg --cwd %s locate -I .'],
-          \ },
-        \ 'fallback': 'find %s -type f'
-        \ }
-      nnoremap <Leader>b :CtrlPBuffer<CR>
-      nnoremap <Leader>m :CtrlPMRU<CR>
-      nnoremap <Leader>t :CtrlPBufTagAll<CR>
-      nnoremap <Leader>u :CtrlPUndo<CR>
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': 'yes \| ./install' }
+" fzf config {{{2
+      set rtp+=~/.fzf
 " }}}
-Plug 'ompugao/ctrlp-locate'
-" ctrlp-locate config {{{2
-      let g:ctrlp_locate_max_candidates=44
-      nnoremap <Leader>l :CtrlPLocate<CR>
+Plug 'junegunn/fzf.vim'
+" fzf.vim config {{{2
+      nnoremap <Leader>p :Files<CR>
+      nnoremap <Leader>a :Ag 
+      nnoremap <Leader>b :Buffers<CR>
+      nnoremap <Leader>c :Colors<CR>
+      nnoremap <Leader>l :Locate 
+      nnoremap <Leader>t :BTags<CR>
+" }}}
+Plug 'junegunn/vim-peekaboo'
+Plug 'junegunn/vim-easy-align'
+" vim-easy-align config {{{2
+      vnoremap <silent> <Enter> :EasyAlign<cr>
+      nmap <Leader>e <Plug>(EasyAlign)
+      vmap . <Plug>(EasyAlignRepeat)
 " }}}
 Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' }
 " undotree config {{{2
@@ -93,17 +90,6 @@ Plug 'mhinz/vim-sayonara'
 Plug 'Shougo/vimproc.vim', { 'do': 'make' } | Plug 'Shougo/vimshell.vim'
 " vimshell config {{{2
       let g:vimshell_data_directory = $HOME.'/.cache/vim/vimshell'
-" }}}
-Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': 'yes \| ./install' }
-" fzf config {{{2
-      set rtp+=~/.fzf
-" }}}
-Plug 'junegunn/vim-peekaboo'
-Plug 'junegunn/vim-easy-align'
-" vim-easy-align config {{{2
-      vnoremap <silent> <Enter> :EasyAlign<cr>
-      nmap <Leader>a <Plug>(EasyAlign)
-      vmap . <Plug>(EasyAlignRepeat)
 " }}}
 Plug 'renamer.vim'
 Plug 'will133/vim-dirdiff'
@@ -167,11 +153,6 @@ Plug 'reedes/vim-colors-pencil'
      augroup END
 " }}}
 Plug 'gorodinskiy/vim-coloresque'
-Plug 'hara/ctrlp-colorscheme'
-" ctrlp-colorscheme config {{{2
-      command! CtrlPColorScheme call ctrlp#init(ctrlp#colorscheme#id())
-      nnoremap <Leader>c :CtrlPColorScheme<CR>
-" }}}
 Plug 'jonathanfilip/vim-lucius'
 " vim-lucius config {{{2
       let g:lucius_no_term_bg = 0
