@@ -370,7 +370,6 @@ alias les="less"
 alias grep="grep --color=auto"
 alias gcal="gcal -s1"
 alias mtr="mtr --curses"
-alias ping="ping -4"
 alias w3m="TERM=xterm-256color w3m"
 alias eix="eix --force-color"
 # shortcuts
