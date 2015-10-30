@@ -29,6 +29,7 @@ Plug 'junegunn/fzf.vim'
       nnoremap <Leader>b :Buffers<CR>
       nnoremap <Leader>c :Colors<CR>
       nnoremap <Leader>l :Locate 
+      nnoremap <Leader>m :History<CR>
       nnoremap <Leader>t :BTags<CR>
 " }}}
 Plug 'junegunn/vim-peekaboo'
