@@ -451,7 +451,7 @@ if [[ $USER != root ]]; then
 
   # }}}3
   # - Exports {{{3
-  export PATH="$PATH:$HOME/bin:/sbin:/usr/sbin"
+  export PATH="$PATH:$HOME/bin:/sbin:/usr/sbin:$HOME/.fzf_browser"
   export MANPATH="$MANPATH:$HOME/man"
   export MANPAGER="vimpager"
   export PAGER="vimpager"
@@ -663,13 +663,14 @@ if [[ $USER != root ]]; then
       # zsh, vim, mc
         local host=$1
         echo "Syncing zsh on $host ..."
+        rsync -az --delete /home/swimmer/.fzf/ $host:.fzf/
+        rsync -az --delete /home/swimmer/.fzf_browser/ $host:.fzf_browser/
         rsync -az --delete /home/swimmer/.zsh/external/ $host:.zsh/external/
         rsync -az          /home/swimmer/.zsh/zsh_aliases $host:.zsh/zsh_aliases
         rsync -az          /home/swimmer/.zshrc $host:
         echo "Syncing vim on $host ..."
         rsync -az /home/swimmer/.vimrc $host:
         rsync -az --delete /home/swimmer/.vim/ $host:.vim/
-        rsync -az --delete /home/swimmer/.fzf/ $host:.fzf/
         echo "Syncing mc on $host ..."
         rsync -az           /home/swimmer/.config/mc/ini $host:.config/mc/
         rsync -az           /home/swimmer/.config/mc/mc.ext $host:.config/mc/
