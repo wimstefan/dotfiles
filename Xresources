@@ -15,6 +15,7 @@ Xcursor*theme: Neutral_Plus
 *faceName: xft:Input Mono Compressed:pixelsize=16.5
 URxvt.font: xft:Input Mono Compressed:pixelsize=16.5,xft:DejaVu Sans Mono for Powerline:pixelsize=15.5,xft:Symbola:pixelsize=15.5
 URxvt.boldFont: xft:Input Mono Compressed:pixelsize=16.5:style=Bold
+URxvt.italicFont: xft:Input Mono Compressed:pixelsize=16.5:style=Italic
 
 URxvt.depth: 32
 URxvt.letterSpace: -1

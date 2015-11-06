@@ -465,7 +465,7 @@ if [[ $USER != root ]]; then
   alias zless="$PAGER"
   alias bless="/usr/bin/less"
   # shortcuts
-  alias ta="tmux -2 attach -d -t"
+  alias ta="tmux attach -d -t"
   alias errg="sudo eselect rc restart gpm"
   alias fbmplayer="mplayer -vo fbdev -fs"
   alias lprhq='lpr -o "Resolution=2400x600dpi"'
@@ -599,7 +599,7 @@ if [[ $USER != root ]]; then
     # Key management
     eval `keychain --quiet --quick --eval id_rsa 36BBF00C`
 
-    alias tcom="tmux -2 start-server && tmux -2 attach -d -t com"
+    alias tcom="tmux start-server && tmux attach -d -t com"
     alias lp="lp -o media=A4 -o page-border=single"
     alias lp2="lp -o media=A4 -o number-up=2 -o page-border=single"
     alias lp4="lp -o media=A4 -o number-up=4 -o page-border=single"
@@ -754,7 +754,7 @@ if [[ $USER != root ]]; then
     # Key management
     eval `keychain --quiet --eval id_rsa`
 
-    alias tj="tmux -2 start-server && tmux -2 attach -d -t tj"
+    alias tj="tmux start-server && tmux attach -d -t tj"
     alias hdmi-mplayer="mplayer -ao alsa:device=hdmi"
     alias hdmi-vlc="vlc --alsa-audio-device=hdmi"
     alias exif="exiftool -@ ${HOME}/system/tags '$@'"
@@ -767,7 +767,7 @@ if [[ $USER != root ]]; then
     # Key management
     eval `keychain --quiet --eval id_rsa`
 
-    alias tj="tmux -2 start-server && tmux -2 attach -d -t tj"
+    alias tj="tmux start-server && tmux attach -d -t tj"
   fi
   # }}}4
   # . komala # {{{4
@@ -804,7 +804,7 @@ else
   alias epre="emerge -va @preserved-rebuild"
   alias emod="emerge @module-rebuild"
   alias ere="revdep-rebuild -- -a"
-  alias ta="tmux -2 attach -d"
+  alias ta="tmux attach -d"
   ## read private aliases
   if [[ -s $HOME/.zsh/zsh_aliases ]]; then
     source $HOME/.zsh/zsh_aliases
