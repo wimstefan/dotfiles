@@ -375,7 +375,6 @@ alias eix="eix --force-color"
 # shortcuts
 alias xreload="xrdb $HOME/.Xresources"
 alias reload="source $HOME/.zshrc"
-alias restart="killall -SIGUSR1"
 alias el="equery list -p -o"
 alias sf="setfont ter-112n"
 alias setfb="fbset -g 1600 1200 1600 1200 32"
@@ -466,9 +465,7 @@ if [[ $USER != root ]]; then
   alias bless="/usr/bin/less"
   # shortcuts
   alias ta="tmux attach -d -t"
-  alias errg="sudo eselect rc restart gpm"
   alias fbmplayer="mplayer -vo fbdev -fs"
-  alias lprhq='lpr -o "Resolution=2400x600dpi"'
   ## read private aliases
   if [[ -s $HOME/.zsh/zsh_aliases ]]; then
     source $HOME/.zsh/zsh_aliases
@@ -555,7 +552,7 @@ if [[ $USER != root ]]; then
     ## met prácticas & 21% BTW
     #echo "$1 prácticas + $2 themas + $3 lessen (`wcalc "(($1*45) + ($2*75) + ($3*60)) / 60" | sed 's/ = //'` werkuren á € 39.66)"
     #echo "€ `wcalc "((($1*45) + ($2*75) + ($3*60)) / 60) * 39.66" | sed 's/ = //'`"
-    #### 2013- ###
+    #### 2013-2015 ###
     ## zonder prácticas & 21% BTW
     #echo "$1 themas + $2 lessen (`wcalc "(($1*75) + ($2*60)) / 60" | sed 's/ = //'` werkuren á € 39.66)"
     #echo "€ `wcalc "((($1*75) + ($2*60)) / 60) * 39.66" | sed 's/ = //'`"
@@ -563,8 +560,11 @@ if [[ $USER != root ]]; then
     #echo "$1 lessen + $2 prácticas (`wcalc "(($1*60) + ($2*30)) / 60" | sed 's/ = //'` werkuren á € 39.66)"
     #echo "€ `wcalc "((($1*60) + ($2*30)) / 60) * 39.66" | sed 's/ = //'`"
     ## met lessen á 1 uur & prácticas á 0.5 uur & 21% BTW afgerond
-    echo "$1 lessen + $2 prácticas (`wcalc "(($1*60) + ($2*30)) / 60" | sed 's/ = //'` werkuren á € 40.00)"
-    echo "€ `wcalc "((($1*60) + ($2*30)) / 60) * 40.00" | sed 's/ = //'`"
+    # echo "$1 lessen + $2 prácticas (`wcalc "(($1*60) + ($2*30)) / 60" | sed 's/ = //'` werkuren á € 40.00)"
+    # echo "€ `wcalc "((($1*60) + ($2*30)) / 60) * 40.00" | sed 's/ = //'`"
+    #### 2015- ####
+    echo "$1 lessen + $2 prácticas (`wcalc "(($1*75) + ($2*60)) / 60" | sed 's/ = //'` werkuren á € 40.00)"
+    echo "€ `wcalc "((($1*75) + ($2*60)) / 60) * 40.00" | sed 's/ = //'`"
   }
 
   function fac-tt()
@@ -803,7 +803,7 @@ else
   alias eva="emerge -va"
   alias epre="emerge -va @preserved-rebuild"
   alias emod="emerge @module-rebuild"
-  alias ere="revdep-rebuild -- -a"
+  alias restart="rc-config restart"
   alias ta="tmux attach -d"
   ## read private aliases
   if [[ -s $HOME/.zsh/zsh_aliases ]]; then
