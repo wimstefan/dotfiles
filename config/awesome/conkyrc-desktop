@@ -40,7 +40,7 @@ ${color1}${font Hermit:style=bold:size=10}TEMP${hr 3}
 ${color}${offset 8}${font whhglyphs:size=10}${font}   CPU Fan:${color1} ${execi 14 sensors | grep 'fan1' | awk '{print $2" "$3}' }
 ${color}${offset 8}${font whhglyphs:size=10}${font}   Case Fan Front:${color1} ${execi 14 sensors | grep 'fan2' | awk '{print $2" "$3}' }
 ${color}${offset 8}${font whhglyphs:size=10}${font}   Case Fan Back:${color1} ${execi 14 sensors | grep 'fan3' | awk '{print $2" "$3}' }
-${color}${offset 8}${font StyleBats:size=12}q${font}   Nvidia:${color1} ${nvidia temp}° :: ${nvidia gpufreq}Mhz :: ${nvidia memfreq}Mhz
+${color}${offset 8}${font StyleBats:size=12}q${font}   Nvidia:${color1} ${execi 8 nvidia-settings -q 'GPUCoreTemp' | ag -o ': \d+' | cut -c3-5}° :: ${execi 8 nvidia-settings -q 'GPUCurrentClockFreqsString' | ag -o 'nvclock=\d*' | cut -c9-13}Mhz :: ${execi 8 nvidia-settings -q 'GPUCurrentClockFreqsString' | ag -o 'memTransferRate=\d*' | cut -c17-21}Mhz
 ${color}${offset 8}${font whhglyphs:size=10}${font}   SDA Temp:${color1} ${execi 14 /usr/sbin/hddtemp -q /dev/sda | awk '{print $4}' | sed 's/\([0-9]\)°C/\1°/'}
 ${color}${offset 8}${font whhglyphs:size=10}${font}   SDB Temp:${color1} ${execi 14 /usr/sbin/hddtemp -q /dev/sdb | awk '{print $4}' | sed 's/\([0-9]\)°C/\1°/'}
 ${color}${offset 8}${font whhglyphs:size=10}${font}   MB Temp:${color1} ${execi 14 cat /sys/class/hwmon/hwmon1/device/temp2_input | sed 's/000$//'}°
