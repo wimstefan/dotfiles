@@ -54,6 +54,7 @@ Plug 'wincent/ferret'
 Plug 'tpope/vim-abolish'
 Plug 'tpope/vim-characterize'
 Plug 'tpope/vim-commentary'
+Plug 'tpope/vim-markdown'
 Plug 'tpope/vim-dispatch'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
@@ -123,10 +124,6 @@ Plug 'godlygeek/tabular' | Plug 'dhruvasagar/vim-table-mode'
       let g:table_mode_fillchar = '-'
       let g:table_mode_align_char = ':'
 " }}}
-Plug 'gabrielelana/vim-markdown'
-" vim-markdown config {{{2
-      let g:markdown_enable_folding=1
-" }}}
 Plug 'dahu/vimple' | Plug 'dahu/Asif' | Plug 'SyntaxRange' | Plug 'dahu/vim-asciidoc'
 " vim-asciidoc config {{{2
       let g:asciidoc_title_style = "atx"
@@ -145,10 +142,11 @@ Plug 'SyntaxAttr.vim'
 Plug 'visSum.vim'
 Plug 'reedes/vim-pencil'
 " vim-pencil config {{{2
-     augroup pencil
-       autocmd!
-       autocmd FileType markdown,mkd,asciidoc,text call pencil#init()
-     augroup END
+      augroup pencil
+        autocmd!
+        autocmd FileType markdown,mkd,asciidoc,text call pencil#init()
+      augroup END
+      nnoremap ,tp :PencilToggle<CR>
 " }}}
 Plug 'reedes/vim-colors-pencil'
 " vim-colors-pencil config {{{2
