@@ -103,6 +103,10 @@ Plug 'VOoM'
       let g:voom_tree_width = 40
       nnoremap ,tv :VoomToggle<CR>
 " }}}
+Plug 'scrooloose/nerdtree' | Plug 'Xuyuanp/nerdtree-git-plugin'
+" NERDTree config {{{2
+      nnoremap ,tn :NERDTreeToggle<CR>
+" }}}
 Plug 'scrooloose/syntastic' | Plug 'dbakker/vim-lint'
 " syntastic config {{{2
       let g:syntastic_check_on_open=0
