@@ -127,7 +127,7 @@ bindsym $mod+r mode "resize"
 # finds out, if available)
 bar {
         position top
-        status_command py3status -c ~/.i3/i3status.conf
+        status_command py3status -c ~/.config/i3/i3status.conf
         tray_output primary
 }
 
