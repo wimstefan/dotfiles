@@ -672,6 +672,8 @@ if [[ $USER != root ]]; then
         echo "Syncing vim on $host ..."
         rsync -az /home/swimmer/.vimrc $host:
         rsync -az --delete /home/swimmer/.vim/ $host:.vim/
+        echo "Syncing tmux on $host ..."
+        rsync -az --delete /home/swimmer/.tmux/ $host:.tmux/
         echo "Syncing mc on $host ..."
         rsync -az           /home/swimmer/.config/mc/ini $host:.config/mc/
         rsync -az           /home/swimmer/.config/mc/mc.ext $host:.config/mc/
