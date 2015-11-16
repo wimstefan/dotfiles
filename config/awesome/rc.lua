@@ -42,15 +42,24 @@ theme_dir         = config_dir.."/themes/minimal/"
 wallpaper_dir     = home_dir.."/system/wallpapers/"
 icon_path         = config_dir.."/icons/"
 
-terminal          = "urxvt"
+terminal          = "pangoterm"
+if terminal == 'pangoterm' then
+  TITLE = " --title="
+  NAME  = " --name="
+  GEO   = " --geometry="
+else
+  TITLE = " -title "
+  NAME  = " -name "
+  GEO   = " -geometry "
+end
 browser           = os.getenv("BROWSER") or "firefox-bin"
 editor            = os.getenv("EDITOR") or "gvim"
-musicplr1         = terminal.." -title 'Music' -geometry 130x34-320+16 -e ncmpcpp"
-musicplr2         = terminal.." -title 'Music' -geometry 130x34-320+16 -e mocp"
-mixer             = terminal.." -title 'Music' -geometry 130x34-320+16 -e alsamixer"
-iptraf            = terminal.." -title 'IP traffic monitor' -geometry 160x44-20+34 -e sudo iptraf-ng -i all"
-mytop             = terminal.." -title 'Htop' -geometry 160x44-20+34 -e htop"
-myfile            = terminal.." -title 'Explore' -geometry 160x54-2+16 -e mc"
+musicplr1         = terminal..TITLE.."'Music'"..GEO.."130x34-320+16 -e ncmpcpp"
+musicplr2         = terminal..TITLE.."'Music'"..GEO.."130x34-320+16 -e mocp"
+mixer             = terminal..TITLE.."'Music'"..GEO.."130x34-320+16 -e alsamixer"
+iptraf            = terminal..TITLE.."'IP traffic monitor'"..GEO.."160x44-20+34 -e sudo iptraf-ng -i all"
+mytop             = terminal..TITLE.."'Htop'"..GEO.."160x44-20+34 -e htop"
+myfile            = terminal..TITLE.."'Explore'"..GEO.."160x54-2+16 -e mc"
 editor_cmd        = "gvim"
 modkey            = "Mod4"
 altkey            = "Mod1"
@@ -265,7 +274,7 @@ require("freedesktop.utils")
 freedesktop.utils.terminal = terminal
 
 -- applications menu
-freedesktop.utils.icon_theme = { 'Clarity', 'Faenza' }
+freedesktop.utils.icon_theme = { 'Vertix.git', 'Numix' }
 require("freedesktop.menu")
 menu_items = freedesktop.menu.new()
 myawesomemenu = {
@@ -658,7 +667,7 @@ globalkeys = awful.util.table.join(
     awful.key({ modkey,           }, "Return", function () awful.util.spawn(terminal) end, "Open a terminal"),
     awful.key({ modkey,           }, "a", function () awful.util.spawn("audacity") end, "Audacity"),
     awful.key({ modkey,           }, "b", function () awful.util.spawn(browser) end, "Browser"),
-    awful.key({ modkey            }, "c", function () scratch.drop(terminal .." -e wcalc","top","right",290,300) end, "Calculator"),
+    awful.key({ modkey            }, "c", function () scratch.drop(terminal ..TITLE.."'Calculator' -e wcalc","top","right",290,300) end, "Calculator"),
     awful.key({ modkey,           }, "d", function () awful.util.spawn("darktable") end, "Darktable"),
     awful.key({ modkey,           }, "e", function () awful.util.spawn(editor_cmd) end, "Editor"),
     awful.key({ modkey,           }, "g", function () awful.util.spawn("gimp") end, "Gimp"),
@@ -666,7 +675,7 @@ globalkeys = awful.util.table.join(
     awful.key({ modkey,           }, "m", function () awful.util.spawn(myfile) end, "Explore"),
     awful.key({ modkey,           }, "o", function () awful.util.spawn("opera") end, "Opera"),
     awful.key({ modkey,           }, "p", function () awful.util.spawn("puddletag") end, "Puddletag"),
-    awful.key({ modkey,           }, "s", function () scratch.drop(terminal .."","top","left",800,600) end, "Drop-down terminal"),
+    awful.key({ modkey,           }, "s", function () scratch.drop(terminal ..TITLE.."'Drop-down terminal'","top","left",800,600) end, "Drop-down terminal"),
     awful.key({ modkey,           }, "t", function () awful.util.spawn("thunderbird") end, "Thunderbird"),
 
     -- Miscellaneous stuff
@@ -690,13 +699,13 @@ clientkeys = awful.util.table.join(
     awful.key({ modkey, "Control" }, "Return", function (c) c:swap(awful.client.getmaster()) end, "Swap current slave with master"),
     awful.key({ modkey, "Control" }, "o",      awful.client.movetoscreen                        ),
     awful.key({ modkey, "Control" }, "t",      function (c) c.ontop = not c.ontop            end, "Mark client"),
-    awful.key({ modkey,           }, "n",
+    awful.key({ modkey, "Shift"   }, "n",
         function (c)
             -- The client currently has the input focus, so it cannot be
             -- minimized, since minimized clients can't have the focus.
             c.minimized = true
         end, "Minimize client"),
-    awful.key({ modkey,           }, "m",
+    awful.key({ modkey, "Shift"   }, "m",
         function (c)
             c.maximized_horizontal = not c.maximized_horizontal
             c.maximized_vertical   = not c.maximized_vertical
@@ -759,6 +768,7 @@ awful.rules.rules = {
                      keys = clientkeys,
                      buttons = clientbuttons } },
     { rule = { class = "URxvt"}, properties = { size_hints_honor = false } },
+    { rule = { class = "Pangoterm"}, properties = { size_hints_honor = false } },
     { rule = { name = "sys" }, properties = { tag = tags[1] } },
     { rule = { name = "work" }, properties = { tag = tags[2] } },
     { rule = { name = "com" }, properties = { tag = tags[3] } },
@@ -768,10 +778,12 @@ awful.rules.rules = {
     { rule = { name = "tj-laptop" }, properties = { tag = tags[6] } },
     { rule = { name = "swimmer" }, properties = { tag = tags[6] } },
     { rule = { name = "home" }, properties = { tag = tags[6] } },
+    { rule = { name = "Calculator" }, properties = { floating = true, size_hints_honor = true,  size_hints = {"program_position", "program_size"}} },
     { rule = { name = "Music" }, properties = { floating = true, size_hints_honor = true,  size_hints = {"program_position", "program_size"}} },
     { rule = { name = "Htop" }, properties = { floating = true, size_hints_honor = true,  size_hints = {"program_position", "program_size"} } },
-    { rule = { name = "IP traffic monitor" }, properties = { floating = true, size_hints_honor = true,  size_hints = {"program_position", "program_size"} } },
     { rule = { name = "Explore" }, properties = { floating = true, size_hints_honor = true,  size_hints = {"program_position", "program_size"} } },
+    { rule = { name = "IP traffic monitor" }, properties = { floating = true, size_hints_honor = true,  size_hints = {"program_position", "program_size"} } },
+    { rule = { name = "Drop-down terminal" }, properties = { floating = true, size_hints_honor = true,  size_hints = {"program_position", "program_size"} } },
     { rule = { class = "Thunderbird" }, properties = { tag = tags[7] } },
     { rule = { class = "VirtualBox" }, properties = { tag = tags[7] } },
     { rule = { class = "Darktable" }, properties = { tag = tags[8] } },

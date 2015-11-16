@@ -78,6 +78,6 @@ theme.arr9                                      = theme_dir .. "icons/arr9.png"
 theme.arr0                                      = theme_dir .. "icons/arr0.png"
 --}}}
 
+theme.icon_theme = "Vertex.git"
+
 return theme
-
-
