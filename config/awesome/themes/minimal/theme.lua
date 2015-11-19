@@ -21,7 +21,7 @@ theme.border_width              = "4"
 
 -- Theme fonts {{{
 theme.font                                  = "Terminal Dosis Bold 10"
-theme.mono_font                             = "Envy Code R Bold 10"
+theme.mono_font                             = "Input Mono Compressed Bold 11"
 --}}}
 
 -- Theme colours {{{
