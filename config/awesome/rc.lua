@@ -42,8 +42,8 @@ theme_dir         = config_dir.."/themes/minimal/"
 wallpaper_dir     = home_dir.."/system/wallpapers/"
 icon_path         = config_dir.."/icons/"
 
-terminal          = "pangoterm"
-if terminal == 'pangoterm' then
+terminal          = "termite"
+if terminal == 'pangoterm' or terminal == 'termite' then
   TITLE = " --title="
   NAME  = " --name="
   GEO   = " --geometry="

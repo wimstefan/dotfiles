@@ -660,6 +660,7 @@ if [[ $USER != root ]]; then
         rsync -az /home/swimmer/.config/gtk-3.0/ $host:.config/gtk-3.0/
         rsync -az /home/swimmer/.config/Trolltech.conf $host:.config/
         rsync -az /home/swimmer/.config/pangoterm.cfg $host:.config/
+        rsync -az /home/swimmer/.config/termite/config $host:.config/termite/
       }
       function sync-cli() {
       # zsh, vim, mc
@@ -673,8 +674,6 @@ if [[ $USER != root ]]; then
         echo "Syncing vim on $host ..."
         rsync -az /home/swimmer/.vimrc $host:
         rsync -az --delete /home/swimmer/.vim/ $host:.vim/
-        echo "Syncing tmux on $host ..."
-        rsync -az --delete /home/swimmer/.tmux/ $host:.tmux/
         echo "Syncing mc on $host ..."
         rsync -az           /home/swimmer/.config/mc/ini $host:.config/mc/
         rsync -az           /home/swimmer/.config/mc/mc.ext $host:.config/mc/
