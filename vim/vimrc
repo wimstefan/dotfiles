@@ -59,7 +59,6 @@ Plug 'wincent/ferret'
 Plug 'tpope/vim-abolish'
 Plug 'tpope/vim-characterize'
 Plug 'tpope/vim-commentary'
-Plug 'tpope/vim-markdown'
 Plug 'tpope/vim-dispatch'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
@@ -139,6 +138,7 @@ Plug 'dahu/vimple' | Plug 'dahu/Asif' | Plug 'SyntaxRange' | Plug 'dahu/vim-asci
       let g:asciidoc_title_style = "atx"
       let g:asciidoc_title_style_atx = "symmetric"
 " }}}
+Plug 'gabrielelana/vim-markdown'
 Plug 'farseer90718/vim-taskwarrior', { 'on': 'TW' }
 Plug 'jamessan/vim-gnupg'
 Plug 'mattn/emmet-vim', { 'for': ['html', 'xhtml', 'css', 'xml', 'xls', 'markdown'] }
@@ -278,28 +278,26 @@ if &term =~ "linux"
 else
   set t_Co=256
   if has('gui_running')
-    let g:lucius_style='light'
     if $USER=='root'
-      color lightning
-    else
       color PaperColor
+    else
+      color lightning
     endif
   else
     if $USER=='root'
-      color lightning
-    else
       color PaperColor
+    else
+      color lightning
     endif
   endif
 endif
 
 if exists('vimpager')
-  set background=light
   set colorcolumn=0
   set nolist
 endif
 
-set guifont=Monaco\ for\ Powerline\ 10
+set guifont=Input\ Mono\ Narrow\ 10
 
 filetype indent plugin on | syn on     " enable filetype, plugin and syntax support
 
