@@ -196,7 +196,11 @@ set nobackup                           " keep a backup file
 "set fileformat=unix                    " always on a linux box (!) :-) - 2012-12-06 doesn't work with vimpager :-/
 "set viminfo='50,\"100,:100,%          " read/write a viminfo file with buffer list
 set viminfo='50,\"100,:100             " read/write a viminfo file without buffer list
-set viminfo+=n$HOME/.cache/vim/viminfo " specify where to write the viminfo
+if has ('nvim')
+  set viminfo+=n$HOME/.cache/nvim/viminfo " specify where to write the viminfo
+else
+  set viminfo+=n$HOME/.cache/vim/viminfo " specify where to write the viminfo
+endif
 set history=100                        " keep 100 lines of command line history
 set number                             " show line numbers
 set cursorline                         " highlights the screen line of the cursor
@@ -307,7 +311,9 @@ set foldlevel=100                      " don't autofold anything (but I can stil
 
 set mouse=a                            " enable mouse in console
 set mousemodel=popup_setpos
-set ttymouse=xterm2
+if !has('nvim')
+  set ttymouse=xterm2
+endif
 
 " Statusline " {{{2
 set laststatus=2                       " always show the statusline above
