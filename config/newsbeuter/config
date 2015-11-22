@@ -6,10 +6,10 @@ show-read-articles no
 display-article-progress yes
 max-items 144
 #html-renderer internal
-html-renderer "w3m -T text/html -I %{charset} -dump"
-#html-renderer elinks
-browser "TERM=xterm-256color w3m"
-#browser elinks
+#html-renderer "w3m -T text/html -I %{charset} -dump"
+html-renderer elinks
+#browser "TERM=xterm-256color w3m"
+browser elinks
 #browser lynx
 refresh-on-startup yes
 cleanup-on-quit yes
@@ -62,21 +62,22 @@ use-proxy no
 color background         default    default
 color listnormal         default    default
 color listnormal_unread  default    default
-color listfocus          default    color252 bold
-color listfocus_unread   default    color249 bold
+color listfocus          default    color253
+color listfocus_unread   default    color253 bold
 color info               white      color239
 color article            default    default
-highlight article       "^Feed:.*"                          color244  default
-highlight article       "^Title:.*"                         white  color242
-highlight article       "^Author:.*"                        color244  default
-highlight article       "^Date:.*"                          color006  default
-highlight article       "^Link:.*"                          magenta default
-highlight article       "^Podcast Download URL:.*"          color020    default
-highlight article       "^Links:"                           white   blue
-highlight article       "\\[[0-9][0-9]*\\]"                 green   default
-highlight article       "\\[image [0-9][0-9]*\\]"           green   default
-highlight article       "\\[embedded flash: [0-9][0-9]*\\]" green   default
-highlight article       ":.*\\(link\\)$"                    magenta default
-highlight article       ":.*\\(image\\)$"                   magenta default
-highlight article       ":.*\\(embedded flash\\)$"          magenta default
-
+highlight article       "^(Feed|Title|Author|Link|Date|Podcast.*):.*" color25 default
+#highlight article       "^Feed:.*"                          color244  default
+#highlight article       "^Title:.*"                         white  color242
+#highlight article       "^Author:.*"                        color244  default
+#highlight article       "^Date:.*"                          color006  default
+#highlight article       "^Link:.*"                          magenta default
+#highlight article       "^Podcast Download URL:.*"          color020    default
+#highlight article       "^Links:"                           white   blue
+#highlight article       "\\[[0-9][0-9]*\\]"                 green   default
+#highlight article       "\\[image [0-9][0-9]*\\]"           green   default
+#highlight article       "\\[embedded flash: [0-9][0-9]*\\]" green   default
+#highlight article       ":.*\\(link\\)$"                    magenta default
+#highlight article       ":.*\\(image\\)$"                   magenta default
+#highlight article       ":.*\\(embedded flash\\)$"          magenta default
+# vim: ft=conf
