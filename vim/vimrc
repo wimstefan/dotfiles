@@ -164,6 +164,7 @@ Plug 'reedes/vim-colors-pencil'
        autocmd!
        autocmd FileType markdown,mkd,asciidoc,text colorscheme pencil
      augroup END
+     let g:pencil_gutter_color = 1
 " }}}
 Plug 'gorodinskiy/vim-coloresque'
 Plug 'jonathanfilip/vim-lucius'
