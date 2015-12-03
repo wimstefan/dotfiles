@@ -1,3 +1,4 @@
+# vim: ft=conf
 article-sort-order date-desc
 articlelist-format  "%4i %f %D   %?T?|%-30T|  ?%t"
 datetime-format "%F %R"
@@ -5,8 +6,8 @@ show-read-feeds no
 show-read-articles no
 display-article-progress yes
 max-items 144
-#html-renderer internal
-#html-renderer "w3m -T text/html -I %{charset} -dump"
+# html-renderer internal
+# html-renderer "w3m -T text/html -I %{charset} -dump"
 html-renderer elinks
 #browser "TERM=xterm-256color w3m"
 browser elinks
@@ -67,17 +68,11 @@ color listfocus_unread   default    color253 bold
 color info               white      color239
 color article            default    default
 highlight article       "^(Feed|Title|Author|Link|Date|Podcast.*):.*" color25 default
-#highlight article       "^Feed:.*"                          color244  default
-#highlight article       "^Title:.*"                         white  color242
-#highlight article       "^Author:.*"                        color244  default
-#highlight article       "^Date:.*"                          color006  default
-#highlight article       "^Link:.*"                          magenta default
-#highlight article       "^Podcast Download URL:.*"          color020    default
-#highlight article       "^Links:"                           white   blue
-#highlight article       "\\[[0-9][0-9]*\\]"                 green   default
-#highlight article       "\\[image [0-9][0-9]*\\]"           green   default
-#highlight article       "\\[embedded flash: [0-9][0-9]*\\]" green   default
-#highlight article       ":.*\\(link\\)$"                    magenta default
-#highlight article       ":.*\\(image\\)$"                   magenta default
-#highlight article       ":.*\\(embedded flash\\)$"          magenta default
-# vim: ft=conf
+highlight article       "^Links:"                           white   blue
+highlight article       "\\[[0-9][0-9]*\\]"                 green   default
+highlight article       "\\[image [0-9][0-9]*\\]"           green   default
+highlight article       "\\[embedded flash: [0-9][0-9]*\\]" green   default
+highlight article       ":.*\\(link\\)$"                    magenta default
+highlight article       ":.*\\(image\\)$"                   magenta default
+highlight article       ":.*\\(embedded flash\\)$"          magenta default
+
