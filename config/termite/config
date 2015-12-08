@@ -19,7 +19,7 @@ search_wrap = true
 cursor_blink = system
 
 # "block", "underline" or "ibeam"
-cursor_shape = block
+cursor_shape = ibeam
 
 # $BROWSER is used by default if set, with xdg-open as a fallback
 #browser = xdg-open
@@ -32,52 +32,5 @@ filter_unmatched_urls = true
 
 # emit escape sequences for other keys modified by Control
 #modify_other_keys = false
-
-[colors]
-### My light background
-foreground = #303030
-foreground_bold = #202020
-background = #EEEEEE
-# 20% background transparency (requires a compositor)
-# background = rgba(238, 238, 238, 1.0)
-
-# if unset, will reverse foreground and background
-# highlight = #2f2f2f
-
-# black
-color0 = #080808
-color8 = #585858
-# red
-color1 = #CC2929
-color9 = #B30000
-# green
-color2 = #34B31B
-color10 = #338033
-# yellow
-color3 = #E27E00
-color11 = #F27F0C
-# blue
-color4 = #175CE6
-color12 = #003BB3
-# magenta
-color5 = #CC00CC
-color13 = #80195E
-# cyan
-color6 = #26BFBF
-color14 = #0F9999
-# white
-color7 = #FAFAFA
-color15 = #E4E4E4
-
-[hints]
-#font = Monospace 12
-#foreground = #dcdccc
-#background = #3f3f3f
-#active_foreground = #e68080
-#active_background = #3f3f3f
-#padding = 2
-#border = #3f3f3f
-#border_width = 0.5
-#roundness = 2.0
 
 # vim: ft=dosini cms=#%s

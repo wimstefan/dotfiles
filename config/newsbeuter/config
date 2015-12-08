@@ -9,8 +9,8 @@ max-items 144
 # html-renderer internal
 # html-renderer "w3m -T text/html -I %{charset} -dump"
 html-renderer elinks
-#browser "TERM=xterm-256color w3m"
-browser elinks
+browser w3m
+# browser elinks
 #browser lynx
 refresh-on-startup yes
 cleanup-on-quit yes
@@ -62,12 +62,12 @@ use-proxy no
 ## light ###
 color background         default    default
 color listnormal         default    default
-color listnormal_unread  default    default
-color listfocus          default    color253
-color listfocus_unread   default    color253 bold
-color info               white      color239
+color listnormal_unread  blue       default
+color listfocus          green      default
+color listfocus_unread   blue       default     underline
+color info               white      black
 color article            default    default
-highlight article       "^(Feed|Title|Author|Link|Date|Podcast.*):.*" color25 default
+highlight article       "^(Feed|Title|Author|Link|Date|Podcast.*):.*" blue default
 highlight article       "^Links:"                           white   blue
 highlight article       "\\[[0-9][0-9]*\\]"                 green   default
 highlight article       "\\[image [0-9][0-9]*\\]"           green   default

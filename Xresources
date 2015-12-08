@@ -4,35 +4,6 @@ Xcursor*theme: Neutral_Plus
 *font: xft:Input Mono Compressed:pixelsize=16.5
 *font1: xft:Symbola
 *faceName: xft:Input Mono Compressed:pixelsize=16.5
-URxvt.font: xft:Input Mono Compressed:pixelsize=16.5,xft:DejaVu Sans Mono for Powerline:pixelsize=15.5,xft:Symbola:pixelsize=15.5
-URxvt.boldFont: xft:Input Mono Compressed:pixelsize=16.5:style=Bold
-URxvt.italicFont: xft:Input Mono Compressed:pixelsize=16.5:style=Italic
-
-URxvt.depth: 32
-URxvt.letterSpace: -1
-URxvt.loginShell: true
-URxvt.visualBell: true
-URxvt.urgentOnBell: true
-URxvt.scrollBar: false
-URxvt.scrollTtyKeypress: true
-URxvt.scrollTtyOutput: false
-URxvt.scrollWithBuffer: false
-URxvt.secondaryScroll: true
-URxvt.saveLines: 4444
-URxvt.transparent: true
-URxvt.shading: 172
-URxvt.tintColor: #BACADA
-URxvt.perl-lib: /usr/lib/urxvt/perl
-URxvt.perl-ext-common: default,clipboard,selection,keyboard-select,url-select
-URxvt.selection.pattern-0: .+?@.+? .+? %%?[ ]+(.+)
-URxvt.keysym.Shift-Control-C: perl:clipboard:copy
-URxvt.keysym.Shift-Control-V: perl:clipboard:paste
-URxvt.keysym.M-Escape: perl:keyboard-select:activate
-URxvt.url-select.launcher: firefox-bin
-URxvt.url-select.button: 1
-URxvt.url-select.underline: true
-URxvt.keysym.M-u: perl:url-select:select_next
-URxvt.colorUL: #005FAF
 
 xterm*loginShell: true
 xterm*utf8: true
@@ -49,62 +20,5 @@ rofi.width: 1600
 rofi.location: 1
 rofi.padding: 2
 rofi.bw: 2
-rofi.terminal: urxvt
-
-!!!! Color settings
-!!! My dark background
-! *background: #1d1f21
-! *foreground: #e4e4e4
-! ! black
-! *color0: #1f1f1f
-! *color8: #787878
-! ! red
-! *color1: #a54242
-! *color9: #ee2c2c
-! ! green
-! *color2: #6fb126
-! *color10: #b6e354
-! ! yellow
-! *color3: #fd971f
-! *color11: #feed6c
-! ! blue
-! *color4: #4682d0
-! *color12: #729fcf
-! ! magenta
-! *color5: #ba55d3
-! *color13: #dda0dd
-! ! cyan
-! *color6: #56c2d6
-! *color14: #8cedff
-! ! white
-! *color7: #e0e0e0
-! *color15: #e4e4e4
-
-!!! My light background
-*background: #EEEEEE
-*foreground: #303030
-! black
-*color0: #080808
-*color8: #585858
-! red
-*color1: #CC2929
-*color9: #B30000
-! green
-*color2: #34B31B
-*color10: #338033
-! yellow
-*color3: #E27E00
-*color11: #F27F0C
-! blue
-*color4: #175CE6
-*color12: #003BB3
-! magenta
-*color5: #CC00CC
-*color13: #80195E
-! cyan
-*color6: #26BFBF
-*color14: #0F9999
-! white
-*color7: #FAFAFA
-*color15: #E4E4E4
+rofi.terminal: termite
 
