@@ -21,6 +21,7 @@ nnoremap ,pc :PlugClean<CR>
 nnoremap ,pi :PlugInstall<CR>
 nnoremap ,ps :PlugStatus<CR>
 nnoremap ,pu :PlugUpdate<CR>
+let g:plug_shallow = 0
 
 silent! if  plug#begin('~/.vim/plugged')
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': 'yes \| ./install' }
@@ -164,7 +165,9 @@ Plug 'reedes/vim-colors-pencil'
        autocmd!
        autocmd FileType markdown,mkd,asciidoc,text colorscheme pencil
      augroup END
+     let g:pencil_higher_contrast_ui = 1
      let g:pencil_gutter_color = 1
+     let g:pencil_terminal_italics = 1
 " }}}
 Plug 'gorodinskiy/vim-coloresque'
 Plug 'wimstefan/Lightning'
@@ -202,6 +205,7 @@ else
 endif
 set history=100                        " keep 100 lines of command line history
 set number                             " show line numbers
+set cursorcolumn                       " highlights the screen column of the cursor
 set cursorline                         " highlights the screen line of the cursor
 let &cc='+'.join(range(1,255),',+')    " highlights textwidth boundaries
 set gdefault                           " always use global substitutions
@@ -285,12 +289,12 @@ else
       color PaperColor
     else
       set background=dark
-      color base16-eighties
+      color base16-flat
     endif
   else
     if $USER=='root'
       set background=dark
-      color base16-tomorrow
+      color base16-default
     else
       set background=dark
       color base16-default
@@ -324,11 +328,11 @@ set showtabline=2                      " always show tabline, even if there is j
 set guioptions-=e                      " disables the GUI tab line in favor of the plain text version
 
 function! s:user_highlights()
-  hi User1 ctermbg=232 ctermfg=204 guibg=#080808 guifg=#ff5f87 cterm=NONE gui=NONE
-  hi User2 ctermbg=232 ctermfg=43  guibg=#080808 guifg=#00d7af cterm=NONE gui=NONE
-  hi User3 ctermbg=232 ctermfg=111 guibg=#080808 guifg=#87afff cterm=NONE gui=NONE
-  hi User4 ctermbg=232 ctermfg=229 guibg=#080808 guifg=#ffffaf cterm=NONE gui=NONE
-  hi User5 ctermbg=232 ctermfg=46  guibg=#080808 guifg=#00ff00 cterm=NONE gui=NONE
+  hi User1 ctermbg=238 ctermfg=204 guibg=#444444 guifg=#ff5f87 cterm=NONE gui=NONE
+  hi User2 ctermbg=238 ctermfg=43  guibg=#444444 guifg=#00d7af cterm=NONE gui=NONE
+  hi User3 ctermbg=238 ctermfg=111 guibg=#444444 guifg=#87afff cterm=NONE gui=NONE
+  hi User4 ctermbg=238 ctermfg=229 guibg=#444444 guifg=#ffffaf cterm=NONE gui=NONE
+  hi User5 ctermbg=238 ctermfg=46  guibg=#444444 guifg=#00ff00 cterm=NONE gui=NONE
 endfunction
 call s:user_highlights()
 
@@ -463,11 +467,6 @@ nnoremap <Leader>bd :Sayonara<CR>
 nnoremap <C-d> :set background=dark<CR>:colorscheme PaperColor<CR>
 
 set pastetoggle=<F3>                       " toggle paste
-nnoremap <F6>  :set number!<CR>            " toggle numbers
-nnoremap <F7>  :set list!<CR>              " toggle listchars
-nnoremap <F8>  :set cursorline!<CR>        " toggle cursorline
-nnoremap <F12> :call SyntaxAttr()<CR>      " toggle syntax info
-nnoremap ,/    :set invhlsearch!<CR>       " toggle highlight searchresults
 
 " Replace signatures
 nnoremap <Leader>sa G?--<CR>jVGd :r ~/.mutt/short-signature-artisan<CR>
