@@ -9,7 +9,7 @@ red   = "#E04613"
 blue  = "#729FCF"
 black = "#000000"
 lgrey = "#EEEEEE"
-dgrey = "#494949"
+dgrey = "#313131"
 white = "#FFFFFF"
 
 theme = {}
