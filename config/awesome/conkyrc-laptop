@@ -11,7 +11,7 @@ draw_shades no
 double_buffer yes
 extra_newline yes
 gap_x 5
-gap_y 22
+gap_y 25
 minimum_size 280 800
 maximum_width 320
 no_buffers yes
