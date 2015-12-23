@@ -307,7 +307,7 @@ if exists('vimpager')
   set nolist
 endif
 
-set guifont=Input\ Mono\ Narrow\ 10
+set guifont=Hurmit\ 9
 
 filetype indent plugin on | syn on     " enable filetype, plugin and syntax support
 
