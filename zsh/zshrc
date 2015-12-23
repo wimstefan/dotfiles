@@ -460,7 +460,7 @@ if [[ $USER != root ]]; then
   export MPD_PORT="6600"
   export GPG_TTY=`tty`
   export GTK2_RC_FILES="$HOME/.gtkrc-2.0"
-  BASE16_SHELL="$HOME/.config/base16-shell/base16-flat.dark.sh"
+  BASE16_SHELL="/home/swimmer/.config/base16-shell/base16-paraiso.dark.sh"
   [[ -s $BASE16_SHELL ]] && source $BASE16_SHELL
   # }}}3
   # - Aliases {{{3
@@ -614,6 +614,7 @@ if [[ $USER != root ]]; then
     alias gnews="slrn -h news.gmane.org -f ~/.newsrc.news.gmane.org"
     alias gnuvd="PAGER=dog gnuvd"
     alias exif="exiftool -@ $HOME/system/fotografie/tags -s2"
+    alias restart="rc-config restart"
 
     function sync-vimrc()
     {
