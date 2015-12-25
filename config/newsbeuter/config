@@ -9,7 +9,7 @@ max-items 144
 # html-renderer internal
 # html-renderer "w3m -T text/html -I %{charset} -dump"
 html-renderer elinks
-browser w3m
+browser "export TERM=xterm-256color && w3m"
 # browser elinks
 #browser lynx
 refresh-on-startup yes
