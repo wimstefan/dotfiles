@@ -59,7 +59,6 @@ musicplr2         = terminal..TITLE.."'Music'"..GEO.."130x34-320+16 -e mocp"
 mixer             = terminal..TITLE.."'Music'"..GEO.."130x34-320+16 -e alsamixer"
 iptraf            = terminal..TITLE.."'IP traffic monitor'"..GEO.."160x44-20+34 -e 'sudo iptraf-ng -i all'"
 mytop             = terminal..TITLE.."'Htop'"..GEO.."160x44-20+34 -e htop"
-myfile            = terminal..TITLE.."'Explore'"..GEO.."160x54-2+16 -e mc"
 editor_cmd        = "gvim"
 modkey            = "Mod4"
 altkey            = "Mod1"
@@ -73,21 +72,21 @@ end
 
 local layouts =
 {
-    --awful.layout.suit.tile,
-    awful.layout.suit.tile.left,          --1
-    --awful.layout.suit.tile.bottom,
-    awful.layout.suit.tile.top,           --2
-    awful.layout.suit.floating,           --3
-    awful.layout.suit.fair,               --4
-    --awful.layout.suit.fair.horizontal,
-    --awful.layout.suit.spiral,
-    --awful.layout.suit.spiral.dwindle,
-    awful.layout.suit.max,                --5
-    --awful.layout.suit.max.fullscreen,
-    --awful.layout.suit.magnifier
+    -- awful.layout.suit.tile,
+    -- awful.layout.suit.tile.left,
+    -- awful.layout.suit.tile.bottom,
+    -- awful.layout.suit.fair.horizontal,
+    -- awful.layout.suit.spiral,
+    -- awful.layout.suit.spiral.dwindle,
+    -- awful.layout.suit.max.fullscreen,
+    -- awful.layout.suit.tile.top,
+    -- awful.layout.suit.magnifier,
+    awful.layout.suit.max,                --1
+    awful.layout.suit.floating,           --2
+    awful.layout.suit.fair               --3
 }
 
-tags = awful.tag({ "➊", "➋", "➌", "➍", "➎", "➏", "➐", "➑", "➒" }, 1, layouts[5])
+tags = awful.tag({ "➊", "➋", "➌", "➍", "➎", "➏", "➐", "➑", "➒" }, 1, layouts[1])
 --}}}
 
 -- Error handling {{{1
@@ -672,10 +671,10 @@ globalkeys = awful.util.table.join(
     awful.key({ modkey,           }, "e", function () awful.util.spawn(editor_cmd) end, "Editor"),
     awful.key({ modkey,           }, "g", function () awful.util.spawn("gimp") end, "Gimp"),
     awful.key({ modkey,           }, "l", function () awful.util.spawn("libreoffice") end, "Libreoffice"),
-    awful.key({ modkey,           }, "m", function () awful.util.spawn(myfile) end, "Explore"),
+    awful.key({ modkey,           }, "m", function () scratch.drop(terminal ..TITLE.."'Explore' -e mc","top","right",1200,800) end, "Explore"),
     awful.key({ modkey,           }, "o", function () awful.util.spawn("opera") end, "Opera"),
     awful.key({ modkey,           }, "p", function () awful.util.spawn("puddletag") end, "Puddletag"),
-    awful.key({ modkey,           }, "s", function () scratch.drop(terminal ..TITLE.."'Drop-down terminal'","top","left",800,600) end, "Drop-down terminal"),
+    awful.key({ modkey,           }, "s", function () scratch.drop(terminal ..TITLE.."'Drop-down terminal'","top","left",1200,800) end, "Drop-down terminal"),
     awful.key({ modkey,           }, "t", function () awful.util.spawn("thunderbird") end, "Thunderbird"),
 
     -- Miscellaneous stuff
