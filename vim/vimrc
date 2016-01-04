@@ -565,7 +565,7 @@ nnoremap <C-d> :set background=dark<CR>:colorscheme PaperColor<CR>
 set pastetoggle=<F3>                       " toggle paste
 
 " Replace signatures
-nnoremap <Leader>sa G?--<CR>jVGd :r ~/.mutt/short-signature-artisan<CR>
+nnoremap <Leader>sa 1G:s#\(Stefan Wimmer\) <.*>#\1 <stefan@tangoartisan.com>#<CR>G?--<CR>jVGd :r ~/.mutt/short-signature-artisan<CR>
 nnoremap <Leader>st G?--<CR>jVGd :r ~/.mutt/short-signature-tango<CR>
 nnoremap <Leader>ss G?--<CR>jVGd :r ~/.mutt/short-signature<CR>
 nnoremap <Leader>sl G?--<CR>jVGd :r ~/.mutt/signature<CR>
