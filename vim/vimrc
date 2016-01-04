@@ -109,10 +109,6 @@ Plug 'VOoM'
       let g:voom_tree_width = 40
       nnoremap ,tv :VoomToggle<CR>
 " }}}
-Plug 'scrooloose/nerdtree' | Plug 'Xuyuanp/nerdtree-git-plugin'
-" NERDTree config {{{2
-      nnoremap ,tn :NERDTreeToggle<CR>
-" }}}
 Plug 'scrooloose/syntastic' | Plug 'dbakker/vim-lint'
 " syntastic config {{{2
       let g:syntastic_check_on_open=0
@@ -155,7 +151,7 @@ Plug 'reedes/vim-pencil'
 " vim-pencil config {{{2
       augroup pencil
         autocmd!
-        autocmd FileType markdown,mkd,asciidoc,text call pencil#init()
+        autocmd FileType markdown,mkd,asciidoc,rst call pencil#init()
       augroup END
       nnoremap ,tp :PencilToggle<CR>
 " }}}
@@ -163,7 +159,7 @@ Plug 'reedes/vim-colors-pencil'
 " vim-colors-pencil config {{{2
      augroup pencil
        autocmd!
-       autocmd FileType markdown,mkd,asciidoc,text colorscheme pencil
+       autocmd FileType markdown,mkd,asciidoc,rst colorscheme pencil
      augroup END
      let g:pencil_higher_contrast_ui = 1
      let g:pencil_gutter_color = 1
@@ -176,6 +172,106 @@ Plug 'NLKNguyen/papercolor-theme'
 Plug 'chriskempson/base16-vim'
 " base16-vim config {{{2
       let base16colorspace=256
+" }}}
+Plug 'itchyny/landscape.vim'
+Plug 'itchyny/lightline.vim'
+" lightline.vim config {{{2
+let g:lightline = {
+  \ 'colorscheme': 'PaperColor',
+  \ 'active': {
+  \   'left': [ [ 'mode', 'paste' ], [ 'fugitive', 'filename' ] ],
+  \   'right': [ [ 'syntastic', 'lineinfo' ], ['percent'], [ 'fileformat', 'fileencoding', 'filetype' ] ]
+  \ },
+  \ 'component_function': {
+  \   'mode':         'MyMode',
+  \   'fugitive':     'MyFugitive',
+  \   'filename':     'MyFilename',
+  \   'lineinfo':     'MyLineinfo',
+  \   'percent':      'MyPercent',
+  \   'fileformat':   'MyFileformat',
+  \   'fileencoding': 'MyFileencoding',
+  \   'filetype':     'MyFiletype',
+  \ },
+  \ 'component_expand': {
+  \   'syntastic': 'SyntasticStatuslineFlag',
+  \ },
+  \ 'component_type': {
+  \   'syntastic': 'error',
+  \ },
+  \ 'mode_map': {
+  \   'n' :     '«Normal»',
+  \   'i' :     '«Insert»',
+  \   'R' :     '«Replace»',
+  \   'v' :     '«Visual»',
+  \   'V' :     '«V-Line»',
+  \   "\<C-v>": '«V-Block»',
+  \   's' :     '«Select»',
+  \   'S' :     '«S-Line»',
+  \   "\<C-s>": '«S-Block»',
+  \   'c' :     '«Command»'
+  \ }
+\ }
+
+function! MyMode()
+  let fname = expand('%:t')
+  return fname =~ 'diffpanel' ? '' :
+        \ &ft =~ 'help\|startify\|vim-plug' ? '' :
+        \ &ft == 'vimshell' ? 'VimShell' :
+        \ winwidth(0) > 60 ? lightline#mode() : ''
+endfunction
+
+function! MyFugitive()
+  if &ft !~? 'help\|netrw\|undotree\|voomtree' &&  exists('*fugitive#head')
+    let branch  = fugitive#head(8)
+    let _    = (branch == 'master') ? 'master' : branch
+    let _    .= s:sy_stats_wrapper()
+    return strlen(_) ? '⭠ '._ : ''
+  endif
+  return ''
+endfunction
+
+function! MyFilename()
+  let fname = expand('%:t')
+  return fname =~ 'undotree' ? 'Undo Tree' :
+        \ fname =~ 'diffpanel' ? 'Undo Diff Panel' :
+        \ &ft =~ 'voomtree' ? 'Outliner' :
+        \ &ft == 'help' ? 'Help' :
+        \ &ft == 'netrw' ? 'Explore' :
+        \ &ft == 'vimshell' ? vimshell#get_status_string() :
+        \ ('' != MyReadonly() ? MyReadonly() . ' ' : '') .
+        \ ('' != fname ? fname : '[No Name]') .
+        \ ('' != MyModified() ? ' ' . MyModified() : '')
+endfunction
+
+function! MyLineinfo()
+  return winwidth(0) > 70 && &ft !~? 'help\|netrw\|voomtree' ? printf("%3d:%-2d", line('.'), col('.')) : ''
+endfunction
+
+function! MyPercent()
+  return winwidth(0) > 70 && &ft !~? 'help\|netrw\|voomtree' ? (100 * line('.') / line('$')) . '%' : ''
+endfunction
+
+function! MyReadonly()
+  return &ft !~? 'help\|netrw\|voomtree' && &readonly ? '×' : ''
+endfunction
+
+function! MyModified()
+  return &ft =~ 'help\|netrw\|voomtree' ? '' : &modified ? '±' : &modifiable ? '' : ''
+endfunction
+
+function! MyFileformat()
+  return winwidth(0) > 70 ? &fileformat : ''
+endfunction
+
+function! MyFileencoding()
+  return winwidth(0) > 70 ? (strlen(&fenc) ? &fenc : &enc) : ''
+endfunction
+
+function! MyFiletype()
+  return winwidth(0) > 70 ? (strlen(&filetype) ? &filetype : 'no ft') : ''
+endfunction
+
+let g:vimshell_force_overwrite_statusline = 0
 " }}}
 call plug#end()
 endif
@@ -347,7 +443,7 @@ function! MyStatusline()
   let stl .= '%#TabLineSel# %F %*'
   if exists('b:git_dir')
     let branch  = fugitive#head(8)
-    let stl    .= (branch == 'master') ? '%2* ※ master %*' : '%3* ※ '. branch .' %*'
+    let stl    .= (branch == 'master') ? '%2* ※ master %*' : '%3* ※ '. branch .'%*'
     let stl    .= '%4*'.s:sy_stats_wrapper().' %*'
   endif
   let stl .= '%1*%{&modified ? " ± " : ""}%*'
@@ -597,7 +693,7 @@ function! s:sy_stats_wrapper()
   endfor
 
   if !empty(hunkline)
-    let hunkline = printf('[%s]', hunkline[:-2])
+    let hunkline = printf(' [%s]', hunkline[:-2])
   endif
 
   return hunkline
