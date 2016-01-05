@@ -177,7 +177,6 @@ Plug 'itchyny/landscape.vim'
 Plug 'itchyny/lightline.vim'
 " lightline.vim config {{{2
 let g:lightline = {
-  \ 'colorscheme': 'PaperColor',
   \ 'active': {
   \   'left': [ [ 'mode', 'paste' ], [ 'fugitive', 'filename' ] ],
   \   'right': [ [ 'syntastic', 'lineinfo' ], ['percent'], [ 'fileformat', 'fileencoding', 'filetype' ] ]
@@ -216,7 +215,7 @@ function! MyMode()
   let fname = expand('%:t')
   return fname =~ 'diffpanel' ? '' :
         \ &ft =~ 'help\|startify\|vim-plug' ? '' :
-        \ &ft == 'vimshell' ? 'VimShell' :
+        \ &ft == 'vimshell' ? '[VimShell]' :
         \ winwidth(0) > 60 ? lightline#mode() : ''
 endfunction
 
@@ -231,12 +230,12 @@ function! MyFugitive()
 endfunction
 
 function! MyFilename()
-  let fname = expand('%:t')
-  return fname =~ 'undotree' ? 'Undo Tree' :
-        \ fname =~ 'diffpanel' ? 'Undo Diff Panel' :
-        \ &ft =~ 'voomtree' ? 'Outliner' :
-        \ &ft == 'help' ? 'Help' :
-        \ &ft == 'netrw' ? 'Explore' :
+  let fname = expand('%')
+  return fname =~ 'undotree' ? '[Undo Tree]' :
+        \ fname =~ 'diffpanel' ? '[Undo Diff Panel]' :
+        \ &ft =~ 'voomtree' ? '[Outliner]' :
+        \ &ft == 'help' ? '[Help]' :
+        \ &ft == 'netrw' ? '[Explore]' :
         \ &ft == 'vimshell' ? vimshell#get_status_string() :
         \ ('' != MyReadonly() ? MyReadonly() . ' ' : '') .
         \ ('' != fname ? fname : '[No Name]') .
@@ -244,11 +243,11 @@ function! MyFilename()
 endfunction
 
 function! MyLineinfo()
-  return winwidth(0) > 70 && &ft !~? 'help\|netrw\|voomtree' ? printf("%3d:%-2d", line('.'), col('.')) : ''
+  return winwidth(0) > 70 && &ft !~? 'help\|netrw\|vim-plug\|voomtree' ? printf("%3d:%-2d", line('.'), col('.')) : ''
 endfunction
 
 function! MyPercent()
-  return winwidth(0) > 70 && &ft !~? 'help\|netrw\|voomtree' ? (100 * line('.') / line('$')) . '%' : ''
+  return winwidth(0) > 70 && &ft !~? 'help\|netrw\|vim-plug\|voomtree' ? (100 * line('.') / line('$')) . '%' : ''
 endfunction
 
 function! MyReadonly()
@@ -260,15 +259,15 @@ function! MyModified()
 endfunction
 
 function! MyFileformat()
-  return winwidth(0) > 70 ? &fileformat : ''
+  return winwidth(0) > 70 && &ft !~? 'help\|netrw\|vim-plug\|voomtree' ? &fileformat : ''
 endfunction
 
 function! MyFileencoding()
-  return winwidth(0) > 70 ? (strlen(&fenc) ? &fenc : &enc) : ''
+  return winwidth(0) > 70 && &ft !~? 'help\|netrw\|vim-plug\|voomtree' ? (strlen(&fenc) ? &fenc : &enc) : ''
 endfunction
 
 function! MyFiletype()
-  return winwidth(0) > 70 ? (strlen(&filetype) ? &filetype : 'no ft') : ''
+  return winwidth(0) > 70 && &ft !~? 'help\|netrw\|vim-plug\|voomtree' ? (strlen(&filetype) ? &filetype : 'no ft') : ''
 endfunction
 
 let g:vimshell_force_overwrite_statusline = 0
