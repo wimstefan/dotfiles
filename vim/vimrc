@@ -198,16 +198,16 @@ let g:lightline = {
   \   'syntastic': 'error',
   \ },
   \ 'mode_map': {
-  \   'n' :     '«Normal»',
-  \   'i' :     '«Insert»',
-  \   'R' :     '«Replace»',
-  \   'v' :     '«Visual»',
-  \   'V' :     '«V-Line»',
-  \   "\<C-v>": '«V-Block»',
-  \   's' :     '«Select»',
-  \   'S' :     '«S-Line»',
-  \   "\<C-s>": '«S-Block»',
-  \   'c' :     '«Command»'
+  \   'n' :     '» Normal «',
+  \   'i' :     '» Insert «',
+  \   'R' :     '» Replace «',
+  \   'v' :     '» Visual «',
+  \   'V' :     '» V-Line «',
+  \   "\<C-v>": '» V-Block «',
+  \   's' :     '» Select «',
+  \   'S' :     '» S-Line «',
+  \   "\<C-s>": '» S-Block «',
+  \   'c' :     '» Command «'
   \ }
 \ }
 
@@ -243,11 +243,11 @@ function! MyFilename()
 endfunction
 
 function! MyLineinfo()
-  return winwidth(0) > 70 && &ft !~? 'help\|netrw\|vim-plug\|voomtree' ? printf("%3d:%-2d", line('.'), col('.')) : ''
+  return winwidth(0) > 70 && &ft !~? 'netrw\|vim-plug\|voomtree' ? printf("%3d:%-2d", line('.'), col('.')) : ''
 endfunction
 
 function! MyPercent()
-  return winwidth(0) > 70 && &ft !~? 'help\|netrw\|vim-plug\|voomtree' ? (100 * line('.') / line('$')) . '%' : ''
+  return winwidth(0) > 70 && &ft !~? 'netrw\|vim-plug\|voomtree' ? (100 * line('.') / line('$')) . '%' : ''
 endfunction
 
 function! MyReadonly()
