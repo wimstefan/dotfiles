@@ -522,7 +522,7 @@ if [[ $USER != root ]]; then
 
   function sync-ipod()
   {
-    rsync -ruLtvz --delete --ignore-existing /music/Non-Tango/ /media/ipod/music/Non-Tango/
+    # rsync -ruLtvz --delete --ignore-existing /music/Non-Tango/ /media/ipod/music/Non-Tango/
     rsync -ruLtvz --delete --ignore-existing /music/Tango/ /media/ipod/music/Tango/
     rsync -ruLtvz --delete --ignore-existing /music/playlists/ /media/ipod/playlists/
   }
