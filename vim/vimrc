@@ -169,14 +169,16 @@ Plug 'gorodinskiy/vim-coloresque'
 Plug 'wimstefan/Lightning'
 Plug 'romainl/Apprentice'
 Plug 'NLKNguyen/papercolor-theme'
+Plug 'atelierbram/vim-colors_duotones'
 Plug 'chriskempson/base16-vim'
 " base16-vim config {{{2
       let base16colorspace=256
 " }}}
-Plug 'itchyny/landscape.vim'
+Plug 'wolf-dog/lightline-nighted.vim'
 Plug 'itchyny/lightline.vim'
 " lightline.vim config {{{2
 let g:lightline = {
+  \ 'colorscheme': 'nighted' ,
   \ 'active': {
   \   'left': [ [ 'mode', 'paste' ], [ 'fugitive', 'filename' ] ],
   \   'right': [ [ 'syntastic', 'lineinfo' ], ['percent'], [ 'fileformat', 'fileencoding', 'filetype' ] ]
@@ -214,13 +216,13 @@ let g:lightline = {
 function! MyMode()
   let fname = expand('%:t')
   return fname =~ 'diffpanel' ? '' :
-        \ &ft =~ 'help\|startify\|vim-plug' ? '' :
+        \ &ft =~ 'help\|man\|qf\|startify\|vim-plug' ? '' :
         \ &ft == 'vimshell' ? '[VimShell]' :
         \ winwidth(0) > 60 ? lightline#mode() : ''
 endfunction
 
 function! MyFugitive()
-  if &ft !~? 'help\|netrw\|undotree\|voomtree' &&  exists('*fugitive#head')
+  if &ft !~? 'help\|man\|netrw\|qf\|undotree\|voomtree' &&  exists('*fugitive#head')
     let branch  = fugitive#head(8)
     let _    = (branch == 'master') ? 'master' : branch
     let _    .= s:sy_stats_wrapper()
@@ -235,7 +237,9 @@ function! MyFilename()
         \ fname =~ 'diffpanel' ? '[Undo Diff Panel]' :
         \ &ft =~ 'voomtree' ? '[Outliner]' :
         \ &ft == 'help' ? '[Help]' :
+        \ &ft == 'man' ? '[Man]' :
         \ &ft == 'netrw' ? '[Explore]' :
+        \ &ft == 'qf' ? '[QuickFix]' :
         \ &ft == 'vimshell' ? vimshell#get_status_string() :
         \ ('' != MyReadonly() ? MyReadonly() . ' ' : '') .
         \ ('' != fname ? fname : '[No Name]') .
