@@ -148,24 +148,6 @@ Plug 'mattn/webapi-vim' | Plug 'mattn/gist-vim', { 'on': 'Gist' }
 Plug 'achiang/muttrc'
 Plug 'SyntaxAttr.vim'
 Plug 'visSum.vim'
-Plug 'reedes/vim-pencil'
-" vim-pencil config {{{2
-      augroup pencil
-        autocmd!
-        autocmd FileType markdown,mkd,asciidoc,rst call pencil#init()
-      augroup END
-      nnoremap ,tp :PencilToggle<CR>
-" }}}
-Plug 'reedes/vim-colors-pencil'
-" vim-colors-pencil config {{{2
-     augroup pencil
-       autocmd!
-       autocmd FileType markdown,mkd,asciidoc,rst colorscheme pencil
-     augroup END
-     let g:pencil_higher_contrast_ui = 1
-     let g:pencil_gutter_color = 1
-     let g:pencil_terminal_italics = 1
-" }}}
 Plug 'gorodinskiy/vim-coloresque'
 Plug 'wimstefan/Lightning'
 Plug 'romainl/Apprentice'
@@ -174,9 +156,9 @@ Plug 'atelierbram/vim-colors_duotones'
 Plug 'chriskempson/base16-vim'
 " base16-vim config {{{2
       let base16colorspace=256
+      let g:base16_shell_path="$HOME/.config/base16-shell"
 " }}}
-Plug 'wolf-dog/lightline-nighted.vim'
-Plug 'itchyny/lightline.vim'
+Plug 'itchyny/lightline.vim' | Plug 'wolf-dog/lightline-nighted.vim'
 " lightline.vim config {{{2
 let g:lightline = {
   \ 'colorscheme': 'nighted' ,
@@ -389,15 +371,15 @@ else
       color PaperColor
     else
       set background=dark
-      color base16-flat
+      color base16-oceanicnext
     endif
   else
     if $USER=='root'
       set background=dark
-      color base16-default
+      color base16-colors
     else
       set background=dark
-      color base16-default
+      color base16-oceanicnext
     endif
   endif
 endif
@@ -566,7 +548,8 @@ nnoremap <Leader>bd :Sayonara<CR>
 " switch colorscheme for console
 nnoremap <C-d> :set background=dark<CR>:colorscheme PaperColor<CR>
 
-set pastetoggle=<F3>                       " toggle paste
+set pastetoggle=<F3>
+nnoremap <F12> :call SyntaxAttr()<CR>
 
 " Replace signatures
 nnoremap <Leader>sa 1G:s#\(Stefan Wimmer\) <.*>#\1 <stefan@tangoartisan.com>#<CR>
@@ -600,7 +583,7 @@ autocmd FileType tmux* set commentstring=#\%s
 
 " Typical mutt thing ... replace > > with >>
 autocmd BufRead /tmp/mutt* silent! %s/^\([>|]\s\?\)\+/\=substitute(submatch(0), '\s', '', 'g').' '
-autocmd BufRead /tmp/mutt* set nonumber nohls nolist ft=mail
+autocmd BufRead /tmp/mutt* set nonumber nohls nolist filetype=mail formatoptions=tcroqln21
 autocmd BufRead /tmp/mutt* setlocal spell
 
 " Syntax for tmux
