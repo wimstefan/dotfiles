@@ -327,7 +327,7 @@ autoload -U run-help url-quote-magic zcalc zmv
 # - Exports {{{3
 export EDITOR="vim"
 export BROWSER="firefox-bin"
-export TERMINAL="pangoterm"
+export TERMINAL="termite"
 export HISTFILE="$HOME/.zsh/histfile"
 export HISTSIZE="5000"
 export SAVEHIST="5000"
@@ -567,8 +567,8 @@ if [[ $USER != root ]]; then
     # echo "$1 lessen + $2 prácticas (`wcalc "(($1*60) + ($2*30)) / 60" | sed 's/ = //'` werkuren á € 40.00)"
     # echo "€ `wcalc "((($1*60) + ($2*30)) / 60) * 40.00" | sed 's/ = //'`"
     #### 2015-2016 ####
-    echo "$1 lessen + $2 prácticas (`wcalc "(($1*75) + ($2*60)) / 60" | sed 's/ = //'` werkuren á € 40.00)"
-    echo "€ `wcalc "((($1*75) + ($2*60)) / 60) * 40.00" | sed 's/ = //'`"
+    # echo "$1 lessen + $2 prácticas (`wcalc "(($1*75) + ($2*60)) / 60" | sed 's/ = //'` werkuren á € 40.00)"
+    # echo "€ `wcalc "((($1*75) + ($2*60)) / 60) * 40.00" | sed 's/ = //'`"
     #### 2016- ####
     echo "$1 lessen + $2 prácticas (`wcalc "(($1*75) + ($2*60)) / 60" | sed 's/ = //'` werkuren á € 44.00)"
     echo "€ `wcalc "((($1*75) + ($2*60)) / 60) * 44.00" | sed 's/ = //'`"
