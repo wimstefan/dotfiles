@@ -371,15 +371,15 @@ else
       color PaperColor
     else
       set background=dark
-      color base16-oceanicnext
+      color base16-yesterdaybright
     endif
   else
     if $USER=='root'
       set background=dark
-      color base16-colors
+      color base16-tomorrow
     else
       set background=dark
-      color base16-oceanicnext
+      color base16-yesterdaybright
     endif
   endif
 endif
