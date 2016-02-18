@@ -23,14 +23,12 @@ local naughty     = require("naughty")
 hostname          = io.lines("/proc/sys/kernel/hostname")()
 if hostname == 'tj' then
   TYPE    = "laptop"
-  BAT     = "BAT0"
-  SYSTEMP = "coretemp.0/hwmon/hwmon1"
+  BAT     = "BAT1"
+  SYSTEMP = "coretemp.0/hwmon/hwmon0"
 elseif hostname == 'mimi' then
   TYPE    = "laptop"
-  BAT     = "BAT1"
+  BAT     = "BAT0"
   SYSTEMP = "coretemp.0/hwmon/hwmon1"
-elseif hostname == 'asuca' then
-  TYPE    = "laptop"
 elseif hostname == 'swimmer' or hostname == 'komala' then
   TYPE    = "desktop"
   SYSTEMP = "coretemp.0/hwmon/hwmon0"
@@ -318,7 +316,7 @@ local widget_mem_text = wibox.widget.textbox()
 local tooltip_mem
 
 vicious.register(widget_mem_text, vicious.widgets.mem,
-  '<span background="'..beautiful.bg_widget_2..'"> <span color="'..beautiful.fg_widget_2..'"><span font="whhglyphs 8"></span>  $2MB   </span></span>', 10)
+  '<span background="'..beautiful.bg_widget_2..'"> <span color="'..beautiful.fg_widget_2..'"><span font="Webhostinghub-Glyphs 8"></span>  $2MB   </span></span>', 10)
 
 tooltip_mem = awful.tooltip({ objects = { widget_mem }, timeout = timeout_tooltip, timer_function = function()
   local info_mem = vicious.widgets.mem()
@@ -344,7 +342,7 @@ local widget_cpu_graph = awful.widget.graph()
 local tooltip_cpu
 
 vicious.register(widget_cpu_text, vicious.widgets.cpu,
-  '<span background="'..beautiful.bg_widget_3..'"> <span color="'..beautiful.fg_widget_3..'"><span font="whhglyphs 8"></span>  $1% </span></span>', 4)
+  '<span background="'..beautiful.bg_widget_3..'"> <span color="'..beautiful.fg_widget_3..'"><span font="Webhostinghub-Glyphs 8"></span>  $1% </span></span>', 4)
 widget_cpu_text:buttons(awful.util.table.join(
     awful.button({ }, 1, function () awful.util.spawn_with_shell(mytop) end)))
 
@@ -381,7 +379,7 @@ local widget_temp = wibox.layout.fixed.horizontal()
 local widget_temp_cpu = wibox.widget.textbox()
 
 vicious.register(widget_temp_cpu, vicious.widgets.thermal,
-  '<span background="'..beautiful.bg_widget_4..'"> <span color="'..beautiful.fg_widget_4..'"><span font="whhglyphs 8"></span> $1°  </span></span>', 9, { SYSTEMP, "core"} )
+  '<span background="'..beautiful.bg_widget_4..'"> <span color="'..beautiful.fg_widget_4..'"><span font="Webhostinghub-Glyphs 8"></span> $1°  </span></span>', 9, { SYSTEMP, "core"} )
 widget_temp_cpu:buttons(awful.util.table.join(
     awful.button({ }, 1, function () toggle_conky() end)))
 
@@ -395,7 +393,7 @@ local widget_hdd_text = wibox.widget.textbox()
 local tooltip_hdd
 
 vicious.register(widget_hdd_text, vicious.widgets.fs,
-  '<span background="'..beautiful.bg_widget_5..'"><span color="'..beautiful.fg_widget_5..'"><span font="whhglyphs 8"></span>  ${/ used_gb} GB  </span></span>', 244)
+  '<span background="'..beautiful.bg_widget_5..'"><span color="'..beautiful.fg_widget_5..'"><span font="Webhostinghub-Glyphs 8"></span>  ${/ used_gb} GB  </span></span>', 244)
 
 tooltip_hdd = awful.tooltip({ objects = { widget_hdd } , timeout = timeout_tooltip, timer_function = function()
   local info_hdd = vicious.widgets.fs()
@@ -424,7 +422,7 @@ if BAT then
   local tooltip_bat
 
   vicious.register(widget_bat_text, vicious.widgets.bat,
-    '<span background="'..beautiful.bg_widget_6..'"> <span color="'..beautiful.fg_widget_6..'"><span font="whhglyphs 8"></span>  $1$2%  </span></span>', 14, BAT )
+    '<span background="'..beautiful.bg_widget_6..'"> <span color="'..beautiful.fg_widget_6..'"><span font="Webhostinghub-Glyphs 8"></span>  $1$2%  </span></span>', 14, BAT )
 
   tooltip_bat = awful.tooltip({ objects = { widget_bat }, timeout = timeout_tooltip, timer_function = function()
     local info_bat = vicious.widgets.bat(widget, BAT)
@@ -450,7 +448,7 @@ if BAT then
   widget_bat:add(widget_bat_text)
 end
 
-local widget_ac = wibox.widget.textbox('<span background="'..beautiful.bg_widget_6..'"> <span color="'..beautiful.fg_widget_6..'"><span font="whhglyphs 8"></span> AC  </span></span>')
+local widget_ac = wibox.widget.textbox('<span background="'..beautiful.bg_widget_6..'"> <span color="'..beautiful.fg_widget_6..'"><span font="Webhostinghub-Glyphs 8"></span> AC  </span></span>')
 -- Battery widget }}}
 
 -- Net widget {{{2
@@ -463,7 +461,7 @@ vicious.register(netwidget, vicious.widgets.net, function(widgets,args)
         else
                 return ""
         end
-        return '<span background="'..beautiful.bg_widget_7..'"><span color="'..beautiful.fg_widget_7..'" font="whhglyphs 8"></span>  '
+        return '<span background="'..beautiful.bg_widget_7..'"><span color="'..beautiful.fg_widget_7..'" font="Webhostinghub-Glyphs 8"></span>  '
            ..'<span color="#A52A2A">'..args["{"..interface.." down_kb}"]..'</span>'
            ..'<span font="Symbola 10" color="'..beautiful.fg_widget_7..'"> 🔃 </span>'
            ..'<span color="#185A9F">'..args["{"..interface.." up_kb}"]..'   </span></span>' end, 6)
