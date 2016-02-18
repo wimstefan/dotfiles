@@ -673,7 +673,7 @@ globalkeys = awful.util.table.join(
     awful.key({ modkey,           }, "o", function () awful.util.spawn("opera") end, "Opera"),
     awful.key({ modkey,           }, "p", function () awful.util.spawn("puddletag") end, "Puddletag"),
     awful.key({ modkey,           }, "s", function () scratch.drop(terminal ..TITLE.."'Drop-down terminal'","top","left",1200,800) end, "Drop-down terminal"),
-    awful.key({ modkey,           }, "t", function () awful.util.spawn("thunderbird") end, "Thunderbird"),
+    awful.key({ modkey,           }, "t", function () awful.util.spawn("thunderbird-bin") end, "Thunderbird"),
 
     -- Miscellaneous stuff
     keydoc.group("06. Misc"),
