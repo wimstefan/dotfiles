@@ -150,6 +150,10 @@ Plug 'visSum.vim'
 Plug 'gorodinskiy/vim-coloresque'
 Plug 'wimstefan/Lightning'
 Plug 'romainl/Apprentice'
+Plug 'AlessandroYorba/Sierra'
+" Sierra config {{{2
+      let g:sierra_Pitch = 1
+" }}}
 Plug 'NLKNguyen/papercolor-theme'
 Plug 'chriskempson/base16-vim'
 " base16-vim config {{{2
