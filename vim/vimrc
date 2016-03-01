@@ -45,18 +45,6 @@ Plug 'junegunn/vim-easy-align'
       nmap <Leader>e <Plug>(EasyAlign)
       vmap . <Plug>(EasyAlignRepeat)
 " }}}
-Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' }
-" undotree config {{{2
-      let g:undotree_WindowLayout = 2
-      nnoremap ,tu :UndotreeToggle<CR>
-" }}}
-Plug 'ajh17/VimCompletesMe'
-Plug 'wincent/ferret'
-" ferret config {{{2
-      nmap ,a <Plug>(FerretAck)
-      nmap ,l <Plug>(FerretLack)
-      nmap ,w <Plug>(FerretAckWord)
-" }}}
 Plug 'tpope/vim-abolish'
 Plug 'tpope/vim-characterize'
 Plug 'tpope/vim-commentary'
@@ -95,6 +83,18 @@ Plug 'mhinz/vim-startify'
                   \ ]
 " }}}
 Plug 'mhinz/vim-sayonara'
+Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' }
+" undotree config {{{2
+      let g:undotree_WindowLayout = 2
+      nnoremap ,tu :UndotreeToggle<CR>
+" }}}
+Plug 'ajh17/VimCompletesMe'
+Plug 'wincent/ferret'
+" ferret config {{{2
+      nmap ,a <Plug>(FerretAck)
+      nmap ,l <Plug>(FerretLack)
+      nmap ,w <Plug>(FerretAckWord)
+" }}}
 Plug 'Shougo/vimproc.vim', { 'do': 'make' } | Plug 'Shougo/vimshell.vim'
 " vimshell config {{{2
       let g:vimshell_data_directory = $HOME.'/.cache/vim/vimshell'
@@ -108,6 +108,10 @@ Plug 'VOoM'
 " VOoM config {{{2
       let g:voom_tree_width = 40
       nnoremap ,tv :VoomToggle<CR>
+" }}}
+Plug 'scrooloose/nerdtree' | Plug 'Xuyuanp/nerdtree-git-plugin'
+" NERDTree config {{{2
+      nnoremap <silent> <Leader>x :NERDTreeToggle<CR>
 " }}}
 Plug 'scrooloose/syntastic' | Plug 'dbakker/vim-lint'
 " syntastic config {{{2
@@ -207,7 +211,7 @@ function! MyMode()
 endfunction
 
 function! MyFugitive()
-  if &ft !~? 'help\|man\|netrw\|qf\|undotree\|voomtree' &&  exists('*fugitive#head')
+  if &ft !~? 'help\|man\|netrw\|qf\|undotree\|nerdtree\|voomtree' &&  exists('*fugitive#head')
     let branch  = fugitive#head(8)
     let _    = (branch == 'master') ? 'master' : branch
     let _    .= s:sy_stats_wrapper()
@@ -220,6 +224,7 @@ function! MyFilename()
   let fname = expand('%')
   return fname =~ 'undotree' ? '[Undo Tree]' :
         \ fname =~ 'diffpanel' ? '[Undo Diff Panel]' :
+        \ &ft =~ 'nerdtree' ? '[Explore]' :
         \ &ft =~ 'voomtree' ? '[Outliner]' :
         \ &ft == 'help' ? '[Help]' :
         \ &ft == 'man' ? '[Man]' :
@@ -232,31 +237,31 @@ function! MyFilename()
 endfunction
 
 function! MyLineinfo()
-  return winwidth(0) > 70 && &ft !~? 'netrw\|vim-plug\|voomtree' ? printf("%3d:%-2d", line('.'), col('.')) : ''
+  return winwidth(0) > 70 && &ft !~? 'netrw\|vim-plug\|nerdtree\|voomtree' ? printf("%3d:%-2d", line('.'), col('.')) : ''
 endfunction
 
 function! MyPercent()
-  return winwidth(0) > 70 && &ft !~? 'netrw\|vim-plug\|voomtree' ? (100 * line('.') / line('$')) . '%' : ''
+  return winwidth(0) > 70 && &ft !~? 'netrw\|vim-plug\|nerdtree\|voomtree' ? (100 * line('.') / line('$')) . '%' : ''
 endfunction
 
 function! MyReadonly()
-  return &ft !~? 'help\|netrw\|voomtree' && &readonly ? '×' : ''
+  return &ft !~? 'help\|netrw\|nerdtree\|voomtree' && &readonly ? '×' : ''
 endfunction
 
 function! MyModified()
-  return &ft =~ 'help\|netrw\|voomtree' ? '' : &modified ? '±' : &modifiable ? '' : ''
+  return &ft =~ 'help\|netrw\|nerdtree\|voomtree' ? '' : &modified ? '±' : &modifiable ? '' : ''
 endfunction
 
 function! MyFileformat()
-  return winwidth(0) > 70 && &ft !~? 'help\|netrw\|vim-plug\|voomtree' ? &fileformat : ''
+  return winwidth(0) > 70 && &ft !~? 'help\|netrw\|vim-plug\|nerdtree\|voomtree' ? &fileformat : ''
 endfunction
 
 function! MyFileencoding()
-  return winwidth(0) > 70 && &ft !~? 'help\|netrw\|vim-plug\|voomtree' ? (strlen(&fenc) ? &fenc : &enc) : ''
+  return winwidth(0) > 70 && &ft !~? 'help\|netrw\|vim-plug\|nerdtree\|voomtree' ? (strlen(&fenc) ? &fenc : &enc) : ''
 endfunction
 
 function! MyFiletype()
-  return winwidth(0) > 70 && &ft !~? 'help\|netrw\|vim-plug\|voomtree' ? (strlen(&filetype) ? &filetype : 'no ft') : ''
+  return winwidth(0) > 70 && &ft !~? 'help\|netrw\|vim-plug\|nerdtree\|voomtree' ? (strlen(&filetype) ? &filetype : 'no ft') : ''
 endfunction
 
 let g:vimshell_force_overwrite_statusline = 0
@@ -324,7 +329,6 @@ endif
   let g:netrw_winsize         = 30
   let g:netrw_liststyle       =  3
   let g:netrw_preview         =  1
-  nnoremap <silent> <Leader>x :Lexplore<CR>
 
 " Search settings
 if executable('ag')
@@ -407,8 +411,6 @@ endif
 
 " Statusline " {{{2
 set laststatus=2                       " always show the statusline above
-set showtabline=2                      " always show tabline, even if there is just one tab, avoid
-                                       " redraw problems when Window is displayed in fullscreen mode
 set guioptions-=e                      " disables the GUI tab line in favor of the plain text version
 
 function! s:user_highlights()
@@ -445,6 +447,8 @@ endfunction
 set statusline=%!MyStatusline()
 " " }}}2
 " Tabline " {{{2
+set showtabline=2                      " always show tabline, even if there is just one tab, avoid
+                                       " redraw problems when Window is displayed in fullscreen mode
 function! MyTabLine()
   let s = ''
   let t = tabpagenr()
@@ -604,6 +608,9 @@ au BufNewFile,BufRead {*.xmp} set filetype=xml
 
 " Syntax for fvwm files
 au BufNewFile,BufRead */.fvwm*/* set filetype=fvwm syntax=fvwm
+
+" Syntax for Xorg log files
+au BufNewFile,BufRead *Xorg*log* set filetype=msmessages
 
 " Change fileformat on playlist files (created by moc)
 au BufNewFile,BufRead *.m3u set encoding=utf-8 fileencoding=utf-8 ff=unix
