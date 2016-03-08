@@ -142,7 +142,7 @@ function loadrc(name, mod)
    return result
 end
 -- }}}
- 
+
 -- Table utils {{{2
 function table.val_to_str ( v )
   if "string" == type( v ) then
@@ -669,10 +669,10 @@ globalkeys = awful.util.table.join(
     awful.key({ modkey,           }, "e", function () awful.util.spawn(editor_cmd) end, "Editor"),
     awful.key({ modkey,           }, "g", function () awful.util.spawn("gimp") end, "Gimp"),
     awful.key({ modkey,           }, "l", function () awful.util.spawn("libreoffice") end, "Libreoffice"),
-    awful.key({ modkey,           }, "m", function () scratch.drop(terminal ..TITLE.."'Explore' -e mc","top","right",1200,800) end, "Explore"),
+    awful.key({ modkey,           }, "m", function () scratch.drop(terminal ..TITLE.."'Explore' -e mc","top","right",1200,700) end, "Explore"),
     awful.key({ modkey,           }, "o", function () awful.util.spawn("opera") end, "Opera"),
     awful.key({ modkey,           }, "p", function () awful.util.spawn("puddletag") end, "Puddletag"),
-    awful.key({ modkey,           }, "s", function () scratch.drop(terminal ..TITLE.."'Drop-down terminal'","top","left",1200,800) end, "Drop-down terminal"),
+    awful.key({ modkey,           }, "s", function () scratch.drop(terminal ..TITLE.."'Drop-down terminal'","top","left",1300,680) end, "Drop-down terminal"),
     awful.key({ modkey,           }, "t", function () awful.util.spawn("thunderbird-bin") end, "Thunderbird"),
 
     -- Miscellaneous stuff
