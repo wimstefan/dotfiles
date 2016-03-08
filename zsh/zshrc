@@ -303,7 +303,7 @@ function +vi-git-changes() {
     s_del=''
   fi
 
-  if [[ -n $s_ch ]]; then 
+  if [[ -n $s_ch ]]; then
     s_lines="(~$s_ch,%F{green}+$s_ins%f/%F{red}-$s_del%f)"
   else
     s_lines=''
@@ -668,6 +668,9 @@ if [[ $USER != root ]]; then
         rsync -az /home/swimmer/.config/Trolltech.conf $host:.config/
         rsync -az /home/swimmer/.config/pangoterm.cfg $host:.config/
         rsync -az /home/swimmer/.config/termite/config $host:.config/termite/
+        if [[ $host == "tj" ]]; then
+          ssh $host "sed -i 's#\(font =.*\)11#\110#' .config/termite/config"
+        fi
         rsync -az /home/swimmer/.config/base16-shell/ $host:.config/base16-shell/
       }
       function sync-cli() {
