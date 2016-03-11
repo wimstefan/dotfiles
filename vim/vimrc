@@ -83,6 +83,7 @@ Plug 'mhinz/vim-startify'
                   \ ]
 " }}}
 Plug 'mhinz/vim-sayonara'
+Plug 'wellle/targets.vim'
 Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' }
 " undotree config {{{2
       let g:undotree_WindowLayout = 2
@@ -164,10 +165,40 @@ Plug 'chriskempson/base16-vim'
       let base16colorspace=256
       let g:base16_shell_path="$HOME/.config/base16-shell"
 " }}}
+" Plug 'vim-airline/vim-airline' | Plug 'vim-airline/vim-airline-themes'
+" " vim-airline config {{{2
+"   let g:airline#extensions#tabline#enabled = 1
+"   let g:airline#extensions#tabline#buffer_nr_show=1
+"   let g:airline#extensions#whitespace#enabled = 0
+"   if !exists('g:airline_symbols')
+"     let g:airline_symbols = {}
+"   endif
+"   let g:airline_left_sep = '▒'
+"   let g:airline_right_sep = '▒'
+"   let g:airline_symbols.branch = '⑆'
+"   let g:airline_symbols.readonly = '×'
+"   let g:airline_symbols.linenr = '¶'
+"   let g:airline_symbols.whitespace = 'Ξ'
+"   let g:airline_mode_map = {
+"   \   'n' :     '» Normal «',
+"   \   'i' :     '» Insert «',
+"   \   'R' :     '» Replace «',
+"   \   'v' :     '» Visual «',
+"   \   'V' :     '» V-Line «',
+"   \   "\<C-v>": '» V-Block «',
+"   \   's' :     '» Select «',
+"   \   'S' :     '» S-Line «',
+"   \   "\<C-s>": '» S-Block «',
+"   \   'c' :     '» Command «'
+"   \ }
+" " }}}
 Plug 'itchyny/lightline.vim' | Plug 'wolf-dog/lightline-nighted.vim'
 " lightline.vim config {{{2
 let g:lightline = {
-  \ 'colorscheme': 'nighted' ,
+  \ 'separator': {
+  \   'left': '▒',
+  \   'right': '▒'
+  \ },
   \ 'active': {
   \   'left': [ [ 'mode', 'paste' ], [ 'fugitive', 'filename' ] ],
   \   'right': [ [ 'syntastic', 'lineinfo' ], ['percent'], [ 'fileformat', 'fileencoding', 'filetype' ] ]
@@ -205,9 +236,9 @@ let g:lightline = {
 function! MyMode()
   let fname = expand('%:t')
   return fname =~ 'diffpanel' ? '' :
-        \ &ft =~ 'help\|man\|qf\|startify\|vim-plug' ? '' :
-        \ &ft == 'vimshell' ? '[VimShell]' :
-        \ winwidth(0) > 60 ? lightline#mode() : ''
+    \ &ft =~ 'help\|man\|qf\|startify\|vim-plug' ? '' :
+    \ &ft == 'vimshell' ? '[VimShell]' :
+    \ winwidth(0) > 60 ? lightline#mode() : ''
 endfunction
 
 function! MyFugitive()
@@ -215,7 +246,7 @@ function! MyFugitive()
     let branch  = fugitive#head(8)
     let _    = (branch == 'master') ? 'master' : branch
     let _    .= s:sy_stats_wrapper()
-    return strlen(_) ? '⭠ '._ : ''
+    return strlen(_) ? '⑆ '._ : ''
   endif
   return ''
 endfunction
@@ -223,17 +254,17 @@ endfunction
 function! MyFilename()
   let fname = expand('%')
   return fname =~ 'undotree' ? '[Undo Tree]' :
-        \ fname =~ 'diffpanel' ? '[Undo Diff Panel]' :
-        \ &ft =~ 'nerdtree' ? '[Explore]' :
-        \ &ft =~ 'voomtree' ? '[Outliner]' :
-        \ &ft == 'help' ? '[Help]' :
-        \ &ft == 'man' ? '[Man]' :
-        \ &ft == 'netrw' ? '[Explore]' :
-        \ &ft == 'qf' ? '[QuickFix]' :
-        \ &ft == 'vimshell' ? vimshell#get_status_string() :
-        \ ('' != MyReadonly() ? MyReadonly() . ' ' : '') .
-        \ ('' != fname ? fname : '[No Name]') .
-        \ ('' != MyModified() ? ' ' . MyModified() : '')
+    \ fname =~ 'diffpanel' ? '[Undo Diff Panel]' :
+    \ &ft =~ 'nerdtree' ? '[Explore]' :
+    \ &ft =~ 'voomtree' ? '[Outliner]' :
+    \ &ft == 'help' ? '[Help]' :
+    \ &ft == 'man' ? '[Man]' :
+    \ &ft == 'netrw' ? '[Explore]' :
+    \ &ft == 'qf' ? '[QuickFix]' :
+    \ &ft == 'vimshell' ? vimshell#get_status_string() :
+    \ ('' != MyReadonly() ? MyReadonly() . ' ' : '') .
+    \ ('' != fname ? fname : '[No Name]') .
+    \ ('' != MyModified() ? ' ' . MyModified() : '')
 endfunction
 
 function! MyLineinfo()
@@ -309,8 +340,9 @@ set wildmenu                           " use a scrollable menu for filename comp
 set list                               " display unprintable characters
 "set listchars=tab:→\ ,trail:·,eol:«    " tabstops, trailing whitespace, and end-of-lines
 set listchars=tab:→\ ,trail:·,eol:«,extends:↷,precedes:↶
+set isfname=@,48-57,/,.,-,_,+,,,#,$,%,~,=,(,),[,],{,}     " allowed characters in file and path names
 set modeline                           " allow the execution of modelines which is disabled in /etc/vim/vimrc
-set showmode                           " shows mode
+set noshowmode                         " shows mode
 set showcmd                            " show uncompleted command
 set showmatch                          " show matching hyphens
 set diffopt=vertical,iwhite,filler     " split vertical, ignore whitespace & use filler
@@ -569,8 +601,8 @@ nnoremap <Leader>ss G?--<CR>jVGd :r ~/.mutt/short-signature<CR>
 nnoremap <Leader>sl G?--<CR>jVGd :r ~/.mutt/signature<CR>
 
 " underline mappings
-map h1 yypVr=o
-map h2 yypVr-o
+map h1 yypVr=
+map h2 yypVr-
 
 " Abbreviations
 source $HOME/.vim/abbreviations.vim
