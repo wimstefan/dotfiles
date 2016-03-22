@@ -460,7 +460,8 @@ if [[ $USER != root ]]; then
   export MPD_PORT="6600"
   export GPG_TTY=`tty`
   export GTK2_RC_FILES="$HOME/.gtkrc-2.0"
-  BASE16_SHELL="/home/swimmer/.config/base16-shell/base16-yesterdaybright.dark.sh"
+  BASE16=$(cat $HOME/.config/colorscheme | sed 's/color\s\(.*\)/\1/')
+  BASE16_SHELL="$HOME/.config/base16-shell/$BASE16.dark.sh"
   [[ -s $BASE16_SHELL ]] && source $BASE16_SHELL
   # }}}3
   # - Aliases {{{3
@@ -671,6 +672,7 @@ if [[ $USER != root ]]; then
         if [[ $host == "tj" ]]; then
           ssh $host "sed -i 's#\(font =.*\)11#\110#' .config/termite/config"
         fi
+        rsync -az /home/swimmer/.config/colorscheme $host:.config/
         rsync -az /home/swimmer/.config/base16-shell/ $host:.config/base16-shell/
       }
       function sync-cli() {
@@ -806,7 +808,8 @@ else
   # }}}3
   # - Exports # {{{3
   export PATH=$PATH:$HOME/bin
-  BASE16_SHELL="$HOME/.config/base16-shell/base16-tomorrow.dark.sh"
+  BASE16=$(cat $HOME/.config/colorscheme | sed 's/color\s\(.*\)/\1/')
+  BASE16_SHELL="$HOME/.config/base16-shell/$BASE16.dark.sh"
   [[ -s $BASE16_SHELL ]] && source $BASE16_SHELL
   # }}}3
   # - Key management # {{{3
