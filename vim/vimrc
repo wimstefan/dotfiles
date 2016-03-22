@@ -73,6 +73,7 @@ Plug 'mhinz/vim-signify'
 Plug 'mhinz/vim-startify'
 " vim-startify config {{{2
       let g:startify_session_dir = $HOME.'/.cache/vim/session'
+      let g:startify_custom_header = []
       let g:startify_skiplist = [
                     \ 'COMMIT_EDITMSG',
                     \ ]
@@ -192,13 +193,11 @@ Plug 'chriskempson/base16-vim'
 "   \   'c' :     '» Command «'
 "   \ }
 " " }}}
-Plug 'itchyny/lightline.vim' | Plug 'wolf-dog/lightline-nighted.vim'
+Plug 'itchyny/lightline.vim' | Plug 'wolf-dog/lightline-nighted.vim' | Plug 'daviesjamie/vim-base16-lightline'
 " lightline.vim config {{{2
 let g:lightline = {
-  \ 'separator': {
-  \   'left': '▒',
-  \   'right': '▒'
-  \ },
+  \ 'separator': { 'left': "▒", 'right': "▒" },
+  \ 'subseparator': { 'left': "|", 'right': "|" },
   \ 'active': {
   \   'left': [ [ 'mode', 'paste' ], [ 'fugitive', 'filename' ] ],
   \   'right': [ [ 'syntastic', 'lineinfo' ], ['percent'], [ 'fileformat', 'fileencoding', 'filetype' ] ]
@@ -381,8 +380,6 @@ if $USER=='root'
 else
   set nospell
 endif
-nmap <F9> :windo set spell! <CR>
-imap <F9> :windo set spell! <CR>
 
 " Set print options
 set printoptions=paper:A4,duplex:long,collate:y,syntax:n
@@ -409,15 +406,15 @@ else
       color PaperColor
     else
       set background=dark
-      color base16-yesterdaybright
+      source $HOME/.config/colorscheme
     endif
   else
     if $USER=='root'
       set background=dark
-      color base16-tomorrow
+      source $HOME/.config/colorscheme
     else
       set background=dark
-      color base16-yesterdaybright
+      source $HOME/.config/colorscheme
     endif
   endif
 endif
@@ -428,6 +425,7 @@ if exists('vimpager')
 endif
 
 set guifont=Hurmit\ 9
+set guioptions-=T                      " disable toolbar
 
 filetype indent plugin on | syn on     " enable filetype, plugin and syntax support
 
