@@ -26,24 +26,24 @@ let g:plug_shallow = 0
 silent! if  plug#begin('~/.vim/plugged')
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': 'yes \| ./install' }
 " fzf config {{{2
-      set rtp+=~/.fzf
+  set rtp+=~/.fzf
 " }}}
 Plug 'junegunn/fzf.vim'
 " fzf.vim config {{{2
-      nnoremap <Leader>p :Files<CR>
-      nnoremap <Leader>a :Ag 
-      nnoremap <Leader>b :Buffers<CR>
-      nnoremap <Leader>c :Colors<CR>
-      nnoremap <Leader>l :Locate 
-      nnoremap <Leader>m :History<CR>
-      nnoremap <Leader>t :BTags<CR>
+  nnoremap <Leader>p :Files<CR>
+  nnoremap <Leader>a :Ag 
+  nnoremap <Leader>b :Buffers<CR>
+  nnoremap <Leader>c :Colors<CR>
+  nnoremap <Leader>l :Locate 
+  nnoremap <Leader>m :History<CR>
+  nnoremap <Leader>t :BTags<CR>
 " }}}
 Plug 'junegunn/vim-peekaboo'
 Plug 'junegunn/vim-easy-align'
 " vim-easy-align config {{{2
-      vnoremap <silent> <Enter> :EasyAlign<cr>
-      nmap <Leader>e <Plug>(EasyAlign)
-      vmap . <Plug>(EasyAlignRepeat)
+  vnoremap <silent> <Enter> :EasyAlign<cr>
+  nmap <Leader>e <Plug>(EasyAlign)
+  vmap . <Plug>(EasyAlignRepeat)
 " }}}
 Plug 'tpope/vim-abolish'
 Plug 'tpope/vim-characterize'
@@ -55,91 +55,91 @@ Plug 'tpope/vim-unimpaired'
 Plug 'tpope/vim-vinegar'
 Plug 'tpope/vim-fugitive' | Plug 'gregsexton/gitv'
 " vim-fugitive config {{{2
-      let g:Gitv_OpenHorizontal = 'auto'
-      nnoremap <Leader>gt :!tig<CR>:redraw!<CR>
-      nnoremap <silent> <leader>gv :Gitv --all<CR>
-      nnoremap <silent> <leader>gV :Gitv! --all<CR>
-      vnoremap <silent> <leader>gV :Gitv! --all<CR>
+  let g:Gitv_OpenHorizontal = 'auto'
+  nnoremap <Leader>gt :!tig<CR>:redraw!<CR>
+  nnoremap <silent> <leader>gv :Gitv --all<CR>
+  nnoremap <silent> <leader>gV :Gitv! --all<CR>
+  vnoremap <silent> <leader>gV :Gitv! --all<CR>
 " }}}
 Plug 'mhinz/vim-signify'
 " vim-signify config {{{2
-      let g:signify_sign_add               = '+'
-      let g:signify_sign_change            = '!'
-      let g:signify_sign_delete            = '-'
-      let g:signify_sign_delete_first_line = '‾'
-      let g:signify_line_highlight = 1
-      nnoremap ,tsg :SignifyToggle<CR>
+  let g:signify_sign_add               = '+'
+  let g:signify_sign_change            = '!'
+  let g:signify_sign_delete            = '-'
+  let g:signify_sign_delete_first_line = '‾'
+  let g:signify_line_highlight = 1
+  nnoremap ,tsg :SignifyToggle<CR>
 " }}}
 Plug 'mhinz/vim-startify'
 " vim-startify config {{{2
-      let g:startify_session_dir = $HOME.'/.cache/vim/session'
-      let g:startify_custom_header = []
-      let g:startify_skiplist = [
-                    \ 'COMMIT_EDITMSG',
-                    \ ]
-      let g:startify_bookmarks = [
-                  \ '~/.dotfiles/vim/vimrc',
-                  \ '~/.dotfiles/zsh/zshrc',
-                  \ '~/.dotfiles/config/awesome/rc.lua'
-                  \ ]
+  let g:startify_session_dir = $HOME.'/.cache/vim/session'
+  let g:startify_custom_header = []
+  let g:startify_skiplist = [
+    \ 'COMMIT_EDITMSG',
+    \ ]
+  let g:startify_bookmarks = [
+    \ '~/.dotfiles/vim/vimrc',
+    \ '~/.dotfiles/zsh/zshrc',
+    \ '~/.dotfiles/config/awesome/rc.lua'
+    \ ]
 " }}}
 Plug 'mhinz/vim-sayonara'
 Plug 'wellle/targets.vim'
 Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' }
 " undotree config {{{2
-      let g:undotree_WindowLayout = 2
-      nnoremap ,tu :UndotreeToggle<CR>
+  let g:undotree_WindowLayout = 2
+  nnoremap ,tu :UndotreeToggle<CR>
 " }}}
 Plug 'ajh17/VimCompletesMe'
 Plug 'wincent/ferret'
 " ferret config {{{2
-      nmap ,a <Plug>(FerretAck)
-      nmap ,l <Plug>(FerretLack)
-      nmap ,w <Plug>(FerretAckWord)
+  nmap ,a <Plug>(FerretAck)
+  nmap ,l <Plug>(FerretLack)
+  nmap ,w <Plug>(FerretAckWord)
 " }}}
 Plug 'Shougo/vimproc.vim', { 'do': 'make' } | Plug 'Shougo/vimshell.vim'
 " vimshell config {{{2
-      let g:vimshell_data_directory = $HOME.'/.cache/vim/vimshell'
+  let g:vimshell_data_directory = $HOME.'/.cache/vim/vimshell'
 " }}}
 Plug 'renamer.vim'
 Plug 'will133/vim-dirdiff'
 " vim-dirdiff config {{{2
-      let g:DirDiffExcludes = ".git,.svn,CVS,*.class,*.exe,.*.swp,*.pyc,*.so"
+  let g:DirDiffExcludes = ".git,.svn,CVS,*.class,*.exe,.*.swp,*.pyc,*.so"
 " }}}
 Plug 'VOoM'
 " VOoM config {{{2
-      let g:voom_tree_width = 40
-      nnoremap ,tv :VoomToggle<CR>
+  let g:voom_tree_width = 40
+  nnoremap ,tv :VoomToggle<CR>
 " }}}
 Plug 'scrooloose/nerdtree' | Plug 'Xuyuanp/nerdtree-git-plugin'
 " NERDTree config {{{2
-      nnoremap <silent> <Leader>x :NERDTreeToggle<CR>
+  nnoremap <silent> <Leader>x :NERDTreeToggle<CR>
 " }}}
 Plug 'scrooloose/syntastic' | Plug 'dbakker/vim-lint'
 " syntastic config {{{2
-      let g:syntastic_check_on_open=0
-      let g:syntastic_auto_loc_list=1
-      let g:syntastic_always_populate_loc_list=1
-      nnoremap ,tsy :SyntasticToggleMode<CR>
+  let g:syntastic_check_on_open=0
+  let g:syntastic_auto_loc_list=1
+  let g:syntastic_always_populate_loc_list=1
+  nnoremap ,tsy :SyntasticToggleMode<CR>
 " }}}
 Plug 'rkitover/vimpager'
 Plug 'powerman/vim-plugin-viewdoc'
 " vim-plugin-viewdoc config {{{2
-      let g:viewdoc_open='rightbelow 79vnew'
-      let g:viewdoc_openempty = 0
-      let g:viewdoc_dontswitch = 0
-      nnoremap <Leader>h :ViewDocHelp 
+  let g:viewdoc_open='rightbelow 79vnew'
+  let g:viewdoc_openempty = 0
+  let g:viewdoc_dontswitch = 0
+  nnoremap <Leader>h :ViewDocHelp 
 " }}}
 Plug 'godlygeek/tabular' | Plug 'dhruvasagar/vim-table-mode'
 " vim-table-mode config {{{2
-      let g:table_mode_corner = '+'
-      let g:table_mode_fillchar = '-'
-      let g:table_mode_align_char = ':'
+  let g:table_mode_corner = '+'
+  let g:table_mode_fillchar = '-'
+  let g:table_mode_align_char = ':'
 " }}}
 Plug 'dahu/vimple' | Plug 'dahu/Asif' | Plug 'SyntaxRange' | Plug 'dahu/vim-asciidoc'
 " vim-asciidoc config {{{2
-      let g:asciidoc_title_style = "atx"
-      let g:asciidoc_title_style_atx = "symmetric"
+  let g:asciidoc_title_style = "atx"
+  let g:asciidoc_title_style_atx = "symmetric"
 " }}}
 Plug 'gabrielelana/vim-markdown'
 Plug 'farseer90718/vim-taskwarrior', { 'on': 'TW' }
@@ -147,8 +147,8 @@ Plug 'jamessan/vim-gnupg'
 Plug 'mattn/emmet-vim', { 'for': ['html', 'xhtml', 'css', 'xml', 'xls', 'markdown'] }
 Plug 'mattn/webapi-vim' | Plug 'mattn/gist-vim', { 'on': 'Gist' } | Plug 'mattn/googletasks-vim'
 " webapi-vim config {{{2
-      let g:gist_post_private = 1
-      let g:gist_clip_command = 'xclip -selection clipboard'
+  let g:gist_post_private = 1
+  let g:gist_clip_command = 'xclip -selection clipboard'
 " }}}
 Plug 'achiang/muttrc'
 Plug 'SyntaxAttr.vim'
@@ -158,13 +158,13 @@ Plug 'wimstefan/Lightning'
 Plug 'romainl/Apprentice'
 Plug 'AlessandroYorba/Sierra'
 " Sierra config {{{2
-      let g:sierra_Pitch = 1
+  let g:sierra_Pitch = 1
 " }}}
 Plug 'NLKNguyen/papercolor-theme'
 Plug 'chriskempson/base16-vim'
 " base16-vim config {{{2
-      let base16colorspace=256
-      let g:base16_shell_path="$HOME/.config/base16-shell"
+  let base16colorspace=256
+  let g:base16_shell_path="$HOME/.config/base16-shell"
 " }}}
 " Plug 'vim-airline/vim-airline' | Plug 'vim-airline/vim-airline-themes'
 " " vim-airline config {{{2
@@ -357,9 +357,9 @@ if has('persistent_undo')
 endif
 
 " Netrw settings
-  let g:netrw_winsize         = 30
-  let g:netrw_liststyle       =  3
-  let g:netrw_preview         =  1
+let g:netrw_winsize         = 30
+let g:netrw_liststyle       =  3
+let g:netrw_preview         =  1
 
 " Search settings
 if executable('ag')
