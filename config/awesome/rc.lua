@@ -475,7 +475,7 @@ cal.register(mytextclock)
 
 -- Separator widgets {{{2
 spr = wibox.widget.textbox(' ')
-sprd = wibox.widget.textbox('<span background="#313131">  </span>')
+sprd = wibox.widget.textbox('<span background="#060606">  </span>')
 spr3f = wibox.widget.textbox('<span background="#777e76">   </span>')
 arr0 = wibox.widget.imagebox(beautiful.arr0)
 arr1 = wibox.widget.imagebox(beautiful.arr1)
