@@ -111,10 +111,6 @@ Plug 'VOoM'
   let g:voom_tree_width = 40
   nnoremap ,tv :VoomToggle<CR>
 " }}}
-Plug 'scrooloose/nerdtree' | Plug 'Xuyuanp/nerdtree-git-plugin'
-" NERDTree config {{{2
-  nnoremap <silent> <Leader>x :NERDTreeToggle<CR>
-" }}}
 Plug 'scrooloose/syntastic' | Plug 'dbakker/vim-lint'
 " syntastic config {{{2
   let g:syntastic_check_on_open=0
@@ -166,33 +162,8 @@ Plug 'chriskempson/base16-vim'
   let base16colorspace=256
   let g:base16_shell_path="$HOME/.config/base16-shell"
 " }}}
-" Plug 'vim-airline/vim-airline' | Plug 'vim-airline/vim-airline-themes'
-" " vim-airline config {{{2
-"   let g:airline#extensions#tabline#enabled = 1
-"   let g:airline#extensions#tabline#buffer_nr_show=1
-"   let g:airline#extensions#whitespace#enabled = 0
-"   if !exists('g:airline_symbols')
-"     let g:airline_symbols = {}
-"   endif
-"   let g:airline_left_sep = '▒'
-"   let g:airline_right_sep = '▒'
-"   let g:airline_symbols.branch = '⑆'
-"   let g:airline_symbols.readonly = '×'
-"   let g:airline_symbols.linenr = '¶'
-"   let g:airline_symbols.whitespace = 'Ξ'
-"   let g:airline_mode_map = {
-"   \   'n' :     '» Normal «',
-"   \   'i' :     '» Insert «',
-"   \   'R' :     '» Replace «',
-"   \   'v' :     '» Visual «',
-"   \   'V' :     '» V-Line «',
-"   \   "\<C-v>": '» V-Block «',
-"   \   's' :     '» Select «',
-"   \   'S' :     '» S-Line «',
-"   \   "\<C-s>": '» S-Block «',
-"   \   'c' :     '» Command «'
-"   \ }
-" " }}}
+Plug 'joshdick/onedark.vim' | Plug 'shirataki/lightline-onedark'
+Plug 'reedes/vim-colors-pencil' | Plug 'yami-beta/lightline-pencil.vim'
 Plug 'itchyny/lightline.vim' | Plug 'wolf-dog/lightline-nighted.vim' | Plug 'daviesjamie/vim-base16-lightline'
 " lightline.vim config {{{2
 let g:lightline = {
@@ -294,8 +265,57 @@ function! MyFiletype()
   return winwidth(0) > 70 && &ft !~? 'help\|netrw\|vim-plug\|nerdtree\|voomtree' ? (strlen(&filetype) ? &filetype : 'no ft') : ''
 endfunction
 
+augroup LightLineColorscheme
+  autocmd!
+  autocmd ColorScheme * call s:lightline_update()
+augroup END
+function! s:lightline_update()
+  if !exists('g:loaded_lightline')
+    return
+  endif
+  try
+    if g:colors_name =~# 'wombat\|solarized\|landscape\|jellybeans\|apprentice\|base16\|onedark\|pencil'
+      let g:lightline.colorscheme =
+            \ substitute(substitute(g:colors_name, '-', '_', 'g'), '256.*', '', '') .
+            \ (g:colors_name ==# 'solarized' ? '_' . &background : '')
+      call lightline#init()
+      call lightline#colorscheme()
+      call lightline#update()
+    endif
+  catch
+  endtry
+endfunction
+
 let g:vimshell_force_overwrite_statusline = 0
 " }}}
+" Plug 'vim-airline/vim-airline' | Plug 'vim-airline/vim-airline-themes'
+" " vim-airline config {{{2
+"   let g:airline#extensions#tabline#enabled = 1
+"   let g:airline#extensions#tabline#buffer_nr_show=1
+"   let g:airline#extensions#whitespace#enabled = 0
+"   if !exists('g:airline_symbols')
+"     let g:airline_symbols = {}
+"   endif
+"   let g:airline_left_sep = '▒'
+"   let g:airline_right_sep = '▒'
+"   let g:airline_symbols.branch = '⑆'
+"   let g:airline_symbols.readonly = '×'
+"   let g:airline_symbols.linenr = '¶'
+"   let g:airline_symbols.whitespace = 'Ξ'
+"   let g:airline_mode_map = {
+"   \   'n' :     '» Normal «',
+"   \   'i' :     '» Insert «',
+"   \   'R' :     '» Replace «',
+"   \   'v' :     '» Visual «',
+"   \   'V' :     '» V-Line «',
+"   \   "\<C-v>": '» V-Block «',
+"   \   's' :     '» Select «',
+"   \   'S' :     '» S-Line «',
+"   \   "\<C-s>": '» S-Block «',
+"   \   'c' :     '» Command «'
+"   \ }
+" " }}}
+
 call plug#end()
 endif
 " " }}}
@@ -357,9 +377,11 @@ if has('persistent_undo')
 endif
 
 " Netrw settings
-let g:netrw_winsize         = 30
-let g:netrw_liststyle       =  3
-let g:netrw_preview         =  1
+let g:netrw_winsize        = 20
+let g:netrw_liststyle      =  3
+let g:netrw_preview        =  1
+let g:netrw_special_syntax =  1
+nnoremap <silent> <Leader>x :Lexplore<CR>
 
 " Search settings
 if executable('ag')
