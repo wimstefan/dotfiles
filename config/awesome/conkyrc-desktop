@@ -15,7 +15,7 @@ gap_y 23
 minimum_size 280 1200
 maximum_width 320
 no_buffers yes
-own_window_colour 2B303B
+own_window_colour 060606
 own_window_hints undecorated,below,sticky,skip_taskbar,skip_pager
 own_window_type desktop
 own_window yes
