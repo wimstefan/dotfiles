@@ -101,7 +101,7 @@ Plug 'Shougo/vimproc.vim', { 'do': 'make' } | Plug 'Shougo/vimshell.vim'
 " vimshell config {{{2
   let g:vimshell_data_directory = $HOME.'/.cache/vim/vimshell'
 " }}}
-Plug 'renamer.vim'
+Plug 'qpkorr/vim-renamer'
 Plug 'will133/vim-dirdiff'
 " vim-dirdiff config {{{2
   let g:DirDiffExcludes = ".git,.svn,CVS,*.class,*.exe,.*.swp,*.pyc,*.so"
