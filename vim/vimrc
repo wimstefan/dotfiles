@@ -37,6 +37,8 @@ Plug 'junegunn/fzf.vim'
   nnoremap <Leader>l :Locate 
   nnoremap <Leader>m :History<CR>
   nnoremap <Leader>t :BTags<CR>
+  imap <c-x><c-f> <plug>(fzf-complete-file-ag)
+  imap <c-x><c-l> <plug>(fzf-complete-line)
 " }}}
 Plug 'junegunn/vim-peekaboo'
 Plug 'junegunn/vim-easy-align'
@@ -167,7 +169,7 @@ Plug 'reedes/vim-colors-pencil' | Plug 'yami-beta/lightline-pencil.vim'
 Plug 'itchyny/lightline.vim' | Plug 'wolf-dog/lightline-nighted.vim' | Plug 'daviesjamie/vim-base16-lightline'
 " lightline.vim config {{{2
 let g:lightline = {
-  \ 'separator': { 'left': "▒", 'right': "▒" },
+  \ 'separator': { 'left': "▓▒░", 'right': "░▒▓" },
   \ 'subseparator': { 'left': "|", 'right': "|" },
   \ 'active': {
   \   'left': [ [ 'mode', 'paste' ], [ 'fugitive', 'filename' ] ],
