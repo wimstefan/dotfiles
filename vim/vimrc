@@ -340,6 +340,7 @@ set nobackup                           " keep a backup file
 "set viminfo='50,\"100,:100,%          " read/write a viminfo file with buffer list
 set viminfo='50,\"100,:100             " read/write a viminfo file without buffer list
 if has ('nvim')
+  let $NVIM_TUI_ENABLE_TRUE_COLOR=1
   set viminfo+=n$HOME/.cache/nvim/viminfo " specify where to write the viminfo
 else
   set viminfo+=n$HOME/.cache/vim/viminfo " specify where to write the viminfo
