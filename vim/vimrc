@@ -158,7 +158,6 @@ Plug 'AlessandroYorba/Sierra'
 " Sierra config {{{2
   let g:sierra_Pitch = 1
 " }}}
-Plug 'NLKNguyen/papercolor-theme'
 Plug 'chriskempson/base16-vim'
 " base16-vim config {{{2
   let base16colorspace=256
@@ -417,18 +416,12 @@ endfunc
 
 " Visual " {{{1
 if &term =~ "linux"
-  set background=dark
-  color PaperColor
-  if has("terminfo")
-    set t_Co=16
-    set t_AB=[%?%p1%{7}%>%t5%p1%{8}%-%e25%p1%;m[4%dm
-    set t_AF=[%?%p1%{7}%>%t1%p1%{8}%-%e22%p1%;m[3%dm
-  endif
+  color torte
 else
   set t_Co=256
   if has('gui_running')
     if $USER=='root'
-      color PaperColor
+      color onedark
     else
       set background=dark
       source $HOME/.config/colorscheme
@@ -469,11 +462,12 @@ set laststatus=2                       " always show the statusline above
 set guioptions-=e                      " disables the GUI tab line in favor of the plain text version
 
 function! s:user_highlights()
-  hi User1 ctermbg=238 ctermfg=204 guibg=#444444 guifg=#ff5f87 cterm=NONE gui=NONE
-  hi User2 ctermbg=238 ctermfg=43  guibg=#444444 guifg=#00d7af cterm=NONE gui=NONE
-  hi User3 ctermbg=238 ctermfg=111 guibg=#444444 guifg=#87afff cterm=NONE gui=NONE
-  hi User4 ctermbg=238 ctermfg=229 guibg=#444444 guifg=#ffffaf cterm=NONE gui=NONE
-  hi User5 ctermbg=238 ctermfg=46  guibg=#444444 guifg=#00ff00 cterm=NONE gui=NONE
+  hi CursorLine ctermbg=NONE  ctermfg=NONE  guibg=NONE    guifg=NONE    cterm=underline gui=underline
+  hi User1      ctermbg=238   ctermfg=204   guibg=#444444 guifg=#ff5f87 cterm=NONE      gui=NONE
+  hi User2      ctermbg=238   ctermfg=43    guibg=#444444 guifg=#00d7af cterm=NONE      gui=NONE
+  hi User3      ctermbg=238   ctermfg=111   guibg=#444444 guifg=#87afff cterm=NONE      gui=NONE
+  hi User4      ctermbg=238   ctermfg=229   guibg=#444444 guifg=#ffffaf cterm=NONE      gui=NONE
+  hi User5      ctermbg=238   ctermfg=46    guibg=#444444 guifg=#00ff00 cterm=NONE      gui=NONE
 endfunction
 call s:user_highlights()
 
