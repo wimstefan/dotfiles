@@ -2,9 +2,9 @@
 alignment top_right
 background yes
 border_width 0
-color1 73AEDA
-color2 104E8B
-default_color C0C5CE
+color1 D0D0D0
+color2 6B6B6B
+default_color FF6969
 draw_borders no
 draw_graph_borders yes
 draw_shades no
@@ -39,20 +39,20 @@ ${color}${offset 8}${font WebHostingHub\-Glyphs:size=9}${font}   Procs:${colo
 ${color1}${font Hurmit:style=bold:size=9}TEMP${hr 3}
 ${color}${offset 8}${font WebHostingHub\-Glyphs:size=9}${font}   Temp:${color1} ${hwmon 0 temp 1}°
 ${color1}${font Hurmit:style=bold:size=9}CPU${hr 3}
-${color}${offset 8}${font WebHostingHub\-Glyphs:size=9}${font}  CPU 1: ${color1}${execi 6 sensors | grep 'Core 0:' | awk '{print $3}' | sed 's#+\(..\).*#\1°#'}${alignr 140}${color1}${cpu cpu1}% ${color1}${cpugraph cpu1 14,0 1E90FF A52A2A -t}
-${color}${offset 8}${font WebHostingHub\-Glyphs:size=9}${font}  CPU 2: ${color1}${execi 6 sensors | grep 'Core 1:' | awk '{print $3}' | sed 's#+\(..\).*#\1°#'}${alignr 140}${color1}${cpu cpu2}% ${color1}${cpugraph cpu2 14,0 1E90FF A52A2A -t}
+${color}${offset 8}${font WebHostingHub\-Glyphs:size=9}${font}  CPU 1: ${color1}${execi 6 sensors | grep 'Core 0:' | awk '{print $3}' | sed 's#+\(..\).*#\1°#'}${alignr 140}${color1}${cpu cpu1}% ${color1}${cpugraph cpu1 14,0 D0D0D0 A52A2A -t}
+${color}${offset 8}${font WebHostingHub\-Glyphs:size=9}${font}  CPU 2: ${color1}${execi 6 sensors | grep 'Core 1:' | awk '{print $3}' | sed 's#+\(..\).*#\1°#'}${alignr 140}${color1}${cpu cpu2}% ${color1}${cpugraph cpu2 14,0 D0D0D0 A52A2A -t}
 ${color1}${font Hurmit:style=bold:size=9}RAM${hr 3}
 ${color}${offset 8}${font WebHostingHub\-Glyphs:size=9}${font}  $mem/$memmax ${alignr 140}${color1}$memperc% ${color1}${membar}
 ${color1}${font Hurmit:style=bold:size=9}DISKS${hr 3}
 ${color}${offset 8}${font WebHostingHub\-Glyphs:size=9}${font}  /root: ${fs_used /}/${fs_size /} ${alignr 100}${color1}${fs_used_perc /}% ${color1}${fs_bar /}
 ${if_mounted /media/ipod}${color}${offset 8}${font WebHostingHub\-Glyphs:size=9}${font}  /media/ipod: ${fs_used /media/ipod}/${fs_size /media/ipod} ${alignr 100}${color1}${fs_used_perc /media/ipod}% ${color1}${fs_bar /media/ipod}${endif}
 ${color}${offset 8}${font WebHostingHub\-Glyphs:size=9}${font}   Disk I/O sda:${color1} ${diskio sda}
-${color1}${diskiograph sda 20,0 1E90FF A52A2A -t}
+${color1}${diskiograph sda 20,0 D0D0D0 A52A2A -t}
 ${color1}${font Hurmit:style=bold:size=9}NET${hr 3}
 ${color}${offset 8}${font WebHostingHub\-Glyphs:size=9}${font}  Net Down:${color1}  ${downspeed wlan0} k/s
-${color1}${downspeedgraph wlan0 20,0 1E90FF A52A2A -t}
+${color1}${downspeedgraph wlan0 20,0 D0D0D0 A52A2A -t}
 ${color}${offset 9}${font WebHostingHub\-Glyphs:size=9}${font}  Net Up:${color1}  ${upspeed wlan0} k/s
-${color1}${upspeedgraph wlan0 20,0 1E90FF A52A2A -t}
+${color1}${upspeedgraph wlan0 20,0 D0D0D0 A52A2A -t}
 ${color1}${font Hurmit:style=bold:size=9}TOP${hr 3}
 ${font Ubuntu\ Mono:style=bold:size=10}${color}Name                 ${color1}PID   CPU%  MEM%
 ${font Ubuntu\ Mono:size=9}${color1} ${top name 1}      ${color}${top pid 1} ${top cpu 1} ${top mem 1}

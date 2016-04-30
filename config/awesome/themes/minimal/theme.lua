@@ -5,7 +5,7 @@
 
 green = "#B6E354"
 cyan  = "#7F4DE6"
-red   = "#E04613"
+red  = "#FF6969"
 blue  = "#729FCF"
 black = "#000000"
 lgrey = "#EEEEEE"
@@ -16,7 +16,7 @@ theme = {}
 
 -- Theme settings {{{
 theme.wallpaper                 = config_dir .. "/themes/wallpaper.png"
-theme.border_width              = "4"
+theme.border_width              = "1"
 --}}}
 
 -- Theme fonts {{{
@@ -26,14 +26,14 @@ theme.mono_font                             = "Input Mono Compressed Bold 11"
 
 -- Theme colours {{{
 theme.fg_normal                             = lgrey
-theme.fg_focus                              = blue
+theme.fg_focus                              = red
 theme.fg_em                                 = lgrey
 theme.fg_urgent                             = white
 theme.bg_normal                             = dgrey
 theme.bg_focus                              = dgrey
 theme.bg_em                                 = "#5C5C5C"
 theme.bg_urgent                             = red
-theme.border_normal                         = "#2C3E50"
+theme.border_normal                         = "#777E76"
 theme.border_focus                          = dgrey
 theme.border_marked                         = "#CC9393"
 theme.fg_widget_1                           = lgrey
