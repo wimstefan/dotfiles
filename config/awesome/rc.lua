@@ -84,7 +84,8 @@ local layouts =
     awful.layout.suit.fair               --3
 }
 
-tags = awful.tag({ "➊", "➋", "➌", "➍", "➎", "➏", "➐", "➑", "➒" }, 1, layouts[1])
+-- tags = awful.tag({ "➊", "➋", "➌", "➍", "➎", "➏", "➐", "➑", "➒" }, 1, layouts[1])
+tags = awful.tag({"➀", "➁", "➂", "➃", "➄", "➅", "➆", "➇", "➈"}, 1, layouts[1])
 --}}}
 
 -- Error handling {{{1

@@ -20,8 +20,8 @@ theme.border_width              = "1"
 --}}}
 
 -- Theme fonts {{{
-theme.font                                  = "Terminal Dosis Bold 10"
-theme.mono_font                             = "Input Mono Compressed Bold 11"
+theme.font                                  = "Archivo Narrow 11"
+theme.mono_font                             = "Fira Mono Bold 10"
 --}}}
 
 -- Theme colours {{{
