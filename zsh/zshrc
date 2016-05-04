@@ -533,6 +533,11 @@ if [[ $USER != root ]]; then
     find . -name "*flac" -exec oggenc -q 10 {} \;
   }
 
+  function m4a2ogg()
+  {
+    for f in *.m4a; do ffmpeg -i "$f" -acodec libvorbis -aq 10 "${f%.m4a}.ogg"; done
+  }
+
   function etail()
   {
     tail -n$1 /var/log/emerge.log | awk -F: '{print strftime("%a %F %T", $1),$2}'
