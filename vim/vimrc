@@ -32,6 +32,7 @@ Plug 'junegunn/fzf.vim'
 " fzf.vim config {{{2
   nnoremap <Leader>p :Files<CR>
   nnoremap <Leader>a :Ag 
+  nnoremap        ,w :Ag <C-r><C-w><CR>
   nnoremap <Leader>b :Buffers<CR>
   nnoremap <Leader>c :Colors<CR>
   nnoremap <Leader>l :Locate 
@@ -44,13 +45,14 @@ Plug 'junegunn/vim-peekaboo'
 Plug 'junegunn/vim-easy-align'
 " vim-easy-align config {{{2
   vnoremap <silent> <Enter> :EasyAlign<cr>
-  nmap <Leader>e <Plug>(EasyAlign)
+  nmap ea <Plug>(EasyAlign)
   vmap . <Plug>(EasyAlignRepeat)
 " }}}
 Plug 'tpope/vim-abolish'
 Plug 'tpope/vim-characterize'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-dispatch'
+Plug 'tpope/vim-eunuch'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-unimpaired'
@@ -87,18 +89,13 @@ Plug 'mhinz/vim-startify'
 " }}}
 Plug 'mhinz/vim-sayonara'
 Plug 'wellle/targets.vim'
+Plug 'wellle/tmux-complete.vim'
 Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' }
 " undotree config {{{2
   let g:undotree_WindowLayout = 2
   nnoremap ,tu :UndotreeToggle<CR>
 " }}}
 Plug 'ajh17/VimCompletesMe'
-Plug 'wincent/ferret'
-" ferret config {{{2
-  nmap ,a <Plug>(FerretAck)
-  nmap ,l <Plug>(FerretLack)
-  nmap ,w <Plug>(FerretAckWord)
-" }}}
 Plug 'Shougo/vimproc.vim', { 'do': 'make' } | Plug 'Shougo/vimshell.vim'
 " vimshell config {{{2
   let g:vimshell_data_directory = $HOME.'/.cache/vim/vimshell'
@@ -112,13 +109,6 @@ Plug 'VOoM'
 " VOoM config {{{2
   let g:voom_tree_width = 40
   nnoremap ,tv :VoomToggle<CR>
-" }}}
-Plug 'scrooloose/syntastic' | Plug 'dbakker/vim-lint'
-" syntastic config {{{2
-  let g:syntastic_check_on_open=0
-  let g:syntastic_auto_loc_list=1
-  let g:syntastic_always_populate_loc_list=1
-  nnoremap ,tsy :SyntasticToggleMode<CR>
 " }}}
 Plug 'rkitover/vimpager'
 Plug 'powerman/vim-plugin-viewdoc'
@@ -152,170 +142,20 @@ Plug 'achiang/muttrc'
 Plug 'SyntaxAttr.vim'
 Plug 'visSum.vim'
 Plug 'gorodinskiy/vim-coloresque'
+Plug '$HOME/.vim/plugged/my-base16-vim'
+" base16-vim config {{{2
+  let base16colorspace=256
+  let g:base16_shell_path="$HOME/.config/base16-shell"
+" }}}
 Plug 'wimstefan/Lightning'
 Plug 'romainl/Apprentice'
 Plug 'AlessandroYorba/Sierra'
 " Sierra config {{{2
   let g:sierra_Pitch = 1
 " }}}
-Plug 'chriskempson/base16-vim'
-" base16-vim config {{{2
-  let base16colorspace=256
-  let g:base16_shell_path="$HOME/.config/base16-shell"
-" }}}
-Plug 'joshdick/onedark.vim' | Plug 'shirataki/lightline-onedark'
-Plug 'reedes/vim-colors-pencil' | Plug 'yami-beta/lightline-pencil.vim'
-Plug 'itchyny/lightline.vim' | Plug 'wolf-dog/lightline-nighted.vim' | Plug 'daviesjamie/vim-base16-lightline'
-" lightline.vim config {{{2
-let g:lightline = {
-  \ 'separator': { 'left': "▓▒░", 'right': "░▒▓" },
-  \ 'subseparator': { 'left': "|", 'right': "|" },
-  \ 'active': {
-  \   'left': [ [ 'mode', 'paste' ], [ 'fugitive', 'filename' ] ],
-  \   'right': [ [ 'syntastic', 'lineinfo' ], ['percent'], [ 'fileformat', 'fileencoding', 'filetype' ] ]
-  \ },
-  \ 'component_function': {
-  \   'mode':         'MyMode',
-  \   'fugitive':     'MyFugitive',
-  \   'filename':     'MyFilename',
-  \   'lineinfo':     'MyLineinfo',
-  \   'percent':      'MyPercent',
-  \   'fileformat':   'MyFileformat',
-  \   'fileencoding': 'MyFileencoding',
-  \   'filetype':     'MyFiletype',
-  \ },
-  \ 'component_expand': {
-  \   'syntastic': 'SyntasticStatuslineFlag',
-  \ },
-  \ 'component_type': {
-  \   'syntastic': 'error',
-  \ },
-  \ 'mode_map': {
-  \   'n' :     '» Normal «',
-  \   'i' :     '» Insert «',
-  \   'R' :     '» Replace «',
-  \   'v' :     '» Visual «',
-  \   'V' :     '» V-Line «',
-  \   "\<C-v>": '» V-Block «',
-  \   's' :     '» Select «',
-  \   'S' :     '» S-Line «',
-  \   "\<C-s>": '» S-Block «',
-  \   'c' :     '» Command «'
-  \ }
-\ }
-
-function! MyMode()
-  let fname = expand('%:t')
-  return fname =~ 'diffpanel' ? '' :
-    \ &ft =~ 'help\|man\|qf\|startify\|vim-plug' ? '' :
-    \ &ft == 'vimshell' ? '[VimShell]' :
-    \ winwidth(0) > 60 ? lightline#mode() : ''
-endfunction
-
-function! MyFugitive()
-  if &ft !~? 'help\|man\|netrw\|qf\|undotree\|nerdtree\|voomtree' &&  exists('*fugitive#head')
-    let branch  = fugitive#head(8)
-    let _    = (branch == 'master') ? 'master' : branch
-    let _    .= s:sy_stats_wrapper()
-    return strlen(_) ? '⑆ '._ : ''
-  endif
-  return ''
-endfunction
-
-function! MyFilename()
-  let fname = expand('%')
-  return fname =~ 'undotree' ? '[Undo Tree]' :
-    \ fname =~ 'diffpanel' ? '[Undo Diff Panel]' :
-    \ &ft =~ 'nerdtree' ? '[Explore]' :
-    \ &ft =~ 'voomtree' ? '[Outliner]' :
-    \ &ft == 'help' ? '[Help]' :
-    \ &ft == 'man' ? '[Man]' :
-    \ &ft == 'netrw' ? '[Explore]' :
-    \ &ft == 'qf' ? '[QuickFix]' :
-    \ &ft == 'vimshell' ? vimshell#get_status_string() :
-    \ ('' != MyReadonly() ? MyReadonly() . ' ' : '') .
-    \ ('' != fname ? fname : '[No Name]') .
-    \ ('' != MyModified() ? ' ' . MyModified() : '')
-endfunction
-
-function! MyLineinfo()
-  return winwidth(0) > 70 && &ft !~? 'netrw\|vim-plug\|nerdtree\|voomtree' ? printf("%3d:%-2d", line('.'), col('.')) : ''
-endfunction
-
-function! MyPercent()
-  return winwidth(0) > 70 && &ft !~? 'netrw\|vim-plug\|nerdtree\|voomtree' ? (100 * line('.') / line('$')) . '%' : ''
-endfunction
-
-function! MyReadonly()
-  return &ft !~? 'help\|netrw\|nerdtree\|voomtree' && &readonly ? '×' : ''
-endfunction
-
-function! MyModified()
-  return &ft =~ 'help\|netrw\|nerdtree\|voomtree' ? '' : &modified ? '±' : &modifiable ? '' : ''
-endfunction
-
-function! MyFileformat()
-  return winwidth(0) > 70 && &ft !~? 'help\|netrw\|vim-plug\|nerdtree\|voomtree' ? &fileformat : ''
-endfunction
-
-function! MyFileencoding()
-  return winwidth(0) > 70 && &ft !~? 'help\|netrw\|vim-plug\|nerdtree\|voomtree' ? (strlen(&fenc) ? &fenc : &enc) : ''
-endfunction
-
-function! MyFiletype()
-  return winwidth(0) > 70 && &ft !~? 'help\|netrw\|vim-plug\|nerdtree\|voomtree' ? (strlen(&filetype) ? &filetype : 'no ft') : ''
-endfunction
-
-augroup LightLineColorscheme
-  autocmd!
-  autocmd ColorScheme * call s:lightline_update()
-augroup END
-function! s:lightline_update()
-  if !exists('g:loaded_lightline')
-    return
-  endif
-  try
-    if g:colors_name =~# 'wombat\|solarized\|landscape\|jellybeans\|apprentice\|base16\|onedark\|pencil'
-      let g:lightline.colorscheme =
-            \ substitute(substitute(g:colors_name, '-', '_', 'g'), '256.*', '', '') .
-            \ (g:colors_name ==# 'solarized' ? '_' . &background : '')
-      call lightline#init()
-      call lightline#colorscheme()
-      call lightline#update()
-    endif
-  catch
-  endtry
-endfunction
-
-let g:vimshell_force_overwrite_statusline = 0
-" }}}
-" Plug 'vim-airline/vim-airline' | Plug 'vim-airline/vim-airline-themes'
-" " vim-airline config {{{2
-"   let g:airline#extensions#tabline#enabled = 1
-"   let g:airline#extensions#tabline#buffer_nr_show=1
-"   let g:airline#extensions#whitespace#enabled = 0
-"   if !exists('g:airline_symbols')
-"     let g:airline_symbols = {}
-"   endif
-"   let g:airline_left_sep = '▒'
-"   let g:airline_right_sep = '▒'
-"   let g:airline_symbols.branch = '⑆'
-"   let g:airline_symbols.readonly = '×'
-"   let g:airline_symbols.linenr = '¶'
-"   let g:airline_symbols.whitespace = 'Ξ'
-"   let g:airline_mode_map = {
-"   \   'n' :     '» Normal «',
-"   \   'i' :     '» Insert «',
-"   \   'R' :     '» Replace «',
-"   \   'v' :     '» Visual «',
-"   \   'V' :     '» V-Line «',
-"   \   "\<C-v>": '» V-Block «',
-"   \   's' :     '» Select «',
-"   \   'S' :     '» S-Line «',
-"   \   "\<C-s>": '» S-Block «',
-"   \   'c' :     '» Command «'
-"   \ }
-" " }}}
+Plug 'NLKNguyen/papercolor-theme'
+Plug 'joshdick/onedark.vim'
+Plug 'reedes/vim-colors-pencil'
 
 call plug#end()
 endif
@@ -363,7 +203,7 @@ set list                               " display unprintable characters
 set listchars=tab:→\ ,trail:·,eol:«,extends:↷,precedes:↶
 set isfname=@,48-57,/,.,-,_,+,,,#,$,%,~,=,(,),[,],{,}     " allowed characters in file and path names
 set modeline                           " allow the execution of modelines which is disabled in /etc/vim/vimrc
-set noshowmode                         " shows mode
+set showmode                           " shows mode
 set showcmd                            " show uncompleted command
 set showmatch                          " show matching hyphens
 set diffopt=vertical,iwhite,filler     " split vertical, ignore whitespace & use filler
@@ -418,7 +258,6 @@ endfunc
 if &term =~ "linux"
   color torte
 else
-  set t_Co=256
   if has('gui_running')
     if $USER=='root'
       color onedark
@@ -462,31 +301,35 @@ set laststatus=2                       " always show the statusline above
 set guioptions-=e                      " disables the GUI tab line in favor of the plain text version
 
 function! s:user_highlights()
-  hi CursorLine ctermbg=NONE  ctermfg=NONE  guibg=NONE    guifg=NONE    cterm=underline gui=underline
-  hi User1      ctermbg=238   ctermfg=204   guibg=#444444 guifg=#ff5f87 cterm=NONE      gui=NONE
-  hi User2      ctermbg=238   ctermfg=43    guibg=#444444 guifg=#00d7af cterm=NONE      gui=NONE
-  hi User3      ctermbg=238   ctermfg=111   guibg=#444444 guifg=#87afff cterm=NONE      gui=NONE
-  hi User4      ctermbg=238   ctermfg=229   guibg=#444444 guifg=#ffffaf cterm=NONE      gui=NONE
-  hi User5      ctermbg=238   ctermfg=46    guibg=#444444 guifg=#00ff00 cterm=NONE      gui=NONE
+  exec 'hi CursorLine cterm=underline gui=underline'
+  exec 'hi User1 cterm=reverse gui=reverse'
+  exec 'hi User2 ctermfg=1 ctermbg=' . synIDattr(hlID('StatusLine'), 'bg', 'cterm') . ' guifg=#ff0000 guibg=' . synIDattr(hlID('StatusLine'), 'bg', 'gui')
+  exec 'hi User3 ctermfg=2 ctermbg=' . synIDattr(hlID('StatusLine'), 'bg', 'cterm') . ' guifg=#008800 guibg=' . synIDattr(hlID('StatusLine'), 'bg', 'gui')
+  exec 'hi User4 ctermfg=3 ctermbg=' . synIDattr(hlID('StatusLine'), 'bg', 'cterm') . ' guifg=#ffff00 guibg=' . synIDattr(hlID('StatusLine'), 'bg', 'gui')
+  exec 'hi User5 ctermfg=4 ctermbg=' . synIDattr(hlID('StatusLine'), 'bg', 'cterm') . ' guifg=#0000ff guibg=' . synIDattr(hlID('StatusLine'), 'bg', 'gui')
 endfunction
 call s:user_highlights()
 
 function! MyStatusline()
   let stl  = ''
   if $USER=='root'
-    let stl .= '%#ErrorMsg#'
+    let stl .= '%2*░▒▓'
   else
-    let stl .= '%#Folded#'
+    let stl .= '░▒▓'
   endif
-  let stl .= '-%{$USER}-%*'
-  let stl .= '%#TabLineSel# %F %*'
+  let stl .= '%1* %F%h%w%q '
   if exists('b:git_dir')
     let branch  = fugitive#head(8)
-    let stl    .= (branch == 'master') ? '%2* ※ master %*' : '%3* ※ '. branch .'%*'
-    let stl    .= '%4*'.s:sy_stats_wrapper().' %*'
+    let stl    .= (branch == 'master') ? ' ⑆ master' : ' ⑆ '. branch
+    let stl    .= s:sy_stats_wrapper().' '
   endif
-  let stl .= '%1*%{&modified ? " ± " : ""}%*'
-  let stl .= '%1*%{&ro ? " ✗ " : ""}%*'
+  let stl .= '%3*%{&modified ? " ✓ " : ""}%*'
+  let stl .= '%2*%{&ro ? " ✗ " : ""}%*'
+  if $USER=='root'
+    let stl .= '%2*▓▒░%*'
+  else
+    let stl .= '▓▒░%*'
+  endif
   let stl .= '%= '
         \ .  '%w %y [%{&encoding}:%{&fileformat}]'
         \ .  ' (%l/%L, %-2c) '
@@ -668,7 +511,7 @@ au BufNewFile,BufRead *.m3u set encoding=utf-8 fileencoding=utf-8 ff=unix
 au BufNewFile,BufRead *cddb* set encoding=utf-8 fileencoding=utf-8 ff=unix
 
 " Disable numbers & spell inside manpages
-autocmd FileType {man,help,perldoc,pydoc}  set nonumber nospell nolist
+autocmd FileType {man,help,perldoc,pydoc}  set nonumber nospell nolist nocursorcolumn
 
 " When editing a file, always jump to the last known cursor position.
 autocmd BufReadPost *
@@ -726,7 +569,6 @@ augroup END
 
 " Runtime & commands " {{{1
 runtime macros/matchit.vim    " very nice extension to %-matching
-runtime compiler/tidy.vim     " use htmltidy
 " " }}}
 
 " Functions " {{{1
