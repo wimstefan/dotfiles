@@ -53,17 +53,18 @@ Plug 'tpope/vim-characterize'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-dispatch'
 Plug 'tpope/vim-eunuch'
+Plug 'tpope/vim-eunuch'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-unimpaired'
 Plug 'tpope/vim-vinegar'
 Plug 'tpope/vim-fugitive' | Plug 'gregsexton/gitv'
-" vim-fugitive config {{{2
+" git related config {{{2
   let g:Gitv_OpenHorizontal = 'auto'
   nnoremap <Leader>gt :!tig<CR>:redraw!<CR>
-  nnoremap <silent> <leader>gv :Gitv --all<CR>
-  nnoremap <silent> <leader>gV :Gitv! --all<CR>
-  vnoremap <silent> <leader>gV :Gitv! --all<CR>
+  nnoremap <silent> <leader>gV :Gitv --all<CR>
+  nnoremap <silent> <leader>gv :Gitv! --all<CR>
+  vnoremap <silent> <leader>gv :Gitv! --all<CR>
 " }}}
 Plug 'mhinz/vim-signify'
 " vim-signify config {{{2
@@ -88,6 +89,7 @@ Plug 'mhinz/vim-startify'
     \ ]
 " }}}
 Plug 'mhinz/vim-sayonara'
+Plug 'romainl/vim-qf'
 Plug 'wellle/targets.vim'
 Plug 'wellle/tmux-complete.vim'
 Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' }
@@ -113,7 +115,7 @@ Plug 'VOoM'
 Plug 'rkitover/vimpager'
 Plug 'powerman/vim-plugin-viewdoc'
 " vim-plugin-viewdoc config {{{2
-  let g:viewdoc_open='rightbelow 79vnew'
+  let g:viewdoc_open='rightbelow 80vnew'
   let g:viewdoc_openempty = 0
   let g:viewdoc_dontswitch = 0
   nnoremap <Leader>h :ViewDocHelp 
@@ -296,40 +298,52 @@ set guioptions-=e                      " disables the GUI tab line in favor of t
 function! s:user_highlights()
   exec 'hi CursorLine cterm=underline gui=underline'
   exec 'hi User1 cterm=reverse gui=reverse'
-  exec 'hi User2 ctermfg=1 ctermbg=' . synIDattr(hlID('StatusLine'), 'bg', 'cterm') . ' guifg=#ff0000 guibg=' . synIDattr(hlID('StatusLine'), 'bg', 'gui')
-  exec 'hi User3 ctermfg=2 ctermbg=' . synIDattr(hlID('StatusLine'), 'bg', 'cterm') . ' guifg=#008800 guibg=' . synIDattr(hlID('StatusLine'), 'bg', 'gui')
-  exec 'hi User4 ctermfg=3 ctermbg=' . synIDattr(hlID('StatusLine'), 'bg', 'cterm') . ' guifg=#ffff00 guibg=' . synIDattr(hlID('StatusLine'), 'bg', 'gui')
-  exec 'hi User5 ctermfg=4 ctermbg=' . synIDattr(hlID('StatusLine'), 'bg', 'cterm') . ' guifg=#0000ff guibg=' . synIDattr(hlID('StatusLine'), 'bg', 'gui')
+  exec 'hi Status1 ctermfg=1 ctermbg=' . synIDattr(hlID('StatusLine'), 'bg', 'cterm') . ' guifg=#ff0000 guibg=' . synIDattr(hlID('StatusLine'), 'bg', 'gui')
+  exec 'hi Status2 ctermfg=2 ctermbg=' . synIDattr(hlID('StatusLine'), 'bg', 'cterm') . ' guifg=#008800 guibg=' . synIDattr(hlID('StatusLine'), 'bg', 'gui')
+  exec 'hi Status3 ctermfg=3 ctermbg=' . synIDattr(hlID('StatusLine'), 'bg', 'cterm') . ' guifg=#ffff00 guibg=' . synIDattr(hlID('StatusLine'), 'bg', 'gui')
+  exec 'hi Status4 ctermfg=4 ctermbg=' . synIDattr(hlID('StatusLine'), 'bg', 'cterm') . ' guifg=#0000ff guibg=' . synIDattr(hlID('StatusLine'), 'bg', 'gui')
 endfunction
 call s:user_highlights()
 
 function! MyStatusline()
   let stl  = ''
   if $USER=='root'
-    let stl .= '%2*░▒▓'
+    let stl .= '%#Status1#░▒▓'
   else
     let stl .= '░▒▓'
   endif
-  let stl .= '%1* %F%h%w%q '
-  if exists('b:git_dir')
-    let branch  = fugitive#head(8)
-    let stl    .= (branch == 'master') ? ' ⑆ master' : ' ⑆ '. branch
-    let stl    .= s:sy_stats_wrapper().' '
-  endif
-  let stl .= '%3*%{&modified ? " ✓ " : ""}%*'
-  let stl .= '%2*%{&ro ? " ✗ " : ""}%*'
-  if $USER=='root'
-    let stl .= '%2*▓▒░%*'
+  if &ft == 'netrw'
+    let stl .= '%1* [Explorer] %*'
+    if $USER=='root'
+      let stl .= '%#Status1#▓▒░%*'
+    else
+      let stl .= '▓▒░%*'
+    endif
+    return stl
   else
-    let stl .= '▓▒░%*'
+    let stl .= '%1* %F '
+    let stl .= '%#Status2#%{&modified ? " ✓ " : ""}%*'
+    let stl .= '%#Status1#%{&ro ? " ✗ " : ""}%*'
+    if $USER=='root'
+      let stl .= '%#Status1#▓▒░%*'
+    else
+      let stl .= '▓▒░%*'
+    endif
+    if exists('b:git_dir') && winwidth(0) > 70
+      let branch  = fugitive#head(8)
+      let stl    .= (branch == 'master') ? ' ⑆ master' : ' ⑆ '. branch
+      let stl    .= s:sy_stats_wrapper().' '
+    endif
+    let stl .= '%= '
+    if winwidth(0) > 70
+      let stl .= '%w %y [%{&encoding}:%{&fileformat}]'
+    endif
+    let stl .= ' (%l/%L, %-2c)'
+    let stl .= ' %p%% '
+    return stl
   endif
-  let stl .= '%= '
-        \ .  '%w %y [%{&encoding}:%{&fileformat}]'
-        \ .  ' (%l/%L, %-2c) '
-        \ .  ' %p%% '
-  return stl
 endfunction
-set statusline=%!MyStatusline()
+autocmd VimEnter,WinEnter,BufEnter,BufWinEnter * set statusline=%!MyStatusline()
 " " }}}2
 " Tabline " {{{2
 set showtabline=2                      " always show tabline, even if there is just one tab, avoid
@@ -408,8 +422,7 @@ function! MyTabLine()
   return s
 
 endfunction
-
-set tabline=%!MyTabLine()
+autocmd VimEnter,WinEnter,BufWinEnter * set tabline=%!MyTabLine()
 " " }}}2
 " " }}}
 
