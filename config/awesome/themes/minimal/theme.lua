@@ -3,14 +3,14 @@
 --  vim: fdm=marker fdl=0
 --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---
 
-green = "#B6E354"
-cyan  = "#7F4DE6"
-red  = "#FF6969"
-blue  = "#729FCF"
+green = "#b6e354"
+cyan  = "#7f4de6"
+red   = "#de4343"
+blue  = "#729fcf"
 black = "#000000"
-lgrey = "#EEEEEE"
+lgrey = "#eeeeee"
 dgrey = "#060606"
-white = "#FFFFFF"
+white = "#ffffff"
 
 theme = {}
 

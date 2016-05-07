@@ -298,7 +298,7 @@ freedesktop.desktop.add_dirs_and_files_icons({screen = 1, showlabels = true})
 
 -- Wibox {{{1
 
-local stats_grad = { type = "linear", from = { 0, 0 }, to = { 0, 18 }, stops = { { 0, "#A52A2A" }, { 0.5, beautiful.bg_widget_6 }, { 1, "#92B0A0" } } }
+local stats_grad = { type = "linear", from = { 0, 0 }, to = { 0, 18 }, stops = { { 0, "#a52a2a" }, { 0.5, beautiful.bg_widget_6 }, { 1, "#92b0a0" } } }
 
 -- Music widget {{{2
 local widget_music = wibox.widget.textbox()
@@ -463,14 +463,14 @@ vicious.register(netwidget, vicious.widgets.net, function(widgets,args)
                 return ""
         end
         return '<span background="'..beautiful.bg_widget_7..'"><span color="'..beautiful.fg_widget_7..'" font="Webhostinghub-Glyphs 8"></span>  '
-           ..'<span color="#A52A2A">'..args["{"..interface.." down_kb}"]..'</span>'
+           ..'<span color="#a52a2a">'..args["{"..interface.." down_kb}"]..'</span>'
            ..'<span font="Symbola 10" color="'..beautiful.fg_widget_7..'"> 🔃 </span>'
-           ..'<span color="#185A9F">'..args["{"..interface.." up_kb}"]..'   </span></span>' end, 6)
+           ..'<span color="#185a9f">'..args["{"..interface.." up_kb}"]..'   </span></span>' end, 6)
 netwidget:buttons(awful.util.table.join(awful.button({ }, 1, function () awful.util.spawn_with_shell(iptraf) end)))
 -- Net widget }}}
 
 -- Calendar/time widget {{{2
-mytextclock = awful.widget.textclock( '<span background="#777E76" color="#FFFFFF">%a %b %d, %H:%M</span>')
+mytextclock = awful.widget.textclock( '<span background="#777e76" color="#ffffff">%a %b %d, %H:%M</span>')
 cal.register(mytextclock)
 -- }}}
 
