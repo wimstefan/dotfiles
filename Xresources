@@ -1,9 +1,9 @@
 Xcursor*theme: Neutral_Plus
 ! *cursorColor:  #3A3A3A
 
-*font: xft:Fira Mono:pixelsize=11.8
+*font: xft:Fira Mono:pixelsize=14.4
 *font1: xft:Symbola
-*faceName: xft:Fira Mono:pixelsize=11.8
+*faceName: xft:Fira Mono:pixelsize=14.4
 
 xterm*loginShell: true
 xterm*utf8: true
