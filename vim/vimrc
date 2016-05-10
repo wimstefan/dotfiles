@@ -10,6 +10,7 @@ endif
 scriptencoding utf-8
 set encoding=utf-8
 set termencoding=utf-8
+let mapleader = "\<Space>"
 
 " Plugins " {{{1
 if empty(glob('~/.vim/autoload/plug.vim'))
@@ -53,8 +54,8 @@ Plug 'tpope/vim-characterize'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-dispatch'
 Plug 'tpope/vim-eunuch'
-Plug 'tpope/vim-eunuch'
 Plug 'tpope/vim-repeat'
+Plug 'tpope/vim-rsi'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-unimpaired'
 Plug 'tpope/vim-vinegar'
@@ -73,34 +74,18 @@ Plug 'mhinz/vim-signify'
   let g:signify_sign_delete            = '-'
   let g:signify_sign_delete_first_line = '‾'
   let g:signify_line_highlight = 1
+  let g:signify_update_on_focusgained = 1
   nnoremap ,tsg :SignifyToggle<CR>
-" }}}
-Plug 'mhinz/vim-startify'
-" vim-startify config {{{2
-  let g:startify_session_dir = $HOME.'/.cache/vim/session'
-  let g:startify_custom_header = []
-  let g:startify_skiplist = [
-    \ 'COMMIT_EDITMSG',
-    \ ]
-  let g:startify_bookmarks = [
-    \ '~/.dotfiles/vim/vimrc',
-    \ '~/.dotfiles/zsh/zshrc',
-    \ '~/.dotfiles/config/awesome/rc.lua'
-    \ ]
 " }}}
 Plug 'mhinz/vim-sayonara'
 Plug 'romainl/vim-qf'
-Plug 'wellle/targets.vim'
+Plug 'ajh17/VimCompletesMe'
 Plug 'wellle/tmux-complete.vim'
+Plug 'wellle/targets.vim'
 Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' }
 " undotree config {{{2
   let g:undotree_WindowLayout = 2
   nnoremap ,tu :UndotreeToggle<CR>
-" }}}
-Plug 'ajh17/VimCompletesMe'
-Plug 'Shougo/vimproc.vim', { 'do': 'make' } | Plug 'Shougo/vimshell.vim'
-" vimshell config {{{2
-  let g:vimshell_data_directory = $HOME.'/.cache/vim/vimshell'
 " }}}
 Plug 'qpkorr/vim-renamer'
 Plug 'will133/vim-dirdiff'
@@ -128,15 +113,18 @@ Plug 'godlygeek/tabular' | Plug 'dhruvasagar/vim-table-mode'
 " }}}
 Plug 'farseer90718/vim-taskwarrior', { 'on': 'TW' }
 Plug 'jamessan/vim-gnupg'
-Plug 'mattn/webapi-vim' | Plug 'mattn/gist-vim', { 'on': 'Gist' } | Plug 'mattn/googletasks-vim'
+Plug 'mattn/webapi-vim' | Plug 'mattn/gist-vim', { 'on': 'Gist' }
 " webapi-vim config {{{2
   let g:gist_post_private = 1
   let g:gist_clip_command = 'xclip -selection clipboard'
 " }}}
-Plug 'achiang/muttrc'
 Plug 'SyntaxAttr.vim'
 Plug 'visSum.vim'
-Plug 'gorodinskiy/vim-coloresque'
+Plug 'chrisbra/unicode.vim'
+Plug 'chrisbra/Colorizer'
+" Colorizer config {{{2
+  nnoremap ,tc :ColorToggle<CR>
+" }}}
 Plug '$HOME/.vim/plugged/my-base16-vim'
 " base16-vim config {{{2
   let base16colorspace=256
@@ -144,13 +132,13 @@ Plug '$HOME/.vim/plugged/my-base16-vim'
 " }}}
 Plug 'wimstefan/Lightning'
 Plug 'romainl/Apprentice'
-Plug 'AlessandroYorba/Sierra'
-" Sierra config {{{2
-  let g:sierra_Pitch = 1
-" }}}
 Plug 'NLKNguyen/papercolor-theme'
 Plug 'joshdick/onedark.vim'
 Plug 'reedes/vim-colors-pencil'
+Plug 'robertmeta/nofrils'
+Plug 'tstelzer/welpe.vim'
+Plug 'aperezdc/vim-elrond'             " good for TERM=linux
+" Plug 'aperezdc/vim-lining'
 
 call plug#end()
 endif
@@ -251,7 +239,7 @@ endfunc
 
 " Visual " {{{1
 if &term =~ "linux"
-  color torte
+  color elrond
 else
   if has('gui_running')
     if $USER=='root'
@@ -276,7 +264,7 @@ if exists('vimpager')
   set nolist
 endif
 
-set guifont=Hurmit\ 9
+set guifont=PragmataPro\ 11
 set guioptions-=T                      " disable toolbar
 
 filetype indent plugin on | syn on     " enable filetype, plugin and syntax support
@@ -299,130 +287,46 @@ function! s:user_highlights()
   exec 'hi CursorLine cterm=underline gui=underline'
   exec 'hi User1 cterm=reverse gui=reverse'
   exec 'hi Status1 ctermfg=1 ctermbg=' . synIDattr(hlID('StatusLine'), 'bg', 'cterm') . ' guifg=#ff0000 guibg=' . synIDattr(hlID('StatusLine'), 'bg', 'gui')
-  exec 'hi Status2 ctermfg=2 ctermbg=' . synIDattr(hlID('StatusLine'), 'bg', 'cterm') . ' guifg=#008800 guibg=' . synIDattr(hlID('StatusLine'), 'bg', 'gui')
+  exec 'hi Status2 ctermfg=2 ctermbg=' . synIDattr(hlID('StatusLine'), 'bg', 'cterm') . ' guifg=#a5ffe1 guibg=' . synIDattr(hlID('StatusLine'), 'bg', 'gui')
   exec 'hi Status3 ctermfg=3 ctermbg=' . synIDattr(hlID('StatusLine'), 'bg', 'cterm') . ' guifg=#ffff00 guibg=' . synIDattr(hlID('StatusLine'), 'bg', 'gui')
-  exec 'hi Status4 ctermfg=4 ctermbg=' . synIDattr(hlID('StatusLine'), 'bg', 'cterm') . ' guifg=#0000ff guibg=' . synIDattr(hlID('StatusLine'), 'bg', 'gui')
+  exec 'hi Status4 ctermfg=4 ctermbg=' . synIDattr(hlID('StatusLine'), 'bg', 'cterm') . ' guifg=#97bbf7 guibg=' . synIDattr(hlID('StatusLine'), 'bg', 'gui')
 endfunction
 call s:user_highlights()
 
 function! MyStatusline()
   let stl  = ''
   if $USER=='root'
-    let stl .= '%#Status1#░▒▓'
+    let stl .= '%#Status1#··'
   else
-    let stl .= '░▒▓'
+    let stl .= '··'
   endif
-  if &ft == 'netrw'
-    let stl .= '%1* [Explorer] %*'
-    if $USER=='root'
-      let stl .= '%#Status1#▓▒░%*'
-    else
-      let stl .= '▓▒░%*'
-    endif
-    return stl
+  let stl .= '%1* %F %*'
+  if $USER=='root'
+    let stl .= '%#Status1#··%*'
   else
-    let stl .= '%1* %F '
-    let stl .= '%#Status2#%{&modified ? " ✓ " : ""}%*'
-    let stl .= '%#Status1#%{&ro ? " ✗ " : ""}%*'
-    if $USER=='root'
-      let stl .= '%#Status1#▓▒░%*'
+    let stl .= '··%*'
+  endif
+  let stl .= '%#Status2#%{&modified ? " ✓ " : ""}%*'
+  let stl .= '%#Status1#%{&ro ? " ✗ " : ""}%*'
+  let stl .= '%= '
+  if exists('b:git_dir') && winwidth(0) > 70
+    let branch  = fugitive#head(8)
+    let stl    .= (branch == 'master') ? '· master' : '· '. branch
+    let stl    .= s:sy_stats_wrapper().' · '
+  endif
+  let stl .= '%y'
+  if winwidth(0) > 70
+    if &fileformat != 'unix'
+      let stl .= ' %{&encoding}[%{&fileformat}] '
     else
-      let stl .= '▓▒░%*'
+      let stl .= ' %{&encoding} '
     endif
-    if exists('b:git_dir') && winwidth(0) > 70
-      let branch  = fugitive#head(8)
-      let stl    .= (branch == 'master') ? ' ⑆ master' : ' ⑆ '. branch
-      let stl    .= s:sy_stats_wrapper().' '
-    endif
-    let stl .= '%= '
-    if winwidth(0) > 70
-      let stl .= '%w %y [%{&encoding}:%{&fileformat}]'
-    endif
-    let stl .= ' (%l/%L, %-2c)'
+  endif
+    let stl .= '%1* %l:%-2c %*'
     let stl .= ' %p%% '
-    return stl
-  endif
+  return stl
 endfunction
-autocmd VimEnter,WinEnter,BufEnter,BufWinEnter * set statusline=%!MyStatusline()
-" " }}}2
-" Tabline " {{{2
-set showtabline=2                      " always show tabline, even if there is just one tab, avoid
-                                       " redraw problems when Window is displayed in fullscreen mode
-function! MyTabLine()
-  let s = ''
-  let t = tabpagenr()
-  let i = 1
-  while i <= tabpagenr('$')
-    let buflist = tabpagebuflist(i)
-    let winnr = tabpagewinnr(i)
-    let s .= '%' . i . 'T'
-    let s .= (i == t ? '%1*' : '%2*')
-
-    " let s .= (i == t ? '%#TabLineSel#' : '%#TabLine#')
-    " let s .= ' '
-    let s .= (i == t ? '%#TabNumSel#' : '%#TabNum#')
-    let s .= ' ' . i . ' '
-    let s .= (i == t ? '%#TabLineSel#' : '%#TabLine#')
-
-    let bufnr = buflist[winnr - 1]
-    let file = bufname(bufnr)
-    let buftype = getbufvar(bufnr, '&buftype')
-
-    if buftype == 'help'
-      let file = 'help:' . fnamemodify(file, ':t:r')
-
-    elseif buftype == 'quickfix'
-      let file = 'quickfix'
-
-    elseif buftype == 'nofile'
-      if file =~ '\/.'
-        let file = substitute(file, '.*\/\ze.', '', '')
-      endif
-
-    else
-      let file = pathshorten(fnamemodify(file, ':p:~:.'))
-      if getbufvar(bufnr, '&modified')
-        let file = file . ' ±'
-      endif
-
-    endif
-
-    if file == ''
-      let file = '[No Name]'
-    endif
-
-    let s .= ' ' . file
-
-    let nwins = tabpagewinnr(i, '$')
-    if nwins > 1
-      let modified = ''
-      for b in buflist
-        if getbufvar(b, '&modified') && b != bufnr
-          let modified = '*'
-          break
-        endif
-      endfor
-      let hl = (i == t ? '%#WinNumSel#' : '%#WinNum#')
-      let nohl = (i == t ? '%#TabLineSel#' : '%#TabLine#')
-      let s .= ' ' . modified . '(' . hl . winnr . nohl . '/' . nwins . ')'
-    endif
-
-    if i < tabpagenr('$')
-      let s .= ' %#TabLine#|'
-    else
-      let s .= ' '
-    endif
-
-    let i = i + 1
-
-  endwhile
-
-  let s .= '%T%#TabLineFill#%='
-  let s .= (tabpagenr('$') > 1 ? '%#TabNum#%999XX%*' : '%#TabNum#X%*')
-  return s
-
-endfunction
-autocmd VimEnter,WinEnter,BufWinEnter * set tabline=%!MyTabLine()
+setlocal statusline=%!MyStatusline()
 " " }}}2
 " " }}}
 
@@ -442,7 +346,10 @@ nnoremap <Leader>ev :edit    $MYVIMRC<CR>
 nnoremap <Leader>sv :source  $MYVIMRC<CR>
 
 " :w! is always bad to type ...
-nnoremap <Leader>w :w!<CR>
+nnoremap <Leader>w  :w!<CR>
+nnoremap <Leader>wa :wa!<CR>
+nnoremap <Leader>q  :q!<CR>
+nnoremap <Leader>qa :qa!<CR>
 
 " switch buffers
 " Note: :b foo  will also select some-foo-text.txt file if it was opened :)
@@ -591,7 +498,7 @@ function! s:sy_stats_wrapper()
   endfor
 
   if !empty(hunkline)
-    let hunkline = printf(' [%s]', hunkline[:-2])
+    let hunkline = printf(' %s', hunkline[:-2])
   endif
 
   return hunkline
