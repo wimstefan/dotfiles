@@ -332,7 +332,8 @@ export HISTFILE="$HOME/.zsh/histfile"
 export HISTSIZE="5000"
 export SAVEHIST="5000"
 export CVS_RSH="ssh"
-export FZF_DEFAULT_COMMAND='ag -l -g ""'
+export FZF_DEFAULT_COMMAND="ag --hidden --ignore .git --ignore .cache -l -g ''"
+export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 export FZF_DEFAULT_OPTS="-x -m --cycle --color=dark"
 export XAUTHORITY="$HOME/.Xauthority"
 export DISPLAY=:0.0
@@ -675,7 +676,7 @@ if [[ $USER != root ]]; then
         rsync -az            /home/swimmer/.config/pangoterm.cfg $host:.config/
         rsync -az            /home/swimmer/.config/termite/config $host:.config/termite/
         if [[ $host == "tj" ]]; then
-          ssh $host "sed -i 's#\(font =.*\)11#\110#' .config/termite/config"
+          ssh $host "sed -i 's#\(font = [^0-9]*\)[0-9].*#\110.6#' .config/termite/config"
         fi
         rsync -az            /home/swimmer/.config/colorscheme $host:.config/
         rsync -az            /home/swimmer/.config/base16-shell/ $host:.config/base16-shell/
