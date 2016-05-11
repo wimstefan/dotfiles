@@ -296,15 +296,15 @@ call s:user_highlights()
 function! MyStatusline()
   let stl  = ''
   if $USER=='root'
-    let stl .= '%#Status1#··'
+    let stl .= '%#Status1#▩ '
   else
-    let stl .= '··'
+    let stl .= '▩ '
   endif
   let stl .= '%1* %F %*'
   if $USER=='root'
-    let stl .= '%#Status1#··%*'
+    let stl .= '%#Status1# ▩%*'
   else
-    let stl .= '··%*'
+    let stl .= ' ▩%*'
   endif
   let stl .= '%#Status2#%{&modified ? " ✓ " : ""}%*'
   let stl .= '%#Status1#%{&ro ? " ✗ " : ""}%*'
