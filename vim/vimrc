@@ -141,6 +141,7 @@ Plug 'joshdick/onedark.vim'
 Plug 'reedes/vim-colors-pencil'
 Plug 'robertmeta/nofrils'
 Plug 'tstelzer/welpe.vim'
+Plug 'MaxSt/FlatColor'
 Plug 'aperezdc/vim-elrond'             " good for TERM=linux
 
 call plug#end()
@@ -165,7 +166,6 @@ set nobackup                           " keep a backup file
 "set viminfo='50,\"100,:100,%          " read/write a viminfo file with buffer list
 set viminfo='50,\"100,:100             " read/write a viminfo file without buffer list
 if has ('nvim')
-  let $NVIM_TUI_ENABLE_TRUE_COLOR=1
   set viminfo+=n$HOME/.cache/nvim/viminfo " specify where to write the viminfo
 else
   set viminfo+=n$HOME/.cache/vim/viminfo " specify where to write the viminfo
@@ -243,6 +243,9 @@ endfunc
 " " }}}
 
 " Visual " {{{1
+if has('nvim')
+  let $NVIM_TUI_ENABLE_TRUE_COLOR=1
+endif
 if &term =~ "linux"
   color elrond
 else
@@ -317,7 +320,9 @@ function! MyStatusline()
   if exists('b:git_dir') && winwidth(0) > 70
     let branch  = fugitive#head(8)
     let stl    .= (branch == 'master') ? '· master' : '· '. branch
-    let stl    .= s:sy_stats_wrapper().' · '
+    if exists('g:loaded_signify')
+      let stl    .= s:sy_stats_wrapper().' · '
+    endif
   endif
   let stl .= '%y'
   if winwidth(0) > 70
