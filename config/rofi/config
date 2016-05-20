@@ -1,0 +1,16 @@
+! vim: set ft=xdefaults
+rofi.font: Input Sans Compressed 12.0
+rofi.color-enabled: true
+! State:           'bg',    'fg',   'bgalt',  'hlbg',  'hlfg'
+rofi.color-normal: #FFFFFF, #00001A, #CACAE6, #4D4D99, #CACAE6
+rofi.color-urgent: #FFFFFF, #E67373, #CACAE6, #E67373, #FFFFFF
+rofi.color-active: #FFFFFF, #B30000, #CACAE6, #B30000, #FFFFFF
+!                  'bg',    'border'
+rofi.color-window: #D3D3DD, #00001A
+rofi.opacity: 100
+rofi.width: 1600
+rofi.location: 1
+rofi.padding: 2
+rofi.bw: 2
+rofi.terminal: termite
+
