@@ -54,8 +54,8 @@ ${color1}${downspeedgraph wlan0 20,0 D0D0D0 A52A2A -t}
 ${color}${offset 9}${font WebHostingHub\-Glyphs:size=9}${font}  Net Up:${color1}  ${upspeed wlan0} k/s
 ${color1}${upspeedgraph wlan0 20,0 D0D0D0 A52A2A -t}
 ${color1}${font Hurmit:style=bold:size=9}TOP${hr 3}
-${font Ubuntu\ Mono:style=bold:size=10}${color}Name                 ${color1}PID   CPU%  MEM%
-${font Ubuntu\ Mono:size=9}${color1} ${top name 1}      ${color}${top pid 1} ${top cpu 1} ${top mem 1}
+${font Input\ Mono\ Compressed:style=bold:size=11}${color}Name                ${color1}PID    CPU%  MEM%
+${font Input\ Mono\ Compressed:size=10}${color1} ${top name 1}      ${color}${top pid 1} ${top cpu 1} ${top mem 1}
 ${color1} ${top name 2}      ${color}${top pid 2} ${top cpu 2} ${top mem 2}
 ${color1} ${top name 3}      ${color}${top pid 3} ${top cpu 3} ${top mem 3}
 ${color1} ${top name 4}      ${color}${top pid 4} ${top cpu 4} ${top mem 4}
