@@ -49,6 +49,13 @@ Plug 'junegunn/vim-easy-align'
   nmap ea <Plug>(EasyAlign)
   vmap . <Plug>(EasyAlignRepeat)
 " }}}
+Plug 'junegunn/limelight.vim'
+" limelight.vim config {{{2
+  nnoremap <silent> ,tl :Limelight<CR>
+  let g:limelight_conceal_ctermfg = 240
+  let g:limelight_conceal_guifg = '#777777'
+  let g:limelight_default_coefficient = 2.4
+" }}}
 Plug 'tpope/vim-abolish'
 Plug 'tpope/vim-characterize'
 Plug 'tpope/vim-commentary'
@@ -59,13 +66,14 @@ Plug 'tpope/vim-rsi'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-unimpaired'
 Plug 'tpope/vim-vinegar'
-Plug 'tpope/vim-fugitive' | Plug 'gregsexton/gitv'
+Plug 'tpope/vim-fugitive' | Plug 'gregsexton/gitv' | Plug 'junkblocker/git-time-lapse'
 " git related config {{{2
   let g:Gitv_OpenHorizontal = 'auto'
-  nnoremap <Leader>gt :!tig<CR>:redraw!<CR>
   nnoremap <silent> <leader>gV :Gitv --all<CR>
   nnoremap <silent> <leader>gv :Gitv! --all<CR>
   vnoremap <silent> <leader>gv :Gitv! --all<CR>
+  nnoremap <Leader>gt  :GitTimeLapse<CR>
+  nnoremap <Leader>tig :!tig<CR>:redraw!<CR>
 " }}}
 Plug 'mhinz/vim-signify'
 " vim-signify config {{{2
@@ -245,6 +253,7 @@ endfunc
 " Visual " {{{1
 if has('nvim')
   let $NVIM_TUI_ENABLE_TRUE_COLOR=1
+  " set termguicolors   " For Neovim > 0.1.5 < https://github.com/neovim/neovim/wiki/Following-HEAD#20160511 >
 endif
 if &term =~ "linux"
   color elrond
