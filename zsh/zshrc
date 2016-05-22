@@ -381,6 +381,9 @@ alias reload="source $HOME/.zshrc"
 alias el="equery list -p -o"
 alias sf="setfont ter-112n"
 alias setfb="fbset -g 1600 1200 1600 1200 32"
+if [ -x /usr/local/bin/fzf ]; then
+  alias vif='vim $(fzf)'
+fi
 # urls
 alias packages="elinks http://packages.gentoo.org/"
 #alias packages="w3m http://gpo.zugaina.org/Newest"
@@ -392,12 +395,6 @@ function dus()  { du -s "$@" | sort -rn; }
 function ff() { find . -iname '*'$1'*' ; }
 
 function fr() { find . -iname '*'$1'*' -exec $2 {} \; ; }
-
-fe() {
-  local file
-  file=$(fzf --query="$1" --select-1 --exit-0)
-  [ -n "$file" ] && ${EDITOR:-vim} "$file"
-}
 
 function lowercase()  # move filenames to lowercase
 {
@@ -597,9 +594,6 @@ if [[ $USER != root ]]; then
     echo "€ `wcalc "((($1*75) + ($2*60)) / 60) * 44" | sed 's/ = //'`"
   }
 
-  function inf-scp() {
-    scp "$@" loca@62.75.168.242:www/ ;
-  }
   # }}}3
   # + User config per host # {{{3
   # . swimmer # {{{4
@@ -675,9 +669,6 @@ if [[ $USER != root ]]; then
         rsync -az            /home/swimmer/.config/Trolltech.conf $host:.config/
         rsync -az            /home/swimmer/.config/pangoterm.cfg $host:.config/
         rsync -az            /home/swimmer/.config/termite/config $host:.config/termite/
-        if [[ $host == "tj" ]]; then
-          ssh $host "sed -i 's#\(font = [^0-9]*\)[0-9].*#\110.6#' .config/termite/config"
-        fi
         rsync -az            /home/swimmer/.config/colorscheme $host:.config/
         rsync -az            /home/swimmer/.config/base16-shell/ $host:.config/base16-shell/
       }
@@ -918,7 +909,7 @@ fi
 
 # - External modules # {{{6
 [ -f $HOME/.zsh/external/zsh-syntax-highlighting.git/zsh-syntax-highlighting.zsh ] && source $HOME/.zsh/external/zsh-syntax-highlighting.git/zsh-syntax-highlighting.zsh
-[ -f $HOME/.zsh/external/fzf-extras.git/fzf-extras.zsh ] && source $HOME/.zsh/external/fzf-extras.git/fzf-extras.zsh
+[ -f $HOME/.zsh/external/fzf-extras.git/fzf-extras.sh ] && source $HOME/.zsh/external/fzf-extras.git/fzf-extras.sh
 [ -f $HOME/.zsh/external/fzf-marks.git/fzf-marks.plugin.zsh ] && source $HOME/.zsh/external/fzf-marks.git/fzf-marks.plugin.zsh
 # }}}6
 
