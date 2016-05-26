@@ -150,6 +150,7 @@ Plug 'reedes/vim-colors-pencil'
 Plug 'robertmeta/nofrils'
 Plug 'tstelzer/welpe.vim'
 Plug 'MaxSt/FlatColor'
+Plug 'cocopon/iceberg.vim'
 Plug 'aperezdc/vim-elrond'             " good for TERM=linux
 
 call plug#end()
