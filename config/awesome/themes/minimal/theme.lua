@@ -16,12 +16,12 @@ theme = {}
 
 -- Theme settings {{{
 theme.wallpaper                 = config_dir .. "/themes/wallpaper.png"
-theme.border_width              = "1"
+theme.border_width              = "4"
 --}}}
 
 -- Theme fonts {{{
 theme.font                                  = "Archivo Narrow 11"
-theme.mono_font                             = "Fira Mono Bold 10"
+theme.mono_font                             = "Input Mono Compressed Bold 11"
 --}}}
 
 -- Theme colours {{{
@@ -33,8 +33,8 @@ theme.bg_normal                             = dgrey
 theme.bg_focus                              = dgrey
 theme.bg_em                                 = "#5C5C5C"
 theme.bg_urgent                             = red
-theme.border_normal                         = "#777E76"
-theme.border_focus                          = dgrey
+theme.border_normal                         = dgrey
+theme.border_focus                          = "#777E76"
 theme.border_marked                         = "#CC9393"
 theme.fg_widget_1                           = lgrey
 theme.fg_widget_2                           = lgrey
