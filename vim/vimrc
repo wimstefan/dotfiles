@@ -25,6 +25,7 @@ nnoremap ,pu :PlugUpdate<CR>
 let g:plug_shallow = 0
 
 silent! if  plug#begin('~/.vim/plugged')
+Plug 'tpope/vim-eunuch' " interferes with the :Locate command from fzf hence this first
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': 'yes \| ./install' }
 " fzf config {{{2
   set rtp+=~/.fzf
@@ -32,46 +33,44 @@ Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': 'yes \| ./install' }
 Plug 'junegunn/fzf.vim'
 " fzf.vim config {{{2
   nnoremap <Leader>p :Files<CR>
-  nnoremap <Leader>a :Ag 
+  nnoremap <Leader>a :Ag<Space>
   nnoremap        ,w :Ag <C-r><C-w><CR>
   nnoremap <Leader>b :Buffers<CR>
   nnoremap <Leader>c :Colors<CR>
-  nnoremap <Leader>l :Locate 
+  nnoremap <Leader>l :Locate<Space>
   nnoremap <Leader>m :History<CR>
   nnoremap <Leader>t :BTags<CR>
-  imap <c-x><c-f> <plug>(fzf-complete-file-ag)
-  imap <c-x><c-l> <plug>(fzf-complete-line)
+  imap <C-x><C-f> <plug>(fzf-complete-file-ag)
+  imap <C-x><C-l> <plug>(fzf-complete-line)
 " }}}
 Plug 'junegunn/vim-peekaboo'
 Plug 'junegunn/vim-easy-align'
 " vim-easy-align config {{{2
-  vnoremap <silent> <Enter> :EasyAlign<cr>
+  vnoremap <silent> <Enter> :EasyAlign<CR>
   nmap ea <Plug>(EasyAlign)
   vmap . <Plug>(EasyAlignRepeat)
 " }}}
 Plug 'junegunn/limelight.vim'
 " limelight.vim config {{{2
-  nnoremap <silent> ,tl :Limelight<CR>
-  let g:limelight_conceal_ctermfg = 240
-  let g:limelight_conceal_guifg = '#777777'
+  nnoremap <silent> ,tl :Limelight!!<CR>
+  let g:limelight_conceal_ctermfg = 238
+  let g:limelight_conceal_guifg = '#444444'
   let g:limelight_default_coefficient = 2.4
 " }}}
 Plug 'tpope/vim-abolish'
 Plug 'tpope/vim-characterize'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-dispatch'
-Plug 'tpope/vim-eunuch'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-rsi'
 Plug 'tpope/vim-surround'
-Plug 'tpope/vim-unimpaired'
 Plug 'tpope/vim-vinegar'
 Plug 'tpope/vim-fugitive' | Plug 'gregsexton/gitv' | Plug 'junkblocker/git-time-lapse'
 " git related config {{{2
   let g:Gitv_OpenHorizontal = 'auto'
-  nnoremap <silent> <leader>gV :Gitv --all<CR>
-  nnoremap <silent> <leader>gv :Gitv! --all<CR>
-  vnoremap <silent> <leader>gv :Gitv! --all<CR>
+  nnoremap <silent> <Leader>gV :Gitv --all<CR>
+  nnoremap <silent> <Leader>gv :Gitv! --all<CR>
+  vnoremap <silent> <Leader>gv :Gitv! --all<CR>
   nnoremap <Leader>gt  :GitTimeLapse<CR>
   nnoremap <Leader>tig :!tig<CR>:redraw!<CR>
 " }}}
@@ -103,6 +102,7 @@ Plug 'will133/vim-dirdiff'
 Plug 'VOoM'
 " VOoM config {{{2
   let g:voom_tree_width = 40
+  let g:voom_ft_modes = {'adoc': 'asciidoc', 'asciidoc': 'asciidoc', 'markdown': 'markdown', 'md': 'markdown', 'rst': 'rest', 'tex': 'latex'}
   nnoremap ,tv :VoomToggle<CR>
 " }}}
 Plug 'rkitover/vimpager'
@@ -111,7 +111,7 @@ Plug 'powerman/vim-plugin-viewdoc'
   let g:viewdoc_open='rightbelow 80vnew'
   let g:viewdoc_openempty = 0
   let g:viewdoc_dontswitch = 0
-  nnoremap <Leader>h :ViewDocHelp 
+  nnoremap <Leader>h :ViewDocHelp<Space>
 " }}}
 Plug 'godlygeek/tabular' | Plug 'dhruvasagar/vim-table-mode'
 " vim-table-mode config {{{2
@@ -128,12 +128,12 @@ Plug 'mattn/webapi-vim' | Plug 'mattn/gist-vim', { 'on': 'Gist' }
 " }}}
 Plug 'SyntaxAttr.vim'
 Plug 'visSum.vim'
-Plug 'chrisbra/unicode.vim'
+Plug 'chrisbra/unicode.vim', { 'on': [ 'Digraphs', 'UnicodeSearch', 'UnicodeTable' ] }
 " unicode.vim config {{{2
-  nnoremap <Leader>us :UnicodeSearch 
+  nnoremap <Leader>us :UnicodeSearch<Space>
   nnoremap <Leader>ut :UnicodeTable<CR>
 " }}}
-Plug 'chrisbra/Colorizer'
+Plug 'chrisbra/Colorizer', { 'on': 'ColorToggle' }
 " Colorizer config {{{2
   nnoremap ,tc :ColorToggle<CR>
 " }}}
@@ -161,17 +161,17 @@ endif
 set textwidth=80                       " define an acceptable standard textwidth
 set backspace=2                        " allow backspacing over everything in insert mode
 set shiftwidth=2                       " number of spaces used for indention
-set tabstop=2                          " tabstop length
-set softtabstop=2                      " number of spaces that a <Tab> counts for
+let &softtabstop = &shiftwidth         " number of spaces that a <Tab> counts for
+set shiftround                         " round indent to multiple of 'shiftwidth'
 set expandtab                          " use spaces to insert a <Tab>
 set smarttab                           " smart tab handling for indenting
 set autoindent                         " set autoindenting on
+
 set hidden                             " allow buffers to go in background without saving etc.
 set autowrite                          " save automatically before critical operations
 set autoread                           " automatically reads & loads changes
-"set autochdir                          " change directory to the current buffer when opening files
 set nobackup                           " keep a backup file
-"set fileformat=unix                    " always on a linux box (!) :-) - 2012-12-06 doesn't work with vimpager :-/
+
 "set viminfo='50,\"100,:100,%          " read/write a viminfo file with buffer list
 set viminfo='50,\"100,:100             " read/write a viminfo file without buffer list
 if has ('nvim')
@@ -180,32 +180,45 @@ else
   set viminfo+=n$HOME/.cache/vim/viminfo " specify where to write the viminfo
 endif
 set history=100                        " keep 100 lines of command line history
+
 set number                             " show line numbers
 set cursorcolumn                       " highlights the screen column of the cursor
 set cursorline                         " highlights the screen line of the cursor
-let &cc='+'.join(range(1,255),',+')    " highlights textwidth boundaries
-set gdefault                           " always use global substitutions
-set digraph                            " enter characters that normally can't be entered by keyboard
+" let &cc='+'.join(range(1,255),',+')    " highlights textwidth boundaries
+if exists('+breakindent')              " virtually wrap lines to fit on the screen
+  set linebreak breakindent showbreak=›››\ 
+endif
+
 set ignorecase                         " ignore case when using a search pattern
 set smartcase                          " override 'ignorecase' when pattern has upper case characters
 set incsearch                          " show matches while typing the query
 set hlsearch                           " highlight search results
+
+set wildmenu                           " use a scrollable menu for filename completions
 set wildchar=<tab>                     " the char used for 'expansion' on the command line
 set wildmode=list:longest,full         " show list of completions and complete as much as possible, then iterate full completions
-set wildmenu                           " use a scrollable menu for filename completions
+set wildignore+=*.swp,*.bak,*.pyc,*.cache,*.dll,*.pdb,*.tar.*
+set wildignore+=*/.git/**/*,*/.hg/**/*,*/.svn/**/*
+set completeopt=preview,menuone
 set list                               " display unprintable characters
 "set listchars=tab:→\ ,trail:·,eol:«    " tabstops, trailing whitespace, and end-of-lines
 set listchars=tab:→\ ,trail:·,eol:«,extends:↷,precedes:↶
 set isfname=@,48-57,/,.,-,_,+,,,#,$,%,~,=,(,),[,],{,}     " allowed characters in file and path names
+set path=.,**                          " list of directories which will be searched with find et al
+
 set modeline                           " allow the execution of modelines which is disabled in /etc/vim/vimrc
 set showmode                           " shows mode
 set showcmd                            " show uncompleted command
 set showmatch                          " show matching hyphens
 set diffopt=vertical,iwhite,filler     " split vertical, ignore whitespace & use filler
 set splitright                         " Set vertical splits to split to the right
-set clipboard+=unnamed                 " yank+paste without the "* register
 set splitbelow                         " Set horizontal splits to split to the bottom
 set previewheight=24                   " Set the height of the preview window
+
+set gdefault                           " always use global substitutions
+set digraph                            " enter characters that normally can't be entered by keyboard
+set clipboard+=unnamed                 " yank+paste without the "* register
+set commentstring=#\%s                 " define a default commentstring
 
 " Use persistent undo
 if has('persistent_undo')
@@ -243,19 +256,20 @@ else
 endif
 
 " Set print options
-set printoptions=paper:A4,duplex:long,collate:y,syntax:n
-set printexpr=PrettyPrint(v:fname_in)
-function! PrettyPrint(fname)
-    call system('a2ps -B -2 -s2 -PHL-2250DN '.a:fname)
-    return v:shell_error
-endfunc
+set printoptions=paper:A4,header:0
 " " }}}
 
 " Visual " {{{1
 if has('nvim')
-  let $NVIM_TUI_ENABLE_TRUE_COLOR=1
-  " set termguicolors   " For Neovim > 0.1.5 < https://github.com/neovim/neovim/wiki/Following-HEAD#20160511 >
+  if has(v:version >= 1.0.5)
+    set termguicolors
+  else
+    let $NVIM_TUI_ENABLE_TRUE_COLOR=1
+  endif
 endif
+" if has('patch1809')
+"   set termguicolors
+" endif
 if &term =~ "linux"
   color elrond
 else
@@ -365,26 +379,21 @@ vnoremap Q gw
 nnoremap <Leader>ev :edit    $MYVIMRC<CR>
 nnoremap <Leader>sv :source  $MYVIMRC<CR>
 
-" :w! is always bad to type ...
+" files
+nnoremap <Leader>e  :e **/*
+nnoremap <Leader>f  :find *
+nnoremap <Leader>s  :sfind *
 nnoremap <Leader>w  :w!<CR>
 nnoremap <Leader>wa :wa!<CR>
 nnoremap <Leader>q  :q!<CR>
 nnoremap <Leader>qa :qa!<CR>
 
-" switch buffers
-" Note: :b foo  will also select some-foo-text.txt file if it was opened :)
-"noremap <Leader>b :ls<CR>:b<Space>
+" buffers
 nnoremap <Leader>bn :bnext<CR>
 nnoremap <Leader>bp :bprev<CR>
 nnoremap <Leader>bd :Sayonara<CR>
 
-" switch colorscheme for console
-nnoremap <C-d> :set background=dark<CR>:colorscheme PaperColor<CR>
-
-set pastetoggle=<F3>
-nnoremap <F12> :call SyntaxAttr()<CR>
-
-" Replace signatures
+" signatures
 nnoremap <Leader>sa 1G:s#\(Stefan Wimmer\) <.*>#\1 <stefan@tangoartisan.com>#<CR>
   \ G?--<CR>
   \ jVGd :r ~/.mutt/short-signature-artisan<CR>
@@ -393,9 +402,54 @@ nnoremap <Leader>st G?--<CR>jVGd :r ~/.mutt/short-signature-tango<CR>
 nnoremap <Leader>ss G?--<CR>jVGd :r ~/.mutt/short-signature<CR>
 nnoremap <Leader>sl G?--<CR>jVGd :r ~/.mutt/signature<CR>
 
-" underline mappings
+" asciidoc underline mappings
 map h1 yypVr=
 map h2 yypVr-
+map h3 yypVr~
+map h4 yypVr^
+map h5 yypVr+
+
+" some ideas stolen from tpope/vim-unimpaired
+function! s:statusbump() abort
+  let &l:readonly = &l:readonly
+  return ''
+endfunction
+
+function! s:toggle(op) abort
+  call s:statusbump()
+  return eval('&'.a:op) ? 'no'.a:op : a:op
+endfunction
+
+function! s:option_map(letter, option, mode) abort
+  exe 'nnoremap [o'.a:letter ':'.a:mode.' '.a:option.'<C-r>=<SID>statusbump()<CR><CR>'
+  exe 'nnoremap ]o'.a:letter ':'.a:mode.' no'.a:option.'<C-r>=<SID>statusbump()<CR><CR>'
+  exe 'nnoremap co'.a:letter ':'.a:mode.' <C-r>=<SID>toggle("'.a:option.'")<CR><CR>'
+endfunction
+
+nnoremap [ob :set background=light<CR>
+nnoremap ]ob :set background=dark<CR>
+nnoremap cob :set background=<C-r>=&background == 'dark' ? 'light' : 'dark'<CR><CR>
+call s:option_map('c', 'cursorline', 'setlocal')
+call s:option_map('u', 'cursorcolumn', 'setlocal')
+nnoremap [od :diffthis<CR>
+nnoremap ]od :diffoff<CR>
+nnoremap cod :<C-r>=&diff ? 'diffoff' : 'diffthis'<CR><CR>
+call s:option_map('h', 'hlsearch', 'set')
+call s:option_map('i', 'ignorecase', 'set')
+call s:option_map('l', 'list', 'setlocal')
+call s:option_map('n', 'number', 'setlocal')
+call s:option_map('r', 'relativenumber', 'setlocal')
+call s:option_map('s', 'spell', 'setlocal')
+nnoremap [ox :set cursorline cursorcolumn<CR>
+nnoremap ]ox :set nocursorline nocursorcolumn<CR>
+nnoremap cox :set <C-r>=&cursorline && &cursorcolumn ? 'nocursorline nocursorcolumn' : 'cursorline cursorcolumn'<CR><CR>
+nmap [<Space> O<Esc>j
+nmap ]<Space> o<Esc>k
+
+
+" various
+nnoremap <F12> :call SyntaxAttr()<CR>
+set pastetoggle=<F3>
 
 " Abbreviations
 source $HOME/.vim/abbreviations.vim
@@ -406,13 +460,8 @@ source $HOME/.vim/abbreviations.vim
 autocmd BufWritePost {*.sh,*.pl,*.py} silent !chmod +x %
 
 " Differing commentstrings
-autocmd FileType xdefaults set commentstring=!\%s
-autocmd FileType mail set commentstring=>\%s
-autocmd FileType gentoo-package* set commentstring=#\%s
-autocmd FileType gentoo-conf* set commentstring=#\%s
-autocmd FileType sshdconfig* set commentstring=#\%s
-autocmd FileType cfg* set commentstring=#\%s
-autocmd FileType tmux* set commentstring=#\%s
+autocmd FileType xdefaults setlocal commentstring=!\%s
+autocmd FileType mail setlocal commentstring=>\%s
 
 " Typical mutt thing ... replace > > with >>
 autocmd BufRead /tmp/mutt* silent! %s/^\([>|]\s\?\)\+/\=substitute(submatch(0), '\s', '', 'g').' '
@@ -456,52 +505,12 @@ autocmd BufReadPost *
 autocmd ColorScheme * call s:user_highlights()
 
 " Automatically reload vimrc when it's saved
-augroup AutoReloadVimRC
-  autocmd!
-  autocmd BufWritePost $MYVIMRC source $MYVIMRC
-augroup END
-
-" Transparent editing of archived files.
-augroup gzip
-  " Remove all gzip autocommands
-  au!
-  " Enable editing of gzipped files
-  " set binary mode before reading the file
-  autocmd BufReadPre,FileReadPre *.gz,*.bz2 set bin
-  autocmd BufReadPost,FileReadPost *.gz call GZIP_read("gunzip")
-  autocmd BufReadPost,FileReadPost *.bz2 call GZIP_read("bunzip2")
-  autocmd BufWritePost,FileWritePost *.gz call GZIP_write("gzip")
-  autocmd BufWritePost,FileWritePost *.bz2 call GZIP_write("bzip2")
-  autocmd FileAppendPre   *.gz call GZIP_appre("gunzip")
-  autocmd FileAppendPre   *.bz2 call GZIP_appre("bunzip2")
-  autocmd FileAppendPost  *.gz call GZIP_write("gzip")
-  autocmd FileAppendPost  *.bz2 call GZIP_write("bzip2")
-  " After reading compressed file: Uncompress text in buffer with "cmd"
-  fun! GZIP_read(cmd)
-    let ch_save = &ch
-    set ch=2
-    execute "'[,']!" . a:cmd
-    set nobin
-    let &ch = ch_save
-    execute ":doautocmd BufReadPost " . expand("%:r")
-  endfun
-  " After writing compressed file: Compress written file with "cmd"
-  fun! GZIP_write(cmd)
-    if rename(expand("<afile>"), expand("<afile>:r")) == 0
-      execute "!" . a:cmd . " <afile>:r"
-    endif
-  endfun
-  " Before appending to compressed file: Uncompress file with "cmd"
-  fun! GZIP_appre(cmd)
-    execute "!" . a:cmd . " <afile>"
-    call rename(expand("<afile>:r"), expand("<afile>"))
-  endfun
-augroup END
+autocmd BufWritePost $MYVIMRC source $MYVIMRC
 
 " " }}}
 
 " Runtime & commands " {{{1
-runtime macros/matchit.vim    " very nice extension to %-matching
+packadd matchit                        " extended %-matching
 " " }}}
 
 " Functions " {{{1
