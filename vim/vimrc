@@ -32,35 +32,34 @@ Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': 'yes \| ./install' }
 " }}}
 Plug 'junegunn/fzf.vim'
 " fzf.vim config {{{2
-  nnoremap <Leader>p :Files<CR>
-  nnoremap <Leader>a :Ag<Space>
-  nnoremap        ,w :Ag <C-r><C-w><CR>
-  nnoremap <Leader>b :Buffers<CR>
-  nnoremap <Leader>c :Colors<CR>
-  nnoremap <Leader>l :Locate<Space>
-  nnoremap <Leader>m :History<CR>
-  nnoremap <Leader>t :BTags<CR>
-  imap <C-x><C-f> <plug>(fzf-complete-file-ag)
-  imap <C-x><C-l> <plug>(fzf-complete-line)
+  nnoremap          <Leader>p   :Files<CR>
+  nnoremap          <Leader>a   :Ag<Space>
+  nnoremap          ,w          :Ag<Space><C-r><C-w><CR>
+  nnoremap          <Leader>b   :Buffers<CR>
+  nnoremap          <Leader>c   :Colors<CR>
+  nnoremap          <Leader>l   :Locate<Space>
+  nnoremap          <Leader>m   :History<CR>
+  nnoremap          <Leader>t   :BTags<CR>
+  imap              <C-x><C-f>  <plug>(fzf-complete-file-ag)
+  imap              <C-x><C-l>  <plug>(fzf-complete-line)
 " }}}
 Plug 'junegunn/vim-peekaboo'
-Plug 'junegunn/vim-easy-align'
+Plug 'junegunn/vim-easy-align', { 'on': [ '<plug>(EasyAlign)', '<plug>(EasyAlignRepeat)', 'EasyAlign' ] }
 " vim-easy-align config {{{2
-  vnoremap <silent> <Enter> :EasyAlign<CR>
-  nmap ea <Plug>(EasyAlign)
-  vmap . <Plug>(EasyAlignRepeat)
+  vnoremap <silent> <Enter>     :EasyAlign<CR>
+  nmap              ea          <Plug>(EasyAlign)
+  vmap              .           <Plug>(EasyAlignRepeat)
 " }}}
 Plug 'junegunn/limelight.vim'
 " limelight.vim config {{{2
-  nnoremap <silent> ,tl :Limelight!!<CR>
-  let g:limelight_conceal_ctermfg = 238
-  let g:limelight_conceal_guifg = '#444444'
+  nnoremap <silent> ,tl         :Limelight!!<CR>
+  let g:limelight_conceal_ctermfg     = 238
+  let g:limelight_conceal_guifg       = '#444444'
   let g:limelight_default_coefficient = 2.4
 " }}}
 Plug 'tpope/vim-abolish'
 Plug 'tpope/vim-characterize'
 Plug 'tpope/vim-commentary'
-Plug 'tpope/vim-dispatch'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-rsi'
 Plug 'tpope/vim-surround'
@@ -68,11 +67,11 @@ Plug 'tpope/vim-vinegar'
 Plug 'tpope/vim-fugitive' | Plug 'gregsexton/gitv' | Plug 'junkblocker/git-time-lapse'
 " git related config {{{2
   let g:Gitv_OpenHorizontal = 'auto'
-  nnoremap <silent> <Leader>gV :Gitv --all<CR>
-  nnoremap <silent> <Leader>gv :Gitv! --all<CR>
-  vnoremap <silent> <Leader>gv :Gitv! --all<CR>
-  nnoremap <Leader>gt  :GitTimeLapse<CR>
-  nnoremap <Leader>tig :!tig<CR>:redraw!<CR>
+  nnoremap <silent> <Leader>gV  :Gitv --all<CR>
+  nnoremap <silent> <Leader>gv  :Gitv! --all<CR>
+  vnoremap <silent> <Leader>gv  :Gitv! --all<CR>
+  nnoremap          <Leader>gt  :GitTimeLapse<CR>
+  nnoremap          <Leader>tig :!tig<CR>:redraw!<CR>
 " }}}
 Plug 'mhinz/vim-signify'
 " vim-signify config {{{2
@@ -80,11 +79,11 @@ Plug 'mhinz/vim-signify'
   let g:signify_sign_change            = '!'
   let g:signify_sign_delete            = '-'
   let g:signify_sign_delete_first_line = '‾'
-  let g:signify_line_highlight = 1
-  let g:signify_update_on_focusgained = 1
-  nnoremap ,tsg :SignifyToggle<CR>
+  let g:signify_line_highlight         = 1
+  let g:signify_update_on_focusgained  = 1
+  nnoremap          ,tsg        :SignifyToggle<CR>
 " }}}
-Plug 'mhinz/vim-sayonara'
+Plug 'mhinz/vim-sayonara', {'on': 'Sayonara' }
 Plug 'romainl/vim-qf'
 Plug 'ajh17/VimCompletesMe'
 Plug 'wellle/tmux-complete.vim'
@@ -92,7 +91,7 @@ Plug 'wellle/targets.vim'
 Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' }
 " undotree config {{{2
   let g:undotree_WindowLayout = 2
-  nnoremap ,tu :UndotreeToggle<CR>
+  nnoremap          ,tu         :UndotreeToggle<CR>
 " }}}
 Plug 'qpkorr/vim-renamer'
 Plug 'will133/vim-dirdiff'
@@ -102,21 +101,21 @@ Plug 'will133/vim-dirdiff'
 Plug 'VOoM'
 " VOoM config {{{2
   let g:voom_tree_width = 40
-  let g:voom_ft_modes = {'adoc': 'asciidoc', 'asciidoc': 'asciidoc', 'markdown': 'markdown', 'md': 'markdown', 'rst': 'rest', 'tex': 'latex'}
-  nnoremap ,tv :VoomToggle<CR>
+  let g:voom_ft_modes   = {'adoc': 'asciidoc', 'asciidoc': 'asciidoc', 'markdown': 'markdown', 'md': 'markdown', 'rst': 'rest', 'tex': 'latex'}
+  nnoremap          ,tv         :VoomToggle<CR>
 " }}}
 Plug 'rkitover/vimpager'
 Plug 'powerman/vim-plugin-viewdoc'
 " vim-plugin-viewdoc config {{{2
-  let g:viewdoc_open='rightbelow 80vnew'
-  let g:viewdoc_openempty = 0
+  let g:viewdoc_open       = 'rightbelow 80vnew'
+  let g:viewdoc_openempty  = 0
   let g:viewdoc_dontswitch = 0
-  nnoremap <Leader>h :ViewDocHelp<Space>
+  nnoremap          <Leader>h   :ViewDocHelp<Space>
 " }}}
 Plug 'godlygeek/tabular' | Plug 'dhruvasagar/vim-table-mode'
 " vim-table-mode config {{{2
-  let g:table_mode_corner = '+'
-  let g:table_mode_fillchar = '-'
+  let g:table_mode_corner     = '+'
+  let g:table_mode_fillchar   = '-'
   let g:table_mode_align_char = ':'
 " }}}
 Plug 'farseer90718/vim-taskwarrior', { 'on': 'TW' }
@@ -128,19 +127,19 @@ Plug 'mattn/webapi-vim' | Plug 'mattn/gist-vim', { 'on': 'Gist' }
 " }}}
 Plug 'SyntaxAttr.vim'
 Plug 'visSum.vim'
-Plug 'chrisbra/unicode.vim', { 'on': [ 'Digraphs', 'UnicodeSearch', 'UnicodeTable' ] }
+Plug 'chrisbra/unicode.vim', { 'on': [ 'Digraphs', '<plug>(UnicodeComplete)', '<plug>(UnicodeGA)', 'UnicodeSearch', 'UnicodeTable' ] }
 " unicode.vim config {{{2
-  nnoremap <Leader>us :UnicodeSearch<Space>
-  nnoremap <Leader>ut :UnicodeTable<CR>
+  nnoremap          <Leader>us  :UnicodeSearch<Space>
+  nnoremap          <Leader>ut  :UnicodeTable<CR>
 " }}}
 Plug 'chrisbra/Colorizer', { 'on': 'ColorToggle' }
 " Colorizer config {{{2
-  nnoremap ,tc :ColorToggle<CR>
+  nnoremap          ,tc         :ColorToggle<CR>
 " }}}
 Plug '$HOME/.vim/plugged/my-base16-vim'
 " base16-vim config {{{2
-  let base16colorspace=256
-  let g:base16_shell_path="$HOME/.config/base16-shell"
+  let base16colorspace    = 256
+  let g:base16_shell_path = "$HOME/.config/base16-shell"
 " }}}
 Plug 'wimstefan/Lightning'
 Plug 'romainl/Apprentice'
@@ -151,13 +150,17 @@ Plug 'robertmeta/nofrils'
 Plug 'tstelzer/welpe.vim'
 Plug 'MaxSt/FlatColor'
 Plug 'cocopon/iceberg.vim'
-Plug 'aperezdc/vim-elrond'             " good for TERM=linux
+Plug 'aperezdc/vim-elrond'
 
 call plug#end()
 endif
 " " }}}
 
 " General Settings " {{{1
+filetype indent plugin on
+syntax   on
+runtime  macros/matchit.vim
+
 set textwidth=80                       " define an acceptable standard textwidth
 set backspace=2                        " allow backspacing over everything in insert mode
 set shiftwidth=2                       " number of spaces used for indention
@@ -185,6 +188,10 @@ set number                             " show line numbers
 set cursorcolumn                       " highlights the screen column of the cursor
 set cursorline                         " highlights the screen line of the cursor
 " let &cc='+'.join(range(1,255),',+')    " highlights textwidth boundaries
+if exists('vimpager')
+  set colorcolumn=0
+  set nolist
+endif
 if exists('+breakindent')              " virtually wrap lines to fit on the screen
   set linebreak breakindent showbreak=›››\ 
 endif
@@ -194,17 +201,20 @@ set smartcase                          " override 'ignorecase' when pattern has 
 set incsearch                          " show matches while typing the query
 set hlsearch                           " highlight search results
 
+set completeopt=preview,menuone
+
+set list                               " display unprintable characters
+"set listchars=tab:→\ ,trail:·,eol:«    " tabstops, trailing whitespace, and end-of-lines
+set listchars=tab:→\ ,trail:·,eol:«,extends:↷,precedes:↶
+
+set path=.,**                          " list of directories which will be searched with find et al
+set isfname=@,48-57,/,.,-,_,+,,,#,$,%,~,=,(,),[,],{,}     " allowed characters in file and path names
+
 set wildmenu                           " use a scrollable menu for filename completions
 set wildchar=<tab>                     " the char used for 'expansion' on the command line
 set wildmode=list:longest,full         " show list of completions and complete as much as possible, then iterate full completions
 set wildignore+=*.swp,*.bak,*.pyc,*.cache,*.dll,*.pdb,*.tar.*
 set wildignore+=*/.git/**/*,*/.hg/**/*,*/.svn/**/*
-set completeopt=preview,menuone
-set list                               " display unprintable characters
-"set listchars=tab:→\ ,trail:·,eol:«    " tabstops, trailing whitespace, and end-of-lines
-set listchars=tab:→\ ,trail:·,eol:«,extends:↷,precedes:↶
-set isfname=@,48-57,/,.,-,_,+,,,#,$,%,~,=,(,),[,],{,}     " allowed characters in file and path names
-set path=.,**                          " list of directories which will be searched with find et al
 
 set modeline                           " allow the execution of modelines which is disabled in /etc/vim/vimrc
 set showmode                           " shows mode
@@ -227,13 +237,17 @@ if has('persistent_undo')
     set undofile
 endif
 
-" Netrw settings
-let g:netrw_winsize        = 20
-let g:netrw_liststyle      =  3
-let g:netrw_preview        =  0
-let g:netrw_alto           =  0
-let g:netrw_special_syntax =  1
-nnoremap <silent> <Leader>x :Lexplore<CR>
+" Mouse settings
+set mouse=a                            " enable mouse in console
+set mousemodel=popup_setpos
+if !has('nvim')
+  set ttymouse=xterm2
+endif
+
+" Fold settings
+set foldenable                         " turn on folding
+set foldmethod=indent                  " fold on indentation (only use marker if explicitly defined)
+set foldlevel=100                      " don't autofold anything (but I can still fold manually)
 
 " Search settings
 if executable('ag')
@@ -255,8 +269,16 @@ else
   set nospell
 endif
 
-" Set print options
+" Print settings
 set printoptions=paper:A4,header:0
+
+" Netrw settings
+let g:netrw_winsize        = 20
+let g:netrw_liststyle      =  3
+let g:netrw_preview        =  0
+let g:netrw_alto           =  0
+nnoremap <silent> <Leader>x :Lexplore<CR>
+
 " " }}}
 
 " Visual " {{{1
@@ -291,25 +313,8 @@ else
   endif
 endif
 
-if exists('vimpager')
-  set colorcolumn=0
-  set nolist
-endif
-
 set guifont=PragmataPro\ 11
 set guioptions-=T                      " disable toolbar
-
-filetype indent plugin on | syn on     " enable filetype, plugin and syntax support
-
-set foldenable                         " turn on folding
-set foldmethod=indent                  " fold on indentation (only use marker if explicitly defined)
-set foldlevel=100                      " don't autofold anything (but I can still fold manually)
-
-set mouse=a                            " enable mouse in console
-set mousemodel=popup_setpos
-if !has('nvim')
-  set ttymouse=xterm2
-endif
 
 " Statusline " {{{2
 set laststatus=2                       " always show the statusline above
@@ -446,7 +451,6 @@ nnoremap cox :set <C-r>=&cursorline && &cursorcolumn ? 'nocursorline nocursorcol
 nmap [<Space> O<Esc>j
 nmap ]<Space> o<Esc>k
 
-
 " various
 nnoremap <F12> :call SyntaxAttr()<CR>
 set pastetoggle=<F3>
@@ -509,9 +513,6 @@ autocmd BufWritePost $MYVIMRC source $MYVIMRC
 
 " " }}}
 
-" Runtime & commands " {{{1
-packadd matchit                        " extended %-matching
-" " }}}
 
 " Functions " {{{1
 function! s:sy_stats_wrapper()
