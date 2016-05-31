@@ -32,30 +32,30 @@ Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': 'yes \| ./install' }
 " }}}
 Plug 'junegunn/fzf.vim'
 " fzf.vim config {{{2
-  nnoremap          <Leader>p   :Files<CR>
-  nnoremap          <Leader>a   :Ag<Space>
-  nnoremap          ,w          :Ag<Space><C-r><C-w><CR>
-  nnoremap          <Leader>b   :Buffers<CR>
-  nnoremap          <Leader>c   :Colors<CR>
-  nnoremap          <Leader>l   :Locate<Space>
-  nnoremap          <Leader>m   :History<CR>
-  nnoremap          <Leader>t   :BTags<CR>
-  imap              <C-x><C-f>  <plug>(fzf-complete-file-ag)
-  imap              <C-x><C-l>  <plug>(fzf-complete-line)
+  nnoremap          <Leader>p            :Files<CR>
+  nnoremap          <Leader>a            :Ag<Space>
+  nnoremap          ,w                   :Ag<Space><C-r><C-w><CR>
+  nnoremap          <Leader>b            :Buffers<CR>
+  nnoremap          <Leader>c            :Colors<CR>
+  nnoremap          <Leader>l            :Locate<Space>
+  nnoremap          <Leader>m            :History<CR>
+  nnoremap          <Leader>t            :BTags<CR>
+  imap              <C-x><C-f>           <plug>(fzf-complete-file-ag)
+  imap              <C-x><C-l>           <plug>(fzf-complete-line)
 " }}}
 Plug 'junegunn/vim-peekaboo'
 Plug 'junegunn/vim-easy-align', { 'on': [ '<plug>(EasyAlign)', '<plug>(EasyAlignRepeat)', 'EasyAlign' ] }
 " vim-easy-align config {{{2
-  vnoremap <silent> <Enter>     :EasyAlign<CR>
-  nmap              ea          <Plug>(EasyAlign)
-  vmap              .           <Plug>(EasyAlignRepeat)
+  vnoremap <silent> <Enter>              :EasyAlign<CR>
+  nmap              ea                   <Plug>(EasyAlign)
+  vmap              .                    <Plug>(EasyAlignRepeat)
 " }}}
 Plug 'junegunn/limelight.vim'
 " limelight.vim config {{{2
-  nnoremap <silent> ,tl         :Limelight!!<CR>
-  let g:limelight_conceal_ctermfg     = 238
-  let g:limelight_conceal_guifg       = '#444444'
-  let g:limelight_default_coefficient = 2.4
+  nnoremap <silent> ,tl                  :Limelight!!<CR>
+  let g:limelight_conceal_ctermfg      = 238
+  let g:limelight_conceal_guifg        = '#444444'
+  let g:limelight_default_coefficient  = 2.4
 " }}}
 Plug 'tpope/vim-abolish'
 Plug 'tpope/vim-characterize'
@@ -66,12 +66,12 @@ Plug 'tpope/vim-surround'
 Plug 'tpope/vim-vinegar'
 Plug 'tpope/vim-fugitive' | Plug 'gregsexton/gitv' | Plug 'junkblocker/git-time-lapse'
 " git related config {{{2
-  let g:Gitv_OpenHorizontal = 'auto'
-  nnoremap <silent> <Leader>gV  :Gitv --all<CR>
-  nnoremap <silent> <Leader>gv  :Gitv! --all<CR>
-  vnoremap <silent> <Leader>gv  :Gitv! --all<CR>
-  nnoremap          <Leader>gt  :GitTimeLapse<CR>
-  nnoremap          <Leader>tig :!tig<CR>:redraw!<CR>
+  let g:Gitv_OpenHorizontal            = 'auto'
+  nnoremap <silent> <Leader>gV           :Gitv --all<CR>
+  nnoremap <silent> <Leader>gv           :Gitv! --all<CR>
+  vnoremap <silent> <Leader>gv           :Gitv! --all<CR>
+  nnoremap          <Leader>gt           :GitTimeLapse<CR>
+  nnoremap          <Leader>tig          :!tig<CR>:redraw!<CR>
 " }}}
 Plug 'mhinz/vim-signify'
 " vim-signify config {{{2
@@ -81,7 +81,7 @@ Plug 'mhinz/vim-signify'
   let g:signify_sign_delete_first_line = '‾'
   let g:signify_line_highlight         = 1
   let g:signify_update_on_focusgained  = 1
-  nnoremap          ,tsg        :SignifyToggle<CR>
+  nnoremap          ,tsg                 :SignifyToggle<CR>
 " }}}
 Plug 'mhinz/vim-sayonara', {'on': 'Sayonara' }
 Plug 'romainl/vim-qf'
@@ -90,56 +90,56 @@ Plug 'wellle/tmux-complete.vim'
 Plug 'wellle/targets.vim'
 Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' }
 " undotree config {{{2
-  let g:undotree_WindowLayout = 2
-  nnoremap          ,tu         :UndotreeToggle<CR>
+  let g:undotree_WindowLayout          = 2
+  nnoremap          ,tu                  :UndotreeToggle<CR>
 " }}}
 Plug 'qpkorr/vim-renamer'
 Plug 'will133/vim-dirdiff'
 " vim-dirdiff config {{{2
-  let g:DirDiffExcludes = ".git,.svn,CVS,*.class,*.exe,.*.swp,*.pyc,*.so"
+  let g:DirDiffExcludes                = ".git,.svn,CVS,*.class,*.exe,.*.swp,*.pyc,*.so"
 " }}}
 Plug 'VOoM'
 " VOoM config {{{2
-  let g:voom_tree_width = 40
-  let g:voom_ft_modes   = {'adoc': 'asciidoc', 'asciidoc': 'asciidoc', 'markdown': 'markdown', 'md': 'markdown', 'rst': 'rest', 'tex': 'latex'}
-  nnoremap          ,tv         :VoomToggle<CR>
+  let g:voom_tree_width                = 40
+  let g:voom_ft_modes                  = {'adoc': 'asciidoc', 'asciidoc': 'asciidoc', 'markdown': 'markdown', 'md': 'markdown', 'rst': 'rest', 'tex': 'latex'}
+  nnoremap          ,tv                  :VoomToggle<CR>
 " }}}
 Plug 'rkitover/vimpager'
 Plug 'powerman/vim-plugin-viewdoc'
 " vim-plugin-viewdoc config {{{2
-  let g:viewdoc_open       = 'rightbelow 80vnew'
-  let g:viewdoc_openempty  = 0
-  let g:viewdoc_dontswitch = 0
-  nnoremap          <Leader>h   :ViewDocHelp<Space>
+  let g:viewdoc_open                   = 'rightbelow 80vnew'
+  let g:viewdoc_openempty              = 0
+  let g:viewdoc_dontswitch             = 0
+  nnoremap          <Leader>h            :ViewDocHelp<Space>
 " }}}
 Plug 'godlygeek/tabular' | Plug 'dhruvasagar/vim-table-mode'
 " vim-table-mode config {{{2
-  let g:table_mode_corner     = '+'
-  let g:table_mode_fillchar   = '-'
-  let g:table_mode_align_char = ':'
+  let g:table_mode_corner              = '+'
+  let g:table_mode_fillchar            = '-'
+  let g:table_mode_align_char          = ':'
 " }}}
 Plug 'farseer90718/vim-taskwarrior', { 'on': 'TW' }
 Plug 'jamessan/vim-gnupg'
 Plug 'mattn/webapi-vim' | Plug 'mattn/gist-vim', { 'on': 'Gist' }
 " webapi-vim config {{{2
-  let g:gist_post_private = 1
-  let g:gist_clip_command = 'xclip -selection clipboard'
+  let g:gist_post_private              = 1
+  let g:gist_clip_command              = 'xclip -selection clipboard'
 " }}}
 Plug 'SyntaxAttr.vim'
 Plug 'visSum.vim'
 Plug 'chrisbra/unicode.vim', { 'on': [ 'Digraphs', '<plug>(UnicodeComplete)', '<plug>(UnicodeGA)', 'UnicodeSearch', 'UnicodeTable' ] }
 " unicode.vim config {{{2
-  nnoremap          <Leader>us  :UnicodeSearch<Space>
-  nnoremap          <Leader>ut  :UnicodeTable<CR>
+  nnoremap          <Leader>us           :UnicodeSearch<Space>
+  nnoremap          <Leader>ut           :UnicodeTable<CR>
 " }}}
 Plug 'chrisbra/Colorizer', { 'on': 'ColorToggle' }
 " Colorizer config {{{2
-  nnoremap          ,tc         :ColorToggle<CR>
+  nnoremap          ,tc                  :ColorToggle<CR>
 " }}}
 Plug '$HOME/.vim/plugged/my-base16-vim'
 " base16-vim config {{{2
-  let base16colorspace    = 256
-  let g:base16_shell_path = "$HOME/.config/base16-shell"
+  let base16colorspace                 = 256
+  let g:base16_shell_path              = "$HOME/.config/base16-shell"
 " }}}
 Plug 'wimstefan/Lightning'
 Plug 'romainl/Apprentice'
@@ -193,7 +193,7 @@ if exists('vimpager')
   set nolist
 endif
 if exists('+breakindent')              " virtually wrap lines to fit on the screen
-  set linebreak breakindent showbreak=›››\ 
+  set linebreak breakindent showbreak=\ ›››\ 
 endif
 
 set ignorecase                         " ignore case when using a search pattern
@@ -204,8 +204,7 @@ set hlsearch                           " highlight search results
 set completeopt=preview,menuone
 
 set list                               " display unprintable characters
-"set listchars=tab:→\ ,trail:·,eol:«    " tabstops, trailing whitespace, and end-of-lines
-set listchars=tab:→\ ,trail:·,eol:«,extends:↷,precedes:↶
+set listchars=tab:→\ ,trail:·,eol:«,extends:◀,precedes:▶
 
 set path=.,**                          " list of directories which will be searched with find et al
 set isfname=@,48-57,/,.,-,_,+,,,#,$,%,~,=,(,),[,],{,}     " allowed characters in file and path names
@@ -473,28 +472,28 @@ autocmd BufRead /tmp/mutt* set nonumber nohls nolist filetype=mail formatoptions
 autocmd BufRead /tmp/mutt* setlocal spell
 
 " Syntax for tmux
-au BufNewFile,BufRead *tmux*conf* set filetype=tmux
+autocmd BufNewFile,BufRead *tmux*conf* set filetype=tmux
 
 " Syntax for conkyrc
-au BufNewFile,BufRead *conkyrc* set filetype=conkyrc
+autocmd BufNewFile,BufRead *conkyrc* set filetype=conkyrc
 
 " Syntax for htp files
-au BufNewFile,BufRead {*.htp,*.htt} set filetype=xhtml
+autocmd BufNewFile,BufRead {*.htp,*.htt} set filetype=xhtml
 
 " Syntax for xmp files
-au BufNewFile,BufRead {*.xmp} set filetype=xml
+autocmd BufNewFile,BufRead {*.xmp} set filetype=xml
 
 " Syntax for fvwm files
-au BufNewFile,BufRead */.fvwm*/* set filetype=fvwm syntax=fvwm
+autocmd BufNewFile,BufRead */.fvwm*/* set filetype=fvwm syntax=fvwm
 
 " Syntax for Xorg log files
-au BufNewFile,BufRead *Xorg*log* set filetype=msmessages
+autocmd BufNewFile,BufRead *Xorg*log* set filetype=msmessages
 
 " Change fileformat on playlist files (created by moc)
-au BufNewFile,BufRead *.m3u set encoding=utf-8 fileencoding=utf-8 ff=unix
+autocmd BufNewFile,BufRead *.m3u set encoding=utf-8 fileencoding=utf-8 ff=unix
 
 " Encoding for cddb files
-au BufNewFile,BufRead *cddb* set encoding=utf-8 fileencoding=utf-8 ff=unix
+autocmd BufNewFile,BufRead *cddb* set encoding=utf-8 fileencoding=utf-8 ff=unix
 
 " Disable numbers & spell inside manpages
 autocmd FileType {man,help,perldoc,pydoc}  set nonumber nospell nolist nocursorcolumn
@@ -512,7 +511,6 @@ autocmd ColorScheme * call s:user_highlights()
 autocmd BufWritePost $MYVIMRC source $MYVIMRC
 
 " " }}}
-
 
 " Functions " {{{1
 function! s:sy_stats_wrapper()
