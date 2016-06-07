@@ -73,6 +73,7 @@ Plug 'tpope/vim-fugitive' | Plug 'gregsexton/gitv' | Plug 'junkblocker/git-time-
   nnoremap          <Leader>gt           :GitTimeLapse<CR>
   nnoremap          <Leader>tig          :!tig<CR>:redraw!<CR>
 " }}}
+Plug 'ludovicchabant/vim-lawrencium'
 Plug 'mhinz/vim-signify'
 " vim-signify config {{{2
   let g:signify_sign_add               = '+'
@@ -84,6 +85,24 @@ Plug 'mhinz/vim-signify'
   nnoremap          ,tsg                 :SignifyToggle<CR>
 " }}}
 Plug 'mhinz/vim-sayonara', {'on': 'Sayonara' }
+Plug 'ciaranm/securemodelines'
+" securemodelines config {{{2
+  let g:secure_modelines_verbose = 0
+  let g:secure_modelines_allowed_items = [
+    \ "iskeyword",   "isk",
+    \ "textwidth",   "tw",
+    \ "tabstop",     "ts",
+    \ "shiftwidth",  "sw",
+    \ "expandtab",   "et",   "noexpandtab", "noet",
+    \ "filetype",    "ft",
+    \ "foldmethod",  "fdm",
+    \ "foldlevel",   "fdl",
+    \ "readonly",    "ro",   "noreadonly", "noro",
+    \ "rightleft",   "rl",   "norightleft", "norl",
+    \ "spell",
+    \ "spelllang"
+    \ ]
+" }}}
 Plug 'romainl/vim-qf'
 Plug 'ajh17/VimCompletesMe'
 Plug 'wellle/tmux-complete.vim'
@@ -112,13 +131,13 @@ Plug 'powerman/vim-plugin-viewdoc'
   let g:viewdoc_dontswitch             = 0
   nnoremap          <Leader>h            :ViewDocHelp<Space>
 " }}}
+Plug 'lifepillar/vim-cheat40'
 Plug 'godlygeek/tabular' | Plug 'dhruvasagar/vim-table-mode'
 " vim-table-mode config {{{2
   let g:table_mode_corner              = '+'
   let g:table_mode_fillchar            = '-'
   let g:table_mode_align_char          = ':'
 " }}}
-Plug 'farseer90718/vim-taskwarrior', { 'on': 'TW' }
 Plug 'jamessan/vim-gnupg'
 Plug 'mattn/webapi-vim' | Plug 'mattn/gist-vim', { 'on': 'Gist' }
 " webapi-vim config {{{2
@@ -151,6 +170,7 @@ Plug 'tstelzer/welpe.vim'
 Plug 'MaxSt/FlatColor'
 Plug 'cocopon/iceberg.vim'
 Plug 'aperezdc/vim-elrond'
+Plug 'gosukiwi/vim-atom-dark'
 
 call plug#end()
 endif
@@ -192,8 +212,12 @@ if exists('vimpager')
   set colorcolumn=0
   set nolist
 endif
-if exists('+breakindent')              " virtually wrap lines to fit on the screen
-  set linebreak breakindent showbreak=\ ›››\ 
+" virtually wrap lines to fit on the screen
+if exists('+linebreak')
+  set linebreak showbreak=\ ›››\ 
+endif
+if has('patch594')
+  set breakindent
 endif
 
 set ignorecase                         " ignore case when using a search pattern
@@ -215,7 +239,7 @@ set wildmode=list:longest,full         " show list of completions and complete a
 set wildignore+=*.swp,*.bak,*.pyc,*.cache,*.dll,*.pdb,*.tar.*
 set wildignore+=*/.git/**/*,*/.hg/**/*,*/.svn/**/*
 
-set modeline                           " allow the execution of modelines which is disabled in /etc/vim/vimrc
+set modeline                           " allow the execution of modelines
 set showmode                           " shows mode
 set showcmd                            " show uncompleted command
 set showmatch                          " show matching hyphens
@@ -288,9 +312,9 @@ if has('nvim')
     let $NVIM_TUI_ENABLE_TRUE_COLOR=1
   endif
 endif
-" if has('patch1809')
-"   set termguicolors
-" endif
+if has('patch1809')
+  set termguicolors
+endif
 if &term =~ "linux"
   color elrond
 else
@@ -508,7 +532,10 @@ autocmd BufReadPost *
 autocmd ColorScheme * call s:user_highlights()
 
 " Automatically reload vimrc when it's saved
-autocmd BufWritePost $MYVIMRC source $MYVIMRC
+augroup VIMRC
+  autocmd!
+  au BufWritePost vimrc,.vimrc nested if expand('%') !~ 'fugitive' | source % | endif
+augroup END
 
 " " }}}
 
