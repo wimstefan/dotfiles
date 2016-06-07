@@ -690,6 +690,8 @@ if [[ $USER != root ]]; then
         echo "Syncing cli browsers on $host ..."
         rsync -az            /home/swimmer/.w3m/config $host:.w3m/config
         rsync -az            /home/swimmer/.elinks/elinks.conf $host:.elinks/elinks.conf
+        echo "Syncing moc themes on $host ..."
+        rsync -azk  --delete /home/swimmer/.moc/themes/ $host:.moc/themes/
       }
       function sync-misc() {
       # diverse
