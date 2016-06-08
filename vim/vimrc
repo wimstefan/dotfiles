@@ -115,7 +115,7 @@ Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' }
 Plug 'qpkorr/vim-renamer'
 Plug 'will133/vim-dirdiff'
 " vim-dirdiff config {{{2
-  let g:DirDiffExcludes                = ".git,.svn,CVS,*.class,*.exe,.*.swp,*.pyc,*.so"
+  let g:DirDiffExcludes                = ".git,.svn,CVS,*.class,*.exe,.*.swp,*.pyc,*.so,*.png,*.jp*g,*.svg,*.tiff}"
 " }}}
 Plug 'VOoM'
 " VOoM config {{{2
@@ -425,6 +425,10 @@ nnoremap <Leader>bd :Sayonara<CR>
 nnoremap <Leader>sa 1G:s#\(Stefan Wimmer\) <.*>#\1 <stefan@tangoartisan.com>#<CR>
   \ G?--<CR>
   \ jVGd :r ~/.mutt/short-signature-artisan<CR>
+  \ /^To:<CR>
+nnoremap <Leader>sg 1G:s#\(Stefan Wimmer\) <.*>#\1 <wimstefan@gmail.com>#<CR>
+  \ G?--<CR>
+  \ jVGd :r ~/.mutt/short-signature-gmail<CR>
   \ /^To:<CR>
 nnoremap <Leader>st G?--<CR>jVGd :r ~/.mutt/short-signature-tango<CR>
 nnoremap <Leader>ss G?--<CR>jVGd :r ~/.mutt/short-signature<CR>
