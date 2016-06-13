@@ -1,4 +1,3 @@
-# vim: ft=dosini cms=#%s
 [options]
 resize_grip = false
 scroll_on_output = false
@@ -10,9 +9,9 @@ mouse_autohide = false
 allow_bold = true
 dynamic_title = true
 clickable_url = true
-font = Input Mono Compressed 13.8
-# font = Fira Mono 11.8
-# font = Mononoki 11.8
+font = Input Mono Compressed 13.0
+# font = Fira Mono 11.0
+# font = Mononoki 12.0
 scrollback_lines = 10000
 search_wrap = true
 #icon_name = terminal
@@ -70,3 +69,5 @@ color18 = #303030
 color19 = #505050
 color20 = #d0d0d0
 color21 = #f5f5f5
+
+# vim: ft=dosini cms=#%s
