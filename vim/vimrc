@@ -347,7 +347,7 @@ set laststatus=2                       " always show the statusline above
 set guioptions-=e                      " disables the GUI tab line in favor of the plain text version
 
 function! s:user_highlights()
-  exec 'hi CursorLine cterm=underline gui=underline'
+  exec 'hi CursorLine cterm=bold gui=bold'
   exec 'hi User1 cterm=reverse gui=reverse'
   exec 'hi Status1 ctermfg=1 ctermbg=' . synIDattr(hlID('StatusLine'), 'bg', 'cterm') . ' guifg=#ff0000 guibg=' . synIDattr(hlID('StatusLine'), 'bg', 'gui')
   exec 'hi Status2 ctermfg=2 ctermbg=' . synIDattr(hlID('StatusLine'), 'bg', 'cterm') . ' guifg=#a5ffe1 guibg=' . synIDattr(hlID('StatusLine'), 'bg', 'gui')
