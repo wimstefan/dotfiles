@@ -73,7 +73,6 @@ local layouts =
     -- awful.layout.suit.tile,
     -- awful.layout.suit.tile.left,
     -- awful.layout.suit.tile.bottom,
-    -- awful.layout.suit.fair.horizontal,
     -- awful.layout.suit.spiral,
     -- awful.layout.suit.spiral.dwindle,
     -- awful.layout.suit.max.fullscreen,
@@ -81,7 +80,8 @@ local layouts =
     -- awful.layout.suit.magnifier,
     awful.layout.suit.max,                --1
     awful.layout.suit.floating,           --2
-    awful.layout.suit.fair               --3
+    awful.layout.suit.fair,               --3
+    awful.layout.suit.fair.horizontal     --4
 }
 
 -- tags = awful.tag({ "➊", "➋", "➌", "➍", "➎", "➏", "➐", "➑", "➒" }, 1, layouts[1])
