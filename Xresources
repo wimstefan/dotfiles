@@ -1,8 +1,8 @@
 Xcursor*theme: Neutral_Plus
 
-*font: xft:Input Mono Compressed:pixelsize=16.0
+*font: xft:Input Mono Compressed:pixelsize=16.6
 *font1: xft:Noto Emoji
-*faceName: xft:Input Mono Compressed:pixelsize=16.0
+*faceName: xft:Input Mono Compressed:pixelsize=16.6
 
 xterm*loginShell: true
 xterm*utf8: true
