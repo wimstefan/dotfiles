@@ -147,7 +147,7 @@ Plug 'mattn/webapi-vim' | Plug 'mattn/gist-vim', { 'on': 'Gist' }
 " }}}
 Plug 'SyntaxAttr.vim'
 Plug 'visSum.vim'
-Plug 'chrisbra/unicode.vim', { 'on': [ 'Digraphs', '<plug>(UnicodeComplete)', '<plug>(UnicodeGA)', 'UnicodeSearch', 'UnicodeTable' ] }
+Plug 'chrisbra/unicode.vim'
 " unicode.vim config {{{2
   nnoremap          <Leader>us           :UnicodeSearch<Space>
   nnoremap          <Leader>ut           :UnicodeTable<CR>
