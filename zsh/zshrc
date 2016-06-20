@@ -670,6 +670,7 @@ if [[ $USER != root ]]; then
         rsync -az            /home/swimmer/.config/termite/config $host:.config/termite/
         rsync -az            /home/swimmer/.config/colorscheme $host:.config/
         rsync -az            /home/swimmer/.config/base16-shell/ $host:.config/base16-shell/
+        rsync -az            /home/swimmer/.config/emoji-list.txt $host:.config/
       }
       function sync-cli() {
       # zsh, vim, mc
