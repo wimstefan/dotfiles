@@ -58,7 +58,6 @@ Plug 'junegunn/limelight.vim'
   let g:limelight_default_coefficient  = 2.4
 " }}}
 Plug 'tpope/vim-abolish'
-Plug 'tpope/vim-characterize'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-rsi'
@@ -149,6 +148,7 @@ Plug 'chrisbra/unicode.vim'
 " unicode.vim config {{{2
   nnoremap          <Leader>us           :UnicodeSearch<Space>
   nnoremap          <Leader>ut           :UnicodeTable<CR>
+  nnoremap          ga                   :UnicodeName<CR>
 " }}}
 Plug 'chrisbra/Colorizer', { 'on': 'ColorToggle' }
 " Colorizer config {{{2
@@ -165,10 +165,6 @@ Plug 'NLKNguyen/papercolor-theme'
 Plug 'joshdick/onedark.vim'
 Plug 'reedes/vim-colors-pencil'
 Plug 'robertmeta/nofrils'
-Plug 'tstelzer/welpe.vim'
-Plug 'MaxSt/FlatColor'
-Plug 'cocopon/iceberg.vim'
-Plug 'gosukiwi/vim-atom-dark'
 
 call plug#end()
 endif
