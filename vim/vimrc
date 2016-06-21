@@ -433,13 +433,6 @@ nnoremap <Leader>st G?--<CR>jVGd :r ~/.mutt/short-signature-tango<CR>
 nnoremap <Leader>ss G?--<CR>jVGd :r ~/.mutt/short-signature<CR>
 nnoremap <Leader>sl G?--<CR>jVGd :r ~/.mutt/signature<CR>
 
-" asciidoc underline mappings
-map h1 yypVr=
-map h2 yypVr-
-map h3 yypVr~
-map h4 yypVr^
-map h5 yypVr+
-
 " some ideas stolen from tpope/vim-unimpaired
 function! s:statusbump() abort
   let &l:readonly = &l:readonly
