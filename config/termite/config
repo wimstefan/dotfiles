@@ -9,7 +9,7 @@ mouse_autohide = false
 allow_bold = true
 dynamic_title = true
 clickable_url = true
-font = Input Mono Compressed 13.0
+font = Input Mono 11.0
 # font = Fira Mono 11.0
 # font = Mononoki 12.0
 scrollback_lines = 10000
@@ -35,39 +35,40 @@ filter_unmatched_urls = true
 # emit escape sequences for other keys modified by Control
 #modify_other_keys = false
 
-[colors]
-# Base16 Bright
-# Scheme: Chris Kempson (http://chriskempson.com)
 
-foreground      = #e0e0e0
-foreground_bold = #e0e0e0
-cursor          = #e0e0e0
-background      = #000000
+[colors]
+# Base16 Google
+# Scheme: Seth Wright (http://sethawright.com)
+
+foreground      = #373b41
+foreground_bold = #373b41
+cursor          = #373b41
+background      = #ffffff
 
 # 16 color space
-color0  = #000000
-color1  = #fb0120
-color2  = #a1c659
-color3  = #fda331
-color4  = #6fb3d2
-color5  = #d381c3
-color6  = #76c7b7
-color7  = #e0e0e0
-color8  = #b0b0b0
-color9  = #fb0120
-color10 = #a1c659
-color11 = #fda331
-color12 = #6fb3d2
-color13 = #d381c3
-color14 = #76c7b7
+color0  = #1d1f21
+color1  = #CC342B
+color2  = #198844
+color3  = #FBA922
+color4  = #3971ED
+color5  = #A36AC7
+color6  = #3971ED
+color7  = #c5c8c6
+color8  = #969896
+color9  = #CC342B
+color10 = #198844
+color11 = #FBA922
+color12 = #3971ED
+color13 = #A36AC7
+color14 = #3971ED
 color15 = #ffffff
 
 # 256 color space
-color16 = #fc6d24
-color17 = #be643c
-color18 = #303030
-color19 = #505050
-color20 = #d0d0d0
-color21 = #f5f5f5
+color16 = #F96A38
+color17 = #3971ED
+color18 = #282a2e
+color19 = #373b41
+color20 = #b4b7b4
+color21 = #e0e0e0
 
 # vim: ft=cfg

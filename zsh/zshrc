@@ -333,7 +333,7 @@ export SAVEHIST="5000"
 export CVS_RSH="ssh"
 export FZF_DEFAULT_COMMAND="ag --hidden --ignore .git --ignore .cache -l -g ''"
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
-export FZF_DEFAULT_OPTS="-x -m --cycle --color=dark"
+export FZF_DEFAULT_OPTS="-x -m --cycle --color=light"
 export XAUTHORITY="$HOME/.Xauthority"
 export DISPLAY=:0.0
 # anti aliasing in the two toolkits
@@ -458,7 +458,7 @@ if [[ $USER != root ]]; then
   export GPG_TTY=`tty`
   export GTK2_RC_FILES="$HOME/.gtkrc-2.0"
   BASE16=$(cat $HOME/.config/colorscheme | sed 's/color\s\(.*\)/\1/')
-  BASE16_SHELL="$HOME/.config/base16-shell/$BASE16.dark.sh"
+  BASE16_SHELL="$HOME/.config/base16-shell/$BASE16.sh"
   [[ -s $BASE16_SHELL ]] && source $BASE16_SHELL
   # }}}3
   # - Aliases {{{3
@@ -808,7 +808,7 @@ else
   # - Exports # {{{3
   export PATH=$PATH:$HOME/bin
   BASE16=$(cat $HOME/.config/colorscheme | sed 's/color\s\(.*\)/\1/')
-  BASE16_SHELL="$HOME/.config/base16-shell/$BASE16.dark.sh"
+  BASE16_SHELL="$HOME/.config/base16-shell/$BASE16.sh"
   [[ -s $BASE16_SHELL ]] && source $BASE16_SHELL
   # }}}3
   # - Key management # {{{3

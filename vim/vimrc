@@ -165,6 +165,12 @@ Plug 'NLKNguyen/papercolor-theme'
 Plug 'joshdick/onedark.vim'
 Plug 'reedes/vim-colors-pencil'
 Plug 'robertmeta/nofrils'
+Plug 'w0ng/vim-hybrid'
+" vim-hybrid config {{{2
+  let g:hybrid_custom_term_colors      = 1
+  let g:hybrid_reduced_contrast        = 1
+" }}}
+Plug 'jonathanfilip/vim-lucius'
 
 call plug#end()
 endif
@@ -317,16 +323,18 @@ else
     if $USER=='root'
       color onedark
     else
-      set background=dark
       source $HOME/.config/colorscheme
     endif
   else
     if $USER=='root'
-      set background=dark
       source $HOME/.config/colorscheme
     else
-      set background=dark
       source $HOME/.config/colorscheme
+      if g:colors_name == "lucius" && &background == "dark"
+        LuciusDarkLowContrast
+      elseif g:colors_name == "lucius" && &background == "light"
+        LuciusWhiteLowContrast
+      endif
     endif
   endif
 endif
