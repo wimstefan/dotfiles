@@ -72,6 +72,11 @@ Plug 'tpope/vim-fugitive' | Plug 'gregsexton/gitv' | Plug 'junkblocker/git-time-
   nnoremap          <Leader>gt           :GitTimeLapse<CR>
   nnoremap          <Leader>tig          :!tig<CR>:redraw!<CR>
 " }}}
+Plug 'justinmk/vim-sneak'
+" vim-sneak config {{{2
+  let g:sneak#prompt = '[sneak]'
+  let g:sneak#streak = 0
+" }}}
 Plug 'mhinz/vim-signify'
 " vim-signify config {{{2
   let g:signify_sign_add               = '+'
@@ -371,6 +376,7 @@ function! MyStatusline()
   endif
   let stl .= '%#Status2#%{&modified ? " ✓ " : ""}%*'
   let stl .= '%#Status1#%{&ro ? " ✗ " : ""}%*'
+  let stl .= '%{sneak#is_sneaking()?"[sneak]":""}'
   let stl .= '%= '
   if exists('b:git_dir') && winwidth(0) > 70
     let branch  = fugitive#head(8)
