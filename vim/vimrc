@@ -108,6 +108,7 @@ Plug 'ciaranm/securemodelines'
     \ ]
 " }}}
 Plug 'romainl/vim-qf'
+Plug 'romainl/vim-qlist'
 Plug 'ajh17/VimCompletesMe'
 Plug 'wellle/tmux-complete.vim'
 Plug 'wellle/targets.vim'
@@ -176,6 +177,7 @@ Plug 'w0ng/vim-hybrid'
   let g:hybrid_reduced_contrast        = 1
 " }}}
 Plug 'jonathanfilip/vim-lucius'
+Plug 'machakann/vim-colorscheme-muki'
 
 call plug#end()
 endif
