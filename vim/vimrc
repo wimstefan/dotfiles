@@ -88,25 +88,6 @@ Plug 'mhinz/vim-signify'
   nnoremap          ,tsg                 :SignifyToggle<CR>
 " }}}
 Plug 'mhinz/vim-sayonara', {'on': 'Sayonara' }
-Plug 'ciaranm/securemodelines'
-" securemodelines config {{{2
-  let g:secure_modelines_verbose = 0
-  let g:secure_modelines_allowed_items = [
-    \ "iskeyword",     "isk",
-    \ "commentstring", "cms",
-    \ "textwidth",     "tw",
-    \ "tabstop",       "ts",
-    \ "shiftwidth",    "sw",
-    \ "expandtab",     "et", "noexpandtab", "noet",
-    \ "filetype",      "ft",
-    \ "foldmethod",    "fdm",
-    \ "foldlevel",     "fdl",
-    \ "readonly",      "ro", "noreadonly",  "noro",
-    \ "rightleft",     "rl", "norightleft", "norl",
-    \ "spell",
-    \ "spelllang"
-    \ ]
-" }}}
 Plug 'romainl/vim-qf'
 Plug 'romainl/vim-qlist'
 Plug 'ajh17/VimCompletesMe'
@@ -171,13 +152,8 @@ Plug 'NLKNguyen/papercolor-theme'
 Plug 'joshdick/onedark.vim'
 Plug 'reedes/vim-colors-pencil'
 Plug 'robertmeta/nofrils'
-Plug 'w0ng/vim-hybrid'
-" vim-hybrid config {{{2
-  let g:hybrid_custom_term_colors      = 1
-  let g:hybrid_reduced_contrast        = 1
-" }}}
 Plug 'jonathanfilip/vim-lucius'
-Plug 'machakann/vim-colorscheme-muki'
+Plug 'adelarsq/vim-grimmjow'
 
 call plug#end()
 endif
