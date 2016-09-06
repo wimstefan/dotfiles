@@ -25,7 +25,6 @@ nnoremap ,pu :PlugUpdate<CR>
 let g:plug_shallow = 0
 
 silent! if  plug#begin('~/.vim/plugged')
-Plug 'tpope/vim-eunuch' " interferes with the :Locate command from fzf hence this first
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': 'yes \| ./install' }
 " fzf config {{{2
   set rtp+=~/.fzf
@@ -34,10 +33,8 @@ Plug 'junegunn/fzf.vim'
 " fzf.vim config {{{2
   nnoremap          <Leader>p            :Files<CR>
   nnoremap          <Leader>a            :Ag<Space>
-  nnoremap          ,w                   :Ag<Space><C-r><C-w><CR>
   nnoremap          <Leader>b            :Buffers<CR>
   nnoremap          <Leader>c            :Colors<CR>
-  nnoremap          <Leader>l            :Locate<Space>
   nnoremap          <Leader>m            :History<CR>
   nnoremap          <Leader>t            :BTags<CR>
   imap              <C-x><C-f>           <plug>(fzf-complete-file-ag)
@@ -59,6 +56,7 @@ Plug 'junegunn/limelight.vim'
 " }}}
 Plug 'tpope/vim-abolish'
 Plug 'tpope/vim-commentary'
+Plug 'tpope/vim-eunuch'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-rsi'
 Plug 'tpope/vim-surround'
@@ -89,6 +87,10 @@ Plug 'mhinz/vim-signify'
 " }}}
 Plug 'mhinz/vim-sayonara', {'on': 'Sayonara' }
 Plug 'romainl/vim-qf'
+" vim-qf config {{{2
+  let g:qf_mapping_ack_style           = 1
+  nmap              <C-q>                <Plug>QfSwitch
+" }}}
 Plug 'romainl/vim-qlist'
 Plug 'ajh17/VimCompletesMe'
 Plug 'wellle/tmux-complete.vim'
@@ -150,7 +152,13 @@ Plug 'wimstefan/Lightning'
 Plug 'romainl/Apprentice'
 Plug 'NLKNguyen/papercolor-theme'
 Plug 'joshdick/onedark.vim'
+" onedark.vim config {{{2
+  let g:onedark_terminal_italics       = 1
+" }}}
 Plug 'reedes/vim-colors-pencil'
+" vim-colors-pencil config {{{2
+  let g:pencil_terminal_italics        = 1
+" }}}
 Plug 'robertmeta/nofrils'
 Plug 'jonathanfilip/vim-lucius'
 Plug 'adelarsq/vim-grimmjow'
@@ -398,6 +406,9 @@ nnoremap <Leader>sv :source  $MYVIMRC<CR>
 nnoremap <Leader>e  :e **/*
 nnoremap <Leader>f  :find *
 nnoremap <Leader>s  :sfind *
+nnoremap ,w         :grep<Space><C-r><C-w><CR>
+nnoremap <Leader>g  :grep<Space>
+nnoremap <Leader>l  :Locate<Space>
 nnoremap <Leader>w  :w!<CR>
 nnoremap <Leader>wa :wa!<CR>
 nnoremap <Leader>q  :q!<CR>
