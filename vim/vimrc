@@ -321,9 +321,9 @@ else
       source $HOME/.config/colorscheme
     else
       source $HOME/.config/colorscheme
-      if g:colors_name == "lucius" && &background == "dark"
+      if exists("g:colors_name") && g:colors_name == "lucius" && &background == "dark"
         LuciusDarkLowContrast
-      elseif g:colors_name == "lucius" && &background == "light"
+      elseif exists("g:colors_name") && g:colors_name == "lucius" && &background == "light"
         LuciusWhiteLowContrast
       endif
     endif
