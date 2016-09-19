@@ -2,10 +2,6 @@
 " Check settings with ":verbose set <setting>?"
 " vim: fdm=marker fdl=0 tw=200
 
-" reset to vim-defaults
-if &compatible          " only if not set before:
-  set nocompatible      " use vim-defaults instead of vi-defaults (easier, more user friendly)
-endif
 " utf-8 settings
 scriptencoding utf-8
 set encoding=utf-8
@@ -175,6 +171,7 @@ endif
 filetype indent plugin on
 syntax   on
 runtime  macros/matchit.vim
+runtime  ftplugin/man.vim
 
 set textwidth=80                       " define an acceptable standard textwidth
 set backspace=2                        " allow backspacing over everything in insert mode
@@ -305,8 +302,7 @@ if has('nvim')
   else
     let $NVIM_TUI_ENABLE_TRUE_COLOR=1
   endif
-endif
-if has('patch1809')
+else
   let &t_8f="\e[38;2;%lu;%lu;%lum"
   let &t_8b="\e[48;2;%lu;%lu;%lum"
   set termguicolors
