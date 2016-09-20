@@ -148,6 +148,7 @@ Plug '$HOME/.vim/plugged/my-base16-vim'
   let base16colorspace                 = 256
   let g:base16_shell_path              = "$HOME/.config/base16-shell"
 " }}}
+Plug 'wimstefan/ligero-theme'
 Plug 'wimstefan/Lightning'
 Plug 'romainl/Apprentice'
 Plug 'NLKNguyen/papercolor-theme'
