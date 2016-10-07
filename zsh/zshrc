@@ -333,15 +333,12 @@ export SAVEHIST="5000"
 export CVS_RSH="ssh"
 export FZF_DEFAULT_COMMAND="ag --hidden --ignore .git --ignore .cache -l -g ''"
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
-export FZF_DEFAULT_OPTS="-x -m --cycle --color=light"
+export FZF_DEFAULT_OPTS="-x -m --cycle --color=light --inline-info"
 export XAUTHORITY="$HOME/.Xauthority"
 export DISPLAY=:0.0
 # anti aliasing in the two toolkits
 export QT_XFT=true
 export GDK_USE_XFT=1
-if [[ $TERM =~ "xterm*" ]]; then
-  export TERM=xterm-256color
-fi
 # }}}3
 # - Aliases {{{3
 # generic aliases
