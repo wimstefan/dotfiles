@@ -303,7 +303,7 @@ local stats_grad = { type = "linear", from = { 0, 0 }, to = { 0, 18 }, stops = {
 -- Music widget {{{2
 local widget_music = wibox.widget.textbox()
 vicious.register(widget_music, vicious.widgets.volume,
-  '<span background="'..beautiful.bg_widget_1..'"><span color="'..beautiful.fg_widget_1..'">  $2  $1%  </span></span>', 144, "Master")
+  '$2  $1%', 144, "Master")
 widget_music:buttons(awful.util.table.join(
   awful.button({ }, 1, function () awful.util.spawn_with_shell(mixer) end),
   awful.button({ modkey }, 1, function () awful.util.spawn_with_shell(musicplr1) end),
@@ -317,7 +317,7 @@ local widget_mem_text = wibox.widget.textbox()
 local tooltip_mem
 
 vicious.register(widget_mem_text, vicious.widgets.mem,
-  '<span background="'..beautiful.bg_widget_2..'"><span color="'..beautiful.fg_widget_2..'">  <span font="Webhostinghub-Glyphs 9"></span>  $2MB  </span></span>', 10)
+  '<span font="Webhostinghub-Glyphs 9"></span>  $2MB', 10)
 
 tooltip_mem = awful.tooltip({ objects = { widget_mem }, timeout = timeout_tooltip, timer_function = function()
   local info_mem = vicious.widgets.mem()
@@ -343,14 +343,12 @@ local widget_cpu_graph = awful.widget.graph()
 local tooltip_cpu
 
 vicious.register(widget_cpu_text, vicious.widgets.cpu,
-  '<span background="'..beautiful.bg_widget_3..'"><span color="'..beautiful.fg_widget_3..'">  <span font="Webhostinghub-Glyphs 9"></span>  $1%  </span></span>', 4)
+  '<span font="Webhostinghub-Glyphs 9"></span>  $1% ', 4)
 widget_cpu_text:buttons(awful.util.table.join(
     awful.button({ }, 1, function () awful.util.spawn_with_shell(mytop) end)))
 
 widget_cpu_graph:set_width(20)
-widget_cpu_graph:set_background_color(beautiful.bg_widget_3)
 widget_cpu_graph:set_color(stats_grad)
-widget_cpu_graph:set_border_color(beautiful.bg_widget_3)
 vicious.register(widget_cpu_graph, vicious.widgets.cpu, "$1", 3)
 
 tooltip_cpu = awful.tooltip({ objects = { widget_cpu }, timeout = timeout_tooltip, timer_function = function()
@@ -380,7 +378,7 @@ local widget_temp = wibox.layout.fixed.horizontal()
 local widget_temp_cpu = wibox.widget.textbox()
 
 vicious.register(widget_temp_cpu, vicious.widgets.thermal,
-  '<span background="'..beautiful.bg_widget_4..'"><span color="'..beautiful.fg_widget_4..'">  <span font="Webhostinghub-Glyphs 9"></span> $1°  </span></span>', 9, { SYSTEMP, "core"} )
+  '<span font="Webhostinghub-Glyphs 9"></span> $1°', 9, { SYSTEMP, "core"} )
 widget_temp_cpu:buttons(awful.util.table.join(
     awful.button({ }, 1, function () toggle_conky() end)))
 
@@ -394,7 +392,7 @@ local widget_hdd_text = wibox.widget.textbox()
 local tooltip_hdd
 
 vicious.register(widget_hdd_text, vicious.widgets.fs,
-  '<span background="'..beautiful.bg_widget_5..'"><span color="'..beautiful.fg_widget_5..'">  <span font="Webhostinghub-Glyphs 9"></span>  ${/ used_gb} GB  </span></span>', 244)
+  '<span font="Webhostinghub-Glyphs 9"></span>  ${/ used_gb} GB', 244)
 
 tooltip_hdd = awful.tooltip({ objects = { widget_hdd } , timeout = timeout_tooltip, timer_function = function()
   local info_hdd = vicious.widgets.fs()
@@ -405,7 +403,7 @@ tooltip_hdd = awful.tooltip({ objects = { widget_hdd } , timeout = timeout_toolt
          ' <span weight="bold" color="'..beautiful.fg_normal..'">'..title..'</span> \n'..
          ' <span weight="bold">'..string.rep('-', tlen)..'</span> \n'..
          ' ⛁ on / <span color="'..beautiful.fg_normal..'">'..
-         info_hdd['{/ used_p}']..'%  '..
+         info_hdd['{/ used_p}']..'%'..
          info_hdd['{/ used_gb}']..'/'..
          info_hdd['{/ size_gb}']..'</span> GB</span> '
   return text
@@ -423,7 +421,7 @@ if BAT then
   local tooltip_bat
 
   vicious.register(widget_bat_text, vicious.widgets.bat,
-    '<span background="'..beautiful.bg_widget_6..'"><span color="'..beautiful.fg_widget_6..'">  <span font="Webhostinghub-Glyphs 9"></span>  $1$2%  </span></span>', 14, BAT )
+    '<span font="Webhostinghub-Glyphs 9"></span>  $1$2%', 14, BAT )
 
   tooltip_bat = awful.tooltip({ objects = { widget_bat }, timeout = timeout_tooltip, timer_function = function()
     local info_bat = vicious.widgets.bat(widget, BAT)
@@ -449,7 +447,7 @@ if BAT then
   widget_bat:add(widget_bat_text)
 end
 
-local widget_ac = wibox.widget.textbox('<span background="'..beautiful.bg_widget_6..'">  <span color="'..beautiful.fg_widget_6..'"><span font="Webhostinghub-Glyphs 9"></span> AC  </span></span>')
+local widget_ac = wibox.widget.textbox('<span font="Webhostinghub-Glyphs 9"></span> AC')
 -- Battery widget }}}
 
 -- Net widget {{{2
@@ -462,20 +460,20 @@ vicious.register(netwidget, vicious.widgets.net, function(widgets,args)
         else
                 return ""
         end
-        return '<span background="'..beautiful.bg_widget_7..'">  <span color="'..beautiful.fg_widget_7..'" font="Webhostinghub-Glyphs 9"></span>  '
-           ..'<span color="#a52a2a">'..args["{"..interface.." down_kb}"]..'</span>'
-           ..' <span font="Webhostinghub-Glyphs 9" color="'..beautiful.fg_widget_7..'"></span>'
-           ..' <span color="#185a9f">'..args["{"..interface.." up_kb}"]..'</span>  </span>' end, 6)
+        return '<span font="Webhostinghub-Glyphs 9"></span>  '
+        ..'<span color="#ff5c5c">'..args["{"..interface.." down_kb}"]..'</span>'
+        ..' <span font="Webhostinghub-Glyphs 9" color="#777e76"></span>'
+        ..' <span color="#73abe6">'..args["{"..interface.." up_kb}"]..'</span>  ' end, 6)
 netwidget:buttons(awful.util.table.join(awful.button({ }, 1, function () awful.util.spawn_with_shell(iptraf) end)))
 -- Net widget }}}
 
 -- Calendar/time widget {{{2
-mytextclock = awful.widget.textclock( '<span background="#777e76" color="#ffffff">%a %b %d, %H:%M</span>')
+mytextclock = awful.widget.textclock( '<span weight="bold" background="#ffffff" color="#090909">  %a %b %d, %H:%M  </span>')
 cal.register(mytextclock)
 -- }}}
 
 -- Separator widgets {{{2
-spr = wibox.widget.textbox(' ')
+spr = wibox.widget.textbox('<span color="#777e76" weight="bold"> ┃ </span>')
 sprd = wibox.widget.textbox('<span background="#060606">  </span>')
 spr3f = wibox.widget.textbox('<span background="#777e76">   </span>')
 arr0 = wibox.widget.imagebox(beautiful.arr0)
@@ -565,28 +563,25 @@ mytasklist.buttons = awful.util.table.join(
     -- Widgets that are aligned to the right
     local right_layout = wibox.layout.fixed.horizontal()
     right_layout:add(wibox.widget.systray())
+    right_layout:add(spr)
     right_layout:add(widget_music)
-    right_layout:add(arr8)
+    right_layout:add(spr)
     right_layout:add(widget_mem)
-    right_layout:add(arr7)
+    right_layout:add(spr)
     right_layout:add(widget_cpu)
-    right_layout:add(arr6)
+    right_layout:add(spr)
     right_layout:add(widget_temp)
-    right_layout:add(arr5)
+    right_layout:add(spr)
     right_layout:add(widget_hdd)
-    right_layout:add(arr4)
+    right_layout:add(spr)
     if BAT then
       right_layout:add(widget_bat)
     else
       right_layout:add(widget_ac)
     end
-    right_layout:add(arr3)
+    right_layout:add(spr)
     right_layout:add(netwidget)
-    right_layout:add(arr2)
-    right_layout:add(spr3f)
     right_layout:add(mytextclock)
-    right_layout:add(spr3f)
-    right_layout:add(arr1)
     right_layout:add(mylayoutbox[1])
 
     -- Now bring it all together (with the tasklist in the middle)

@@ -16,7 +16,7 @@ theme = {}
 
 -- Theme settings {{{
 theme.wallpaper                 = config_dir .. "/themes/wallpaper.png"
-theme.border_width              = "4"
+theme.border_width              = "3"
 --}}}
 
 -- Theme fonts {{{
