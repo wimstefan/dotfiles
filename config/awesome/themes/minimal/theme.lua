@@ -21,46 +21,55 @@ theme.border_width              = "3"
 
 -- Theme fonts {{{
 theme.font                                  = "Archivo Narrow 11"
+theme.taglist_font                          = "Archivo Narrow Bold 14"
 theme.mono_font                             = "Input Mono Compressed Bold 11"
 --}}}
 
 -- Theme colours {{{
 theme.fg_normal                             = lgrey
-theme.fg_focus                              = red
-theme.fg_em                                 = lgrey
-theme.fg_urgent                             = white
 theme.bg_normal                             = dgrey
+theme.fg_focus                              = red
 theme.bg_focus                              = dgrey
+theme.fg_em                                 = lgrey
 theme.bg_em                                 = "#5C5C5C"
+theme.fg_urgent                             = white
 theme.bg_urgent                             = red
 theme.border_normal                         = dgrey
 theme.border_focus                          = "#777E76"
 theme.border_marked                         = "#CC9393"
 theme.fg_widget_1                           = lgrey
-theme.fg_widget_2                           = lgrey
-theme.fg_widget_3                           = lgrey
-theme.fg_widget_4                           = lgrey
-theme.fg_widget_5                           = lgrey
-theme.fg_widget_6                           = lgrey
-theme.fg_widget_7                           = "#777E76"
-theme.fg_widget_8                           = lgrey
 theme.bg_widget_1                           = theme.bg_normal
+theme.fg_widget_2                           = lgrey
 theme.bg_widget_2                           = "#777E76"
+theme.fg_widget_3                           = lgrey
 theme.bg_widget_3                           = "#4B696D"
+theme.fg_widget_4                           = lgrey
 theme.bg_widget_4                           = "#4B3B51"
+theme.fg_widget_5                           = lgrey
 theme.bg_widget_5                           = "#D0785D"
+theme.fg_widget_6                           = lgrey
 theme.bg_widget_6                           = "#92B0A0"
+theme.fg_widget_7                           = "#777E76"
 theme.bg_widget_7                           = "#C2C2A4"
+theme.fg_widget_8                           = lgrey
 theme.bg_widget_8                           = "#777E76"
 theme.fg_keydoc_option                      = green
 theme.fg_keydoc_value                       = blue
 theme.fg_keydoc_value_important             = lgrey
+theme.taglist_fg_empty                      = dgrey
+theme.taglist_bg_empty                      = white
+theme.taglist_fg_focus                      = red
+theme.taglist_bg_focus                      = white
+theme.taglist_fg_occupied                   = dgrey
+theme.taglist_bg_occupied                   = white
+theme.taglist_fg_urgent                     = white
+theme.taglist_bg_urgent                     = red
 --}}}
 
 -- Theme icons {{{
 theme.awesome_icon                              = theme_dir .. "icons/awesome-icon.png"
-theme.taglist_squares_sel                       = theme_dir .. "icons/square_sel.png"
-theme.taglist_squares_unsel                     = theme_dir .. "icons/square_unsel.png"
+theme.taglist_squares_sel                       = theme_dir .. "icons/square_sel_red.png"
+theme.taglist_squares_unsel                     = theme_dir .. "icons/square_unsel_black.png"
 theme.layout_floating                           = theme_dir .. "icons/floating.png"
 theme.layout_tile                               = theme_dir .. "icons/tile.png"
 theme.layout_tileleft                           = theme_dir .. "icons/tileleft.png"
@@ -78,6 +87,6 @@ theme.arr9                                      = theme_dir .. "icons/arr9.png"
 theme.arr0                                      = theme_dir .. "icons/arr0.png"
 --}}}
 
-theme.icon_theme = "Vertex.git"
+theme.icon_theme = "Numix"
 
 return theme
