@@ -6,6 +6,8 @@
 green = "#b6e354"
 cyan  = "#7f4de6"
 red   = "#de4343"
+lred  = "#ff5c5c"
+dred  = "#cc2929"
 blue  = "#729fcf"
 black = "#000000"
 lgrey = "#eeeeee"
@@ -21,14 +23,14 @@ theme.border_width              = "3"
 
 -- Theme fonts {{{
 theme.font                                  = "Archivo Narrow 11"
-theme.taglist_font                          = "Archivo Narrow Bold 14"
+theme.taglist_font                          = "Impact Label Reversed Bold 13"
 theme.mono_font                             = "Input Mono Compressed Bold 11"
 --}}}
 
 -- Theme colours {{{
 theme.fg_normal                             = lgrey
 theme.bg_normal                             = dgrey
-theme.fg_focus                              = red
+theme.fg_focus                              = lred
 theme.bg_focus                              = dgrey
 theme.fg_em                                 = lgrey
 theme.bg_em                                 = "#5C5C5C"
@@ -57,19 +59,19 @@ theme.fg_keydoc_option                      = green
 theme.fg_keydoc_value                       = blue
 theme.fg_keydoc_value_important             = lgrey
 theme.taglist_fg_empty                      = dgrey
-theme.taglist_bg_empty                      = white
-theme.taglist_fg_focus                      = red
+theme.taglist_bg_empty                      = "#777E76"
+theme.taglist_fg_focus                      = dgrey
 theme.taglist_bg_focus                      = white
 theme.taglist_fg_occupied                   = dgrey
-theme.taglist_bg_occupied                   = white
+theme.taglist_bg_occupied                   = "#777E76"
 theme.taglist_fg_urgent                     = white
-theme.taglist_bg_urgent                     = red
+theme.taglist_bg_urgent                     = lred
 --}}}
 
 -- Theme icons {{{
 theme.awesome_icon                              = theme_dir .. "icons/awesome-icon.png"
-theme.taglist_squares_sel                       = theme_dir .. "icons/square_sel_red.png"
-theme.taglist_squares_unsel                     = theme_dir .. "icons/square_unsel_black.png"
+theme.taglist_squares_sel                       = theme_dir .. "icons/square_sel.png"
+theme.taglist_squares_unsel                     = theme_dir .. "icons/square_unsel.png"
 theme.layout_floating                           = theme_dir .. "icons/floating.png"
 theme.layout_tile                               = theme_dir .. "icons/tile.png"
 theme.layout_tileleft                           = theme_dir .. "icons/tileleft.png"

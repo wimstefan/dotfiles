@@ -44,7 +44,7 @@ ${color}${offset 8}${font WebHostingHub\-Glyphs:size=10}${font}   Case Fan Ba
 ${color}${offset 8}${font StyleBats:size=12}q${font}   Nvidia:${color1} ${execi 8 $HOME/bin/read-nvidia-values.sh}
 ${color}${offset 8}${font WebHostingHub\-Glyphs:size=10}${font}   SDA Temp:${color1} ${execi 14 /usr/sbin/hddtemp -q /dev/sda | awk '{print $4}' | sed 's/\([0-9]\)°C/\1°/'}
 ${color}${offset 8}${font WebHostingHub\-Glyphs:size=10}${font}   SDB Temp:${color1} ${execi 14 /usr/sbin/hddtemp -q /dev/sdb | awk '{print $4}' | sed 's/\([0-9]\)°C/\1°/'}
-${color}${offset 8}${font WebHostingHub\-Glyphs:size=10}${font}   MB Temp:${color1} ${execi 14 cat /sys/class/hwmon/hwmon1/device/temp2_input | sed 's/000$//'}°
+${color}${offset 8}${font WebHostingHub\-Glyphs:size=10}${font}   MB Temp:${color1} ${execi 14 cat /sys/class/hwmon/hwmon0/device/temp2_input | sed 's/000$//'}°
 ${color1}${font Hurmit:style=bold:size=10}CPU${hr 3}
 ${color}${offset 8}${font WebHostingHub\-Glyphs:size=10}${font}  CPU 1: ${color1}${execi 6 sensors | grep 'Core 0:' | awk '{print $3}' | sed 's#+\(..\).*#\1°#'}${alignr 140}${color1}${cpu cpu1}% ${color1}${cpugraph cpu1 14,0 D0D0D0 A52A2A -t}
 ${color}${offset 8}${font WebHostingHub\-Glyphs:size=10}${font}  CPU 2: ${color1}${execi 6 sensors | grep 'Core 0:' | awk '{print $3}' | sed 's#+\(..\).*#\1°#'}${alignr 140}${color1}${cpu cpu2}% ${color1}${cpugraph cpu2 14,0 D0D0D0 A52A2A -t}

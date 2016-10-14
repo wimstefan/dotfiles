@@ -85,7 +85,9 @@ local layouts =
 }
 
 -- tags = awful.tag({ "➊", "➋", "➌", "➍", "➎", "➏", "➐", "➑", "➒" }, 1, layouts[1])
-tags = awful.tag({"➀", "➁", "➂", "➃", "➄", "➅", "➆", "➇", "➈"}, 1, layouts[1])
+-- tags = awful.tag({"➀", "➁", "➂", "➃", "➄", "➅", "➆", "➇", "➈"}, 1, layouts[1])
+tags = awful.tag({"1", "2", "3", "4", "5", "6", "7", "8", "9"}, 1, layouts[1])
+-- tags = awful.tag({"", "", "", "", "", "", "", "", ""}, 1, layouts[1])
 --}}}
 
 -- Error handling {{{1
