@@ -294,6 +294,7 @@ nnoremap <silent> <Leader>x :Lexplore<CR>
 " " }}}
 
 " Visual " {{{1
+set background=dark
 if has('nvim')
   if has(v:version >= 1.0.5)
     set termguicolors
@@ -306,7 +307,7 @@ else
   set termguicolors
 endif
 if &term =~ "linux"
-  color PaperColor
+  color pencil
 else
   if has('gui_running')
     if $USER=='root'
