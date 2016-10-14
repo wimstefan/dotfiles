@@ -37,12 +37,6 @@ Plug 'junegunn/fzf.vim'
   imap              <C-x><C-l>           <plug>(fzf-complete-line)
 " }}}
 Plug 'junegunn/vim-peekaboo'
-Plug 'junegunn/vim-easy-align', { 'on': [ '<plug>(EasyAlign)', '<plug>(EasyAlignRepeat)', 'EasyAlign' ] }
-" vim-easy-align config {{{2
-  vnoremap <silent> <Enter>              :EasyAlign<CR>
-  nmap              ea                   <Plug>(EasyAlign)
-  vmap              .                    <Plug>(EasyAlignRepeat)
-" }}}
 Plug 'junegunn/limelight.vim'
 " limelight.vim config {{{2
   nnoremap <silent> ,tl                  :Limelight!!<CR>
@@ -69,7 +63,7 @@ Plug 'tpope/vim-fugitive' | Plug 'gregsexton/gitv' | Plug 'junkblocker/git-time-
 Plug 'justinmk/vim-sneak'
 " vim-sneak config {{{2
   let g:sneak#prompt = '[sneak]'
-  let g:sneak#streak = 0
+  let g:sneak#streak = 1
 " }}}
 Plug 'mhinz/vim-signify'
 " vim-signify config {{{2
@@ -114,12 +108,16 @@ Plug 'VOoM'
 Plug 'rkitover/vimpager'
 Plug 'powerman/vim-plugin-viewdoc'
 " vim-plugin-viewdoc config {{{2
-  let g:viewdoc_open                   = 'rightbelow 80vnew'
+  let g:viewdoc_open                   = 'topleft new'
   let g:viewdoc_openempty              = 0
   let g:viewdoc_dontswitch             = 0
   nnoremap          <Leader>h            :ViewDocHelp<Space>
 " }}}
 Plug 'godlygeek/tabular' | Plug 'dhruvasagar/vim-table-mode'
+" tabular config {{{2
+  nnoremap          <Leader><Tab>        :Tabular 
+  vnoremap          <Leader><Tab>        :Tabular 
+" }}}
 " vim-table-mode config {{{2
   let g:table_mode_corner              = '+'
   let g:table_mode_fillchar            = '-'
@@ -151,11 +149,6 @@ Plug '$HOME/.vim/plugged/my-base16-vim'
 Plug 'wimstefan/ligero-theme'
 Plug 'wimstefan/Lightning'
 Plug 'romainl/Apprentice'
-Plug 'NLKNguyen/papercolor-theme'
-Plug 'joshdick/onedark.vim'
-" onedark.vim config {{{2
-  let g:onedark_terminal_italics       = 1
-" }}}
 Plug 'reedes/vim-colors-pencil'
 " vim-colors-pencil config {{{2
   let g:pencil_terminal_italics        = 1
@@ -200,7 +193,7 @@ set history=100                        " keep 100 lines of command line history
 set number                             " show line numbers
 set cursorcolumn                       " highlights the screen column of the cursor
 set cursorline                         " highlights the screen line of the cursor
-" let &cc='+'.join(range(1,255),',+')    " highlights textwidth boundaries
+let &cc='+'.join(range(1,255),',+')    " highlights textwidth boundaries
 if exists('vimpager')
   set colorcolumn=0
   set nolist
@@ -223,7 +216,7 @@ set completeopt=preview,menuone
 set list                               " display unprintable characters
 set listchars=tab:→\ ,trail:·,eol:«,extends:◀,precedes:▶
 
-set path=.,**                          " list of directories which will be searched with find et al
+set path+=**                          " list of directories which will be searched with find et al
 set isfname=@,48-57,/,.,-,_,+,,,#,$,%,~,=,(,),[,],{,}     " allowed characters in file and path names
 
 set wildmenu                           " use a scrollable menu for filename completions
@@ -243,13 +236,17 @@ set previewheight=24                   " Set the height of the preview window
 
 set gdefault                           " always use global substitutions
 set digraph                            " enter characters that normally can't be entered by keyboard
-set clipboard+=unnamed                 " yank+paste without the "* register
 
 " Use persistent undo
 if has('persistent_undo')
-    set undodir=$HOME/.cache/vim/undo
-    set undolevels=5000
-    set undofile
+  set undodir=$HOME/.cache/vim/undo
+  set undolevels=5000
+  set undofile
+endif
+
+" Clipboard settings
+if has('unnamed')
+  set clipboard+=unnamed               " yank+paste with the '*' register
 endif
 
 " Mouse settings
@@ -313,7 +310,7 @@ if &term =~ "linux"
 else
   if has('gui_running')
     if $USER=='root'
-      color onedark
+      color apprentice
     else
       source $HOME/.config/colorscheme
     endif
@@ -355,7 +352,7 @@ function! MyStatusline()
   else
     let stl .= ' ■ '
   endif
-  let stl .= '%1* %F %*'
+  let stl .= '%1* %f %*'
   if $USER=='root'
     let stl .= '%#Status1# ■ %*'
   else
@@ -389,9 +386,9 @@ setlocal statusline=%!MyStatusline()
 " " }}}
 
 " Formatting " {{{1
-" Format texts. Really cool.
 set comments=b:#,fb:-,fb:*,fb:o,:%,n:>|
 set formatoptions=tcrqwnbj
+set nrformats-=octal                   " do not recognize octal numbers for Ctrl-A and Ctrl-X
 nnoremap Q gwap
 vnoremap Q gw
 
@@ -404,7 +401,7 @@ nnoremap <Leader>ev :edit    $MYVIMRC<CR>
 nnoremap <Leader>sv :source  $MYVIMRC<CR>
 
 " files
-nnoremap <Leader>e  :e **/*
+nnoremap <Leader>e  :e **/
 nnoremap <Leader>f  :find *
 nnoremap <Leader>s  :sfind *
 nnoremap ,w         :grep<Space><C-r><C-w><CR>
