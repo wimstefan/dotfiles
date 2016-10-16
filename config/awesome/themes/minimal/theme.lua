@@ -24,8 +24,8 @@ theme.menu_width                = "144"
 
 -- Theme fonts {{{
 theme.font                                  = "Archivo Narrow Bold 10"
-theme.taglist_font                          = "OperatorMono Nerd Font Bold 10"
-theme.mono_font                             = "OperatorMono Nerd Font 11"
+theme.taglist_font                          = "Operator Mono Book Bold 10"
+theme.mono_font                             = "Operator Mono Book 11"
 --}}}
 
 -- Theme colours {{{
