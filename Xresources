@@ -1,13 +1,64 @@
 Xcursor*theme: Neutral_Plus
 
-*font: xft:Input Mono Compressed:pixelsize=16.6
+*font: xft:Input Mono Narrow:pixelsize=14.0
 *font1: xft:Noto Emoji
-*faceName: xft:Input Mono Compressed:pixelsize=16.6
+*faceName: xft:Input Mono Narrow:pixelsize=14.0
 
 xterm*loginShell: true
 xterm*utf8: true
 xterm*bellIsUrgent: true
 
-*foreground:  #d0d0d0
-*background:  #080808
-*cursorColor: #767676
+!!! Minimal colours
+! *foreground:  #d0d0d0
+! *background:  #080808
+
+! Base16 Apprentice
+! Scheme: Romain Lafourcade (romainlafourcade@gmail.com)
+
+#define base00 #1c1c1c
+#define base01 #262626
+#define base02 #303030
+#define base03 #444444
+#define base04 #585858
+#define base05 #d1d1d1
+#define base06 #bcbcbc
+#define base07 #ffffff
+#define base08 #de4343
+#define base09 #ff8700
+#define base0A #ffffaf
+#define base0B #87af87
+#define base0C #5fafaf
+#define base0D #87afd7
+#define base0E #8787af
+#define base0F #87875f
+
+*foreground:   base05
+*background:   base00
+*cursorColor:  base05
+
+*color0:       base00
+*color1:       base08
+*color2:       base0B
+*color3:       base0A
+*color4:       base0D
+*color5:       base0E
+*color6:       base0C
+*color7:       base05
+
+*color8:       base03
+*color9:       base08
+*color10:      base0B
+*color11:      base0A
+*color12:      base0D
+*color13:      base0E
+*color14:      base0C
+*color15:      base07
+
+! Note: colors beyond 15 might not be loaded (e.g., xterm, urxvt),
+! use 'shell' template to set these if necessary
+*color16:      base09
+*color17:      base0F
+*color18:      base01
+*color19:      base02
+*color20:      base04
+*color21:      base06
