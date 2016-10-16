@@ -27,6 +27,7 @@ Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': 'yes \| ./install' }
 " }}}
 Plug 'junegunn/fzf.vim'
 " fzf.vim config {{{2
+  let g:fzf_buffers_jump               = 1
   nnoremap          <Leader>p            :Files<CR>
   nnoremap          <Leader>a            :Ag<Space>
   nnoremap          <Leader>b            :Buffers<CR>
@@ -35,6 +36,7 @@ Plug 'junegunn/fzf.vim'
   nnoremap          <Leader>t            :BTags<CR>
   imap              <C-x><C-f>           <plug>(fzf-complete-file-ag)
   imap              <C-x><C-l>           <plug>(fzf-complete-line)
+  autocmd VimEnter * command! Colors call fzf#vim#colors({'left': '14%', 'options': ''})
 " }}}
 Plug 'junegunn/vim-peekaboo'
 Plug 'junegunn/limelight.vim'
@@ -155,7 +157,6 @@ Plug 'reedes/vim-colors-pencil'
 " }}}
 Plug 'robertmeta/nofrils'
 Plug 'jonathanfilip/vim-lucius'
-Plug 'adelarsq/vim-grimmjow'
 
 call plug#end()
 endif
@@ -321,7 +322,7 @@ else
     else
       source $HOME/.config/colorscheme
       if exists("g:colors_name") && g:colors_name == "lucius" && &background == "dark"
-        LuciusDarkLowContrast
+        LuciusBlack
       elseif exists("g:colors_name") && g:colors_name == "lucius" && &background == "light"
         LuciusWhiteLowContrast
       endif
