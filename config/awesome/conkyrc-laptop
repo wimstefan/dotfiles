@@ -1,32 +1,35 @@
-# vim:ft=conkyrc:tw=280
-alignment top_right
-background yes
-border_width 0
-color1 D0D0D0
-color2 6B6B6B
-default_color FF6969
-draw_borders no
-draw_graph_borders yes
-draw_shades no
-double_buffer yes
-extra_newline yes
-gap_x 5
-gap_y 25
-minimum_size 280 800
-maximum_width 320
-no_buffers yes
-own_window_colour 060606
-own_window_hints undecorated,below,sticky,skip_taskbar,skip_pager
-own_window_type desktop
-own_window yes
-short_units yes
-uppercase no
-use_spacer right
-use_xft yes
-xftalpha 0.8
-xftfont Hurmit:size=9
+conky.config = {
+-- vim:ft=conkyrc:tw=280
+        alignment = 'top_right',
+        background = true,
+        border_width = 0,
+        color1 = '#D0D0D0',
+        color2 = '#6B6B6B',
+        default_color = '#FF6969',
+        draw_borders = false,
+        draw_graph_borders = true,
+        draw_shades = false,
+        double_buffer = true,
+        extra_newline = true,
+        gap_x = 5,
+        gap_y = 25,
+        minimum_width = 280, minimum_height = 800,
+        maximum_width = 320,
+        no_buffers = true,
+        own_window_colour = '#060606',
+        own_window_hints = 'undecorated,below,sticky,skip_taskbar,skip_pager',
+        own_window_type = 'desktop',
+        own_window = true,
+        short_units = true,
+        uppercase = false,
+        use_spacer = 'right',
+        use_xft = true,
+        xftalpha = 0.8,
+        font = 'Hurmit:size=9',
 
-TEXT
+};
+
+conky.text = [[
 ${font Hurmit:style=bold:size=16}${alignr}${color}gentoo${color1} linux$font$color
 ${color1}${font Hurmit:style=bold:size=9}MACHINE${hr 3}
 ${color}${font Hurmit:size=11}${alignr}::: $nodename :::
@@ -65,3 +68,4 @@ ${color1} ${top name 7}      ${color}${top pid 7} ${top cpu 7} ${top mem 7}
 ${color1} ${top name 8}      ${color}${top pid 8} ${top cpu 8} ${top mem 8}
 ${color1} ${top name 9}      ${color}${top pid 9} ${top cpu 9} ${top mem 9}
 ${color1} ${top name 10}      ${color}${top pid 10} ${top cpu 10} ${top mem 10}
+]];
