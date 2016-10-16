@@ -82,6 +82,8 @@ Plug 'romainl/vim-qf'
 " vim-qf config {{{2
   let g:qf_mapping_ack_style           = 1
   nmap              <C-q>                <Plug>QfSwitch
+  nmap              <C-c>                <Plug>QfCtoggle
+  nmap              <C-l>                <Plug>QfLtoggle
   nmap              <Home>               <Plug>QfCprevious
   nmap              <End>                <Plug>QfCnext
   nmap              <C-Home>             <Plug>QfLprevious
