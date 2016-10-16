@@ -274,7 +274,7 @@ require("freedesktop.utils")
 freedesktop.utils.terminal = terminal
 
 -- applications menu
-freedesktop.utils.icon_theme = { 'Vertix.git', 'Numix' }
+freedesktop.utils.icon_theme = { 'Numix' }
 require("freedesktop.menu")
 menu_items = freedesktop.menu.new()
 myawesomemenu = {
@@ -405,7 +405,7 @@ tooltip_hdd = awful.tooltip({ objects = { widget_hdd } , timeout = timeout_toolt
          ' <span weight="bold" color="'..beautiful.fg_normal..'">'..title..'</span> \n'..
          ' <span weight="bold">'..string.rep('-', tlen)..'</span> \n'..
          ' ⛁ on / <span color="'..beautiful.fg_normal..'">'..
-         info_hdd['{/ used_p}']..'%'..
+         info_hdd['{/ used_p}']..'% '..
          info_hdd['{/ used_gb}']..'/'..
          info_hdd['{/ size_gb}']..'</span> GB</span> '
   return text
@@ -470,7 +470,7 @@ netwidget:buttons(awful.util.table.join(awful.button({ }, 1, function () awful.u
 -- Net widget }}}
 
 -- Calendar/time widget {{{2
-mytextclock = awful.widget.textclock( '<span weight="bold" background="#ffffff" color="#090909">  %a %b %d, %H:%M  </span>')
+mytextclock = awful.widget.textclock( '<span font="'..beautiful.mono_font..'" background="#ffffff" color="#090909"> %a %b %d, %H:%M </span>')
 cal.register(mytextclock)
 -- }}}
 

@@ -19,12 +19,13 @@ theme = {}
 -- Theme settings {{{
 theme.wallpaper                 = config_dir .. "/themes/wallpaper.png"
 theme.border_width              = "3"
+theme.menu_width                = "144"
 --}}}
 
 -- Theme fonts {{{
-theme.font                                  = "Archivo Narrow 11"
-theme.taglist_font                          = "Impact Label Reversed Bold 13"
-theme.mono_font                             = "Input Mono Compressed Bold 11"
+theme.font                                  = "Archivo Narrow Bold 10"
+theme.taglist_font                          = "OperatorMono Nerd Font Bold 10"
+theme.mono_font                             = "OperatorMono Nerd Font 11"
 --}}}
 
 -- Theme colours {{{
