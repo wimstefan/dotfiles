@@ -325,7 +325,7 @@ autoload -U run-help url-quote-magic zcalc zmv
 # * Common config for *every* user # {{{2
 # - Exports {{{3
 export EDITOR="vim"
-export BROWSER="firefox-bin"
+export BROWSER="google-chrome-beta"
 export TERMINAL="termite"
 export HISTFILE="$HOME/.zsh/histfile"
 export HISTSIZE="5000"

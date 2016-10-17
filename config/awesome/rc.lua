@@ -50,7 +50,7 @@ else
   NAME  = " -name "
   GEO   = " -geometry "
 end
-browser           = os.getenv("BROWSER") or "firefox-bin"
+browser           = os.getenv("BROWSER")
 editor            = os.getenv("EDITOR") or "gvim"
 musicplr1         = terminal..TITLE.."'Music'"..GEO.."130x34-320+16 -e ncmpcpp"
 musicplr2         = terminal..TITLE.."'Music'"..GEO.."130x34-320+16 -e mocp"
