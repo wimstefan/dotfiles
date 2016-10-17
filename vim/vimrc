@@ -288,11 +288,11 @@ endif
 set printoptions=paper:A4,header:0
 
 " Netrw settings
-let g:netrw_winsize        = 20
-let g:netrw_liststyle      =  3
-let g:netrw_preview        =  0
-let g:netrw_alto           =  0
-nnoremap <silent> <Leader>x :Lexplore<CR>
+let g:netrw_winsize                    = 20
+let g:netrw_liststyle                  = 3
+let g:netrw_preview                    = 0
+let g:netrw_alto                       = 0
+nnoremap <silent> <Leader>x              :Lexplore<CR>
 
 " " }}}
 
@@ -405,16 +405,16 @@ nnoremap <Leader>ev :edit    $MYVIMRC<CR>
 nnoremap <Leader>sv :source  $MYVIMRC<CR>
 
 " files
-nnoremap <Leader>e  :e **/
-nnoremap <Leader>f  :find *
-nnoremap <Leader>s  :sfind *
-nnoremap ,w         :grep<Space><C-r><C-w><CR>
-nnoremap <Leader>g  :grep<Space>
-nnoremap <Leader>l  :Locate<Space>
-nnoremap <Leader>w  :w!<CR>
-nnoremap <Leader>wa :wa!<CR>
-nnoremap <Leader>q  :q!<CR>
-nnoremap <Leader>qa :qa!<CR>
+nnoremap <Leader>e                       :e **/
+nnoremap <Leader>f                       :find *
+nnoremap <Leader>s                       :sfind *
+nnoremap ,w                              :silent grep<Space><C-r><C-w><CR>
+nnoremap <Leader>g                       :silent grep<Space>
+nnoremap <Leader>l                       :silent Locate<Space>
+nnoremap <Leader>w                       :w!<CR>
+nnoremap <Leader>wa                      :wa!<CR>
+nnoremap <Leader>q                       :q!<CR>
+nnoremap <Leader>qa                      :qa!<CR>
 
 " buffers
 nnoremap <Leader>bn :bnext<CR>
