@@ -9,9 +9,13 @@ mouse_autohide = false
 allow_bold = true
 dynamic_title = true
 clickable_url = true
-font = Input Mono Narrow 11.0
-# font = Fira Mono 11.0
-# font = Mononoki 12.0
+# font = Input Mono Narrow 11.0
+# swimmer
+font = Operator Mono Light 11.8
+# mimi
+# font = Operator Mono Light 11.0
+# tj
+# font = Operator Mono Light 10.2
 scrollback_lines = 10000
 search_wrap = true
 #icon_name = terminal
@@ -36,38 +40,38 @@ filter_unmatched_urls = true
 #modify_other_keys = false
 
 [colors]
-# Base16 Materia
-# Scheme: Defman21
+# Base16 Apprentice
+# Scheme: Romain Lafourcade (romainlafourcade@gmail.com)
 
-foreground      = #CDD3DE
-foreground_bold = #CDD3DE
-cursor          = #CDD3DE
-background      = #263238
+foreground      = #d1d1d1
+foreground_bold = #d1d1d1
+cursor          = #d1d1d1
+background      = #1c1c1c
 
 # 16 color space
-color0  = #263238
-color1  = #EC5F67
-color2  = #8BD649
-color3  = #FFCC00
-color4  = #89DDFF
-color5  = #82AAFF
-color6  = #80CBC4
-color7  = #CDD3DE
-color8  = #707880
-color9  = #EC5F67
-color10 = #8BD649
-color11 = #FFCC00
-color12 = #89DDFF
-color13 = #82AAFF
-color14 = #80CBC4
-color15 = #FFFFFF
+color0  = #1c1c1c
+color1  = #de4343
+color2  = #87af87
+color3  = #ffffaf
+color4  = #87afd7
+color5  = #8787af
+color6  = #5fafaf
+color7  = #d1d1d1
+color8  = #444444
+color9  = #de4343
+color10 = #87af87
+color11 = #ffffaf
+color12 = #87afd7
+color13 = #8787af
+color14 = #5fafaf
+color15 = #ffffff
 
 # 256 color space
-color16 = #EA9560
-color17 = #EC5F67
-color18 = #2C393F
-color19 = #37474F
-color20 = #C9CCD3
-color21 = #D5DBE5
+color16 = #ff8700
+color17 = #87875f
+color18 = #262626
+color19 = #303030
+color20 = #585858
+color21 = #bcbcbc
 
 # vim: ft=cfg cms=#\ %s :
