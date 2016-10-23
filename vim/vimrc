@@ -203,10 +203,10 @@ if exists('vimpager')
 endif
 " virtually wrap lines to fit on the screen
 if exists('+linebreak')
-  set linebreak showbreak=\ ›››\ 
+  set linebreak showbreak=\ ›››\       " break & visually mark wrapped lines
 endif
 if has('patch594')
-  set breakindent
+  set breakindent                      " keep indentation of wrapped lines
 endif
 
 set ignorecase                         " ignore case when using a search pattern
@@ -214,7 +214,9 @@ set smartcase                          " override 'ignorecase' when pattern has 
 set incsearch                          " show matches while typing the query
 set hlsearch                           " highlight search results
 
-set completeopt=preview,menuone
+set complete+=kspell                   " use the currently active spell checking
+set completeopt=longest,menu,menuone   " ins-completion-menu options
+set completeopt+=preview,noinsert
 
 set list                               " display unprintable characters
 set listchars=tab:→\ ,trail:·,eol:«,extends:◀,precedes:▶
