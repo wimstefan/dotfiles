@@ -214,9 +214,17 @@ set smartcase                          " override 'ignorecase' when pattern has 
 set incsearch                          " show matches while typing the query
 set hlsearch                           " highlight search results
 
-set complete+=kspell                   " use the currently active spell checking
+set complete-=i                        " included files
+set complete+=kspell                   " currently active spell checking
 set completeopt=longest,menu,menuone   " ins-completion-menu options
 set completeopt+=preview,noinsert
+set infercase                          " case of the match is adjusted depending on the typed text
+if has("autocmd") && exists("+omnifunc") " syntax completion only if a specific plugin does not already exist for that filetype
+  autocmd Filetype *
+    \  if &omnifunc == "" |
+    \      setlocal omnifunc=syntaxcomplete#Complete |
+    \  endif
+endif
 
 set list                               " display unprintable characters
 set listchars=tab:→\ ,trail:·,eol:«,extends:◀,precedes:▶
@@ -403,38 +411,39 @@ vnoremap Q gw
 " Key bindings & abbreviations " {{{1
 
 " open/source $MYVIMRC
-nnoremap <Leader>ev :edit    $MYVIMRC<CR>
-nnoremap <Leader>sv :source  $MYVIMRC<CR>
+nnoremap          <Leader>ev             :edit    $MYVIMRC<CR>
+nnoremap          <Leader>sv             :source  $MYVIMRC<CR>
 
 " files
-nnoremap <Leader>e                       :e **/
-nnoremap <Leader>f                       :find *
-nnoremap <Leader>s                       :sfind *
-nnoremap ,w                              :silent grep<Space><C-r><C-w><CR>
-nnoremap <Leader>g                       :silent grep<Space>
-nnoremap <Leader>l                       :silent Locate<Space>
-nnoremap <Leader>w                       :w!<CR>
-nnoremap <Leader>wa                      :wa!<CR>
-nnoremap <Leader>q                       :q!<CR>
-nnoremap <Leader>qa                      :qa!<CR>
+nnoremap <silent> cd                     :<C-u>cd %:h \| pwd<CR>
+nnoremap          <Leader>e              :e **/
+nnoremap          <Leader>f              :find *
+nnoremap          <Leader>s              :sfind *
+nnoremap          ,w                     :silent grep<Space><C-r><C-w><CR>
+nnoremap          <Leader>g              :silent grep<Space>
+nnoremap          <Leader>l              :silent Locate<Space>
+nnoremap          <Leader>w              :w!<CR>
+nnoremap          <Leader>wa             :wa!<CR>
+nnoremap          <Leader>q              :q!<CR>
+nnoremap          <Leader>qa             :qa!<CR>
 
 " buffers
-nnoremap <Leader>bn :bnext<CR>
-nnoremap <Leader>bp :bprev<CR>
-nnoremap <Leader>bd :Sayonara<CR>
+nnoremap          <Leader>bn             :bnext<CR>
+nnoremap          <Leader>bp             :bprev<CR>
+nnoremap          <Leader>bd             :Sayonara<CR>
 
 " signatures
-nnoremap <Leader>sa 1G:s#\(Stefan Wimmer\) <.*>#\1 <stefan@tangoartisan.com>#<CR>
+nnoremap          <Leader>sa 1G:s#\(Stefan Wimmer\) <.*>#\1 <stefan@tangoartisan.com>#<CR>
   \ G?--<CR>
   \ jVGd :r ~/.mutt/short-signature-artisan<CR>
   \ /^To:<CR>
-nnoremap <Leader>sg 1G:s#\(Stefan Wimmer\) <.*>#\1 <wimstefan@gmail.com>#<CR>
+nnoremap          <Leader>sg 1G:s#\(Stefan Wimmer\) <.*>#\1 <wimstefan@gmail.com>#<CR>
   \ G?--<CR>
   \ jVGd :r ~/.mutt/short-signature-gmail<CR>
   \ /^To:<CR>
-nnoremap <Leader>st G?--<CR>jVGd :r ~/.mutt/short-signature-tango<CR>
-nnoremap <Leader>ss G?--<CR>jVGd :r ~/.mutt/short-signature<CR>
-nnoremap <Leader>sl G?--<CR>jVGd :r ~/.mutt/signature<CR>
+nnoremap          <Leader>st G?--<CR>jVGd :r ~/.mutt/short-signature-tango<CR>
+nnoremap          <Leader>ss G?--<CR>jVGd :r ~/.mutt/short-signature<CR>
+nnoremap          <Leader>sl G?--<CR>jVGd :r ~/.mutt/signature<CR>
 
 " some ideas stolen from tpope/vim-unimpaired
 function! s:statusbump() abort
