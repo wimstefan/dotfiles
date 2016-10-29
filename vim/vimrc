@@ -34,7 +34,7 @@ Plug 'junegunn/fzf.vim'
   nnoremap          <Leader>c            :Colors<CR>
   nnoremap          <Leader>m            :History<CR>
   nnoremap          <Leader>t            :BTags<CR>
-  imap              <C-x><C-f>           <plug>(fzf-complete-file-ag)
+  imap              <C-x><C-j>           <plug>(fzf-complete-file-ag)
   imap              <C-x><C-l>           <plug>(fzf-complete-line)
   autocmd VimEnter * command! Colors call fzf#vim#colors({'left': '14%', 'options': ''})
 " }}}
@@ -137,6 +137,7 @@ Plug 'SyntaxAttr.vim'
 Plug 'visSum.vim'
 Plug 'chrisbra/unicode.vim'
 " unicode.vim config {{{2
+  let g:Unicode_ShowPreviewWindow      = 1
   nnoremap          <Leader>us           :UnicodeSearch<Space>
   nnoremap          <Leader>ut           :UnicodeTable<CR>
   nnoremap          ga                   :UnicodeName<CR>
@@ -155,10 +156,17 @@ Plug 'wimstefan/Lightning'
 Plug 'romainl/Apprentice'
 Plug 'reedes/vim-colors-pencil'
 " vim-colors-pencil config {{{2
+  let g:pencil_higher_contrast_ui      = 1
   let g:pencil_terminal_italics        = 1
+  let g:pencil_gutter_color            = 1
 " }}}
 Plug 'robertmeta/nofrils'
 Plug 'jonathanfilip/vim-lucius'
+Plug 'nanotech/jellybeans.vim'
+" jellybeans.vim config {{{2
+  let g:jellybeans_use_term_italics    = 1
+  let g:jellybeans_use_gui_italics     = 1
+" }}}
 
 call plug#end()
 endif
@@ -215,15 +223,20 @@ set incsearch                          " show matches while typing the query
 set hlsearch                           " highlight search results
 
 set complete-=i                        " included files
+set complete-=t                        " tags
 set complete+=kspell                   " currently active spell checking
 set completeopt=longest,menu,menuone   " ins-completion-menu options
 set completeopt+=preview,noinsert
 set infercase                          " case of the match is adjusted depending on the typed text
-if has("autocmd") && exists("+omnifunc") " syntax completion only if a specific plugin does not already exist for that filetype
+if has("autocmd") && exists("+omnifunc")
+  " define filetype specific syntax completion
+  autocmd FileType css set omnifunc=csscomplete#CompleteCSS
+  autocmd filetype html,markdown,ctp set omnifunc=htmlcomplete#CompleteTags
+  " syntax completion only if a specific plugin does not already exist for that filetype
   autocmd Filetype *
-    \  if &omnifunc == "" |
-    \      setlocal omnifunc=syntaxcomplete#Complete |
-    \  endif
+    \ if &omnifunc == "" |
+    \   setlocal omnifunc=syntaxcomplete#Complete |
+    \ endif
 endif
 
 set list                               " display unprintable characters
