@@ -569,9 +569,12 @@ if [[ $USER != root ]]; then
     #### 2015-2016 ####
     # echo "$1 lessen + $2 prácticas (`wcalc "(($1*75) + ($2*60)) / 60" | sed 's/ = //'` werkuren á € 40.00)"
     # echo "€ `wcalc "((($1*75) + ($2*60)) / 60) * 40.00" | sed 's/ = //'`"
-    #### 2016- ####
-    echo "$1 lessen + $2 prácticas (`wcalc "(($1*75) + ($2*60)) / 60" | sed 's/ = //'` werkuren á € 44.00)"
-    echo "€ `wcalc "((($1*75) + ($2*60)) / 60) * 44.00" | sed 's/ = //'`"
+    #### voorjaar 2016 ####
+    # echo "$1 lessen + $2 prácticas (`wcalc "(($1*75) + ($2*60)) / 60" | sed 's/ = //'` werkuren á € 44.00)"
+    # echo "€ `wcalc "((($1*75) + ($2*60)) / 60) * 44.00" | sed 's/ = //'`"
+    #### najaar 2016 ####
+    echo "$1 lessen (`wcalc "($1*75) / 60" | sed 's/ = //'` werkuren á € 44.00)"
+    echo "€ `wcalc "(($1*75) / 60) * 44.00" | sed 's/ = //'`"
   }
 
   function fac-tt()
