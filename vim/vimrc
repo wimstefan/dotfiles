@@ -39,6 +39,9 @@ Plug 'junegunn/fzf.vim'
   autocmd VimEnter * command! Colors call fzf#vim#colors({'left': '14%', 'options': ''})
 " }}}
 Plug 'junegunn/vim-peekaboo'
+" vim-peekaboo config {{{2
+  let g:peekaboo_ins_prefix = '<c-x>'
+" }}}
 Plug 'junegunn/limelight.vim'
 " limelight.vim config {{{2
   nnoremap <silent> ,tl                  :Limelight!!<CR>
@@ -64,8 +67,20 @@ Plug 'tpope/vim-fugitive' | Plug 'gregsexton/gitv' | Plug 'junkblocker/git-time-
 " }}}
 Plug 'justinmk/vim-sneak'
 " vim-sneak config {{{2
-  let g:sneak#prompt = '[sneak]'
+  let g:sneak#prompt = '[sneak] '
   let g:sneak#streak = 1
+  nmap f <Plug>Sneak_f
+  nmap F <Plug>Sneak_F
+  xmap f <Plug>Sneak_f
+  xmap F <Plug>Sneak_F
+  omap f <Plug>Sneak_f
+  omap F <Plug>Sneak_F
+  nmap t <Plug>Sneak_t
+  nmap T <Plug>Sneak_T
+  xmap t <Plug>Sneak_t
+  xmap T <Plug>Sneak_T
+  omap t <Plug>Sneak_t
+  omap T <Plug>Sneak_T
 " }}}
 Plug 'mhinz/vim-signify'
 " vim-signify config {{{2
@@ -90,7 +105,14 @@ Plug 'romainl/vim-qf'
   nmap              <C-End>              <Plug>QfLnext
 " }}}
 Plug 'romainl/vim-qlist'
-Plug 'ajh17/VimCompletesMe'
+" Plug 'ajh17/VimCompletesMe'
+Plug 'lifepillar/vim-mucomplete'
+" vim-mucomplete config {{{2
+  let g:mucomplete#enable_auto_at_startup = 1
+  let g:mucomplete#auto_select         = 0
+  let g:mucomplete#chains              = { 'default' : ['file', 'omni', 'keyn', 'spel'] }
+  nnoremap          ,ta                  :MUcompleteAutoToggle<CR>
+" }}}
 Plug 'wellle/tmux-complete.vim'
 Plug 'wellle/targets.vim'
 Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' }
@@ -225,8 +247,9 @@ set hlsearch                           " highlight search results
 set complete-=i                        " included files
 set complete-=t                        " tags
 set complete+=kspell                   " currently active spell checking
-set completeopt=longest,menu,menuone   " ins-completion-menu options
-set completeopt+=preview,noinsert
+set completeopt+=menuone               " ins-completion-menu options
+set completeopt+=preview
+" set completeopt+=longest             " doesn't work with mucomplete
 set infercase                          " case of the match is adjusted depending on the typed text
 if has("autocmd") && exists("+omnifunc")
   " define filetype specific syntax completion
@@ -387,7 +410,6 @@ function! MyStatusline()
   endif
   let stl .= '%#Status2#%{&modified ? " ✓ " : ""}%*'
   let stl .= '%#Status1#%{&ro ? " ✗ " : ""}%*'
-  let stl .= '%{sneak#is_sneaking()?"[sneak]":""}'
   let stl .= '%= '
   if exists('b:git_dir') && winwidth(0) > 70
     let branch  = fugitive#head(8)
@@ -559,8 +581,11 @@ autocmd ColorScheme * call s:user_highlights()
 " Reload statusline after changing windows/buffer/tab
 autocmd BufEnter * setlocal statusline=%!MyStatusline()
 
+" Resize windows automagically
+autocmd VimResized * :wincmd =
+
 " Automatically reload vimrc when it's saved
-autocmd  BufWritePost vimrc,.vimrc nested if expand('%') !~ 'fugitive' | source % | endif
+autocmd BufWritePost $MYVIMRC source $MYVIMRC
 
 " " }}}
 
