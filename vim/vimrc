@@ -93,6 +93,14 @@ Plug 'mhinz/vim-signify'
   nnoremap          ,tsg                 :SignifyToggle<CR>
 " }}}
 Plug 'mhinz/vim-sayonara', {'on': 'Sayonara' }
+Plug 'mhinz/vim-grepper'
+" vim-grepper config {{{2
+  nmap              gs                   <plug>(GrepperOperator)
+  xmap              gs                   <plug>(GrepperOperator)
+  nnoremap          <leader>g            :Grepper <cr>
+  nnoremap          <leader>*            :Grepper -cword -noprompt<cr>
+  let g:grepper                        = { 'next_tool': '<leader>g' }
+" }}}
 Plug 'romainl/vim-qf'
 " vim-qf config {{{2
   let g:qf_mapping_ack_style           = 1
@@ -110,8 +118,8 @@ Plug 'lifepillar/vim-mucomplete'
 " vim-mucomplete config {{{2
   let g:mucomplete#enable_auto_at_startup = 1
   let g:mucomplete#auto_select         = 0
-  let g:mucomplete#chains              = { 'default' : ['file', 'omni', 'keyn', 'spel'] }
-  nnoremap          ,ta                  :MUcompleteAutoToggle<CR>
+  let g:mucomplete#chains              = { 'default' : ['file', 'omni', 'keyn', 'uspl'] }
+  nnoremap <silent> ,ta                  :MUcompleteAutoToggle<CR>
 " }}}
 Plug 'wellle/tmux-complete.vim'
 Plug 'wellle/targets.vim'
@@ -247,9 +255,13 @@ set hlsearch                           " highlight search results
 set complete-=i                        " included files
 set complete-=t                        " tags
 set complete+=kspell                   " currently active spell checking
-set completeopt+=menuone               " ins-completion-menu options
+" ins-completion-menu options
+" set completeopt+=longest
+set completeopt+=menu
+set completeopt+=menuone
+set completeopt+=noinsert
+set completeopt+=noselect
 set completeopt+=preview
-" set completeopt+=longest             " doesn't work with mucomplete
 set infercase                          " case of the match is adjusted depending on the typed text
 if has("autocmd") && exists("+omnifunc")
   " define filetype specific syntax completion
@@ -345,11 +357,7 @@ nnoremap <silent> <Leader>x              :Lexplore<CR>
 " Visual " {{{1
 set background=dark
 if has('nvim')
-  if has(v:version >= 1.0.5)
     set termguicolors
-  else
-    let $NVIM_TUI_ENABLE_TRUE_COLOR=1
-  endif
 else
   let &t_8f="\e[38;2;%lu;%lu;%lum"
   let &t_8b="\e[48;2;%lu;%lu;%lum"
@@ -369,16 +377,11 @@ else
       source $HOME/.config/colorscheme
     else
       source $HOME/.config/colorscheme
-      if exists("g:colors_name") && g:colors_name == "lucius" && &background == "dark"
-        LuciusBlack
-      elseif exists("g:colors_name") && g:colors_name == "lucius" && &background == "light"
-        LuciusWhiteLowContrast
-      endif
     endif
   endif
 endif
 
-set guifont=PragmataPro\ 11
+set guifont=Operator\ Mono\ weight=330\ 11
 set guioptions-=T                      " disable toolbar
 
 " Statusline " {{{2
@@ -387,6 +390,19 @@ set guioptions-=e                      " disables the GUI tab line in favor of t
 
 function! s:user_highlights()
   exec 'hi CursorLine cterm=bold gui=bold'
+  if &background == "dark"
+    exec 'hi Pmenu ctermbg=237 ctermfg=254 guibg=#3a3a3a guifg=#e4e4e4 cterm=NONE gui=NONE'
+    exec 'hi PmenuSel ctermbg=244 ctermfg=232 guibg=#808080 guifg=#080808 cterm=NONE gui=NONE'
+    if exists("g:colors_name") && g:colors_name == "lucius"
+      LuciusBlack
+    endif
+  else
+    exec 'hi Pmenu ctermbg=250 ctermfg=232 guibg=#bcbcbc guifg=#080808 cterm=NONE gui=NONE'
+    exec 'hi PmenuSel ctermbg=232 ctermfg=254 guibg=#080808 guifg=#e4e4e4 cterm=NONE gui=NONE'
+    if exists("g:colors_name") && g:colors_name == "lucius"
+      LuciusWhiteLowContrast
+    endif
+  endif
   exec 'hi User1 cterm=reverse gui=reverse'
   exec 'hi Status1 ctermfg=1 ctermbg=' . synIDattr(hlID('StatusLine'), 'bg', 'cterm') . ' guifg=#ff0000 guibg=' . synIDattr(hlID('StatusLine'), 'bg', 'gui')
   exec 'hi Status2 ctermfg=2 ctermbg=' . synIDattr(hlID('StatusLine'), 'bg', 'cterm') . ' guifg=#a5ffe1 guibg=' . synIDattr(hlID('StatusLine'), 'bg', 'gui')
@@ -454,8 +470,6 @@ nnoremap <silent> cd                     :<C-u>cd %:h \| pwd<CR>
 nnoremap          <Leader>e              :e **/
 nnoremap          <Leader>f              :find *
 nnoremap          <Leader>s              :sfind *
-nnoremap          ,w                     :silent grep<Space><C-r><C-w><CR>
-nnoremap          <Leader>g              :silent grep<Space>
 nnoremap          <Leader>l              :silent Locate<Space>
 nnoremap          <Leader>w              :w!<CR>
 nnoremap          <Leader>wa             :wa!<CR>
@@ -585,7 +599,7 @@ autocmd BufEnter * setlocal statusline=%!MyStatusline()
 autocmd VimResized * :wincmd =
 
 " Automatically reload vimrc when it's saved
-autocmd BufWritePost $MYVIMRC source $MYVIMRC
+autocmd BufWritePost vimrc,.vimrc source $MYVIMRC
 
 " " }}}
 
