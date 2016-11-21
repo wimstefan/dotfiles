@@ -7,8 +7,8 @@ display-article-progress yes
 max-items 144
 download-full-page yes
 # html-renderer internal
-html-renderer "w3m -T text/html -I %{charset} -dump"
-# html-renderer elinks
+# html-renderer "w3m -T text/html -I %{charset} -dump -cols 88"
+html-renderer "elinks --dump-width 88"
 browser "TERM=xterm-256color w3m %u"
 # browser elinks
 # browser lynx
@@ -78,4 +78,4 @@ highlight article       ":.*\\(link\\)$"                    magenta default
 highlight article       ":.*\\(image\\)$"                   magenta default
 highlight article       ":.*\\(embedded flash\\)$"          magenta default
 
-# vim:set ft=apachestyle
+# vim: ft=apachestyle cms=#\ %s :
