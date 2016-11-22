@@ -653,7 +653,7 @@ globalkeys = awful.util.table.join(
     awful.key({ modkey,           }, "w", function () mymainmenu:show() end, "Show menu"),
     awful.key({ modkey, "Shift"   }, "p", function() menubar.show() end, "Draw menu bar"),
     --awful.key({ modkey,           }, "r",     function () mypromptbox[mouse.screen]:run() end, "Run prompt"),
-    awful.key({ modkey,           }, "r", function () awful.util.spawn("rofi -modi 'run,window,ssh' -show run") end, "Run dialog"),
+    awful.key({ modkey,           }, "r", function () awful.util.spawn("rofi -show combi") end, "Run dialog"),
     awful.key({ modkey, "Control" }, "r", awesome.restart, "Restart awesome"),
     awful.key({ modkey, "Shift"   }, "q", awesome.quit, "Quit awesome"),
 

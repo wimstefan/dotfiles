@@ -1,16 +1,28 @@
-rofi.font: Operator Mono Light 10.0
-rofi.color-enabled: true
-! State:           'bg',    'fg',   'bgalt',  'hlbg',  'hlfg'
-rofi.color-normal: #262626, #D9D9D9, #545454, #87AFD7, #262626
-rofi.color-urgent: #262626, #E67373, #545454, #E67373, #262626
-rofi.color-active: #262626, #B30000, #545454, #B30000, #262626
-!                  'bg',    'border'
-rofi.color-window: #262626, #060606
-rofi.opacity: 100
-rofi.width: 1600
-rofi.location: 1
-rofi.padding: 2
-rofi.bw: 2
-rofi.terminal: termite
+rofi.font            : Operator Mono Light 11.0
+
+rofi.modi            : combi,window,drun,run,ssh
+rofi.combi-modi      : window,drun,run,ssh
+
+rofi.color-enabled   : true
+! State              : 'bg',    'fg',   'bgalt',  'hlbg',  'hlfg'
+rofi.color-normal    : #262626, #d9d9d9, #444444, #87af87, #262626
+rofi.color-urgent    : #262626, #e67373, #444444, #e67373, #262626
+rofi.color-active    : #262626, #de4343, #444444, #de4343, #262626
+!                      'bg',    'border'
+rofi.color-window    : #5f87af, #262626
+
+rofi.location        : 0
+rofi.width           : -68
+rofi.bw              : 8
+rofi.padding         : 8
+rofi.line-margin     : 4
+
+rofi.separator-style : dash
+rofi.hide-scrollbar  : true
+rofi.sidebar-mode    : true
+
+rofi.terminal        : termite
+rofi.ssh-client      : ssh
+rofi.ssh-command     : {terminal} -e '{ssh-client} {host}'
 
 ! vim: ft=xdefaults
