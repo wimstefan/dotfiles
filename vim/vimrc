@@ -565,7 +565,7 @@ autocmd BufReadPost *
   \ endif
 
 " Reload user defined highlights after changing colorschemes
-autocmd ColorScheme * call s:user_highlights()
+autocmd ColorScheme * call User_highlights()
 
 " Reload statusline after changing windows/buffer/tab
 autocmd BufEnter * setlocal statusline=%!MyStatusline()
@@ -579,7 +579,7 @@ autocmd BufWritePost vimrc,.vimrc source $MYVIMRC
 " " }}}
 
 " Functions " {{{1
-function! s:user_highlights()
+function! User_highlights()
   exec 'hi CursorLine cterm=bold gui=bold'
   if &background == "dark"
     exec 'hi ColorColumn ctermbg=236 guibg=#303030'
@@ -596,6 +596,7 @@ function! s:user_highlights()
   exec 'hi Status3 ctermfg=3 ctermbg=' . synIDattr(hlID('StatusLine'), 'bg', 'cterm') . ' guifg=#ffff00 guibg=' . synIDattr(hlID('StatusLine'), 'bg', 'gui')
   exec 'hi Status4 ctermfg=4 ctermbg=' . synIDattr(hlID('StatusLine'), 'bg', 'cterm') . ' guifg=#97bbf7 guibg=' . synIDattr(hlID('StatusLine'), 'bg', 'gui')
 endfunction
+call User_highlights()
 
 function! s:sy_stats_wrapper()
   let symbols = ['+', '-', '~']
