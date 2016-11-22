@@ -113,7 +113,6 @@ Plug 'romainl/vim-qf'
   nmap              <C-End>              <Plug>QfLnext
 " }}}
 Plug 'romainl/vim-qlist'
-" Plug 'ajh17/VimCompletesMe'
 Plug 'lifepillar/vim-mucomplete'
 " vim-mucomplete config {{{2
   let g:mucomplete#enable_auto_at_startup = 1
@@ -191,7 +190,6 @@ Plug 'reedes/vim-colors-pencil'
   let g:pencil_gutter_color            = 1
 " }}}
 Plug 'robertmeta/nofrils'
-Plug 'jonathanfilip/vim-lucius'
 Plug 'nanotech/jellybeans.vim'
 " jellybeans.vim config {{{2
   let g:jellybeans_use_term_italics    = 1
@@ -388,29 +386,6 @@ set guioptions-=T                      " disable toolbar
 set laststatus=2                       " always show the statusline above
 set guioptions-=e                      " disables the GUI tab line in favor of the plain text version
 
-function! s:user_highlights()
-  exec 'hi CursorLine cterm=bold gui=bold'
-  if &background == "dark"
-    exec 'hi Pmenu ctermbg=237 ctermfg=254 guibg=#3a3a3a guifg=#e4e4e4 cterm=NONE gui=NONE'
-    exec 'hi PmenuSel ctermbg=244 ctermfg=232 guibg=#808080 guifg=#080808 cterm=NONE gui=NONE'
-    if exists("g:colors_name") && g:colors_name == "lucius"
-      LuciusBlack
-    endif
-  else
-    exec 'hi Pmenu ctermbg=250 ctermfg=232 guibg=#bcbcbc guifg=#080808 cterm=NONE gui=NONE'
-    exec 'hi PmenuSel ctermbg=232 ctermfg=254 guibg=#080808 guifg=#e4e4e4 cterm=NONE gui=NONE'
-    if exists("g:colors_name") && g:colors_name == "lucius"
-      LuciusWhiteLowContrast
-    endif
-  endif
-  exec 'hi User1 cterm=reverse gui=reverse'
-  exec 'hi Status1 ctermfg=1 ctermbg=' . synIDattr(hlID('StatusLine'), 'bg', 'cterm') . ' guifg=#ff0000 guibg=' . synIDattr(hlID('StatusLine'), 'bg', 'gui')
-  exec 'hi Status2 ctermfg=2 ctermbg=' . synIDattr(hlID('StatusLine'), 'bg', 'cterm') . ' guifg=#a5ffe1 guibg=' . synIDattr(hlID('StatusLine'), 'bg', 'gui')
-  exec 'hi Status3 ctermfg=3 ctermbg=' . synIDattr(hlID('StatusLine'), 'bg', 'cterm') . ' guifg=#ffff00 guibg=' . synIDattr(hlID('StatusLine'), 'bg', 'gui')
-  exec 'hi Status4 ctermfg=4 ctermbg=' . synIDattr(hlID('StatusLine'), 'bg', 'cterm') . ' guifg=#97bbf7 guibg=' . synIDattr(hlID('StatusLine'), 'bg', 'gui')
-endfunction
-call s:user_highlights()
-
 function! MyStatusline()
   let stl  = ''
   if $USER=='root'
@@ -604,6 +579,24 @@ autocmd BufWritePost vimrc,.vimrc source $MYVIMRC
 " " }}}
 
 " Functions " {{{1
+function! s:user_highlights()
+  exec 'hi CursorLine cterm=bold gui=bold'
+  if &background == "dark"
+    exec 'hi ColorColumn ctermbg=236 guibg=#303030'
+    exec 'hi Pmenu ctermbg=237 ctermfg=254 guibg=#3a3a3a guifg=#e4e4e4 cterm=NONE gui=NONE'
+    exec 'hi PmenuSel ctermbg=244 ctermfg=232 guibg=#808080 guifg=#080808 cterm=NONE gui=NONE'
+  else
+    exec 'hi ColorColumn ctermbg=253 guibg=#dadada'
+    exec 'hi Pmenu ctermbg=250 ctermfg=232 guibg=#bcbcbc guifg=#080808 cterm=NONE gui=NONE'
+    exec 'hi PmenuSel ctermbg=232 ctermfg=254 guibg=#080808 guifg=#e4e4e4 cterm=NONE gui=NONE'
+  endif
+  exec 'hi User1 cterm=reverse gui=reverse'
+  exec 'hi Status1 ctermfg=1 ctermbg=' . synIDattr(hlID('StatusLine'), 'bg', 'cterm') . ' guifg=#ff0000 guibg=' . synIDattr(hlID('StatusLine'), 'bg', 'gui')
+  exec 'hi Status2 ctermfg=2 ctermbg=' . synIDattr(hlID('StatusLine'), 'bg', 'cterm') . ' guifg=#a5ffe1 guibg=' . synIDattr(hlID('StatusLine'), 'bg', 'gui')
+  exec 'hi Status3 ctermfg=3 ctermbg=' . synIDattr(hlID('StatusLine'), 'bg', 'cterm') . ' guifg=#ffff00 guibg=' . synIDattr(hlID('StatusLine'), 'bg', 'gui')
+  exec 'hi Status4 ctermfg=4 ctermbg=' . synIDattr(hlID('StatusLine'), 'bg', 'cterm') . ' guifg=#97bbf7 guibg=' . synIDattr(hlID('StatusLine'), 'bg', 'gui')
+endfunction
+
 function! s:sy_stats_wrapper()
   let symbols = ['+', '-', '~']
   let [added, modified, removed] = sy#repo#get_stats()
