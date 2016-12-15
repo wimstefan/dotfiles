@@ -333,7 +333,7 @@ export SAVEHIST="5000"
 export CVS_RSH="ssh"
 export FZF_DEFAULT_COMMAND="ag --hidden --ignore .git --ignore .cache -l -g ''"
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
-export FZF_DEFAULT_OPTS="-x -m --cycle --color=dark --inline-info"
+export FZF_DEFAULT_OPTS="-x -m --cycle --ansi --color=dark --inline-info"
 export XAUTHORITY="$HOME/.Xauthority"
 export DISPLAY=:0.0
 # anti aliasing in the two toolkits
