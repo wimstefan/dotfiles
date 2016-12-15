@@ -8,7 +8,7 @@ rofi.color-enabled   : true
 rofi.color-normal    : #262626, #d9d9d9, #444444, #87af87, #262626
 rofi.color-urgent    : #262626, #e67373, #444444, #e67373, #262626
 rofi.color-active    : #262626, #de4343, #444444, #de4343, #262626
-!                      'bg',    'border'
+! Window             : 'bg',    'border'
 rofi.color-window    : #5f87af, #262626
 
 rofi.location        : 0
