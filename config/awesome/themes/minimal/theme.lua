@@ -3,16 +3,20 @@
 --  vim: fdm=marker fdl=0
 --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---
 
-green = "#b6e354"
-cyan  = "#7f4de6"
-red   = "#de4343"
-lred  = "#ff5c5c"
-dred  = "#cc2929"
-blue  = "#729fcf"
-black = "#000000"
-lgrey = "#eeeeee"
-dgrey = "#060606"
-white = "#ffffff"
+green  = "#b6e354"
+cyan   = "#7f4de6"
+red    = "#b64d60"
+lred   = "#e05a72"
+dred   = "#8f3949"
+blue   = "#729fcf"
+dblue1 = "#2a373e"
+dblue2 = "#3e515a"
+dblue3 = "#455a64"
+dblue4 = "#4f6069"
+black  = "#000000"
+lgrey  = "#eeeeee"
+dgrey  = "#060606"
+white  = "#ffffff"
 
 theme = {}
 
@@ -23,23 +27,23 @@ theme.menu_width                = "144"
 --}}}
 
 -- Theme fonts {{{
-theme.font                                  = "Archivo Narrow Bold 10"
+theme.font                                  = "Khand 11"
 theme.taglist_font                          = "Operator Mono Book Bold 10"
 theme.mono_font                             = "Operator Mono Book 11"
 --}}}
 
 -- Theme colours {{{
 theme.fg_normal                             = lgrey
-theme.bg_normal                             = dgrey
+theme.bg_normal                             = dblue1
 theme.fg_focus                              = lred
-theme.bg_focus                              = dgrey
+theme.bg_focus                              = dblue1
 theme.fg_em                                 = lgrey
 theme.bg_em                                 = "#5C5C5C"
 theme.fg_urgent                             = white
-theme.bg_urgent                             = red
-theme.border_normal                         = dgrey
-theme.border_focus                          = "#777E76"
-theme.border_marked                         = "#CC9393"
+theme.bg_urgent                             = lred
+theme.border_normal                         = dblue1
+theme.border_focus                          = dblue2
+theme.border_marked                         = dblue4
 theme.fg_widget_1                           = lgrey
 theme.bg_widget_1                           = theme.bg_normal
 theme.fg_widget_2                           = lgrey
@@ -60,13 +64,17 @@ theme.fg_keydoc_option                      = green
 theme.fg_keydoc_value                       = blue
 theme.fg_keydoc_value_important             = lgrey
 theme.taglist_fg_empty                      = dgrey
-theme.taglist_bg_empty                      = "#777E76"
+theme.taglist_bg_empty                      = dblue2
 theme.taglist_fg_focus                      = dgrey
 theme.taglist_bg_focus                      = white
 theme.taglist_fg_occupied                   = dgrey
-theme.taglist_bg_occupied                   = "#777E76"
+theme.taglist_bg_occupied                   = dblue2
 theme.taglist_fg_urgent                     = white
 theme.taglist_bg_urgent                     = lred
+theme.gradient_1                            = lred
+theme.gradient_2                            = dblue4
+theme.gradient_3                            = dblue3
+theme.gradient_bg                           = dblue1
 --}}}
 
 -- Theme icons {{{

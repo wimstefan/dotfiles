@@ -300,8 +300,6 @@ freedesktop.desktop.add_dirs_and_files_icons({screen = 1, showlabels = true})
 
 -- Wibox {{{1
 
-local stats_grad = { type = "linear", from = { 0, 0 }, to = { 0, 18 }, stops = { { 0, "#a52a2a" }, { 0.5, beautiful.bg_widget_6 }, { 1, "#92b0a0" } } }
-
 -- Music widget {{{2
 local widget_music = wibox.widget.textbox()
 vicious.register(widget_music, vicious.widgets.volume,
@@ -350,7 +348,8 @@ widget_cpu_text:buttons(awful.util.table.join(
     awful.button({ }, 1, function () awful.util.spawn_with_shell(mytop) end)))
 
 widget_cpu_graph:set_width(20)
-widget_cpu_graph:set_color(stats_grad)
+widget_cpu_graph:set_background_color(beautiful.gradient_bg)
+widget_cpu_graph:set_color({ type = "linear", from = { 0, 0 }, to = { 0, 18 }, stops = { { 0, beautiful.gradient_1 }, { 0.5, beautiful.gradient_2 }, { 1,beautiful.gradient_3 } } })
 vicious.register(widget_cpu_graph, vicious.widgets.cpu, "$1", 3)
 
 tooltip_cpu = awful.tooltip({ objects = { widget_cpu }, timeout = timeout_tooltip, timer_function = function()
@@ -475,9 +474,9 @@ cal.register(mytextclock)
 -- }}}
 
 -- Separator widgets {{{2
-spr = wibox.widget.textbox('<span color="#777e76" weight="bold"> ┃ </span>')
+spr = wibox.widget.textbox('<span color="'..beautiful.border_focus..'" weight="bold"> ┃ </span>')
 sprd = wibox.widget.textbox('<span background="#060606">  </span>')
-spr3f = wibox.widget.textbox('<span background="#777e76">   </span>')
+spr3f = wibox.widget.textbox('<span background="'..beautiful.border_focus..'">   </span>')
 arr0 = wibox.widget.imagebox(beautiful.arr0)
 arr1 = wibox.widget.imagebox(beautiful.arr1)
 arr2 = wibox.widget.imagebox(beautiful.arr2)
