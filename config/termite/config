@@ -9,13 +9,12 @@ mouse_autohide = false
 allow_bold = true
 dynamic_title = true
 clickable_url = true
-# font = Input Mono Narrow 11.0
 # swimmer
-font = Operator Mono Light 11.8
+font = Input Mono Compressed 12.4
 # mimi
-# font = Operator Mono Light 11.0
+# font = Input Mono Compressed 11.0
 # tj
-# font = Operator Mono Light 10.2
+# font = Input Mono Compressed 10.8
 scrollback_lines = 10000
 search_wrap = true
 #icon_name = terminal
@@ -74,4 +73,4 @@ color19 = #303030
 color20 = #585858
 color21 = #bcbcbc
 
-# vim: ft=cfg cms=#\ %s :
+# vim: ft=dosini cms=#\ %s :
