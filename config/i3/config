@@ -6,7 +6,7 @@ set $sup Mod1
 
 # Font for window titles. Will also be used by the bar unless a different font
 # is used in the bar {} block below.
-font pango:Hermit, Icons Bold 9
+font pango:Khand 10
 
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
@@ -36,7 +36,7 @@ bindsym $mod+h split h
 bindsym $mod+v split v
 
 # enter fullscreen mode for the focused container
-bindsym $mod+f fullscreen
+bindsym $mod+f fullscreen toggle
 
 # change container layout (stacked, tabbed, toggle split)
 #bindsym $mod+s layout stacking
@@ -56,9 +56,9 @@ bindsym $mod+space focus mode_toggle
 #bindsym $mod+d focus child
 
 # define names for workspaces with some nice symbols
-set $w1 1 
-set $w2 2 
-set $w3 3 
+set $w1 1
+set $w2 2
+set $w3 3
 set $w4 4
 set $w5 5
 set $w6 6
@@ -121,15 +121,8 @@ mode "resize" {
         bindsym Escape mode "default"
 }
 
-bindsym $mod+r mode "resize"
+bindsym $mod+Control+r mode "resize"
 
-# Start i3bar to display a workspace bar (plus the system information i3status
-# finds out, if available)
-bar {
-        position top
-        status_command py3status -c ~/.config/i3/i3status.conf
-        tray_output primary
-}
 
 workspace_layout tabbed
 workspace_auto_back_and_forth yes
@@ -157,25 +150,27 @@ mode "move" {
     bindsym Escape mode "default"
 }
 
-exec --no-startup-id feh --bg-scale ~/.config/awesome/themes/wallpaper.png
+exec --no-startup-id feh --bg-scale $HOME/system/wallpapers/default.jpg
 
-assign [instance="^sys$"]     → $w1
-assign [instance="^work$"]    → $w2
-assign [instance="^com$"]     → $w3
-assign [instance="^mimi$"]    → $w4
-assign [instance="^komala$"]  → $w5
-assign [instance="^tj"]       → $w6
-assign [class="^Thunderbird$"]                → $w7
-assign [class="^Gimp$"]                       → $w8
-assign [class="^Darktable$"]                  → $w8
-assign [class="^Audacity$"]                   → $w9
-assign [class="^Puddletag$"]                  → $w9
+assign [instance="^sys$"]       → $w1
+assign [instance="^work$"]      → $w2
+assign [instance="^com$"]       → $w3
+assign [instance="^tj$"]        → $w3
+assign [instance="^mimi$"]      → $w4
+assign [instance="^komala$"]    → $w5
+assign [instance="^home$"]      → $w6
+assign [instance="^tj-laptop$"] → $w6
+assign [class="^Thunderbird$"]  → $w7
+assign [class="^Gimp$"]         → $w8
+assign [class="^Darktable$"]    → $w8
+assign [class="^Audacity$"]     → $w9
+assign [class="^Puddletag$"]    → $w9
 
 # Call window switcher/run dialog/ssh launcher
-bindsym $mod+Tab  exec rofi -show window
+bindsym $mod+r    exec rofi -show combi
 bindsym $mod+a    exec audacity
 bindsym $mod+b    exec $BROWSER
-bindsym $mod+c    exec pangoterm --geometry=42x24+1260+24 --name=calculator -e wcalc
+bindsym $mod+c    exec i3-sensible-terminal --geometry=64x44-0-0 --name=calculator -e wcalc
 bindsym $mod+d    exec darktable
 bindsym $mod+e    exec gvim
 bindsym $mod+g    exec gimp
@@ -189,6 +184,16 @@ for_window [instance="^calculator$"] floating enable
 for_window [class="^Gimp$"] floating enable
 for_window [class="^Zenity$"] exec xdotool search --onlyvisible --class zenity windowmove 1400 24
 
+
+# Start i3bar to display a workspace bar (plus the system information i3status
+# finds out, if available)
+bar {
+        position top
+        status_command py3status -c ~/.config/i3/i3status.conf
+        # status_command i3blocks -c ~/.config/i3blocks/i3blocks.conf
+        tray_output primary
+        workspace_buttons yes
+}
 
 # Host specific
 # exec test $(hostname) == <HOST> && <COMMAND>
