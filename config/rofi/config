@@ -1,15 +1,15 @@
-rofi.font            : Operator Mono Light 11.0
+rofi.font            : Khand 13
 
 rofi.modi            : combi,window,drun,run,ssh
 rofi.combi-modi      : window,drun,run,ssh
 
 rofi.color-enabled   : true
 ! State              : 'bg',    'fg',   'bgalt',  'hlbg',  'hlfg'
-rofi.color-normal    : #262626, #d9d9d9, #444444, #87af87, #262626
-rofi.color-urgent    : #262626, #e67373, #444444, #e67373, #262626
-rofi.color-active    : #262626, #de4343, #444444, #de4343, #262626
-! Window             : 'bg',    'border'
-rofi.color-window    : #5f87af, #262626
+rofi.color-normal    : #262626, #bcbcbc, #262626, #262626, #5f87af
+rofi.color-urgent    : #262626, #e67373, #262626, #262626, #e67373
+rofi.color-active    : #262626, #de4343, #262626, #262626, #de4343
+! Window             : 'bg',    'border' 'separator'
+rofi.color-window    : #262626, #262626, #565656
 
 rofi.location        : 0
 rofi.width           : -68
