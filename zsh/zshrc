@@ -911,7 +911,6 @@ fi
 # END user config # }}}1
 
 # - External modules # {{{6
-[ -f $HOME/.zsh/external/zsh-autopair.git/autopair.zsh ] && source $HOME/.zsh/external/zsh-autopair.git/autopair.zsh
 if [[ -f $HOME/.zsh/external/zsh-syntax-highlighting.git/zsh-syntax-highlighting.zsh ]]; then
   source $HOME/.zsh/external/zsh-syntax-highlighting.git/zsh-syntax-highlighting.zsh
   export ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets cursor)
