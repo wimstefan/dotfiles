@@ -17,7 +17,7 @@ white = "#ffffff"
 theme = {}
 
 -- Theme settings {{{
-theme.wallpaper                 = config_dir .. "/themes/wallpaper.png"
+theme.wallpaper                 = wallpaper_dir .. "/default.jpg"
 theme.border_width              = "3"
 theme.menu_width                = "144"
 --}}}

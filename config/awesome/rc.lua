@@ -248,7 +248,7 @@ end
 -- Wallpaper changer {{{2
 local wallmenu = {}
 local function wall_load(wall)
-  local f = io.popen('ln -sfn '..wallpaper_dir..wall..' '..config_dir..'/themes/wallpaper.png')
+  local f = io.popen('ln -sfn '..wallpaper_dir..wall..' '..wallpaper_dir..'/default.jpg')
   awesome.restart()
 end
 local function wall_menu()

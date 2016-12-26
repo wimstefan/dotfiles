@@ -5,7 +5,7 @@ local default_icons = "/usr/share/awesome/themes/default"
 
 theme = {}
 
-theme.wallpaper = config_dir .. "/themes/wallpaper.png"
+theme.wallpaper = wallpaper_dir .. "/default.jpg"
 theme.awesome_icon = "/usr/share/awesome/icons/awesome16.png"
 --theme.font          = "Archivo Narrow Bold 10"
 theme.font          = "Terminal Dosis Bold 10"
