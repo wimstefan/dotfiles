@@ -74,7 +74,6 @@ theme.taglist_bg_urgent                     = lred
 theme.gradient_1                            = lred
 theme.gradient_2                            = dblue4
 theme.gradient_3                            = dblue3
-theme.gradient_bg                           = dblue1
 --}}}
 
 -- Theme icons {{{

@@ -348,7 +348,7 @@ widget_cpu_text:buttons(awful.util.table.join(
     awful.button({ }, 1, function () awful.util.spawn_with_shell(mytop) end)))
 
 widget_cpu_graph:set_width(20)
-widget_cpu_graph:set_background_color(beautiful.gradient_bg)
+widget_cpu_graph:set_background_color(beautiful.bg_normal)
 widget_cpu_graph:set_color({ type = "linear", from = { 0, 0 }, to = { 0, 18 }, stops = { { 0, beautiful.gradient_1 }, { 0.5, beautiful.gradient_2 }, { 1,beautiful.gradient_3 } } })
 vicious.register(widget_cpu_graph, vicious.widgets.cpu, "$1", 3)
 
