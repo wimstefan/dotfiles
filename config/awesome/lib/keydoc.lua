@@ -119,7 +119,7 @@ function display()
    nid = naughty.notify({ text = result,
         replaces_id = nid,
         hover_timeout = 0.1,
-        font = "Cousine Bold 8",
+        font = "Operator Mono Light 11",
         position = "bottom_right",
         timeout = 30 }).id
 end
