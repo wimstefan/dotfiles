@@ -68,7 +68,7 @@ Plug 'tpope/vim-fugitive' | Plug 'gregsexton/gitv' | Plug 'junkblocker/git-time-
 Plug 'justinmk/vim-sneak'
 " vim-sneak config {{{2
   let g:sneak#prompt = '[sneak] '
-  let g:sneak#streak = 1
+  let g:sneak#label = 1
   nmap f <Plug>Sneak_f
   nmap F <Plug>Sneak_F
   xmap f <Plug>Sneak_f
@@ -104,6 +104,7 @@ Plug 'mhinz/vim-grepper'
 Plug 'romainl/vim-qf'
 " vim-qf config {{{2
   let g:qf_mapping_ack_style           = 1
+  let g:qf_auto_open_quickfix          = 0
   nmap              <C-q>                <Plug>QfSwitch
   nmap              <C-c>                <Plug>QfCtoggle
   nmap              <C-l>                <Plug>QfLtoggle
@@ -117,7 +118,7 @@ Plug 'lifepillar/vim-mucomplete'
 " vim-mucomplete config {{{2
   let g:mucomplete#enable_auto_at_startup = 1
   let g:mucomplete#auto_select         = 0
-  let g:mucomplete#chains              = { 'default' : ['file', 'omni', 'keyn', 'uspl'] }
+  let g:mucomplete#chains              = { 'default' : ['keyn', 'omni', 'uspl', 'file'] }
   nnoremap <silent> ,ta                  :MUcompleteAutoToggle<CR>
 " }}}
 Plug 'wellle/tmux-complete.vim'
@@ -127,6 +128,7 @@ Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' }
   let g:undotree_WindowLayout          = 2
   nnoremap          ,tu                  :UndotreeToggle<CR>
 " }}}
+Plug 'brooth/far.vim'
 Plug 'qpkorr/vim-renamer'
 Plug 'will133/vim-dirdiff'
 " vim-dirdiff config {{{2
@@ -190,11 +192,20 @@ Plug 'reedes/vim-colors-pencil'
   let g:pencil_gutter_color            = 1
 " }}}
 Plug 'robertmeta/nofrils'
+Plug 'jonathanfilip/vim-lucius'
+Plug 'tomasr/molokai'
 Plug 'nanotech/jellybeans.vim'
 " jellybeans.vim config {{{2
   let g:jellybeans_use_term_italics    = 1
   let g:jellybeans_use_gui_italics     = 1
 " }}}
+Plug 'w0ng/vim-hybrid'
+" vim-hybrid config {{{2
+  let g:hybrid_custom_term_colors      = 0
+  let g:hybrid_reduced_contrast        = 0
+" }}}
+Plug 'whatyouhide/vim-gotham'
+Plug '~/.vim/plugged/adapted-theme/'
 
 call plug#end()
 endif
@@ -288,6 +299,7 @@ set modeline                           " allow the execution of modelines
 set showmode                           " shows mode
 set showcmd                            " show uncompleted command
 set showmatch                          " show matching hyphens
+set shortmess=fmnxoOtTI                " shorten messages shown in the modeline
 set diffopt=vertical,iwhite,filler     " split vertical, ignore whitespace & use filler
 set splitright                         " Set vertical splits to split to the right
 set splitbelow                         " Set horizontal splits to split to the bottom
@@ -420,6 +432,7 @@ function! MyStatusline()
     let stl .= '%1* %l:%-2c %*'
     let stl .= ' %p%% '
   return stl
+  call User_highlights()
 endfunction
 setlocal statusline=%!MyStatusline()
 " " }}}2
@@ -442,7 +455,7 @@ nnoremap          <Leader>sv             :source  $MYVIMRC<CR>
 
 " files
 nnoremap <silent> cd                     :<C-u>cd %:h \| pwd<CR>
-nnoremap          <Leader>e              :e **/
+nnoremap          <Leader>e              :e **/*<C-d>
 nnoremap          <Leader>f              :find *
 nnoremap          <Leader>s              :sfind *
 nnoremap          <Leader>l              :silent Locate<Space>
@@ -450,6 +463,7 @@ nnoremap          <Leader>w              :w!<CR>
 nnoremap          <Leader>wa             :wa!<CR>
 nnoremap          <Leader>q              :q!<CR>
 nnoremap          <Leader>qa             :qa!<CR>
+nnoremap          <Leader>wqa             :wqa!<CR>
 
 " buffers
 nnoremap          <Leader>bn             :bnext<CR>
@@ -503,6 +517,7 @@ call s:option_map('s', 'spell', 'setlocal')
 nnoremap [ox :set cursorline cursorcolumn<CR>
 nnoremap ]ox :set nocursorline nocursorcolumn<CR>
 nnoremap cox :set <C-r>=&cursorline && &cursorcolumn ? 'nocursorline nocursorcolumn' : 'cursorline cursorcolumn'<CR><CR>
+nnoremap com :<C-u>set colorcolumn=<C-R>=&colorcolumn == '+'.join(range(1,255),',+') ? '' : '+'.join(range(1,255),',+')<CR><CR><CR>
 nmap [<Space> O<Esc>j
 nmap ]<Space> o<Esc>k
 
@@ -554,10 +569,6 @@ autocmd BufNewFile,BufRead *cddb* set encoding=utf-8 fileencoding=utf-8 ff=unix
 " Disable numbers & spell inside manpages
 autocmd FileType {man,help,perldoc,pydoc}  set nonumber nospell nolist nocursorcolumn
 
-" Automatically open the quickfix window if it's populated
-autocmd QuickFixCmdPost [^l]* nested cwindow
-autocmd QuickFixCmdPost    l* nested lwindow
-
 " When editing a file, always jump to the last known cursor position.
 autocmd BufReadPost *
   \ if line("'\"") > 0 && line("'\"") <= line("$") |
@@ -574,7 +585,7 @@ autocmd BufEnter * setlocal statusline=%!MyStatusline()
 autocmd VimResized * :wincmd =
 
 " Automatically reload vimrc when it's saved
-autocmd BufWritePost vimrc,.vimrc source $MYVIMRC
+autocmd BufWritePost vimrc,.vimrc nested source $MYVIMRC
 
 " " }}}
 
@@ -591,12 +602,11 @@ function! User_highlights()
     exec 'hi PmenuSel ctermbg=232 ctermfg=254 guibg=#080808 guifg=#e4e4e4 cterm=NONE gui=NONE'
   endif
   exec 'hi User1 cterm=reverse gui=reverse'
-  exec 'hi Status1 ctermfg=1 ctermbg=' . synIDattr(hlID('StatusLine'), 'bg', 'cterm') . ' guifg=#ff0000 guibg=' . synIDattr(hlID('StatusLine'), 'bg', 'gui')
-  exec 'hi Status2 ctermfg=2 ctermbg=' . synIDattr(hlID('StatusLine'), 'bg', 'cterm') . ' guifg=#a5ffe1 guibg=' . synIDattr(hlID('StatusLine'), 'bg', 'gui')
-  exec 'hi Status3 ctermfg=3 ctermbg=' . synIDattr(hlID('StatusLine'), 'bg', 'cterm') . ' guifg=#ffff00 guibg=' . synIDattr(hlID('StatusLine'), 'bg', 'gui')
-  exec 'hi Status4 ctermfg=4 ctermbg=' . synIDattr(hlID('StatusLine'), 'bg', 'cterm') . ' guifg=#97bbf7 guibg=' . synIDattr(hlID('StatusLine'), 'bg', 'gui')
+  exec 'hi Status1 ctermfg=1 ctermbg=' . synIDattr(hlID('StatusLine'), 'bg', 'cterm') . ' guifg=#e05a72 guibg=' . synIDattr(hlID('StatusLine'), 'bg', 'gui')
+  exec 'hi Status2 ctermfg=2 ctermbg=' . synIDattr(hlID('StatusLine'), 'bg', 'cterm') . ' guifg=#59b387 guibg=' . synIDattr(hlID('StatusLine'), 'bg', 'gui')
+  exec 'hi Status3 ctermfg=3 ctermbg=' . synIDattr(hlID('StatusLine'), 'bg', 'cterm') . ' guifg=#ffffaf guibg=' . synIDattr(hlID('StatusLine'), 'bg', 'gui')
+  exec 'hi Status4 ctermfg=4 ctermbg=' . synIDattr(hlID('StatusLine'), 'bg', 'cterm') . ' guifg=#5f87af guibg=' . synIDattr(hlID('StatusLine'), 'bg', 'gui')
 endfunction
-call User_highlights()
 
 function! s:sy_stats_wrapper()
   let symbols = ['+', '-', '~']
