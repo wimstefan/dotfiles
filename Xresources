@@ -1,8 +1,9 @@
 Xcursor*theme: Neutral_Plus
 
 *font: xft:Input Mono Narrow:pixelsize=14.0
-*font1: xft:Noto Emoji
 *faceName: xft:Input Mono Narrow:pixelsize=14.0
+*barFont: xft:Khand:size=11
+*iconFont: xft:FontAwesome:size=12
 
 xterm*loginShell: true
 xterm*utf8: true
@@ -12,25 +13,25 @@ xterm*bellIsUrgent: true
 ! *foreground:  #d0d0d0
 ! *background:  #080808
 
-! Base16 Apprentice
-! Scheme: Romain Lafourcade (romainlafourcade@gmail.com)
+! Base16 Adapted
+! Scheme: Stefan Wimmer (wimstefan@gmail.com)
 
-#define base00 #1c1c1c
-#define base01 #262626
-#define base02 #303030
-#define base03 #444444
-#define base04 #585858
-#define base05 #d1d1d1
-#define base06 #bcbcbc
-#define base07 #ffffff
-#define base08 #de4343
-#define base09 #ff8700
+#define base00 #071a24
+#define base01 #2a373e
+#define base02 #363636
+#define base03 #585858
+#define base04 #cccccc
+#define base05 #eceff1
+#define base06 #ffffff
+#define base07 #5f8787
+#define base08 #e05a72
+#define base09 #e6a15c
 #define base0A #ffffaf
-#define base0B #87af87
+#define base0B #59b387
 #define base0C #5fafaf
-#define base0D #87afd7
-#define base0E #8787af
-#define base0F #87875f
+#define base0D #5f87af
+#define base0E #aa7fff
+#define base0F #805f3f
 
 *foreground:   base05
 *background:   base00

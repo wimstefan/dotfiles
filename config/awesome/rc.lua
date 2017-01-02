@@ -274,7 +274,7 @@ require("freedesktop.utils")
 freedesktop.utils.terminal = terminal
 
 -- applications menu
-freedesktop.utils.icon_theme = { 'Numix' }
+freedesktop.utils.icon_theme = { beautiful.icon_theme }
 require("freedesktop.menu")
 menu_items = freedesktop.menu.new()
 myawesomemenu = {

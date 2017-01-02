@@ -5,11 +5,11 @@ rofi.combi-modi      : window,drun,run,ssh
 
 rofi.color-enabled   : true
 ! State              : 'bg',    'fg',   'bgalt',  'hlbg',  'hlfg'
-rofi.color-normal    : #262626, #bcbcbc, #262626, #262626, #5f87af
-rofi.color-urgent    : #262626, #e67373, #262626, #262626, #e67373
-rofi.color-active    : #262626, #de4343, #262626, #262626, #de4343
+rofi.color-normal    : #3e515a, #eceff1, #3e515a, #3e515a, #ffffaf
+rofi.color-urgent    : #3e515a, #e67373, #3e515a, #3e515a, #e67373
+rofi.color-active    : #3e515a, #59b387, #3e515a, #3e515a, #59b387
 ! Window             : 'bg',    'border' 'separator'
-rofi.color-window    : #262626, #262626, #565656
+rofi.color-window    : #3e515a, #3e515a, #cccccc
 
 rofi.location        : 0
 rofi.width           : -68

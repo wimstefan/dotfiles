@@ -1,11 +1,11 @@
-conky.config = {
 -- vim:ft=conkyrc:tw=280
+conky.config = {
         alignment = 'top_right',
         background = true,
         border_width = 0,
-        color1 = '#D0D0D0',
-        color2 = '#6B6B6B',
-        default_color = '#FF6969',
+        color1 = '#d0d0d0',
+        color2 = '#6b6b6b',
+        default_color = '#e05a72',
         draw_borders = false,
         draw_graph_borders = true,
         draw_shades = false,
@@ -16,7 +16,7 @@ conky.config = {
         minimum_width = 280, minimum_height = 800,
         maximum_width = 320,
         no_buffers = true,
-        own_window_colour = '#060606',
+        own_window_colour = '#2a373e',
         own_window_hints = 'undecorated,below,sticky,skip_taskbar,skip_pager',
         own_window_type = 'desktop',
         own_window = true,

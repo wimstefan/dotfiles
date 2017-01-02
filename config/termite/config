@@ -39,38 +39,38 @@ filter_unmatched_urls = true
 #modify_other_keys = false
 
 [colors]
-# Base16 Apprentice
-# Scheme: Romain Lafourcade (romainlafourcade@gmail.com)
+# Base16 Adapted
+# Scheme: Stefan Wimmer (wimstefan@gmail.com)
 
-foreground      = #d1d1d1
-foreground_bold = #d1d1d1
-cursor          = #d1d1d1
-background      = #1c1c1c
+foreground      = #eceff1
+foreground_bold = #eceff1
+cursor          = #eceff1
+background      = #071a24
 
 # 16 color space
-color0  = #1c1c1c
-color1  = #de4343
-color2  = #87af87
+color0  = #09212d
+color1  = #e05a72
+color2  = #59b387
 color3  = #ffffaf
-color4  = #87afd7
-color5  = #8787af
+color4  = #5f87af
+color5  = #aa7fff
 color6  = #5fafaf
-color7  = #d1d1d1
-color8  = #444444
-color9  = #de4343
-color10 = #87af87
+color7  = #eceff1
+color8  = #585858
+color9  = #e05a72
+color10 = #59b387
 color11 = #ffffaf
-color12 = #87afd7
-color13 = #8787af
+color12 = #5f87af
+color13 = #aa7fff
 color14 = #5fafaf
-color15 = #ffffff
+color15 = #5f8787
 
 # 256 color space
-color16 = #ff8700
-color17 = #87875f
-color18 = #262626
-color19 = #303030
-color20 = #585858
-color21 = #bcbcbc
+color16 = #e6a15c
+color17 = #805f3f
+color18 = #2a373e
+color19 = #363636
+color20 = #cccccc
+color21 = #ffffff
 
 # vim: ft=dosini cms=#\ %s :
