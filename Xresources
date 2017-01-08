@@ -1,5 +1,11 @@
 Xcursor*theme: Neutral_Plus
 
+Xft.antialias: true
+Xft.hinting:   true
+Xft.rgba:      rgb
+Xft.hintstyle: hintslight
+Xft.lcdfilter: lcddefault
+
 *font: xft:Input Mono Narrow:pixelsize=14.0
 *faceName: xft:Input Mono Narrow:pixelsize=14.0
 *barFont: xft:Khand:size=11
