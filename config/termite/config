@@ -10,7 +10,7 @@ allow_bold = true
 dynamic_title = true
 clickable_url = true
 # swimmer
-font = Input Mono Compressed 12.4
+font = Input Mono Compressed 12.0
 # mimi
 # font = Input Mono Compressed 11.0
 # tj
@@ -18,7 +18,7 @@ font = Input Mono Compressed 12.4
 scrollback_lines = 10000
 search_wrap = true
 #icon_name = terminal
-geometry = 1200x800
+# geometry = 1200x800
 
 # "system", "on" or "off"
 cursor_blink = system
