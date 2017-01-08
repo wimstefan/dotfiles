@@ -67,20 +67,21 @@ Plug 'tpope/vim-fugitive' | Plug 'gregsexton/gitv' | Plug 'junkblocker/git-time-
 " }}}
 Plug 'justinmk/vim-sneak'
 " vim-sneak config {{{2
-  let g:sneak#prompt = '[sneak] '
-  let g:sneak#label = 1
-  nmap f <Plug>Sneak_f
-  nmap F <Plug>Sneak_F
-  xmap f <Plug>Sneak_f
-  xmap F <Plug>Sneak_F
-  omap f <Plug>Sneak_f
-  omap F <Plug>Sneak_F
-  nmap t <Plug>Sneak_t
-  nmap T <Plug>Sneak_T
-  xmap t <Plug>Sneak_t
-  xmap T <Plug>Sneak_T
-  omap t <Plug>Sneak_t
-  omap T <Plug>Sneak_T
+  let g:sneak#prompt                   = '[sneak] '
+  let g:sneak#label                    = 1
+  let g:sneak#s_next                   = 1
+  nmap              f                    <Plug>Sneak_f
+  nmap              F                    <Plug>Sneak_F
+  xmap              f                    <Plug>Sneak_f
+  xmap              F                    <Plug>Sneak_F
+  omap              f                    <Plug>Sneak_f
+  omap              F                    <Plug>Sneak_F
+  nmap              t                    <Plug>Sneak_t
+  nmap              T                    <Plug>Sneak_T
+  xmap              t                    <Plug>Sneak_t
+  xmap              T                    <Plug>Sneak_T
+  omap              t                    <Plug>Sneak_t
+  omap              T                    <Plug>Sneak_T
 " }}}
 Plug 'mhinz/vim-signify'
 " vim-signify config {{{2
@@ -91,6 +92,7 @@ Plug 'mhinz/vim-signify'
   let g:signify_line_highlight         = 1
   let g:signify_update_on_focusgained  = 1
   nnoremap          ,tsg                 :SignifyToggle<CR>
+  nnoremap          ,tsh                 :SignifyToggleHighlight<CR>
 " }}}
 Plug 'mhinz/vim-sayonara', {'on': 'Sayonara' }
 Plug 'mhinz/vim-grepper'
@@ -118,7 +120,7 @@ Plug 'lifepillar/vim-mucomplete'
 " vim-mucomplete config {{{2
   let g:mucomplete#enable_auto_at_startup = 1
   let g:mucomplete#auto_select         = 0
-  let g:mucomplete#chains              = { 'default' : ['keyn', 'omni', 'uspl', 'file'] }
+  let g:mucomplete#chains              = { 'default' : ['keyp', 'omni', 'uspl', 'file'] }
   nnoremap <silent> ,ta                  :MUcompleteAutoToggle<CR>
 " }}}
 Plug 'wellle/tmux-complete.vim'
@@ -592,20 +594,12 @@ autocmd BufWritePost vimrc,.vimrc nested source $MYVIMRC
 " Functions " {{{1
 function! User_highlights()
   exec 'hi CursorLine cterm=bold gui=bold'
-  if &background == "dark"
-    exec 'hi ColorColumn ctermbg=236 guibg=#303030'
-    exec 'hi Pmenu ctermbg=237 ctermfg=254 guibg=#3a3a3a guifg=#e4e4e4 cterm=NONE gui=NONE'
-    exec 'hi PmenuSel ctermbg=244 ctermfg=232 guibg=#808080 guifg=#080808 cterm=NONE gui=NONE'
-  else
-    exec 'hi ColorColumn ctermbg=253 guibg=#dadada'
-    exec 'hi Pmenu ctermbg=250 ctermfg=232 guibg=#bcbcbc guifg=#080808 cterm=NONE gui=NONE'
-    exec 'hi PmenuSel ctermbg=232 ctermfg=254 guibg=#080808 guifg=#e4e4e4 cterm=NONE gui=NONE'
-  endif
   exec 'hi User1 cterm=reverse gui=reverse'
-  exec 'hi Status1 ctermfg=1 ctermbg=' . synIDattr(hlID('StatusLine'), 'bg', 'cterm') . ' guifg=#e05a72 guibg=' . synIDattr(hlID('StatusLine'), 'bg', 'gui')
-  exec 'hi Status2 ctermfg=2 ctermbg=' . synIDattr(hlID('StatusLine'), 'bg', 'cterm') . ' guifg=#59b387 guibg=' . synIDattr(hlID('StatusLine'), 'bg', 'gui')
-  exec 'hi Status3 ctermfg=3 ctermbg=' . synIDattr(hlID('StatusLine'), 'bg', 'cterm') . ' guifg=#ffffaf guibg=' . synIDattr(hlID('StatusLine'), 'bg', 'gui')
-  exec 'hi Status4 ctermfg=4 ctermbg=' . synIDattr(hlID('StatusLine'), 'bg', 'cterm') . ' guifg=#5f87af guibg=' . synIDattr(hlID('StatusLine'), 'bg', 'gui')
+
+  exec 'hi Status1 ctermfg=1 guifg=#e05a72 guibg=' . synIDattr(hlID('StatusLine'), 'bg', 'gui')
+  exec 'hi Status2 ctermfg=2 guifg=#59b387 guibg=' . synIDattr(hlID('StatusLine'), 'bg', 'gui')
+  exec 'hi Status3 ctermfg=3 guifg=#ffffaf guibg=' . synIDattr(hlID('StatusLine'), 'bg', 'gui')
+  exec 'hi Status4 ctermfg=4 guifg=#5f87af guibg=' . synIDattr(hlID('StatusLine'), 'bg', 'gui')
 endfunction
 
 function! s:sy_stats_wrapper()
