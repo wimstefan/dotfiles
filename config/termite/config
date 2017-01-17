@@ -10,11 +10,11 @@ allow_bold = true
 dynamic_title = true
 clickable_url = true
 # swimmer
-font = Input Mono Compressed 12.0
+font = Input Mono Compressed 10.2
 # mimi
-# font = Input Mono Compressed 11.0
+# font = Input Mono Compressed 10.0
 # tj
-# font = Input Mono Compressed 10.8
+# font = Input Mono Compressed 9.6
 scrollback_lines = 10000
 search_wrap = true
 #icon_name = terminal
@@ -30,7 +30,7 @@ cursor_shape = underline
 #browser = xdg-open
 
 # set size hints for the window
-size_hints = true
+size_hints = false
 
 # Hide links that are no longer valid in url select overlay mode
 filter_unmatched_urls = true
