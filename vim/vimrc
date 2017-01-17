@@ -118,9 +118,9 @@ Plug 'romainl/vim-qf'
 Plug 'romainl/vim-qlist'
 Plug 'lifepillar/vim-mucomplete'
 " vim-mucomplete config {{{2
-  let g:mucomplete#enable_auto_at_startup = 1
+  let g:mucomplete#enable_auto_at_startup = 0
   let g:mucomplete#auto_select         = 0
-  let g:mucomplete#chains              = { 'default' : ['keyp', 'omni', 'uspl', 'file'] }
+  let g:mucomplete#chains              = { 'default' : [ 'c-n', 'path', 'uspl', 'user', 'omni' ] }
   nnoremap <silent> ,ta                  :MUcompleteAutoToggle<CR>
 " }}}
 Plug 'wellle/tmux-complete.vim'
@@ -152,8 +152,8 @@ Plug 'powerman/vim-plugin-viewdoc'
 " }}}
 Plug 'godlygeek/tabular' | Plug 'dhruvasagar/vim-table-mode'
 " tabular config {{{2
-  nnoremap          <Leader><Tab>        :Tabular 
-  vnoremap          <Leader><Tab>        :Tabular 
+  nnoremap          <Leader><Tab>        :Tabularize<Space>
+  vnoremap          <Leader><Tab>        :Tabularize<Space>
 " }}}
 " vim-table-mode config {{{2
   let g:table_mode_corner              = '+'
@@ -180,10 +180,6 @@ Plug 'chrisbra/Colorizer', { 'on': 'ColorToggle' }
   nnoremap          ,tc                  :ColorToggle<CR>
 " }}}
 Plug '$HOME/.vim/plugged/my-base16-vim'
-" base16-vim config {{{2
-  let base16colorspace                 = 256
-  let g:base16_shell_path              = "$HOME/.config/base16-shell"
-" }}}
 Plug 'wimstefan/ligero-theme'
 Plug 'wimstefan/Lightning'
 Plug 'romainl/Apprentice'
@@ -207,7 +203,7 @@ Plug 'w0ng/vim-hybrid'
   let g:hybrid_reduced_contrast        = 0
 " }}}
 Plug 'whatyouhide/vim-gotham'
-Plug '~/.vim/plugged/adapted-theme/'
+Plug '~/.vim/plugged/vim-adapted/'
 
 call plug#end()
 endif
@@ -220,7 +216,7 @@ runtime  macros/matchit.vim
 runtime  ftplugin/man.vim
 
 set textwidth=80                       " define an acceptable standard textwidth
-set backspace=2                        " allow backspacing over everything in insert mode
+set backspace=indent,eol,start         " allow backspacing over everything in insert mode
 set shiftwidth=2                       " number of spaces used for indention
 let &softtabstop = &shiftwidth         " number of spaces that a <Tab> counts for
 set shiftround                         " round indent to multiple of 'shiftwidth'
@@ -246,7 +242,11 @@ set number                             " show line numbers
 set cursorcolumn                       " highlights the screen column of the cursor
 set cursorline                         " highlights the screen line of the cursor
 let &cc='+'.join(range(1,255),',+')    " highlights textwidth boundaries
-if exists('vimpager')
+" vimpager settings
+if exists('g:vimpager.enabled')
+  let g:vimpager = {}
+  let g:less     = {}
+  let g:less.enabled = 0
   set colorcolumn=0
   set nolist
 endif
@@ -268,16 +268,12 @@ set complete-=t                        " tags
 set complete+=kspell                   " currently active spell checking
 " ins-completion-menu options
 " set completeopt+=longest
-set completeopt+=menu
 set completeopt+=menuone
 set completeopt+=noinsert
 set completeopt+=noselect
 set completeopt+=preview
 set infercase                          " case of the match is adjusted depending on the typed text
 if has("autocmd") && exists("+omnifunc")
-  " define filetype specific syntax completion
-  autocmd FileType css set omnifunc=csscomplete#CompleteCSS
-  autocmd filetype html,markdown,ctp set omnifunc=htmlcomplete#CompleteTags
   " syntax completion only if a specific plugin does not already exist for that filetype
   autocmd Filetype *
     \ if &omnifunc == "" |
@@ -301,14 +297,12 @@ set modeline                           " allow the execution of modelines
 set showmode                           " shows mode
 set showcmd                            " show uncompleted command
 set showmatch                          " show matching hyphens
-set shortmess=fmnxoOtTI                " shorten messages shown in the modeline
 set diffopt=vertical,iwhite,filler     " split vertical, ignore whitespace & use filler
 set splitright                         " Set vertical splits to split to the right
 set splitbelow                         " Set horizontal splits to split to the bottom
 set previewheight=24                   " Set the height of the preview window
 
 set gdefault                           " always use global substitutions
-set digraph                            " enter characters that normally can't be entered by keyboard
 
 " Use persistent undo
 if has('persistent_undo')
@@ -393,12 +387,18 @@ else
   endif
 endif
 
-set guifont=Operator\ Mono\ weight=330\ 11
-set guioptions-=T                      " disable toolbar
+if has('gui_running')
+  set guifont=Operator\ Mono\ SemiLight\ 9
+  set guioptions-=T                    " disable toolbar
+  set guioptions-=l                    " disable left scrollbar
+  set guioptions-=L
+  set guioptions-=r                    " disable right scrollbar
+  set guioptions-=R
+  set guioptions-=e                    " disables the GUI tab line in favor of the plain text version
+endif
 
 " Statusline " {{{2
 set laststatus=2                       " always show the statusline above
-set guioptions-=e                      " disables the GUI tab line in favor of the plain text version
 
 function! MyStatusline()
   let stl  = ''
@@ -578,7 +578,7 @@ autocmd BufReadPost *
   \ endif
 
 " Reload user defined highlights after changing colorschemes
-autocmd ColorScheme * call User_highlights()
+autocmd VimEnter,ColorScheme * call User_highlights()
 
 " Reload statusline after changing windows/buffer/tab
 autocmd BufEnter * setlocal statusline=%!MyStatusline()
@@ -596,10 +596,10 @@ function! User_highlights()
   exec 'hi CursorLine cterm=bold gui=bold'
   exec 'hi User1 cterm=reverse gui=reverse'
 
-  exec 'hi Status1 ctermfg=1 guifg=#e05a72 guibg=' . synIDattr(hlID('StatusLine'), 'bg', 'gui')
-  exec 'hi Status2 ctermfg=2 guifg=#59b387 guibg=' . synIDattr(hlID('StatusLine'), 'bg', 'gui')
-  exec 'hi Status3 ctermfg=3 guifg=#ffffaf guibg=' . synIDattr(hlID('StatusLine'), 'bg', 'gui')
-  exec 'hi Status4 ctermfg=4 guifg=#5f87af guibg=' . synIDattr(hlID('StatusLine'), 'bg', 'gui')
+  exec 'hi Status1 ctermfg=1 guifg=#e05a72 guibg=' . synIDattr(hlID('StatusLine'), 'bg')
+  exec 'hi Status2 ctermfg=2 guifg=#59b387 guibg=' . synIDattr(hlID('StatusLine'), 'bg')
+  exec 'hi Status3 ctermfg=3 guifg=#ffffaf guibg=' . synIDattr(hlID('StatusLine'), 'bg')
+  exec 'hi Status4 ctermfg=4 guifg=#5f87af guibg=' . synIDattr(hlID('StatusLine'), 'bg')
 endfunction
 
 function! s:sy_stats_wrapper()
