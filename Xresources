@@ -5,14 +5,23 @@ Xft.hinting:   true
 Xft.rgba:      rgb
 Xft.hintstyle: hintslight
 Xft.lcdfilter: lcddefault
+#ifdef SRVR_swimmer
+  Xft.dpi: 110
+#elif SRVR_mimi
+  Xft.dpi: 136
+#elif SRVR_tj
+  Xft.dpi: 104
+#endif
 
-*font: xft:Input Mono Narrow:pixelsize=14.0
-*faceName: xft:Input Mono Narrow:pixelsize=14.0
-*barFont: xft:Khand:size=11
-*iconFont: xft:FontAwesome:size=12
+*font: xft:Input Mono Compressed:pixelsize=16.0
+*faceName: xft:Input Mono Compressed:pixelsize=16.0
+*faceNameDoublesize: xft:Input Mono Compressed:size=16
 
+xterm*termName: xterm-256color
 xterm*loginShell: true
 xterm*utf8: true
+xterm*renderFont: true
+xterm*cjkWidth: true
 xterm*bellIsUrgent: true
 
 !!! Minimal colours
