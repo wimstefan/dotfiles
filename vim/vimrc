@@ -143,13 +143,6 @@ Plug 'VOoM'
   nnoremap          ,tv                  :VoomToggle<CR>
 " }}}
 Plug 'rkitover/vimpager'
-Plug 'powerman/vim-plugin-viewdoc'
-" vim-plugin-viewdoc config {{{2
-  let g:viewdoc_open                   = 'topleft new'
-  let g:viewdoc_openempty              = 0
-  let g:viewdoc_dontswitch             = 0
-  nnoremap          <Leader>h            :ViewDocHelp<Space>
-" }}}
 Plug 'godlygeek/tabular' | Plug 'dhruvasagar/vim-table-mode'
 " tabular config {{{2
   nnoremap          <Leader><Tab>        :Tabularize<Space>
@@ -242,14 +235,7 @@ set number                             " show line numbers
 set cursorcolumn                       " highlights the screen column of the cursor
 set cursorline                         " highlights the screen line of the cursor
 let &cc='+'.join(range(1,255),',+')    " highlights textwidth boundaries
-" vimpager settings
-if exists('g:vimpager.enabled')
-  let g:vimpager = {}
-  let g:less     = {}
-  let g:less.enabled = 0
-  set colorcolumn=0
-  set nolist
-endif
+
 " virtually wrap lines to fit on the screen
 if exists('+linebreak')
   set linebreak showbreak=\ ›››\       " break & visually mark wrapped lines
@@ -262,24 +248,6 @@ set ignorecase                         " ignore case when using a search pattern
 set smartcase                          " override 'ignorecase' when pattern has upper case characters
 set incsearch                          " show matches while typing the query
 set hlsearch                           " highlight search results
-
-set complete-=i                        " included files
-set complete-=t                        " tags
-set complete+=kspell                   " currently active spell checking
-" ins-completion-menu options
-" set completeopt+=longest
-set completeopt+=menuone
-set completeopt+=noinsert
-set completeopt+=noselect
-set completeopt+=preview
-set infercase                          " case of the match is adjusted depending on the typed text
-if has("autocmd") && exists("+omnifunc")
-  " syntax completion only if a specific plugin does not already exist for that filetype
-  autocmd Filetype *
-    \ if &omnifunc == "" |
-    \   setlocal omnifunc=syntaxcomplete#Complete |
-    \ endif
-endif
 
 set list                               " display unprintable characters
 set listchars=tab:→\ ,trail:·,eol:«,extends:◀,precedes:▶
@@ -311,6 +279,13 @@ if has('persistent_undo')
   set undofile
 endif
 
+" Help settings
+set keywordprg=:help
+nnoremap          <Leader>h            :help<Space>
+nnoremap          <Leader>M            :Man<Space>
+autocmd WinNew * let w:new = 1
+autocmd FileType help,man if exists('w:new') | unlet w:new | winc K | endif
+
 " Clipboard settings
 if has('unnamed')
   set clipboard+=unnamed               " yank+paste with the '*' register
@@ -321,6 +296,34 @@ set mouse=a                            " enable mouse in console
 set mousemodel=popup_setpos
 if !has('nvim')
   set ttymouse=xterm2
+endif
+
+" vimpager settings
+if exists('g:vimpager.enabled')
+  let g:vimpager = {}
+  let g:less     = {}
+  let g:less.enabled = 0
+  set colorcolumn=0
+  set nolist
+endif
+
+" Completion settings
+set complete-=i                        " included files
+set complete-=t                        " tags
+set complete+=kspell                   " currently active spell checking
+" ins-completion-menu options
+" set completeopt+=longest
+set completeopt+=menuone
+set completeopt+=noinsert
+set completeopt+=noselect
+set completeopt+=preview
+set infercase                          " case of the match is adjusted depending on the typed text
+if has("autocmd") && exists("+omnifunc")
+  " syntax completion only if a specific plugin does not already exist for that filetype
+  autocmd Filetype *
+    \ if &omnifunc == "" |
+    \   setlocal omnifunc=syntaxcomplete#Complete |
+    \ endif
 endif
 
 " Fold settings
