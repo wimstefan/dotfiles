@@ -10,9 +10,9 @@ allow_bold = true
 dynamic_title = true
 clickable_url = true
 # swimmer
-font = Input Mono Compressed 10.2
+font = Input Mono Compressed 9.6
 # mimi
-# font = Input Mono Compressed 10.0
+# font = Input Mono Compressed 9.6
 # tj
 # font = Input Mono Compressed 9.6
 scrollback_lines = 10000
@@ -48,7 +48,7 @@ cursor          = #eceff1
 background      = #071a24
 
 # 16 color space
-color0  = #09212d
+color0  = #071a24
 color1  = #e05a72
 color2  = #59b387
 color3  = #ffffaf
@@ -60,7 +60,7 @@ color8  = #585858
 color9  = #e05a72
 color10 = #59b387
 color11 = #ffffaf
-color12 = #5f87af
+color12 = #5a9bdb
 color13 = #aa7fff
 color14 = #5fafaf
 color15 = #5f8787
