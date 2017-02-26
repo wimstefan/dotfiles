@@ -12,7 +12,8 @@ rofi.color-active    : #3e515a, #59b387, #3e515a, #3e515a, #59b387
 rofi.color-window    : #3e515a, #3e515a, #cccccc
 
 rofi.location        : 0
-rofi.width           : -68
+! rofi.width           : 44
+! rofi.lines           : 12
 rofi.bw              : 8
 rofi.padding         : 8
 rofi.line-margin     : 4
