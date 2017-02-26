@@ -6,9 +6,9 @@ Xft.rgba:      rgb
 Xft.hintstyle: hintslight
 Xft.lcdfilter: lcddefault
 #ifdef SRVR_swimmer
-  Xft.dpi: 110
+  Xft.dpi: 118
 #elif SRVR_mimi
-  Xft.dpi: 136
+  Xft.dpi: 114
 #elif SRVR_tj
   Xft.dpi: 104
 #endif
