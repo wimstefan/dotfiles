@@ -52,6 +52,11 @@ Plug 'junegunn/limelight.vim'
 Plug 'tpope/vim-abolish'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-eunuch'
+Plug 'tpope/vim-markdown'
+" vim-markdown config {{{2
+  let g:markdown_fenced_languages      = ['html', 'python', 'bash=sh']
+  let g:markdown_syntax_conceal        = 1
+" }}}
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-rsi'
 Plug 'tpope/vim-surround'
@@ -118,9 +123,8 @@ Plug 'romainl/vim-qf'
 Plug 'romainl/vim-qlist'
 Plug 'lifepillar/vim-mucomplete'
 " vim-mucomplete config {{{2
-  let g:mucomplete#enable_auto_at_startup = 0
-  let g:mucomplete#auto_select         = 0
-  let g:mucomplete#chains              = { 'default' : [ 'c-n', 'path', 'uspl', 'user', 'omni' ] }
+  let g:mucomplete#enable_auto_at_startup = 1
+  let g:mucomplete#chains              = { 'default': ['path', 'omni', 'user', 'c-n', 'dict']}
   nnoremap <silent> ,ta                  :MUcompleteAutoToggle<CR>
 " }}}
 Plug 'wellle/tmux-complete.vim'
@@ -178,6 +182,7 @@ Plug 'wimstefan/Lightning'
 Plug 'romainl/Apprentice'
 Plug 'reedes/vim-colors-pencil'
 " vim-colors-pencil config {{{2
+  let g:pencil_neutral_code_bg         = 1
   let g:pencil_higher_contrast_ui      = 1
   let g:pencil_terminal_italics        = 1
   let g:pencil_gutter_color            = 1
@@ -197,6 +202,10 @@ Plug 'w0ng/vim-hybrid'
 " }}}
 Plug 'whatyouhide/vim-gotham'
 Plug '~/.vim/plugged/vim-adapted/'
+Plug 'rakr/vim-one'
+Plug 'dylanaraps/ryuuko'
+Plug 'AlessandroYorba/Sidonia'
+Plug 'reewr/vim-monokai-phoenix'
 
 call plug#end()
 endif
@@ -319,6 +328,9 @@ set completeopt+=noselect
 set completeopt+=preview
 set infercase                          " case of the match is adjusted depending on the typed text
 if has("autocmd") && exists("+omnifunc")
+  " define filetype specific syntax completion
+  autocmd FileType css set omnifunc=csscomplete#CompleteCSS
+  autocmd filetype html,markdown,ctp set omnifunc=htmlcomplete#CompleteTags
   " syntax completion only if a specific plugin does not already exist for that filetype
   autocmd Filetype *
     \ if &omnifunc == "" |
@@ -391,7 +403,7 @@ else
 endif
 
 if has('gui_running')
-  set guifont=Operator\ Mono\ SemiLight\ 9
+  set guifont=Operator\ Mono\ weight=330\ 9
   set guioptions-=T                    " disable toolbar
   set guioptions-=l                    " disable left scrollbar
   set guioptions-=L
@@ -544,7 +556,7 @@ autocmd FileType mail setlocal commentstring=>\%s
 
 " Typical mutt thing ... replace > > with >>
 autocmd BufRead /tmp/mutt* silent! %s/^\([>|]\s\?\)\+/\=substitute(submatch(0), '\s', '', 'g').' '
-autocmd BufRead /tmp/mutt* set nonumber nohls nolist filetype=mail formatoptions=tcroqln21
+autocmd BufRead /tmp/mutt* set nonumber nohls nolist filetype=mail formatoptions=tcroqwln21
 autocmd BufRead /tmp/mutt* setlocal spell
 
 " Syntax for tmux
