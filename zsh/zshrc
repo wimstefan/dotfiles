@@ -601,7 +601,7 @@ if [[ $USER != root ]]; then
     # Don't forget your tasks ;-)
     export TASKDDATA="/var/lib/taskd"
     export TASKRC="$HOME/private/task/rc/taskrc"
-    task
+    # task
 
     # Key management
     eval `keychain --quiet --quick --eval id_rsa 36BBF00C`
@@ -685,10 +685,11 @@ if [[ $USER != root ]]; then
         echo "Syncing vim on $host ..."
         rsync -az /home/swimmer/.vimrc $host:
         rsync -azk  --delete /home/swimmer/.vim/ $host:.vim/
-        echo "Syncing mc on $host ..."
+        echo "Syncing file explorers on $host ..."
         rsync -az            /home/swimmer/.config/mc/ini $host:.config/mc/
         rsync -az            /home/swimmer/.config/mc/mc.ext $host:.config/mc/
         rsync -az   --delete /home/swimmer/.local/share/mc/skins/ $host:.local/share/mc/skins/
+        rsync -az            /home/swimmer/.config/ranger/rc.conf $host:.config/ranger/
         echo "Syncing cli browsers on $host ..."
         rsync -az            /home/swimmer/.w3m/config $host:.w3m/config
         rsync -az            /home/swimmer/.elinks/elinks.conf $host:.elinks/elinks.conf
