@@ -1,3 +1,6 @@
 [submodule "lain"]
         path = config/awesome/lain
         url = https://github.com/copycat-killer/lain
+[submodule "config/awesome/collision"]
+	path = config/awesome/collision
+	url = https://github.com/Elv13/collision
