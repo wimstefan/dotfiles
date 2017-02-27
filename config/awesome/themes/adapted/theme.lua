@@ -2,6 +2,8 @@
 -- Adapted theme - inspired by the Adapta GTK theme                 ---
 --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---
 
+local shape = require("gears.shape")
+
 theme      = {}
 
 -- Theme settings {{{
@@ -9,16 +11,22 @@ theme.wallpaper            = wallpaper_dir .. "/default.jpg"
 theme.border_width         = "3"
 theme.menu_height          = "14"
 theme.menu_width           = "144"
-theme.useless_gap          = "0"
-theme.tooltip_border_width = "2"
+
+theme.useless_gap          = "8"
+
 theme.tooltip_align        = "bottom"
+theme.tooltip_border_width = "0"
 --}}}
 
 -- Theme fonts {{{
-theme.font                 = "Fira Sans SemiBold 9"
-theme.taglist_font         = "Operator Mono Bold 11"
-theme.mono_font            = "Operator Mono Bold 9"
-theme.icon_font            = "Webhostinghub-Glyphs 9"
+theme.font                 = "Khand SemiBold 10"
+theme.serif_font           = "Input Serif Compressed Bold 9"
+theme.mono_font            = "Operator Mono Medium 9"
+theme.taglist_font         = "Operator Mono Medium 10"
+theme.tasklist_font        = "Kanit SemiBold 8"
+theme.icon_font            = "Webhostinghub-Glyphs 8"
+theme.hotkeys_font         = "Input Mono Compressed Bold 9"
+theme.hotkeys_description_font = "Input Mono Compressed 9"
 --}}}
 
 -- Theme colours {{{
@@ -74,6 +82,8 @@ theme.gradient_1           = theme.red1
 theme.gradient_2           = theme.blue3
 theme.gradient_3           = theme.blue2
 theme.tooltip_border_color = theme.grey2
+
+theme.hotkeys_modifiers_fg = theme.blue1
 --}}}
 
 -- Theme icons {{{
@@ -122,5 +132,11 @@ theme.titlebar_maximized_button_focus_active    = "/usr/share/awesome/themes/def
 
 --}}}
 
+-- Collision settings {{{
+theme.collision_resize_width = "34"
+theme.collision_resize_bg = theme.blue2
+theme.collision_focus_bg = theme.blue2
+theme.collision_focus_bg_center = theme.yellow1
+-- }}}
 return theme
 --  vim: fdm=marker fdl=0
