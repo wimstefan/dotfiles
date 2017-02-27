@@ -6,9 +6,11 @@ local gears                  = require("gears")
 local awful                  = require("awful")
 require("awful.autofocus")
 -- Widget and layout library
+local shape                  = require("gears.shape")
 local wibox                  = require("wibox")
 local lain                   = require("lain")
--- Theme handling library
+require("collision")()
+-- Appearance & theme handling library
 local beautiful              = require("beautiful")
 -- Notification library
 local naughty                = require("naughty")
@@ -51,66 +53,25 @@ else
   GEO   = " -geometry "
 end
 browser           = os.getenv("BROWSER") or "chrome"
-editor            = os.getenv("EDITOR") or "gvim"
-musicplr1         = terminal..TITLE.."'Music'"..GEO.."130x34-320+16 -e ncmpcpp"
-musicplr2         = terminal..TITLE.."'Music'"..GEO.."130x34-320+16 -e mocp"
-mymixer           = terminal..TITLE.."'Music'"..GEO.."130x34-320+16 -e alsamixer"
-mytop             = terminal..TITLE.."'Htop'"..GEO.."160x44-20+34 -e htop"
-editor_cmd        = terminal .. " -e " .. editor
+editor            = os.getenv("EDITOR") or "vim"
+musicplr1         = terminal..TITLE.."'Music'"..GEO.."1300x800+0+16 -e ncmpcpp"
+musicplr2         = terminal..TITLE.."'Music'"..GEO.."1300x800+0+16 -e mocp"
+mymixer           = terminal..TITLE.."'Music'"..GEO.."1300x600+0+16 -e alsamixer"
+mytop             = terminal..TITLE.."'Htop'"..GEO.."900x1000+0+16 -e htop"
+editor_cli        = terminal .. " -e " .. editor
+editor_gui        = "gvim"
 modkey            = "Mod4"
 altkey            = "Mod1"
 markup            = lain.util.markup
--- }}}
--- Quake terminals {{{2
-local quakescratch = {}
-for s in screen do
-  quakescratch[s] = lain.util.quake({
-    app     = terminal,
-    name    = "Scratchpad",
-    argname = "--name %s",
-    height  = 0.5,
-    width   = 0.6,
-    vert    = "top",
-    horiz   = "left"
-  })
-end
-
-local quakecalc = {}
-for s in screen do
-  quakecalc[s] = lain.util.quake({
-    app     = terminal,
-    name    = "Calculator",
-    argname = "--name %s",
-    extra   = "-e wcalc",
-    height  = 0.3,
-    width   = 0.3,
-    vert    = "top",
-    horiz   = "right"
-  })
-end
-
-local quakexplore = {}
-for s in screen do
-  quakexplore[s] = lain.util.quake({
-    app     = terminal,
-    name    = "Explore",
-    argname = "--name %s",
-    extra   = "-e mc",
-    height  = 0.7,
-    width   = 0.8,
-    vert    = "bottom",
-    horiz   = "right"
-  })
-end
 -- }}}
 -- Themes {{{2
 beautiful.init(theme_dir .. "theme.lua")
 -- }}}
 -- Table of layouts {{{2
 awful.layout.layouts = {
-  awful.layout.suit.max,
   awful.layout.suit.tile,
   awful.layout.suit.tile.bottom,
+  awful.layout.suit.max,
   awful.layout.suit.magnifier,
   awful.layout.suit.floating,
   -- awful.layout.suit.tile.top,
@@ -202,8 +163,8 @@ end
 -- Create a launcher widget and a main menu
 myawesomemenu = {
   { "hotkeys", function() return false, hotkeys_popup.show_help end},
-  { "manual", terminal .. " -e man awesome" },
-  { "edit config", editor_cmd .. " " .. awesome.conffile },
+  { "manual", string.format("%s -e '%s'", terminal, "man awesome") },
+  { "edit config", string.format("%s -e '%s %s'", terminal, editor, awesome.conffile) },
   { "restart", awesome.restart },
   { "quit", function() awesome.quit() end}
 }
@@ -225,26 +186,54 @@ menubar.utils.terminal = terminal -- Set the terminal for applications that requ
 space = wibox.widget.textbox('  ')
 spr = wibox.widget.textbox('<span color="'..beautiful.border_focus..'" weight="bold"> ┃ </span>')
 -- }}}
+-- Mpd widget {{{2
+local widget_mpd = lain.widget.mpd({
+  notify = "on";
+  settings = function()
+    mpd_notification_preset = {
+      text = string.format("%s [%s] - %s\n%s", mpd_now.artist,
+        mpd_now.album, mpd_now.date, mpd_now.title)
+    }
+
+    if mpd_now.state == "play" then
+      artist = mpd_now.artist .. " > "
+      title  = mpd_now.title .. " "
+    elseif mpd_now.state == "pause" then
+      artist = "mpd "
+      title  = "paused "
+    else
+      artist = ""
+      title  = ""
+    end
+    widget:set_markup(markup.fontfg(beautiful.tasklist_font, beautiful.blue1, artist) .. markup.fontfg(beautiful.tasklist_font, beautiful.yellow1, title))
+  end
+})
+local mpd_box = wibox.container.scroll.horizontal(widget_mpd.widget)
+mpd_box:set_fps(5)
+mpd_box:set_max_size(340)
+-- Mpd widget }}}
 -- ALSA volume bar {{{2
 local icon_alsa = wibox.widget.textbox()
 icon_alsa:buttons(awful.util.table.join(
   awful.button({ }, 1, function () awful.spawn.with_shell(mymixer) end),
   awful.button({ modkey }, 1, function () awful.spawn.with_shell(musicplr1) end),
   awful.button({ altkey }, 1, function () awful.spawn.with_shell(musicplr2) end)))
-local volume = lain.widgets.alsabar({width = 35, ticks = true, ticks_size = 4, step = "2%",
+local volume = lain.widget.alsabar({
+  width = 35, ticks = true, ticks_size = 4, step = "2%",
+  notification_preset = { font = beautiful.serif_font },
   settings = function()
       if volume_now.status == "off" then
-          icon_alsa:set_markup('<span font="'..beautiful.icon_font..'"></span>')
-      elseif volume_now.level == 0 then
-          icon_alsa:set_markup('<span font="'..beautiful.icon_font..'"></span>')
-      elseif volume_now.level <= 50 then
-          icon_alsa:set_markup('<span font="'..beautiful.icon_font..'"></span>')
+          volume_icon = ""
+      elseif tonumber(volume_now.level) == 0 then
+          volume_icon = ""
+      elseif tonumber(volume_now.level) <= 50 then
+          volume_icon = ""
       else
-          icon_alsa:set_markup('<span font="'..beautiful.icon_font..'"></span>')
+          volume_icon = ""
       end
+      icon_alsa:set_markup(markup.font(beautiful.icon_font, markup(beautiful.white1, volume_icon)))
   end,
-  colors =
-  {
+  colors = {
       background = beautiful.bg_normal,
       mute = beautiful.red1,
       -- unmute = function()
@@ -259,22 +248,43 @@ local volume = lain.widgets.alsabar({width = 35, ticks = true, ticks_size = 4, s
       unmute = beautiful.fg_normal
   }
 })
+volume.bar:buttons(awful.util.table.join(
+    awful.button({}, 1, function() -- left click
+        awful.spawn.with_shell(mymixer)
+    end),
+    awful.button({}, 2, function() -- middle click
+        awful.spawn(string.format("%s set %s 100%%", volume.cmd, volume.channel))
+        volume.update()
+    end),
+    awful.button({}, 3, function() -- right click
+        awful.spawn(string.format("%s set %s toggle", volume.cmd, volume.togglechannel or volume.channel))
+        volume.update()
+    end),
+    awful.button({}, 4, function() -- scroll up
+        awful.spawn(string.format("%s set %s 1%%+", volume.cmd, volume.channel))
+        volume.update()
+    end),
+    awful.button({}, 5, function() -- scroll down
+        awful.spawn(string.format("%s set %s 1%%-", volume.cmd, volume.channel))
+        volume.update()
+    end)
+))
 local volmargin = wibox.container.margin(volume.bar, 8, 0, 5, 5)
 local widget_alsa = wibox.container.background(volmargin)
 -- }}}
 -- Memory widget {{{2
-local widget_mem = lain.widgets.mem({
+local widget_mem = lain.widget.mem({
       settings = function()
-         widget:set_markup('<span font="Webhostinghub-Glyphs 9"></span>  '..mem_now.used..'MB ')
+        widget:set_markup(markup.font(beautiful.icon_font, "") .. markup.font(beautiful.font, "  " .. mem_now.used .. "MB "))
       end
 })
 local tooltip_mem = awful.tooltip({
-  objects = { widget_mem },
-  margin_leftright = 6,
-  margin_topbottom = 16,
+  objects = { widget_mem.widget },
+  margin_leftright = 10,
+  margin_topbottom = 10,
   shape = gears.shape.infobubble,
   timer_function = function()
-  local title = "memory &amp; swap usage"
+  local title = "Memory &amp; swap usage"
   local used = pad_to_length(mem_now.used, mem_now.swapused)
   local swapused = pad_to_length(mem_now.swapused, mem_now.used)
   local text
@@ -290,66 +300,66 @@ local tooltip_mem = awful.tooltip({
 -- CPU widget {{{2
 local widget_cpu = wibox.layout.fixed.horizontal()
 local widget_cpu_graph = wibox.widget.graph()
-local widget_cpu_text = lain.widgets.cpu({
+local widget_cpu_text = lain.widget.cpu({
       settings = function()
-         widget:set_markup('<span font="'..beautiful.icon_font..'"></span>  '..cpu_now.usage..'% ')
-         widget:buttons(awful.util.table.join( awful.button({ }, 1, function () awful.util.spawn_with_shell(mytop) end)))
-         widget_cpu_graph:add_value(cpu_now.usage/100)
+        widget:set_markup(markup.font(beautiful.icon_font, "") .. markup.font(beautiful.font, "  " .. cpu_now.usage .. "% "))
+        widget_cpu_graph:add_value(cpu_now.usage/100)
       end
 })
-widget_cpu_text:buttons(awful.util.table.join(
-    awful.button({ }, 1, function () awful.util.spawn_with_shell(mytop) end)))
 widget_cpu_graph:set_width(20)
 widget_cpu_graph:set_background_color(beautiful.bg_normal)
 widget_cpu_graph:set_color({ type = "linear", from = { 0, 0 }, to = { 0, 18 }, stops = { { 0, beautiful.gradient_1 }, { 0.5, beautiful.gradient_2 }, { 1,beautiful.gradient_3 } } })
-widget_cpu:add(widget_cpu_text)
+widget_cpu:add(widget_cpu_text.widget)
 widget_cpu:add(widget_cpu_graph)
+widget_cpu:buttons(awful.util.table.join( awful.button({ }, 1, function () awful.spawn.with_shell(mytop) end)))
 -- CPU widget }}}
 -- Temperature widget {{{2
-local widget_temp = lain.widgets.temp({
+local widget_temp = lain.widget.temp({
   tempfile = TEMPFILE,
   settings = function ()
-    widget:set_markup('<span font="'..beautiful.icon_font..'"></span> '..coretemp_now..'° ')
+    widget:set_markup(markup.font(beautiful.icon_font, "") .. markup.font(beautiful.font, " " .. coretemp_now .. "° "))
   end
 })
-
 -- Temperature widget }}}
 -- Filesystem widget {{{2
-local widget_fs = lain.widgets.fs({
+local widget_fs = lain.widget.fs({
   partition = "/",
+  options = "--type=ext3 --type=ext4",
   notification_preset = { font = beautiful.mono_font },
   settings = function()
-    widget:set_markup('<span font="'..beautiful.icon_font..'"></span>  '..fs_now.used_gb..'GB ')
+    widget:set_markup(markup.font(beautiful.icon_font, "") .. markup.font(beautiful.font, "  " .. fs_now.used_gb .. "GB "))
   end
 })
 
 -- Filesystem widget }}}
 -- Power widget {{{2
-local widget_power = lain.widgets.bat({
-      timeout = 0.1,
+local icon_power = wibox.widget.textbox()
+local widget_power = lain.widget.bat({
       battery = BAT,
       notify = "on",
-
       settings = function()
-        if bat_now.status == 'N/A' then
-          widget:set_markup('<span font="'..beautiful.icon_font..'"></span> AC ')
-        elseif bat_now.status == 'Charging' then
-          widget:set_markup('<span font="'..beautiful.icon_font..'"></span> '..bat_now.perc..'%  ')
+        if bat_now.status == "N/A" then
+          power_icon = markup.font(beautiful.icon_font, "") .. markup.font(beautiful.font, "  AC ")
+        elseif bat_now.status == "Charging" and tonumber(bat_now.perc) <= 70 then
+          power_icon = markup.font(beautiful.icon_font, "") .. markup.font(beautiful.font, " " .. bat_now.perc .."%  ")
+        elseif bat_now.status == "Charging" and tonumber(bat_now.perc) >= 70 then
+          power_icon = markup.font(beautiful.icon_font, "") .. markup.font(beautiful.font, " " .. bat_now.perc .."%  ")
         else
-          if bat_now.perc <= 10 then
-            widget:set_markup('<span font="'..beautiful.icon_font..'"></span> '..bat_now.perc..'%  ')
-          elseif bat_now.perc <= 30 then
-            widget:set_markup('<span font="'..beautiful.icon_font..'"></span> '..bat_now.perc..'%  ')
-          elseif bat_now.perc <= 50 then
-            widget:set_markup('<span font="'..beautiful.icon_font..'"></span> '..bat_now.perc..'%  ')
-          elseif bat_now.perc <= 70 then
-            widget:set_markup('<span font="'..beautiful.icon_font..'"></span> '..bat_now.perc..'%  ')
-          elseif bat_now.perc <= 85 then
-            widget:set_markup('<span font="'..beautiful.icon_font..'"></span> '..bat_now.perc..'%  ')
+          if tonumber(bat_now.perc) <= 10 then
+            power_icon = markup.font(beautiful.icon_font, "") .. markup.font(beautiful.font, " " .. bat_now.perc .. "%  ")
+          elseif tonumber(bat_now.perc) <= 30 then
+            power_icon = markup.font(beautiful.icon_font, "") .. markup.font(beautiful.font, " " .. bat_now.perc .. "%  ")
+          elseif tonumber(bat_now.perc) <= 50 then
+            power_icon = markup.font(beautiful.icon_font, "") .. markup.font(beautiful.font, " " .. bat_now.perc .. "%  ")
+          elseif tonumber(bat_now.perc) <= 70 then
+            power_icon = markup.font(beautiful.icon_font, "") .. markup.font(beautiful.font, " " .. bat_now.perc .. "%  ")
+          elseif tonumber(bat_now.perc) <= 85 then
+            power_icon = markup.font(beautiful.icon_font, "") .. markup.font(beautiful.font, " " .. bat_now.perc .. "%  ")
           else
-            widget:set_markup('<span font="'..beautiful.icon_font..'"></span> '..bat_now.perc..'%  ')
+            power_icon = markup.font(beautiful.icon_font, "") .. markup.font(beautiful.font, " " .. bat_now.perc .. "%  ")
           end
         end
+        widget:set_markup(markup.font(beautiful.font, markup(beautiful.white1, power_icon)))
 
         bat_notification_low_preset = {
           title = "Battery low",
@@ -358,7 +368,6 @@ local widget_power = lain.widgets.bat({
           fg = beautiful.red1,
           bg = beautiful.black2
         }
-
         bat_notification_critical_preset = {
           title = "Battery exhausted",
           text = "Shutdown imminent",
@@ -366,16 +375,15 @@ local widget_power = lain.widgets.bat({
           fg = beautiful.white1,
           bg = beautiful.black2
         }
-
       end
 })
 local tooltip_bat = awful.tooltip({
-  objects = { widget_power },
-  margin_leftright = 6,
-  margin_topbottom = 16,
+  objects = { widget_power.widget },
+  margin_leftright = 10,
+  margin_topbottom = 10,
   shape = gears.shape.infobubble,
   timer_function = function()
-    local title = "Power house"
+    local title = "Power status"
     local tlen = string.len(title)
     local text
     if bat_now.status == 'N/A' then
@@ -388,15 +396,16 @@ local tooltip_bat = awful.tooltip({
       text = ' <span font="'..beautiful.mono_font..'">'..
              ' <span weight="bold" color="'..beautiful.fg_normal..'">'..title..'</span> \n'..
              ' <span weight="bold">'..string.rep('-', tlen)..'</span> \n'
+      text = text..' ⚡ level     <span color="'..beautiful.fg_normal..'">'..bat_now.perc..'% </span>\n'
       if bat_now.status == 'Discharging' then
         text = text..' ▪ status    <span color="'..beautiful.fg_normal..'">discharging </span>\n'
-      elseif bat_now.status == 'Full' then
-        text = text..' ▪ status    <span color="'..beautiful.fg_normal..'">charged </span>\n'
-      else
+        text = text..' ◴ time left <span color="'..beautiful.fg_normal..'">'..bat_now.time..' </span>'
+      elseif  bat_now.status == 'Charging' then
         text = text..' ▪ status    <span color="'..beautiful.fg_normal..'">charging </span>\n'
+        text = text..' ◴ time left <span color="'..beautiful.fg_normal..'">'..bat_now.time..' </span>'
+      elseif bat_now.status == 'Full' then
+        text = text..' ▪ status    <span color="'..beautiful.fg_normal..'">charged </span>'
       end
-      text = text..' ⚡ level     <span color="'..beautiful.fg_normal..'">'..bat_now.perc..'% </span>\n'..
-                  ' ◴ time left <span color="'..beautiful.fg_normal..'">'..bat_now.time..' </span>'
       text = text..'</span>'
     end
     return text
@@ -405,7 +414,15 @@ local tooltip_bat = awful.tooltip({
 -- Power widget }}}
 -- Textclock widget {{{2
 mytextclock = wibox.widget.textclock( '<span font="'..beautiful.taglist_font..'" background="'..beautiful.white1..'" color="'..beautiful.background..'"> %a %b %d, %H:%M </span>' )
-lain.widgets.calendar.attach(mytextclock, { font = "Operator Mono Bold", font_size = "11" })
+lain.widget.calendar({
+  attach_to = { mytextclock },
+  cal = "/usr/bin/cal -w -m --color=always",
+  notification_preset = {
+    font = beautiful.taglist_font,
+    fg   = beautiful.fg_normal,
+    bg   = beautiful.bg_normal
+  }
+})
 -- Textclock widget }}}
 
 -- Final assembly {{{2
@@ -460,7 +477,7 @@ local function set_wallpaper(s)
     if type(wallpaper) == "function" then
       wallpaper = wallpaper(s)
     end
-    gears.wallpaper.maximized(wallpaper, s, true)
+    gears.wallpaper.fit(wallpaper, s)
   end
 end
 
@@ -468,6 +485,39 @@ end
 screen.connect_signal("property::geometry", set_wallpaper)
 
 awful.screen.connect_for_each_screen(function(s)
+  -- Quake terminals {{{2
+  s.quakescratch = lain.util.quake({
+    app     = terminal,
+    name    = "Scratchpad",
+    argname = "--name %s",
+    height  = 0.5,
+    width   = 0.6,
+    vert    = "top",
+    horiz   = "left"
+  })
+
+  s.quakecalc = lain.util.quake({
+    app     = terminal,
+    name    = "Calculator",
+    argname = "--name %s",
+    extra   = "-e wcalc",
+    height  = 0.3,
+    width   = 0.3,
+    vert    = "top",
+    horiz   = "right"
+  })
+
+  s.quakexplore = lain.util.quake({
+    app     = terminal,
+    name    = "Explore",
+    argname = "--name %s",
+    extra   = "-e mc",
+    height  = 0.7,
+    width   = 0.8,
+    vert    = "bottom",
+    horiz   = "right"
+  })
+  -- }}}
   -- Wallpaper
   set_wallpaper(s)
 
@@ -506,6 +556,7 @@ awful.screen.connect_for_each_screen(function(s)
     { -- Right widgets
       layout = wibox.layout.fixed.horizontal,
       wibox.widget.systray(),
+      mpd_box,
       spr,
       icon_alsa,
       widget_alsa,
@@ -602,7 +653,7 @@ globalkeys = awful.util.table.join(
             end,
             {description = "restore minimized", group = "client"}),
 -- }}}
--- Standard program {{{2
+-- Controls {{{2
   awful.key({ modkey, "Control" }, "r",
             awesome.restart,
             {description = "reload awesome", group = "awesome"}),
@@ -610,10 +661,10 @@ globalkeys = awful.util.table.join(
             awesome.quit,
             {description = "quit awesome", group = "awesome"}),
 
-  awful.key({ modkey,           }, "l",
+  awful.key({ modkey, altkey    }, "l",
             function () awful.tag.incmwfact( 0.05)          end,
             {description = "increase master width factor", group = "layout"}),
-  awful.key({ modkey,           }, "h",
+  awful.key({ modkey, altkey    }, "h",
             function () awful.tag.incmwfact(-0.05)          end,
             {description = "decrease master width factor", group = "layout"}),
   awful.key({ modkey, "Shift"   }, "h",
@@ -634,25 +685,23 @@ globalkeys = awful.util.table.join(
   awful.key({ modkey, "Shift"   }, "space",
             function () awful.layout.inc(-1)                end,
             {description = "select previous", group = "layout"}),
--- }}}
--- Controls {{{2
 -- ALSA volume control
   awful.key({ altkey, "Shift"     }, "Up",
             function ()
-                  os.execute(string.format("amixer set %s %s+", volume.channel, volume.step))
-                  volume.update()
+                  os.execute(string.format("amixer set %s 1%%+", volume.channel))
+                  volume.notify()
             end,
             {description = "Raise volume", group = "controls"}),
   awful.key({ altkey, "Shift"     }, "Down",
             function ()
-                  os.execute(string.format("amixer set %s %s-", volume.channel, volume.step))
-                  volume.update()
+                  os.execute(string.format("amixer set %s 1%%-", volume.channel))
+                  volume.notify()
             end,
             {description = "Lower volume", group = "controls"}),
   awful.key({ altkey, "Shift"     }, "m",
             function ()
                   os.execute(string.format("amixer set %s toggle", volume.togglechannel or volume.channel))
-                  volume.update()
+                  volume.notify()
             end,
             {description = "Mute volume", group = "controls"}),
 -- }}}
@@ -664,13 +713,13 @@ globalkeys = awful.util.table.join(
             function () awful.spawn(browser) end,
             {description = "Browser", group = "applications"}),
   awful.key({ modkey            }, "c",
-            function () quakecalc[mouse.screen]:toggle() end,
+            function () awful.screen.focused().quakecalc:toggle() end,
             {description = "Calculator", group = "applications"}),
   awful.key({ modkey,           }, "d",
             function () awful.spawn("darktable") end,
             {description = "Darktable", group = "applications"}),
   awful.key({ modkey,           }, "e",
-            function () awful.spawn(editor_cmd) end,
+            function () awful.spawn(editor_gui) end,
             {description = "Editor", group = "applications"}),
   awful.key({ modkey,           }, "g",
             function () awful.spawn("gimp") end,
@@ -679,7 +728,7 @@ globalkeys = awful.util.table.join(
             function () awful.spawn("libreoffice") end,
             {description = "Libreoffice", group = "applications"}),
   awful.key({ modkey,           }, "m",
-            function () quakexplore[mouse.screen]:toggle() end,
+            function () awful.screen.focused().quakexplore:toggle() end,
             {description = "Explore", group = "applications"}),
   awful.key({ modkey,           }, "o",
             function () awful.spawn("opera") end,
@@ -689,9 +738,9 @@ globalkeys = awful.util.table.join(
             {description = "Puddletag", group = "applications"}),
   awful.key({ modkey            }, "r",
             function () awful.spawn("rofi -show combi") end,
-            {description = "run dialog", group = "controls"}),
+            {description = "Run dialog", group = "controls"}),
   awful.key({ modkey,           }, "s",
-            function () quakescratch[mouse.screen]:toggle() end,
+            function () awful.screen.focused().quakescratch:toggle() end,
             {description = "Scratchpad", group = "applications"}),
   awful.key({ modkey,           }, "t",
             function () awful.spawn("thunderbird-bin") end,
@@ -704,7 +753,7 @@ globalkeys = awful.util.table.join(
             {description = "Print screen", group = "controls"}),
   awful.key({ modkey,           }, "Return",
             function () awful.spawn(terminal) end,
-            {description = "open a terminal", group = "controls"})
+            {description = "Open a terminal", group = "controls"})
 )
 -- }}}
 
@@ -822,12 +871,22 @@ awful.rules.rules = {
       "copyq",  -- Includes session name in class.
     },
     class = {
-      "Wpa_gui",
+      "Apvlv",
+      "Audacity",
       "Lxappearance",
-      "pinentry"},
-
+      "pinentry",
+      "Scribus",
+      "Thunderbird",
+      "Wpa_gui",
+    },
     name = {
-      "Event Tester",  -- xev.
+      "Calculator",
+      "Event Tester",
+      "Explore",
+      "Htop",
+      "IP Traffic",
+      "Music",
+      "Scratchpad",
     },
     role = {
       "AlarmWindow",  -- Thunderbird's calendar.
@@ -840,33 +899,27 @@ awful.rules.rules = {
     }, properties = { titlebars_enabled = true }
   },
 
-  { rule = { class = "Pangoterm"}, properties = { size_hints_honor = false } },
-  { rule = { class = "Termite"}, properties = { size_hints_honor = false } },
-  { rule = { name = "uxterm"}, properties = { size_hints_honor = false } },
-  { rule = { name = "sys" }, properties = { tag = "1" } },
-  { rule = { name = "work" }, properties = { tag = "2" } },
-  { rule = { name = "com" }, properties = { tag = "3" } },
-  { rule = { name = "tj" }, properties = { tag = "3" } },
-  { rule = { name = "mimi" }, properties = { tag = "4" } },
-  { rule = { name = "komala" }, properties = { tag = "5" } },
-  { rule = { name = "tj-laptop" }, properties = { tag = "6" } },
-  { rule = { name = "swimmer" }, properties = { tag = "6" } },
-  { rule = { name = "home" }, properties = { tag = "6" } },
-  { rule = { name = "Calculator" }, properties = { floating = true, size_hints_honor = true,  size_hints = {"program_position", "program_size"}} },
-  { rule = { name = "Music" }, properties = { floating = true, size_hints_honor = true,  size_hints = {"program_position", "program_size"}} },
-  { rule = { name = "Htop" }, properties = { floating = true, size_hints_honor = true,  size_hints = {"program_position", "program_size"} } },
-  { rule = { name = "Explore" }, properties = { floating = true, size_hints_honor = true,  size_hints = {"program_position", "program_size"} } },
-  { rule = { name = "IP traffic monitor" }, properties = { floating = true, size_hints_honor = true,  size_hints = {"program_position", "program_size"} } },
-  { rule = { name = "Drop-down terminal" }, properties = { floating = true, size_hints_honor = true,  size_hints = {"program_position", "program_size"} } },
-  { rule = { class = "Thunderbird" }, properties = { tag = "7" } },
-  { rule = { class = "VirtualBox" }, properties = { tag = "7" } },
-  { rule = { class = "Darktable" }, properties = { tag = "8" } },
-  { rule = { class = "Gimp" }, properties = { floating = true, tag = "8" } },
-  { rule = { class = "Scribus" }, properties = { floating = true, tag = "8" } },
-  { rule = { class = "Inkscape" }, properties = { floating = true, tag = "8" } },
-  { rule = { class = "Audacious" }, properties = { tag = "9" } },
-  { rule = { class = "Audacity" }, properties = { floating = true, tag = "9" } },
-  { rule = { class = "Puddletag" }, properties = { tag = "9" } },
+  -- { rule = { class = "Pangoterm"}  , properties = { size_hints_honor = false } }     ,
+  -- { rule = { class = "Termite"}    , properties = { size_hints_honor = false } }     ,
+  -- { rule = { class = "UXterm"}     , properties = { size_hints_honor = false } }     ,
+  { rule = { name  = "sys" }          , properties = { tag = "1" } },
+  { rule = { name  = "work" }         , properties = { tag = "2" } },
+  { rule = { name  = "com" }          , properties = { tag = "3" } },
+  { rule = { name  = "tj" }           , properties = { tag = "3" } },
+  { rule = { name  = "mimi" }         , properties = { tag = "4" } },
+  { rule = { name  = "komala" }       , properties = { tag = "5" } },
+  { rule = { name  = "tj-laptop" }    , properties = { tag = "6" } },
+  { rule = { name  = "swimmer" }      , properties = { tag = "6" } },
+  { rule = { name  = "home" }         , properties = { tag = "6" } },
+  { rule = { class = "Thunderbird" }  , properties = { tag = "7" } },
+  { rule = { class = "Scribus" }      , properties = { tag = "7" } },
+  { rule = { class = "VirtualBox" }   , properties = { tag = "7" } },
+  { rule = { class = "Darktable" }    , properties = { tag = "8" } },
+  { rule = { class = "Gimp" }         , properties = { tag = "8" } },
+  { rule = { class = "Inkscape" }     , properties = { tag = "8" } },
+  { rule = { class = "Audacious" }    , properties = { tag = "9" } },
+  { rule = { class = "Audacity" }     , properties = { tag = "9" } },
+  { rule = { class = "Puddletag" }    , properties = { tag = "9" } },
 
   { rule = { class = "Conky" },
     properties = {
@@ -875,9 +928,10 @@ awful.rules.rules = {
       maximized_vertical = true,
       sticky = true,
       ontop = true,
-      focusable = false,
-      size_hints_honor = false,
-      size_hints = {"program_position", "program_size"} } },
+      focusable = false
+      -- size_hints_honor = false,
+      -- size_hints = {"program_position", "program_size"}
+    } },
 
 }
 -- }}}
@@ -952,8 +1006,10 @@ client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_n
 -- }}}
 
 -- Autostart applications {{{1
--- conky
-awful.spawn.with_shell("killall conky")
-awful.spawn.with_shell("conky -c "..config_dir.."/conkyrc-"..TYPE)
+-- compton
+awful.spawn.with_shell("killall compton")
+awful.spawn.with_shell("compton &")
 
+-- wal
+-- awful.spawn.with_shell("(wal -r &)")
 --}}}
