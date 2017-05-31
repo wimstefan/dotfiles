@@ -168,7 +168,6 @@ Plug 'mattn/webapi-vim' | Plug 'mattn/gist-vim', { 'on': 'Gist' }
 " }}}
 Plug 'othree/html5.vim'
 Plug 'othree/csscomplete.vim'
-Plug 'amadeus/vim-css'
 Plug 'cespare/vim-toml'
 Plug 'vim-scripts/SyntaxAttr.vim'
 Plug 'vim-scripts/visSum.vim'
