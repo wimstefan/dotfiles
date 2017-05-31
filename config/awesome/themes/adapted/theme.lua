@@ -2,8 +2,6 @@
 -- Adapted theme - inspired by the Adapta GTK theme                 ---
 --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---
 
-local shape = require("gears.shape")
-
 theme      = {}
 
 -- Theme settings {{{

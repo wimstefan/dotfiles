@@ -16,6 +16,7 @@ local beautiful              = require("beautiful")
 local naughty                = require("naughty")
 local menubar                = require("menubar")
 local hotkeys_popup          = require("awful.hotkeys_popup").widget
+                               require("awful.hotkeys_popup.keys.vim")
 
 -- Basic configuration {{{1
 -- Conditionals {{{2
@@ -52,7 +53,7 @@ else
   NAME  = " -name "
   GEO   = " -geometry "
 end
-browser           = os.getenv("BROWSER") or "chrome"
+browser           = os.getenv("BROWSER") or "google-chrome"
 editor            = os.getenv("EDITOR") or "vim"
 musicplr1         = terminal..TITLE.."'Music'"..GEO.."1300x800+0+16 -e ncmpcpp"
 musicplr2         = terminal..TITLE.."'Music'"..GEO.."1300x800+0+16 -e mocp"
@@ -143,6 +144,16 @@ local function pad_to_length(value, ...)
   return value
 end
 -- }}}
+-- Represent a number of seconds as a string of minutes:seconds {{{2
+local function format_time(s)
+  local seconds = nil or s
+  if seconds then
+    return string.format("%d:%.2d", math.floor(seconds/60), seconds%60)
+  else
+    return
+  end
+end
+-- }}}
 -- Conky HUD {{{2
 local function toggle_conky()
   local conky = nil
@@ -183,20 +194,24 @@ menubar.utils.terminal = terminal -- Set the terminal for applications that requ
 
 -- Wibar {{{1
 -- Formatting aids {{{2
-space = wibox.widget.textbox('  ')
-spr = wibox.widget.textbox('<span color="'..beautiful.border_focus..'" weight="bold"> ┃ </span>')
+local spacer = wibox.widget.textbox('  ')
+local spr = wibox.widget.textbox('<span color="'..beautiful.border_focus..'" weight="bold"> ┃ </span>')
 -- }}}
 -- Mpd widget {{{2
 local widget_mpd = lain.widget.mpd({
   notify = "on";
   settings = function()
     mpd_notification_preset = {
-      text = string.format("%s [%s] - %s\n%s", mpd_now.artist,
-        mpd_now.album, mpd_now.date, mpd_now.title)
+      text = string.format("  %s \n %s \n %s  %s  ",
+        markup.bold(markup.fg(beautiful.blue1, markup.font(beautiful.icon_font, "") .. "   " .. mpd_now.artist)),
+        markup.fg(beautiful.white1, markup.font(beautiful.icon_font, "") .. "   " .. mpd_now.album),
+        markup.fg(beautiful.yellow1, markup.font(beautiful.icon_font, "") .. "   " .. mpd_now.title),
+        markup.fg(beautiful.orange1, markup.font(beautiful.icon_font, "") .. "   " .. format_time(mpd_now.time))
+      )
     }
 
     if mpd_now.state == "play" then
-      artist = mpd_now.artist .. " > "
+      artist = " ⁝ " .. mpd_now.artist .. " ⁝ "
       title  = mpd_now.title .. " "
     elseif mpd_now.state == "pause" then
       artist = "mpd "
@@ -211,6 +226,26 @@ local widget_mpd = lain.widget.mpd({
 local mpd_box = wibox.container.scroll.horizontal(widget_mpd.widget)
 mpd_box:set_fps(5)
 mpd_box:set_max_size(340)
+local tooltip_mpd = awful.tooltip({
+  objects = { mpd_box },
+  timeout = 0,
+  margin_leftright = 10,
+  margin_topbottom = 10,
+  -- shape = gears.shape.infobubble,
+  shape = gears.shape.rounded_rect,
+  timer_function = function()
+    if mpd_now.time ~= "N/A" and mpd_now.elapsed ~= "N/A" then
+      time = string.format("%s/%s", format_time(mpd_now.elapsed), format_time(mpd_now.time))
+    end
+    local text = string.format(" %s \n %s \n %s \n %s ",
+      markup.bold(markup.fg(beautiful.blue1, markup.font(beautiful.icon_font, "") .. "   " .. mpd_now.artist)),
+      markup.fg(beautiful.white1, markup.font(beautiful.icon_font, "") .. "   " .. mpd_now.album),
+      markup.fg(beautiful.yellow1, markup.font(beautiful.icon_font, "") .. "   " .. mpd_now.title),
+      markup.fg(beautiful.orange1, markup.font(beautiful.icon_font, "") .. "   " .. time)
+    )
+    return text
+  end
+})
 -- Mpd widget }}}
 -- ALSA volume bar {{{2
 local icon_alsa = wibox.widget.textbox()
@@ -220,7 +255,7 @@ icon_alsa:buttons(awful.util.table.join(
   awful.button({ altkey }, 1, function () awful.spawn.with_shell(musicplr2) end)))
 local volume = lain.widget.alsabar({
   width = 35, ticks = true, ticks_size = 4, step = "2%",
-  notification_preset = { font = beautiful.serif_font },
+  notification_preset = { font = beautiful.taglist_font },
   settings = function()
       if volume_now.status == "off" then
           volume_icon = ""
@@ -233,20 +268,21 @@ local volume = lain.widget.alsabar({
       end
       icon_alsa:set_markup(markup.font(beautiful.icon_font, markup(beautiful.white1, volume_icon)))
   end,
-  colors = {
-      background = beautiful.bg_normal,
-      mute = beautiful.red1,
-      -- unmute = function()
-      --   if volume_now.level <= 10 then
-      --     unmute = beautiful.red1
-      --   elseif volume_now.level <= 50 then
-      --     unmute = beautiful.blue1
+  -- colors = {
+  --     background = beautiful.bg_normal,
+  --     mute = beautiful.grey2,
+  --     settings = function()
+  --       if tonumber(volume_now.level) <= 10 then
+  --         bar_colour = beautiful.red2
+  --       elseif tonumber(volume_now.level) <= 50 then
+  --         bar_colour = beautiful.blue1
       --   else
-      --     unmute = beautiful.green1
+  --         bar_colour = beautiful.green1
       --   end
+  --       unmute = bar_colour
       -- end
-      unmute = beautiful.fg_normal
-  }
+  --     -- unmute = beautiful.fg_normal
+  -- }
 })
 volume.bar:buttons(awful.util.table.join(
     awful.button({}, 1, function() -- left click
@@ -490,8 +526,8 @@ awful.screen.connect_for_each_screen(function(s)
     app     = terminal,
     name    = "Scratchpad",
     argname = "--name %s",
-    height  = 0.5,
-    width   = 0.6,
+    height  = 0.8,
+    width   = 0.9,
     vert    = "top",
     horiz   = "left"
   })
@@ -570,7 +606,7 @@ awful.screen.connect_for_each_screen(function(s)
       widget_fs,
       spr,
       widget_power,
-      space,
+      spacer,
       mytextclock,
     },
   }
@@ -1010,6 +1046,4 @@ client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_n
 awful.spawn.with_shell("killall compton")
 awful.spawn.with_shell("compton &")
 
--- wal
--- awful.spawn.with_shell("(wal -r &)")
 --}}}
