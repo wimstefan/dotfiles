@@ -58,7 +58,6 @@ Plug 'tpope/vim-markdown'
   let g:markdown_syntax_conceal        = 1
 " }}}
 Plug 'tpope/vim-repeat'
-Plug 'tpope/vim-rsi'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-vinegar'
 Plug 'tpope/vim-fugitive' | Plug 'gregsexton/gitv' | Plug 'junkblocker/git-time-lapse'
@@ -124,8 +123,11 @@ Plug 'romainl/vim-qlist'
 Plug 'lifepillar/vim-mucomplete'
 " vim-mucomplete config {{{2
   let g:mucomplete#enable_auto_at_startup = 1
-  let g:mucomplete#chains              = { 'default': ['path', 'omni', 'user', 'c-n', 'dict']}
+  let g:mucomplete#chains              = { 'default': ['path', 'omni', 'user', 'c-n', 'dict', 'uspl']}
   nnoremap <silent> ,ta                  :MUcompleteAutoToggle<CR>
+  inoremap <expr>   <c-e>                mucomplete#popup_exit("\<c-e>")
+  inoremap <expr>   <c-y>                mucomplete#popup_exit("\<c-y>")
+  inoremap <expr>   <cr>                 mucomplete#popup_exit("\<cr>")
 " }}}
 Plug 'wellle/tmux-complete.vim'
 Plug 'wellle/targets.vim'
@@ -140,7 +142,7 @@ Plug 'will133/vim-dirdiff'
 " vim-dirdiff config {{{2
   let g:DirDiffExcludes                = ".git,.svn,CVS,*.class,*.exe,.*.swp,*.pyc,*.so,*.png,*.jp*g,*.svg,*.tiff}"
 " }}}
-Plug 'VOoM'
+Plug 'vim-voom/VOoM'
 " VOoM config {{{2
   let g:voom_tree_width                = 40
   let g:voom_ft_modes                  = {'adoc': 'asciidoc', 'asciidoc': 'asciidoc', 'markdown': 'markdown', 'md': 'markdown', 'rst': 'rest', 'tex': 'latex'}
@@ -156,6 +158,7 @@ Plug 'godlygeek/tabular' | Plug 'dhruvasagar/vim-table-mode'
   let g:table_mode_corner              = '+'
   let g:table_mode_fillchar            = '-'
   let g:table_mode_align_char          = ':'
+  let g:table_mode_auto_align          = 1
 " }}}
 Plug 'jamessan/vim-gnupg'
 Plug 'mattn/webapi-vim' | Plug 'mattn/gist-vim', { 'on': 'Gist' }
@@ -163,8 +166,12 @@ Plug 'mattn/webapi-vim' | Plug 'mattn/gist-vim', { 'on': 'Gist' }
   let g:gist_post_private              = 1
   let g:gist_clip_command              = 'xclip -selection clipboard'
 " }}}
-Plug 'SyntaxAttr.vim'
-Plug 'visSum.vim'
+Plug 'othree/html5.vim'
+Plug 'othree/csscomplete.vim'
+Plug 'amadeus/vim-css'
+Plug 'cespare/vim-toml'
+Plug 'vim-scripts/SyntaxAttr.vim'
+Plug 'vim-scripts/visSum.vim'
 Plug 'chrisbra/unicode.vim'
 " unicode.vim config {{{2
   let g:Unicode_ShowPreviewWindow      = 1
@@ -180,6 +187,7 @@ Plug '$HOME/.vim/plugged/my-base16-vim'
 Plug 'wimstefan/ligero-theme'
 Plug 'wimstefan/Lightning'
 Plug 'romainl/Apprentice'
+Plug 'NLKNguyen/papercolor-theme'
 Plug 'reedes/vim-colors-pencil'
 " vim-colors-pencil config {{{2
   let g:pencil_neutral_code_bg         = 1
@@ -187,25 +195,10 @@ Plug 'reedes/vim-colors-pencil'
   let g:pencil_terminal_italics        = 1
   let g:pencil_gutter_color            = 1
 " }}}
-Plug 'robertmeta/nofrils'
 Plug 'jonathanfilip/vim-lucius'
-Plug 'tomasr/molokai'
-Plug 'nanotech/jellybeans.vim'
-" jellybeans.vim config {{{2
-  let g:jellybeans_use_term_italics    = 1
-  let g:jellybeans_use_gui_italics     = 1
-" }}}
-Plug 'w0ng/vim-hybrid'
-" vim-hybrid config {{{2
-  let g:hybrid_custom_term_colors      = 0
-  let g:hybrid_reduced_contrast        = 0
-" }}}
-Plug 'whatyouhide/vim-gotham'
 Plug '~/.vim/plugged/vim-adapted/'
-Plug 'rakr/vim-one'
-Plug 'dylanaraps/ryuuko'
-Plug 'AlessandroYorba/Sidonia'
-Plug 'reewr/vim-monokai-phoenix'
+Plug 'sonph/onehalf', { 'rtp': 'vim/' }
+Plug 'trevordmiller/nova-vim'
 
 call plug#end()
 endif
@@ -217,7 +210,6 @@ syntax   on
 runtime  macros/matchit.vim
 runtime  ftplugin/man.vim
 
-set textwidth=80                       " define an acceptable standard textwidth
 set backspace=indent,eol,start         " allow backspacing over everything in insert mode
 set shiftwidth=2                       " number of spaces used for indention
 let &softtabstop = &shiftwidth         " number of spaces that a <Tab> counts for
@@ -225,11 +217,13 @@ set shiftround                         " round indent to multiple of 'shiftwidth
 set expandtab                          " use spaces to insert a <Tab>
 set smarttab                           " smart tab handling for indenting
 set autoindent                         " set autoindenting on
+set selection=exclusive                " defines the behaviour of the selection
 
 set hidden                             " allow buffers to go in background without saving etc.
 set autowrite                          " save automatically before critical operations
 set autoread                           " automatically reads & loads changes
 set nobackup                           " keep a backup file
+set noswapfile                         " create a swapfile
 
 "set viminfo='50,\"100,:100,%          " read/write a viminfo file with buffer list
 set viminfo='50,\"100,:100             " read/write a viminfo file without buffer list
@@ -275,9 +269,10 @@ set showmode                           " shows mode
 set showcmd                            " show uncompleted command
 set showmatch                          " show matching hyphens
 set diffopt=vertical,iwhite,filler     " split vertical, ignore whitespace & use filler
-set splitright                         " Set vertical splits to split to the right
-set splitbelow                         " Set horizontal splits to split to the bottom
-set previewheight=24                   " Set the height of the preview window
+set splitright                         " set vertical splits to split to the right
+set splitbelow                         " set horizontal splits to split to the bottom
+set previewheight=24                   " set the height of the preview window
+set scrolloff=4                        " minimal number of screen lines to keep above and below the cursor
 
 set gdefault                           " always use global substitutions
 
@@ -296,9 +291,7 @@ autocmd WinNew * let w:new = 1
 autocmd FileType help,man if exists('w:new') | unlet w:new | winc K | endif
 
 " Clipboard settings
-if has('unnamed')
-  set clipboard+=unnamed               " yank+paste with the '*' register
-endif
+set clipboard+=unnamed               " yank+paste with the '*' register
 
 " Mouse settings
 set mouse=a                            " enable mouse in console
@@ -344,7 +337,10 @@ set foldmethod=indent                  " fold on indentation (only use marker if
 set foldlevel=100                      " don't autofold anything (but I can still fold manually)
 
 " Search settings
-if executable('ag')
+if executable('rg')
+  set grepprg=rg\ --vimgrep\ --no-heading
+  set grepformat^=%f:%l:%c:%m
+elseif executable('ag')
   " set grepprg=ag\ --nogroup\ --column\ --smart-case\ --nocolor\ --follow
   set grepprg=ag\ --vimgrep
   set grepformat=%f:%l:%c:%m
@@ -376,7 +372,7 @@ nnoremap <silent> <Leader>x              :Lexplore<CR>
 " " }}}
 
 " Visual " {{{1
-set background=dark
+set background=light
 if has('nvim')
     set termguicolors
 else
@@ -550,7 +546,7 @@ source $HOME/.vim/abbreviations.vim
 " Automatically chmod +x Shell and Perl scripts
 autocmd BufWritePost {*.sh,*.pl,*.py} silent !chmod +x %
 
-" Differing commentstrings
+" Commentstrings
 autocmd FileType xdefaults setlocal commentstring=!\%s
 autocmd FileType mail setlocal commentstring=>\%s
 
