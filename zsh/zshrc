@@ -325,7 +325,7 @@ autoload -U run-help url-quote-magic zcalc zmv
 # * Common config for *every* user # {{{2
 # - Exports {{{3
 export EDITOR="vim"
-export BROWSER="google-chrome-beta"
+export BROWSER="google-chrome"
 export TERMINAL="termite"
 export HISTFILE="$HOME/.zsh/histfile"
 export HISTSIZE="5000"
@@ -337,8 +337,11 @@ export FZF_DEFAULT_OPTS="-x -m --cycle --ansi --color=dark --inline-info"
 export XAUTHORITY="$HOME/.Xauthority"
 export DISPLAY=:0.0
 # anti aliasing in the two toolkits
-export QT_XFT=true
 export GDK_USE_XFT=1
+export SAL_USE_VCLPLUGIN=gtk
+export VCL_ICONS_FOR_DARK_THEME=1
+export QT_XFT=true
+export QT_QPA_PLATFORMTHEME=qt5ct
 # }}}3
 # - Aliases {{{3
 # generic aliases
@@ -376,6 +379,7 @@ alias reload="source $HOME/.zshrc"
 alias el="equery list -p -o"
 alias sf="setfont ter-112n"
 alias setfb="fbset -g 1600 1200 1600 1200 32"
+alias unmount="udevil unmount"
 if [ -x /usr/local/bin/fzf ]; then
   alias vif='vim $(fzf)'
 fi
@@ -471,6 +475,10 @@ if [[ $USER != root ]]; then
   fi
   # }}}3
   # - Functions # {{{3
+  function clean-chrome() {
+    for i in {google-,}chrome{,-unstable,-beta}; pkill -9 $i
+  }
+
   function sync-music()
   {
     if [[ $# -le 0 ]]; then
@@ -756,10 +764,6 @@ if [[ $USER != root ]]; then
 
     function scan() {
       scanimage -p --mode Color --format=tiff
-    }
-
-    function clean-chrome() {
-      for i in {google-,}chrome{,-unstable,-beta}; pkill -9 $i
     }
 
   fi
