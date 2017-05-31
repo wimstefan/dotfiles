@@ -10,11 +10,7 @@ allow_bold = true
 dynamic_title = true
 clickable_url = true
 # swimmer
-font = Input Mono Compressed 9.6
-# mimi
-# font = Input Mono Compressed 9.6
-# tj
-# font = Input Mono Compressed 9.6
+font = Iosevka Term Compressed 10.7
 scrollback_lines = 10000
 search_wrap = true
 #icon_name = terminal
@@ -39,38 +35,38 @@ filter_unmatched_urls = true
 #modify_other_keys = false
 
 [colors]
-# Base16 Adapted
-# Scheme: Stefan Wimmer (wimstefan@gmail.com)
+# Base16 Google
+# Scheme: Seth Wright (http://sethawright.com)
 
-foreground      = #eceff1
-foreground_bold = #eceff1
-cursor          = #eceff1
-background      = #071a24
+foreground      = #373b41
+foreground_bold = #373b41
+cursor          = #373b41
+background      = #ffffff
 
 # 16 color space
-color0  = #071a24
-color1  = #e05a72
-color2  = #59b387
-color3  = #ffffaf
-color4  = #5f87af
-color5  = #aa7fff
-color6  = #5fafaf
-color7  = #eceff1
-color8  = #585858
-color9  = #e05a72
-color10 = #59b387
-color11 = #ffffaf
-color12 = #5a9bdb
-color13 = #aa7fff
-color14 = #5fafaf
-color15 = #5f8787
+color0  = #1d1f21
+color1  = #CC342B
+color2  = #198844
+color3  = #FBA922
+color4  = #3971ED
+color5  = #A36AC7
+color6  = #3971ED
+color7  = #c5c8c6
+color8  = #969896
+color9  = #CC342B
+color10 = #198844
+color11 = #FBA922
+color12 = #3971ED
+color13 = #A36AC7
+color14 = #3971ED
+color15 = #ffffff
 
 # 256 color space
-color16 = #e6a15c
-color17 = #805f3f
-color18 = #2a373e
-color19 = #363636
-color20 = #cccccc
-color21 = #ffffff
+color16 = #F96A38
+color17 = #3971ED
+color18 = #282a2e
+color19 = #373b41
+color20 = #b4b7b4
+color21 = #e0e0e0
 
 # vim: ft=dosini cms=#\ %s :
