@@ -4,14 +4,15 @@ rofi.modi            : combi,window,drun,run,ssh
 rofi.combi-modi      : window,drun,run,ssh
 
 rofi.color-enabled   : true
+rofi.theme           : /usr/share/rofi/themes/paper-float.rasi
 ! State              : 'bg',    'fg',   'bgalt',  'hlbg',  'hlfg'
-rofi.color-normal    : #3e515a, #eceff1, #3e515a, #3e515a, #ffffaf
-rofi.color-urgent    : #3e515a, #e67373, #3e515a, #3e515a, #e67373
-rofi.color-active    : #3e515a, #59b387, #3e515a, #3e515a, #59b387
+! rofi.color-normal    : #3e515a, #eceff1, #3e515a, #3e515a, #ffffaf
+! rofi.color-urgent    : #3e515a, #e67373, #3e515a, #3e515a, #e67373
+! rofi.color-active    : #3e515a, #59b387, #3e515a, #3e515a, #59b387
 ! Window             : 'bg',    'border' 'separator'
-rofi.color-window    : #3e515a, #3e515a, #cccccc
+! rofi.color-window    : #3e515a, #3e515a, #cccccc
 
-rofi.location        : 0
+! rofi.location        : 0
 ! rofi.width           : 44
 ! rofi.lines           : 12
 rofi.bw              : 8
