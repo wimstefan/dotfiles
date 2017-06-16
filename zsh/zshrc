@@ -325,7 +325,7 @@ autoload -U run-help url-quote-magic zcalc zmv
 # * Common config for *every* user # {{{2
 # - Exports {{{3
 export EDITOR="vim"
-export BROWSER="google-chrome"
+export BROWSER="my-eye-into-the-world"
 export TERMINAL="termite"
 export HISTFILE="$HOME/.zsh/histfile"
 export HISTSIZE="5000"
@@ -333,7 +333,7 @@ export SAVEHIST="5000"
 export CVS_RSH="ssh"
 export FZF_DEFAULT_COMMAND="ag --hidden --ignore .git --ignore .cache -l -g ''"
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
-export FZF_DEFAULT_OPTS="-x -m --cycle --ansi --color=dark --inline-info"
+export FZF_DEFAULT_OPTS="-x -m --cycle --ansi --color=light --inline-info"
 export XAUTHORITY="$HOME/.Xauthority"
 export DISPLAY=:0.0
 # anti aliasing in the two toolkits
