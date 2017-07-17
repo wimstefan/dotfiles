@@ -1000,6 +1000,23 @@ awful.rules.rules = {
   { rule = { class = "Puddletag" }    , properties = { tag = "9" } },
 
   -- Application specific rules
+  { rule_any = {
+    class = {
+      "Chromium-browser",
+      "chromium-browser",
+    },
+    name  = {
+      "Open File",
+      "Save File",
+    }
+  },
+    properties = {
+      floating = true,
+      width    = 1200,
+      height   = 800,
+    }
+  },
+
   { rule = { class = "Conky" },
     properties = {
       floating = true,
