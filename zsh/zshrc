@@ -51,7 +51,7 @@ export ZLS_COLORS=$LS_COLORS
 # }}}2
 # - Completion {{{2
 zmodload zsh/complist
-autoload -U compinit && compinit
+autoload -U compinit && compinit -u
 _force_rehash() {
   (( CURRENT == 1 )) && rehash
   return 1
@@ -919,6 +919,9 @@ fi
 if [[ -f $HOME/.zsh/external/zsh-syntax-highlighting.git/zsh-syntax-highlighting.zsh ]]; then
   source $HOME/.zsh/external/zsh-syntax-highlighting.git/zsh-syntax-highlighting.zsh
   export ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets cursor)
+fi
+if [[ -f $HOME/.zsh/external/zsh-autosuggestions.git/zsh-autosuggestions.zsh ]]; then
+  source $HOME/.zsh/external/zsh-autosuggestions.git/zsh-autosuggestions.zsh
 fi
 [ -f $HOME/.zsh/external/fzf-extras.git/fzf-extras.sh ] && source $HOME/.zsh/external/fzf-extras.git/fzf-extras.sh
 [ -f $HOME/.zsh/external/fzf-marks.git/fzf-marks.plugin.zsh ] && source $HOME/.zsh/external/fzf-marks.git/fzf-marks.plugin.zsh
