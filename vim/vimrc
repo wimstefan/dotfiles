@@ -103,9 +103,10 @@ Plug 'mhinz/vim-grepper'
 " vim-grepper config {{{2
   nmap              gs                   <plug>(GrepperOperator)
   xmap              gs                   <plug>(GrepperOperator)
-  nnoremap          <leader>g            :Grepper <cr>
+  nnoremap          <leader>g            :Grepper<CR>
   nnoremap          <leader>*            :Grepper -cword -noprompt<cr>
-  let g:grepper                        = { 'next_tool': '<leader>g' }
+  let g:grepper                        = {}
+  let g:grepper.next_tool              = '<leader>g'
 " }}}
 Plug 'romainl/vim-qf'
 " vim-qf config {{{2
@@ -170,6 +171,9 @@ Plug 'othree/html5.vim'
 Plug 'othree/csscomplete.vim'
 Plug 'cespare/vim-toml'
 Plug 'vim-scripts/SyntaxAttr.vim'
+" SyntaxAttr.vim config {{{2
+  nnoremap          <F12>                :call SyntaxAttr()<CR>
+" }}}
 Plug 'vim-scripts/visSum.vim'
 Plug 'chrisbra/unicode.vim'
 " unicode.vim config {{{2
@@ -183,21 +187,17 @@ Plug 'chrisbra/Colorizer', { 'on': 'ColorToggle' }
   nnoremap          ,tc                  :ColorToggle<CR>
 " }}}
 Plug '$HOME/.vim/plugged/my-base16-vim'
+Plug '~/.vim/plugged/vim-adapted/'
 Plug 'wimstefan/ligero-theme'
 Plug 'wimstefan/Lightning'
 Plug 'romainl/Apprentice'
-Plug 'NLKNguyen/papercolor-theme'
-Plug 'reedes/vim-colors-pencil'
-" vim-colors-pencil config {{{2
-  let g:pencil_neutral_code_bg         = 1
-  let g:pencil_higher_contrast_ui      = 1
-  let g:pencil_terminal_italics        = 1
-  let g:pencil_gutter_color            = 1
-" }}}
 Plug 'jonathanfilip/vim-lucius'
-Plug '~/.vim/plugged/vim-adapted/'
 Plug 'sonph/onehalf', { 'rtp': 'vim/' }
 Plug 'trevordmiller/nova-vim'
+Plug 'AlessandroYorba/Arcadia', { 'branch': 'nightly' }
+" Arcadia config {{{2
+  let g:arcadia_Daybreak               = 1
+" }}}
 
 call plug#end()
 endif
@@ -380,7 +380,7 @@ else
   set termguicolors
 endif
 if &term =~ "linux"
-  color pencil
+  color base16-google-dark
 else
   if has('gui_running')
     if $USER=='root'
@@ -534,7 +534,6 @@ nmap [<Space> O<Esc>j
 nmap ]<Space> o<Esc>k
 
 " various
-nnoremap <F12> :call SyntaxAttr()<CR>
 set pastetoggle=<F3>
 
 " Abbreviations
