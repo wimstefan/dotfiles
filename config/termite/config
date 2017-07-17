@@ -1,3 +1,5 @@
+# vim: ft=dosini cms=#\ %s :
+
 [options]
 resize_grip = false
 scroll_on_output = false
@@ -20,7 +22,7 @@ search_wrap = true
 cursor_blink = system
 
 # "block", "underline" or "ibeam"
-cursor_shape = underline
+cursor_shape = block
 
 # $BROWSER is used by default if set, with xdg-open as a fallback
 #browser = xdg-open
@@ -36,8 +38,6 @@ filter_unmatched_urls = true
 
 [colors]
 foreground      = #303030
-foreground_bold = #303030
-cursor          = #121212
 background      = #e4e4e4
 
 # 16 color space
@@ -57,5 +57,3 @@ color12 = #0087af
 color13 = #af87af
 color14 = #8787af
 color15 = #f7f7f7
-
-# vim: ft=dosini cms=#\ %s :
