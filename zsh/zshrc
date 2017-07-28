@@ -924,6 +924,7 @@ if [[ -f $HOME/.zsh/external/zsh-autosuggestions.git/zsh-autosuggestions.zsh ]];
   source $HOME/.zsh/external/zsh-autosuggestions.git/zsh-autosuggestions.zsh
 fi
 [ -f $HOME/.zsh/external/fzf-extras.git/fzf-extras.sh ] && source $HOME/.zsh/external/fzf-extras.git/fzf-extras.sh
+[ -f $HOME/.zsh/external/fzf-extras.git/fzf-extras.zsh ] && source $HOME/.zsh/external/fzf-extras.git/fzf-extras.zsh
 [ -f $HOME/.zsh/external/fzf-marks.git/fzf-marks.plugin.zsh ] && source $HOME/.zsh/external/fzf-marks.git/fzf-marks.plugin.zsh
 # }}}6
 
