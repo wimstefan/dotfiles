@@ -132,10 +132,13 @@ Plug 'lifepillar/vim-mucomplete'
 " }}}
 Plug 'wellle/tmux-complete.vim'
 Plug 'wellle/targets.vim'
-Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' }
-" undotree config {{{2
-  let g:undotree_WindowLayout          = 2
-  nnoremap          ,tu                  :UndotreeToggle<CR>
+Plug 'simnalamburt/vim-mundo', { 'on': 'MundoToggle' }
+" vim-mundo config {{{2
+  let g:mundo_verbose_graph            = 0
+  let g:mundo_width                    = 28
+  let g:mundo_preview_bottom           = 1
+  let g:mundo_preview_height           = 14
+  nnoremap          ,tu                  :MundoToggle<CR>
 " }}}
 Plug 'brooth/far.vim'
 Plug 'qpkorr/vim-renamer'
