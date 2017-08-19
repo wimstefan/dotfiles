@@ -12,17 +12,19 @@ allow_bold = true
 dynamic_title = true
 clickable_url = true
 # swimmer
-font = Iosevka Term Compressed 10.7
+font = Iosevka Term Compressed Medium 11.0
+# tj
+# font = Iosevka Term Compressed Medium 10.0
 scrollback_lines = 10000
 search_wrap = true
 #icon_name = terminal
 # geometry = 1200x800
 
 # "system", "on" or "off"
-cursor_blink = system
+# cursor_blink = system
 
 # "block", "underline" or "ibeam"
-cursor_shape = block
+# cursor_shape = block
 
 # $BROWSER is used by default if set, with xdg-open as a fallback
 #browser = xdg-open
@@ -38,7 +40,7 @@ filter_unmatched_urls = true
 
 [colors]
 foreground      = #303030
-background      = #e4e4e4
+background      = #cbcccc
 
 # 16 color space
 color0  = #3d3d3d
