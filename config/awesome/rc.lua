@@ -16,8 +16,7 @@ local beautiful              = require("beautiful")
 local naughty                = require("naughty")
 local menubar                = require("menubar")
 local hotkeys_popup          = require("awful.hotkeys_popup").widget
-                               require("awful.hotkeys_popup.keys.vim")
-                               require("awful.hotkeys_popup.keys.tmux")
+                               require("awful.hotkeys_popup.keys")
 
 -- Basic configuration {{{1
 -- Conditionals {{{2
@@ -71,15 +70,15 @@ beautiful.init(theme_dir .. "theme.lua")
 -- }}}
 -- Table of layouts {{{2
 awful.layout.layouts = {
-  awful.layout.suit.tile,
-  awful.layout.suit.tile.bottom,
+  awful.layout.suit.fair,
+  awful.layout.suit.fair.horizontal,
+  -- awful.layout.suit.tile,
+  -- awful.layout.suit.tile.bottom,
   awful.layout.suit.max,
-  awful.layout.suit.magnifier,
   awful.layout.suit.floating,
+  -- awful.layout.suit.magnifier,
   -- awful.layout.suit.tile.top,
   -- awful.layout.suit.tile.left,
-  -- awful.layout.suit.fair,
-  -- awful.layout.suit.fair.horizontal,
   -- awful.layout.suit.spiral,
   -- awful.layout.suit.spiral.dwindle,
   -- awful.layout.suit.max.fullscreen,
