@@ -326,6 +326,7 @@ autoload -U run-help url-quote-magic zcalc zmv
 # - Exports {{{3
 export EDITOR="vim"
 export BROWSER="my-eye-into-the-world"
+export COLORTERM=truecolor
 export TERMINAL="termite"
 export HISTFILE="$HOME/.zsh/histfile"
 export HISTSIZE="5000"
@@ -918,7 +919,7 @@ fi
 # - External modules # {{{6
 if [[ -f $HOME/.zsh/external/zsh-syntax-highlighting.git/zsh-syntax-highlighting.zsh ]]; then
   source $HOME/.zsh/external/zsh-syntax-highlighting.git/zsh-syntax-highlighting.zsh
-  export ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets cursor)
+  export ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets )
 fi
 if [[ -f $HOME/.zsh/external/zsh-autosuggestions.git/zsh-autosuggestions.zsh ]]; then
   source $HOME/.zsh/external/zsh-autosuggestions.git/zsh-autosuggestions.zsh
