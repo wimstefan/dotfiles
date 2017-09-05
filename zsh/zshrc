@@ -436,6 +436,10 @@ function et() {
       /bin/echo "Please answer with Yes or No ..."
   esac
 }
+
+function check-overlays() {
+  for i in $(layman -l | awk '{print $2}'); echo "\n*** Overlay $i ***\n" && eix -c --installed-in-overlay $i
+}
 # }}}3
 stty -ixon
 # }}}2
@@ -670,6 +674,7 @@ if [[ $USER != root ]]; then
         rsync -az   --delete --exclude '.thumbs' /home/swimmer/system/wallpapers/ $host\:system/wallpapers/
         rsync -azK  --delete /usr/local/share/icons/ $host:/usr/local/share/icons/
         rsync -azK  --delete /usr/local/share/themes/ $host:/usr/local/share/themes/
+        rsync -azK  --delete /usr/local/share/rofi/themes/ $host:/usr/local/share/rofi/themes/
         rsync -azlk --delete /usr/share/fonts/owned/ $host:/usr/share/fonts/owned/
         rsync -az   --delete /home/swimmer/.config/libreoffice/4/user/template/ $host:.config/libreoffice/4/user/template/
         rsync -az            /home/swimmer/.gtkrc-2.0 $host:
