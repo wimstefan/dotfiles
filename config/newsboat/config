@@ -9,7 +9,8 @@ download-full-page yes
 # html-renderer internal
 # html-renderer "w3m -T text/html -I %{charset} -dump -cols 88"
 html-renderer "elinks --dump-width 88"
-browser "TERM=xterm-256color w3m %u"
+# browser "TERM=xterm-256color w3m %u"
+browser "w3m %u"
 # browser elinks
 # browser lynx
 refresh-on-startup yes
@@ -18,10 +19,10 @@ auto-reload yes
 reload-time 14
 reload-threads 4
 text-width 0
-cache-file "~/.config/newsbeuter/cache.db"
-cookie-cache "~/.config/newsbeuter/cookies.txt"
-error-log "~/.config/newsbeuter/error.log"
-save-path "~/.config/newsbeuter/saved-articles"
+cache-file "~/.config/newsboat/cache.db"
+cookie-cache "~/.config/newsboat/cookies.txt"
+error-log "~/.config/newsboat/error.log"
+save-path "~/.config/newsboat/saved-articles"
 macro o open-in-browser ; toggle-article-read read
 use-proxy no
 
