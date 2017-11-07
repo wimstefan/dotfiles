@@ -21,7 +21,7 @@ nnoremap ,pu :PlugUpdate<CR>
 let g:plug_shallow = 0
 
 silent! if  plug#begin('~/.vim/plugged')
-Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': 'yes \| ./install' }
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 " fzf config {{{2
   set rtp+=~/.fzf
 " }}}
@@ -194,12 +194,34 @@ Plug '~/.vim/plugged/vim-adapted/'
 Plug 'wimstefan/ligero-theme'
 Plug 'wimstefan/Lightning'
 Plug 'romainl/Apprentice'
+Plug 'NLKNguyen/papercolor-theme'
+" papercolor-theme config {{{2
+let g:PaperColor_Theme_Options = {
+  \   'theme': {
+  \     'default': {
+  \       'allow_bold': 1,
+  \       'allow_italic': 1,
+  \       'transparent_background': 1,
+  \     }
+  \   }
+  \ }
+" }}}
 Plug 'jonathanfilip/vim-lucius'
+" vim-lucius config {{{2
+  let g:lucius_style                   = 'light'
+  let g:lucius_contrast                = 'low'
+  let g:lucius_contrast_bg             = 'low'
+  let g:lucius_no_term_bg              = 1
+" }}}
 Plug 'sonph/onehalf', { 'rtp': 'vim/' }
 Plug 'trevordmiller/nova-vim'
 Plug 'AlessandroYorba/Arcadia', { 'branch': 'nightly' }
 " Arcadia config {{{2
   let g:arcadia_Daybreak               = 1
+" }}}
+Plug 'dylnmc/vimaterial'
+" vimaterial config {{{2
+  let g:vimaterial_use_term_colors     = 1
 " }}}
 
 call plug#end()
@@ -604,14 +626,15 @@ autocmd BufWritePost vimrc,.vimrc nested source $MYVIMRC
 " " }}}
 
 " Functions " {{{1
-function! User_highlights()
-  exec 'hi CursorLine cterm=bold gui=bold'
-  exec 'hi User1 cterm=reverse gui=reverse'
+function! User_highlights() abort
+  highlight CursorLine cterm=bold gui=bold
+  highlight Search ctermfg=238 ctermbg=153 guifg=#444444 guibg=#afd7ff
+  highlight User1 cterm=reverse gui=reverse
 
-  exec 'hi Status1 ctermfg=1 guifg=#e05a72 guibg=' . synIDattr(hlID('StatusLine'), 'bg')
-  exec 'hi Status2 ctermfg=2 guifg=#59b387 guibg=' . synIDattr(hlID('StatusLine'), 'bg')
-  exec 'hi Status3 ctermfg=3 guifg=#ffffaf guibg=' . synIDattr(hlID('StatusLine'), 'bg')
-  exec 'hi Status4 ctermfg=4 guifg=#5f87af guibg=' . synIDattr(hlID('StatusLine'), 'bg')
+  exec 'highlight Status1 ctermfg=1 guifg=#e05a72 guibg=' . synIDattr(hlID('StatusLine'), 'bg')
+  exec 'highlight Status2 ctermfg=2 guifg=#59b387 guibg=' . synIDattr(hlID('StatusLine'), 'bg')
+  exec 'highlight Status3 ctermfg=3 guifg=#ffffaf guibg=' . synIDattr(hlID('StatusLine'), 'bg')
+  exec 'highlight Status4 ctermfg=4 guifg=#5f87af guibg=' . synIDattr(hlID('StatusLine'), 'bg')
 endfunction
 
 function! s:sy_stats_wrapper()
