@@ -332,7 +332,7 @@ export HISTFILE="$HOME/.zsh/histfile"
 export HISTSIZE="5000"
 export SAVEHIST="5000"
 export CVS_RSH="ssh"
-export FZF_DEFAULT_COMMAND="ag --hidden --ignore .git --ignore .cache -l -g ''"
+export FZF_DEFAULT_COMMAND="rg --files"
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 export FZF_DEFAULT_OPTS="-x -m --cycle --ansi --color=light --inline-info"
 export XAUTHORITY="$HOME/.Xauthority"
@@ -374,6 +374,7 @@ alias grep="grep --color=auto"
 alias gcal="gcal -s1"
 alias mtr="mtr --curses"
 alias eix="eix --force-color"
+alias ag="rg"
 # shortcuts
 alias xreload="xrdb $HOME/.Xresources"
 alias reload="source $HOME/.zshrc"
@@ -396,6 +397,16 @@ function ff() { find . -iname '*'$1'*' ; }
 
 function fr() { find . -iname '*'$1'*' -exec $2 {} \; ; }
 
+function fv() {
+  vim $( rg --files "$@" | fzf )
+}
+
+function viz() # edit AND source ~/.zshrc
+{
+  vim $HOME/.dotfiles/zsh/zshrc
+  source $HOME/.dotfiles/zsh/zshrc
+}
+
 function lowercase()  # move filenames to lowercase
 {
     for file ; do
@@ -413,12 +424,6 @@ function lowercase()  # move filenames to lowercase
             echo "lowercase: $file not changed."
         fi
     done
-}
-
-function viz() # edit AND source ~/.zshrc
-{
-  vim $HOME/.dotfiles/zsh/zshrc
-  source $HOME/.dotfiles/zsh/zshrc
 }
 
 function et() {
