@@ -40,7 +40,7 @@ end
 -- Variables {{{2
 home_dir          = os.getenv("HOME")
 config_dir        = awful.util.getdir("config")
-theme_dir         = config_dir.."/themes/adapted/"
+theme_dir         = config_dir.."/themes/materia/"
 wallpaper_dir     = home_dir.."/system/wallpapers/"
 
 terminal          = "termite"
@@ -146,7 +146,7 @@ end
 -- }}}
 -- Represent a number of seconds as a string of minutes:seconds {{{2
 local function format_time(s)
-  local seconds = nil or s
+  local seconds = tonumber(s)
   if seconds then
     return string.format("%d:%.2d", math.floor(seconds/60), seconds%60)
   else
@@ -195,7 +195,7 @@ menubar.utils.terminal = terminal -- Set the terminal for applications that requ
 -- Wibar {{{1
 -- Formatting aids {{{2
 local spacer = wibox.widget.textbox('  ')
-local spr = wibox.widget.textbox('<span color="'..beautiful.border_focus..'" weight="bold"> ┃ </span>')
+local spr = wibox.widget.textbox('<span color="'..beautiful.border_focus..'" weight="bold"> │ </span>')
 -- }}}
 -- Mpd widget {{{2
 local widget_mpd = lain.widget.mpd({
@@ -203,15 +203,15 @@ local widget_mpd = lain.widget.mpd({
   settings = function()
     mpd_notification_preset = {
       text = string.format("  %s \n %s \n %s  %s  ",
-        markup.bold(markup.fg(beautiful.blue1, markup.font(beautiful.icon_font, "") .. "   " .. mpd_now.artist)),
-        markup.fg(beautiful.white1, markup.font(beautiful.icon_font, "") .. "   " .. mpd_now.album),
-        markup.fg(beautiful.yellow1, markup.font(beautiful.icon_font, "") .. "   " .. mpd_now.title),
+        markup.bold(markup.fg(beautiful.blue2, markup.font(beautiful.icon_font, "") .. "   " .. mpd_now.artist)),
+        markup.fg(beautiful.red2, markup.font(beautiful.icon_font, "") .. "   " .. mpd_now.album),
+        markup.fg(beautiful.green1, markup.font(beautiful.icon_font, "") .. "   " .. mpd_now.title),
         markup.fg(beautiful.orange1, markup.font(beautiful.icon_font, "") .. "   " .. format_time(mpd_now.time))
       )
     }
 
     if mpd_now.state == "play" then
-      artist = " ⁝ " .. mpd_now.artist .. " ⁝ "
+      artist = " │ " .. mpd_now.artist .. " │ "
       title  = mpd_now.title .. " "
     elseif mpd_now.state == "pause" then
       artist = "mpd "
@@ -220,7 +220,7 @@ local widget_mpd = lain.widget.mpd({
       artist = ""
       title  = ""
     end
-    widget:set_markup(markup.fontfg(beautiful.tasklist_font, beautiful.blue1, artist) .. markup.fontfg(beautiful.tasklist_font, beautiful.yellow1, title))
+    widget:set_markup(markup.fontfg(beautiful.tasklist_font, beautiful.blue2, artist) .. markup.fontfg(beautiful.tasklist_font, beautiful.green1, title))
   end
 })
 local mpd_box = wibox.container.scroll.horizontal(widget_mpd.widget)
@@ -238,9 +238,9 @@ local tooltip_mpd = awful.tooltip({
       time = string.format("%s/%s", format_time(mpd_now.elapsed), format_time(mpd_now.time))
     end
     local text = string.format(" %s \n %s \n %s \n %s ",
-      markup.bold(markup.fg(beautiful.blue1, markup.font(beautiful.icon_font, "") .. "   " .. mpd_now.artist)),
-      markup.fg(beautiful.white1, markup.font(beautiful.icon_font, "") .. "   " .. mpd_now.album),
-      markup.fg(beautiful.yellow1, markup.font(beautiful.icon_font, "") .. "   " .. mpd_now.title),
+      markup.bold(markup.fg(beautiful.blue2, markup.font(beautiful.icon_font, "") .. "   " .. mpd_now.artist)),
+      markup.fg(beautiful.red2, markup.font(beautiful.icon_font, "") .. "   " .. mpd_now.album),
+      markup.fg(beautiful.green1, markup.font(beautiful.icon_font, "") .. "   " .. mpd_now.title),
       markup.fg(beautiful.orange1, markup.font(beautiful.icon_font, "") .. "   " .. time)
     )
     return text
@@ -266,7 +266,7 @@ local volume = lain.widget.alsabar({
       else
           volume_icon = ""
       end
-      icon_alsa:set_markup(markup.font(beautiful.icon_font, markup(beautiful.white1, volume_icon)))
+      icon_alsa:set_markup(markup.font(beautiful.icon_font, volume_icon))
   end,
   -- colors = {
   --     background = beautiful.bg_normal,
@@ -275,7 +275,7 @@ local volume = lain.widget.alsabar({
   --       if tonumber(volume_now.level) <= 10 then
   --         bar_colour = beautiful.red2
   --       elseif tonumber(volume_now.level) <= 50 then
-  --         bar_colour = beautiful.blue1
+  --         bar_colour = beautiful.blue2
       --   else
   --         bar_colour = beautiful.green1
       --   end
@@ -395,7 +395,7 @@ local widget_power = lain.widget.bat({
             power_icon = markup.font(beautiful.icon_font, "") .. markup.font(beautiful.font, " " .. bat_now.perc .. "%  ")
           end
         end
-        widget:set_markup(markup.font(beautiful.font, markup(beautiful.white1, power_icon)))
+        widget:set_markup(markup.font(beautiful.font, power_icon))
 
         bat_notification_low_preset = {
           title = "Battery low",
@@ -449,14 +449,14 @@ local tooltip_bat = awful.tooltip({
 })
 -- Power widget }}}
 -- Textclock widget {{{2
-mytextclock = wibox.widget.textclock( '<span font="'..beautiful.taglist_font..'" background="'..beautiful.white1..'" color="'..beautiful.background..'"> %a %b %d, %H:%M </span>' )
+mytextclock = wibox.widget.textclock( '<span font="'..beautiful.taglist_font..'" background="'..beautiful.blue2..'" color="'..beautiful.background..'"> %a %b %d, %H:%M </span>' )
 lain.widget.calendar({
   attach_to = { mytextclock },
   cal = "/usr/bin/cal -w -m --color=always",
   notification_preset = {
     font = beautiful.taglist_font,
     fg   = beautiful.fg_normal,
-    bg   = beautiful.bg_normal
+    bg   = beautiful.white2
   }
 })
 -- Textclock widget }}}
@@ -513,7 +513,7 @@ local function set_wallpaper(s)
     if type(wallpaper) == "function" then
       wallpaper = wallpaper(s)
     end
-    gears.wallpaper.fit(wallpaper, s)
+    gears.wallpaper.maximized(wallpaper, s)
   end
 end
 
@@ -779,7 +779,7 @@ globalkeys = awful.util.table.join(
             function () awful.screen.focused().quakescratch:toggle() end,
             {description = "Scratchpad", group = "applications"}),
   awful.key({ modkey,           }, "t",
-            function () awful.spawn("thunderbird-bin") end,
+            function () awful.spawn("thunderbird") end,
             {description = "Thunderbird", group = "applications"}),
   awful.key({ modkey,           }, "x",
             function () awful.spawn("lxappearance") end,
