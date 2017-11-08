@@ -1,10 +1,12 @@
-rofi.font            : Khand 13
+! vim: ft=xdefaults
+rofi.font            : Rosario 12
+rofi.show-icons      : true
 
+rofi.matching        : fuzzy
 rofi.modi            : combi,window,drun,run,ssh
 rofi.combi-modi      : window,drun,run,ssh
 
 rofi.color-enabled   : true
-rofi.theme           : /usr/share/rofi/themes/paper-float.rasi
 ! State              : 'bg',    'fg',   'bgalt',  'hlbg',  'hlfg'
 ! rofi.color-normal    : #3e515a, #eceff1, #3e515a, #3e515a, #ffffaf
 ! rofi.color-urgent    : #3e515a, #e67373, #3e515a, #3e515a, #e67373
@@ -27,4 +29,4 @@ rofi.terminal        : termite
 rofi.ssh-client      : ssh
 rofi.ssh-command     : {terminal} -e '{ssh-client} {host}'
 
-! vim: ft=xdefaults
+rofi.theme: /usr/local/share/rofi/themes/paper-float.rasi
