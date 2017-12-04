@@ -1,4 +1,5 @@
-Xcursor*theme: Neutral_Plus
+Xcursor*theme: Oxygen 10 Matrix Green
+Xcursor*size: 0
 
 Xft.antialias: true
 Xft.hinting:   true
@@ -21,7 +22,6 @@ xterm*termName: xterm-256color
 xterm*loginShell: true
 xterm*utf8: true
 xterm*renderFont: true
-xterm*cjkWidth: true
 xterm*bellIsUrgent: true
 
 !!! Minimal colours
