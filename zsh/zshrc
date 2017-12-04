@@ -452,7 +452,7 @@ stty -ixon
 if [[ $USER != root ]]; then
   echo "Initializing user settings for $USER ..."
   # - Prompt {{{3
-  PROMPT="$bold$colorfg{blue}$mytime $colorfg{green}[$username$uncolorfg:$curdir$colorfg{green}]$uncolorfg $rootorwhat $unbold"
+  PROMPT="$bold$colorfg{blue}$mytime $colorfg{green}[$username]$uncolorfg $curdir $rootorwhat $unbold"
   RPROMPT='${vcs_info_msg_0_}'
   if [[ -n $SSH_CONNECTION ]]; then
     RPROMPT+=' $bold$colorfg{red}[%m]$uncolorfg$unbold'
@@ -677,6 +677,7 @@ if [[ $USER != root ]]; then
         echo "Syncing terminal & X settings on $host ..."
         rsync -az            /home/swimmer/.Xresources $host:
         rsync -az   --delete --exclude '.thumbs' /home/swimmer/system/wallpapers/ $host\:system/wallpapers/
+        rsync -azK  --delete /usr/local/share/cursors/ $host:/usr/local/share/cursors/
         rsync -azK  --delete /usr/local/share/icons/ $host:/usr/local/share/icons/
         rsync -azK  --delete /usr/local/share/themes/ $host:/usr/local/share/themes/
         rsync -azK  --delete /usr/local/share/rofi/themes/ $host:/usr/local/share/rofi/themes/
@@ -787,6 +788,8 @@ if [[ $USER != root ]]; then
     eval `keychain --quiet --eval id_rsa`
 
     alias tj="tmux start-server && tmux attach -d -t tj"
+    alias tj-ncmpcpp="ncmpcpp -p 6601 -c ~/.ncmpcpp/tj-config"
+    alias prelisten-ncmpcpp="ncmpcpp -p 6602 -c ~/.ncmpcpp/prelisten-config"
     alias hdmi-mplayer="mplayer -ao alsa:device=hdmi"
     alias hdmi-vlc="vlc --alsa-audio-device=hdmi"
     alias exif="exiftool -@ ${HOME}/system/tags '$@'"
