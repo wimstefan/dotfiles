@@ -24,8 +24,8 @@ hostname          = io.lines("/proc/sys/kernel/hostname")()
 if hostname == 'tj' then
   TYPE     = "laptop"
   BAT      = "BAT1"
-  SYSTEMP  = "coretemp.0/hwmon/hwmon0"
-  TEMPFILE = "/sys/devices/platform/coretemp.0/hwmon/hwmon0/temp2_input"
+  SYSTEMP  = "coretemp.0/hwmon/hwmon1"
+  TEMPFILE = "/sys/devices/platform/coretemp.0/hwmon/hwmon1/temp2_input"
 elseif hostname == 'mimi' then
   TYPE     = "laptop"
   BAT      = "BAT0"
@@ -44,7 +44,7 @@ theme_dir         = config_dir.."/themes/materia/"
 wallpaper_dir     = home_dir.."/system/wallpapers/"
 
 terminal          = "termite"
-if terminal == 'pangoterm' or terminal == 'termite' then
+if terminal == 'alacritty' or terminal == 'pangoterm' or terminal == 'termite' then
   TITLE = " --title="
   NAME  = " --name="
   GEO   = " --geometry="
@@ -150,7 +150,7 @@ local function format_time(s)
   if seconds then
     return string.format("%d:%.2d", math.floor(seconds/60), seconds%60)
   else
-    return
+    return 0
   end
 end
 -- }}}
@@ -950,10 +950,6 @@ awful.rules.rules = {
 
   -- Floating clients.
   { rule_any = {
-    instance = {
-      "DTA",  -- Firefox addon DownThemAll.
-      "copyq",  -- Includes session name in class.
-    },
     class = {
       "Apvlv",
       "Audacity",
@@ -962,6 +958,7 @@ awful.rules.rules = {
       "Scribus",
       "Thunderbird",
       "Wpa_gui",
+      "Zathura",
     },
     name = {
       "Calculator",
@@ -979,31 +976,27 @@ awful.rules.rules = {
   }, properties = { floating = true }},
 
   -- Tag associations
-  { rule = { name  = "sys" }          , properties = { tag = "1" } },
-  { rule = { name  = "work" }         , properties = { tag = "2" } },
-  { rule = { name  = "com" }          , properties = { tag = "3" } },
-  { rule = { name  = "tj" }           , properties = { tag = "3" } },
-  { rule = { name  = "mimi" }         , properties = { tag = "4" } },
-  { rule = { name  = "komala" }       , properties = { tag = "5" } },
-  { rule = { name  = "tj-laptop" }    , properties = { tag = "6" } },
-  { rule = { name  = "swimmer" }      , properties = { tag = "6" } },
-  { rule = { name  = "home" }         , properties = { tag = "6" } },
-  { rule = { class = "Thunderbird" }  , properties = { tag = "7" } },
-  { rule = { class = "Scribus" }      , properties = { tag = "7" } },
-  { rule = { class = "VirtualBox" }   , properties = { tag = "7" } },
-  { rule = { class = "Darktable" }    , properties = { tag = "8" } },
-  { rule = { class = "Gimp" }         , properties = { tag = "8" } },
-  { rule = { class = "Inkscape" }     , properties = { tag = "8" } },
-  { rule = { class = "Audacious" }    , properties = { tag = "9" } },
-  { rule = { class = "Audacity" }     , properties = { tag = "9" } },
-  { rule = { class = "Puddletag" }    , properties = { tag = "9" } },
+  { rule = { name  = "^sys" }        , properties = { tag = "1" } } ,
+  { rule = { name  = "^work" }       , properties = { tag = "2" } } ,
+  { rule = { name  = "^com" }        , properties = { tag = "3" } } ,
+  { rule = { name  = "^tj" }         , properties = { tag = "3" } } ,
+  { rule = { name  = "^mimi" }       , properties = { tag = "4" } } ,
+  { rule = { name  = "^komala" }     , properties = { tag = "5" } } ,
+  { rule = { name  = "laptop$" }     , properties = { tag = "6" } } ,
+  { rule = { name  = "^swimmer" }    , properties = { tag = "6" } } ,
+  { rule = { name  = "^home" }       , properties = { tag = "6" } } ,
+  { rule = { class = "Thunderbird" } , properties = { tag = "7" } } ,
+  { rule = { class = "Scribus" }     , properties = { tag = "7" } } ,
+  { rule = { class = "VirtualBox" }  , properties = { tag = "7" } } ,
+  { rule = { class = "Darktable" }   , properties = { tag = "8" } } ,
+  { rule = { class = "Gimp" }        , properties = { tag = "8" } } ,
+  { rule = { class = "Inkscape" }    , properties = { tag = "8" } } ,
+  { rule = { class = "Audacious" }   , properties = { tag = "9" } } ,
+  { rule = { class = "Audacity" }    , properties = { tag = "9" } } ,
+  { rule = { class = "Puddletag" }   , properties = { tag = "9" } } ,
 
   -- Application specific rules
   { rule_any = {
-    class = {
-      "Chromium-browser",
-      "chromium-browser",
-    },
     name  = {
       "Open File",
       "Save File",
@@ -1011,8 +1004,8 @@ awful.rules.rules = {
   },
     properties = {
       floating = true,
-      width    = 1200,
-      height   = 800,
+      width    = 1000,
+      height   = 600,
     }
   },
 
