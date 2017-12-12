@@ -332,9 +332,9 @@ export HISTFILE="$HOME/.zsh/histfile"
 export HISTSIZE="5000"
 export SAVEHIST="5000"
 export CVS_RSH="ssh"
-export FZF_DEFAULT_COMMAND="rg --files"
-export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
-export FZF_DEFAULT_OPTS="-x -m --cycle --ansi --color=light --inline-info"
+export FZF_DEFAULT_COMMAND='rg --files --no-ignore --follow -g "!{.git,node_modules}/*" 2> /dev/null'
+export FZF_CTRL_T_COMMAND=$FZF_DEFAULT_COMMAND
+export FZF_DEFAULT_OPTS='-x -m --cycle --ansi --color=light --inline-info'
 export XAUTHORITY="$HOME/.Xauthority"
 export DISPLAY=:0.0
 # anti aliasing in the two toolkits
