@@ -452,7 +452,7 @@ stty -ixon
 if [[ $USER != root ]]; then
   echo "Initializing user settings for $USER ..."
   # - Prompt {{{3
-  PROMPT="$bold$colorfg{blue}$mytime $colorfg{green}[$username]$uncolorfg $curdir $rootorwhat $unbold"
+  PROMPT="$bold$colorfg{blue}$mytime $colorfg{green}[$username]$uncolorfg $unbold$curdir $rootorwhat "
   RPROMPT='${vcs_info_msg_0_}'
   if [[ -n $SSH_CONNECTION ]]; then
     RPROMPT+=' $bold$colorfg{red}[%m]$uncolorfg$unbold'
@@ -469,7 +469,7 @@ if [[ $USER != root ]]; then
   export GPG_TTY=`tty`
   export GTK2_RC_FILES="$HOME/.gtkrc-2.0"
   BASE16=$(cat $HOME/.config/colorscheme | sed 's/color\s\(.*\)/\1/')
-  BASE16_SHELL="$HOME/.config/base16-shell/$BASE16.sh"
+  BASE16_SHELL="$HOME/.config/base16-shell/scripts/$BASE16.sh"
   [[ -s $BASE16_SHELL ]] && source $BASE16_SHELL
   # }}}3
   # - Aliases {{{3
@@ -823,7 +823,7 @@ if [[ $USER != root ]]; then
 else
   echo "Initializing user settings for $USER ..."
   # - Prompt # {{{3
-  PROMPT='$bold$colorfg{blue}$mytime$uncolorfg [$colorfg{red}$username@$colorfg{green}$hostname$uncolorfg:$curdir] $colorfg{red}$rootorwhat $uncolorfg$unbold'
+  PROMPT='$bold$colorfg{blue}$mytime$uncolorfg [$colorfg{red}$username@$colorfg{green}$hostname$uncolorfg:$unbold$curdir$bold] $colorfg{red}$rootorwhat $uncolorfg$unbold'
   # }}}3
   # - Exports # {{{3
   export PATH=$PATH:$HOME/bin
