@@ -29,4 +29,4 @@ rofi.terminal        : termite
 rofi.ssh-client      : ssh
 rofi.ssh-command     : {terminal} -e '{ssh-client} {host}'
 
-rofi.theme: /usr/local/share/rofi/themes/paper-float.rasi
+rofi.theme: /usr/local/share/rofi/themes/smoke.rasi
