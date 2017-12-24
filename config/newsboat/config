@@ -65,13 +65,14 @@ use-proxy no
 ### light ###
 color background         default    default
 color listnormal         default    default
-color listnormal_unread  color25    default
+color listnormal_unread  blue       default
 color listfocus          green      default
-color listfocus_unread   color25    default     underline
-color info               white      black
+color listfocus_unread   blue       default     underline bold
+color info               default    default     reverse
 color article            default    default
-highlight article       "^(Feed|Title|Author|Link|Date|Podcast.*):.*" color25 default
-highlight article       "^Links:"                           white   color25
+highlight article       "^(Feed|Author|Link|Date|Podcast.*):.*" blue default
+highlight article       "^(Title.*):.*" blue default bold
+highlight article       "^Links:"                           white   blue
 highlight article       "\\[[0-9][0-9]*\\]"                 green   default
 highlight article       "\\[image [0-9][0-9]*\\]"           green   default
 highlight article       "\\[embedded flash: [0-9][0-9]*\\]" green   default
