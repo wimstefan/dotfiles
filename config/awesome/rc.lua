@@ -44,7 +44,7 @@ theme_dir         = config_dir.."/themes/materia/"
 wallpaper_dir     = home_dir.."/system/wallpapers/"
 
 terminal          = "termite"
-if terminal == 'alacritty' or terminal == 'pangoterm' or terminal == 'termite' then
+if terminal == 'alacritty' or terminal == 'kitty' or terminal == 'termite' then
   TITLE = " --title="
   NAME  = " --name="
   GEO   = " --geometry="
