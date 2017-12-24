@@ -37,6 +37,7 @@ Plug 'junegunn/fzf.vim'
   imap              <C-x><C-j>           <plug>(fzf-complete-file-ag)
   imap              <C-x><C-l>           <plug>(fzf-complete-line)
   autocmd VimEnter * command! Colors call fzf#vim#colors({'left': '14%', 'options': ''})
+  command! -bang -nargs=* Ag call fzf#vim#grep('rg --vimgrep --color=always '.shellescape(<q-args>), 1, <bang>0)
 " }}}
 Plug 'junegunn/vim-peekaboo'
 " vim-peekaboo config {{{2
@@ -106,6 +107,7 @@ Plug 'mhinz/vim-grepper'
   nnoremap          <leader>g            :Grepper<CR>
   nnoremap          <leader>*            :Grepper -cword -noprompt<cr>
   let g:grepper                        = {}
+  let g:grepper.tools                  = ['rg', 'ag', 'ack', 'grep', 'findstr', 'pt']
   let g:grepper.next_tool              = '<leader>g'
 " }}}
 Plug 'romainl/vim-qf'
@@ -321,7 +323,7 @@ set clipboard+=unnamed               " yank+paste with the '*' register
 set mouse=a                            " enable mouse in console
 set mousemodel=popup_setpos
 if !has('nvim')
-  set ttymouse=xterm2
+  set ttymouse=sgr
 endif
 
 " vimpager settings
