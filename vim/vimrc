@@ -449,8 +449,8 @@ function! MyStatusline()
   let stl .= '%#Status2#%{&modified ? " ✓ " : ""}%*'
   let stl .= '%#Status1#%{&ro ? " ✗ " : ""}%*'
   let stl .= '%= '
-  if exists('b:git_dir') && winwidth(0) > 70
-    let branch  = fugitive#head(8)
+  if exists('b:sy') && winwidth(0) > 70
+    let branch  = gina#component#repo#branch()
     let stl    .= (branch == 'master') ? '· master' : '· '. branch
     if exists('g:loaded_signify')
       let stl    .= s:sy_stats_wrapper().' · '
