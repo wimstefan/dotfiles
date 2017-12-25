@@ -215,15 +215,9 @@ Plug 'jonathanfilip/vim-lucius'
   let g:lucius_contrast_bg             = 'low'
   let g:lucius_no_term_bg              = 1
 " }}}
-Plug 'sonph/onehalf', { 'rtp': 'vim/' }
-Plug 'trevordmiller/nova-vim'
 Plug 'AlessandroYorba/Arcadia', { 'branch': 'nightly' }
 " Arcadia config {{{2
   let g:arcadia_Daybreak               = 1
-" }}}
-Plug 'dylnmc/vimaterial'
-" vimaterial config {{{2
-  let g:vimaterial_use_term_colors     = 1
 " }}}
 
 call plug#end()
