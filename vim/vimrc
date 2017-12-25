@@ -61,13 +61,8 @@ Plug 'tpope/vim-markdown'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-vinegar'
-Plug 'tpope/vim-fugitive' | Plug 'gregsexton/gitv' | Plug 'junkblocker/git-time-lapse'
+Plug 'lambdalisue/gina.vim'
 " git related config {{{2
-  let g:Gitv_OpenHorizontal            = 'auto'
-  nnoremap <silent> <Leader>gV           :Gitv --all<CR>
-  nnoremap <silent> <Leader>gv           :Gitv! --all<CR>
-  vnoremap <silent> <Leader>gv           :Gitv! --all<CR>
-  nnoremap          <Leader>gt           :GitTimeLapse<CR>
   nnoremap          <Leader>tig          :!tig<CR>:redraw!<CR>
 " }}}
 Plug 'justinmk/vim-sneak'
