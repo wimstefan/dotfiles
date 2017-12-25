@@ -17,7 +17,7 @@ theme.border_width         = dpi(3)
 theme.menu_height          = dpi(14)
 theme.menu_width           = dpi(144)
 
-theme.useless_gap          = dpi(8)
+theme.useless_gap          = dpi(5)
 
 theme.tooltip_align        = "bottom"
 theme.tooltip_border_width = dpi(0)
