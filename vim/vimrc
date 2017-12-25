@@ -142,6 +142,13 @@ Plug 'simnalamburt/vim-mundo', { 'on': 'MundoToggle' }
   let g:mundo_preview_height           = 14
   nnoremap          ,tu                  :MundoToggle<CR>
 " }}}
+Plug 'Yggdroot/indentLine'
+" indentLine config {{{2
+  let g:indentLine_char                = "¦"
+  let g:indentLine_fileTypeExclude     = [ 'help', 'man' ]
+  nnoremap          ,ti                  :IndentLinesToggle<CR>
+" }}}
+Plug 'fcpg/vim-spotlightify'
 Plug 'brooth/far.vim'
 Plug 'qpkorr/vim-renamer'
 Plug 'will133/vim-dirdiff'
