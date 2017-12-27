@@ -61,10 +61,6 @@ Plug 'tpope/vim-markdown'
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-vinegar'
-Plug 'lambdalisue/gina.vim'
-" git related config {{{2
-  nnoremap          <Leader>tig          :!tig<CR>:redraw!<CR>
-" }}}
 Plug 'justinmk/vim-sneak'
 " vim-sneak config {{{2
   let g:sneak#prompt                   = '[sneak] '
@@ -82,6 +78,15 @@ Plug 'justinmk/vim-sneak'
   xmap              T                    <Plug>Sneak_T
   omap              t                    <Plug>Sneak_t
   omap              T                    <Plug>Sneak_T
+" }}}
+Plug 'lambdalisue/gina.vim'
+" git related config {{{2
+  nnoremap          <Leader>gc           :<C-u>Gina commit -v --opener=vsplit
+  nnoremap          <Leader>gd           :<C-u>Gina compare :<CR>
+  nnoremap          <Leader>gl           :<C-u>Gina log --opener=vsplit :<CR>
+  nnoremap          <Leader>gp           :<C-u>Gina patch --oneside<CR>
+  nnoremap          <Leader>gs           :<C-u>Gina status --opener=vsplit<CR>
+  nnoremap          <Leader>tig          :!tig<CR>:redraw!<CR>
 " }}}
 Plug 'mhinz/vim-signify'
 " vim-signify config {{{2
@@ -453,8 +458,10 @@ function! MyStatusline()
     let branch  = gina#component#repo#branch()
     let stl    .= (branch == 'master') ? '· master' : '· '. branch
     if exists('g:loaded_signify')
-      let stl    .= s:sy_stats_wrapper().' · '
+      let stl  .= s:sy_stats_wrapper().' '
     endif
+    let stl    .= '%{gina#component#status#preset()}'
+    let stl    .= ' · '
   endif
   let stl .= '%y'
   if winwidth(0) > 70
