@@ -454,14 +454,15 @@ function! MyStatusline()
   let stl .= '%#Status2#%{&modified ? " ✓ " : ""}%*'
   let stl .= '%#Status1#%{&ro ? " ✗ " : ""}%*'
   let stl .= '%= '
-  if exists('b:sy') && winwidth(0) > 70
-    let branch  = gina#component#repo#branch()
-    let stl    .= (branch == 'master') ? '· master' : '· '. branch
+  if gina#component#repo#name() != '' && winwidth(0) > 70
+    let branchy = gina#component#repo#branch()
+    let stl    .= (branchy == 'master') ? '· master' : '· '. branchy
     if exists('g:loaded_signify')
       let stl  .= s:sy_stats_wrapper().' '
     endif
-    let stl    .= '%{gina#component#status#preset()}'
-    let stl    .= ' · '
+    let statys = gina#component#status#preset()
+    let stl    .= (statys != '') ? '⋄ ' . statys . ' ' : ''
+    let stl    .= '· '
   endif
   let stl .= '%y'
   if winwidth(0) > 70
