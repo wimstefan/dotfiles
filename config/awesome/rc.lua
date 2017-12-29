@@ -154,20 +154,6 @@ local function format_time(s)
   end
 end
 -- }}}
--- Conky HUD {{{2
-local function toggle_conky()
-  local conky = nil
-
-  return function ()
-    if conky and conky.wibox.visible then
-      conky:hide()
-      conky = nil
-    else
-      conky = awful.spawn.with_shell('conky -c ' ..config_dir..'/conkyrc-'..TYPE)
-    end
-  end
-end
--- }}}
 -- }}}
 
 -- Menu {{{1
@@ -1008,18 +994,6 @@ awful.rules.rules = {
       height   = 600,
     }
   },
-
-  { rule = { class = "Conky" },
-    properties = {
-      floating = true,
-      maximized_horizontal = false,
-      maximized_vertical = true,
-      sticky = true,
-      ontop = true,
-      focusable = false
-      -- size_hints_honor = false,
-      -- size_hints = {"program_position", "program_size"}
-    } },
 
 }
 -- }}}
