@@ -59,8 +59,8 @@ Plug 'tpope/vim-markdown'
   let g:markdown_syntax_conceal        = 1
 " }}}
 Plug 'tpope/vim-repeat'
-Plug 'tpope/vim-surround'
 Plug 'tpope/vim-vinegar'
+Plug 'machakann/vim-sandwich'
 Plug 'justinmk/vim-sneak'
 " vim-sneak config {{{2
   let g:sneak#prompt                   = '[sneak] '
@@ -78,6 +78,12 @@ Plug 'justinmk/vim-sneak'
   xmap              T                    <Plug>Sneak_T
   omap              t                    <Plug>Sneak_t
   omap              T                    <Plug>Sneak_T
+  nmap              s                    <Plug>Sneak_s
+  nmap              S                    <Plug>Sneak_S
+  xmap              s                    <Plug>Sneak_s
+  xmap              S                    <Plug>Sneak_S
+  omap              s                    <Plug>Sneak_s
+  omap              S                    <Plug>Sneak_S
 " }}}
 Plug 'lambdalisue/gina.vim'
 " git related config {{{2
@@ -149,6 +155,7 @@ Plug 'Yggdroot/indentLine'
   nnoremap          ,ti                  :IndentLinesToggle<CR>
 " }}}
 Plug 'fcpg/vim-spotlightify'
+Plug 'xtal8/traces.vim'
 Plug 'brooth/far.vim'
 Plug 'qpkorr/vim-renamer'
 Plug 'will133/vim-dirdiff'
