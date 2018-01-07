@@ -468,9 +468,8 @@ if [[ $USER != root ]]; then
   export MPD_PORT="6600"
   export GPG_TTY=`tty`
   export GTK2_RC_FILES="$HOME/.gtkrc-2.0"
-  BASE16=$(cat $HOME/.config/colorscheme | sed 's/color\s\(.*\)/\1/')
-  BASE16_SHELL="$HOME/.config/base16-shell/scripts/$BASE16.sh"
-  [[ -s $BASE16_SHELL ]] && source $BASE16_SHELL
+  BASE16_SHELL=$HOME/.config/base16-shell/
+  [ -n "$PS1" ] && [ -s $BASE16_SHELL/profile_helper.sh ] && eval "$($BASE16_SHELL/profile_helper.sh)"
   # }}}3
   # - Aliases {{{3
   alias less="$PAGER"

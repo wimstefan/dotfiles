@@ -421,13 +421,31 @@ else
     if $USER=='root'
       color apprentice
     else
-      source $HOME/.config/colorscheme
+      if filereadable(expand("~/.vimrc_background"))
+        source ~/.vimrc_background
+      elseif filereadable(expand("~/.config/colorscheme"))
+        source ~/.config/colorscheme
+      else
+        color lucius
+      endif
     endif
   else
     if $USER=='root'
-      source $HOME/.config/colorscheme
+      if filereadable(expand("~/.vimrc_background"))
+        source ~/.vimrc_background
+      elseif filereadable(expand("~/.config/colorscheme"))
+        source ~/.config/colorscheme
+      else
+        color apprentice
+      endif
     else
-      source $HOME/.config/colorscheme
+      if filereadable(expand("~/.vimrc_background"))
+        source ~/.vimrc_background
+      elseif filereadable(expand("~/.config/colorscheme"))
+        source ~/.config/colorscheme
+      else
+        color lucius
+      endif
     endif
   endif
 endif
