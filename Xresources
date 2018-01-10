@@ -18,11 +18,27 @@ Xft.lcdfilter: lcddefault
 *faceName: xft:Iosevka Term Compressed:pixelsize=17.4
 *faceNameDoublesize: xft:Iosevka Term Compressed:size=17.4
 
-xterm*termName: xterm-256color
-xterm*loginShell: true
-xterm*utf8: true
-xterm*renderFont: true
-xterm*bellIsUrgent: true
+*xterm*termName: xterm-256color
+*xterm*loginShell: true
+*xterm*maximized: true
+*xterm*renderFont: true
+*xterm*font: xft:NK57 Monospace Cd Sb:pixelsize=15.2
+*xterm*faceName: xft:NK57 Monospace Cd Sb:pixelsize=15.2
+*xterm*highlightSelection: true
+*xterm*highlightReverse: true
+*xterm*trimSelection: true
+*xterm*charClass: 33:48,36-47:48,58-59:48,61:48,63-64:48,95:48,126:48
+*xterm*on3Clicks: regex ([[:alpha:]]+://)?([[:alnum:]!#+,./=?@_~-]|(%[[:xdigit:]][[:xdigit:]]))+
+*xterm*visualBell: true
+*xterm*bellIsUrgent: true
+*xterm*metaSendsEscape: true
+*xterm.VT100.translations: #override \n\
+    Ctrl <Key> -: smaller-vt-font() \n\
+    Ctrl <Key> +: larger-vt-font() \n\
+    Ctrl <Key> 0: set-vt-font(d) \n\
+    Ctrl Shift <Key> C: copy-selection(CLIPBOARD) \n\
+    Ctrl Shift <Key> V: insert-selection(CLIPBOARD) \n\
+    Meta<Btn1Up>: exec-formatted("xdg-open '%t'", PRIMARY)
 
 !!! Minimal colours
 ! *foreground:  #d0d0d0
