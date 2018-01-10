@@ -192,9 +192,6 @@ Plug 'godlygeek/tabular' | Plug 'dhruvasagar/vim-table-mode'
   vnoremap          <Leader><Tab>        :Tabularize<Space>
 " }}}
 " vim-table-mode config {{{2
-  let g:table_mode_corner              = '+'
-  let g:table_mode_fillchar            = '-'
-  let g:table_mode_align_char          = ':'
   let g:table_mode_auto_align          = 1
 " }}}
 Plug 'jamessan/vim-gnupg'
