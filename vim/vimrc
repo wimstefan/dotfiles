@@ -53,7 +53,12 @@ Plug 'junegunn/fzf.vim'
 " }}}
 Plug 'junegunn/vim-peekaboo'
 " vim-peekaboo config {{{2
-  let g:peekaboo_ins_prefix = '<c-x>'
+  let g:peekaboo_ins_prefix            = '<C-x>'
+" }}}
+Plug 'junegunn/goyo.vim'
+" goyo.vim config {{{2
+  nnoremap <silent> ,tg                  :Goyo<CR>
+  let g:goyo_width                     = 114
 " }}}
 Plug 'junegunn/limelight.vim'
 " limelight.vim config {{{2
