@@ -12,6 +12,8 @@ local lain                   = require("lain")
 require("collision")()
 -- Appearance & theme handling library
 local beautiful              = require("beautiful")
+local xresources             = require("beautiful.xresources")
+local dpi                    = xresources.apply_dpi
 -- Notification library
 local naughty                = require("naughty")
 local menubar                = require("menubar")
@@ -125,7 +127,7 @@ local function client_menu_toggle_fn()
       instance:hide()
       instance = nil
     else
-      instance = awful.menu.clients({ theme = { width = 250 } })
+      instance = awful.menu.clients({ theme = { width = dpi(250) } })
     end
   end
 end
@@ -563,7 +565,7 @@ awful.screen.connect_for_each_screen(function(s)
   s.mytasklist = awful.widget.tasklist(s, awful.widget.tasklist.filter.currenttags, tasklist_buttons)
 
   -- Create the wibox
-  s.mywibox = awful.wibar({ position = "top", height = 18, screen = s })
+  s.mywibox = awful.wibar({ position = "top", height = dpi(18), screen = s })
 
   -- Add widgets to the wibox
   s.mywibox:setup {
@@ -993,8 +995,8 @@ awful.rules.rules = {
   },
     properties = {
       floating = true,
-      width    = 1000,
-      height   = 600,
+      width    = dpi(1000),
+      height   = dpi(600),
     }
   },
 
