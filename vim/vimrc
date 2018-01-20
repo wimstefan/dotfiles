@@ -200,8 +200,6 @@ Plug 'mattn/webapi-vim' | Plug 'mattn/gist-vim', { 'on': 'Gist' }
   let g:gist_post_private              = 1
   let g:gist_clip_command              = 'xclip -selection clipboard'
 " }}}
-Plug 'othree/html5.vim'
-Plug 'othree/csscomplete.vim'
 Plug 'cespare/vim-toml'
 Plug 'vim-scripts/SyntaxAttr.vim'
 " SyntaxAttr.vim config {{{2
@@ -371,7 +369,7 @@ set infercase                          " case of the match is adjusted depending
 if has("autocmd") && exists("+omnifunc")
   " define filetype specific syntax completion
   autocmd FileType css set omnifunc=csscomplete#CompleteCSS
-  autocmd filetype html,markdown,ctp set omnifunc=htmlcomplete#CompleteTags
+  autocmd filetype xhtml,html,markdown,ctp set omnifunc=htmlcomplete#CompleteTags
   " syntax completion only if a specific plugin does not already exist for that filetype
   autocmd Filetype *
     \ if &omnifunc == "" |
