@@ -234,17 +234,6 @@ let g:PaperColor_Theme_Options = {
   \   }
   \ }
 " }}}
-Plug 'jonathanfilip/vim-lucius'
-" vim-lucius config {{{2
-  let g:lucius_style                   = 'light'
-  let g:lucius_contrast                = 'low'
-  let g:lucius_contrast_bg             = 'low'
-  let g:lucius_no_term_bg              = 1
-" }}}
-Plug 'AlessandroYorba/Arcadia', { 'branch': 'nightly' }
-" Arcadia config {{{2
-  let g:arcadia_Daybreak               = 1
-" }}}
 
 call plug#end()
 endif
