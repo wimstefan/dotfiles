@@ -149,11 +149,8 @@ Plug 'romainl/vim-qlist'
 Plug 'lifepillar/vim-mucomplete'
 " vim-mucomplete config {{{2
   let g:mucomplete#enable_auto_at_startup = 1
-  let g:mucomplete#chains              = { 'default': ['path', 'omni', 'user', 'c-n', 'dict', 'uspl']}
+  let g:mucomplete#chains              = { 'default': [ 'c-n', 'omni', 'user', 'dict', 'uspl', 'path' ]}
   nnoremap <silent> ,ta                  :MUcompleteAutoToggle<CR>
-  inoremap <expr>   <c-e>                mucomplete#popup_exit("\<c-e>")
-  inoremap <expr>   <c-y>                mucomplete#popup_exit("\<c-y>")
-  inoremap <expr>   <cr>                 mucomplete#popup_exit("\<cr>")
 " }}}
 Plug 'wellle/tmux-complete.vim'
 Plug 'wellle/targets.vim'
@@ -538,6 +535,11 @@ nnoremap          <Leader>wqa             :wqa!<CR>
 nnoremap          <Leader>bn             :bnext<CR>
 nnoremap          <Leader>bp             :bprev<CR>
 nnoremap          <Leader>bd             :Sayonara<CR>
+
+" tabs
+nnoremap          <Leader>tn             :tabnext<CR>
+nnoremap          <Leader>tp             :tabprev<CR>
+nnoremap          <Leader>td             :tabclose<CR>
 
 " signatures
 nnoremap          <Leader>sa 1G:s#\(Stefan Wimmer\) <.*>#\1 <stefan@tangoartisan.com>#<CR>
