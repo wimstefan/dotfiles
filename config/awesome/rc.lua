@@ -149,11 +149,8 @@ end
 -- Represent a number of seconds as a string of minutes:seconds {{{2
 local function format_time(s)
   local seconds = tonumber(s)
-  if seconds then
-    return string.format("%d:%.2d", math.floor(seconds/60), seconds%60)
-  else
-    return 0
-  end
+  if not seconds then return end
+  return string.format("%d:%.2d", math.floor(seconds/60), seconds%60)
 end
 -- }}}
 -- }}}
@@ -237,7 +234,7 @@ local tooltip_mpd = awful.tooltip({
 -- Mpd widget }}}
 -- ALSA volume bar {{{2
 local icon_alsa = wibox.widget.textbox()
-icon_alsa:buttons(awful.util.table.join(
+icon_alsa:buttons(gears.table.join(
   awful.button({ }, 1, function () awful.spawn.with_shell(mymixer) end),
   awful.button({ modkey }, 1, function () awful.spawn.with_shell(musicplr1) end),
   awful.button({ altkey }, 1, function () awful.spawn.with_shell(musicplr2) end)))
@@ -272,7 +269,7 @@ local volume = lain.widget.alsabar({
   --     -- unmute = beautiful.fg_normal
   -- }
 })
-volume.bar:buttons(awful.util.table.join(
+volume.bar:buttons(gears.table.join(
     awful.button({}, 1, function() -- left click
         awful.spawn.with_shell(mymixer)
     end),
@@ -335,7 +332,7 @@ widget_cpu_graph:set_background_color(beautiful.bg_normal)
 widget_cpu_graph:set_color({ type = "linear", from = { 0, 0 }, to = { 0, 18 }, stops = { { 0, beautiful.gradient_1 }, { 0.5, beautiful.gradient_2 }, { 1,beautiful.gradient_3 } } })
 widget_cpu:add(widget_cpu_text.widget)
 widget_cpu:add(widget_cpu_graph)
-widget_cpu:buttons(awful.util.table.join( awful.button({ }, 1, function () awful.spawn.with_shell(mytop) end)))
+widget_cpu:buttons(gears.table.join( awful.button({ }, 1, function () awful.spawn.with_shell(mytop) end)))
 -- CPU widget }}}
 -- Temperature widget {{{2
 local widget_temp = lain.widget.temp({
@@ -451,7 +448,7 @@ lain.widget.calendar({
 
 -- Final assembly {{{2
 -- Create a wibox for each screen and add it
-local taglist_buttons = awful.util.table.join(
+local taglist_buttons = gears.table.join(
   awful.button({ }, 1, function(t) t:view_only() end),
   awful.button({ modkey }, 1, function(t)
       if client.focus then
@@ -468,7 +465,7 @@ local taglist_buttons = awful.util.table.join(
   awful.button({ }, 5, function(t) awful.tag.viewprev(t.screen) end)
 )
 
-local tasklist_buttons = awful.util.table.join(
+local tasklist_buttons = gears.table.join(
   awful.button({ }, 1, function (c)
     if c == client.focus then
       c.minimized = true
@@ -553,7 +550,7 @@ awful.screen.connect_for_each_screen(function(s)
   -- Create an imagebox widget which will contains an icon indicating which layout we're using.
   -- We need one layoutbox per screen.
   s.mylayoutbox = awful.widget.layoutbox(s)
-  s.mylayoutbox:buttons(awful.util.table.join(
+  s.mylayoutbox:buttons(gears.table.join(
     awful.button({ }, 1, function () awful.layout.inc( 1) end),
     awful.button({ }, 3, function () awful.layout.inc(-1) end),
     awful.button({ }, 4, function () awful.layout.inc( 1) end),
@@ -603,7 +600,7 @@ end)
 -- }}}
 
 -- Mouse bindings {{{1
-root.buttons(awful.util.table.join(
+root.buttons(gears.table.join(
   awful.button({ }, 3, function () mymainmenu:toggle() end),
   awful.button({ }, 4, awful.tag.viewnext),
   awful.button({ }, 5, awful.tag.viewprev)
@@ -611,7 +608,7 @@ root.buttons(awful.util.table.join(
 -- }}}
 
 -- Key bindings {{{1
-globalkeys = awful.util.table.join(
+globalkeys = gears.table.join(
   awful.key({ modkey,           }, "F1",
             hotkeys_popup.show_help,
             {description="show help", group="awesome"}),
@@ -784,7 +781,7 @@ globalkeys = awful.util.table.join(
 )
 -- }}}
 
-clientkeys = awful.util.table.join(
+clientkeys = gears.table.join(
   awful.key({ modkey,           }, "f",
             function (c)
                 c.fullscreen = not c.fullscreen
@@ -822,7 +819,7 @@ clientkeys = awful.util.table.join(
 -- Be careful: we use keycodes to make it works on any keyboard layout.
 -- This should map on the top row of your keyboard, usually 1 to 9.
 for i = 1, 9 do
-  globalkeys = awful.util.table.join(globalkeys,
+  globalkeys = gears.table.join(globalkeys,
   -- View tag only.
   awful.key({ modkey }, "#" .. i + 9,
             function ()
@@ -868,7 +865,7 @@ for i = 1, 9 do
   )
 end
 
-clientbuttons = awful.util.table.join(
+clientbuttons = gears.table.join(
   awful.button({ }, 1, function (c) client.focus = c; c:raise() end),
   awful.button({ modkey }, 1, awful.mouse.client.move),
   awful.button({ modkey }, 3, awful.mouse.client.resize))
@@ -895,7 +892,7 @@ awful.rules.rules = {
     -- Add a titlebar and hide for most windows
     callback = function (c)
       -- buttons for the titlebar
-      local buttons = awful.util.table.join(
+      local buttons = gears.table.join(
         awful.button({ }, 1, function()
           client.focus = c
           c:raise()
