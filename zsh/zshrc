@@ -686,8 +686,6 @@ if [[ $USER != root ]]; then
         rsync -az            /home/swimmer/.config/gtk-3.0/ $host:.config/gtk-3.0/
         rsync -az            /home/swimmer/.config/fontconfig/fonts.conf $host:.config/fontconfig/
         rsync -az            /home/swimmer/.config/Trolltech.conf $host:.config/
-        rsync -az            /home/swimmer/.config/pangoterm.cfg $host:.config/
-        rsync -az            /home/swimmer/.config/termite/config $host:.config/termite/
         rsync -az            /home/swimmer/.config/colorscheme $host:.config/
         rsync -az            /home/swimmer/.config/base16-shell/ $host:.config/base16-shell/
         rsync -az            /home/swimmer/.config/emoji-list.txt $host:.config/
