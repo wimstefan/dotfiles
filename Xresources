@@ -14,16 +14,14 @@ Xft.lcdfilter: lcddefault
   Xft.dpi: 104
 #endif
 
-*font: xft:Iosevka Term Compressed:pixelsize=17.4
-*faceName: xft:Iosevka Term Compressed:pixelsize=17.4
-*faceNameDoublesize: xft:Iosevka Term Compressed:size=17.4
+*font: xft:Iosevka Term Open Medium:pixelsize=13.5
+*faceName: xft:Iosevka Term Open Medium:pixelsize=13.5
+*faceNameDoublesize: xft:Iosevka Term Open Medium:pixelsize=13.5
 
 *xterm*termName: xterm-256color
 *xterm*loginShell: true
 *xterm*maximized: true
 *xterm*renderFont: true
-*xterm*font: xft:NK57 Monospace Cd Sb:pixelsize=15.2
-*xterm*faceName: xft:NK57 Monospace Cd Sb:pixelsize=15.2
 *xterm*highlightSelection: true
 *xterm*highlightReverse: true
 *xterm*trimSelection: true
