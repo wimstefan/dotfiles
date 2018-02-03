@@ -149,7 +149,7 @@ Plug 'romainl/vim-qlist'
 Plug 'lifepillar/vim-mucomplete'
 " vim-mucomplete config {{{2
   let g:mucomplete#enable_auto_at_startup = 1
-  let g:mucomplete#chains              = { 'default': [ 'c-n', 'omni', 'user', 'dict', 'uspl', 'path' ]}
+  let g:mucomplete#chains              = { 'default' : [ 'dict', 'uspl', 'keyn', 'omni', 'user', 'path' ] }
   nnoremap <silent> ,ta                  :MUcompleteAutoToggle<CR>
 " }}}
 Plug 'wellle/tmux-complete.vim'
