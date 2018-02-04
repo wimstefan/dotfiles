@@ -46,22 +46,29 @@ theme_dir         = config_dir.."/themes/materia/"
 wallpaper_dir     = home_dir.."/system/wallpapers/"
 
 terminal          = "termite"
-if terminal == 'alacritty' or terminal == 'kitty' or terminal == 'termite' then
+if terminal == 'alacritty' or terminal == 'termite' then
   TITLE = " --title="
   NAME  = " --name="
   GEO   = " --geometry="
+  CMD   = " -e "
+elseif terminal == 'kitty' then
+  TITLE = " --title="
+  NAME  = " --name="
+  GEO   = " -o WindowGeometry="
+  CMD   = " "
 else
   TITLE = " -title "
   NAME  = " -name "
   GEO   = " -geometry "
+  CMD   = " -e "
 end
 browser           = os.getenv("BROWSER") or "my-eye-into-the-world"
 editor            = os.getenv("EDITOR") or "vim"
-musicplr1         = terminal..TITLE.."'Music'"..GEO.."1300x800+0+16 -e ncmpcpp"
-musicplr2         = terminal..TITLE.."'Music'"..GEO.."1300x800+0+16 -e mocp"
-mymixer           = terminal..TITLE.."'Music'"..GEO.."1300x600+0+16 -e alsamixer"
-mytop             = terminal..TITLE.."'Htop'"..GEO.."900x1000+0+16 -e htop"
-editor_cli        = terminal .. " -e " .. editor
+musicplr1         = terminal..TITLE.."'Music'"..GEO.."1300x800+0+16"..CMD.."ncmpcpp"
+musicplr2         = terminal..TITLE.."'Music'"..GEO.."1300x800+0+16"..CMD.."mocp"
+mymixer           = terminal..TITLE.."'Music'"..GEO.."1300x600+0+16"..CMD.."alsamixer"
+mytop             = terminal..TITLE.."'Htop'"..GEO.."900x1000+0+16"..CMD.."htop"
+editor_cli        = terminal..CMD..editor
 editor_gui        = "gvim"
 modkey            = "Mod4"
 altkey            = "Mod1"
@@ -149,8 +156,11 @@ end
 -- Represent a number of seconds as a string of minutes:seconds {{{2
 local function format_time(s)
   local seconds = tonumber(s)
-  if not seconds then return end
-  return string.format("%d:%.2d", math.floor(seconds/60), seconds%60)
+  if seconds then
+    return string.format("%d:%.2d", math.floor(seconds/60), seconds%60)
+  else
+    return 0
+  end
 end
 -- }}}
 -- }}}
@@ -159,8 +169,8 @@ end
 -- Create a launcher widget and a main menu
 myawesomemenu = {
   { "hotkeys", function() return false, hotkeys_popup.show_help end},
-  { "manual", string.format("%s -e '%s'", terminal, "man awesome") },
-  { "edit config", string.format("%s -e '%s %s'", terminal, editor, awesome.conffile) },
+  { "manual", string.format("%s -e '%s'", "uxterm", "man awesome") },
+  { "edit config", string.format("%s -e '%s %s'", "uxterm", editor, awesome.conffile) },
   { "restart", awesome.restart },
   { "quit", function() awesome.quit() end}
 }
@@ -521,7 +531,7 @@ awful.screen.connect_for_each_screen(function(s)
     app     = terminal,
     name    = "Calculator",
     argname = "--name %s",
-    extra   = "-e wcalc",
+    extra   = CMD.." wcalc",
     height  = 0.3,
     width   = 0.3,
     vert    = "top",
@@ -532,7 +542,7 @@ awful.screen.connect_for_each_screen(function(s)
     app     = terminal,
     name    = "Explore",
     argname = "--name %s",
-    extra   = "-e mc",
+    extra   = CMD.." mc",
     height  = 0.7,
     width   = 0.8,
     vert    = "bottom",
