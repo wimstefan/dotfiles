@@ -12,7 +12,7 @@ let mapleader = "\<Space>"
 if empty(glob('~/.vim/autoload/plug.vim'))
   silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
     \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-  autocmd VimEnter * PlugInstall
+  autocmd! VimEnter * PlugInstall
 endif
 nnoremap ,pc :PlugClean<CR>
 nnoremap ,pi :PlugInstall<CR>
@@ -149,7 +149,7 @@ Plug 'romainl/vim-qlist'
 Plug 'lifepillar/vim-mucomplete'
 " vim-mucomplete config {{{2
   let g:mucomplete#enable_auto_at_startup = 1
-  let g:mucomplete#chains              = { 'default' : [ 'dict', 'uspl', 'keyn', 'omni', 'user', 'path' ] }
+  let g:mucomplete#chains              = { 'default' : [ 'path', 'omni', 'keyn', 'dict', 'uspl', 'user' ] }
   nnoremap <silent> ,ta                  :MUcompleteAutoToggle<CR>
 " }}}
 Plug 'wellle/tmux-complete.vim'
@@ -319,8 +319,11 @@ endif
 set keywordprg=:help
 nnoremap          <Leader>h            :help<Space>
 nnoremap          <Leader>M            :Man<Space>
-autocmd WinNew * let w:new = 1
-autocmd FileType help,man if exists('w:new') | unlet w:new | winc K | endif
+augroup help
+  autocmd!
+  autocmd WinNew * let w:new = 1
+  autocmd FileType help,man if exists('w:new') | unlet w:new | winc K | endif
+augroup END
 
 " Clipboard settings
 set clipboard+=unnamed               " yank+paste with the '*' register
@@ -353,15 +356,18 @@ set completeopt+=noselect
 set completeopt+=preview
 set infercase                          " case of the match is adjusted depending on the typed text
 if has("autocmd") && exists("+omnifunc")
-  " define filetype specific syntax completion
-  autocmd FileType css set omnifunc=csscomplete#CompleteCSS
-  autocmd filetype xhtml,html,markdown,ctp set omnifunc=htmlcomplete#CompleteTags
-  " syntax completion only if a specific plugin does not already exist for that filetype
-  autocmd Filetype *
-    \ if &omnifunc == "" |
-    \   setlocal omnifunc=syntaxcomplete#Complete |
-    \ endif
-endif
+  augroup completion
+    autocmd!
+    " define filetype specific syntax completion
+    autocmd FileType css set omnifunc=csscomplete#CompleteCSS
+    autocmd filetype xhtml,html,markdown,ctp set omnifunc=htmlcomplete#CompleteTags
+    " syntax completion only if a specific plugin does not already exist for that filetype
+    autocmd Filetype *
+      \ if &omnifunc == "" |
+      \   setlocal omnifunc=syntaxcomplete#Complete |
+      \ endif
+  endif
+augroup END
 
 " Fold settings
 set foldenable                         " turn on folding
@@ -600,63 +606,65 @@ source $HOME/.vim/abbreviations.vim
 " " }}}
 
 " Auto commands " {{{1
-" Automatically chmod +x Shell and Perl scripts
-autocmd BufWritePost {*.sh,*.pl,*.py} silent !chmod +x %
+augroup vimrc
+  autocmd!
+  " Automatically chmod +x Shell and Perl scripts
+  autocmd BufWritePost {*.sh,*.pl,*.py} silent !chmod +x %
 
-" Commentstrings
-autocmd FileType xdefaults setlocal commentstring=!\%s
-autocmd FileType mail setlocal commentstring=>\%s
+  " Commentstrings
+  autocmd FileType xdefaults setlocal commentstring=!\%s
+  autocmd FileType mail setlocal commentstring=>\%s
 
-" Typical mutt thing ... replace > > with >>
-autocmd BufRead /tmp/mutt* silent! %s/^\([>|]\s\?\)\+/\=substitute(submatch(0), '\s', '', 'g').' '
-autocmd BufRead /tmp/mutt* set nonumber nohls nolist filetype=mail formatoptions=tcroqwln21
-autocmd BufRead /tmp/mutt* setlocal spell
+  " Typical mutt thing ... replace > > with >>
+  autocmd BufRead /tmp/mutt* silent! %s/^\([>|]\s\?\)\+/\=substitute(submatch(0), '\s', '', 'g').' '
+  autocmd BufRead /tmp/mutt* set nonumber nohls nolist filetype=mail formatoptions=tcroqwln21
+  autocmd BufRead /tmp/mutt* setlocal spell
 
-" Syntax for tmux
-autocmd BufNewFile,BufRead *tmux*conf* set filetype=tmux
+  " Syntax for tmux
+  autocmd BufNewFile,BufRead *tmux*conf* set filetype=tmux
 
-" Syntax for conkyrc
-autocmd BufNewFile,BufRead *conkyrc* set filetype=conkyrc
+  " Syntax for conkyrc
+  autocmd BufNewFile,BufRead *conkyrc* set filetype=conkyrc
 
-" Syntax for htp files
-autocmd BufNewFile,BufRead {*.htp,*.htt} set filetype=xhtml
+  " Syntax for htp files
+  autocmd BufNewFile,BufRead {*.htp,*.htt} set filetype=xhtml
 
-" Syntax for xmp files
-autocmd BufNewFile,BufRead {*.xmp} set filetype=xml
+  " Syntax for xmp files
+  autocmd BufNewFile,BufRead {*.xmp} set filetype=xml
 
-" Syntax for fvwm files
-autocmd BufNewFile,BufRead */.fvwm*/* set filetype=fvwm syntax=fvwm
+  " Syntax for fvwm files
+  autocmd BufNewFile,BufRead */.fvwm*/* set filetype=fvwm syntax=fvwm
 
-" Syntax for Xorg log files
-autocmd BufNewFile,BufRead *Xorg*log* set filetype=msmessages
+  " Syntax for Xorg log files
+  autocmd BufNewFile,BufRead *Xorg*log* set filetype=msmessages
 
-" Change fileformat on playlist files (created by moc)
-autocmd BufNewFile,BufRead *.m3u set encoding=utf-8 fileencoding=utf-8 ff=unix
+  " Change fileformat on playlist files (created by moc)
+  autocmd BufNewFile,BufRead *.m3u set encoding=utf-8 fileencoding=utf-8 ff=unix
 
-" Encoding for cddb files
-autocmd BufNewFile,BufRead *cddb* set encoding=utf-8 fileencoding=utf-8 ff=unix
+  " Encoding for cddb files
+  autocmd BufNewFile,BufRead *cddb* set encoding=utf-8 fileencoding=utf-8 ff=unix
 
-" Disable numbers & spell inside manpages
-autocmd FileType {man,help,perldoc,pydoc}  set nonumber nospell nolist nocursorcolumn
+  " Disable numbers & spell inside manpages
+  autocmd FileType {man,help,perldoc,pydoc}  set nonumber nospell nolist nocursorcolumn
 
-" When editing a file, always jump to the last known cursor position.
-autocmd BufReadPost *
-  \ if line("'\"") > 0 && line("'\"") <= line("$") |
-  \       exe "normal g`\"" |
-  \ endif
+  " When editing a file, always jump to the last known cursor position.
+  autocmd BufReadPost *
+    \ if line("'\"") > 0 && line("'\"") <= line("$") |
+    \       exe "normal g`\"" |
+    \ endif
 
-" Reload user defined highlights after changing colorschemes
-autocmd VimEnter,ColorScheme * call User_highlights()
+  " Reload user defined highlights after changing colorschemes
+  autocmd VimEnter,ColorScheme * call User_highlights()
 
-" Reload statusline after changing windows/buffer/tab
-autocmd BufEnter * setlocal statusline=%!MyStatusline()
+  " Reload statusline after changing windows/buffer/tab
+  autocmd BufEnter * setlocal statusline=%!MyStatusline()
 
-" Resize windows automagically
-autocmd VimResized * :wincmd =
+  " Resize windows automagically
+  autocmd VimResized * :wincmd =
 
-" Automatically reload vimrc when it's saved
-autocmd BufWritePost vimrc,.vimrc nested source $MYVIMRC
-
+  " Automatically reload vimrc when it's saved
+  autocmd BufWritePost vimrc,.vimrc nested source $MYVIMRC
+augroup END
 " " }}}
 
 " Functions " {{{1
