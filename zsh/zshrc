@@ -214,7 +214,7 @@ local uncolorbg="%k"
 local mytime="%*"
 local mydate="%D"
 local line_tty="%y"
-local rootorwhat="%#"
+local rootorwhat="%(!.#.»)"
 local return_status="%?"
 
 autoload -Uz vcs_info
@@ -455,7 +455,7 @@ if [[ $USER != root ]]; then
   PROMPT="$bold$colorfg{blue}$mytime $colorfg{green}[$username]$uncolorfg $unbold$curdir $rootorwhat "
   RPROMPT='${vcs_info_msg_0_}'
   if [[ -n $SSH_CONNECTION ]]; then
-    RPROMPT+=' $bold$colorfg{red}[%m]$uncolorfg$unbold'
+    RPROMPT+=' $bold$colorfg{red}[$hostname]$uncolorfg$unbold'
   fi
 
   # }}}3
