@@ -807,9 +807,6 @@ if [[ $USER != root ]]; then
   if [[ $HOST == komala ]]; then
     echo "Loading host specific settings for $HOST ..."
 
-    # need that TERM ;-)
-    export TERM="xterm"
-
     # Key management
     eval `keychain --quiet --eval id_rsa`
 
