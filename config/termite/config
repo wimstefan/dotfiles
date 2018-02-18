@@ -36,24 +36,40 @@ filter_unmatched_urls = true
 # emit escape sequences for other keys modified by Control
 #modify_other_keys = false
 
-[colors]
-foreground      = #303030
-background      = #f5f5f5
 
-# 16 color space
-color0  = #3d3d3d
-color1  = #af1c5f
-color2  = #008787
-color3  = #d78700
-color4  = #0087af
-color5  = #875f87
-color6  = #5f87af
-color7  = #ffffff
-color8  = #4a4a4a
-color9  = #af1c5f
-color10 = #00afaf
-color11 = #d78700
-color12 = #0087af
-color13 = #af87af
-color14 = #8787af
-color15 = #f7f7f7
+[colors]
+# Project:    Nord Termite
+# Repository: https://github.com/arcticicestudio/nord-termite
+
+# Dark #
+foreground = #D8DEE9
+background = #2E3440
+foreground_bold = #D8DEE9
+cursor = #D8DEE9
+cursor_foreground = #2E3440
+highlight = #4C566A
+
+# Light #
+# foreground = #2E3440
+# background = #F1F3F7
+# foreground_bold = #2E3440
+# cursor = #2E3440
+# cursor_foreground = #F1F3F7
+# highlight = #4C566A
+
+color0  = #3B4252
+color1  = #BF616A
+color2  = #8CBE8E
+color3  = #EBCB8B
+color4  = #81A1C1
+color5  = #B48EAD
+color6  = #88C0D0
+color7  = #E5E9F0
+color8  = #4C566A
+color9  = #BF616A
+color10 = #8CBE8E
+color11 = #EBCB8B
+color12 = #81A1C1
+color13 = #B48EAD
+color14 = #8FBCBB
+color15 = #ECEFF4

@@ -226,6 +226,13 @@ let g:PaperColor_Theme_Options = {
   \   }
   \ }
 " }}}
+Plug 'arcticicestudio/nord-vim'
+" nord-vim config {{{2
+  let g:nord_italic                    =  1
+  let g:nord_italic_comments           =  1
+  let g:nord_comment_brightness        = 14
+  let g:nord_uniform_diff_background   =  1
+" }}}
 
 call plug#end()
 endif
