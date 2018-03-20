@@ -159,17 +159,18 @@ Plug 'simnalamburt/vim-mundo', { 'on': 'MundoToggle' }
 " }}}
 Plug 'Yggdroot/indentLine'
 " indentLine config {{{2
-  let g:indentLine_char                = "¦"
+  let g:indentLine_char                = "┊"
   let g:indentLine_fileTypeExclude     = [ 'help', 'man' ]
   nnoremap          ,ti                  :IndentLinesToggle<CR>
 " }}}
 Plug 'fcpg/vim-spotlightify'
 Plug 'xtal8/traces.vim'
+Plug 'andymass/vim-matchup'
 Plug 'brooth/far.vim'
 Plug 'qpkorr/vim-renamer'
 Plug 'will133/vim-dirdiff'
 " vim-dirdiff config {{{2
-  let g:DirDiffExcludes                = ".git,.svn,CVS,*.class,*.exe,.*.swp,*.pyc,*.so,*.png,*.jp*g,*.svg,*.tiff}"
+  let g:DirDiffExcludes                = ".git,.svn,CVS,*.class,*.exe,.*.swp,*.pyc,*.so,*.png,*.jp*g,*.svg,*.tiff"
 " }}}
 Plug 'vim-voom/VOoM'
 " VOoM config {{{2
@@ -241,7 +242,6 @@ endif
 " General Settings " {{{1
 filetype indent plugin on
 syntax   on
-runtime  macros/matchit.vim
 runtime  ftplugin/man.vim
 
 set backspace=indent,eol,start         " allow backspacing over everything in insert mode
@@ -671,7 +671,7 @@ augroup END
 
 " Functions " {{{1
 function! User_highlights() abort
-  highlight CursorLine cterm=bold gui=bold
+  highlight CursorLine cterm=bold,italic gui=bold,italic
   highlight Search ctermfg=238 ctermbg=153 guifg=#444444 guibg=#afd7ff
   highlight User1 cterm=reverse gui=reverse
 
