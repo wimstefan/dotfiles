@@ -597,6 +597,8 @@ nnoremap [ox :set cursorline cursorcolumn<CR>
 nnoremap ]ox :set nocursorline nocursorcolumn<CR>
 nnoremap cox :set <C-r>=&cursorline && &cursorcolumn ? 'nocursorline nocursorcolumn' : 'cursorline cursorcolumn'<CR><CR>
 nnoremap com :<C-u>set colorcolumn=<C-R>=&colorcolumn == '+'.join(range(1,255),',+') ? '' : '+'.join(range(1,255),',+')<CR><CR><CR>
+nnoremap [cl :highlight CursorLine cterm=bold,italic gui=bold,italic<CR>
+nnoremap ]cl :highlight CursorLine cterm=none gui=none<CR>
 nmap [<Space> O<Esc>j
 nmap ]<Space> o<Esc>k
 
@@ -671,14 +673,12 @@ augroup END
 
 " Functions " {{{1
 function! User_highlights() abort
-  highlight CursorLine cterm=bold,italic gui=bold,italic
-  highlight Search ctermfg=238 ctermbg=153 guifg=#444444 guibg=#afd7ff
   highlight User1 cterm=reverse gui=reverse
 
-  exec 'highlight Status1 ctermfg=1 guifg=#e05a72 guibg=' . synIDattr(hlID('StatusLine'), 'bg')
-  exec 'highlight Status2 ctermfg=2 guifg=#59b387 guibg=' . synIDattr(hlID('StatusLine'), 'bg')
-  exec 'highlight Status3 ctermfg=3 guifg=#ffffaf guibg=' . synIDattr(hlID('StatusLine'), 'bg')
-  exec 'highlight Status4 ctermfg=4 guifg=#5f87af guibg=' . synIDattr(hlID('StatusLine'), 'bg')
+  exec 'highlight Status1 ctermfg=1 guifg=#e05a72'
+  exec 'highlight Status2 ctermfg=2 guifg=#59b387'
+  exec 'highlight Status3 ctermfg=3 guifg=#ffcc66'
+  exec 'highlight Status4 ctermfg=4 guifg=#5f87af'
 endfunction
 
 function! s:sy_stats_wrapper()
