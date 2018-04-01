@@ -210,7 +210,7 @@ Plug 'chrisbra/Colorizer', { 'on': 'ColorToggle' }
 " Colorizer config {{{2
   nnoremap          ,tc                  :ColorToggle<CR>
 " }}}
-Plug '$HOME/.vim/plugged/my-base16-vim'
+Plug '~/.vim/plugged/my-base16-vim'
 Plug '~/.vim/plugged/vim-adapted/'
 Plug 'wimstefan/ligero-theme'
 Plug 'wimstefan/Lightning'
@@ -262,9 +262,9 @@ set noswapfile                         " create a swapfile
 "set viminfo='50,\"100,:100,%          " read/write a viminfo file with buffer list
 set viminfo='50,\"100,:100             " read/write a viminfo file without buffer list
 if has ('nvim')
-  set viminfo+=n$HOME/.cache/nvim/viminfo " specify where to write the viminfo
+  set viminfo+=n~/.cache/nvim/viminfo " specify where to write the viminfo
 else
-  set viminfo+=n$HOME/.cache/vim/viminfo " specify where to write the viminfo
+  set viminfo+=n~/.cache/vim/viminfo " specify where to write the viminfo
 endif
 set history=100                        " keep 100 lines of command line history
 
@@ -312,7 +312,7 @@ set gdefault                           " always use global substitutions
 
 " Use persistent undo
 if has('persistent_undo')
-  set undodir=$HOME/.cache/vim/undo
+  set undodir=~/.cache/vim/undo
   set undolevels=5000
   set undofile
 endif
@@ -604,7 +604,7 @@ nmap ]<Space> o<Esc>k
 set pastetoggle=<F3>
 
 " Abbreviations
-source $HOME/.vim/abbreviations.vim
+source ~/.vim/abbreviations.vim
 " " }}}
 
 " Auto commands " {{{1
