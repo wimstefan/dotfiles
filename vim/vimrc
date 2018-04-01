@@ -432,7 +432,7 @@ else
       elseif filereadable(expand("~/.config/colorscheme"))
         source ~/.config/colorscheme
       else
-        color lucius
+        color PaperColor
       endif
     endif
   else
@@ -450,14 +450,14 @@ else
       elseif filereadable(expand("~/.config/colorscheme"))
         source ~/.config/colorscheme
       else
-        color lucius
+        color PaperColor
       endif
     endif
   endif
 endif
 
 if has('gui_running')
-  set guifont=Operator\ Mono\ weight=330\ 9
+  set guifont=IBM\ Plex\ Mono\ Text\ 8.8
   set guioptions-=T                    " disable toolbar
   set guioptions-=l                    " disable left scrollbar
   set guioptions-=L
