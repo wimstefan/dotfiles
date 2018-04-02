@@ -11,8 +11,7 @@ mouse_autohide = false
 allow_bold = true
 dynamic_title = true
 clickable_url = true
-font = Iosevka Term Open Medium 9.7
-# font = NK57 Monospace Condensed SemiBold 9.4
+font = Iosevka Term Open 10.0
 scrollback_lines = 10000
 search_wrap = true
 #icon_name = terminal
@@ -38,38 +37,35 @@ filter_unmatched_urls = true
 
 
 [colors]
-# Project:    Nord Termite
-# Repository: https://github.com/arcticicestudio/nord-termite
-
 # Dark #
-foreground = #D8DEE9
-background = #2E3440
-foreground_bold = #D8DEE9
-cursor = #D8DEE9
-cursor_foreground = #2E3440
-highlight = #4C566A
+# foreground = #d8dee9
+# background = #2e3440
 
 # Light #
-# foreground = #2E3440
-# background = #F1F3F7
-# foreground_bold = #2E3440
-# cursor = #2E3440
-# cursor_foreground = #F1F3F7
-# highlight = #4C566A
+foreground = #2e3440
+background = #f1f3f7
 
-color0  = #3B4252
-color1  = #BF616A
-color2  = #8CBE8E
-color3  = #EBCB8B
-color4  = #81A1C1
-color5  = #B48EAD
-color6  = #88C0D0
-color7  = #E5E9F0
-color8  = #4C566A
-color9  = #BF616A
-color10 = #8CBE8E
-color11 = #EBCB8B
-color12 = #81A1C1
-color13 = #B48EAD
-color14 = #8FBCBB
-color15 = #ECEFF4
+# black
+color0  = #444444
+color8  = #444444
+# red
+color1  = #b72e2e
+color9  = #b72e2e
+# green
+color2  = #47b36b
+color10 = #47b36b
+# yellow
+color3  = #ff9900
+color11 = #ff9900
+# blue
+color4  = #5995b3
+color12 = #5995b3
+# magenta
+color5  = #ab47bc
+color13 = #ab47bc
+# cyan
+color6  = #009688
+color14 = #009688
+# white
+color7  = #e6e6e6
+color15 = #e6e6e6
