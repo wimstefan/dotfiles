@@ -1,22 +1,17 @@
 Xcursor*theme: Bridge
 Xcursor*size: 0
 
-Xft.antialias: true
-Xft.hinting:   true
-Xft.rgba:      rgb
-Xft.hintstyle: hintslight
-Xft.lcdfilter: lcddefault
 #ifdef SRVR_swimmer
-  Xft.dpi: 118
+  Xft.dpi: 112
 #elif SRVR_mimi
-  Xft.dpi: 114
+  Xft.dpi: 110
 #elif SRVR_tj
-  Xft.dpi: 102
+  Xft.dpi: 99
 #endif
 
-*font: xft:Iosevka Term Open Medium:pixelsize=13.5
-*faceName: xft:Iosevka Term Open Medium:pixelsize=13.5
-*faceNameDoublesize: xft:Iosevka Term Open Medium:pixelsize=13.5
+*font: xft:Iosevka Term Open:pixelsize=16.0
+*faceName: xft:Iosevka Term Open:pixelsize=16.0
+*faceNameDoublesize: xft:Iosevka Term Open:pixelsize=16.0
 
 *xterm*termName: xterm-256color
 *xterm*loginShell: true
