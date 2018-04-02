@@ -37,47 +37,37 @@ Xcursor*size: 0
 ! *foreground:  #d0d0d0
 ! *background:  #080808
 
-! Project:    Nord XResources
-! Version:    0.1.0
-! Repository: https://github.com/arcticicestudio/nord-xresources
-! License:    MIT
+!! Dark
+! *.foreground: #d8dee9
+! *.background: #2e3440
+! *.cursor: #d8dee9
 
-#define nord0 #2E3440
-#define nord1 #3B4252
-#define nord2 #434C5E
-#define nord3 #4C566A
-#define nord4 #D8DEE9
-#define nord5 #E5E9F0
-#define nord6 #ECEFF4
-#define nord7 #8FBCBB
-#define nord8 #88C0D0
-#define nord9 #81A1C1
-#define nord10 #5E81AC
-#define nord11 #BF616A
-#define nord12 #D08770
-#define nord13 #EBCB8B
-#define nord14 #8CBE8E
-#define nord15 #B48EAD
+!! Light
+*.foreground: #2e3440
+*.background: #f1f3f7
+*.cursor: #2e3440
 
-*.foreground:   nord4
-*.background:   nord0
-*.cursorColor:  nord4
-*fading: 35
-*fadeColor: nord3
-
-*.color0: nord1
-*.color1: nord11
-*.color2: nord14
-*.color3: nord13
-*.color4: nord9
-*.color5: nord15
-*.color6: nord8
-*.color7: nord5
-*.color8: nord3
-*.color9: nord11
-*.color10: nord14
-*.color11: nord13
-*.color12: nord9
-*.color13: nord15
-*.color14: nord7
-*.color15: nord6
+! black
+*.color0: #444444
+*.color8: #444444
+! red
+*.color1: #b72e2e
+*.color9: #b72e2e
+! green
+*.color2: #47b36b
+*.color10: #47b36b
+! yellow
+*.color3: #ff9900
+*.color11: #ff9900
+! blue
+*.color4: #5995b3
+*.color12: #5995b3
+! magenta
+*.color5: #ab47bc
+*.color13: #ab47bc
+! cyan
+*.color6: #009688
+*.color14: #009688
+! white
+*.color7: #e6e6e6
+*.color15: #e6e6e6
