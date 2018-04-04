@@ -70,6 +70,10 @@ Plug 'junegunn/limelight.vim'
 Plug 'tpope/vim-abolish'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-eunuch'
+Plug 'tpope/vim-obsession'
+" vim-obsession config {{{2
+  nnoremap <silent> ,to                  :Obsession<CR>
+" }}}
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-vinegar'
 Plug 'machakann/vim-sandwich'
@@ -489,6 +493,9 @@ function! MyStatusline()
   endif
   let stl .= '%#Status2#%{&modified ? " ✓ " : ""}%*'
   let stl .= '%#Status1#%{&ro ? " ✗ " : ""}%*'
+  if exists('g:loaded_obsession')
+    let stl .= '%{ObsessionStatus("⏺", "⏸")}'
+  endif
   let stl .= '%= '
   if gina#component#repo#name() != '' && winwidth(0) > 70
     let branchy = gina#component#repo#branch()
