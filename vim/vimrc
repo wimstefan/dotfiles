@@ -148,7 +148,7 @@ Plug 'romainl/vim-qlist'
 Plug 'lifepillar/vim-mucomplete'
 " vim-mucomplete config {{{2
   let g:mucomplete#enable_auto_at_startup = 1
-  let g:mucomplete#chains              = { 'default' : [ 'path', 'omni', 'keyn', 'dict', 'uspl', 'user' ] }
+  let g:mucomplete#chains              = { 'default' : [ 'path', 'omni', 'user', 'c-n', 'dict', 'spel' ] }
   nnoremap <silent> ,ta                  :MUcompleteAutoToggle<CR>
 " }}}
 Plug 'wellle/tmux-complete.vim'
@@ -366,19 +366,6 @@ set completeopt+=noinsert
 set completeopt+=noselect
 set completeopt+=preview
 set infercase                          " case of the match is adjusted depending on the typed text
-if has("autocmd") && exists("+omnifunc")
-  augroup completion
-    autocmd!
-    " define filetype specific syntax completion
-    autocmd FileType css set omnifunc=csscomplete#CompleteCSS
-    autocmd filetype xhtml,html,markdown,ctp set omnifunc=htmlcomplete#CompleteTags
-    " syntax completion only if a specific plugin does not already exist for that filetype
-    autocmd Filetype *
-      \ if &omnifunc == "" |
-      \   setlocal omnifunc=syntaxcomplete#Complete |
-      \ endif
-  endif
-augroup END
 
 " Fold settings
 set foldenable                         " turn on folding
