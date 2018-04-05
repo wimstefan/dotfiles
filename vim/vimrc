@@ -699,6 +699,11 @@ function! s:sy_stats_wrapper()
   return hunkline
 endfunction
 
+function! s:gina_settings() abort
+  call gina#custom#mapping#nmap( 'log', 'p', ':call gina#action#call(''show:commit:preview'')<CR>', { 'noremap': 1, 'silent': 1 } )
+endfunction
+call s:gina_settings()
+
 " " }}}
 
 finish
