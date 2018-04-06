@@ -491,7 +491,7 @@ function! MyStatusline()
       let stl  .= s:sy_stats_wrapper().' '
     endif
     let statys = gina#component#status#preset('fancy')
-    let stl    .= (statys != '') ? '⇅ ' . statys . ' ' : ''
+    let stl    .= (statys != '') ? '⚑ ' . statys . ' ' : ''
     let stl    .= '· '
   endif
   let stl .= '%y'
