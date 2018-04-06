@@ -353,15 +353,12 @@ local widget_temp = lain.widget.temp({
 })
 -- Temperature widget }}}
 -- Filesystem widget {{{2
-local widget_fs = lain.widget.fs({
-  partition = "/",
-  options = "--type=ext3 --type=ext4",
-  notification_preset = { font = beautiful.mono_font },
-  settings = function()
-    widget:set_markup(markup.font(beautiful.icon_font, "") .. markup.font(beautiful.font, "  " .. fs_now.used_gb .. "GB "))
-  end
-})
-
+-- local widget_fs = lain.widget.fs({
+--   notification_preset = { font = beautiful.mono_font },
+--   settings = function()
+--     widget:set_markup(markup.font(beautiful.icon_font, "") .. markup.font(beautiful.font, "  " .. fs_now["/"].used .. " " .. fs_now["/"].units))
+--   end
+-- })
 -- Filesystem widget }}}
 -- Power widget {{{2
 local icon_power = wibox.widget.textbox()
@@ -598,8 +595,8 @@ awful.screen.connect_for_each_screen(function(s)
       spr,
       widget_temp,
       spr,
-      widget_fs,
-      spr,
+      -- widget_fs,
+      -- spr,
       widget_power,
       spacer,
       mytextclock,
