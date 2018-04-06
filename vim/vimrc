@@ -520,7 +520,7 @@ vnoremap Q gw
 
 " " }}}
 
-" Key bindings & abbreviations " {{{1
+" Key mappings & abbreviations " {{{1
 
 " open/source $MYVIMRC
 nnoremap          <Leader>ev             :edit    $MYVIMRC<CR>
@@ -547,6 +547,10 @@ nnoremap          <Leader>bd             :Sayonara<CR>
 nnoremap          <Leader>tn             :tabnext<CR>
 nnoremap          <Leader>tp             :tabprev<CR>
 nnoremap          <Leader>td             :tabclose<CR>
+
+" terminals
+nnoremap          <Leader>t              :terminal<CR>
+nnoremap          <Leader>vt             :vertical terminal<CR>
 
 " signatures
 nnoremap          <Leader>sa 1G:s#\(Stefan Wimmer\) <.*>#\1 <stefan@tangoartisan.com>#<CR>
