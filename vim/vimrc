@@ -677,10 +677,10 @@ augroup END
 function! User_highlights() abort
   highlight User1 cterm=reverse gui=reverse
 
-  exec 'highlight Status1 ctermfg=1 guifg=#e05a72'
-  exec 'highlight Status2 ctermfg=2 guifg=#59b387'
-  exec 'highlight Status3 ctermfg=3 guifg=#ffcc66'
-  exec 'highlight Status4 ctermfg=4 guifg=#5f87af'
+  exe 'highlight Status1 ctermfg=1 guifg=#e05a72'
+  exe 'highlight Status2 ctermfg=2 guifg=#59b387'
+  exe 'highlight Status3 ctermfg=3 guifg=#ffcc66'
+  exe 'highlight Status4 ctermfg=4 guifg=#5f87af'
 endfunction
 
 function! s:sy_stats_wrapper()
