@@ -148,7 +148,7 @@ Plug 'romainl/vim-qlist'
 Plug 'lifepillar/vim-mucomplete'
 " vim-mucomplete config {{{2
   let g:mucomplete#enable_auto_at_startup = 1
-  let g:mucomplete#chains              = { 'default' : [ 'path', 'omni', 'user', 'c-n', 'dict', 'spel' ] }
+  let g:mucomplete#chains              = { 'default' : [ 'path', 'omni', 'user', 'keyn', 'dict', 'spel' ] }
   nnoremap <silent> ,ta                  :MUcompleteAutoToggle<CR>
 " }}}
 Plug 'wellle/tmux-complete.vim'
@@ -388,7 +388,6 @@ endif
 " Spell settings
 set spelllang=nl,en,de,es
 set spellfile=~/.vim/spell/myspell.utf-8.add
-set spellsuggest=fast
 if $USER=='root'
   set nospell
 else
