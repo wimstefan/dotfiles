@@ -63,9 +63,7 @@ Plug 'junegunn/goyo.vim'
 Plug 'junegunn/limelight.vim'
 " limelight.vim config {{{2
   nnoremap <silent> ,tl                  :Limelight!!<CR>
-  let g:limelight_conceal_ctermfg      = 238
-  let g:limelight_conceal_guifg        = '#444444'
-  let g:limelight_default_coefficient  = 2.4
+  let g:limelight_default_coefficient  = 0.7
 " }}}
 Plug 'tpope/vim-abolish'
 Plug 'tpope/vim-commentary'
