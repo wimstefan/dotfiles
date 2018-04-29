@@ -39,9 +39,20 @@ Plug 'junegunn/fzf.vim'
                                          \ 'ctrl-t': 'tab split',
                                          \ 'ctrl-x': 'split',
                                          \ 'ctrl-v': 'vsplit' }
-  let g:fzf_layout                     = { 'right': '~30%' }
+  let g:fzf_layout                     = { 'right': '~40%' }
 
-  command! -bang -nargs=* Rg call fzf#vim#grep('rg --vimgrep --color=always '.shellescape(<q-args>), 1, <bang>0)
+  command! -bang -nargs=? -complete=dir Files
+    \ call fzf#vim#files(
+    \   <q-args>,
+    \   <bang>0 ? fzf#vim#with_preview('down:80%')
+    \           : fzf#vim#with_preview('down:80%:hidden', '?'),
+    \   <bang>0)
+  command! -bang -nargs=* Rg
+    \ call fzf#vim#grep(
+    \   'rg --vimgrep --color=always '.shellescape(<q-args>), 1,
+    \   <bang>0 ? fzf#vim#with_preview('down:80%')
+    \           : fzf#vim#with_preview('down:80%:hidden', '?'),
+    \   <bang>0)
   autocmd VimEnter * command! Colors call fzf#vim#colors({'left': '20%'})
   nnoremap          <Leader>p            :Files<CR>
   nnoremap          <Leader>a            :Rg<Space>
