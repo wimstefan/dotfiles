@@ -26,8 +26,8 @@ hostname          = io.lines("/proc/sys/kernel/hostname")()
 if hostname == 'tj' then
   TYPE     = "laptop"
   BAT      = "BAT1"
-  SYSTEMP  = "coretemp.0/hwmon/hwmon1"
-  TEMPFILE = "/sys/devices/platform/coretemp.0/hwmon/hwmon1/temp2_input"
+  SYSTEMP  = "coretemp.0/hwmon/hwmon0"
+  TEMPFILE = "/sys/devices/platform/coretemp.0/hwmon/hwmon0/temp2_input"
 elseif hostname == 'mimi' then
   TYPE     = "laptop"
   BAT      = "BAT0"
