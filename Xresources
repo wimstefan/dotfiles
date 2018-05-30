@@ -2,9 +2,9 @@ Xcursor*theme: Bridge
 Xcursor*size: 0
 
 #ifdef SRVR_swimmer
-  Xft.dpi: 112
+  Xft.dpi: 180
 #elif SRVR_mimi
-  Xft.dpi: 110
+  Xft.dpi: 105
 #elif SRVR_tj
   Xft.dpi: 99
 #endif
