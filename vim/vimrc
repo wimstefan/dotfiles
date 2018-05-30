@@ -128,6 +128,7 @@ Plug 'mhinz/vim-signify'
   let g:signify_sign_delete_first_line = '‾'
   let g:signify_line_highlight         = 1
   let g:signify_update_on_focusgained  = 1
+  nnoremap          ,tsd                 :SignifyDiff<CR>
   nnoremap          ,tsg                 :SignifyToggle<CR>
   nnoremap          ,tsh                 :SignifyToggleHighlight<CR>
 " }}}
@@ -158,7 +159,9 @@ Plug 'romainl/vim-qlist'
 Plug 'lifepillar/vim-mucomplete'
 " vim-mucomplete config {{{2
   let g:mucomplete#enable_auto_at_startup = 1
-  let g:mucomplete#chains              = { 'default' : [ 'path', 'omni', 'user', 'keyn', 'dict', 'spel' ] }
+  let g:mucomplete#chains              = {}
+  let g:mucomplete#chains.default      = ['path', 'omni', 'user', 'keyn', 'uspl', 'dict']
+  let g:mucomplete#chains.vim          = ['path', 'cmd', 'keyn']
   nnoremap <silent> ,ta                  :MUcompleteAutoToggle<CR>
 " }}}
 Plug 'wellle/tmux-complete.vim'
@@ -402,7 +405,6 @@ nnoremap <silent> <Leader>x              :Lexplore<CR>
 " " }}}
 
 " Visual " {{{1
-set background=light
 if has('nvim')
     set termguicolors
 else
