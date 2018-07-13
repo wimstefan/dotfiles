@@ -800,6 +800,9 @@ globalkeys = gears.table.join(
   awful.key({ modkey,           }, "x",
             function () awful.spawn("lxappearance") end,
             {description = "Lxappearance", group = "applications"}),
+  awful.key({ modkey,           }, "z",
+            function () awful.spawn("rofimoji.py") end,
+            {description = "Emoji picker 😸", group = "applications"}),
   awful.key({                   }, "Print",
             function() awful.util.spawn("screengrab") end,
             {description = "Print screen", group = "controls"}),
@@ -894,9 +897,21 @@ for i = 1, 9 do
 end
 
 clientbuttons = gears.table.join(
-  awful.button({ }, 1, function (c) client.focus = c; c:raise() end),
-  awful.button({ modkey }, 1, awful.mouse.client.move),
-  awful.button({ modkey }, 3, awful.mouse.client.resize))
+  awful.button({ }, 1, function (c)
+    client.focus = c;
+    c:raise()
+  end),
+  awful.button({ modkey }, 1, function (c)
+    client.focus = c
+    c:raise()
+    awful.mouse.client.move(c)
+  end),
+  awful.button({ modkey }, 3, function (c)
+    client.focus = c
+    c:raise()
+    awful.mouse.client.resize(c)
+  end)
+)
 
 -- Set keys
 root.keys(globalkeys)
@@ -1024,6 +1039,21 @@ awful.rules.rules = {
       height   = dpi(600),
     }
   },
+
+  -- 4k specific settings
+  { rule_any = {
+    hostname = { "swimmer" },
+    name     = {
+      "^sys",
+      "^work",
+      "^com",
+      "^mimi",
+      "^komala",
+      "laptop$"
+    }
+  },
+    properties = { geometry = { height = 2100, width = 2940, x = 440, y = 18 } }
+  }
 
 }
 -- }}}
