@@ -181,7 +181,7 @@ Plug 'Yggdroot/indentLine'
   nnoremap          ,ti                  :IndentLinesToggle<CR>
 " }}}
 Plug 'fcpg/vim-spotlightify'
-Plug 'xtal8/traces.vim'
+Plug 'markonm/traces.vim'
 Plug 'andymass/vim-matchup'
 Plug 'brooth/far.vim'
 Plug 'qpkorr/vim-renamer'
@@ -408,8 +408,10 @@ nnoremap <silent> <Leader>x              :Lexplore<CR>
 if has('nvim')
     set termguicolors
 else
-  let &t_8f="\e[38;2;%lu;%lu;%lum"
-  let &t_8b="\e[48;2;%lu;%lu;%lum"
+  if exists('$TMUX')
+    let &t_8f="\e[38;2;%lu;%lu;%lum"
+    let &t_8b="\e[48;2;%lu;%lu;%lum"
+  endif
   set termguicolors
 endif
 if &term =~ "linux"
@@ -640,6 +642,9 @@ augroup vimrc
 
   " Syntax for Xorg log files
   autocmd BufNewFile,BufRead *Xorg*log* set filetype=msmessages
+
+  " Syntax for rofi themes
+  autocmd BufNewFile,BufRead {*.rasi} set filetype=css
 
   " Change fileformat on playlist files (created by moc)
   autocmd BufNewFile,BufRead *.m3u set encoding=utf-8 fileencoding=utf-8 ff=unix
