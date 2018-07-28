@@ -79,6 +79,7 @@ Plug 'junegunn/limelight.vim'
 Plug 'tpope/vim-abolish'
 Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-eunuch'
+Plug 'tpope/vim-flagship'
 Plug 'tpope/vim-obsession'
 " vim-obsession config {{{2
   nnoremap <silent> ,to                  :Obsession<CR>
@@ -461,7 +462,8 @@ if has('gui_running')
 endif
 
 " Statusline " {{{2
-set laststatus=2                       " always show the statusline above
+set laststatus=2                       " always show the statusline
+set showtabline=2                      " always show the tabline above
 
 function! MyStatusline()
   let stl  = ''
