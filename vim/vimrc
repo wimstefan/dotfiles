@@ -164,6 +164,7 @@ Plug 'lifepillar/vim-mucomplete'
   let g:mucomplete#chains.default      = ['path', 'omni', 'user', 'keyn', 'uspl', 'dict']
   let g:mucomplete#chains.vim          = ['path', 'cmd', 'keyn']
   nnoremap <silent> ,ta                  :MUcompleteAutoToggle<CR>
+  imap     <expr> <right>                mucomplete#extend_fwd("\<right>")
 " }}}
 Plug 'wellle/tmux-complete.vim'
 Plug 'wellle/targets.vim'
@@ -242,6 +243,7 @@ let g:PaperColor_Theme_Options = {
   \   }
   \ }
 " }}}
+Plug 'nightsense/snow'
 
 call plug#end()
 endif
@@ -452,7 +454,7 @@ else
 endif
 
 if has('gui_running')
-  set guifont=IBM\ Plex\ Mono\ Text\ 8.8
+  set guifont=IBM\ Plex\ Mono\ Text\ 8.0
   set guioptions-=T                    " disable toolbar
   set guioptions-=l                    " disable left scrollbar
   set guioptions-=L
