@@ -25,12 +25,10 @@ local hotkeys_popup          = require("awful.hotkeys_popup").widget
 hostname          = io.lines("/proc/sys/kernel/hostname")()
 if hostname == 'tj' then
   TYPE     = "laptop"
-  BAT      = "BAT1"
   SYSTEMP  = "coretemp.0/hwmon/hwmon0"
   TEMPFILE = "/sys/devices/platform/coretemp.0/hwmon/hwmon0/temp2_input"
 elseif hostname == 'mimi' then
   TYPE     = "laptop"
-  BAT      = "BAT0"
   SYSTEMP  = "coretemp.0/hwmon/hwmon1"
   TEMPFILE = "/sys/devices/platform/coretemp.0/hwmon/hwmon1/temp2_input"
 elseif hostname == 'swimmer' or hostname == 'komala' then
@@ -45,7 +43,7 @@ config_dir        = awful.util.getdir("config")
 theme_dir         = config_dir.."/themes/materia/"
 wallpaper_dir     = home_dir.."/system/wallpapers/"
 
-terminal          = "termite"
+terminal          = os.getenv("TERMINAL")
 if terminal == 'alacritty' or terminal == 'termite' then
   TITLE = " --title="
   NAME  = " --name="
@@ -64,10 +62,10 @@ else
 end
 browser           = os.getenv("BROWSER") or "my-eye-into-the-world"
 editor            = os.getenv("EDITOR") or "vim"
-musicplr1         = terminal..TITLE.."'Music'"..GEO.."1300x800+0+16"..CMD.."ncmpcpp"
-musicplr2         = terminal..TITLE.."'Music'"..GEO.."1300x800+0+16"..CMD.."mocp"
-mymixer           = terminal..TITLE.."'Music'"..GEO.."1300x600+0+16"..CMD.."alsamixer"
-mytop             = terminal..TITLE.."'Htop'"..GEO.."900x1000+0+16"..CMD.."htop"
+musicplr1         = terminal..TITLE.."'My Player 1'"..NAME.."'My Player 1'"..CMD.."ncmpcpp"
+musicplr2         = terminal..TITLE.."'My Player 2'"..NAME.."'My Player 2'"..CMD.."mocp"
+mymixer           = terminal..TITLE.."'My Mixer'"..NAME.."'My Mixer'"..CMD.."alsamixer"
+mytop             = terminal..TITLE.."'Htop'"..NAME.."'Htop'"..CMD.."htop"
 editor_cli        = terminal..CMD..editor
 editor_gui        = "gvim"
 modkey            = "Mod4"
@@ -384,7 +382,6 @@ local widget_temp = lain.widget.temp({
 -- Power widget {{{2
 local icon_power = wibox.widget.textbox()
 local widget_power = lain.widget.bat({
-      battery = BAT,
       notify = "on",
       settings = function()
         if bat_now.status == "N/A" then
@@ -466,6 +463,7 @@ mytextclock = wibox.widget.textclock( '<span font="'..beautiful.taglist_font..'"
 lain.widget.calendar({
   attach_to = { mytextclock },
   cal = "/usr/bin/cal -w -m --color=always",
+  icons = '',
   notification_preset = {
     font = beautiful.taglist_font,
     fg   = beautiful.fg_normal,
@@ -539,8 +537,8 @@ awful.screen.connect_for_each_screen(function(s)
     app     = terminal,
     name    = "Scratchpad",
     argname = "--name %s",
-    height  = 0.8,
-    width   = 0.9,
+    height  = 0.7,
+    width   = 0.6,
     vert    = "top",
     horiz   = "left"
   })
@@ -997,7 +995,6 @@ awful.rules.rules = {
       "Explore",
       "Htop",
       "IP Traffic",
-      "Music",
       "Scratchpad",
     },
     role = {
@@ -1026,36 +1023,89 @@ awful.rules.rules = {
   { rule = { class = "Audacity" }    , properties = { tag = "9" } } ,
   { rule = { class = "Puddletag" }   , properties = { tag = "9" } } ,
 
-  -- Application specific rules
   { rule_any = {
     name  = {
+      "Edit File",
       "Open File",
       "Save File",
     }
   },
     properties = {
       floating = true,
-      width    = dpi(1000),
-      height   = dpi(600),
+      width = dpi(1000), height = dpi(600)
     }
   },
-
-  -- 4k specific settings
-  { rule_any = {
-    hostname = { "swimmer" },
-    name     = {
-      "^sys",
-      "^work",
-      "^com",
-      "^mimi",
-      "^komala",
-      "laptop$"
-    }
-  },
-    properties = { geometry = { height = 2100, width = 2940, x = 440, y = 18 } }
-  }
-
 }
+
+  -- Application & host specific rules
+  if hostname == "swimmer" then
+    awful.rules.rules = gears.table.merge(awful.rules.rules, {
+      { rule_any = {
+        name     = {
+          "^sys",
+          "^work",
+          "^com",
+          "^mimi",
+          "^komala",
+          "laptop$"
+        }
+      },
+        properties = { geometry = { width = 2940, height = 2100, x = 440, y = 18 } }
+      },
+      { rule = { name = "Htop" },
+        properties = {
+          floating = true,
+          width = dpi(1000), height = dpi(800), x = dpi(600), y = dpi(20)
+        }
+      },
+      { rule = { name = "My Player 1" },
+        properties = {
+          floating = true,
+          width = dpi(1400), height = dpi(880), x = dpi(240), y = dpi(20)
+        }
+      },
+      { rule = { name = "My Player 2" },
+        properties = {
+          floating = true,
+          width = dpi(1000), height = dpi(660), x = dpi(440), y = dpi(20)
+        }
+      },
+      { rule = { name = "My Mixer" },
+        properties = {
+          floating = true,
+          width = dpi(1000), height = dpi(300), x = dpi(440), y = dpi(20)
+        }
+      }
+    } )
+  else
+    awful.rules.rules = gears.table.merge(awful.rules.rules, {
+      { rule = { name = "Htop" },
+        properties = {
+          floating = true,
+          width = dpi(800), height = dpi(600), x = dpi(400), y = dpi(20)
+        }
+      },
+      { rule = { name = "My Player 1" },
+        properties = {
+          floating = true,
+          width = dpi(1000), height = dpi(660), x = dpi(140), y = dpi(20)
+        }
+      },
+      { rule = { name = "My Player 2" },
+        properties = {
+          floating = true,
+          width = dpi(800), height = dpi(600), x = dpi(240), y = dpi(20)
+        }
+      },
+      { rule = { name = "My Mixer" },
+        properties = {
+          floating = true,
+          width = dpi(1000), height = dpi(300), x = dpi(240), y = dpi(20)
+        }
+      }
+    } )
+  end
+
 -- }}}
 
 -- Signals {{{1
