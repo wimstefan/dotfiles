@@ -1,17 +1,48 @@
-Xcursor*theme: Bridge
-Xcursor*size: 0
-
 #ifdef SRVR_swimmer
-  Xft.dpi: 180
+  Xft.dpi: 196
+  Xcursor.size: 48
+  *font: xft:Iosevka Term Cursive:pixelsize=28.0
+  *faceName: xft:Iosevka Term Cursive:pixelsize=28.0
+  *faceNameDoublesize: xft:Iosevka Term Cursive:pixelsize=28.0
+  rofi.font: Rosario 22
 #elif SRVR_mimi
   Xft.dpi: 105
+  Xcursor.size: 24
+  *font: xft:Iosevka Term Cursive:pixelsize=16.0
+  *faceName: xft:Iosevka Term Cursive:pixelsize=16.0
+  *faceNameDoublesize: xft:Iosevka Term Cursive:pixelsize=16.0
+  rofi.font: Rosario 10
 #elif SRVR_tj
-  Xft.dpi: 99
+  Xft.dpi: 97
+  Xcursor.size: 24
+  *font: xft:Iosevka Term Cursive:pixelsize=16.0
+  *faceName: xft:Iosevka Term Cursive:pixelsize=16.0
+  *faceNameDoublesize: xft:Iosevka Term Cursive:pixelsize=16.0
+  rofi.font: Rosario 10
 #endif
 
-*font: xft:Iosevka Term Open:pixelsize=16.0
-*faceName: xft:Iosevka Term Open:pixelsize=16.0
-*faceNameDoublesize: xft:Iosevka Term Open:pixelsize=16.0
+Xcursor.theme: Bibata_Amber
+
+Xft.autohint: 0
+Xft.lcdfilter:  lcddefault
+Xft.hintstyle:  hintfull
+Xft.hinting: 1
+Xft.antialias: 1
+Xft.rgba: rgb
+
+rofi.show-icons      : true
+rofi.modi            : combi,window,drun,run,ssh
+rofi.combi-modi      : window,run,ssh
+rofi.color-enabled   : true
+rofi.bw              : 8
+rofi.padding         : 8
+rofi.line-margin     : 4
+rofi.separator-style : dash
+rofi.hide-scrollbar  : true
+rofi.sidebar-mode    : true
+rofi.terminal        : termite
+rofi.ssh-client      : ssh
+rofi.ssh-command     : {terminal} -e '{ssh-client} {host}'
 
 *xterm*termName: xterm-256color
 *xterm*loginShell: true
@@ -40,12 +71,10 @@ Xcursor*size: 0
 !! Dark
 ! *.foreground: #d8dee9
 ! *.background: #2e3440
-! *.cursor:     #d8dee9
 
 !! Light
 *.foreground: #2e3440
 *.background: #f1f3f7
-*.cursor:     #2e3440
 
 ! black
 *.color0:     #444444
