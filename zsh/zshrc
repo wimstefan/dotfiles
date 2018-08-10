@@ -23,12 +23,17 @@ setopt    extended_glob           # treat the `#', `~' and `^' characters as par
 #setopt NO_nomatch                 # try to avoid the 'zsh: no matches found...'
 #setopt    numeric_glob_sort       # enables numeric order in globs
 # History
-setopt    append_history          # don't overwrite history
+setopt    append_history          # allow multiple terminal sessions to all append to one zsh command history
+setopt    inc_append_history      # add comamnds as they are typed, don't wait until shell exit
 setopt    share_history           # share history between all instances
 setopt    extended_history        # save each command's beginning timestamp and the duration to the history file
-setopt    hist_find_no_dups       # ignore dupes in history search
+setopt    hist_expire_dups_first  # clear duplicates first if history gets trimmed down
+setopt    hist_find_no_dups       # ignore duplicates in history search
 setopt    hist_ignore_dups        # this will not put _consecutive_ duplicates in the history
+setopt    hist_ignore_all_dups    # this will older duplicates in the history
+setopt    hist_save_no_dups       # when writing out the history file, older commands that duplicate newer ones are omitted
 setopt    hist_ignore_space       # remove command lines from the history list when the first character on the line is a space
+setopt    hist_reduce_blanks      # remove extra blanks from each command line being added to history
 setopt    hist_verify             # when doing history substitution, put the substituted line into the line editor
 # Input/Output
 setopt    clobber                 # this will probihbit 'cat foo > bar' if bar exists. use >! instead
@@ -378,6 +383,7 @@ alias gcal="gcal -s1"
 alias mtr="mtr --curses"
 alias eix="eix --force-color"
 alias ag="rg"
+alias history="history -i -44"
 # shortcuts
 alias xreload="xrdb $HOME/.Xresources"
 alias reload="source $HOME/.zshrc"
@@ -624,7 +630,7 @@ if [[ $USER != root ]]; then
     # task
 
     # Key management
-    eval `keychain --quiet --quick --eval id_rsa 36BBF00C`
+    eval `keychain --quiet --quick --eval id_rsa`
 
     alias tcom="tmux start-server && tmux attach -d -t com"
     alias lp="lp -o media=A4 -o page-border=single"
