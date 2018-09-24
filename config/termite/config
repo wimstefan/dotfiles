@@ -1,7 +1,6 @@
 # vim: ft=dosini cms=#\ %s :
 
 [options]
-resize_grip = false
 scroll_on_output = false
 scroll_on_keystroke = true
 audible_bell = true
@@ -11,6 +10,7 @@ mouse_autohide = false
 allow_bold = true
 dynamic_title = true
 clickable_url = true
+hyperlinks = true
 font = Iosevka Term Cursive 10.0
 scrollback_lines = 10000
 search_wrap = true
@@ -47,7 +47,7 @@ background = #f1f3f7
 
 # black
 color0  = #444444
-color8  = #444444
+color8  = #7c7c7c
 # red
 color1  = #b72e2e
 color9  = #b72e2e
@@ -67,5 +67,5 @@ color13 = #ab47bc
 color6  = #009688
 color14 = #009688
 # white
-color7  = #e6e6e6
-color15 = #e6e6e6
+color7  = #b8b8b8
+color15 = #b8b8b8
