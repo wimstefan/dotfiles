@@ -196,6 +196,42 @@ key[PageDown]=${terminfo[knp]}
 [[ -n "${key[Right]}"    ]]  && bindkey  "${key[Right]}"    forward-char
 
 bindkey "^R" history-incremental-search-backward
+
+## vi-mode ##
+# Invoke it even though it should already be activated by $EDITOR
+bindkey -v
+
+# Remove mode switching delay.
+KEYTIMEOUT=4
+
+# allow v to edit the command line (standard behaviour)
+autoload -Uz edit-command-line
+bindkey -M vicmd 'v' edit-command-line
+
+function zle-line-init zle-keymap-select {
+  if [[ ${KEYMAP} == vicmd ]] ||
+     [[ $1 = 'beam' ]]; then
+    echo -ne '\e[5 q'
+  elif [[ ${KEYMAP} == main ]] ||
+       [[ ${KEYMAP} == viins ]] ||
+       [[ ${KEYMAP} = '' ]] ||
+       [[ $1 = 'block' ]]; then
+    echo -ne '\e[1 q'
+  fi
+  zle reset-prompt
+  zle -R
+}
+
+zle -N edit-command-line
+zle -N zle-line-init
+zle -N zle-keymap-select
+
+function vi_mode_prompt {
+  VIM_CMD="$bold$colorfg{red}●$uncolorfg$unbold"
+  VIM_MAIN="$bold$colorfg{blue}○$uncolorfg$unbold"
+  echo "${${KEYMAP/vicmd/$VIM_CMD}/(main|viins)/$VIM_MAIN}"
+}
+
 # }}}2
 # - MIME types # {{{2
 autoload -U zsh-mime-setup zsh-mime-handler && zsh-mime-setup
@@ -412,8 +448,7 @@ function fv() {
 
 function viz() # edit AND source ~/.zshrc
 {
-  vim $HOME/.dotfiles/zsh/zshrc
-  source $HOME/.dotfiles/zsh/zshrc
+  vim -O $HOME/.dotfiles/zsh/zshrc $HOME/.zsh/zsh_aliases && exec zsh
 }
 
 function lowercase()  # move filenames to lowercase
@@ -462,14 +497,19 @@ if [[ $USER != root ]]; then
   echo "Initializing user settings for $USER ..."
   # - Prompt {{{3
   PROMPT="$bold$colorfg{blue}$mytime $colorfg{green}[$username]$uncolorfg $unbold$curdir $rootorwhat "
-  RPROMPT='${vcs_info_msg_0_}'
+  RPROMPT='$(vi_mode_prompt)'
+  if [[ -n ${vcs_info_msg_0_} ]]; then
+    RPROMPT+=''
+  else
+    RPROMPT+=' ${vcs_info_msg_0_}'
+  fi
   if [[ -n $SSH_CONNECTION ]]; then
     RPROMPT+=' $bold$colorfg{red}[$hostname]$uncolorfg$unbold'
   fi
 
   # }}}3
   # - Exports {{{3
-  export PATH="$PATH:$HOME/bin:/sbin:/usr/sbin:$HOME/.fzf_browser"
+  export PATH="$PATH:$HOME/bin:/sbin:/usr/sbin:$HOME/.fzf_browser:$HOME/.cargo/bin"
   export MANPATH="$MANPATH:$HOME/man"
   export MANPAGER="$HOME/.vim/plugged/vimpager/vimpager"
   export PAGER="$HOME/.vim/plugged/vimpager/vimpager"
@@ -477,6 +517,8 @@ if [[ $USER != root ]]; then
   export MPD_PORT="6600"
   export GPG_TTY=`tty`
   export GTK2_RC_FILES="$HOME/.gtkrc-2.0"
+  export BAT_PAGER="/usr/bin/less"
+  export BAT_THEME="GitHub"
   BASE16_SHELL=$HOME/.config/base16-shell/
   # [ -n "$PS1" ] && [ -s $BASE16_SHELL/profile_helper.sh ] && eval "$($BASE16_SHELL/profile_helper.sh)"
   # }}}3
@@ -828,6 +870,7 @@ else
   echo "Initializing user settings for $USER ..."
   # - Prompt # {{{3
   PROMPT='$bold$colorfg{blue}$mytime$uncolorfg [$colorfg{red}$username@$colorfg{green}$hostname$uncolorfg:$unbold$curdir$bold] $colorfg{red}$rootorwhat $uncolorfg$unbold'
+  RPROMPT='$(vi_mode_prompt)'
   # }}}3
   # - Exports # {{{3
   export PATH=$PATH:$HOME/bin
