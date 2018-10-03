@@ -537,8 +537,8 @@ awful.screen.connect_for_each_screen(function(s)
     app     = terminal,
     name    = "Scratchpad",
     argname = "--name %s",
-    height  = 0.7,
-    width   = 0.6,
+    height  = 0.8,
+    width   = 0.8,
     vert    = "top",
     horiz   = "left"
   })
@@ -1023,23 +1023,24 @@ awful.rules.rules = {
   { rule = { class = "Audacity" }    , properties = { tag = "9" } } ,
   { rule = { class = "Puddletag" }   , properties = { tag = "9" } } ,
 
-  { rule_any = {
-    name  = {
-      "Edit File",
-      "Open File",
-      "Save File",
-    }
-  },
-    properties = {
-      floating = true,
-      width = dpi(1000), height = dpi(600)
-    }
-  },
 }
 
   -- Application & host specific rules
   if hostname == "swimmer" then
     awful.rules.rules = gears.table.merge(awful.rules.rules, {
+      { rule_any = {
+        role = { "GtkFileChooserDialog" },
+        name  = {
+          "^Edit",
+          "^Open",
+          "^Save",
+        }
+      },
+        properties = {
+          floating = true,
+          width = dpi(1000), height = dpi(600)
+        }
+      },
       { rule_any = {
         name     = {
           "^sys",
@@ -1079,6 +1080,19 @@ awful.rules.rules = {
     } )
   else
     awful.rules.rules = gears.table.merge(awful.rules.rules, {
+      { rule_any = {
+        role = { "GtkFileChooserDialog" },
+        name  = {
+          "^Edit",
+          "^Open",
+          "^Save",
+        }
+      },
+        properties = {
+          floating = true,
+          width = dpi(660), height = dpi(440)
+        }
+      },
       { rule = { name = "Htop" },
         properties = {
           floating = true,
