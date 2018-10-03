@@ -666,6 +666,7 @@ if [[ $USER != root ]]; then
   # . swimmer # {{{4
   if [[ $HOST == swimmer ]]; then
     echo "Loading host specific settings for swimmer ..."
+    export PATH="$PATH:$HOME/.gem/ruby/2.5.0/bin"
     # Don't forget your tasks ;-)
     export TASKDDATA="/var/lib/taskd"
     export TASKRC="$HOME/private/task/rc/taskrc"
