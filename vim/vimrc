@@ -243,6 +243,7 @@ let g:PaperColor_Theme_Options = {
   \ }
 " }}}
 Plug 'nightsense/shoji'
+Plug 'AlessandroYorba/Breve'
 
 call plug#end()
 endif
