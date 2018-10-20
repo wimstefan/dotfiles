@@ -460,8 +460,9 @@ local tooltip_bat = awful.tooltip({
 -- Power widget }}}
 -- Textclock widget {{{2
 mytextclock = wibox.widget.textclock( '<span font="'..beautiful.taglist_font..'" background="'..beautiful.blue2..'" color="'..beautiful.background..'"> %a %b %d, %H:%M </span>' )
-lain.widget.calendar({
+lain.widget.cal({
   attach_to = { mytextclock },
+  three = true,
   cal = "/usr/bin/cal -w -m --color=always",
   icons = '',
   notification_preset = {
