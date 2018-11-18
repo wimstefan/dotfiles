@@ -36,7 +36,7 @@ setopt    hist_ignore_space       # remove command lines from the history list w
 setopt    hist_reduce_blanks      # remove extra blanks from each command line being added to history
 setopt    hist_verify             # when doing history substitution, put the substituted line into the line editor
 # Input/Output
-setopt    clobber                 # this will probihbit 'cat foo > bar' if bar exists. use >! instead
+setopt    clobber                 # this will prohibit 'cat foo > bar' if bar exists. use >! instead
 setopt    correct                 # try to correct the spelling of commands
 setopt NO_correct_all             # try to correct the spelling of all arguments in a line
 setopt    short_loops             # 'for i in *; echo $i;' instead of 'for i in *; do echo $i; done'
