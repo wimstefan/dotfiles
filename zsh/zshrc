@@ -517,8 +517,6 @@ if [[ $USER != root ]]; then
   export MPD_PORT="6600"
   export GPG_TTY=`tty`
   export GTK2_RC_FILES="$HOME/.gtkrc-2.0"
-  export BAT_PAGER="/usr/bin/less"
-  export BAT_THEME="GitHub"
   BASE16_SHELL=$HOME/.config/base16-shell/
   # [ -n "$PS1" ] && [ -s $BASE16_SHELL/profile_helper.sh ] && eval "$($BASE16_SHELL/profile_helper.sh)"
   # }}}3
