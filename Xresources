@@ -1,82 +1,83 @@
 #ifdef SRVR_swimmer
-  Xft.dpi: 196
+  Xft.dpi: 192
   Xcursor.size: 48
   *font: xft:Iosevka Term Cursive:pixelsize=28.0
   *faceName: xft:Iosevka Term Cursive:pixelsize=28.0
   *faceNameDoublesize: xft:Iosevka Term Cursive:pixelsize=28.0
   rofi.font: Rosario 22
 #elif SRVR_mimi
-  Xft.dpi: 105
+  Xft.dpi: 98
   Xcursor.size: 24
   *font: xft:Iosevka Term Cursive:pixelsize=16.0
   *faceName: xft:Iosevka Term Cursive:pixelsize=16.0
   *faceNameDoublesize: xft:Iosevka Term Cursive:pixelsize=16.0
-  rofi.font: Rosario 10
+  rofi.font: Rosario 11
 #elif SRVR_tj
-  Xft.dpi: 97
+  Xft.dpi: 96
   Xcursor.size: 24
   *font: xft:Iosevka Term Cursive:pixelsize=16.0
   *faceName: xft:Iosevka Term Cursive:pixelsize=16.0
   *faceNameDoublesize: xft:Iosevka Term Cursive:pixelsize=16.0
-  rofi.font: Rosario 10
+  rofi.font: Rosario 11
 #endif
 
-Xcursor.theme: Bibata_Amber
+Xcursor.theme:              Bibata_Amber
 
-Xft.autohint: 0
-Xft.lcdfilter:  lcddefault
-Xft.hintstyle:  hintfull
-Xft.hinting: 1
-Xft.antialias: 1
-Xft.rgba: rgb
+Xft.autohint:               0
+Xft.lcdfilter:              lcddefault
+Xft.hintstyle:              hintfull
+Xft.hinting:                1
+Xft.antialias:              1
+Xft.rgba:                   rgb
 
-rofi.show-icons      : true
-rofi.modi            : combi,window,drun,run,ssh
-rofi.combi-modi      : window,run,ssh
-rofi.color-enabled   : true
-rofi.bw              : 8
-rofi.padding         : 8
-rofi.line-margin     : 4
-rofi.separator-style : dash
-rofi.hide-scrollbar  : true
-rofi.sidebar-mode    : true
-rofi.terminal        : termite
-rofi.ssh-client      : ssh
-rofi.ssh-command     : {terminal} -e '{ssh-client} {host}'
+rofi.show-icons:            true
+rofi.icon-theme:            Zafiro-icons.git
+rofi.modi:                  combi,window,drun,run,ssh
+rofi.combi-modi:            window,run,ssh
+rofi.color-enabled:         true
+rofi.bw:                    8
+rofi.padding:               8
+rofi.line-margin:           4
+rofi.separator-style:       dash
+rofi.hide-scrollbar:        true
+rofi.sidebar-mode:          true
+rofi.terminal:              kitty
+rofi.ssh-client:            ssh
+rofi.ssh-command:           {terminal} -e '{ssh-client} {host}'
 
-st.termname:     xst-24bit
-st.shell:        /bin/zsh
-st.font:              Iosevka Term Cursive:pixelsize=28:antialias=true:autohint=true;
-st.borderpx:          10
-st.cursorshape:       2
-st.cursorthickness:   2
-st.cursorblinkstyle:  0
-st.cursorblinkontype: 1
-st.bold_font:         1
-st.xfps:              120
-st.actionfps:         30
-st.mouseScrollLines:  1
-st.chscale:           1.0
-st.cwscale:           1.0
-st.blinktimeout:      800
-st.bellvolume:        100
-st.prompt_char:       $
-st.imstyle:           root
-st.opacity:      255
+st.termname:                xst-24bit
+st.shell:                   /bin/zsh
+st.font:                    Iosevka Term Cursive:pixelsize=28:antialias=true:autohint=true;
+st.borderpx:                10
+st.cursorshape:             2
+st.cursorthickness:         2
+st.cursorblinkstyle:        0
+st.cursorblinkontype:       1
+st.bold_font:               1
+st.xfps:                    120
+st.actionfps:               30
+st.mouseScrollLines:        1
+st.chscale:                 1.0
+st.cwscale:                 1.0
+st.blinktimeout:            800
+st.bellvolume:              100
+st.prompt_char:             $
+st.imstyle:                 root
+st.opacity:                 255
 
-*xterm*termName: xterm-256color
-*xterm*loginShell: true
-*xterm*maximized: true
-*xterm*renderFont: true
-*xterm*highlightSelection: true
-*xterm*highlightReverse: true
-*xterm*trimSelection: true
-*xterm*charClass: 33:48,36-47:48,58-59:48,61:48,63-64:48,95:48,126:48
-*xterm*on3Clicks: regex ([[:alpha:]]+://)?([[:alnum:]!#+,./=?@_~-]|(%[[:xdigit:]][[:xdigit:]]))+
-*xterm*visualBell: true
-*xterm*bellIsUrgent: true
-*xterm*metaSendsEscape: true
-*xterm.VT100.translations: #override \n\
+*xterm*termName:            xterm-256color
+*xterm*loginShell:          true
+*xterm*maximized:           true
+*xterm*renderFont:          true
+*xterm*highlightSelection:  true
+*xterm*highlightReverse:    true
+*xterm*trimSelection:       true
+*xterm*charClass:           33:48,36-47:48,58-59:48,61:48,63-64:48,95:48,126:48
+*xterm*on3Clicks:           regex ([[:alpha:]]+://)?([[:alnum:]!#+,./=?@_~-]|(%[[:xdigit:]][[:xdigit:]]))+
+*xterm*visualBell:          true
+*xterm*bellIsUrgent:        true
+*xterm*metaSendsEscape:     true
+*xterm.VT100.translations:  #override \n\
     Ctrl <Key> -: smaller-vt-font() \n\
     Ctrl <Key> +: larger-vt-font() \n\
     Ctrl <Key> 0: set-vt-font(d) \n\
