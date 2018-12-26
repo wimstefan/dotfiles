@@ -368,7 +368,7 @@ autoload -U run-help url-quote-magic zcalc zmv
 export EDITOR="vim"
 export BROWSER="my-eye-into-the-world"
 export COLORTERM=truecolor
-export TERMINAL="termite"
+export TERMINAL="kitty"
 export HISTFILE="$HOME/.zsh/histfile"
 export HISTSIZE="5000"
 export SAVEHIST="5000"
@@ -739,6 +739,7 @@ if [[ $USER != root ]]; then
         rsync -az            /home/swimmer/.config/colorscheme $host:.config/
         rsync -az            /home/swimmer/.config/base16-shell/ $host:.config/base16-shell/
         rsync -az            /home/swimmer/.config/emoji-list.txt $host:.config/
+        rsync -az            /usr/local/bin/bg-switch.sh $host:/usr/local/bin/
       }
       function sync-cli() {
       # zsh, vim, mc
@@ -751,8 +752,11 @@ if [[ $USER != root ]]; then
         rsync -az            /home/swimmer/.zsh/zsh_aliases $host:.zsh/zsh_aliases
         rsync -az            /home/swimmer/.zshrc $host:
         echo "Syncing vim on $host ..."
-        rsync -az /home/swimmer/.vimrc $host:
+        rsync -az            /home/swimmer/.vimrc $host:
         rsync -azk  --delete /home/swimmer/.vim/ $host:.vim/
+        echo "Syncing bat on $host ..."
+        rsync -az            /usr/local/bin/bat $host:/usr/local/bin/bat
+        rsync -az            /home/swimmer/.config/bat/config $host:.config/bat/config
         echo "Syncing file explorers on $host ..."
         rsync -az            /home/swimmer/.config/mc/ini $host:.config/mc/
         rsync -az            /home/swimmer/.config/mc/mc.ext $host:.config/mc/
