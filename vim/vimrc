@@ -219,9 +219,9 @@ Plug 'chrisbra/unicode.vim'
   nnoremap          <Leader>ut           :UnicodeTable<CR>
   nnoremap          ga                   :UnicodeName<CR>
 " }}}
-Plug 'chrisbra/Colorizer', { 'on': 'ColorToggle' }
-" Colorizer config {{{2
-  nnoremap          ,tc                  :ColorToggle<CR>
+Plug 'gu-fan/colorv.vim'
+" colorv config {{{2
+  let g:colorv_preview_ftype           = "css,html,javascript,colortemplate,conf,dosini"
 " }}}
 Plug 'lifepillar/vim-colortemplate'
 Plug 'wimstefan/vim-artesanal'
@@ -334,7 +334,7 @@ nnoremap          <Leader>M            :Man<Space>
 augroup help
   autocmd!
   autocmd WinNew * let w:new = 1
-  autocmd FileType help,man if exists('w:new') | unlet w:new | winc K | endif
+  autocmd FileType help,man if exists('w:new') | unlet w:new | wincmd L | vertical resize 84 | endif
 augroup END
 
 " Clipboard settings
@@ -513,7 +513,7 @@ setlocal statusline=%!MyStatusline()
 " Formatting " {{{1
 set comments=b:#,fb:-,fb:*,fb:o,:%,n:>|
 set formatoptions=tcrqwnbj
-set nrformats-=octal                   " do not recognize octal numbers for Ctrl-A and Ctrl-X
+set nrformats+=alpha
 nnoremap Q gwap
 vnoremap Q gw
 
@@ -652,6 +652,9 @@ augroup vimrc
 
   " Encoding for cddb files
   autocmd BufNewFile,BufRead *cddb* set encoding=utf-8 fileencoding=utf-8 ff=unix
+
+  " Enable spelling for text files
+  autocmd BuFNewFile,BufRead {*.txt,*.md,*.asciidoc,*.rst} setlocal spell
 
   " Disable numbers & spell inside manpages
   autocmd FileType {man,help,perldoc,pydoc}  set nonumber nospell nolist nocursorcolumn
