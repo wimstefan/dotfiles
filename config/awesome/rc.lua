@@ -40,7 +40,7 @@ end
 -- Variables {{{2
 home_dir          = os.getenv("HOME")
 config_dir        = awful.util.getdir("config")
-theme_dir         = config_dir.."/themes/materia/"
+theme_dir         = config_dir.."/themes/materia-dark/"
 wallpaper_dir     = home_dir.."/system/wallpapers/"
 
 terminal          = os.getenv("TERMINAL")
@@ -188,8 +188,7 @@ end
 -- Create a launcher widget and a main menu
 myawesomemenu = {
   { "hotkeys", function() return false, hotkeys_popup.show_help end},
-  { "manual", string.format("%s -e '%s'", "uxterm", "man awesome") },
-  { "edit config", string.format("%s -e '%s %s'", "uxterm", editor, awesome.conffile) },
+  { "edit config", string.format("%s -e '%s %s'", terminal, editor, awesome.conffile) },
   { "restart", awesome.restart },
   { "quit", function() awesome.quit() end}
 }
@@ -459,7 +458,7 @@ local tooltip_bat = awful.tooltip({
 })
 -- Power widget }}}
 -- Textclock widget {{{2
-mytextclock = wibox.widget.textclock( '<span font="'..beautiful.taglist_font..'" background="'..beautiful.blue2..'" color="'..beautiful.background..'"> %a %b %d, %H:%M </span>' )
+mytextclock = wibox.widget.textclock( '<span font="'..beautiful.taglist_font..'" background="'..beautiful.clock_bg..'" color="'..beautiful.clock_fg..'"> %a %b %d, %H:%M </span>' )
 lain.widget.cal({
   attach_to = { mytextclock },
   three = true,
@@ -467,8 +466,8 @@ lain.widget.cal({
   icons = '',
   notification_preset = {
     font = beautiful.taglist_font,
-    fg   = beautiful.fg_normal,
-    bg   = beautiful.white2
+    fg   = beautiful.cal_fg,
+    bg   = beautiful.cal_bg
   }
 })
 -- Textclock widget }}}
@@ -531,6 +530,13 @@ end
 
 -- Re-set wallpaper when a screen's geometry changes (e.g. different resolution)
 screen.connect_signal("property::geometry", set_wallpaper)
+
+-- Enable dpi detection
+awful.screen.set_auto_dpi_enabled(true)
+
+-- Get screen geometry
+screen_width = awful.screen.focused().geometry.width
+screen_height = awful.screen.focused().geometry.height
 
 awful.screen.connect_for_each_screen(function(s)
   -- Quake terminals {{{2
@@ -638,7 +644,7 @@ root.buttons(gears.table.join(
 globalkeys = gears.table.join(
   awful.key({ modkey,           }, "F1",
             hotkeys_popup.show_help,
-            {description="show help", group="awesome"}),
+            {description="show help", group="awesome", show_awesome_keys=true}),
   awful.key({ modkey,           }, "Left",
             awful.tag.viewprev,
             {description = "view previous", group = "tag"}),

@@ -41,24 +41,24 @@ theme.hotkeys_description_font = "Faustina 9"
 --}}}
 
 -- Theme colours {{{
-theme.foreground           = '#09212d'
-theme.background           = '#eceff1'
+theme.foreground           = '#fbfbfb'
+theme.background           = '#2e3440'
 theme.cursor               = '#1c222e'
 
 theme.black1               = '#363636'
 theme.black2               = '#121212'
 theme.grey1                = '#bdbdbd'
 theme.grey2                = '#616161'
-theme.red1                 = '#e57373'
-theme.red2                 = '#b71c1c'
+theme.red1                 = '#ff9999'
+theme.red2                 = '#ff4d4d'
 theme.green1               = '#009688'
 theme.green2               = '#00695c'
 theme.yellow1              = '#fff59d'
 theme.yellow2              = '#fdd835'
 theme.orange1              = '#ff9900'
 theme.orange2              = '#d84315'
-theme.blue1                = '#b3e5fc'
-theme.blue2                = '#01579b'
+theme.blue1                = '#8fafd7'
+theme.blue2                = '#5f87af'
 theme.magenta1             = '#d1c4e9'
 theme.magenta2             = '#9575cd'
 theme.cyan1                = '#80deea'
@@ -78,18 +78,18 @@ theme.border_normal        = theme.background
 theme.border_focus         = theme.grey1
 theme.border_marked        = theme.grey2
 theme.cal_fg               = theme.background
-theme.cal_bg               = theme.blue2
+theme.cal_bg               = theme.blue1
 theme.clock_fg             = theme.background
-theme.clock_bg             = theme.blue2
+theme.clock_bg             = theme.blue1
 theme.hotkeys_fg           = theme.foreground
 theme.hotkeys_bg           = theme.background
 theme.hotkeys_modifiers_fg = theme.blue2
-theme.taglist_fg_empty     = theme.white1
-theme.taglist_bg_empty     = theme.white2
-theme.taglist_fg_focus     = theme.white1
-theme.taglist_bg_focus     = theme.blue2
-theme.taglist_fg_occupied  = theme.blue2
-theme.taglist_bg_occupied  = theme.white2
+theme.taglist_fg_empty     = theme.grey2
+theme.taglist_bg_empty     = theme.background
+theme.taglist_fg_focus     = theme.background
+theme.taglist_bg_focus     = theme.blue1
+theme.taglist_fg_occupied  = theme.blue1
+theme.taglist_bg_occupied  = theme.background
 theme.taglist_fg_urgent    = theme.white1
 theme.taglist_bg_urgent    = theme.red2
 theme.tasklist_fg_focus    = theme.red2
@@ -109,7 +109,7 @@ theme                      = theme_assets.recolor_titlebar_focus(theme, theme.ti
 --}}}
 
 -- Theme icons {{{
-theme.icon_theme            = home_dir .. "/.icons/Newaita"
+theme.icon_theme            = home_dir .. "/.icons/Zafiro-icons.git"
 theme.tasklist_disable_icon = false
 
 theme.awesome_icon          = theme_assets.awesome_icon( theme.menu_height, theme.bg_focus, theme.fg_focus )
