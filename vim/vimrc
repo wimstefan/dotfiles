@@ -219,9 +219,10 @@ Plug 'chrisbra/unicode.vim'
   nnoremap          <Leader>ut           :UnicodeTable<CR>
   nnoremap          ga                   :UnicodeName<CR>
 " }}}
-Plug 'gu-fan/colorv.vim'
+Plug 'gu-fan/colorv.vim', { 'on': ['ColorV', 'ColorVEdit', 'ColorVPreview', 'ColorVView'] }
 " colorv config {{{2
   let g:colorv_preview_ftype           = "css,html,javascript,colortemplate,conf,dosini"
+  let g:colorv_preview_name            = 0
 " }}}
 Plug 'lilydjwg/colorizer'
 " colorizer config {{{2
@@ -250,8 +251,6 @@ let g:PaperColor_Theme_Options = {
   \   }
   \ }
 " }}}
-Plug 'nightsense/shoji'
-Plug 'AlessandroYorba/Breve'
 
 call plug#end()
 endif
@@ -349,7 +348,7 @@ augroup END
 set clipboard+=unnamed               " yank+paste with the '*' register
 
 " Mouse settings
-set mouse=a                            " enable mouse in console
+set mouse=a                            " enable mouse everywhere
 set mousemodel=popup_setpos
 if !has('nvim')
   set ttymouse=sgr
