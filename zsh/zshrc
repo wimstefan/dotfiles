@@ -166,6 +166,9 @@ zstyle ':completion:*:(ssh|scp|rsync):*:hosts-ipaddr' ignored-patterns '^(<->.<-
 # Completion debugging
 bindkey '^Xh' _complete_help
 bindkey '^X?' _complete_debug
+
+# Completion for kitty
+kitty + complete setup zsh | source /dev/stdin
 # }}}2
 # - Key bindings {{{2
 # create a zkbd compatible hash;
@@ -375,7 +378,7 @@ export SAVEHIST="5000"
 export CVS_RSH="ssh"
 export FZF_DEFAULT_COMMAND='fd --type file --follow --hidden --exclude .git --color=always'
 export FZF_CTRL_T_COMMAND=$FZF_DEFAULT_COMMAND
-export FZF_DEFAULT_OPTS='-x -m --cycle --ansi --color=light --inline-info --height 80%'
+export FZF_DEFAULT_OPTS='-x -m --cycle --ansi --inline-info --height 80%'
 if [ -x ~/.vim/plugged/fzf.vim/bin/preview.rb ]; then
   export FZF_CTRL_T_OPTS="--preview '~/.vim/plugged/fzf.vim/bin/preview.rb {} | head -500'"
 fi
