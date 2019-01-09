@@ -126,7 +126,7 @@ Plug 'mhinz/vim-signify'
   let g:signify_sign_change            = '!'
   let g:signify_sign_delete            = '-'
   let g:signify_sign_delete_first_line = '‾'
-  let g:signify_line_highlight         = 1
+  let g:signify_line_highlight         = 0
   let g:signify_update_on_focusgained  = 1
   nnoremap          ,tsd                 :SignifyDiff<CR>
   nnoremap          ,tsg                 :SignifyToggle<CR>
@@ -223,7 +223,15 @@ Plug 'gu-fan/colorv.vim'
 " colorv config {{{2
   let g:colorv_preview_ftype           = "css,html,javascript,colortemplate,conf,dosini"
 " }}}
+Plug 'lilydjwg/colorizer'
+" colorizer config {{{2
+  nnoremap          ,tc                  :ColorToggle<CR>
+" }}}
 Plug 'lifepillar/vim-colortemplate'
+" vim-colortemplate config {{{2
+  let g:colortemplate_no_stat          =  1
+  let g:colortemplate_no_warnings      =  1
+" }}}
 Plug 'wimstefan/vim-artesanal'
 " vim-artesanal config {{{2
   let g:artesanal_italic               =  1
