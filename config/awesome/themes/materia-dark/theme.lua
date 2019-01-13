@@ -45,26 +45,27 @@ theme.foreground           = '#fbfbfb'
 theme.background           = '#2e3440'
 theme.cursor               = '#1c222e'
 
-theme.black1               = '#363636'
-theme.black2               = '#121212'
+theme.black1               = '#575c66'
+theme.black2               = '#121419'
 theme.grey1                = '#bdbdbd'
 theme.grey2                = '#616161'
-theme.red1                 = '#ff9999'
-theme.red2                 = '#ff4d4d'
-theme.green1               = '#009688'
-theme.green2               = '#00695c'
-theme.yellow1              = '#fff59d'
-theme.yellow2              = '#fdd835'
-theme.orange1              = '#ff9900'
-theme.orange2              = '#d84315'
-theme.blue1                = '#8fafd7'
-theme.blue2                = '#5f87af'
-theme.magenta1             = '#d1c4e9'
-theme.magenta2             = '#9575cd'
-theme.cyan1                = '#80deea'
-theme.cyan2                = '#0097a7'
+theme.red1                 = '#e84256'
+theme.red2                 = '#dc1b33'
+theme.green1               = '#00bf8a'
+theme.green2               = '#008c65'
+theme.yellow1              = '#fff176'
+theme.yellow2              = '#ffeb3b'
+theme.orange1              = '#ffa567'
+theme.orange2              = '#ff8734'
+theme.blue1                = '#9fc0df'
+theme.blue2                = '#8cb3d9'
+theme.blue3                = '#6699cc'
+theme.magenta1             = '#fa75e2'
+theme.magenta2             = '#f844d8'
+theme.cyan1                = '#99eaea'
+theme.cyan2                = '#00bbcc'
 theme.white1               = '#ffffff'
-theme.white2               = '#dedede'
+theme.white2               = '#eaeaeb'
 
 theme.fg_normal            = theme.foreground
 theme.bg_normal            = theme.background
@@ -87,8 +88,8 @@ theme.hotkeys_modifiers_fg = theme.blue2
 theme.taglist_fg_empty     = theme.grey2
 theme.taglist_bg_empty     = theme.background
 theme.taglist_fg_focus     = theme.background
-theme.taglist_bg_focus     = theme.blue1
-theme.taglist_fg_occupied  = theme.blue1
+theme.taglist_bg_focus     = theme.blue2
+theme.taglist_fg_occupied  = theme.blue2
 theme.taglist_bg_occupied  = theme.background
 theme.taglist_fg_urgent    = theme.white1
 theme.taglist_bg_urgent    = theme.red2
@@ -97,8 +98,8 @@ theme.tasklist_bg_urgent   = theme.red2
 theme.titlebar_fg_focus    = theme.red2
 theme.titlebar_fg_normal   = theme.red1
 theme.gradient_1           = theme.red1
-theme.gradient_2           = theme.blue1
-theme.gradient_3           = theme.blue2
+theme.gradient_2           = theme.blue2
+theme.gradient_3           = theme.blue3
 theme.tooltip_border_color = theme.grey2
 theme.panel_fg             = theme.grey1
 
@@ -157,8 +158,8 @@ theme.titlebar_maximized_button_focus_active    = "/usr/share/awesome/themes/zen
 
 -- Collision settings {{{
 theme.collision_resize_width = dpi(34)
-theme.collision_resize_bg = theme.blue2
-theme.collision_focus_bg = theme.blue2
+theme.collision_resize_bg = theme.blue3
+theme.collision_focus_bg = theme.blue3
 theme.collision_focus_bg_center = theme.yellow1
 -- }}}
 return theme

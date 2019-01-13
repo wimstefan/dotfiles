@@ -39,7 +39,7 @@ end
 -- }}}
 -- Variables {{{2
 home_dir          = os.getenv("HOME")
-config_dir        = awful.util.getdir("config")
+config_dir        = gears.filesystem.get_configuration_dir()
 theme_dir         = config_dir.."/themes/materia-dark/"
 wallpaper_dir     = home_dir.."/system/wallpapers/"
 
@@ -809,7 +809,7 @@ globalkeys = gears.table.join(
             function () awful.spawn("rofimoji.py") end,
             {description = "Emoji picker 😸", group = "applications"}),
   awful.key({                   }, "Print",
-            function() awful.util.spawn("screengrab") end,
+            function() awful.spawn("screengrab") end,
             {description = "Print screen", group = "controls"}),
   awful.key({ modkey,           }, "Return",
             function () awful.spawn(terminal) end,
