@@ -324,6 +324,7 @@ set splitright                         " set vertical splits to split to the rig
 set splitbelow                         " set horizontal splits to split to the bottom
 set previewheight=24                   " set the height of the preview window
 set scrolloff=4                        " minimal number of screen lines to keep above and below the cursor
+set shortmess+=a                       " abbreviate status messages wherever possible
 
 set gdefault                           " always use global substitutions
 
