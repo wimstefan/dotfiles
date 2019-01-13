@@ -13,7 +13,7 @@
   *faceNameDoublesize: xft:Iosevka Term Cursive:pixelsize=16.0
   rofi.font: Rosario 11
 #elif SRVR_tj
-  Xft.dpi: 96
+  Xft.dpi: 89
   Xcursor.size: 24
   *font: xft:Iosevka Term Cursive:pixelsize=16.0
   *faceName: xft:Iosevka Term Cursive:pixelsize=16.0
@@ -25,7 +25,7 @@ Xcursor.theme:              Bibata_Amber
 
 Xft.autohint:               0
 Xft.lcdfilter:              lcddefault
-Xft.hintstyle:              hintfull
+Xft.hintstyle:              hintslight
 Xft.hinting:                1
 Xft.antialias:              1
 Xft.rgba:                   rgb
@@ -90,34 +90,34 @@ st.opacity:                 255
 ! *background:  #080808
 
 !! Dark
-! *.foreground: #d8dee9
+! *.foreground: #eeeeee
 ! *.background: #2e3440
 
 !! Light
 *.foreground: #2e3440
-*.background: #f1f3f7
+*.background: #eaeaeb
 
 ! black
-*.color0:     #444444
-*.color8:     #444444
+*.color0:     #121419
+*.color8:     #121419
 ! red
-*.color1:     #b72e2e
-*.color9:     #b72e2e
+*.color1:     #dc1b33
+*.color9:     #dc1b33
 ! green
-*.color2:     #47b36b
-*.color10:    #47b36b
+*.color2:     #009966
+*.color10:    #009966
 ! yellow
-*.color3:     #ff9900
-*.color11:    #ff9900
+*.color3:     #ff8c00
+*.color11:    #ff8c00
 ! blue
-*.color4:     #5995b3
-*.color12:    #5995b3
+*.color4:     #0077c6
+*.color12:    #0077c6
 ! magenta
-*.color5:     #ab47bc
-*.color13:    #ab47bc
+*.color5:     #fa75e2
+*.color13:    #fa75e2
 ! cyan
-*.color6:     #009688
-*.color14:    #009688
+*.color6:     #00aacc
+*.color14:    #00aacc
 ! white
-*.color7:     #e6e6e6
-*.color15:    #e6e6e6
+*.color7:     #b8b8b8
+*.color15:    #b8b8b8
