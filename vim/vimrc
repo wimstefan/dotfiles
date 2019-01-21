@@ -2,10 +2,6 @@
 " Check settings with ":verbose set <setting>?"
 " vim: fdm=marker fdl=0 tw=200
 
-" utf-8 settings
-scriptencoding utf-8
-set encoding=utf-8
-set termencoding=utf-8
 let mapleader = "\<Space>"
 
 " Plugins " {{{1
@@ -230,8 +226,8 @@ Plug 'lilydjwg/colorizer'
 " }}}
 Plug 'lifepillar/vim-colortemplate'
 " vim-colortemplate config {{{2
-  let g:colortemplate_no_stat          =  1
-  let g:colortemplate_no_warnings      =  1
+  let g:colortemplate_no_stat          =  0
+  let g:colortemplate_no_warnings      =  0
 " }}}
 Plug 'wimstefan/vim-artesanal'
 " vim-artesanal config {{{2
@@ -656,6 +652,9 @@ augroup vimrc
 
   " Change fileformat on playlist files (created by moc)
   autocmd BufNewFile,BufRead *.m3u set encoding=utf-8 fileencoding=utf-8 ff=unix
+
+  " run xrdb whenever Xdefaults or Xresources are updated
+  autocmd BufWritePost X{resources,defaults} silent !xrdb %
 
   " Encoding for cddb files
   autocmd BufNewFile,BufRead *cddb* set encoding=utf-8 fileencoding=utf-8 ff=unix
