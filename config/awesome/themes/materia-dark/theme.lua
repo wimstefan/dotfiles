@@ -110,7 +110,7 @@ theme                      = theme_assets.recolor_titlebar_focus(theme, theme.ti
 --}}}
 
 -- Theme icons {{{
-theme.icon_theme            = home_dir .. "/.icons/Zafiro-icons.git"
+theme.icon_theme            = home_dir .. "/.icons/Newaita-dark"
 theme.tasklist_disable_icon = false
 
 theme.awesome_icon          = theme_assets.awesome_icon( theme.menu_height, theme.bg_focus, theme.fg_focus )
