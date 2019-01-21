@@ -1,5 +1,5 @@
 #ifdef SRVR_swimmer
-  Xft.dpi: 192
+  Xft.dpi: 188
   Xcursor.size: 48
   *font: xft:Iosevka Term Cursive:pixelsize=28.0
   *faceName: xft:Iosevka Term Cursive:pixelsize=28.0
@@ -13,7 +13,7 @@
   *faceNameDoublesize: xft:Iosevka Term Cursive:pixelsize=16.0
   rofi.font: Rosario 11
 #elif SRVR_tj
-  Xft.dpi: 89
+  Xft.dpi: 92
   Xcursor.size: 24
   *font: xft:Iosevka Term Cursive:pixelsize=16.0
   *faceName: xft:Iosevka Term Cursive:pixelsize=16.0
@@ -31,7 +31,7 @@ Xft.antialias:              1
 Xft.rgba:                   rgb
 
 rofi.show-icons:            true
-rofi.icon-theme:            Zafiro-icons.git
+rofi.icon-theme:            Newaita-dark
 rofi.modi:                  combi,window,drun,run,ssh
 rofi.combi-modi:            window,run,ssh
 rofi.color-enabled:         true
