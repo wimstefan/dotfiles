@@ -730,7 +730,7 @@ if [[ $USER != root ]]; then
         rsync -az            /home/swimmer/.Xresources $host:
         rsync -az   --delete --exclude '.thumbs' /home/swimmer/system/wallpapers/ $host\:system/wallpapers/
         rsync -azK  --delete /usr/local/share/cursors/ $host:/usr/local/share/cursors/
-        rsync -azK  --delete /usr/local/share/icons/ $host:/usr/local/share/icons/
+        rsync -azk  --delete /usr/local/share/icons/ $host:/usr/local/share/icons/
         rsync -azK  --delete /usr/local/share/themes/ $host:/usr/local/share/themes/
         rsync -azK  --delete /usr/local/share/rofi/themes/ $host:/usr/local/share/rofi/themes/
         rsync -azLk --delete /usr/share/fonts/owned/ $host:/usr/share/fonts/owned/
