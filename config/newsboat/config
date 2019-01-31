@@ -9,7 +9,7 @@ download-full-page yes
 # html-renderer internal
 html-renderer "w3m -T text/html -I %{charset} -dump -cols 88"
 # html-renderer "elinks --dump-width 88"
-browser "w3m %u"
+browser "TERM=xterm-kitty w3m %u"
 # browser elinks
 # browser lynx
 refresh-on-startup yes
