@@ -1157,8 +1157,5 @@ client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_n
 -- }}}
 
 -- Autostart applications {{{1
--- compton
-awful.spawn.with_shell("killall compton")
-awful.spawn.with_shell("compton &")
 
 --}}}
