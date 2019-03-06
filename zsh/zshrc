@@ -449,28 +449,36 @@ function fv() {
   vim $( rg --files "$@" | fzf )
 }
 
+
+function dirdiff() # compare two directories with vim
+{
+  DIR1=$(printf '%q' "$1"); shift
+  DIR2=$(printf '%q' "$1"); shift
+  vim $@ -c "DirDiff $DIR1 $DIR2"
+}
+
 function viz() # edit AND source ~/.zshrc
 {
   vim -O $HOME/.dotfiles/zsh/zshrc $HOME/.zsh/zsh_aliases && exec zsh
 }
 
-function lowercase()  # move filenames to lowercase
+function lowercase() # move filenames to lowercase
 {
-    for file ; do
-        filename=${file##*/}
-        case "$filename" in
-        */*) dirname==${file%/*} ;;
-        *) dirname=.;;
-        esac
-        nf=$(echo $filename | tr A-Z a-z)
-        newname="${dirname}/${nf}"
-        if [ "$nf" != "$filename" ]; then
-            mv "$file" "$newname"
-            echo "lowercase: $file --> $newname"
-        else
-            echo "lowercase: $file not changed."
-        fi
-    done
+  for file ; do
+    filename=${file##*/}
+    case "$filename" in
+    */*) dirname==${file%/*} ;;
+    *) dirname=.;;
+    esac
+    nf=$(echo $filename | tr A-Z a-z)
+    newname="${dirname}/${nf}"
+    if [ "$nf" != "$filename" ]; then
+      mv "$file" "$newname"
+      echo "lowercase: $file --> $newname"
+    else
+      echo "lowercase: $file not changed."
+    fi
+  done
 }
 
 function et() {
