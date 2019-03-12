@@ -249,7 +249,10 @@ Plug 'wimstefan/vim-artesanal'
 " vim-artesanal config {{{2
   let g:artesanal_italic               =  1
 " }}}
-Plug '~/.vim/plugged/my-base16-vim'
+function FixupBase16(info)
+    !sed -i '/Base16hi/\! s/a:\(attr\|guisp\)/l:\1/g' ~/.vim/plugged/base16-vim/colors/*.vim
+endfunction
+Plug 'chriskempson/base16-vim', { 'do': function('FixupBase16') }
 Plug 'romainl/Apprentice'
 Plug 'NLKNguyen/papercolor-theme'
 " papercolor-theme config {{{2
