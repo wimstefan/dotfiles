@@ -459,17 +459,22 @@ local tooltip_bat = awful.tooltip({
 -- Power widget }}}
 -- Textclock widget {{{2
 mytextclock = wibox.widget.textclock( '<span font="'..beautiful.taglist_font..'" background="'..beautiful.clock_bg..'" color="'..beautiful.clock_fg..'"> %a %b %d, %H:%M </span>' )
-lain.widget.cal({
-  attach_to = { mytextclock },
-  three = true,
-  cal = "/usr/bin/cal -w -m --color=always",
-  icons = '',
-  notification_preset = {
-    font = beautiful.taglist_font,
-    fg   = beautiful.cal_fg,
-    bg   = beautiful.cal_bg
-  }
+-- https://github.com/getzze/awesome_config/blob/master/rc.lua#L356 --
+local mycalendar = awful.widget.calendar_popup.month({
+  margin = beautiful.useless_gap,
+  spacing = beautiful.useless_gap,
+  style_month = {
+    padding = beautiful.useless_gap,
+    border_width = beautiful.border_width,
+    border_color = beautiful.clock_bg,
+    shape  = function(cr, width, height) gears.shape.infobubble(cr, width, height) end
+  },
+  style_focus = {
+    fg_color = beautiful.clock_fg,
+    bg_color = beautiful.clock_bg
+  },
 })
+mycalendar:attach(mytextclock, 'tr')
 -- Textclock widget }}}
 
 -- Final assembly {{{2
@@ -1058,7 +1063,17 @@ awful.rules.rules = {
           "laptop$"
         }
       },
-        properties = { geometry = { width = 2940, height = 2100, x = 440, y = 18 } }
+        properties = {
+          geometry = { width = 2940, height = 2100, x = 440, y = 18 }
+        }
+      },
+      { rule_any = {
+        name = { "Google Chrome" },
+        class = { "Thunderbird" }
+      },
+        properties = {
+          x = dpi(0), y = dpi(20)
+        }
       },
       { rule = { name = "Htop" },
         properties = {
