@@ -493,7 +493,7 @@ function! MyStatusline()
   elseif mode() ==? 'c'
     let stl .= '%#Mode4# %f %*'
   else
-  let stl .= '%1* %f %*'
+    let stl .= '%1* %f %*'
   endif
   if $USER=='root'
     let stl .= '%#Status1# ■ %*'
