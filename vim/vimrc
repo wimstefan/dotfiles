@@ -254,18 +254,6 @@ function FixupBase16(info)
 endfunction
 Plug 'chriskempson/base16-vim', { 'do': function('FixupBase16') }
 Plug 'romainl/Apprentice'
-Plug 'NLKNguyen/papercolor-theme'
-" papercolor-theme config {{{2
-let g:PaperColor_Theme_Options = {
-  \   'theme': {
-  \     'default': {
-  \       'allow_bold': 1,
-  \       'allow_italic': 1,
-  \       'transparent_background': 1,
-  \     }
-  \   }
-  \ }
-" }}}
 
 call plug#end()
 endif
@@ -496,7 +484,17 @@ function! MyStatusline()
   else
     let stl .= ' ■ '
   endif
+  if mode() ==? 'i'
+    let stl .= '%#Mode1# %f %*'
+  elseif mode() ==? 'R'
+    let stl .= '%#Mode2# %f %*'
+  elseif mode() =~? '[sSvV]'
+    let stl .= '%#Mode3# %f %*'
+  elseif mode() ==? 'c'
+    let stl .= '%#Mode4# %f %*'
+  else
   let stl .= '%1* %f %*'
+  endif
   if $USER=='root'
     let stl .= '%#Status1# ■ %*'
   else
@@ -682,7 +680,7 @@ augroup vimrc
   autocmd BuFNewFile,BufRead {*.txt,*.md,*.asciidoc,*.rst} setlocal spell
 
   " Disable numbers & spell inside manpages
-  autocmd FileType {man,help,perldoc,pydoc}  set nonumber nospell nolist nocursorcolumn
+  autocmd FileType {man,help,perldoc,pydoc}  setlocal nonumber nospell nolist nocursorcolumn
 
   " When editing a file, always jump to the last known cursor position.
   autocmd BufReadPost *
@@ -706,12 +704,21 @@ augroup END
 
 " Functions " {{{1
 function! User_highlights() abort
+  " https://gist.github.com/ahmedelgabri/b9127dfe36ba86f4496c8c28eb65ef2b
+  let bgcolorgui=synIDattr(synIDtrans(hlID("Statusline")), "bg", "gui")
+  let bgcolorterm=synIDattr(synIDtrans(hlID("Statusline")), "bg", "cterm")
+
   highlight User1 cterm=reverse gui=reverse
 
   exe 'highlight Status1 ctermfg=1 guifg=#e05a72'
   exe 'highlight Status2 ctermfg=2 guifg=#59b387'
   exe 'highlight Status3 ctermfg=3 guifg=#ffcc66'
   exe 'highlight Status4 ctermfg=4 guifg=#5f87af'
+
+  exe 'highlight Mode1 ctermfg=0 ctermbg=2 guifg=#2e3440 guibg=#59b387'
+  exe 'highlight Mode2 ctermfg=0 ctermbg=4 guifg=#2e3440 guibg=#5f87af'
+  exe 'highlight Mode3 ctermfg=0 ctermbg=3 guifg=#2e3440 guibg=#ffcc66'
+  exe 'highlight Mode4 ctermfg=0 ctermbg=1 guifg=#2e3440 guibg=#e05a72'
 endfunction
 
 function! s:sy_stats_wrapper()
