@@ -3,8 +3,7 @@
 --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---
 
 local theme_assets         = require("beautiful.theme_assets")
-local xresources           = require("beautiful.xresources")
-local dpi                  = xresources.apply_dpi
+local dpi                  = require("beautiful.xresources").apply_dpi
 
 local gears                = require("gears")
 local themes_path          = gears.filesystem.get_themes_dir()
@@ -13,15 +12,18 @@ theme                      = {}
 
 -- Theme settings {{{
 theme.wallpaper            = wallpaper_dir .. "/default.jpg"
-theme.border_width         = dpi(3)
+theme.border_width         = dpi(2)
 theme.menu_height          = dpi(14)
 theme.menu_width           = dpi(144)
 
-theme.useless_gap          = dpi(5)
+theme.useless_gap          = dpi(8)
 
 theme.tooltip_align        = "bottom"
 theme.tooltip_border_width = dpi(0)
 
+app_shape = function(cr, width, height)
+  gears.shape.rounded_rect(cr, width, height, 16)
+end
 local hotkeys_shape = function(cr, width, height)
   gears.shape.partially_rounded_rect(cr, width, height, true, false, true, false, 24)
 end

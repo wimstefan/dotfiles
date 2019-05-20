@@ -3,8 +3,7 @@
 --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---
 
 local theme_assets         = require("beautiful.theme_assets")
-local xresources           = require("beautiful.xresources")
-local dpi                  = xresources.apply_dpi
+local dpi                  = require("beautiful.xresources").apply_dpi
 
 local gears                = require("gears")
 local themes_path          = gears.filesystem.get_themes_dir()

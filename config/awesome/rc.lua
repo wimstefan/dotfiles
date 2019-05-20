@@ -12,8 +12,7 @@ local lain                   = require("lain")
 require("collision")()
 -- Appearance & theme handling library
 local beautiful              = require("beautiful")
-local xresources             = require("beautiful.xresources")
-local dpi                    = xresources.apply_dpi
+local dpi                    = require("beautiful.xresources").apply_dpi
 -- Notification library
 local naughty                = require("naughty")
 local menubar                = require("menubar")
@@ -940,6 +939,7 @@ awful.rules.rules = {
       keys         = clientkeys,
       buttons      = clientbuttons,
       screen       = awful.screen.preferred,
+      shape        = app_shape,
       placement    = awful.placement.no_overlap+awful.placement.no_offscreen
     },
     -- Add a titlebar and hide for most windows
@@ -1069,6 +1069,7 @@ awful.rules.rules = {
       },
       { rule_any = {
         name = { "Google Chrome" },
+        name = { "Firefox" },
         class = { "Thunderbird" }
       },
         properties = {
