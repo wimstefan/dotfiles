@@ -677,10 +677,10 @@ augroup vimrc
   autocmd BufNewFile,BufRead *cddb* set encoding=utf-8 fileencoding=utf-8 ff=unix
 
   " Enable spelling for text files
-  autocmd BuFNewFile,BufRead {*.txt,*.md,*.asciidoc,*.rst} setlocal spell
+  autocmd BuFNewFile,BufRead {*.txt,*.md,*.asciidoc,*.rst} if &filetype !~ 'man\|help\|*doc' | setlocal spell | endif
 
   " Disable numbers & spell inside manpages
-  autocmd FileType {man,help,perldoc,pydoc}  setlocal nonumber nospell nolist nocursorcolumn
+  autocmd FileType {man,help,*doc} setlocal nonumber nospell nolist nocursorcolumn
 
   " When editing a file, always jump to the last known cursor position.
   autocmd BufReadPost *
