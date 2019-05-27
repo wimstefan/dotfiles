@@ -80,6 +80,7 @@ Plug 'tpope/vim-fugitive'
   nnoremap          <Leader>gc           :<C-u>Gcommit -v %<CR>
   nnoremap          <Leader>gd           :<C-u>Gdiff<CR>
   nnoremap          <Leader>gl           :<C-u>Glog<CR>
+  nnoremap          <Leader>gp           :<C-u>Gpush<CR>
   nnoremap          <Leader>gs           :<C-u>Gstatus<CR>
 " }}}
 Plug 'tpope/vim-obsession'
@@ -132,11 +133,11 @@ Plug 'mhinz/vim-grepper'
 " vim-grepper config {{{2
   nmap              gs                   <plug>(GrepperOperator)
   xmap              gs                   <plug>(GrepperOperator)
-  nnoremap          <leader>g            :Grepper<CR>
-  nnoremap          <leader>*            :Grepper -cword -noprompt<cr>
+  nnoremap          <Leader>g            :Grepper<CR>
+  nnoremap          <Leader>*            :Grepper -cword -noprompt<cr>
   let g:grepper                        = {}
   let g:grepper.tools                  = ['rg', 'ag', 'ack', 'grep', 'findstr', 'pt']
-  let g:grepper.next_tool              = '<leader>g'
+  let g:grepper.next_tool              = '<Leader>g'
 " }}}
 Plug 'romainl/vim-qf'
 " vim-qf config {{{2
@@ -545,6 +546,10 @@ vnoremap Q gw
 nnoremap          <Leader>ev             :edit    $MYVIMRC<CR>
 nnoremap          <Leader>sv             :source  $MYVIMRC<CR>
 
+" editing
+" replace the word under cursor globally
+nnoremap          <Leader>@              :%s/\<<c-r><c-w>\>//<left><left>
+
 " files
 nnoremap <silent> cd                     :<C-u>cd %:h \| pwd<CR>
 nnoremap          <Leader>e              :e **/*<C-d>
@@ -557,14 +562,32 @@ nnoremap          <Leader>q              :q!<CR>
 nnoremap          <Leader>qa             :qa!<CR>
 nnoremap          <Leader>wqa             :wqa!<CR>
 
+" windows
+" move to the split in the direction shown, or create a new split
+nnoremap <silent> <C-h>                  :call WinMove('h')<cr>
+nnoremap <silent> <C-j>                  :call WinMove('j')<cr>
+nnoremap <silent> <C-k>                  :call WinMove('k')<cr>
+nnoremap <silent> <C-l>                  :call WinMove('l')<cr>
+function! WinMove(key)
+  let t:curwin = winnr()
+  exec "wincmd ".a:key
+  if (t:curwin == winnr())
+    if (match(a:key,'[jk]'))
+      wincmd v
+    else
+      wincmd s
+    endif
+    exec "wincmd ".a:key
+  endif
+endfunction
+
 " buffers
-nnoremap          <Leader>bn             :bnext<CR>
-nnoremap          <Leader>bp             :bprev<CR>
+nnoremap <silent> <Tab>                  :bnext<CR>
+nnoremap <silent> <S-Tab>                :bprev<CR>
+nnoremap          <Leader><Leader>        <c-^>                     " cycle between last two open buffers
 nnoremap          <Leader>bd             :Sayonara<CR>
 
 " tabs
-nnoremap          <Leader>tn             :tabnext<CR>
-nnoremap          <Leader>tp             :tabprev<CR>
 nnoremap          <Leader>td             :tabclose<CR>
 
 " terminals
