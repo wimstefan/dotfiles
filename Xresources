@@ -37,9 +37,6 @@ rofi.combi-modi:            window,run,ssh
 rofi.color-enabled:         true
 rofi.bw:                    8
 rofi.padding:               8
-rofi.line-margin:           4
-rofi.separator-style:       dash
-rofi.hide-scrollbar:        true
 rofi.sidebar-mode:          true
 rofi.terminal:              kitty
 rofi.ssh-client:            ssh
