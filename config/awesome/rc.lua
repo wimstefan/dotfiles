@@ -1068,9 +1068,12 @@ awful.rules.rules = {
         }
       },
       { rule_any = {
-        name = { "Google Chrome" },
         name = { "Firefox" },
-        class = { "Thunderbird" }
+        class = {
+          "Firefox",
+          "Google-chrome-beta",
+          "Thunderbird"
+        }
       },
         properties = {
           x = dpi(0), y = dpi(20)
