@@ -232,6 +232,13 @@ Plug 'chrisbra/unicode.vim'
   nnoremap          <Leader>ut           :UnicodeTable<CR>
   nnoremap          ga                   :UnicodeName<CR>
 " }}}
+Plug 'hail2u/vim-css3-syntax'
+" vim-css3-syntax config {{{2
+  augroup VimCSS3Syntax
+    autocmd!
+    autocmd FileType css setlocal iskeyword+=-
+  augroup END
+" }}}
 Plug 'gu-fan/colorv.vim', { 'on': ['ColorV', 'ColorVEdit', 'ColorVPreview', 'ColorVView'] }
 " colorv config {{{2
   let g:colorv_preview_ftype           = "css,html,javascript,colortemplate,conf,dosini"
@@ -560,7 +567,7 @@ nnoremap          <Leader>w              :w!<CR>
 nnoremap          <Leader>wa             :wa!<CR>
 nnoremap          <Leader>q              :q!<CR>
 nnoremap          <Leader>qa             :qa!<CR>
-nnoremap          <Leader>wqa             :wqa!<CR>
+nnoremap          <Leader>wqa            :wqa!<CR>
 
 " windows
 " move to the split in the direction shown, or create a new split
