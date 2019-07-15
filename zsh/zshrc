@@ -378,7 +378,7 @@ export SAVEHIST="5000"
 export CVS_RSH="ssh"
 export FZF_DEFAULT_COMMAND='fd --type file --follow --hidden --exclude .git --color=always'
 export FZF_CTRL_T_COMMAND=$FZF_DEFAULT_COMMAND
-export FZF_DEFAULT_OPTS='-x -m --cycle --ansi --inline-info --height 80%'
+export FZF_DEFAULT_OPTS='-x -m --cycle --ansi --inline-info --height 80% --color=light '
 if [ -x ~/.vim/plugged/fzf.vim/bin/preview.rb ]; then
   export FZF_CTRL_T_OPTS="--preview '~/.vim/plugged/fzf.vim/bin/preview.rb {} | head -500'"
 fi
@@ -887,9 +887,8 @@ else
   # }}}3
   # - Exports # {{{3
   export PATH=$PATH:$HOME/bin
-  BASE16=$(cat $HOME/.config/colorscheme | sed 's/color\s\(.*\)/\1/')
-  BASE16_SHELL="$HOME/.config/base16-shell/$BASE16.sh"
-  [[ -s $BASE16_SHELL ]] && source $BASE16_SHELL
+  BASE16_SHELL="$HOME/.config/base16-shell/"
+  # [ -n "$PS1" ] && [ -s $BASE16_SHELL/profile_helper.sh ] && eval "$($BASE16_SHELL/profile_helper.sh)"
   # }}}3
   # - Key management # {{{3
   eval `keychain --quiet --eval id_rsa`

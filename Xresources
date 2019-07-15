@@ -4,31 +4,24 @@
   *font: xft:Iosevka Term Cursive:pixelsize=28.0
   *faceName: xft:Iosevka Term Cursive:pixelsize=28.0
   *faceNameDoublesize: xft:Iosevka Term Cursive:pixelsize=28.0
-  rofi.font: Rosario 22
+  rofi.font: Rambla 22
 #elif SRVR_mimi
   Xft.dpi: 98
   Xcursor.size: 24
   *font: xft:Iosevka Term Cursive:pixelsize=16.0
   *faceName: xft:Iosevka Term Cursive:pixelsize=16.0
   *faceNameDoublesize: xft:Iosevka Term Cursive:pixelsize=16.0
-  rofi.font: Rosario 11
+  rofi.font: Rambla 11
 #elif SRVR_tj
   Xft.dpi: 92
   Xcursor.size: 24
   *font: xft:Iosevka Term Cursive:pixelsize=16.0
   *faceName: xft:Iosevka Term Cursive:pixelsize=16.0
   *faceNameDoublesize: xft:Iosevka Term Cursive:pixelsize=16.0
-  rofi.font: Rosario 11
+  rofi.font: Rambla 11
 #endif
 
 Xcursor.theme:              Bibata_Amber
-
-Xft.autohint:               0
-Xft.lcdfilter:              lcddefault
-Xft.hintstyle:              hintslight
-Xft.hinting:                1
-Xft.antialias:              1
-Xft.rgba:                   rgb
 
 rofi.show-icons:            true
 rofi.icon-theme:            Newaita-dark

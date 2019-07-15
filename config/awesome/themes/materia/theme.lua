@@ -12,15 +12,18 @@ theme                      = {}
 
 -- Theme settings {{{
 theme.wallpaper            = wallpaper_dir .. "/default.jpg"
-theme.border_width         = dpi(3)
+theme.border_width         = dpi(2)
 theme.menu_height          = dpi(14)
 theme.menu_width           = dpi(144)
 
-theme.useless_gap          = dpi(5)
+theme.useless_gap          = dpi(8)
 
 theme.tooltip_align        = "bottom"
 theme.tooltip_border_width = dpi(0)
 
+app_shape = function(cr, width, height)
+  gears.shape.rounded_rect(cr, width, height, 16)
+end
 local hotkeys_shape = function(cr, width, height)
   gears.shape.partially_rounded_rect(cr, width, height, true, false, true, false, 24)
 end
@@ -29,14 +32,14 @@ theme.hotkeys_group_margin = 44
 --}}}
 
 -- Theme fonts {{{
-theme.font                 = "Rosario SemiBold 9"
+theme.font                 = "Rambla Bold 9"
 theme.serif_font           = "Manuale Bold 9"
-theme.mono_font            = "Operator Mono Medium 9"
-theme.taglist_font         = "Operator Mono Medium 10"
-theme.tasklist_font        = "Rosario SemiBold 8"
+theme.mono_font            = "IBM Plex Mono Bold 8"
+theme.taglist_font         = "IBM Plex Mono Bold 8.8"
+theme.tasklist_font        = "Rambla Bold 8"
 theme.icon_font            = "Webhostinghub-Glyphs 8"
-theme.hotkeys_font         = "Manuale Bold 9"
-theme.hotkeys_description_font = "Faustina 9"
+theme.hotkeys_font         = "Rambla Bold 10"
+theme.hotkeys_description_font = "Rambla 10"
 --}}}
 
 -- Theme colours {{{

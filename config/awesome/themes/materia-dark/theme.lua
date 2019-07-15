@@ -32,11 +32,11 @@ theme.hotkeys_group_margin = 44
 --}}}
 
 -- Theme fonts {{{
-theme.font                 = "Rosario SemiBold 9"
+theme.font                 = "Rambla Bold 9"
 theme.serif_font           = "Manuale Bold 9"
 theme.mono_font            = "Operator Mono Medium 9"
 theme.taglist_font         = "Operator Mono Medium 10"
-theme.tasklist_font        = "Rosario SemiBold 8"
+theme.tasklist_font        = "Rambla Bold 8"
 theme.icon_font            = "Webhostinghub-Glyphs 8"
 theme.hotkeys_font         = "Manuale Bold 9"
 theme.hotkeys_description_font = "Faustina 9"

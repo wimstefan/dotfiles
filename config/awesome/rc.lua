@@ -39,7 +39,7 @@ end
 -- Variables {{{2
 home_dir          = os.getenv("HOME")
 config_dir        = gears.filesystem.get_configuration_dir()
-theme_dir         = config_dir.."/themes/materia-dark/"
+theme_dir         = config_dir.."/themes/materia/"
 wallpaper_dir     = home_dir.."/system/wallpapers/"
 
 terminal          = os.getenv("TERMINAL")
