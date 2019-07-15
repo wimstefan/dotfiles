@@ -72,6 +72,13 @@ Plug 'junegunn/limelight.vim'
   nnoremap <silent> ,tl                  :Limelight!!<CR>
   let g:limelight_default_coefficient  = 0.7
 " }}}
+Plug 'junegunn/vim-easy-align'
+" vim-easy-align config {{{2
+  " Start interactive EasyAlign in visual mode (e.g. vipea)
+  xmap ea <Plug>(EasyAlign)
+  " Start interactive EasyAlign for a motion/text object (e.g. eaip)
+  nmap ea <Plug>(EasyAlign)
+" }}}
 Plug 'tpope/vim-abolish'
 Plug 'tpope/vim-eunuch'
 Plug 'tpope/vim-flagship'
@@ -243,6 +250,7 @@ Plug 'gu-fan/colorv.vim', { 'on': ['ColorV', 'ColorVEdit', 'ColorVPreview', 'Col
 " colorv config {{{2
   let g:colorv_preview_ftype           = "css,html,javascript,colortemplate,conf,dosini"
   let g:colorv_preview_name            = 0
+  nnoremap          ,tcp                 :ColorVPreview<CR>
 " }}}
 Plug 'lilydjwg/colorizer'
 " colorizer config {{{2
@@ -257,10 +265,7 @@ Plug 'wimstefan/vim-artesanal'
 " vim-artesanal config {{{2
   let g:artesanal_italic               =  1
 " }}}
-function FixupBase16(info)
-    !sed -i '/Base16hi/\! s/a:\(attr\|guisp\)/l:\1/g' ~/.vim/plugged/base16-vim/colors/*.vim
-endfunction
-Plug 'chriskempson/base16-vim', { 'do': function('FixupBase16') }
+Plug 'chriskempson/base16-vim'
 Plug 'romainl/Apprentice'
 
 call plug#end()
@@ -472,7 +477,7 @@ else
 endif
 
 if has('gui_running')
-  set guifont=IBM\ Plex\ Mono\ Text\ 8.0
+  set guifont=IBM\ Plex\ Mono\ Medium\ Italic\ 9.0
   set guioptions-=T                    " disable toolbar
   set guioptions-=l                    " disable left scrollbar
   set guioptions-=L
@@ -555,7 +560,7 @@ nnoremap          <Leader>sv             :source  $MYVIMRC<CR>
 
 " editing
 " replace the word under cursor globally
-nnoremap          <Leader>@              :%s/\<<c-r><c-w>\>//<left><left>
+nnoremap          <Leader>@              :%s/\<<c-r><c-w>\>//<left>
 
 " files
 nnoremap <silent> cd                     :<C-u>cd %:h \| pwd<CR>
