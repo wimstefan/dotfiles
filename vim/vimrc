@@ -286,11 +286,27 @@ set smarttab                           " smart tab handling for indenting
 set autoindent                         " set autoindenting on
 set selection=exclusive                " defines the behaviour of the selection
 
+" backup settings - kudos to https://begriffs.com/posts/2019-07-19-history-use-vim.html
+" protect changes between writes
+set swapfile
+set directory^=~/.cache/vim/swap//
+" protect against crash-during-write
+set writebackup
+" but do not persist backup after successful write
+set nobackup
+" use rename-and-write-new method whenever safe
+set backupcopy=auto
+" patch required to honor double slash at end
+if has("patch-8.1.0251")
+  set backupdir^=~/.cache/vim/backup//
+end
+" persist the undo tree for each file
+set undofile
+set undolevels=5000
+set undodir^=~/.cache/vim/undo//
 set hidden                             " allow buffers to go in background without saving etc.
 set autowrite                          " save automatically before critical operations
 set autoread                           " automatically reads & loads changes
-set nobackup                           " keep a backup file
-set noswapfile                         " create a swapfile
 
 "set viminfo='50,\"100,:100,%          " read/write a viminfo file with buffer list
 set viminfo='50,\"100,:100             " read/write a viminfo file without buffer list
@@ -336,19 +352,15 @@ set showmode                           " shows mode
 set showcmd                            " show uncompleted command
 set showmatch                          " show matching hyphens
 set diffopt=vertical,iwhite,filler     " split vertical, ignore whitespace & use filler
+if has("patch-8.1.0360")
+  set diffopt+=internal,algorithm:patience
+endif
 set splitright                         " set vertical splits to split to the right
 set splitbelow                         " set horizontal splits to split to the bottom
 set previewheight=24                   " set the height of the preview window
 set scrolloff=4                        " minimal number of screen lines to keep above and below the cursor
 
 set gdefault                           " always use global substitutions
-
-" Use persistent undo
-if has('persistent_undo')
-  set undodir=~/.cache/vim/undo
-  set undolevels=5000
-  set undofile
-endif
 
 " Help settings
 set keywordprg=:help
@@ -366,9 +378,6 @@ set clipboard+=unnamed               " yank+paste with the '*' register
 " Mouse settings
 set mouse=a                            " enable mouse everywhere
 set mousemodel=popup_setpos
-if !has('nvim')
-  set ttymouse=sgr
-endif
 
 " vimpager settings
 if exists('g:vimpager.enabled')
