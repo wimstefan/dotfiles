@@ -21,7 +21,7 @@
   rofi.font: Rambla 11
 #endif
 
-Xcursor.theme:              Bibata_Amber
+Xcursor.theme:              Dot-Transparent
 
 rofi.show-icons:            true
 rofi.icon-theme:            Newaita-dark
