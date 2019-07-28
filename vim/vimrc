@@ -570,6 +570,8 @@ nnoremap          <Leader>sv             :source  $MYVIMRC<CR>
 " editing
 " replace the word under cursor globally
 nnoremap          <Leader>@              :%s/\<<c-r><c-w>\>//<left>
+" write files with sudo
+command!                  W               w !sudo tee % > /dev/null
 
 " files
 nnoremap <silent> cd                     :<C-u>cd %:h \| pwd<CR>
