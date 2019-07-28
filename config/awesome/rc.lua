@@ -1071,6 +1071,7 @@ awful.rules.rules = {
         name = { "Firefox" },
         class = {
           "Firefox",
+          "Nightly",
           "Google-chrome-beta",
           "Thunderbird"
         }
