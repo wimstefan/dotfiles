@@ -96,6 +96,7 @@ Plug 'tpope/vim-obsession'
 " }}}
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-vinegar'
+Plug 'kristijanhusak/vim-dirvish-git' | Plug 'justinmk/vim-dirvish'
 Plug 'machakann/vim-sandwich'
 Plug 'justinmk/vim-sneak'
 " vim-sneak config {{{2
@@ -121,7 +122,6 @@ Plug 'justinmk/vim-sneak'
   omap              s                    <Plug>Sneak_s
   omap              S                    <Plug>Sneak_S
 " }}}
-Plug 'kristijanhusak/vim-dirvish-git' | Plug 'justinmk/vim-dirvish'
 Plug 'lambdalisue/vim-gista'
 Plug 'mhinz/vim-signify'
 " vim-signify config {{{2
@@ -131,9 +131,10 @@ Plug 'mhinz/vim-signify'
   let g:signify_sign_delete_first_line = '‾'
   let g:signify_line_highlight         = 0
   let g:signify_update_on_focusgained  = 1
-  nnoremap          ,tsd                 :SignifyDiff<CR>
-  nnoremap          ,tsg                 :SignifyToggle<CR>
-  nnoremap          ,tsh                 :SignifyToggleHighlight<CR>
+  nnoremap          ,st                 :SignifyToggle<CR>
+  nnoremap          ,sh                 :SignifyToggleHighlight<CR>
+  nnoremap          ,sd                 :SignifyDiff<CR>
+  nnoremap          ,sp                 :SignifyDiffPreview<CR>
 " }}}
 Plug 'mhinz/vim-sayonara', {'on': 'Sayonara' }
 Plug 'mhinz/vim-grepper'
@@ -350,7 +351,7 @@ set showcmd                            " show uncompleted command
 set showmatch                          " show matching hyphens
 set diffopt=vertical,iwhite,filler     " split vertical, ignore whitespace & use filler
 if has("patch-8.1.0360")
-  set diffopt+=internal,algorithm:patience
+  set diffopt+=internal,indent-heuristic,algorithm:histogram
 endif
 set splitright                         " set vertical splits to split to the right
 set splitbelow                         " set horizontal splits to split to the bottom
@@ -386,8 +387,9 @@ if exists('g:vimpager.enabled')
 endif
 
 " Completion settings
-set complete-=i                        " included files
+set complete+=i                        " included files
 set complete-=t                        " tags
+set complete+=w                        " windows
 set complete+=kspell                   " currently active spell checking
 " ins-completion-menu options
 " set completeopt+=longest
@@ -396,6 +398,12 @@ set completeopt+=noinsert
 set completeopt+=noselect
 set completeopt+=preview
 set infercase                          " case of the match is adjusted depending on the typed text
+if has("autocmd") && exists("+omnifunc") " syntax completion only if a specific plugin does not already exist for that filetype
+  autocmd Filetype *
+    \  if &omnifunc == "" |
+    \    setlocal omnifunc=syntaxcomplete#Complete |
+    \  endif
+endif
 
 " Fold settings
 set foldenable                         " turn on folding
