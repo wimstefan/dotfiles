@@ -25,15 +25,15 @@ hostname          = io.lines("/proc/sys/kernel/hostname")()
 if hostname == 'tj' then
   TYPE     = "laptop"
   SYSTEMP  = "coretemp.0/hwmon/hwmon0"
-  TEMPFILE = "/sys/devices/platform/coretemp.0/hwmon/hwmon0/temp2_input"
+  TEMPFILE = "/sys/devices/virtual/thermal/thermal_zone1/temp"
 elseif hostname == 'mimi' then
   TYPE     = "laptop"
   SYSTEMP  = "coretemp.0/hwmon/hwmon1"
-  TEMPFILE = "/sys/devices/platform/coretemp.0/hwmon/hwmon1/temp2_input"
+  TEMPFILE = "/sys/devices/virtual/thermal/thermal_zone1/temp"
 elseif hostname == 'swimmer' or hostname == 'komala' then
   TYPE     = "desktop"
   SYSTEMP  = "coretemp.0/hwmon/hwmon0"
-  TEMPFILE = "/sys/devices/platform/coretemp.0/hwmon/hwmon0/temp2_input"
+  TEMPFILE = "/sys/devices/virtual/thermal/thermal_zone0/temp"
 end
 -- }}}
 -- Variables {{{2
