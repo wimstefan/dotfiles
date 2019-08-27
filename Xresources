@@ -1,9 +1,9 @@
 #ifdef SRVR_swimmer
   Xft.dpi: 188
   Xcursor.size: 48
-  *font: xft:Iosevka Term Cursive:pixelsize=28.0
-  *faceName: xft:Iosevka Term Cursive:pixelsize=28.0
-  *faceNameDoublesize: xft:Iosevka Term Cursive:pixelsize=28.0
+  *font: xft:Iosevka Term Cursive:pixelsize=26.0
+  *faceName: xft:Iosevka Term Cursive:pixelsize=26.0
+  *faceNameDoublesize: xft:Iosevka Term Cursive:pixelsize=26.0
   rofi.font: Rambla 22
 #elif SRVR_mimi
   Xft.dpi: 98
