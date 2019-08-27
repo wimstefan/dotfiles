@@ -17,46 +17,40 @@ nnoremap ,pu :PlugUpdate<CR>
 let g:plug_shallow = 0
 
 silent! if  plug#begin('~/.vim/plugged')
-Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
-" fzf config {{{2
-  set rtp+=~/.fzf
-" }}}
-Plug 'junegunn/fzf.vim'
-" fzf.vim config {{{2
-  function! s:build_quickfix_list(lines)
-    call setqflist(map(copy(a:lines), '{ "filename": v:val }'))
-    copen
-    cc
-  endfunction
-
-  let g:fzf_buffers_jump               = 1
-  let g:fzf_action                     = {
-                                         \ 'ctrl-q': function('s:build_quickfix_list'),
-                                         \ 'ctrl-t': 'tab split',
-                                         \ 'ctrl-x': 'split',
-                                         \ 'ctrl-v': 'vsplit' }
-  let g:fzf_layout                     = { 'right': '~40%' }
-
-  command! -bang -nargs=? -complete=dir Files
-    \ call fzf#vim#files(
-    \   <q-args>,
-    \   <bang>0 ? fzf#vim#with_preview('down:80%')
-    \           : fzf#vim#with_preview('down:80%:hidden', '?'),
-    \   <bang>0)
-  command! -bang -nargs=* Rg
-    \ call fzf#vim#grep(
-    \   'rg --vimgrep --color=always '.shellescape(<q-args>), 1,
-    \   <bang>0 ? fzf#vim#with_preview('down:80%')
-    \           : fzf#vim#with_preview('down:80%:hidden', '?'),
-    \   <bang>0)
-  autocmd VimEnter * command! Colors call fzf#vim#colors({'left': '20%'})
-  nnoremap          <Leader>p            :Files<CR>
-  nnoremap          <Leader>a            :Rg<Space>
-  nnoremap          <Leader>b            :Buffers<CR>
-  nnoremap          <Leader>c            :Colors<CR>
-  nnoremap          <Leader>m            :History<CR>
-  imap              <C-x><C-j>           <plug>(fzf-complete-file-ag)
-  imap              <C-x><C-l>           <plug>(fzf-complete-line)
+Plug 'Yggdroot/LeaderF', { 'do': './install.sh' }
+" LeaderF config {{{2
+  " let g:Lf_StlSeparator                = { 'left': "\ue0b4", 'right': "\ue0b6" }
+  let g:Lf_StlSeparator                = { 'left': "▐", 'right': "▌" }
+  let g:Lf_WindowPosition              = 'right'
+  let g:Lf_CacheDirectory              = expand('~/.cache/vim')
+  let g:Lf_PreviewCode                 = 1
+  let g:Lf_PreviewResult               = {
+                                         \ 'File': 0,
+                                         \ 'Buffer': 0,
+                                         \ 'Mru': 0,
+                                         \ 'Tag': 0,
+                                         \ 'BufTag': 1,
+                                         \ 'Rg': 1,
+                                         \ 'Function': 1,
+                                         \ 'Line': 0,
+                                         \ 'Colorscheme': 1
+                                         \}
+  let g:Lf_WildIgnore                  = {
+                                         \ 'dir': ['.svn','.git','.hg'],
+                                         \ 'file': ['*.sw?','~$*','*.bak','*.exe','*.o','*.so','*.py[co]']
+                                         \}
+  nnoremap          <Leader>p            :LeaderfFile<CR>
+  nnoremap          <Leader>a            :LeaderfRgInteractive<CR>
+  nnoremap          <Leader>b            :LeaderfBuffer<CR>
+  nnoremap          <Leader>c            :LeaderfColorscheme<CR>
+  nnoremap          <Leader>m            :LeaderfMru<CR>
+  nnoremap          <Leader>h            :LeaderfHelp<CR>
+  nnoremap <silent> ,lbt                 :LeaderfBufTag<CR>
+  nnoremap <silent> ,lf                  :LeaderfFunction<CR>
+  nnoremap <silent> ,lsw                 :<Plug>LeaderfRgCwordLiteralBoundary<CR>
+  nnoremap <silent> ,lfa                 :LeaderfFunctionAll<CR>
+  nnoremap <silent> ,lhc                 :LeaderfHistoryCmd<CR>
+  nnoremap <silent> ,lhs                 :LeaderfHistorySearch<CR>
 " }}}
 Plug 'junegunn/vim-peekaboo'
 " vim-peekaboo config {{{2
@@ -369,7 +363,6 @@ set gdefault                           " always use global substitutions
 
 " Help settings
 set keywordprg=:help
-nnoremap          <Leader>h            :help<Space>
 nnoremap          <Leader>M            :Man<Space>
 augroup help
   autocmd!
@@ -588,9 +581,6 @@ command!                  W               w !sudo tee % > /dev/null
 " files
 nnoremap <silent> cd                     :<C-u>cd %:h \| pwd<CR>
 nnoremap          <Leader>e              :e **/*<C-d>
-nnoremap          <Leader>f              :find *
-nnoremap          <Leader>s              :sfind *
-nnoremap          <Leader>l              :silent Locate<Space>
 nnoremap          <Leader>w              :w!<CR>
 nnoremap          <Leader>wa             :wa!<CR>
 nnoremap          <Leader>q              :q!<CR>
@@ -757,6 +747,7 @@ augroup vimrc
 
   " Automatically reload vimrc when it's saved
   autocmd BufWritePost vimrc,.vimrc nested source $MYVIMRC
+
 augroup END
 " " }}}
 
