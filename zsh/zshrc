@@ -378,9 +378,11 @@ export SAVEHIST="5000"
 export CVS_RSH="ssh"
 export FZF_DEFAULT_COMMAND='fd --type file --follow --hidden --exclude .git --color=always'
 export FZF_CTRL_T_COMMAND=$FZF_DEFAULT_COMMAND
-export FZF_DEFAULT_OPTS='-x -m --cycle --ansi --inline-info --height 80% --color=light '
-if [ -x ~/.vim/plugged/fzf.vim/bin/preview.rb ]; then
-  export FZF_CTRL_T_OPTS="--preview '~/.vim/plugged/fzf.vim/bin/preview.rb {} | head -500'"
+if [ -x =preview.rb ]; then
+  export FZF_CTRL_T_OPTS='--preview "preview.rb {} | head -400" --bind "?:toggle-preview"'
+  export FZF_DEFAULT_OPTS='-x -m --cycle --ansi --inline-info --height 80% --color=light --preview "preview.rb {} | head -400" --bind "?:toggle-preview"'
+else
+  export FZF_DEFAULT_OPTS='-x -m --cycle --ansi --inline-info --height 80% --color=light '
 fi
 export XAUTHORITY="$HOME/.Xauthority"
 export DISPLAY=:0.0
@@ -444,11 +446,6 @@ function dus()  { du -s "$@" | sort -rn; }
 function ff() { find . -iname '*'$1'*' ; }
 
 function fr() { find . -iname '*'$1'*' -exec $2 {} \; ; }
-
-function fv() {
-  vim $( rg --files "$@" | fzf )
-}
-
 
 function dirdiff() # compare two directories with vim
 {
