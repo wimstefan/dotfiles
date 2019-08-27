@@ -80,7 +80,7 @@ Plug 'tpope/vim-fugitive'
 " git related config {{{2
   nnoremap          <Leader>gc           :<C-u>Gcommit -v %<CR>
   nnoremap          <Leader>gd           :<C-u>Gdiff<CR>
-  nnoremap          <Leader>gl           :<C-u>Glog<CR>
+  nnoremap          <Leader>gl           :<C-u>0Glog<CR>
   nnoremap          <Leader>gp           :<C-u>Gpush<CR>
   nnoremap          <Leader>gs           :<C-u>Gstatus<CR>
 " }}}
@@ -371,7 +371,7 @@ augroup help
 augroup END
 
 " Clipboard settings
-set clipboard+=unnamed               " yank+paste with the '*' register
+set clipboard+=unnamed                 " yank+paste with the '*' register
 
 " Mouse settings
 set mouse=a                            " enable mouse everywhere
