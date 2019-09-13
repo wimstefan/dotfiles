@@ -932,15 +932,17 @@ awful.rules.rules = {
   -- All clients will match this rule.
   { rule = { },
     properties = {
-      border_width = beautiful.border_width,
-      border_color = beautiful.border_normal,
-      focus        = awful.client.focus.filter,
-      raise        = true,
-      keys         = clientkeys,
-      buttons      = clientbuttons,
-      screen       = awful.screen.preferred,
-      shape        = app_shape,
-      placement    = awful.placement.no_overlap+awful.placement.no_offscreen
+      border_width   = beautiful.border_width,
+      border_color   = beautiful.border_normal,
+      focus          = awful.client.focus.filter,
+      raise          = true,
+      keys           = clientkeys,
+      buttons        = clientbuttons,
+      screen         = awful.screen.preferred,
+      shape          = app_shape,
+      honor_workarea = true,
+      honor_padding  = true,
+      placement      = awful.placement.no_offscreen+awful.placement.centered
     },
     -- Add a titlebar and hide for most windows
     callback = function (c)
