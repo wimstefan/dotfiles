@@ -61,7 +61,7 @@ _force_rehash() {
   (( CURRENT == 1 )) && rehash
   return 1
 }
-# Use caching to make completion for cammands such as dpkg and apt usable.
+# Use caching to make completion for commands such as dpkg and apt usable.
 zstyle ':completion::complete:*' use-cache on
 zstyle ':completion::complete:*' cache-path "$HOME/.cache/zsh"
 
@@ -384,6 +384,7 @@ if [ -x =preview.rb ]; then
 else
   export FZF_DEFAULT_OPTS='-x -m --cycle --ansi --inline-info --height 80% --color=light '
 fi
+export HIGHLIGHT_STYLE="github"
 export XAUTHORITY="$HOME/.Xauthority"
 export DISPLAY=:0.0
 # anti aliasing in the two toolkits
