@@ -19,8 +19,7 @@ let g:plug_shallow = 0
 silent! if  plug#begin('~/.vim/plugged')
 Plug 'Yggdroot/LeaderF', { 'do': './install.sh' }
 " LeaderF config {{{2
-  " let g:Lf_StlSeparator                = { 'left': "\ue0b4", 'right': "\ue0b6" }
-  let g:Lf_StlSeparator                = { 'left': "▐", 'right': "▌" }
+  let g:Lf_StlSeparator                = { 'left': "\u2563", 'right': "\u2560" }
   let g:Lf_WindowPosition              = 'right'
   let g:Lf_CacheDirectory              = expand('~/.cache/vim')
   let g:Lf_PreviewCode                 = 1
@@ -28,9 +27,9 @@ Plug 'Yggdroot/LeaderF', { 'do': './install.sh' }
                                          \ 'File': 0,
                                          \ 'Buffer': 0,
                                          \ 'Mru': 0,
-                                         \ 'Tag': 0,
+                                         \ 'Tag': 1,
                                          \ 'BufTag': 1,
-                                         \ 'Rg': 1,
+                                         \ 'Rg': 0,
                                          \ 'Function': 1,
                                          \ 'Line': 0,
                                          \ 'Colorscheme': 1
@@ -39,18 +38,20 @@ Plug 'Yggdroot/LeaderF', { 'do': './install.sh' }
                                          \ 'dir': ['.svn','.git','.hg'],
                                          \ 'file': ['*.sw?','~$*','*.bak','*.exe','*.o','*.so','*.py[co]']
                                          \}
+  nnoremap          <Leader>f            :Leaderf<Space>
   nnoremap          <Leader>p            :LeaderfFile<CR>
   nnoremap          <Leader>a            :LeaderfRgInteractive<CR>
   nnoremap          <Leader>b            :LeaderfBuffer<CR>
   nnoremap          <Leader>c            :LeaderfColorscheme<CR>
   nnoremap          <Leader>m            :LeaderfMru<CR>
   nnoremap          <Leader>h            :LeaderfHelp<CR>
+  nmap              <Leader>r             <Plug>LeaderfRgPrompt
   nnoremap <silent> ,lbt                 :LeaderfBufTag<CR>
   nnoremap <silent> ,lf                  :LeaderfFunction<CR>
-  nnoremap <silent> ,lsw                 :<Plug>LeaderfRgCwordLiteralBoundary<CR>
   nnoremap <silent> ,lfa                 :LeaderfFunctionAll<CR>
   nnoremap <silent> ,lhc                 :LeaderfHistoryCmd<CR>
   nnoremap <silent> ,lhs                 :LeaderfHistorySearch<CR>
+  nmap              ,lsw                  <Plug>LeaderfRgBangCwordLiteralNoBoundary<CR>
 " }}}
 Plug 'junegunn/vim-peekaboo'
 " vim-peekaboo config {{{2
@@ -159,7 +160,6 @@ Plug 'honza/vim-snippets' | Plug 'SirVer/ultisnips'
 " }}}
 Plug 'neoclide/coc.nvim', {'do': { -> coc#util#install()}}
 " coc.nvim config {{{2
-  set updatetime=300
   function! s:check_back_space() abort
     let col = col('.') - 1
     return !col || getline('.')[col - 1]  =~ '\s'
@@ -177,7 +177,17 @@ Plug 'neoclide/coc.nvim', {'do': { -> coc#util#install()}}
   nmap              ,cl                  :CocList <C-D>
   nmap              ,clr                 :CocListResume<CR>
 
-  autocmd CursorHold * silent call CocActionAsync('highlight')
+  let g:coc_global_extensions = [
+    \ 'coc-snippets',
+    \ 'coc-vimlsp',
+    \ 'coc-lists',
+    \ 'coc-pairs',
+    \ 'coc-highlight',
+    \ 'coc-stylelint',
+    \ 'coc-html',
+    \ 'coc-css',
+    \ 'coc-json'
+  \ ]
 " }}}
 Plug 'wellle/tmux-complete.vim'
 Plug 'wellle/targets.vim'
@@ -315,6 +325,7 @@ else
 endif
 set history=100                        " keep 100 lines of command line history
 
+set updatetime=300                     " make things snappier
 set number                             " show line numbers
 set cursorcolumn                       " highlights the screen column of the cursor
 set cursorline                         " highlights the screen line of the cursor
@@ -386,12 +397,8 @@ if exists('g:vimpager.enabled')
 endif
 
 " Completion settings
-set complete+=i                        " included files
-set complete-=t                        " tags
-set complete+=w                        " windows
 set complete+=kspell                   " currently active spell checking
 " ins-completion-menu options
-" set completeopt+=longest
 set completeopt+=menuone
 set completeopt+=noinsert
 set completeopt+=noselect
