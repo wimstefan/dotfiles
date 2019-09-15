@@ -238,6 +238,15 @@ Plug 'vim-voom/VOoM'
   let g:voom_ft_modes                  = {'adoc': 'asciidoc', 'asciidoc': 'asciidoc', 'markdown': 'markdown', 'md': 'markdown', 'rst': 'rest', 'tex': 'latex'}
   nnoremap          ,tv                  :VoomToggle<CR>
 " }}}
+Plug 'rkitover/vimpager'
+" vimpager config {{{2
+  if exists('g:vimpager.enabled')
+    let g:vimpager                     = {}
+    let g:less                         = {}
+    let g:less.enabled                 = 1
+    set nolist
+  endif
+" }}}"
 Plug 'godlygeek/tabular' | Plug 'dhruvasagar/vim-table-mode'
 " tabular config {{{2
   nnoremap          <Leader><Tab>        :Tabularize<Space>
