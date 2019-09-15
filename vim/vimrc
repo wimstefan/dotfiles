@@ -70,9 +70,9 @@ Plug 'junegunn/limelight.vim'
 Plug 'junegunn/vim-easy-align'
 " vim-easy-align config {{{2
   " Start interactive EasyAlign in visual mode (e.g. vipea)
-  xmap ea <Plug>(EasyAlign)
+  xmap              ea                    <Plug>(EasyAlign)
   " Start interactive EasyAlign for a motion/text object (e.g. eaip)
-  nmap ea <Plug>(EasyAlign)
+  nmap              ea                    <Plug>(EasyAlign)
 " }}}
 Plug 'tpope/vim-abolish'
 Plug 'tpope/vim-eunuch'
@@ -326,7 +326,7 @@ endif
 set history=100                        " keep 100 lines of command line history
 
 set updatetime=300                     " make things snappier
-set number                             " show line numbers
+set number relativenumber              " show line numbers
 set cursorcolumn                       " highlights the screen column of the cursor
 set cursorline                         " highlights the screen line of the cursor
 let &cc='+'.join(range(1,255),',+')    " highlights textwidth boundaries
@@ -360,9 +360,9 @@ set modeline                           " allow the execution of modelines
 set showmode                           " shows mode
 set showcmd                            " show uncompleted command
 set showmatch                          " show matching hyphens
-set diffopt=vertical,iwhite,filler     " split vertical, ignore whitespace & use filler
-if has("patch-8.1.0360")
-  set diffopt+=internal,indent-heuristic,algorithm:histogram
+set diffopt+=vertical                  " split vertical
+if has("patch-8.1.0360")               " make use of better algorithms if available
+  set diffopt+=indent-heuristic,algorithm:histogram
 endif
 set splitright                         " set vertical splits to split to the right
 set splitbelow                         " set horizontal splits to split to the bottom
@@ -672,6 +672,7 @@ call s:option_map('s', 'spell', 'setlocal')
 nnoremap [ox :set cursorline cursorcolumn<CR>
 nnoremap ]ox :set nocursorline nocursorcolumn<CR>
 nnoremap cox :set <C-r>=&cursorline && &cursorcolumn ? 'nocursorline nocursorcolumn' : 'cursorline cursorcolumn'<CR><CR>
+nnoremap corn :set <C-r>=&number && &relativenumber ? 'nonumber norelativenumber' : 'number relativenumber'<CR><CR>
 nnoremap com :<C-u>set colorcolumn=<C-R>=&colorcolumn == '+'.join(range(1,255),',+') ? '' : '+'.join(range(1,255),',+')<CR><CR><CR>
 nnoremap [cl :highlight CursorLine cterm=bold,italic gui=bold,italic<CR>
 nnoremap ]cl :highlight CursorLine cterm=none gui=none<CR>
@@ -734,7 +735,7 @@ augroup vimrc
   autocmd BuFNewFile,BufRead {*.txt,*.md,*.asciidoc,*.rst} if &filetype !~ 'man\|help\|*doc' | setlocal spell | endif
 
   " Disable numbers & spell inside manpages
-  autocmd FileType {man,help,*doc} setlocal nonumber nospell nolist nocursorcolumn
+  autocmd FileType {man,help,*doc} setlocal nonumber norelativenumber nospell nolist nocursorcolumn
 
   " When editing a file, always jump to the last known cursor position.
   autocmd BufReadPost *
