@@ -154,6 +154,7 @@ Plug 'romainl/vim-qf'
   nmap              <C-End>              <Plug>QfLnext
 "}}}
 Plug 'romainl/vim-qlist'
+Plug 'ronakg/quickr-preview.vim'
 Plug 'honza/vim-snippets' | Plug 'SirVer/ultisnips'
 " ultisnips config {{{2
   let g:UltiSnipsExpandTrigger         = "<Nop>"
