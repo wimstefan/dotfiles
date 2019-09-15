@@ -520,8 +520,8 @@ if [[ $USER != root ]]; then
   # - Exports {{{3
   export PATH="$PATH:$HOME/bin:/sbin:/usr/sbin:$HOME/.fzf_browser:$HOME/.cargo/bin"
   export MANPATH="$MANPATH:$HOME/man"
-  export MANPAGER="$HOME/.vim/plugged/vimpager/vimpager"
-  export PAGER="$HOME/.vim/plugged/vimpager/vimpager"
+  export MANPAGER="/usr/bin/vimmanpager"
+  export PAGER="/usr/bin/vimpager"
   export MPD_HOST="localhost"
   export MPD_PORT="6600"
   export GPG_TTY=`tty`

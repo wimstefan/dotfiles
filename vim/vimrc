@@ -237,7 +237,6 @@ Plug 'vim-voom/VOoM'
   let g:voom_ft_modes                  = {'adoc': 'asciidoc', 'asciidoc': 'asciidoc', 'markdown': 'markdown', 'md': 'markdown', 'rst': 'rest', 'tex': 'latex'}
   nnoremap          ,tv                  :VoomToggle<CR>
 " }}}
-Plug 'rkitover/vimpager'
 Plug 'godlygeek/tabular' | Plug 'dhruvasagar/vim-table-mode'
 " tabular config {{{2
   nnoremap          <Leader><Tab>        :Tabularize<Space>
@@ -386,15 +385,6 @@ set clipboard+=unnamed                 " yank+paste with the '*' register
 " Mouse settings
 set mouse=a                            " enable mouse everywhere
 set mousemodel=popup_setpos
-
-" vimpager settings
-if exists('g:vimpager.enabled')
-  let g:vimpager = {}
-  let g:less     = {}
-  let g:less.enabled = 0
-  set colorcolumn=0
-  set nolist
-endif
 
 " Completion settings
 set complete+=kspell                   " currently active spell checking
