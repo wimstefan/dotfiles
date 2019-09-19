@@ -378,12 +378,8 @@ export SAVEHIST="5000"
 export CVS_RSH="ssh"
 export FZF_DEFAULT_COMMAND='fd --type file --follow --hidden --exclude .git --color=always'
 export FZF_CTRL_T_COMMAND=$FZF_DEFAULT_COMMAND
-if [ -x =preview.rb ]; then
-  export FZF_CTRL_T_OPTS='--preview "preview.rb {} | head -400" --bind "?:toggle-preview"'
-  export FZF_DEFAULT_OPTS='-x -m --cycle --ansi --inline-info --height 80% --color=light --preview "preview.rb {} | head -400" --bind "?:toggle-preview"'
-else
-  export FZF_DEFAULT_OPTS='-x -m --cycle --ansi --inline-info --height 80% --color=light '
-fi
+export FZF_CTRL_T_OPTS='--preview "bat --color=always {}" --preview-window right:70%:hidden:wrap --bind "?:toggle-preview"'
+export FZF_DEFAULT_OPTS='-x -m --cycle --ansi --inline-info --height 80% --color=light --preview "bat --color=always {}" --preview-window right:70%:hidden:wrap --bind "?:toggle-preview"'
 export HIGHLIGHT_STYLE="github"
 export XAUTHORITY="$HOME/.Xauthority"
 export DISPLAY=:0.0

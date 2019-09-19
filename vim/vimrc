@@ -17,41 +17,48 @@ nnoremap ,pu :PlugUpdate<CR>
 let g:plug_shallow = 0
 
 silent! if  plug#begin('~/.vim/plugged')
-Plug 'Yggdroot/LeaderF', { 'do': './install.sh' }
-" LeaderF config {{{2
-  let g:Lf_StlSeparator                = { 'left': "\u2563", 'right': "\u2560" }
-  let g:Lf_WindowPosition              = 'right'
-  let g:Lf_CacheDirectory              = expand('~/.cache/vim')
-  let g:Lf_PreviewCode                 = 1
-  let g:Lf_PreviewResult               = {
-                                         \ 'File': 0,
-                                         \ 'Buffer': 0,
-                                         \ 'Mru': 0,
-                                         \ 'Tag': 1,
-                                         \ 'BufTag': 1,
-                                         \ 'Rg': 0,
-                                         \ 'Function': 1,
-                                         \ 'Line': 0,
-                                         \ 'Colorscheme': 1
-                                         \}
-  let g:Lf_WildIgnore                  = {
-                                         \ 'dir': ['.svn','.git','.hg'],
-                                         \ 'file': ['*.sw?','~$*','*.bak','*.exe','*.o','*.so','*.py[co]']
-                                         \}
-  nnoremap          <Leader>f            :Leaderf<Space>
-  nnoremap          <Leader>p            :LeaderfFile<CR>
-  nnoremap          <Leader>a            :LeaderfRgInteractive<CR>
-  nnoremap          <Leader>b            :LeaderfBuffer<CR>
-  nnoremap          <Leader>c            :LeaderfColorscheme<CR>
-  nnoremap          <Leader>m            :LeaderfMru<CR>
-  nnoremap          <Leader>h            :LeaderfHelp<CR>
-  nmap              <Leader>r             <Plug>LeaderfRgPrompt
-  nnoremap <silent> ,lbt                 :LeaderfBufTag<CR>
-  nnoremap <silent> ,lf                  :LeaderfFunction<CR>
-  nnoremap <silent> ,lfa                 :LeaderfFunctionAll<CR>
-  nnoremap <silent> ,lhc                 :LeaderfHistoryCmd<CR>
-  nnoremap <silent> ,lhs                 :LeaderfHistorySearch<CR>
-  nmap              ,lsw                  <Plug>LeaderfRgBangCwordLiteralNoBoundary<CR>
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+" fzf config {{{2
+  set rtp+=~/.fzf
+" }}}
+Plug 'junegunn/fzf.vim'
+" fzf.vim config {{{2
+  function! s:build_quickfix_list(lines)
+    call setqflist(map(copy(a:lines), '{ "filename": v:val }'))
+    copen
+    cc
+  endfunction
+
+  autocmd VimEnter * command! Colors call fzf#vim#colors({'left': '20%'})
+  command! -bang -nargs=? -complete=dir Files
+    \ call fzf#vim#files(
+    \   <q-args>,
+    \   <bang>0 ? fzf#vim#with_preview('up:60%')
+    \           : fzf#vim#with_preview('down:80%:hidden', '?'),
+    \   <bang>0)
+  command! -bang -nargs=* Rg
+    \ call fzf#vim#grep(
+    \   'rg --vimgrep --color=always '.shellescape(<q-args>), 1,
+    \   <bang>0 ? fzf#vim#with_preview('up:60%')
+    \           : fzf#vim#with_preview('down:80%:hidden', '?'),
+    \   <bang>0)
+  nnoremap          <Leader>p            :Files<CR>
+  nnoremap          <Leader>a            :Rg<Space>
+  nnoremap          <Leader>b            :Buffers<CR>
+  nnoremap          <Leader>c            :Colors<CR>
+  nnoremap          <Leader>h            :Helptags<CR>
+  nnoremap          <Leader>l            :Locate<Space>
+  nnoremap          <Leader>m            :History<CR>
+  imap              <C-x><C-j>           <plug>(fzf-complete-file-ag)
+  imap              <C-x><C-l>           <plug>(fzf-complete-line)
+
+  let g:fzf_buffers_jump               = 1
+  let g:fzf_action                     = {
+                                         \ 'ctrl-q': function('s:build_quickfix_list'),
+                                         \ 'ctrl-t': 'tab split',
+                                         \ 'ctrl-x': 'split',
+                                         \ 'ctrl-v': 'vsplit' }
+  let g:fzf_layout                     = { 'right': '~40%' }
 " }}}
 Plug 'junegunn/vim-peekaboo'
 " vim-peekaboo config {{{2
