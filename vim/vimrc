@@ -161,7 +161,6 @@ Plug 'romainl/vim-qf'
   nmap              <C-End>              <Plug>QfLnext
 "}}}
 Plug 'romainl/vim-qlist'
-Plug 'ronakg/quickr-preview.vim'
 Plug 'honza/vim-snippets' | Plug 'SirVer/ultisnips'
 " ultisnips config {{{2
   let g:UltiSnipsExpandTrigger         = "<Nop>"
@@ -176,9 +175,9 @@ Plug 'neoclide/coc.nvim', {'do': { -> coc#util#install()}}
     \ pumvisible() ? "\<C-n>" :
     \ <SID>check_back_space() ? "\<Tab>" :
     \ coc#refresh()
-  inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
   inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
-  inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+  inoremap <silent><expr> <CR> pumvisible() ? coc#_select_confirm() :
+    \ "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
 
   nmap              ,ca                  :CocAction <CR>
   nmap              ,cc                  :CocConfig <CR>
@@ -426,7 +425,7 @@ set foldlevel=100                      " don't autofold anything (but I can stil
 " Search settings
 if executable('rg')
   set grepprg=rg\ --vimgrep\ --no-heading
-  set grepformat^=%f:%l:%c:%m
+  set grepformat=%f:%l:%c:%m
 elseif executable('ag')
   " set grepprg=ag\ --nogroup\ --column\ --smart-case\ --nocolor\ --follow
   set grepprg=ag\ --vimgrep
