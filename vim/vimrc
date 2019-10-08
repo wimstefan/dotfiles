@@ -167,23 +167,6 @@ Plug 'honza/vim-snippets' | Plug 'SirVer/ultisnips'
 " }}}
 Plug 'neoclide/coc.nvim', {'do': { -> coc#util#install()}}
 " coc.nvim config {{{2
-  function! s:check_back_space() abort
-    let col = col('.') - 1
-    return !col || getline('.')[col - 1]  =~ '\s'
-  endfunction
-  inoremap <silent><expr> <Tab>
-    \ pumvisible() ? "\<C-n>" :
-    \ <SID>check_back_space() ? "\<Tab>" :
-    \ coc#refresh()
-  inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
-  inoremap <silent><expr> <CR> pumvisible() ? coc#_select_confirm() :
-    \ "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
-
-  nmap              ,ca                  :CocAction <CR>
-  nmap              ,cc                  :CocConfig <CR>
-  nmap              ,cl                  :CocList <C-D>
-  nmap              ,clr                 :CocListResume<CR>
-
   let g:coc_global_extensions = [
     \ 'coc-snippets',
     \ 'coc-vimlsp',
@@ -195,6 +178,45 @@ Plug 'neoclide/coc.nvim', {'do': { -> coc#util#install()}}
     \ 'coc-css',
     \ 'coc-json'
   \ ]
+
+  " Press Tab and Shift+Tab and navigate around completion selections
+  function! s:check_back_space() abort
+    let col = col('.') -1
+    return !col || getline('.')[col - 1] =~ '\s'
+  endfunction
+
+  inoremap <silent><expr> <Tab>
+    \ pumvisible() ? "\<C-n>" :
+    \ <SID>check_back_space() ? "\<Tab>" :
+    \ coc#refresh()
+  inoremap <silent><expr> <S-Tab>
+    \ pumvisible() ? "\<C-p>" :
+    \ <SID>check_back_space() ? "\<S-Tab>" :
+    \ coc#refresh()
+
+  " Press Enter to select completion items or expand snippets
+  inoremap <silent><expr> <CR>
+    \ pumvisible() ? "\<C-y>" :
+    \ "\<C-g>u\<CR>"
+
+  let g:coc_snippet_next = '<Tab>'              " Use Tab to jump to next snippet placeholder
+  let g:coc_snippet_prev = '<S-Tab>'            " Use Shift+Tab to jump to previous snippet placeholder
+
+  nmap              ,ca                  :CocAction <CR>
+  nmap              ,cc                  :CocConfig <CR>
+  nmap              ,cl                  :CocList <C-D>
+  nmap              ,clr                 :CocListResume<CR>
+
+  " Use K to show documentation in preview window
+  nnoremap <silent> K :call <SID>show_documentation()<CR>
+  function! s:show_documentation()
+    if (index(['vim','help'], &filetype) >= 0)
+      execute 'h '.expand('<cword>')
+    else
+      call CocAction('doHover')
+    endif
+  endfunction
+
 " }}}
 Plug 'wellle/tmux-complete.vim'
 Plug 'wellle/targets.vim'
@@ -427,7 +449,6 @@ set complete+=kspell                   " currently active spell checking
 " ins-completion-menu options
 set completeopt+=menuone
 set completeopt+=noinsert
-set completeopt+=noselect
 set completeopt+=preview
 set infercase                          " case of the match is adjusted depending on the typed text
 if has("autocmd") && exists("+omnifunc") " syntax completion only if a specific plugin does not already exist for that filetype
