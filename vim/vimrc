@@ -312,7 +312,13 @@ set selection=exclusive                " defines the behaviour of the selection
 " backup settings - kudos to https://begriffs.com/posts/2019-07-19-history-use-vim.html
 " protect changes between writes
 set swapfile
-set directory^=~/.cache/vim/swap//
+" patch required to honor double slash at end
+if has("patch-8.1.0251")
+  if !isdirectory(expand("~/.cache/vim/swap/"))
+    call mkdir(expand("~/.cache/vim/swap/"), "p", "0700")
+  end
+  set directory^=~/.cache/vim/swap//
+end
 " protect against crash-during-write
 set writebackup
 " but do not persist backup after successful write
@@ -321,12 +327,21 @@ set nobackup
 set backupcopy=auto
 " patch required to honor double slash at end
 if has("patch-8.1.0251")
+  if !isdirectory(expand("~/.cache/vim/backup/"))
+    call mkdir(expand("~/.cache/vim/backup/"), "p", "0700")
+  end
   set backupdir^=~/.cache/vim/backup//
 end
 " persist the undo tree for each file
 set undofile
 set undolevels=5000
-set undodir^=~/.cache/vim/undo//
+" patch required to honor double slash at end
+if has("patch-8.1.0251")
+  if !isdirectory(expand("~/.cache/vim/undo/"))
+    call mkdir(expand("~/.cache/vim/undo/"), "p", "0700")
+  end
+  set undodir^=~/.cache/vim/undo//
+end
 set hidden                             " allow buffers to go in background without saving etc.
 set autowrite                          " save automatically before critical operations
 set autoread                           " automatically reads & loads changes
@@ -334,8 +349,14 @@ set autoread                           " automatically reads & loads changes
 "set viminfo='50,\"100,:100,%          " read/write a viminfo file with buffer list
 set viminfo='50,\"100,:100             " read/write a viminfo file without buffer list
 if has ('nvim')
+  if !isdirectory(expand("~/.cache/nvim/"))
+    call mkdir(expand("~/.cache/nvim/"), "p", "0700")
+  end
   set viminfo+=n~/.cache/nvim/viminfo " specify where to write the viminfo
 else
+  if !isdirectory(expand("~/.cache/vim/"))
+    call mkdir(expand("~/.cache/vim/"), "p", "0700")
+  end
   set viminfo+=n~/.cache/vim/viminfo " specify where to write the viminfo
 endif
 set history=100                        " keep 100 lines of command line history
