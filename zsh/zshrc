@@ -418,6 +418,7 @@ alias dmesg='dmesg --human'
 alias les="less"
 alias grep="grep --color=auto"
 alias gcal="gcal -s1"
+alias glances="PYTHONIOENCODING=utf8 glances"
 alias mtr="mtr --curses"
 alias eix="eix --force-color"
 alias ag="rg"
