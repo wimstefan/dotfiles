@@ -1,30 +1,30 @@
 #ifdef SRVR_swimmer
   Xft.dpi: 188
   Xcursor.size: 48
-  *font: xft:Iosevka Term Cursive:pixelsize=26.0
-  *faceName: xft:Iosevka Term Cursive:pixelsize=26.0
-  *faceNameDoublesize: xft:Iosevka Term Cursive:pixelsize=26.0
-  rofi.font: Rambla 22
+  *font: xft:Iosevka Slab Condensed:pixelsize=26.0
+  *faceName: xft:Iosevka Slab Condensed:pixelsize=26.0
+  *faceNameDoublesize: xft:Iosevka Slab Condensed:pixelsize=26.0
+  rofi.font: Overlock 22
 #elif SRVR_mimi
   Xft.dpi: 98
   Xcursor.size: 24
-  *font: xft:Iosevka Term Cursive:pixelsize=16.0
-  *faceName: xft:Iosevka Term Cursive:pixelsize=16.0
-  *faceNameDoublesize: xft:Iosevka Term Cursive:pixelsize=16.0
-  rofi.font: Rambla 11
+  *font: xft:Iosevka Slab Condensed:pixelsize=16.0
+  *faceName: xft:Iosevka Slab Condensed:pixelsize=16.0
+  *faceNameDoublesize: xft:Iosevka Slab Condensed:pixelsize=16.0
+  rofi.font: Overlock 11
 #elif SRVR_tj
   Xft.dpi: 92
   Xcursor.size: 24
-  *font: xft:Iosevka Term Cursive:pixelsize=16.0
-  *faceName: xft:Iosevka Term Cursive:pixelsize=16.0
-  *faceNameDoublesize: xft:Iosevka Term Cursive:pixelsize=16.0
-  rofi.font: Rambla 11
+  *font: xft:Iosevka Slab Condensed:pixelsize=16.0
+  *faceName: xft:Iosevka Slab Condensed:pixelsize=16.0
+  *faceNameDoublesize: xft:Iosevka Slab Condensed:pixelsize=16.0
+  rofi.font: Overlock 11
 #endif
 
 Xcursor.theme:              Dot-Light
 
 rofi.show-icons:            true
-rofi.icon-theme:            Newaita-dark
+rofi.icon-theme:            Newaita
 rofi.modi:                  combi,window,drun,run,ssh
 rofi.combi-modi:            window,run,ssh
 rofi.color-enabled:         true
@@ -37,7 +37,7 @@ rofi.ssh-command:           {terminal} -e '{ssh-client} {host}'
 
 st.termname:                xst-24bit
 st.shell:                   /bin/zsh
-st.font:                    Iosevka Term Cursive:pixelsize=28:antialias=true:autohint=true;
+st.font:                    Iosevka Slab Condensed:pixelsize=28:antialias=true:autohint=true;
 st.borderpx:                10
 st.cursorshape:             2
 st.cursorthickness:         2
