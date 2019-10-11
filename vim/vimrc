@@ -168,6 +168,7 @@ Plug 'honza/vim-snippets' | Plug 'SirVer/ultisnips'
 Plug 'neoclide/coc.nvim', {'do': { -> coc#util#install()}}
 " coc.nvim config {{{2
   let g:coc_global_extensions = [
+    \ 'coc-tabnine',
     \ 'coc-snippets',
     \ 'coc-vimlsp',
     \ 'coc-lists',
@@ -204,7 +205,9 @@ Plug 'neoclide/coc.nvim', {'do': { -> coc#util#install()}}
 
   nmap              ,ca                  :CocAction <CR>
   nmap              ,cc                  :CocConfig <CR>
+  nmap              ,ci                  :CocInfo <CR>
   nmap              ,cl                  :CocList <C-D>
+  nmap              ,cle                 :CocList extensions<CR>
   nmap              ,clr                 :CocListResume<CR>
 
   " Use K to show documentation in preview window
