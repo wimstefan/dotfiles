@@ -677,7 +677,7 @@ if [[ $USER != root ]]; then
     # task
 
     # Key management
-    eval `keychain --quiet --quick --eval id_rsa`
+    eval `keychain --eval --agents gpg,ssh`
 
     alias tcom="tmux start-server && tmux attach -d -t com"
     alias lp="lp -o media=A4 -o page-border=single"
@@ -842,7 +842,7 @@ if [[ $USER != root ]]; then
     echo "Loading host specific settings for $HOST ..."
 
     # Key management
-    eval `keychain --quiet --eval id_rsa`
+    eval `keychain --eval --agents gpg,ssh`
 
     alias tj="tmux start-server && tmux attach -d -t tj"
     alias tj-ncmpcpp="ncmpcpp -p 6601 -c ~/.ncmpcpp/tj-config"
@@ -857,7 +857,7 @@ if [[ $USER != root ]]; then
     echo "Loading host specific settings for $HOST ..."
 
     # Key management
-    eval `keychain --quiet --eval id_rsa`
+    eval `keychain --eval --agents gpg,ssh`
 
     alias tj="tmux start-server && tmux attach -d -t tj"
   fi
@@ -867,7 +867,7 @@ if [[ $USER != root ]]; then
     echo "Loading host specific settings for $HOST ..."
 
     # Key management
-    eval `keychain --quiet --eval id_rsa`
+    eval `keychain --eval --agents gpg,ssh`
 
   fi
   # }}}4
@@ -886,7 +886,7 @@ else
   # [ -n "$PS1" ] && [ -s $BASE16_SHELL/profile_helper.sh ] && eval "$($BASE16_SHELL/profile_helper.sh)"
   # }}}3
   # - Key management # {{{3
-  eval `keychain --quiet --eval id_rsa`
+  eval `keychain --eval`
   # }}}3
   # - Aliases # {{{3
   alias mess="multitail -Z red,black,inverse -T -x '%m %u@%h %f (%t) [%l]' -m 0 -wh 12 -n 70 -f -cS syslog '/var/log/sshd' -m 0 -n 70 -f -cS syslog '/var/log/mail' -m 0 -n 70 -f -cS syslog -ev '---- MARK ----' '/var/log/messages'"
