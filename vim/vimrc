@@ -17,48 +17,67 @@ nnoremap ,pu :PlugUpdate<CR>
 let g:plug_shallow = 0
 
 silent! if  plug#begin('~/.vim/plugged')
-Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
-" fzf config {{{2
-  set rtp+=~/.fzf
-" }}}
-Plug 'junegunn/fzf.vim'
-" fzf.vim config {{{2
-  function! s:build_quickfix_list(lines)
-    call setqflist(map(copy(a:lines), '{ "filename": v:val }'))
-    copen
-    cc
+Plug 'neoclide/coc.nvim', {'do': { -> coc#util#install()}}
+" coc.nvim config {{{2
+  let g:coc_global_extensions = [
+    \ 'coc-lists',
+    \ 'coc-explorer',
+    \ 'coc-tabnine',
+    \ 'coc-snippets',
+    \ 'coc-highlight',
+    \ 'coc-stylelint',
+    \ 'coc-html',
+    \ 'coc-css',
+    \ 'coc-json'
+  \ ]
+
+  " Press Tab and Shift+Tab and navigate around completion selections
+  function! s:check_back_space() abort
+    let col = col('.') -1
+    return !col || getline('.')[col - 1] =~ '\s'
   endfunction
 
-  autocmd VimEnter * command! Colors call fzf#vim#colors({'left': '20%'})
-  command! -bang -nargs=? -complete=dir Files
-    \ call fzf#vim#files(
-    \   <q-args>,
-    \   <bang>0 ? fzf#vim#with_preview('up:60%')
-    \           : fzf#vim#with_preview('down:80%:hidden', '?'),
-    \   <bang>0)
-  command! -bang -nargs=* Rg
-    \ call fzf#vim#grep(
-    \   'rg --vimgrep --color=always '.shellescape(<q-args>), 1,
-    \   <bang>0 ? fzf#vim#with_preview('up:60%')
-    \           : fzf#vim#with_preview('down:80%:hidden', '?'),
-    \   <bang>0)
-  nnoremap          <Leader>p            :Files<CR>
-  nnoremap          <Leader>a            :Rg<Space>
-  nnoremap          <Leader>b            :Buffers<CR>
-  nnoremap          <Leader>c            :Colors<CR>
-  nnoremap          <Leader>h            :Helptags<CR>
-  nnoremap          <Leader>l            :Locate<Space>
-  nnoremap          <Leader>m            :History<CR>
-  imap              <C-x><C-j>           <plug>(fzf-complete-file-ag)
-  imap              <C-x><C-l>           <plug>(fzf-complete-line)
+  inoremap <silent><expr> <Tab>
+    \ pumvisible() ? "\<C-n>" :
+    \ <SID>check_back_space() ? "\<Tab>" :
+    \ coc#refresh()
+  inoremap <silent><expr> <S-Tab>
+    \ pumvisible() ? "\<C-p>" :
+    \ <SID>check_back_space() ? "\<S-Tab>" :
+    \ coc#refresh()
 
-  let g:fzf_buffers_jump               = 1
-  let g:fzf_action                     = {
-                                         \ 'ctrl-q': function('s:build_quickfix_list'),
-                                         \ 'ctrl-t': 'tab split',
-                                         \ 'ctrl-x': 'split',
-                                         \ 'ctrl-v': 'vsplit' }
-  let g:fzf_layout                     = { 'right': '~40%' }
+  " Press Enter to select completion items or expand snippets
+  inoremap <silent><expr> <CR>
+    \ pumvisible() ? "\<C-y>" :
+    \ "\<C-g>u\<CR>"
+
+  let g:coc_snippet_next = '<Tab>'              " Use Tab to jump to next snippet placeholder
+  let g:coc_snippet_prev = '<S-Tab>'            " Use Shift+Tab to jump to previous snippet placeholder
+
+  nmap              ,ca                  :CocAction<CR>
+  nmap              ,cc                  :CocConfig<CR>
+  nmap              ,ci                  :CocInfo<CR>
+  nmap              ,cx                  :CocCommand explorer<CR>
+  nmap              ,cl                  :CocList <C-D>
+  nmap              ,cle                 :CocList extensions<CR>
+  nmap              ,clg                 :CocList --interactive --auto-preview grep<CR>
+  nmap              ,clr                 :CocListResume<CR>
+
+  nnoremap          <Leader>b            :CocList buffers<CR>
+  nnoremap          <Leader>c            :CocList colors<CR>
+  nnoremap          <Leader>f            :CocList files<CR>
+  nnoremap          <Leader>h            :CocList helptags<CR>
+  nnoremap          <Leader>m            :CocList mru<CR>
+
+  " Use K to show documentation in preview window
+  nnoremap <silent> K :call <SID>show_documentation()<CR>
+  function! s:show_documentation()
+    if (index(['vim','help'], &filetype) >= 0)
+      execute 'h '.expand('<cword>')
+    else
+      call CocAction('doHover')
+    endif
+  endfunction
 " }}}
 Plug 'junegunn/vim-peekaboo'
 " vim-peekaboo config {{{2
@@ -164,62 +183,6 @@ Plug 'romainl/vim-qlist'
 Plug 'honza/vim-snippets' | Plug 'SirVer/ultisnips'
 " ultisnips config {{{2
   let g:UltiSnipsExpandTrigger         = "<Nop>"
-" }}}
-Plug 'neoclide/coc.nvim', {'do': { -> coc#util#install()}}
-" coc.nvim config {{{2
-  let g:coc_global_extensions = [
-    \ 'coc-tabnine',
-    \ 'coc-snippets',
-    \ 'coc-vimlsp',
-    \ 'coc-lists',
-    \ 'coc-pairs',
-    \ 'coc-highlight',
-    \ 'coc-stylelint',
-    \ 'coc-html',
-    \ 'coc-css',
-    \ 'coc-json'
-  \ ]
-
-  " Press Tab and Shift+Tab and navigate around completion selections
-  function! s:check_back_space() abort
-    let col = col('.') -1
-    return !col || getline('.')[col - 1] =~ '\s'
-  endfunction
-
-  inoremap <silent><expr> <Tab>
-    \ pumvisible() ? "\<C-n>" :
-    \ <SID>check_back_space() ? "\<Tab>" :
-    \ coc#refresh()
-  inoremap <silent><expr> <S-Tab>
-    \ pumvisible() ? "\<C-p>" :
-    \ <SID>check_back_space() ? "\<S-Tab>" :
-    \ coc#refresh()
-
-  " Press Enter to select completion items or expand snippets
-  inoremap <silent><expr> <CR>
-    \ pumvisible() ? "\<C-y>" :
-    \ "\<C-g>u\<CR>"
-
-  let g:coc_snippet_next = '<Tab>'              " Use Tab to jump to next snippet placeholder
-  let g:coc_snippet_prev = '<S-Tab>'            " Use Shift+Tab to jump to previous snippet placeholder
-
-  nmap              ,ca                  :CocAction <CR>
-  nmap              ,cc                  :CocConfig <CR>
-  nmap              ,ci                  :CocInfo <CR>
-  nmap              ,cl                  :CocList <C-D>
-  nmap              ,cle                 :CocList extensions<CR>
-  nmap              ,clr                 :CocListResume<CR>
-
-  " Use K to show documentation in preview window
-  nnoremap <silent> K :call <SID>show_documentation()<CR>
-  function! s:show_documentation()
-    if (index(['vim','help'], &filetype) >= 0)
-      execute 'h '.expand('<cword>')
-    else
-      call CocAction('doHover')
-    endif
-  endfunction
-
 " }}}
 Plug 'wellle/tmux-complete.vim'
 Plug 'wellle/targets.vim'
