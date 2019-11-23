@@ -101,6 +101,7 @@ Plug 'junegunn/vim-easy-align'
   nmap              ea                    <Plug>(EasyAlign)
 " }}}
 Plug 'tpope/vim-abolish'
+Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-eunuch'
 Plug 'tpope/vim-flagship'
 Plug 'tpope/vim-fugitive'
@@ -186,23 +187,6 @@ Plug 'honza/vim-snippets' | Plug 'SirVer/ultisnips'
 " }}}
 Plug 'wellle/tmux-complete.vim'
 Plug 'wellle/targets.vim'
-Plug 'scrooloose/nerdcommenter'
-" nerdcommenter config {{{2
-  let NERDSpaceDelims                  = 1
-  let NERDCreateDefaultMappings        = 0
-  map               gcc                  <Plug>NERDCommenterToggle
-  map               gcu                  <Plug>NERDCommenterUncomment
-  map               gcl                  <Plug>NERDCommenterAlignLeft
-  map               gcb                  <Plug>NERDCommenterAlignBoth
-  map               gca                  <Plug>NERDCommenterAltDelims
-  map               gcm                  <Plug>NERDCommenterMinimal
-  map               gcn                  <Plug>NERDCommenterNested
-  map               gci                  <Plug>NERDCommenterInvert
-  map               gcA                  <Plug>NERDCommenterAppend
-  map               gc$                  <Plug>NERDCommenterToEOL
-  map               gcy                  <Plug>NERDCommenterYank
-  map               gcs                  <Plug>NERDCommenterSexy
-" }}}
 Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' }
 " undotree config {{{2
   let g:undotree_WindowLayout           = 2
