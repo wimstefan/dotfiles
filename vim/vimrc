@@ -413,7 +413,7 @@ set isfname=@,48-57,/,.,-,_,+,,,#,$,%,~,=,(,),[,],{,}     " allowed characters i
 set wildmenu                           " use a scrollable menu for filename completions
 set wildchar=<tab>                     " the char used for 'expansion' on the command line
 set wildmode=list:longest,full         " show list of completions and complete as much as possible, then iterate full completions
-set wildignore+=*.swp,*.bak,*.pyc,*.cache,*.dll,*.pdb,*.tar.*
+set wildignore+=*.swp,*.bak,*.pyc,*.cache,*.dll,*.pdb,*.tar.*,*.png,*.jpg,*.gif
 set wildignore+=*/.git/**/*,*/.hg/**/*,*/.svn/**/*
 
 set modeline                           " allow the execution of modelines
@@ -452,14 +452,11 @@ set complete+=kspell                   " currently active spell checking
 " ins-completion-menu options
 set completeopt+=menuone
 set completeopt+=noinsert
-set completeopt+=preview
-set infercase                          " case of the match is adjusted depending on the typed text
-if has("autocmd") && exists("+omnifunc") " syntax completion only if a specific plugin does not already exist for that filetype
-  autocmd Filetype *
-    \  if &omnifunc == "" |
-    \    setlocal omnifunc=syntaxcomplete#Complete |
-    \  endif
+if has('patch-8.1.1880')
+  set completeopt-=preview
+  set completeopt+=popup
 endif
+set infercase                          " case of the match is adjusted depending on the typed text
 
 " Fold settings
 set foldenable                         " turn on folding
@@ -471,7 +468,6 @@ if executable('rg')
   set grepprg=rg\ --vimgrep\ --no-heading
   set grepformat=%f:%l:%c:%m
 elseif executable('ag')
-  " set grepprg=ag\ --nogroup\ --column\ --smart-case\ --nocolor\ --follow
   set grepprg=ag\ --vimgrep
   set grepformat=%f:%l:%c:%m
 elseif executable('ack')
@@ -496,7 +492,7 @@ let g:netrw_winsize                    = 20
 let g:netrw_liststyle                  = 3
 let g:netrw_preview                    = 0
 let g:netrw_alto                       = 0
-nnoremap <silent> <Leader>x              :Vexplore<CR>
+nnoremap <silent> <Leader>x              :Lexplore<CR>
 
 " " }}}
 
