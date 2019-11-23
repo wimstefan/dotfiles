@@ -118,6 +118,7 @@ Plug 'tpope/vim-obsession'
 " }}}
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-vinegar'
+Plug 'rbong/vim-flog'
 Plug 'machakann/vim-sandwich'
 Plug 'justinmk/vim-sneak'
 " vim-sneak config {{{2
@@ -203,6 +204,13 @@ Plug 'Yggdroot/indentLine'
 Plug 'fcpg/vim-spotlightify'
 Plug 'markonm/traces.vim'
 Plug 'andymass/vim-matchup'
+Plug 'tmsvg/pear-tree'
+" pear-tree config {{{2
+  let g:pear_tree_smart_openers        = 1
+  let g:pear_tree_smart_closers        = 1
+  let g:pear_tree_smart_backspace      = 1
+  let g:pear_tree_map_special_keys     = 1
+" }}}
 Plug 'brooth/far.vim'
 Plug 'qpkorr/vim-renamer'
 Plug 'will133/vim-dirdiff'
