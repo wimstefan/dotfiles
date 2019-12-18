@@ -756,8 +756,15 @@ augroup vimrc
 
   " Automatically reload vimrc when it's saved
   autocmd BufWritePost vimrc,.vimrc nested source $MYVIMRC
-
 augroup END
+
+" Enable syntax code completion
+if has("autocmd") && exists("+omnifunc")
+  autocmd Filetype *
+    \ if &omnifunc == "" |
+    \  setlocal omnifunc=syntaxcomplete#Complete |
+    \ endif
+endif
 " " }}}
 
 " Functions " {{{1
