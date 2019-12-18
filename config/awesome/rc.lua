@@ -43,14 +43,14 @@ theme_dir         = config_dir.."/themes/materia/"
 wallpaper_dir     = home_dir.."/system/wallpapers/"
 
 terminal          = os.getenv("TERMINAL")
-if terminal == 'alacritty' or terminal == 'termite' then
-  TITLE = " --title="
-  NAME  = " --name="
-  GEO   = " --geometry="
+if terminal == 'alacritty' then
+  TITLE = " --title "
+  NAME  = " --class "
+  GEO   = " --dimensions "
   CMD   = " -e "
 elseif terminal == 'kitty' then
   TITLE = " --title="
-  NAME  = " --name="
+  NAME  = " --class="
   GEO   = " -o WindowGeometry="
   CMD   = " "
 else
@@ -547,7 +547,7 @@ awful.screen.connect_for_each_screen(function(s)
   s.quakescratch = lain.util.quake({
     app     = terminal,
     name    = "Scratchpad",
-    argname = "--name %s",
+    argname = NAME.."%s",
     height  = 0.8,
     width   = 0.8,
     vert    = "top",
@@ -557,7 +557,7 @@ awful.screen.connect_for_each_screen(function(s)
   s.quakecalc = lain.util.quake({
     app     = terminal,
     name    = "Calculator",
-    argname = "--name %s",
+    argname = NAME.."%s",
     extra   = CMD.." wcalc",
     height  = 0.3,
     width   = 0.3,
@@ -568,7 +568,7 @@ awful.screen.connect_for_each_screen(function(s)
   s.quakexplore = lain.util.quake({
     app     = terminal,
     name    = "Explore",
-    argname = "--name %s",
+    argname = NAME.."%s",
     extra   = CMD.." mc",
     height  = 0.7,
     width   = 0.8,
@@ -1002,6 +1002,7 @@ awful.rules.rules = {
       "Thunderbird",
       "Wpa_gui",
       "Zathura",
+      "Scratchpad",
     },
     name = {
       "Calculator",
