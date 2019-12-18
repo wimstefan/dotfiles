@@ -473,7 +473,7 @@ else
       elseif filereadable(expand("~/.config/colorscheme"))
         source ~/.config/colorscheme
       else
-        color PaperColor
+        color default
       endif
     endif
   else
@@ -491,7 +491,7 @@ else
       elseif filereadable(expand("~/.config/colorscheme"))
         source ~/.config/colorscheme
       else
-        color PaperColor
+        color default
       endif
     endif
   endif
@@ -695,12 +695,13 @@ augroup vimrc
 
   " Commentstrings
   autocmd FileType xdefaults setlocal commentstring=!\%s
-  autocmd FileType mail setlocal commentstring=>\%s
 
-  " Typical mutt thing ... replace > > with >>
+  " mail specific configuration
   autocmd BufRead /tmp/mutt* silent! %s/^\([>|]\s\?\)\+/\=substitute(submatch(0), '\s', '', 'g').' '
   autocmd BufRead /tmp/mutt* set nonumber nohls nolist filetype=mail formatoptions=tcroqwln21
   autocmd BufRead /tmp/mutt* setlocal spell
+  autocmd FileType mail setlocal commentstring=>\%s
+  autocmd FileType mail setlocal wildignore-=*.tar.*,*.png,*.jpg,*.gif
 
   " Syntax for tmux
   autocmd BufNewFile,BufRead *tmux*conf* set filetype=tmux
