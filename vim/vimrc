@@ -454,7 +454,7 @@ set showtabline=2                      " always show the tabline above
 
 function! MyStatusline()
   let stl  = ''
-  if $USER=='root'
+  if $USER == 'root'
     let stl .= '%#Status1# ■ '
   else
     let stl .= ' ■ '
@@ -481,23 +481,29 @@ function! MyStatusline()
     let stl .= '%{ObsessionStatus("⏺", "⏸")}'
   endif
   let stl .= '%= '
-  if exists('b:git_dir') && winwidth(0) > 70
-    let branch  = fugitive#head(8)
-    let stl    .= (branch == 'master') ? '· master' : '· '. branch
-    if exists('g:loaded_signify')
-      let stl    .= s:sy_stats_wrapper().' · '
+  if &filetype != 'help'
+    if exists('g:loaded_mucomplete') && winwidth(0) > 70
+      let stl .= '%{MU()} ┃ '
+    endif
+    if exists('b:git_dir') && winwidth(0) > 70
+      let branch = fugitive#head(8)
+      let stl .= (branch == 'master') ? 'master' : branch
+      if exists('g:loaded_signify')
+        let stl .= s:sy_stats_wrapper().' '
+      endif
+      let stl .= '┃ '
     endif
   endif
-  let stl .= '%y'
+  let stl .= '%q%w%y'
   if winwidth(0) > 70
     if &fileformat != 'unix'
-      let stl .= ' %{&encoding}[%{&fileformat}] '
+      let stl .= ' %{&encoding} [%{&fileformat}] '
     else
       let stl .= ' %{&encoding} '
     endif
   endif
-    let stl .= '%1* %l:%-2c %*'
-    let stl .= ' %p%% '
+  let stl .= '%p%% '
+  let stl .= '%1* %l:%-2c %*'
   return stl
   call User_highlights()
 endfunction
@@ -754,6 +760,11 @@ function! s:sy_stats_wrapper()
   endif
 
   return hunkline
+endfunction
+
+function! MU()
+  return get(g:mucomplete#msg#short_methods,
+    \        get(g:, 'mucomplete_current_method', ''), '')
 endfunction
 
 " make list-like commands more intuitive
