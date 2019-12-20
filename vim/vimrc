@@ -687,6 +687,9 @@ augroup vimrc
   " Disable numbers & spell inside manpages
   autocmd FileType {man,help,*doc} setlocal nonumber norelativenumber nospell nolist nocursorcolumn
 
+  " Disable folding in previews
+  autocmd BufWinEnter * if &previewwindow | setlocal nofoldenable | endif
+
   " When editing a file, always jump to the last known cursor position.
   autocmd BufReadPost *
     \ if line("'\"") > 0 && line("'\"") <= line("$") |
