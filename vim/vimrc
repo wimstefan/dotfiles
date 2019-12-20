@@ -17,68 +17,24 @@ nnoremap ,pu :PlugUpdate<CR>
 let g:plug_shallow = 0
 
 silent! if  plug#begin('~/.vim/plugged')
-Plug 'neoclide/coc.nvim', {'do': { -> coc#util#install()}}
-" coc.nvim config {{{2
-  let g:coc_global_extensions = [
-    \ 'coc-lists',
-    \ 'coc-explorer',
-    \ 'coc-tabnine',
-    \ 'coc-snippets',
-    \ 'coc-highlight',
-    \ 'coc-stylelint',
-    \ 'coc-html',
-    \ 'coc-css',
-    \ 'coc-json'
-  \ ]
-
-  " Press Tab and Shift+Tab and navigate around completion selections
-  function! s:check_back_space() abort
-    let col = col('.') -1
-    return !col || getline('.')[col - 1] =~ '\s'
-  endfunction
-
-  inoremap <silent><expr> <Tab>
-    \ pumvisible() ? "\<C-n>" :
-    \ <SID>check_back_space() ? "\<Tab>" :
-    \ coc#refresh()
-  inoremap <silent><expr> <S-Tab>
-    \ pumvisible() ? "\<C-p>" :
-    \ <SID>check_back_space() ? "\<S-Tab>" :
-    \ coc#refresh()
-
-  " Press Enter to select completion items or expand snippets
-  inoremap <silent><expr> <CR>
-    \ pumvisible() ? "\<C-y>" :
-    \ "\<C-g>u\<CR>"
-
-  let g:coc_snippet_next = '<Tab>'              " Use Tab to jump to next snippet placeholder
-  let g:coc_snippet_prev = '<S-Tab>'            " Use Shift+Tab to jump to previous snippet placeholder
-
-  nmap              ,ca                  :CocAction<CR>
-  nmap              ,cc                  :CocConfig<CR>
-  nmap              ,ci                  :CocInfo<CR>
-  nmap              ,cx                  :CocCommand explorer<CR>
-  nmap              ,cl                  :CocList <C-D>
-  nmap              ,cle                 :CocList extensions<CR>
-  nmap              ,clg                 :CocList --interactive --auto-preview grep<CR>
-  nmap              ,clr                 :CocListResume<CR>
-
-  nnoremap          <Leader>b            :CocList buffers<CR>
-  nnoremap          <Leader>c            :CocList colors<CR>
-  nnoremap          <Leader>f            :CocList files<CR>
-  nnoremap          <Leader>h            :CocList helptags<CR>
-  nnoremap          <Leader>m            :CocList mru<CR>
-
-  " Use K to show documentation in preview window
-  nnoremap <silent> K :call <SID>show_documentation()<CR>
-  function! s:show_documentation()
-    if (index(['vim','help'], &filetype) >= 0)
-      execute 'h '.expand('<cword>')
-    else
-      call CocAction('doHover')
-    endif
-  endfunction
+Plug 'tpope/vim-abolish'
+Plug 'tpope/vim-commentary'
+Plug 'tpope/vim-eunuch'
+Plug 'tpope/vim-flagship'
+Plug 'tpope/vim-fugitive' | Plug 'rbong/vim-flog'
+" git related config {{{2
+  nnoremap          <Leader>gc           :<C-u>Gcommit -v %<CR>
+  nnoremap          <Leader>gd           :<C-u>Gdiff<CR>
+  nnoremap          <Leader>gl           :<C-u>0Glog<CR>
+  nnoremap          <Leader>gp           :<C-u>Gpush<CR>
+  nnoremap          <Leader>gs           :<C-u>Gstatus<CR>
 " }}}
+Plug 'tpope/vim-obsession'
+" vim-obsession config {{{2
+  nnoremap <silent> ,to                  :Obsession<CR>
+" }}}
+Plug 'tpope/vim-repeat'
+Plug 'tpope/vim-vinegar'
 Plug 'junegunn/vim-peekaboo'
 " vim-peekaboo config {{{2
   let g:peekaboo_ins_prefix            = '<C-x>'
@@ -100,25 +56,6 @@ Plug 'junegunn/vim-easy-align'
   " Start interactive EasyAlign for a motion/text object (e.g. eaip)
   nmap              ea                    <Plug>(EasyAlign)
 " }}}
-Plug 'tpope/vim-abolish'
-Plug 'tpope/vim-commentary'
-Plug 'tpope/vim-eunuch'
-Plug 'tpope/vim-flagship'
-Plug 'tpope/vim-fugitive'
-" git related config {{{2
-  nnoremap          <Leader>gc           :<C-u>Gcommit -v %<CR>
-  nnoremap          <Leader>gd           :<C-u>Gdiff<CR>
-  nnoremap          <Leader>gl           :<C-u>0Glog<CR>
-  nnoremap          <Leader>gp           :<C-u>Gpush<CR>
-  nnoremap          <Leader>gs           :<C-u>Gstatus<CR>
-" }}}
-Plug 'tpope/vim-obsession'
-" vim-obsession config {{{2
-  nnoremap <silent> ,to                  :Obsession<CR>
-" }}}
-Plug 'tpope/vim-repeat'
-Plug 'tpope/vim-vinegar'
-Plug 'rbong/vim-flog'
 Plug 'machakann/vim-sandwich'
 Plug 'justinmk/vim-sneak'
 " vim-sneak config {{{2
@@ -180,11 +117,16 @@ Plug 'romainl/vim-qf'
   nmap              <End>                <Plug>QfCnext
   nmap              <C-Home>             <Plug>QfLprevious
   nmap              <C-End>              <Plug>QfLnext
-"}}}
+" }}}
 Plug 'romainl/vim-qlist'
-Plug 'honza/vim-snippets' | Plug 'SirVer/ultisnips'
-" ultisnips config {{{2
-  let g:UltiSnipsExpandTrigger         = "<Nop>"
+Plug 'lifepillar/vim-mucomplete'
+" vim-mucomplete config {{{2
+  let g:mucomplete#enable_auto_at_startup = 1
+  let g:mucomplete#chains              = {}
+  let g:mucomplete#chains.default      = ['omni', 'path', 'user', 'keyn', 'uspl', 'dict']
+  let g:mucomplete#chains.vim          = ['path', 'cmd', 'keyn']
+  nnoremap <silent> ,ta                  :MUcompleteAutoToggle<CR>
+  imap     <expr>   <right>              mucomplete#extend_fwd("\<right>")
 " }}}
 Plug 'wellle/tmux-complete.vim'
 Plug 'wellle/targets.vim'
@@ -362,14 +304,15 @@ set hlsearch                           " highlight search results
 set list                               " display unprintable characters
 set listchars=tab:→\ ,trail:·,eol:«,extends:◀,precedes:▶
 
-set path+=**                          " list of directories which will be searched with find et al
+set path=.,**                          " list of directories which will be searched with find et al
 set isfname=@,48-57,/,.,-,_,+,,,#,$,%,~,=,(,),[,],{,}     " allowed characters in file and path names
 
 set wildmenu                           " use a scrollable menu for filename completions
 set wildchar=<tab>                     " the char used for 'expansion' on the command line
-set wildmode=list:longest,full         " show list of completions and complete as much as possible, then iterate full completions
+set wildmode=list:full                 " show list of completions and complete as much as possible, then iterate full completions
 set wildignore+=*.swp,*.bak,*.pyc,*.cache,*.dll,*.pdb,*.tar.*,*.png,*.jpg,*.gif
 set wildignore+=*/.git/**/*,*/.hg/**/*,*/.svn/**/*
+set wildignorecase                     " ignore case in file name and directory completion
 
 set modeline                           " allow the execution of modelines
 set showmode                           " shows mode
@@ -388,6 +331,7 @@ set gdefault                           " always use global substitutions
 
 " Help settings
 set keywordprg=:help
+nnoremap          <Leader>h            :help<Space>
 nnoremap          <Leader>M            :Man<Space>
 augroup help
   autocmd!
@@ -407,10 +351,7 @@ set complete+=kspell                   " currently active spell checking
 " ins-completion-menu options
 set completeopt+=menuone
 set completeopt+=noinsert
-if has('patch-8.1.1880')
-  set completeopt-=preview
-  set completeopt+=popup
-endif
+set completeopt+=noselect
 set infercase                          " case of the match is adjusted depending on the typed text
 
 " Fold settings
@@ -580,14 +521,18 @@ nnoremap          <Leader>ev             :edit    $MYVIMRC<CR>
 nnoremap          <Leader>sv             :source  $MYVIMRC<CR>
 
 " editing
+" switch colorscheme«
+nnoremap          <Leader>c              :color **<C-d>
 " replace the word under cursor globally
-nnoremap          <Leader>@              :%s/\<<c-r><c-w>\>//<left>
+nnoremap          <Leader>@              :%s@\<<c-r><c-w>\>@@<left>
 " write files with sudo
 command!                  W               w !sudo tee % > /dev/null
 
 " files
 nnoremap <silent> cd                     :<C-u>cd %:h \| pwd<CR>
 nnoremap          <Leader>e              :e **/*<C-d>
+nnoremap          <Leader>f              :find *
+nnoremap          <Leader>F              :vertical sfind *
 nnoremap          <Leader>w              :w!<CR>
 nnoremap          <Leader>wa             :wa!<CR>
 nnoremap          <Leader>q              :q!<CR>
@@ -614,10 +559,13 @@ function! WinMove(key)
 endfunction
 
 " buffers
+nnoremap          <Leader>b              :buffer *
+nnoremap          <Leader>B              :vertical sbuffer *
 nnoremap <silent> <Tab>                  :bnext<CR>
 nnoremap <silent> <S-Tab>                :bprev<CR>
 nnoremap          <Leader><Leader>        <c-^>                     " cycle between last two open buffers
 nnoremap          <Leader>bd             :Sayonara<CR>
+nnoremap          <Leader>l              :ls
 
 " tabs
 nnoremap          <Leader>td             :tabclose<CR>
@@ -804,6 +752,46 @@ function! s:sy_stats_wrapper()
 
   return hunkline
 endfunction
+
+" make list-like commands more intuitive
+" see https://gist.github.com/romainl/047aca21e338df7ccf771f96858edb86
+function! CCR()
+  let cmdline = getcmdline()
+  if cmdline =~ '\v\C^(ls|files|buffers)'
+    " like :ls but prompts for a buffer command
+    return "\<CR>:b"
+  elseif cmdline =~ '\v\C/(#|nu|num|numb|numbe|number)$'
+    " like :g//# but prompts for a command
+    return "\<CR>:"
+  elseif cmdline =~ '\v\C^(dli|il)'
+    " like :dlist or :ilist but prompts for a count for :djump or :ijump
+    return "\<CR>:" . cmdline[0] . "j " . split(cmdline, " ")[1] . "\<S-Left>\<Left>"
+  elseif cmdline =~ '\v\C^(cli|lli)'
+    " like :clist or :llist but prompts for an error/location number
+    return "\<CR>:sil " . repeat(cmdline[0], 2) . "\<Space>"
+  elseif cmdline =~ '\C^old'
+    " like :oldfiles but prompts for an old file to edit
+    set nomore
+    return "\<CR>:sil se more|e #<"
+  elseif cmdline =~ '\C^changes'
+    " like :changes but prompts for a change to jump to
+    set nomore
+    return "\<CR>:sil se more|norm! g;\<S-Left>"
+  elseif cmdline =~ '\C^ju'
+    " like :jumps but prompts for a position to jump to
+    set nomore
+    return "\<CR>:sil se more|norm! \<C-o>\<S-Left>"
+  elseif cmdline =~ '\C^marks'
+    " like :marks but prompts for a mark to jump to
+    return "\<CR>:norm! `"
+  elseif cmdline =~ '\C^undol'
+    " like :undolist but prompts for a change to undo
+    return "\<CR>:u "
+  else
+    return "\<CR>"
+  endif
+endfunction
+cnoremap <expr> <CR> CCR()
 
 " " }}}
 
