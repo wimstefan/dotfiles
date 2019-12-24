@@ -35,26 +35,6 @@ rofi.terminal:              kitty
 rofi.ssh-client:            ssh
 rofi.ssh-command:           {terminal} -e '{ssh-client} {host}'
 
-st.termname:                xst-24bit
-st.shell:                   /bin/zsh
-st.font:                    Iosevka Slab Condensed:pixelsize=28:antialias=true:autohint=true;
-st.borderpx:                10
-st.cursorshape:             2
-st.cursorthickness:         2
-st.cursorblinkstyle:        0
-st.cursorblinkontype:       1
-st.bold_font:               1
-st.xfps:                    120
-st.actionfps:               30
-st.mouseScrollLines:        1
-st.chscale:                 1.0
-st.cwscale:                 1.0
-st.blinktimeout:            800
-st.bellvolume:              100
-st.prompt_char:             $
-st.imstyle:                 root
-st.opacity:                 255
-
 *xterm*termName:            xterm-256color
 *xterm*loginShell:          true
 *xterm*maximized:           true
