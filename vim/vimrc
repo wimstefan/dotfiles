@@ -18,9 +18,7 @@ let g:plug_shallow = 0
 
 silent! if  plug#begin('~/.vim/plugged')
 Plug 'tpope/vim-abolish'
-Plug 'tpope/vim-commentary'
 Plug 'tpope/vim-eunuch'
-Plug 'tpope/vim-flagship'
 Plug 'tpope/vim-fugitive' | Plug 'rbong/vim-flog'
 " git related config {{{2
   nnoremap          <Leader>gc           :<C-u>Gcommit -v %<CR>
@@ -34,7 +32,6 @@ Plug 'tpope/vim-obsession'
   nnoremap <silent> ,to                  :Obsession<CR>
 " }}}
 Plug 'tpope/vim-repeat'
-Plug 'tpope/vim-vinegar'
 Plug 'junegunn/vim-peekaboo'
 " vim-peekaboo config {{{2
   let g:peekaboo_ins_prefix            = '<C-x>'
@@ -130,6 +127,23 @@ Plug 'lifepillar/vim-mucomplete'
 " }}}
 Plug 'wellle/tmux-complete.vim'
 Plug 'wellle/targets.vim'
+Plug 'scrooloose/nerdcommenter'
+" nerdcommenter config {{{2
+  let NERDSpaceDelims                  = 1
+  let NERDCreateDefaultMappings        = 0
+  map               gcc                  <Plug>NERDCommenterToggle
+  map               gcu                  <Plug>NERDCommenterUncomment
+  map               gcl                  <Plug>NERDCommenterAlignLeft
+  map               gcb                  <Plug>NERDCommenterAlignBoth
+  map               gca                  <Plug>NERDCommenterAltDelims
+  map               gcm                  <Plug>NERDCommenterMinimal
+  map               gcn                  <Plug>NERDCommenterNested
+  map               gci                  <Plug>NERDCommenterInvert
+  map               gcA                  <Plug>NERDCommenterAppend
+  map               gc$                  <Plug>NERDCommenterToEOL
+  map               gcy                  <Plug>NERDCommenterYank
+  map               gcs                  <Plug>NERDCommenterSexy
+" }}}
 Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' }
 " undotree config {{{2
   let g:undotree_WindowLayout          = 2
@@ -450,7 +464,6 @@ endif
 
 " Statusline " {{{2
 set laststatus=2                       " always show the statusline
-set showtabline=2                      " always show the tabline above
 
 function! MyStatusline()
   let stl  = ''
@@ -508,6 +521,75 @@ function! MyStatusline()
   call User_highlights()
 endfunction
 setlocal statusline=%!MyStatusline()
+" " }}}2
+
+" Tabline " {{{2
+set showtabline=2                      " always show the tabline above
+
+function MyTabline()
+  let s = ''
+  let t = tabpagenr()
+  let i = 1
+  while i <= tabpagenr('$')
+    let buflist = tabpagebuflist(i)
+    let winnr = tabpagewinnr(i)
+    let s .= '%' . i . 'T'
+    let s .= (i == t ? '%1*' : '%2*')
+
+    let s .= (i == t ? '%1*' : '%#TabNum#')
+    let s .= ' ' . i . ' '
+    let s .= (i == t ? '%#TabLineSel#' : '%#TabLine#')
+
+    let bufnr = buflist[winnr - 1]
+    let file = bufname(bufnr)
+    let buftype = getbufvar(bufnr, '&buftype')
+    if buftype == 'help'
+      let file = 'help:' . fnamemodify(file, ':t:r')
+    elseif buftype == 'quickfix'
+      let file = 'quickfix'
+    elseif buftype == 'nofile'
+      if file =~ '\/.'
+        let file = substitute(file, '.*\/\ze.', '', '')
+      endif
+    else
+      " let file = pathshorten(fnamemodify(file, ':p:~:.'))
+      if getbufvar(bufnr, '&modified')
+        let file = file . ' ±'
+      endif
+    endif
+    if file == ''
+      let file = '[No Name]'
+    endif
+    let s .= ' ' . file
+
+    let nwins = tabpagewinnr(i, '$')
+    if nwins > 1
+      let modified = ''
+      for b in buflist
+        if getbufvar(b, '&modified') && b != bufnr
+          let modified = '*'
+          break
+        endif
+      endfor
+      let hl = (i == t ? '%#WinNumSel#' : '%#WinNum#')
+      let nohl = (i == t ? '%#TabLineSel#' : '%#TabLine#')
+      let s .= ' ' . modified . '(' . hl . winnr . nohl . '/' . nwins . ')'
+    endif
+
+    if i < tabpagenr('$')
+      let s .= ' %#TabLine#|'
+    else
+      let s .= ' '
+    endif
+
+    let i = i + 1
+  endwhile
+
+  let s .= '%#User2#%T + %#TabLineFill#%='
+  let s .= (tabpagenr('$') > 1 ? '%1*%999X x close %*' : '%1* ^ %*')
+  return s
+endfunction
+set tabline=%!MyTabline()
 " " }}}2
 " " }}}
 
@@ -730,7 +812,8 @@ function! User_highlights() abort
   let bgcolorgui=synIDattr(synIDtrans(hlID("Statusline")), "bg", "gui")
   let bgcolorterm=synIDattr(synIDtrans(hlID("Statusline")), "bg", "cterm")
 
-  highlight User1 cterm=reverse gui=reverse
+  exe 'highlight User1 cterm=reverse gui=reverse'
+  exe 'highlight User2 cterm=bold gui=bold'
 
   exe 'highlight Status1 ctermfg=1 guifg=#e05a72'
   exe 'highlight Status2 ctermfg=2 guifg=#59b387'
