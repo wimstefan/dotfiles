@@ -1,39 +1,27 @@
 #ifdef SRVR_swimmer
   Xft.dpi: 188
   Xcursor.size: 48
-  *font: xft:Iosevka Slab Condensed:pixelsize=26.0
-  *faceName: xft:Iosevka Slab Condensed:pixelsize=26.0
-  *faceNameDoublesize: xft:Iosevka Slab Condensed:pixelsize=26.0
+  *font: xft:Iosevka Slab:pixelsize=26.0,xft:Noto Color Emoji:pixelsize=18
+  *faceName: xft:Iosevka Slab:pixelsize=26.0
+  *faceNameDoublesize: xft:Iosevka Slab:pixelsize=26.0
   rofi.font: Overlock 22
 #elif SRVR_mimi
   Xft.dpi: 98
   Xcursor.size: 24
-  *font: xft:Iosevka Slab Condensed:pixelsize=16.0
-  *faceName: xft:Iosevka Slab Condensed:pixelsize=16.0
-  *faceNameDoublesize: xft:Iosevka Slab Condensed:pixelsize=16.0
+  *font: xft:Iosevka Slab:pixelsize=16.0
+  *faceName: xft:Iosevka Slab:pixelsize=16.0
+  *faceNameDoublesize: xft:Iosevka Slab:pixelsize=16.0
   rofi.font: Overlock 11
 #elif SRVR_tj
   Xft.dpi: 92
   Xcursor.size: 24
-  *font: xft:Iosevka Slab Condensed:pixelsize=16.0
-  *faceName: xft:Iosevka Slab Condensed:pixelsize=16.0
-  *faceNameDoublesize: xft:Iosevka Slab Condensed:pixelsize=16.0
+  *font: xft:Iosevka Slab:pixelsize=16.0
+  *faceName: xft:Iosevka Slab:pixelsize=16.0
+  *faceNameDoublesize: xft:Iosevka Slab:pixelsize=16.0
   rofi.font: Overlock 11
 #endif
 
 Xcursor.theme:              Dot-Light
-
-rofi.show-icons:            true
-rofi.icon-theme:            Newaita
-rofi.modi:                  combi,window,drun,run,ssh
-rofi.combi-modi:            window,run,ssh
-rofi.color-enabled:         true
-rofi.bw:                    8
-rofi.padding:               8
-rofi.sidebar-mode:          true
-rofi.terminal:              kitty
-rofi.ssh-client:            ssh
-rofi.ssh-command:           {terminal} -e '{ssh-client} {host}'
 
 *xterm*termName:            xterm-256color
 *xterm*loginShell:          true
