@@ -127,7 +127,7 @@ Plug 'lifepillar/vim-mucomplete'
 " }}}
 Plug 'wellle/tmux-complete.vim'
 Plug 'wellle/targets.vim'
-Plug 'scrooloose/nerdcommenter'
+Plug 'preservim/nerdcommenter'
 " nerdcommenter config {{{2
   let NERDSpaceDelims                  = 1
   let NERDCreateDefaultMappings        = 0
@@ -522,7 +522,6 @@ function! MyStatusline()
 endfunction
 setlocal statusline=%!MyStatusline()
 " " }}}2
-
 " Tabline " {{{2
 set showtabline=2                      " always show the tabline above
 
@@ -573,7 +572,8 @@ function MyTabline()
       endfor
       let hl = (i == t ? '%#WinNumSel#' : '%#WinNum#')
       let nohl = (i == t ? '%#TabLineSel#' : '%#TabLine#')
-      let s .= ' ' . modified . '(' . hl . winnr . nohl . '/' . nwins . ')'
+      " let s .= ' ' . modified . '(' . hl . winnr . nohl . '/' . nwins . ')'
+      let s .= ' ' . modified . hl . winnr . nohl . '/' . nwins
     endif
 
     if i < tabpagenr('$')
@@ -586,7 +586,7 @@ function MyTabline()
   endwhile
 
   let s .= '%#User2#%T + %#TabLineFill#%='
-  let s .= (tabpagenr('$') > 1 ? '%1*%999X x close %*' : '%1* ^ %*')
+  let s .= (tabpagenr('$') > 1 ? '%1*%999X x %*' : '%1* ^ %*')
   return s
 endfunction
 set tabline=%!MyTabline()
