@@ -619,6 +619,8 @@ nnoremap          <Leader>c              :color **<C-d>
 nnoremap          <Leader>@              :%s@\<<c-r><c-w>\>@@<left>
 " write files with sudo
 command!                  W               w !sudo tee % > /dev/null
+" pasting from a register
+nmap              <Leader>r              :registers<CR>
 
 " files
 nnoremap <silent> cd                     :<C-u>cd %:h \| pwd<CR>
@@ -633,10 +635,10 @@ nnoremap          <Leader>wqa            :wqa!<CR>
 
 " windows
 " move to the split in the direction shown, or create a new split
-nnoremap <silent> <C-h>                  :call WinMove('h')<cr>
-nnoremap <silent> <C-j>                  :call WinMove('j')<cr>
-nnoremap <silent> <C-k>                  :call WinMove('k')<cr>
-nnoremap <silent> <C-l>                  :call WinMove('l')<cr>
+nnoremap <silent> <C-h>                  :call WinMove('h')<CR>
+nnoremap <silent> <C-j>                  :call WinMove('j')<CR>
+nnoremap <silent> <C-k>                  :call WinMove('k')<CR>
+nnoremap <silent> <C-l>                  :call WinMove('l')<CR>
 function! WinMove(key)
   let t:curwin = winnr()
   exec "wincmd ".a:key
@@ -651,13 +653,13 @@ function! WinMove(key)
 endfunction
 
 " buffers
-nnoremap          <Leader>b              :buffer *
-nnoremap          <Leader>B              :vertical sbuffer *
+nmap              <Leader>b              :buffers <CR>
+nnoremap          <Leader>B              :vertical sbuffer <C-d>
 nnoremap <silent> <Tab>                  :bnext<CR>
 nnoremap <silent> <S-Tab>                :bprev<CR>
 nnoremap          <Leader><Leader>        <c-^>                     " cycle between last two open buffers
 nnoremap          <Leader>bd             :Sayonara<CR>
-nnoremap          <Leader>l              :ls
+nmap              <Leader>l              :ls<CR>
 
 " tabs
 nnoremap          <Leader>td             :tabclose<CR>
@@ -860,7 +862,7 @@ function! CCR()
   let cmdline = getcmdline()
   if cmdline =~ '\v\C^(ls|files|buffers)'
     " like :ls but prompts for a buffer command
-    return "\<CR>:b"
+    return "\<CR>:b "
   elseif cmdline =~ '\v\C/(#|nu|num|numb|numbe|number)$'
     " like :g//# but prompts for a command
     return "\<CR>:"
@@ -888,6 +890,9 @@ function! CCR()
   elseif cmdline =~ '\C^undol'
     " like :undolist but prompts for a change to undo
     return "\<CR>:u "
+  elseif cmdline =~ '\C^reg'
+    " like :registers but prompts for the register to paste
+    return "\<CR>:norm! \"p\<Left>"
   else
     return "\<CR>"
   endif
