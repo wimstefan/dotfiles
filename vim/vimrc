@@ -19,6 +19,11 @@ let g:plug_shallow = 0
 silent! if  plug#begin('~/.vim/plugged')
 Plug 'tpope/vim-abolish'
 Plug 'tpope/vim-eunuch'
+Plug 'tpope/vim-obsession'
+" vim-obsession config {{{2
+  nnoremap <silent> ,to                  :Obsession<CR>
+" }}}
+Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-fugitive' | Plug 'rbong/vim-flog'
 " git related config {{{2
   nnoremap          <Leader>gc           :<C-u>Gcommit -v %<CR>
@@ -27,11 +32,6 @@ Plug 'tpope/vim-fugitive' | Plug 'rbong/vim-flog'
   nnoremap          <Leader>gp           :<C-u>Gpush<CR>
   nnoremap          <Leader>gs           :<C-u>Gstatus<CR>
 " }}}
-Plug 'tpope/vim-obsession'
-" vim-obsession config {{{2
-  nnoremap <silent> ,to                  :Obsession<CR>
-" }}}
-Plug 'tpope/vim-repeat'
 Plug 'junegunn/vim-peekaboo'
 " vim-peekaboo config {{{2
   let g:peekaboo_ins_prefix            = '<C-x>'
