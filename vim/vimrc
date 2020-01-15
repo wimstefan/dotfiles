@@ -154,7 +154,7 @@ Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' }
 Plug 'Yggdroot/indentLine'
 " indentLine config {{{2
   let g:indentLine_char                = "┊"
-  let g:indentLine_fileTypeExclude     = [ 'help', 'man' ]
+  let g:indentLine_fileTypeExclude     = [ 'help', 'man', 'preview', 'popup' ]
   nnoremap          ,ti                  :IndentLinesToggle<CR>
 " }}}
 Plug 'fcpg/vim-spotlightify'
@@ -205,7 +205,7 @@ Plug 'vim-scripts/SyntaxAttr.vim'
 Plug 'vim-scripts/visSum.vim'
 Plug 'chrisbra/unicode.vim'
 " unicode.vim config {{{2
-  let g:Unicode_ShowPreviewWindow      = 1
+  let g:Unicode_ShowPreviewWindow      = 0
   nnoremap          <Leader>us           :UnicodeSearch<Space>
   nnoremap          <Leader>ut           :UnicodeTable<CR>
   nnoremap          ga                   :UnicodeName<CR>
@@ -366,6 +366,10 @@ set complete+=kspell                   " currently active spell checking
 set completeopt+=menuone
 set completeopt+=noinsert
 set completeopt+=noselect
+if has('patch-8.1.1880')
+  set completeopt-=preview
+  set completeopt+=popup
+endif
 set infercase                          " case of the match is adjusted depending on the typed text
 
 " Fold settings
