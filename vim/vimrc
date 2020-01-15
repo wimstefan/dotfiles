@@ -116,11 +116,14 @@ Plug 'romainl/vim-qf'
   nmap              <C-End>              <Plug>QfLnext
 " }}}
 Plug 'romainl/vim-qlist'
-Plug 'lifepillar/vim-mucomplete'
+Plug 'lifepillar/vim-mucomplete' | Plug 'Konfekt/complete-common-words.vim'
 " vim-mucomplete config {{{2
+  let s:dotfiles = split(&runtimepath, ',')[0]
+  let g:common_words_dicts_dir = s:dotfiles . '/plugged/complete-common-words.vim/dicts'
+  unlet s:dotfiles
   let g:mucomplete#enable_auto_at_startup = 1
   let g:mucomplete#chains              = {}
-  let g:mucomplete#chains.default      = ['omni', 'path', 'user', 'keyn', 'uspl', 'dict']
+  let g:mucomplete#chains.default      = ['path', 'omni', 'keyn', 'user', 'dict', 'uspl']
   let g:mucomplete#chains.vim          = ['path', 'cmd', 'keyn']
   nnoremap <silent> ,ta                  :MUcompleteAutoToggle<CR>
   imap     <expr>   <right>              mucomplete#extend_fwd("\<right>")
