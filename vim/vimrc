@@ -532,7 +532,7 @@ setlocal statusline=%!MyStatusline()
 " Tabline " {{{2
 set showtabline=2                      " always show the tabline above
 
-function MyTabline()
+function! MyTabline()
   let s = ''
   let t = tabpagenr()
   let i = 1
@@ -618,6 +618,7 @@ nnoremap          <Leader>sv             :source  $MYVIMRC<CR>
 " editing
 " switch colorscheme«
 nnoremap          <Leader>c              :color **<C-d>
+nnoremap          <Leader>tx             :set term=xterm-256color<CR>
 " replace the word under cursor globally
 nnoremap          <Leader>@              :%s@\<<c-r><c-w>\>@@<left>
 " write files with sudo
@@ -662,7 +663,6 @@ nnoremap <silent> <Tab>                  :bnext<CR>
 nnoremap <silent> <S-Tab>                :bprev<CR>
 nnoremap          <Leader><Leader>        <c-^>                     " cycle between last two open buffers
 nnoremap          <Leader>bd             :Sayonara<CR>
-nmap              <Leader>l              :ls<CR>
 
 " tabs
 nnoremap          <Leader>td             :tabclose<CR>
@@ -798,6 +798,7 @@ augroup vimrc
 
   " Reload statusline after changing windows/buffer/tab
   autocmd BufEnter * setlocal statusline=%!MyStatusline()
+  autocmd BufEnter * setlocal tabline=%!MyTabline()
 
   " Resize windows automagically
   autocmd VimResized * :wincmd =
