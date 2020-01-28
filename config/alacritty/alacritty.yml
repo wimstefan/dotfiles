@@ -87,9 +87,6 @@ scrolling:
   # scrollback is enabled (history > 0).
   #multiplier: 3
 
-  # Scroll to the bottom when new text is written to the terminal.
-  #auto_scroll: false
-
 # Spaces per Tab (changes require restart)
 #
 # This setting defines the width of a tab in cells.
@@ -453,6 +450,9 @@ mouse:
 #
 # Mouse bindings are specified as a list of objects, much like the key
 # bindings further below.
+#
+# To trigger mouse bindings when an application running within Alacritty captures the mouse, the
+# `Shift` modifier is automatically added as a requirement.
 #
 # Each mouse binding will specify a:
 #
