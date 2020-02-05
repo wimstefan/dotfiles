@@ -376,10 +376,10 @@ export HISTFILE="$HOME/.zsh/histfile"
 export HISTSIZE="5000"
 export SAVEHIST="5000"
 export CVS_RSH="ssh"
-export FZF_DEFAULT_COMMAND='fd --type file --follow --hidden --exclude .git --color=always'
+export FZF_DEFAULT_COMMAND='fd --type file --follow --hidden --exclude .git'
 export FZF_CTRL_T_COMMAND=$FZF_DEFAULT_COMMAND
 export FZF_CTRL_T_OPTS='--preview "bat --color=always {}" --preview-window right:70%:hidden:wrap --bind "?:toggle-preview"'
-export FZF_DEFAULT_OPTS='-x -m --cycle --ansi --inline-info --height 80% --color=light --preview "bat --color=always {}" --preview-window right:70%:hidden:wrap --bind "?:toggle-preview"'
+export FZF_DEFAULT_OPTS='-x -m --cycle --border --layout=reverse --inline-info --height 80% --color=light --preview "bat --color=always {}" --preview-window right:70%:hidden:wrap --bind "?:toggle-preview"'
 export HIGHLIGHT_STYLE="github"
 export XAUTHORITY="$HOME/.Xauthority"
 export DISPLAY=:0.0
@@ -663,6 +663,12 @@ if [[ $USER != root ]]; then
     #### 2014 zonder korting ###
     echo "$1 lessen (75min) + $2 lessen (60min) (`wcalc "(($1*75) + ($2*60)) / 60" | sed 's/ = //'` werkuren á € 44.00)"
     echo "€ `wcalc "((($1*75) + ($2*60)) / 60) * 44" | sed 's/ = //'`"
+  }
+
+  git-download-dir()
+  {
+    i="$1"
+    svn export ${i/tree\/master/trunk}
   }
 
   # }}}3
