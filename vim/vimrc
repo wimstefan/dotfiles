@@ -275,6 +275,11 @@ Plug 'gu-fan/colorv.vim', { 'on': ['ColorV', 'ColorVEdit', 'ColorVPreview', 'Col
 " colorv config {{{2
   nnoremap          ,tcp                 :ColorVPreview<CR>
 " }}}
+Plug 'RRethy/vim-hexokinase', { 'do': 'make hexokinase' }
+" vim-hexokinase config {{{2
+  let g:Hexokinase_highlighters          = [ 'foregroundfull', 'backgroundfull' ]
+  let g:Hexokinase_optInPatterns         = 'full_hex,triple_hex,rgb,rgba,hsl,hsla,colour_names'
+" }}}
 Plug 'lifepillar/vim-colortemplate'
 " vim-colortemplate config {{{2
   let g:colortemplate_no_stat          =  0
@@ -887,10 +892,10 @@ function! User_highlights() abort
   exe 'highlight Status3 ctermfg=3 guifg=#ffcc66'
   exe 'highlight Status4 ctermfg=4 guifg=#5f87af'
 
-  exe 'highlight Mode1 ctermfg=0 ctermbg=2 guifg=#2e3440 guibg=#59b387'
-  exe 'highlight Mode2 ctermfg=0 ctermbg=4 guifg=#2e3440 guibg=#5f87af'
+  exe 'highlight Mode1 ctermfg=7 ctermbg=2 guifg=#eff1f4 guibg=#59b387'
+  exe 'highlight Mode2 ctermfg=7 ctermbg=4 guifg=#eff1f4 guibg=#5f87af'
   exe 'highlight Mode3 ctermfg=0 ctermbg=3 guifg=#2e3440 guibg=#ffcc66'
-  exe 'highlight Mode4 ctermfg=0 ctermbg=1 guifg=#2e3440 guibg=#e05a72'
+  exe 'highlight Mode4 ctermfg=7 ctermbg=1 guifg=#eff1f4 guibg=#e05a72'
 endfunction
 
 function! s:sy_stats_wrapper()
