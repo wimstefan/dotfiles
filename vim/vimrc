@@ -167,9 +167,22 @@ Plug 'lifepillar/vim-mucomplete' | Plug 'Konfekt/complete-common-words.vim'
   let g:common_words_dicts_dir = s:dotfiles . '/plugged/complete-common-words.vim/dicts'
   unlet s:dotfiles
   let g:mucomplete#enable_auto_at_startup = 1
+  let g:mucomplete#always_use_completeopt = 1
   let g:mucomplete#chains              = {}
-  let g:mucomplete#chains.default      = ['path', 'omni', 'keyn', 'user', 'dict', 'uspl']
-  let g:mucomplete#chains.vim          = ['path', 'cmd', 'keyn']
+  let g:mucomplete#chains              = {
+                                         \ 'default':    ['file', 'keyn', 'omni', 'user', 'defs', 'incl', 'c-n', 'uspl'],
+                                         \ 'vim':        ['file', 'keyn', 'cmd',  'omni', 'user', 'c-n', 'uspl'],
+                                         \ 'gitcommit':  ['file', 'c-n',  'uspl', 'omni', 'user'],
+                                         \ 'mail':       ['file', 'c-n',  'uspl', 'omni', 'user'],
+                                         \ 'markdown':   ['file', 'c-n',  'uspl', 'omni', 'user'],
+                                         \ 'text':       ['file', 'c-n',  'uspl', 'omni', 'user']
+                                         \ }
+  let g:mucomplete#can_complete         = {}
+  let g:mucomplete#can_complete.default = {
+                                          \ 'keyn': { t -> t =~# '\v\k{2,}$' },
+                                          \ 'c-n':  { t -> t =~# '\v\k{3,}$' },
+                                          \ 'uspl': { t -> t =~# '\v\k{4,}$' && &l:spell && !empty(&l:spelllang) },
+                                          \ }
   nnoremap <silent> ,ta                  :MUcompleteAutoToggle<CR>
   imap     <expr>   <right>              mucomplete#extend_fwd("\<right>")
 " }}}
@@ -408,7 +421,10 @@ set mouse=a                            " enable mouse everywhere
 set mousemodel=popup_setpos
 
 " Completion settings
+set complete-=i                        " included files
+set complete-=t                        " tags
 set complete+=kspell                   " currently active spell checking
+set dictionary+=spell
 " ins-completion-menu options
 set completeopt+=menuone
 set completeopt+=noinsert
