@@ -1,23 +1,16 @@
 #ifdef SRVR_swimmer
   Xft.dpi: 188
   Xcursor.size: 48
-  *font: xft:Iosevka Slab:pixelsize=26.0,xft:Noto Color Emoji:pixelsize=18
-  *faceName: xft:Iosevka Slab:pixelsize=26.0
-  *faceNameDoublesize: xft:Iosevka Slab:pixelsize=26.0
+  *font: xft:Iosevka Artesanal:pixelsize=26.0,xft:Noto Color Emoji:pixelsize=18
+  *faceName: xft:Iosevka Artesanal:pixelsize=26.0,xft:Noto Color Emoji:pixelsize=18
+  *faceNameDoublesize: xft:Iosevka Artesanal:pixelsize=26.0,xft:Noto Color Emoji:pixelsize=18
   rofi.font: Overlock 22
-#elif SRVR_mimi
-  Xft.dpi: 98
-  Xcursor.size: 24
-  *font: xft:Iosevka Slab:pixelsize=16.0
-  *faceName: xft:Iosevka Slab:pixelsize=16.0
-  *faceNameDoublesize: xft:Iosevka Slab:pixelsize=16.0
-  rofi.font: Overlock 11
 #elif SRVR_tj
-  Xft.dpi: 92
+  Xft.dpi: 108
   Xcursor.size: 24
-  *font: xft:Iosevka Slab:pixelsize=16.0
-  *faceName: xft:Iosevka Slab:pixelsize=16.0
-  *faceNameDoublesize: xft:Iosevka Slab:pixelsize=16.0
+  *font: xft:Iosevka Artesanal:pixelsize=16.0,xft:Noto Color Emoji:pixelsize=18
+  *faceName: xft:Iosevka Artesanal:pixelsize=16.0,xft:Noto Color Emoji:pixelsize=18
+  *faceNameDoublesize: xft:Iosevka Artesanal:pixelsize=16.0,xft:Noto Color Emoji:pixelsize=18
   rofi.font: Overlock 11
 #endif
 

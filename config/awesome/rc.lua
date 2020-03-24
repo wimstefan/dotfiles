@@ -25,11 +25,7 @@ hostname          = io.lines("/proc/sys/kernel/hostname")()
 if hostname == 'tj' then
   TYPE     = "laptop"
   SYSTEMP  = "coretemp.0/hwmon/hwmon0"
-  TEMPFILE = "/sys/devices/virtual/thermal/thermal_zone1/temp"
-elseif hostname == 'mimi' then
-  TYPE     = "laptop"
-  SYSTEMP  = "coretemp.0/hwmon/hwmon1"
-  TEMPFILE = "/sys/devices/virtual/thermal/thermal_zone1/temp"
+  TEMPFILE = "/sys/devices/pci0000:00/0000:00:18.3/hwmon/hwmon0/temp1_input"
 elseif hostname == 'swimmer' or hostname == 'komala' then
   TYPE     = "desktop"
   SYSTEMP  = "coretemp.0/hwmon/hwmon0"
@@ -1026,7 +1022,6 @@ awful.rules.rules = {
   { rule = { name  = "^work" }       , properties = { tag = "2" } } ,
   { rule = { name  = "^com" }        , properties = { tag = "3" } } ,
   { rule = { name  = "^tj" }         , properties = { tag = "3" } } ,
-  { rule = { name  = "^mimi" }       , properties = { tag = "4" } } ,
   { rule = { name  = "^komala" }     , properties = { tag = "5" } } ,
   { rule = { name  = "laptop$" }     , properties = { tag = "6" } } ,
   { rule = { name  = "^swimmer" }    , properties = { tag = "6" } } ,

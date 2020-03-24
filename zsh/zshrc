@@ -697,7 +697,7 @@ if [[ $USER != root ]]; then
 
     function sync-vimrc()
     {
-      for i in komala mimi tj xs; do
+      for i in komala tj xs; do
         if [[ $i == xs8 ]]; then
           echo "▷ $i"
           if ping -c1 $i > /dev/null; then
@@ -796,16 +796,6 @@ if [[ $USER != root ]]; then
               echo "$i is down"
             fi
             ;;
-          (mimi)
-            echo "<< $i >>"
-            if ping -c1 $i > /dev/null; then
-              sync-dotfiles $i
-              sync-x $i
-              sync-cli $i
-            else
-              echo "$i is down"
-            fi
-            ;;
           (tj)
             echo "<< $i >>"
             if ping -c1 $i > /dev/null; then
@@ -817,7 +807,7 @@ if [[ $USER != root ]]; then
             fi
             ;;
           (all)
-            for h in komala mimi tj; do
+            for h in komala tj; do
               echo "<< $h >>"
               if ping -c1 $h > /dev/null; then
                 sync-dotfiles $h
@@ -856,16 +846,6 @@ if [[ $USER != root ]]; then
     alias hdmi-mplayer="mplayer -ao alsa:device=hdmi"
     alias hdmi-vlc="vlc --alsa-audio-device=hdmi"
     alias exif="exiftool -@ ${HOME}/system/tags '$@'"
-  fi
-  # }}}4
-  # . mimi # {{{4
-  if [[ $HOST == mimi ]]; then
-    echo "Loading host specific settings for $HOST ..."
-
-    # Key management
-    eval `keychain --eval --agents gpg,ssh`
-
-    alias tj="tmux start-server && tmux attach -d -t tj"
   fi
   # }}}4
   # . komala # {{{4
@@ -959,19 +939,6 @@ else
       rc-config stop net.wlan0
       rmmod -f iwl{wifi,dvm} {mac,cfg}80211
       modprobe iwlwifi
-      rc-config start net.wlan0
-    }
-
-  fi
-  # }}}5
-  # . mimi # {{{5
-  if [[ $HOST == mimi ]]; then
-    echo "Loading host specific settings for $HOST ..."
-
-    function wlan-restart() {
-      rc-config stop net.wlan0
-      rmmod -f iwl{4965,egacy} {mac,cfg}80211
-      modprobe iwl4965
       rc-config start net.wlan0
     }
 
