@@ -239,7 +239,7 @@ local widget_mpd = lain.widget.mpd({
 })
 local mpd_box = wibox.container.scroll.horizontal(widget_mpd.widget)
 mpd_box:set_fps(5)
-mpd_box:set_max_size(340)
+mpd_box:set_max_size(840)
 local tooltip_mpd = awful.tooltip({
   objects = { mpd_box },
   timeout = 0,
@@ -462,18 +462,42 @@ local tooltip_bat = awful.tooltip({
 mytextclock = wibox.widget.textclock( '<span font="'..beautiful.taglist_font..'" background="'..beautiful.clock_bg..'" color="'..beautiful.clock_fg..'"> %a %b %d, %H:%M </span>' )
 -- https://github.com/getzze/awesome_config/blob/master/rc.lua#L356 --
 local mycalendar = awful.widget.calendar_popup.month({
-  margin = beautiful.useless_gap,
-  spacing = beautiful.useless_gap,
-  style_month = {
-    padding = beautiful.useless_gap,
-    border_width = beautiful.border_width,
-    border_color = beautiful.clock_bg,
-    shape  = function(cr, width, height) gears.shape.infobubble(cr, width, height) end
+  font             = beautiful.clock_font,
+  margin           = dpi(2),
+  week_numbers     = true,
+  style_month      = {
+    border_color   = beautiful.clock_bg,
+    border_width   = beautiful.border_width,
+    padding        = dpi(2),
+    shape          = gears.shape.infobubble,
   },
-  style_focus = {
-    fg_color = beautiful.clock_fg,
-    bg_color = beautiful.clock_bg
+  style_header     = {
+    border_color   = beautiful.clock_bg,
+    border_width   = dpi(0),
+    fg_color       = beautiful.clock_fg,
+    bg_color       = beautiful.clock_bg,
+    padding        = dpi(8),
+    shape          = gears.shape.infobubble
   },
+  style_weekday    = {
+    border_width   = dpi(0),
+    fg_color       = beautiful.clock_bg,
+    padding        = dpi(6)
+  },
+  style_weeknumber = {
+    border_width   = dpi(0),
+    fg_color       = beautiful.green1,
+    padding        = dpi(6)
+  },
+  style_normal     = {
+    border_width   = dpi(0),
+    padding        = dpi(6)
+  },
+  style_focus      = {
+    border_width   = dpi(0),
+    fg_color       = beautiful.red1,
+    padding        = dpi(6)
+  }
 })
 mycalendar:attach(mytextclock, 'tr')
 -- Textclock widget }}}
@@ -812,7 +836,7 @@ globalkeys = gears.table.join(
             function () awful.spawn("lxappearance") end,
             {description = "Lxappearance", group = "applications"}),
   awful.key({ modkey,           }, "z",
-            function () awful.spawn("rofimoji.py") end,
+            function () awful.spawn("rofimoji") end,
             {description = "Emoji picker 😸", group = "applications"}),
   awful.key({                   }, "Print",
             function() awful.spawn("screengrab") end,
