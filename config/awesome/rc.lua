@@ -15,6 +15,8 @@ local beautiful              = require("beautiful")
 local dpi                    = require("beautiful.xresources").apply_dpi
 -- Notification library
 local naughty                = require("naughty")
+-- Declarative object management
+local ruled                  = require("ruled")
 local menubar                = require("menubar")
 local hotkeys_popup          = require("awful.hotkeys_popup").widget
                                require("awful.hotkeys_popup.keys")
@@ -928,10 +930,12 @@ root.keys(globalkeys)
 
 -- Rules {{{1
 -- Rules to apply to new clients (through the "manage" signal).
-awful.rules.rules = {
+ruled.client.connect_signal("request::rules", function()
   -- All clients will match this rule.
-  { rule = { },
-    properties = {
+  ruled.client.append_rule {
+    id               = "global",
+    rule             = { },
+    properties       = {
       border_width   = beautiful.border_width,
       border_color   = beautiful.border_normal,
       focus          = awful.client.focus.filter,
@@ -943,109 +947,136 @@ awful.rules.rules = {
       honor_workarea = true,
       honor_padding  = true,
       placement      = awful.placement.no_offscreen+awful.placement.centered
-    },
-    -- Add a titlebar and hide for most windows
-    callback = function (c)
-      -- buttons for the titlebar
-      local buttons = gears.table.join(
-        awful.button({ }, 1, function()
-          client.focus = c
-          c:raise()
-          awful.mouse.client.move(c)
-        end),
-        awful.button({ }, 3, function()
-          client.focus = c
-          c:raise()
-          awful.mouse.client.resize(c)
-        end)
-      )
+    }
+  }
 
-      awful.titlebar(c) : setup {
-        { -- Left
-          awful.titlebar.widget.iconwidget(c),
-          buttons = buttons,
-          layout  = wibox.layout.fixed.horizontal
-        },
-        { -- Middle
-          { -- Title
-            align  = "center",
-            widget = awful.titlebar.widget.titlewidget(c)
-          },
-          buttons = buttons,
-          layout  = wibox.layout.flex.horizontal
-        },
-        { -- Right
-          awful.titlebar.widget.floatingbutton (c),
-          awful.titlebar.widget.maximizedbutton(c),
-          awful.titlebar.widget.stickybutton   (c),
-          awful.titlebar.widget.ontopbutton    (c),
-          awful.titlebar.widget.closebutton    (c),
-          layout = wibox.layout.fixed.horizontal()
-        },
-        layout = wibox.layout.align.horizontal
-      }
-      -- Only show titlebars for dialogs
-      if c.type ~=  "dialog" then
-        awful.titlebar.hide(c)
-      end
-    end
-    },
+  -- Add titlebars only to dialogs
+  ruled.client.append_rule {
+    id               = "titlebars",
+    rule_any         = { type = { "dialog" } },
+    properties       = { titlebars_enabled = true }
+  }
 
   -- Floating clients.
-  { rule_any = {
-    class = {
-      "Apvlv",
-      "Audacity",
-      "Lxappearance",
-      "pinentry",
-      "Scribus",
-      "Thunderbird",
-      "Wpa_gui",
-      "Zathura",
-      "Scratchpad",
+  ruled.client.append_rule {
+    id = "floating",
+    rule_any = {
+      class = {
+        "Apvlv",
+        "Audacity",
+        "Lxappearance",
+        "pinentry",
+        "Scribus",
+        "Thunderbird",
+        "Wpa_gui",
+        "Zathura",
+        "Scratchpad",
+      },
+      name = {
+        "Calculator",
+        "Event Tester",
+        "Explore",
+        "Htop",
+        "IP Traffic",
+        "Scratchpad",
+      },
+      role = {
+        "AlarmWindow",  -- Thunderbird's calendar.
+        "pop-up",       -- e.g. Google Chrome's (detached) Developer Tools.
+      },
+      type = {
+        "dialog",
+      }
     },
-    name = {
-      "Calculator",
-      "Event Tester",
-      "Explore",
-      "Htop",
-      "IP Traffic",
-      "Scratchpad",
-    },
-    role = {
-      "AlarmWindow",  -- Thunderbird's calendar.
-      "pop-up",       -- e.g. Google Chrome's (detached) Developer Tools.
-    },
-    type = {
-      "dialog",
-    }
-  }, properties = { floating = true }},
+    properties = { floating = true }
+  }
 
   -- Tag associations
-  { rule = { name  = "^sys" }        , properties = { tag = "1" } } ,
-  { rule = { name  = "^work" }       , properties = { tag = "2" } } ,
-  { rule = { name  = "^com" }        , properties = { tag = "3" } } ,
-  { rule = { name  = "^tj" }         , properties = { tag = "3" } } ,
-  { rule = { name  = "^komala" }     , properties = { tag = "5" } } ,
-  { rule = { name  = "laptop$" }     , properties = { tag = "6" } } ,
-  { rule = { name  = "^swimmer" }    , properties = { tag = "6" } } ,
-  { rule = { name  = "^home" }       , properties = { tag = "6" } } ,
-  { rule = { class = "Thunderbird" } , properties = { tag = "7" } } ,
-  { rule = { class = "Scribus" }     , properties = { tag = "7" } } ,
-  { rule = { class = "VirtualBox" }  , properties = { tag = "7" } } ,
-  { rule = { class = "Darktable" }   , properties = { tag = "8" } } ,
-  { rule = { class = "Gimp" }        , properties = { tag = "8" } } ,
-  { rule = { class = "Inkscape" }    , properties = { tag = "8" } } ,
-  { rule = { class = "Audacious" }   , properties = { tag = "9" } } ,
-  { rule = { class = "Audacity" }    , properties = { tag = "9" } } ,
-  { rule = { class = "Puddletag" }   , properties = { tag = "9" } } ,
-
-}
+  ruled.client.append_rule {
+    rule_any = {
+      name  = {
+        "^sys"
+      }
+    },
+    properties = { tag = "1" }
+  }
+  ruled.client.append_rule {
+    rule_any = {
+      name  = {
+        "^work"
+      }
+    },
+    properties = { tag = "2" }
+  }
+  ruled.client.append_rule {
+    rule_any = {
+      name  = {
+        "^com"
+      }
+    },
+    properties = { tag = "3" }
+  }
+  ruled.client.append_rule {
+    rule_any = {
+      name  = {
+        "^tj"
+      }
+    },
+    properties = { tag = "3" }
+  }
+  ruled.client.append_rule {
+    rule_any = {
+      name  = {
+        "^komala"
+      }
+    },
+    properties = { tag = "5" }
+  }
+  ruled.client.append_rule {
+    rule_any = {
+      name  = {
+        "laptop$",
+        "^home",
+        "^swimmer"
+      }
+    },
+    properties = { tag = "6" }
+  }
+  ruled.client.append_rule {
+    rule_any = {
+      class = {
+        "Thunderbird",
+        "Scribus",
+        "VirtualBox"
+      }
+    },
+    properties = { tag = "7" }
+  }
+  ruled.client.append_rule {
+    rule_any = {
+      class = {
+        "Darktable",
+        "Gimp",
+        "Inkscape"
+      }
+    },
+    properties = { tag = "8" }
+  }
+  ruled.client.append_rule {
+    rule_any = {
+      class = {
+        "Audacious",
+        "Audacity",
+        "Puddletag"
+      }
+    },
+    properties = { tag = "9" }
+  }
 
   -- Application & host specific rules
   if hostname == "swimmer" then
-    awful.rules.rules = gears.table.merge(awful.rules.rules, {
-      { rule_any = {
+    ruled.client.append_rule {
+      rule_any = {
         role = { "GtkFileChooserDialog" },
         name  = {
           "^Edit",
@@ -1053,26 +1084,27 @@ awful.rules.rules = {
           "^Save",
         }
       },
-        properties = {
-          floating = true,
-          width = dpi(1000), height = dpi(600)
-        }
-      },
-      { rule_any = {
-        name     = {
+      properties = {
+        floating = true,
+        width = dpi(1000), height = dpi(600)
+      }
+    }
+    ruled.client.append_rule {
+      rule_any = {
+        name = {
           "^sys",
           "^work",
           "^com",
-          "^mimi",
           "^komala",
           "laptop$"
         }
       },
-        properties = {
-          geometry = { width = 2940, height = 2100, x = 440, y = 18 }
-        }
-      },
-      { rule_any = {
+      properties = {
+        geometry = { width = 2940, height = 2100, x = 440, y = 18 }
+      }
+    }
+    ruled.client.append_rule {
+      rule_any = {
         name = { "Firefox" },
         class = {
           "Firefox",
@@ -1081,38 +1113,41 @@ awful.rules.rules = {
           "Thunderbird"
         }
       },
-        properties = {
-          x = dpi(0), y = dpi(20)
-        }
-      },
-      { rule = { name = "Htop" },
-        properties = {
-          floating = true,
-          width = dpi(1000), height = dpi(800), x = dpi(600), y = dpi(20)
-        }
-      },
-      { rule = { name = "My Player 1" },
-        properties = {
-          floating = true,
-          width = dpi(1400), height = dpi(880), x = dpi(240), y = dpi(20)
-        }
-      },
-      { rule = { name = "My Player 2" },
-        properties = {
-          floating = true,
-          width = dpi(1000), height = dpi(660), x = dpi(440), y = dpi(20)
-        }
-      },
-      { rule = { name = "My Mixer" },
-        properties = {
-          floating = true,
-          width = dpi(1000), height = dpi(300), x = dpi(440), y = dpi(20)
-        }
+      properties = {
+        x = dpi(0), y = dpi(20)
       }
-    } )
+    }
+    ruled.client.append_rule {
+      rule = { name = "Htop" },
+      properties = {
+        floating = true,
+        width = dpi(1000), height = dpi(800), x = dpi(600), y = dpi(20)
+      }
+    }
+    ruled.client.append_rule {
+      rule = { name = "My Player 1" },
+      properties = {
+        floating = true,
+        width = dpi(1400), height = dpi(880), x = dpi(240), y = dpi(20)
+      }
+    }
+    ruled.client.append_rule {
+      rule = { name = "My Player 2" },
+      properties = {
+        floating = true,
+        width = dpi(1000), height = dpi(660), x = dpi(440), y = dpi(20)
+      }
+    }
+    ruled.client.append_rule {
+      rule = { name = "My Mixer" },
+      properties = {
+        floating = true,
+        width = dpi(1000), height = dpi(300), x = dpi(440), y = dpi(20)
+      }
+    }
   else
-    awful.rules.rules = gears.table.merge(awful.rules.rules, {
-      { rule_any = {
+    ruled.client.append_rule {
+      rule_any = {
         role = { "GtkFileChooserDialog" },
         name  = {
           "^Edit",
@@ -1120,37 +1155,83 @@ awful.rules.rules = {
           "^Save",
         }
       },
-        properties = {
-          floating = true,
-          width = dpi(660), height = dpi(440)
-        }
-      },
-      { rule = { name = "Htop" },
-        properties = {
-          floating = true,
-          width = dpi(800), height = dpi(600), x = dpi(400), y = dpi(20)
-        }
-      },
-      { rule = { name = "My Player 1" },
-        properties = {
-          floating = true,
-          width = dpi(1000), height = dpi(660), x = dpi(140), y = dpi(20)
-        }
-      },
-      { rule = { name = "My Player 2" },
-        properties = {
-          floating = true,
-          width = dpi(800), height = dpi(600), x = dpi(240), y = dpi(20)
-        }
-      },
-      { rule = { name = "My Mixer" },
-        properties = {
-          floating = true,
-          width = dpi(1000), height = dpi(300), x = dpi(240), y = dpi(20)
-        }
+      properties = {
+        floating = true,
+        width = dpi(660), height = dpi(440)
       }
-    } )
+    }
+    ruled.client.append_rule {
+      rule = { name = "Htop" },
+      properties = {
+        floating = true,
+        width = dpi(800), height = dpi(600), x = dpi(400), y = dpi(20)
+      }
+    }
+    ruled.client.append_rule {
+      rule = { name = "My Player 1" },
+      properties = {
+        floating = true,
+        width = dpi(1000), height = dpi(660), x = dpi(140), y = dpi(20)
+      }
+    }
+    ruled.client.append_rule {
+      rule = { name = "My Player 2" },
+      properties = {
+        floating = true,
+        width = dpi(800), height = dpi(600), x = dpi(240), y = dpi(20)
+      }
+    }
+    ruled.client.append_rule {
+      rule = { name = "My Mixer" },
+      properties = {
+        floating = true,
+        width = dpi(1000), height = dpi(300), x = dpi(240), y = dpi(20)
+      }
+    }
   end
+end)
+
+-- Add a titlebar if titlebars_enabled is set to true in the rules.
+client.connect_signal("request::titlebars", function (c)
+  -- buttons for the titlebar
+  local buttons = {
+    awful.button({ }, 1, function()
+      client.focus = c
+      c:raise()
+      awful.mouse.client.move(c)
+    end),
+    awful.button({ }, 3, function()
+      client.focus = c
+      c:raise()
+      awful.mouse.client.resize(c)
+    end)
+  }
+
+  awful.titlebar(c).widget = {
+    { -- Left
+      awful.titlebar.widget.iconwidget(c),
+      buttons = buttons,
+      layout  = wibox.layout.fixed.horizontal
+    },
+    { -- Middle
+      { -- Title
+        align  = "center",
+        widget = awful.titlebar.widget.titlewidget(c)
+      },
+      buttons = buttons,
+      layout  = wibox.layout.flex.horizontal
+    },
+    { -- Right
+      awful.titlebar.widget.floatingbutton (c),
+      awful.titlebar.widget.maximizedbutton(c),
+      awful.titlebar.widget.stickybutton   (c),
+      awful.titlebar.widget.ontopbutton    (c),
+      awful.titlebar.widget.closebutton    (c),
+      layout = wibox.layout.fixed.horizontal()
+    },
+    layout = wibox.layout.align.horizontal
+  }
+end)
 
 -- }}}
 
