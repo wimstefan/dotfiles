@@ -32,7 +32,7 @@ Plug 'tpope/vim-fugitive' | Plug 'rbong/vim-flog'
   nnoremap          <Leader>gp           :<C-u>Gpush<CR>
   nnoremap          <Leader>gs           :<C-u>Gstatus<CR>
 " }}}
-Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': { -> fzf#install() } }
 " fzf config {{{2
   set rtp+=~/.fzf
 " }}}
@@ -63,6 +63,7 @@ Plug 'junegunn/fzf.vim'
   nnoremap          <Leader>p            :Files<CR>
   nnoremap          <Leader>fb           :BTags<CR>
   nnoremap          <Leader>fh           :History<CR>
+  nnoremap          <Leader>fm           :Maps<CR>
   nnoremap          <Leader>fr           :Rg<Space>
   nnoremap          <Leader>fl           :Locate<Space>
   nnoremap          <Leader>ft           :Tags<CR>
@@ -75,7 +76,7 @@ Plug 'junegunn/fzf.vim'
                                          \ 'ctrl-t': 'tab split',
                                          \ 'ctrl-x': 'split',
                                          \ 'ctrl-v': 'vsplit' }
-  let g:fzf_layout                     = { 'window': { 'width': 0.9, 'height': 0.6, 'highlight': 'none', 'rounded': 0 } }
+  let g:fzf_layout                     = { 'up': '~40%' }
 " }}}
 Plug 'junegunn/vim-peekaboo'
 " vim-peekaboo config {{{2
