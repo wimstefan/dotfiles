@@ -47,6 +47,8 @@ setopt    short_loops             # 'for i in *; echo $i;' instead of 'for i in 
 #setopt    notify                  # this will put info from finished background processes over the current line
 # Prompting
 setopt    prompt_subst            # allow substition with $PS1, etc. Needed for vcs_info
+# Paths
+typeset -U path cdpath fpath manpath # Remove duplicates in the following arrays.
 # }}}2
 # - Colors {{{2
 autoload -U colors && colors
@@ -515,8 +517,8 @@ if [[ $USER != root ]]; then
 
   # }}}3
   # - Exports {{{3
-  export PATH="$PATH:$HOME/bin:$HOME/.local/bin:/sbin:/usr/sbin:$HOME/.fzf_browser:$HOME/.cargo/bin"
-  export MANPATH="$MANPATH:$HOME/man"
+  path=($HOME/bin $HOME/.local/bin $HOME/.fzf_browser $HOME/.cargo/bin $HOME/.gem/ruby/bin $path)
+  manpath=($HOME/man $manpath)
   export MANPAGER="$HOME/.vim/plugged/vimpager/vimpager"
   export PAGER="$HOME/.vim/plugged/vimpager/vimpager"
   export MPD_HOST="localhost"
@@ -867,7 +869,7 @@ else
   RPROMPT='$(vi_mode_prompt)'
   # }}}3
   # - Exports # {{{3
-  export PATH=$PATH:$HOME/bin
+  path=($HOME/bin $path)
   BASE16_SHELL="$HOME/.config/base16-shell/"
   # [ -n "$PS1" ] && [ -s $BASE16_SHELL/profile_helper.sh ] && eval "$($BASE16_SHELL/profile_helper.sh)"
   # }}}3
