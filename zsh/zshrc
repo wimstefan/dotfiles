@@ -456,7 +456,7 @@ function dirdiff() # compare two directories with vim
 
 function viz() # edit AND source ~/.zshrc
 {
-  vim -O $HOME/.dotfiles/zsh/zshrc $HOME/.zsh/zsh_aliases && exec zsh
+  vim -O $HOME/.dotfiles/zsh/zshrc && exec zsh
 }
 
 function lowercase() # move filenames to lowercase
@@ -895,7 +895,7 @@ else
   {
      rkhunter --propupd
      env-update;
-     source $HOME/.zshrc
+     exec zsh
   }
 
   function fc() {
