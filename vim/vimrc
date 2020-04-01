@@ -162,26 +162,21 @@ Plug 'romainl/vim-qf'
   nmap              <C-End>              <Plug>QfLnext
 " }}}
 Plug 'romainl/vim-qlist'
-Plug 'lifepillar/vim-mucomplete' | Plug 'Konfekt/complete-common-words.vim'
+Plug 'lifepillar/vim-mucomplete'
 " vim-mucomplete config {{{2
-  let s:dotfiles = split(&runtimepath, ',')[0]
-  let g:common_words_dicts_dir = s:dotfiles . '/plugged/complete-common-words.vim/dicts'
-  unlet s:dotfiles
-  let g:mucomplete#enable_auto_at_startup = 1
-  let g:mucomplete#always_use_completeopt = 1
   let g:mucomplete#chains              = {}
   let g:mucomplete#chains              = {
-                                         \ 'default':    ['file', 'keyn', 'omni', 'user', 'defs', 'incl', 'c-n', 'uspl'],
-                                         \ 'vim':        ['file', 'keyn', 'cmd',  'omni', 'user', 'c-n', 'uspl'],
-                                         \ 'gitcommit':  ['file', 'c-n',  'uspl', 'omni', 'user'],
-                                         \ 'mail':       ['file', 'c-n',  'uspl', 'omni', 'user'],
-                                         \ 'markdown':   ['file', 'c-n',  'uspl', 'omni', 'user'],
-                                         \ 'text':       ['file', 'c-n',  'uspl', 'omni', 'user']
+                                         \ 'default':    ['path', 'keyn', 'omni', 'user', 'defs', 'incl', 'c-n', 'uspl'],
+                                         \ 'vim':        ['path', 'keyn', 'cmd',  'omni', 'user', 'c-n', 'uspl'],
+                                         \ 'gitcommit':  ['path', 'c-n',  'uspl', 'omni', 'user'],
+                                         \ 'mail':       ['path', 'c-n',  'uspl', 'omni', 'user'],
+                                         \ 'markdown':   ['path', 'c-n',  'uspl', 'omni', 'user'],
+                                         \ 'text':       ['path', 'c-n',  'uspl', 'omni', 'user']
                                          \ }
   let g:mucomplete#can_complete         = {}
   let g:mucomplete#can_complete.default = {
                                           \ 'keyn': { t -> t =~# '\v\k{2,}$' },
-                                          \ 'c-n':  { t -> t =~# '\v\k{3,}$' },
+                                          \ 'c-n':  { t -> t =~# '\v\k{2,}$' },
                                           \ 'uspl': { t -> t =~# '\v\k{4,}$' && &l:spell && !empty(&l:spelllang) },
                                           \ }
   nnoremap <silent> ,ta                  :MUcompleteAutoToggle<CR>
