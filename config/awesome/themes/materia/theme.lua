@@ -13,7 +13,7 @@ theme                      = {}
 -- Theme settings {{{
 theme.wallpaper            = wallpaper_dir .. "/default.jpg"
 theme.border_width         = dpi(2)
-theme.menu_height          = dpi(14)
+theme.menu_height          = dpi(18)
 theme.menu_width           = dpi(144)
 
 theme.useless_gap          = dpi(8)
@@ -32,14 +32,15 @@ theme.hotkeys_group_margin = 44
 --}}}
 
 -- Theme fonts {{{
-theme.font                 = "Rambla Bold 9"
-theme.serif_font           = "Manuale Bold 9"
-theme.mono_font            = "IBM Plex Mono Bold 8"
-theme.taglist_font         = "IBM Plex Mono Bold 8.8"
-theme.tasklist_font        = "Rambla Bold 8"
+theme.font                 = "Iosevka Artesanal Tailed Semibold 11"
+theme.mono_font            = "Iosevka Artesanal Tailed Bold 11"
+theme.taglist_font         = "Iosevka Artesanal Tailed HvEx 11.5"
+theme.tasklist_font        = "Iosevka Artesanal Tailed Book 9.5"
+theme.clock_font           = "Iosevka Artesanal Tailed XBdEx 11"
+
 theme.icon_font            = "Webhostinghub-Glyphs 8"
-theme.hotkeys_font         = "Rambla Bold 10"
-theme.hotkeys_description_font = "Rambla 10"
+theme.hotkeys_font         = "Iosevka Artesanal Tailed Bold 11"
+theme.hotkeys_description_font = "Iosevka Artesanal Tailed Book 11"
 --}}}
 
 -- Theme colours {{{
