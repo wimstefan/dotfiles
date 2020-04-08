@@ -387,16 +387,14 @@ export XAUTHORITY="$HOME/.Xauthority"
 export DISPLAY=:0.0
 # anti aliasing in the two toolkits
 export GDK_USE_XFT=1
-export SAL_USE_VCLPLUGIN=gtk
-export VCL_ICONS_FOR_DARK_THEME=1
 export QT_XFT=true
-export QT_QPA_PLATFORMTHEME=qt5ct
 # }}}3
 # - Aliases {{{3
 # generic aliases
+alias -g B="| bat"
+alias -g G="| rg"
 alias -g L="| less"
-alias -g G="| grep"
-alias -g C="| colordiff"
+alias -g Z="| fzf"
 # commands
 alias ls="ls --color=auto -v"
 alias lx="ls -lXB"
@@ -678,7 +676,6 @@ if [[ $USER != root ]]; then
   # . swimmer # {{{4
   if [[ $HOST == swimmer ]]; then
     echo "Loading host specific settings for swimmer ..."
-    export PATH="$PATH:$HOME/.gem/ruby/2.5.0/bin"
     # Don't forget your tasks ;-)
     export TASKDDATA="/var/lib/taskd"
     export TASKRC="$HOME/private/task/rc/taskrc"
