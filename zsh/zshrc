@@ -373,7 +373,7 @@ autoload -U run-help url-quote-magic zcalc zmv
 export EDITOR="vim"
 export BROWSER="my-eye-into-the-world"
 export COLORTERM=truecolor
-export TERMINAL="kitty"
+export TERMINAL="alacritty"
 export HISTFILE="$HOME/.zsh/histfile"
 export HISTSIZE="5000"
 export SAVEHIST="5000"
