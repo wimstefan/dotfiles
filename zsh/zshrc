@@ -379,9 +379,9 @@ export HISTSIZE="5000"
 export SAVEHIST="5000"
 export CVS_RSH="ssh"
 export FZF_DEFAULT_COMMAND='fd --type file --follow --hidden --exclude .git'
+export FZF_DEFAULT_OPTS='-x -m --cycle --border --layout=reverse --inline-info --height 80% --color=light --preview "bat --color=always {}" --preview-window right:70%:hidden:wrap --bind "?:toggle-preview"'
 export FZF_CTRL_T_COMMAND=$FZF_DEFAULT_COMMAND
 export FZF_CTRL_T_OPTS='--preview "bat --color=always {}" --preview-window right:70%:hidden:wrap --bind "?:toggle-preview"'
-export FZF_DEFAULT_OPTS='-x -m --cycle --border --layout=reverse --inline-info --height 80% --color=light --preview "bat --color=always {}" --preview-window right:70%:hidden:wrap --bind "?:toggle-preview"'
 export HIGHLIGHT_STYLE="github"
 export XAUTHORITY="$HOME/.Xauthority"
 export DISPLAY=:0.0
@@ -969,6 +969,7 @@ fi
 [ -f $HOME/.zsh/external/fzf-extras.git/fzf-extras.sh ] && source $HOME/.zsh/external/fzf-extras.git/fzf-extras.sh
 [ -f $HOME/.zsh/external/fzf-extras.git/fzf-extras.zsh ] && source $HOME/.zsh/external/fzf-extras.git/fzf-extras.zsh
 [ -f $HOME/.zsh/external/fzf-marks.git/fzf-marks.plugin.zsh ] && source $HOME/.zsh/external/fzf-marks.git/fzf-marks.plugin.zsh
+[ -f $HOME/.zsh/external/forgit.git/forgit.plugin.zsh ] && source $HOME/.zsh/external/forgit.git/forgit.plugin.zsh
 # }}}6
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
