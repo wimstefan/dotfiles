@@ -35,7 +35,7 @@ theme.hotkeys_group_margin = 44
 theme.font                 = "Iosevka Artesanal Tailed Semibold 11"
 theme.mono_font            = "Iosevka Artesanal Tailed Bold 11"
 theme.taglist_font         = "Iosevka Artesanal Tailed HvEx 11.5"
-theme.tasklist_font        = "Iosevka Artesanal Tailed Book 9.5"
+theme.tasklist_font        = "Iosevka Artesanal Tailed Book 10"
 theme.clock_font           = "Iosevka Artesanal Tailed XBdEx 11"
 
 theme.icon_font            = "Webhostinghub-Glyphs 8"
