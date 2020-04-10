@@ -394,6 +394,7 @@ export QT_XFT=true
 alias -g B="| bat"
 alias -g G="| rg"
 alias -g L="| less"
+alias -g W="| wc -l"
 alias -g Z="| fzf"
 # commands
 alias ls="ls --color=auto -v"
