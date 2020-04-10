@@ -183,7 +183,6 @@ Plug 'lifepillar/vim-mucomplete'
   imap     <expr>   <right>              mucomplete#extend_fwd("\<right>")
 " }}}
 Plug 'wellle/tmux-complete.vim'
-Plug 'wellle/targets.vim'
 Plug 'preservim/nerdcommenter'
 " nerdcommenter config {{{2
   let NERDSpaceDelims                  = 1
@@ -208,22 +207,9 @@ Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' }
   let g:undotree_ShortIndicators       = 1
   nnoremap <silent> ,tu                 :UndotreeToggle<CR>
 " }}}
-Plug 'Yggdroot/indentLine'
-" indentLine config {{{2
-  let g:indentLine_char                = "┊"
-  let g:indentLine_fileTypeExclude     = [ 'help', 'man', 'preview', 'popup' ]
-  nnoremap          ,ti                  :IndentLinesToggle<CR>
-" }}}
 Plug 'fcpg/vim-spotlightify'
 Plug 'markonm/traces.vim'
 Plug 'andymass/vim-matchup'
-Plug 'tmsvg/pear-tree'
-" pear-tree config {{{2
-  let g:pear_tree_smart_openers        = 1
-  let g:pear_tree_smart_closers        = 1
-  let g:pear_tree_smart_backspace      = 1
-  let g:pear_tree_map_special_keys     = 1
-" }}}
 Plug 'brooth/far.vim'
 Plug 'qpkorr/vim-renamer'
 Plug 'will133/vim-dirdiff'
