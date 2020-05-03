@@ -1,17 +1,15 @@
 #ifdef SRVR_swimmer
   Xft.dpi: 192
   Xcursor.size: 48
-  *font: xft:Iosevka Artesanal:pixelsize=26.0,xft:Noto Color Emoji:pixelsize=18
-  *faceName: xft:Iosevka Artesanal:pixelsize=26.0,xft:Noto Color Emoji:pixelsize=18
-  *faceNameDoublesize: xft:Iosevka Artesanal:pixelsize=26.0,xft:Noto Color Emoji:pixelsize=18
-  rofi.font: Overlock 22
+  *font: xft:monospace:pixelsize=30.0
+  *faceName: xft:monospace:pixelsize=30.0
+  rofi.font: Overlock 20
 #elif SRVR_tj
   Xft.dpi: 116
   Xcursor.size: 24
-  *font: xft:Iosevka Artesanal:pixelsize=16.0,xft:Noto Color Emoji:pixelsize=18
-  *faceName: xft:Iosevka Artesanal:pixelsize=16.0,xft:Noto Color Emoji:pixelsize=18
-  *faceNameDoublesize: xft:Iosevka Artesanal:pixelsize=16.0,xft:Noto Color Emoji:pixelsize=18
-  rofi.font: Overlock 11
+  *font: xft:monospace:pixelsize=16.0
+  *faceName: xft:monospace:pixelsize=16.0
+  rofi.font: Overlock 10
 #endif
 
 Xft.autohint: 0
@@ -49,7 +47,6 @@ Xcursor.theme:              Dot-Light
 !! Dark
 ! *.foreground: #eeeeee
 ! *.background: #2e3440
-!
 !! black
 !*.color0:     #121419
 !*.color8:     #121419
