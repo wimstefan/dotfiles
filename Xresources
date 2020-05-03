@@ -1,18 +1,24 @@
 #ifdef SRVR_swimmer
-  Xft.dpi: 188
+  Xft.dpi: 192
   Xcursor.size: 48
   *font: xft:Iosevka Artesanal:pixelsize=26.0,xft:Noto Color Emoji:pixelsize=18
   *faceName: xft:Iosevka Artesanal:pixelsize=26.0,xft:Noto Color Emoji:pixelsize=18
   *faceNameDoublesize: xft:Iosevka Artesanal:pixelsize=26.0,xft:Noto Color Emoji:pixelsize=18
   rofi.font: Overlock 22
 #elif SRVR_tj
-  Xft.dpi: 108
+  Xft.dpi: 116
   Xcursor.size: 24
   *font: xft:Iosevka Artesanal:pixelsize=16.0,xft:Noto Color Emoji:pixelsize=18
   *faceName: xft:Iosevka Artesanal:pixelsize=16.0,xft:Noto Color Emoji:pixelsize=18
   *faceNameDoublesize: xft:Iosevka Artesanal:pixelsize=16.0,xft:Noto Color Emoji:pixelsize=18
   rofi.font: Overlock 11
 #endif
+
+Xft.autohint: 0
+Xft.lcdfilter: lcddefault
+Xft.hintstyle: hintfull
+Xft.hinting: 1
+Xft.antialias: 1
 
 Xcursor.theme:              Dot-Light
 
@@ -43,32 +49,56 @@ Xcursor.theme:              Dot-Light
 !! Dark
 ! *.foreground: #eeeeee
 ! *.background: #2e3440
+!
+!! black
+!*.color0:     #121419
+!*.color8:     #121419
+!! red
+!*.color1:     #dc1b33
+!*.color9:     #dc1b33
+!! green
+!*.color2:     #009966
+!*.color10:    #009966
+!! yellow
+!*.color3:     #ff8c00
+!*.color11:    #ff8c00
+!! blue
+!*.color4:     #0077c6
+!*.color12:    #0077c6
+!! magenta
+!*.color5:     #fa75e2
+!*.color13:    #fa75e2
+!! cyan
+!*.color6:     #00aacc
+!*.color14:    #00aacc
+!! white
+!*.color7:     #b8b8b8
+!*.color15:    #b8b8b8
 
 !! Light
 *.foreground: #2e3440
 *.background: #eaeaeb
-
 ! black
-*.color0:     #121419
-*.color8:     #121419
+*.color0:   #191c22
+*.color8:   #77839b
 ! red
-*.color1:     #dc1b33
-*.color9:     #dc1b33
+*.color1:   #ae1528
+*.color9:   #ae1528
 ! green
-*.color2:     #009966
-*.color10:    #009966
+*.color2:   #009a5a
+*.color10:  #009a5a
 ! yellow
-*.color3:     #ff8c00
-*.color11:    #ff8c00
+*.color3:   #ff8c00
+*.color11:  #ff8c00
 ! blue
-*.color4:     #0077c6
-*.color12:    #0077c6
+*.color4:   #004bb4
+*.color12:  #004bb4
 ! magenta
-*.color5:     #fa75e2
-*.color13:    #fa75e2
+*.color5:   #b300a4
+*.color13:  #b300a4
 ! cyan
-*.color6:     #00aacc
-*.color14:    #00aacc
+*.color6:   #00a4b3
+*.color14:  #00a4b3
 ! white
-*.color7:     #b8b8b8
-*.color15:    #b8b8b8
+*.color7:   #b8b8b8
+*.color15:  #9f9f9f
