@@ -273,7 +273,8 @@ Plug 'lifepillar/vim-colortemplate'
 " }}}
 Plug 'wimstefan/vim-artesanal'
 " vim-artesanal config {{{2
-  let g:artesanal_italic               =  1
+  let g:artesanal_dimmed               =  0
+  let g:artesanal_transparent          =  0
 " }}}
 Plug 'chriskempson/base16-vim'
 Plug 'romainl/Apprentice'
@@ -368,7 +369,7 @@ set incsearch                          " show matches while typing the query
 set hlsearch                           " highlight search results
 
 set list                               " display unprintable characters
-set listchars=tab:→\ ,trail:·,eol:«,extends:◀,precedes:▶
+set listchars=tab:➡\ ,trail:·,eol:«,extends:◀,precedes:▶
 
 set path=.,**                          " list of directories which will be searched with find et al
 set isfname=@,48-57,/,.,-,_,+,,,#,$,%,~,=,(,),[,],{,}     " allowed characters in file and path names
@@ -468,6 +469,9 @@ nnoremap <silent> <Leader>x              :Lexplore<CR>
 " Visual " {{{1
 let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
 let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
+if !has('nvim')                        " enable under{line,curl}
+  set t_Cs =
+endif
 set termguicolors
 if &term =~ "linux"
   color base16-google-dark
@@ -758,6 +762,7 @@ call s:option_map('l', 'list', 'setlocal')
 call s:option_map('n', 'number', 'setlocal')
 call s:option_map('r', 'relativenumber', 'setlocal')
 call s:option_map('s', 'spell', 'setlocal')
+call s:option_map('z', 'scrollbind', 'setlocal')
 nnoremap [ox :set cursorline cursorcolumn<CR>
 nnoremap ]ox :set nocursorline nocursorcolumn<CR>
 nnoremap cox :set <C-r>=&cursorline && &cursorcolumn ? 'nocursorline nocursorcolumn' : 'cursorline cursorcolumn'<CR><CR>
