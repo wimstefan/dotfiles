@@ -667,7 +667,7 @@ if [[ $USER != root ]]; then
   git-download-dir()
   {
     i="$1"
-    svn export ${i/tree\/master/trunk}
+    svn export --force ${i/tree\/master/trunk}
   }
 
   # }}}3
