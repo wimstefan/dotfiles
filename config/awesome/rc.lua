@@ -38,7 +38,7 @@ end
 home_dir          = os.getenv("HOME")
 config_dir        = gears.filesystem.get_configuration_dir()
 icon_dir          = config_dir.."/icons/"
-theme_dir         = config_dir.."/themes/materia/"
+theme_dir         = config_dir.."/themes/materia-light/"
 wallpaper_dir     = home_dir.."/system/wallpapers/"
 
 terminal          = os.getenv("TERMINAL")
@@ -214,7 +214,7 @@ local spr = wibox.widget.textbox('<span color="'..beautiful.border_focus..'" wei
 -- }}}
 -- Mpd widget {{{2
 local widget_mpd = lain.widget.mpd({
-  notify = "on";
+  notify = on,
   settings = function()
     mpd_notification_preset = {
       text = string.format("  %s \n %s \n %s  %s  ",
@@ -240,14 +240,12 @@ local widget_mpd = lain.widget.mpd({
 })
 local mpd_box = wibox.container.scroll.horizontal(widget_mpd.widget)
 mpd_box:set_fps(5)
-mpd_box:set_max_size(840)
+mpd_box:set_max_size(dpi(440))
 local tooltip_mpd = awful.tooltip({
   objects = { mpd_box },
   timeout = 0,
-  margin_leftright = 10,
-  margin_topbottom = 10,
-  -- shape = gears.shape.infobubble,
-  shape = gears.shape.rounded_rect,
+  margin_leftright = dpi(20),
+  margin_topbottom = dpi(30),
   timer_function = function()
     if mpd_now.time ~= "N/A" and mpd_now.elapsed ~= "N/A" then
       time = string.format("%s/%s", format_time(mpd_now.elapsed), format_time(mpd_now.time))
@@ -263,41 +261,32 @@ local tooltip_mpd = awful.tooltip({
 })
 -- Mpd widget }}}
 -- ALSA volume bar {{{2
-local icon_alsa = wibox.widget.textbox()
-icon_alsa:buttons(gears.table.join(
+local symbol_alsa = wibox.widget.imagebox()
+symbol_alsa:buttons(gears.table.join(
   awful.button({ }, 1, function () awful.spawn.with_shell(mymixer) end),
   awful.button({ modkey }, 1, function () awful.spawn.with_shell(musicplr1) end),
   awful.button({ altkey }, 1, function () awful.spawn.with_shell(musicplr2) end)))
 local volume = lain.widget.alsabar({
-  width = 35, ticks = true, ticks_size = 4, step = "2%",
-  notification_preset = { font = beautiful.taglist_font },
+  width = dpi(40),
+  colors = {
+    background = beautiful.black1,
+    mute = beautiful.red1,
+    unmute = beautiful.green1
+  },
   settings = function()
       if volume_now.status == "off" then
-          volume_icon = ""
+          volume_icon = theme.symbol_volume_mute
       elseif tonumber(volume_now.level) == 0 then
-          volume_icon = ""
-      elseif tonumber(volume_now.level) <= 50 then
-          volume_icon = ""
+          volume_icon = theme.symbol_volume_mute
+      elseif tonumber(volume_now.level) <= 40 then
+          volume_icon = theme.symbol_volume_off
+      elseif tonumber(volume_now.level) <= 70 then
+          volume_icon = theme.symbol_volume_down
       else
-          volume_icon = ""
+          volume_icon = theme.symbol_volume_up
       end
-      icon_alsa:set_markup(markup.font(beautiful.icon_font, volume_icon))
-  end,
-  -- colors = {
-  --     background = beautiful.bg_normal,
-  --     mute = beautiful.grey2,
-  --     settings = function()
-  --       if tonumber(volume_now.level) <= 10 then
-  --         bar_colour = beautiful.red2
-  --       elseif tonumber(volume_now.level) <= 50 then
-  --         bar_colour = beautiful.blue2
-      --   else
-  --         bar_colour = beautiful.green1
-      --   end
-  --       unmute = bar_colour
-      -- end
-  --     -- unmute = beautiful.fg_normal
-  -- }
+      symbol_alsa:set_image(volume_icon)
+  end
 })
 volume.bar:buttons(gears.table.join(
     awful.button({}, 1, function() -- left click
@@ -324,36 +313,36 @@ local volmargin = wibox.container.margin(volume.bar, 8, 0, 5, 5)
 local widget_alsa = wibox.container.background(volmargin)
 -- }}}
 -- Memory widget {{{2
+local symbol_mem = wibox.widget.imagebox(theme.symbol_memory)
 local widget_mem = lain.widget.mem({
       settings = function()
-        widget:set_markup(markup.font(beautiful.icon_font, "") .. markup.font(beautiful.font, "  " .. mem_now.used .. "MB "))
+        widget:set_markup(markup.font(beautiful.font, mem_now.used .. "MB"))
       end
 })
 local tooltip_mem = awful.tooltip({
   objects = { widget_mem.widget },
-  margin_leftright = 10,
-  margin_topbottom = 10,
-  shape = gears.shape.infobubble,
+  margin_leftright = dpi(10),
+  margin_topbottom = dpi(20),
   timer_function = function()
-  local title = "Memory &amp; swap usage"
-  local used = pad_to_length(mem_now.used, mem_now.swapused)
-  local swapused = pad_to_length(mem_now.swapused, mem_now.used)
-  local text
-  text = ' <span font="'..beautiful.mono_font..'">'..
-         ' <span weight="bold" color="'..beautiful.fg_normal..'">'..title..'</span> \n'..
-         ' <span weight="bold">-------------------</span> \n'..
-         ' ▪ memory <span color="'..beautiful.fg_normal..'">'..used..'</span> MB \n'..
-         ' ▪ swap   <span color="'..beautiful.fg_normal..'">'..swapused..'</span> MB </span>'
-   return text
- end
+    local title = "Memory &amp; swap usage"
+    local used = pad_to_length(mem_now.used, mem_now.swapused)
+    local swapused = pad_to_length(mem_now.swapused, mem_now.used)
+    local text
+    text = ' <span weight="bold" color="'..beautiful.fg_normal..'">'..title..'</span> \n'..
+           ' <span weight="bold">-------------------</span> \n'..
+           ' ▪ memory <span color="'..beautiful.fg_normal..'">'..used..'</span> MB \n'..
+           ' ▪ swap   <span color="'..beautiful.fg_normal..'">'..swapused..'</span> MB'
+    return text
+  end
 })
 -- Memory widget }}}
 -- CPU widget {{{2
+local symbol_cpu = wibox.widget.imagebox(theme.symbol_microchip)
 local widget_cpu = wibox.layout.fixed.horizontal()
 local widget_cpu_graph = wibox.widget.graph()
 local widget_cpu_text = lain.widget.cpu({
       settings = function()
-        widget:set_markup(markup.font(beautiful.icon_font, "") .. markup.font(beautiful.font, "  " .. cpu_now.usage .. "% "))
+        widget:set_markup(markup.font(beautiful.font, cpu_now.usage .. "%"))
         widget_cpu_graph:add_value(cpu_now.usage/100)
       end
 })
@@ -363,50 +352,60 @@ widget_cpu_graph:set_color({ type = "linear", from = { 0, 0 }, to = { 0, 18 }, s
 widget_cpu:add(widget_cpu_text.widget)
 widget_cpu:add(widget_cpu_graph)
 widget_cpu:buttons(gears.table.join( awful.button({ }, 1, function () awful.spawn.with_shell(mytop) end)))
+local tooltip_cpu = awful.tooltip({
+  objects = { widget_cpu_text.widget },
+  margin_leftright = dpi(30),
+  margin_topbottom = dpi(20),
+})
+awful.widget.watch('sensors', 4, function(widget, stdout)
+  widget:set_markup(markup.fg.color(beautiful.blue2, stdout))
+end, tooltip_cpu)
 -- CPU widget }}}
 -- Temperature widget {{{2
+local symbol_temp = wibox.widget.imagebox(theme.symbol_thermometer)
 local widget_temp = lain.widget.temp({
   tempfile = TEMPFILE,
   settings = function ()
-    widget:set_markup(markup.font(beautiful.icon_font, "") .. markup.font(beautiful.font, " " .. coretemp_now .. "° "))
+    widget:set_markup(markup.font(beautiful.font, coretemp_now .. "°"))
   end
 })
 -- Temperature widget }}}
--- Filesystem widget {{{2
--- local widget_fs = lain.widget.fs({
---   notification_preset = { font = beautiful.mono_font },
---   settings = function()
---     widget:set_markup(markup.font(beautiful.icon_font, "") .. markup.font(beautiful.font, "  " .. fs_now["/"].used .. " " .. fs_now["/"].units))
---   end
--- })
--- Filesystem widget }}}
 -- Power widget {{{2
-local icon_power = wibox.widget.textbox()
+local symbol_power = wibox.widget.imagebox()
 local widget_power = lain.widget.bat({
       notify = "on",
       settings = function()
-        if bat_now.status == "N/A" then
-          power_icon = markup.font(beautiful.icon_font, "") .. markup.font(beautiful.font, "  AC ")
-        elseif bat_now.status == "Charging" and tonumber(bat_now.perc) <= 70 then
-          power_icon = markup.font(beautiful.icon_font, "") .. markup.font(beautiful.font, " " .. bat_now.perc .."%  ")
-        elseif bat_now.status == "Charging" and tonumber(bat_now.perc) >= 70 then
-          power_icon = markup.font(beautiful.icon_font, "") .. markup.font(beautiful.font, " " .. bat_now.perc .."%  ")
+        if (not bat_now.status) or bat_now.status == "N/A" or type(bat_now.perc) ~= "number" then
+          power_icon = theme.symbol_plug
+          power_text = markup.font(beautiful.font, "AC")
         else
-          if tonumber(bat_now.perc) <= 10 then
-            power_icon = markup.font(beautiful.icon_font, "") .. markup.font(beautiful.font, " " .. bat_now.perc .. "%  ")
-          elseif tonumber(bat_now.perc) <= 30 then
-            power_icon = markup.font(beautiful.icon_font, "") .. markup.font(beautiful.font, " " .. bat_now.perc .. "%  ")
-          elseif tonumber(bat_now.perc) <= 50 then
-            power_icon = markup.font(beautiful.icon_font, "") .. markup.font(beautiful.font, " " .. bat_now.perc .. "%  ")
-          elseif tonumber(bat_now.perc) <= 70 then
-            power_icon = markup.font(beautiful.icon_font, "") .. markup.font(beautiful.font, " " .. bat_now.perc .. "%  ")
-          elseif tonumber(bat_now.perc) <= 85 then
-            power_icon = markup.font(beautiful.icon_font, "") .. markup.font(beautiful.font, " " .. bat_now.perc .. "%  ")
+          if bat_now.status == "Charging" and tonumber(bat_now.perc) <= 70 then
+            power_icon = theme.symbol_battery_half
+            power_text = markup.font(beautiful.font, " " .. bat_now.perc .."%")
+          elseif bat_now.status == "Charging" and tonumber(bat_now.perc) >= 70 then
+            power_icon = theme.symbol_battery_three_quarters
+            power_text = markup.font(beautiful.font, " " .. bat_now.perc .."%")
           else
-            power_icon = markup.font(beautiful.icon_font, "") .. markup.font(beautiful.font, " " .. bat_now.perc .. "%  ")
+            if tonumber(bat_now.perc) <= 10 then
+              power_icon = theme.symbol_battery_empty
+              power_text = markup.font(beautiful.font, " " .. bat_now.perc .. "%")
+            elseif tonumber(bat_now.perc) <= 30 then
+              power_icon = theme.symbol_battery_quarter
+              power_text = markup.font(beautiful.font, " " .. bat_now.perc .. "%")
+            elseif tonumber(bat_now.perc) <= 50 then
+              power_icon = theme.symbol_battery_half
+              power_text = markup.font(beautiful.font, " " .. bat_now.perc .. "%")
+            elseif tonumber(bat_now.perc) <= 80 then
+              power_icon = theme.symbol_battery_three_quarter
+              power_text = markup.font(beautiful.font, " " .. bat_now.perc .. "%")
+            else
+              power_icon = theme.symbol_battery_full
+              power_text = markup.font(beautiful.font, " " .. bat_now.perc .. "%")
+            end
           end
         end
-        widget:set_markup(markup.font(beautiful.font, power_icon))
+        widget:set_markup(markup.font(beautiful.font, power_text))
+        symbol_power:set_image(power_icon)
 
         bat_notification_low_preset = {
           title = "Battery low",
@@ -426,34 +425,22 @@ local widget_power = lain.widget.bat({
 })
 local tooltip_bat = awful.tooltip({
   objects = { widget_power.widget },
-  margin_leftright = 10,
-  margin_topbottom = 10,
-  shape = gears.shape.infobubble,
+  margin_leftright = dpi(10),
+  margin_topbottom = dpi(20),
   timer_function = function()
-    local title = "Power status"
-    local tlen = string.len(title)
     local text
-    if bat_now.status == 'N/A' then
-      text = ' <span font="'..beautiful.mono_font..'">'..
-             ' <span weight="bold" color="'..beautiful.fg_normal..'">'..title..'</span> \n'..
-             ' <span weight="bold">'..string.rep('-', tlen)..'</span> \n'..
-             ' ▪ status    <span color="'..beautiful.fg_normal..'">\n   Plugged in \n   No battery </span>'
-      text = text..'</span>'
-    else
-      text = ' <span font="'..beautiful.mono_font..'">'..
-             ' <span weight="bold" color="'..beautiful.fg_normal..'">'..title..'</span> \n'..
-             ' <span weight="bold">'..string.rep('-', tlen)..'</span> \n'
-      text = text..' ⚡ level     <span color="'..beautiful.fg_normal..'">'..bat_now.perc..'% </span>\n'
-      if bat_now.status == 'Discharging' then
-        text = text..' ▪ status    <span color="'..beautiful.fg_normal..'">discharging </span>\n'
-        text = text..' ◴ time left <span color="'..beautiful.fg_normal..'">'..bat_now.time..' </span>'
-      elseif  bat_now.status == 'Charging' then
-        text = text..' ▪ status    <span color="'..beautiful.fg_normal..'">charging </span>\n'
-        text = text..' ◴ time left <span color="'..beautiful.fg_normal..'">'..bat_now.time..' </span>'
-      elseif bat_now.status == 'Full' then
-        text = text..' ▪ status    <span color="'..beautiful.fg_normal..'">charged </span>'
-      end
-      text = text..'</span>'
+    if (not bat_now.status) or bat_now.status == "N/A" or type(bat_now.perc) ~= "number" then
+      text = '<span color="'..beautiful.fg_normal..'">'..
+             ' Plugged in \n' ..
+             ' No battery </span>'
+    elseif bat_now.status == 'Discharging' then
+      text = ' ▪ status    <span color="'..beautiful.fg_normal..'">discharging </span>\n'
+      text = text..' ◴ time left <span color="'..beautiful.fg_normal..'">'..bat_now.time..' </span>'
+    elseif  bat_now.status == 'Charging' then
+      text = ' ▪ status    <span color="'..beautiful.fg_normal..'">charging </span>\n'
+      text = text..' ◴ time left <span color="'..beautiful.fg_normal..'">'..bat_now.time..' </span>'
+    elseif bat_now.status == 'Full' then
+      text = ' ▪ status    <span color="'..beautiful.fg_normal..'">charged </span>'
     end
     return text
   end
@@ -464,7 +451,7 @@ mytextclock = wibox.widget.textclock( '<span font="'..beautiful.clock_font..'" b
 -- https://github.com/getzze/awesome_config/blob/master/rc.lua#L356 --
 local mycalendar = awful.widget.calendar_popup.month({
   font             = beautiful.clock_font,
-  margin           = dpi(2),
+  margin           = dpi(4),
   week_numbers     = true,
   style_month      = {
     border_color   = beautiful.clock_bg,
@@ -626,7 +613,7 @@ awful.screen.connect_for_each_screen(function(s)
   s.mytasklist = awful.widget.tasklist(s, awful.widget.tasklist.filter.currenttags, tasklist_buttons)
 
   -- Create the wibox
-  s.mywibox = awful.wibar({ position = "top", height = dpi(18), screen = s })
+  s.mywibox = awful.wibar({ position = beautiful.wibar_position, height = beautiful.wibar_height, screen = s })
 
   -- Add widgets to the wibox
   s.mywibox:setup {
@@ -643,17 +630,19 @@ awful.screen.connect_for_each_screen(function(s)
       wibox.widget.systray(),
       mpd_box,
       spr,
-      icon_alsa,
+      wibox.container.margin(symbol_alsa, dpi(2), dpi(0), dpi(2), dpi(2)),
       widget_alsa,
       spr,
+      wibox.container.margin(symbol_mem, dpi(2), dpi(6), dpi(2), dpi(2)),
       widget_mem,
       spr,
+      wibox.container.margin(symbol_cpu, dpi(2), dpi(6), dpi(3), dpi(3)),
       widget_cpu,
       spr,
+      wibox.container.margin(symbol_temp, dpi(2), dpi(6), dpi(3), dpi(3)),
       widget_temp,
       spr,
-      -- widget_fs,
-      -- spr,
+      wibox.container.margin(symbol_power, dpi(2), dpi(6), dpi(2), dpi(2)),
       widget_power,
       spacer,
       mytextclock,
@@ -1167,7 +1156,7 @@ ruled.client.connect_signal("request::rules", function()
       rule = { name = "My Mixer" },
       properties = {
         floating = true,
-        width = dpi(1000), height = dpi(300), x = dpi(440), y = dpi(20)
+        width = dpi(1600), height = dpi(400), x = dpi(440), y = dpi(20)
       }
     }
   else
@@ -1210,7 +1199,7 @@ ruled.client.connect_signal("request::rules", function()
       rule = { name = "My Mixer" },
       properties = {
         floating = true,
-        width = dpi(1000), height = dpi(300), x = dpi(240), y = dpi(20)
+        width = dpi(1600), height = dpi(400), x = dpi(240), y = dpi(20)
       }
     }
   end
