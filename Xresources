@@ -45,36 +45,36 @@ Xcursor.theme:              Dot-Light
 ! *background:  #080808
 
 !! Dark
-! *.foreground: #eeeeee
+! *.foreground: #eaeaeb
 ! *.background: #2e3440
 !! black
-!*.color0:     #121419
-!*.color8:     #121419
+!*.color0:     #434c5e
+!*.color8:     #788d9f
 !! red
-!*.color1:     #dc1b33
-!*.color9:     #dc1b33
+!*.color1:     #e84256
+!*.color9:     #e84256
 !! green
-!*.color2:     #009966
-!*.color10:    #009966
+!*.color2:     #00bf8a
+!*.color10:    #00bf8a
 !! yellow
-!*.color3:     #ff8c00
-!*.color11:    #ff8c00
+!*.color3:     #ffffa8
+!*.color11:    #ffffa8
 !! blue
-!*.color4:     #0077c6
-!*.color12:    #0077c6
+!*.color4:     #6699cc
+!*.color12:    #6699cc
 !! magenta
 !*.color5:     #fa75e2
 !*.color13:    #fa75e2
 !! cyan
-!*.color6:     #00aacc
-!*.color14:    #00aacc
+!*.color6:     #00bbcc
+!*.color14:    #00bbcc
 !! white
-!*.color7:     #b8b8b8
-!*.color15:    #b8b8b8
+!*.color7:     #eaeaeb
+!*.color15:    #d0d0d2
 
 !! Light
 *.foreground: #2e3440
-*.background: #eaeaeb
+*.background: #eff1f4
 ! black
 *.color0:   #191c22
 *.color8:   #77839b
