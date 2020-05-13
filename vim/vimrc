@@ -5,39 +5,74 @@
 let mapleader = "\<Space>"
 
 " Plugins " {{{1
-if empty(glob('~/.vim/autoload/plug.vim'))
-  silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
-    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-  autocmd! VimEnter * PlugInstall
-endif
-nnoremap ,pc :PlugClean<CR>
-nnoremap ,pi :PlugInstall<CR>
-nnoremap ,ps :PlugStatus<CR>
-nnoremap ,pu :PlugUpdate<CR>
-let g:plug_shallow = 0
+" Packager plugin install " {{{2
+function! PackagerInit() abort
+  packadd vim-packager
+  call packager#init()
+  call packager#add('kristijanhusak/vim-packager', { 'type': 'opt' })
+  call packager#add('tpope/vim-abolish')
+  call packager#add('tpope/vim-eunuch')
+  call packager#add('tpope/vim-obsession')
+  call packager#add('tpope/vim-repeat')
+  call packager#add('tpope/vim-fugitive')
+  call packager#add('rbong/vim-flog')
+  call packager#add('junegunn/fzf', { 'do': './install --all && ln -s $(pwd) ~/.fzf'})
+  call packager#add('junegunn/fzf.vim')
+  call packager#add('junegunn/vim-peekaboo')
+  call packager#add('junegunn/goyo.vim', { 'type': 'opt' })
+  call packager#add('junegunn/limelight.vim', { 'type': 'opt'})
+  call packager#add('junegunn/vim-easy-align')
+  call packager#add('machakann/vim-sandwich')
+  call packager#add('justinmk/vim-sneak')
+  call packager#add('lambdalisue/vim-gista')
+  call packager#add('mhinz/vim-signify')
+  call packager#add('mhinz/vim-sayonara')
+  call packager#add('mhinz/vim-grepper')
+  call packager#add('romainl/vim-qf')
+  call packager#add('romainl/vim-qlist')
+  call packager#add('lifepillar/vim-mucomplete')
+  call packager#add('wellle/tmux-complete.vim')
+  call packager#add('preservim/nerdcommenter')
+  call packager#add('mbbill/undotree', { 'type': 'opt' })
+  call packager#add('fcpg/vim-spotlightify')
+  call packager#add('markonm/traces.vim')
+  call packager#add('andymass/vim-matchup')
+  call packager#add('brooth/far.vim')
+  call packager#add('qpkorr/vim-renamer')
+  call packager#add('will133/vim-dirdiff')
+  call packager#add('vim-voom/VOoM')
+  call packager#add('rkitover/vimpager')
+  call packager#add('godlygeek/tabular')
+  call packager#add('dhruvasagar/vim-table-mode')
+  call packager#add('jamessan/vim-gnupg')
+  call packager#add('cespare/vim-toml')
+  call packager#add('vim-scripts/SyntaxAttr.vim')
+  call packager#add('vim-scripts/visSum.vim')
+  call packager#add('chrisbra/unicode.vim')
+  call packager#add('gu-fan/colorv.vim', { 'type': 'opt'})
+  call packager#add('RRethy/vim-hexokinase', { 'do': 'make hexokinase' })
+  call packager#add('lifepillar/vim-colortemplate')
+  call packager#add('wimstefan/vim-artesanal')
+  call packager#add('chriskempson/base16-vim')
+  call packager#add('romainl/Apprentice')
 
-silent! if  plug#begin('~/.vim/plugged')
-Plug 'tpope/vim-abolish'
-Plug 'tpope/vim-eunuch'
-Plug 'tpope/vim-obsession'
-" vim-obsession config {{{2
+endfunction
+" Packager plugin install " }}}2
+" Packager plugin settings " {{{2
+" vim-obsession config {{{3
   nnoremap <silent> ,to                  :Obsession<CR>
 " }}}
-Plug 'tpope/vim-repeat'
-Plug 'tpope/vim-fugitive' | Plug 'rbong/vim-flog'
-" git related config {{{2
+" git related config {{{3
   nnoremap          <Leader>gc           :<C-u>Gcommit -v %<CR>
   nnoremap          <Leader>gd           :<C-u>Gdiff<CR>
   nnoremap          <Leader>gl           :<C-u>0Glog<CR>
   nnoremap          <Leader>gp           :<C-u>Gpush<CR>
   nnoremap          <Leader>gs           :<C-u>Gstatus<CR>
 " }}}
-Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': { -> fzf#install() } }
-" fzf config {{{2
+" fzf config {{{3
   set rtp+=~/.fzf
 " }}}
-Plug 'junegunn/fzf.vim'
-" fzf.vim config {{{2
+" fzf.vim config {{{3
   function! s:build_quickfix_list(lines)
     call setqflist(map(copy(a:lines), '{ "filename": v:val }'))
     copen
@@ -72,41 +107,31 @@ Plug 'junegunn/fzf.vim'
 
   let g:fzf_buffers_jump               = 1
   let g:fzf_action                     = {
-                                         \ 'ctrl-q': function('s:build_quickfix_list'),
-                                         \ 'ctrl-t': 'tab split',
-                                         \ 'ctrl-x': 'split',
-                                         \ 'ctrl-v': 'vsplit' }
-  " let g:fzf_layout                     = { 'up': '~40%' }
-  if exists('$TMUX')
-    let g:fzf_layout = { 'tmux': '-p90%,60%' }
-  else
-    let g:fzf_layout = { 'window': { 'width': 0.9, 'height': 0.6 } }
-  endif
+                                        \ 'ctrl-q': function('s:build_quickfix_list'),
+                                        \ 'ctrl-t': 'tab split',
+                                        \ 'ctrl-x': 'split',
+                                        \ 'ctrl-v': 'vsplit' }
+  let g:fzf_layout                     = { 'up': '40%' }
+  " let g:fzf_layout                     = { 'window': { 'width': 0.9, 'height': 0.6 } }
 " }}}
-Plug 'junegunn/vim-peekaboo'
-" vim-peekaboo config {{{2
+" vim-peekaboo config {{{3
   let g:peekaboo_ins_prefix            = '<C-x>'
 " }}}
-Plug 'junegunn/goyo.vim'
-" goyo.vim config {{{2
-  nnoremap <silent> ,tg                  :Goyo<CR>
+" goyo.vim config {{{3
   let g:goyo_width                     = 114
+  nnoremap <silent> ,tg                  :packadd goyo.vim<BAR>Goyo<CR>
 " }}}
-Plug 'junegunn/limelight.vim'
-" limelight.vim config {{{2
-  nnoremap <silent> ,tl                  :Limelight!!<CR>
+" limelight.vim config {{{3
   let g:limelight_default_coefficient  = 0.7
+  nnoremap <silent> ,tl                  :packadd limelight.vim<BAR>Limelight!!<CR>
 " }}}
-Plug 'junegunn/vim-easy-align'
-" vim-easy-align config {{{2
+" vim-easy-align config {{{3
   " Start interactive EasyAlign in visual mode (e.g. vipea)
   xmap              ea                    <Plug>(EasyAlign)
   " Start interactive EasyAlign for a motion/text object (e.g. eaip)
   nmap              ea                    <Plug>(EasyAlign)
 " }}}
-Plug 'machakann/vim-sandwich'
-Plug 'justinmk/vim-sneak'
-" vim-sneak config {{{2
+" vim-sneak config {{{3
   let g:sneak#prompt                   = '[sneak] '
   let g:sneak#label                    = 1
   let g:sneak#s_next                   = 1
@@ -129,9 +154,7 @@ Plug 'justinmk/vim-sneak'
   omap              s                    <Plug>Sneak_s
   omap              S                    <Plug>Sneak_S
 " }}}
-Plug 'lambdalisue/vim-gista'
-Plug 'mhinz/vim-signify'
-" vim-signify config {{{2
+" vim-signify config {{{3
   let g:signify_sign_add               = '+'
   let g:signify_sign_change            = '!'
   let g:signify_sign_delete            = '-'
@@ -143,9 +166,7 @@ Plug 'mhinz/vim-signify'
   nnoremap          ,sd                 :SignifyDiff<CR>
   nnoremap          ,sp                 :SignifyDiffPreview<CR>
 " }}}
-Plug 'mhinz/vim-sayonara', {'on': 'Sayonara' }
-Plug 'mhinz/vim-grepper'
-" vim-grepper config {{{2
+" vim-grepper config {{{3
   nmap              gs                   <plug>(GrepperOperator)
   xmap              gs                   <plug>(GrepperOperator)
   nnoremap          <Leader>g            :Grepper<CR>
@@ -154,8 +175,7 @@ Plug 'mhinz/vim-grepper'
   let g:grepper.tools                  = ['rg', 'ag', 'ack', 'grep', 'findstr', 'pt']
   let g:grepper.next_tool              = '<Leader>g'
 " }}}
-Plug 'romainl/vim-qf'
-" vim-qf config {{{2
+" vim-qf config {{{3
   let g:qf_mapping_ack_style           = 1
   let g:qf_auto_open_quickfix          = 0
   nmap              <C-q>                <Plug>QfSwitch
@@ -166,30 +186,26 @@ Plug 'romainl/vim-qf'
   nmap              <C-Home>             <Plug>QfLprevious
   nmap              <C-End>              <Plug>QfLnext
 " }}}
-Plug 'romainl/vim-qlist'
-Plug 'lifepillar/vim-mucomplete'
-" vim-mucomplete config {{{2
+" vim-mucomplete config {{{3
   let g:mucomplete#chains              = {}
   let g:mucomplete#chains              = {
-                                         \ 'default':    ['path', 'keyn', 'omni', 'user', 'defs', 'incl', 'c-n', 'uspl'],
-                                         \ 'vim':        ['path', 'keyn', 'cmd',  'omni', 'user', 'c-n', 'uspl'],
-                                         \ 'gitcommit':  ['path', 'c-n',  'uspl', 'omni', 'user'],
-                                         \ 'mail':       ['path', 'c-n',  'uspl', 'omni', 'user'],
-                                         \ 'markdown':   ['path', 'c-n',  'uspl', 'omni', 'user'],
-                                         \ 'text':       ['path', 'c-n',  'uspl', 'omni', 'user']
-                                         \ }
+                                        \ 'default':    ['path', 'keyn', 'omni', 'user', 'defs', 'incl', 'c-n', 'uspl'],
+                                        \ 'vim':        ['path', 'keyn', 'cmd',  'omni', 'user', 'c-n', 'uspl'],
+                                        \ 'gitcommit':  ['path', 'c-n',  'uspl', 'omni', 'user'],
+                                        \ 'mail':       ['path', 'c-n',  'uspl', 'omni', 'user'],
+                                        \ 'markdown':   ['path', 'c-n',  'uspl', 'omni', 'user'],
+                                        \ 'text':       ['path', 'c-n',  'uspl', 'omni', 'user']
+                                        \ }
   let g:mucomplete#can_complete         = {}
   let g:mucomplete#can_complete.default = {
-                                          \ 'keyn': { t -> t =~# '\v\k{2,}$' },
-                                          \ 'c-n':  { t -> t =~# '\v\k{2,}$' },
+                                          \ 'keyn': { t -> t =~# '\v\k{3,}$' },
+                                          \ 'c-n':  { t -> t =~# '\v\k{3,}$' },
                                           \ 'uspl': { t -> t =~# '\v\k{4,}$' && &l:spell && !empty(&l:spelllang) },
                                           \ }
   nnoremap <silent> ,ta                  :MUcompleteAutoToggle<CR>
   imap     <expr>   <right>              mucomplete#extend_fwd("\<right>")
 " }}}
-Plug 'wellle/tmux-complete.vim'
-Plug 'preservim/nerdcommenter'
-" nerdcommenter config {{{2
+" nerdcommenter config {{{3
   let NERDSpaceDelims                  = 1
   let NERDCreateDefaultMappings        = 0
   map               gcc                  <Plug>NERDCommenterToggle
@@ -205,30 +221,21 @@ Plug 'preservim/nerdcommenter'
   map               gcy                  <Plug>NERDCommenterYank
   map               gcs                  <Plug>NERDCommenterSexy
 " }}}
-Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' }
-" undotree config {{{2
+" undotree config {{{3
   let g:undotree_WindowLayout          = 2
   let g:undotree_SetFocusWhenToggle    = 1
   let g:undotree_ShortIndicators       = 1
-  nnoremap <silent> ,tu                 :UndotreeToggle<CR>
+  nnoremap <silent> ,tu                  :packadd undotree<BAR>UndotreeToggle<CR>
 " }}}
-Plug 'fcpg/vim-spotlightify'
-Plug 'markonm/traces.vim'
-Plug 'andymass/vim-matchup'
-Plug 'brooth/far.vim'
-Plug 'qpkorr/vim-renamer'
-Plug 'will133/vim-dirdiff'
-" vim-dirdiff config {{{2
+" vim-dirdiff config {{{3
   let g:DirDiffExcludes                = ".git,.svn,CVS,*.class,*.exe,.*.swp,*.pyc,*.so,*.png,*.jp*g,*.svg,*.tiff"
 " }}}
-Plug 'vim-voom/VOoM'
-" VOoM config {{{2
+" VOoM config {{{3
   let g:voom_tree_width                = 40
   let g:voom_ft_modes                  = {'adoc': 'asciidoc', 'asciidoc': 'asciidoc', 'markdown': 'markdown', 'md': 'markdown', 'rst': 'rest', 'tex': 'latex'}
   nnoremap          ,tv                  :VoomToggle<CR>
 " }}}
-Plug 'rkitover/vimpager'
-" vimpager config {{{2
+" vimpager config {{{3
   if exists('g:vimpager.enabled')
     let g:vimpager                     = {}
     let g:less                         = {}
@@ -236,52 +243,48 @@ Plug 'rkitover/vimpager'
     set nolist
   endif
 " }}}"
-Plug 'godlygeek/tabular' | Plug 'dhruvasagar/vim-table-mode'
-" tabular config {{{2
+" tabular config {{{3
   nnoremap          <Leader><Tab>        :Tabularize<Space>
   vnoremap          <Leader><Tab>        :Tabularize<Space>
 " }}}
-" vim-table-mode config {{{2
+" vim-table-mode config {{{3
   let g:table_mode_auto_align          = 1
 " }}}
-Plug 'jamessan/vim-gnupg'
-Plug 'cespare/vim-toml'
-Plug 'vim-scripts/SyntaxAttr.vim'
-" SyntaxAttr.vim config {{{2
+" SyntaxAttr.vim config {{{3
   nnoremap          <F12>                :call SyntaxAttr()<CR>
 " }}}
-Plug 'vim-scripts/visSum.vim'
-Plug 'chrisbra/unicode.vim'
-" unicode.vim config {{{2
+" unicode.vim config {{{3
   let g:Unicode_ShowPreviewWindow      = 0
   nnoremap          <Leader>ut           :UnicodeTable<CR>
   nnoremap          ga                   :UnicodeName<CR>
 " }}}
-Plug 'gu-fan/colorv.vim', { 'on': ['ColorV', 'ColorVEdit', 'ColorVPreview', 'ColorVView'] }
-" colorv config {{{2
-  nnoremap          ,tcp                 :ColorVPreview<CR>
+" colorv config {{{3
+  nnoremap <silent> ,tcp                 :packadd colorv.vim<BAR>ColorVPreview<CR>
 " }}}
-Plug 'RRethy/vim-hexokinase', { 'do': 'make hexokinase' }
-" vim-hexokinase config {{{2
+" vim-hexokinase config {{{3
   let g:Hexokinase_highlighters          = [ 'foregroundfull', 'backgroundfull' ]
   let g:Hexokinase_optInPatterns         = 'full_hex,triple_hex,rgb,rgba,hsl,hsla,colour_names'
 " }}}
-Plug 'lifepillar/vim-colortemplate'
-" vim-colortemplate config {{{2
+" vim-colortemplate config {{{3
   let g:colortemplate_no_stat          =  0
   let g:colortemplate_no_warnings      =  0
 " }}}
-Plug 'wimstefan/vim-artesanal'
-" vim-artesanal config {{{2
+" vim-artesanal config {{{3
   let g:artesanal_dimmed               =  0
   let g:artesanal_transparent          =  0
 " }}}
-Plug 'chriskempson/base16-vim'
-Plug 'romainl/Apprentice'
-
-call plug#end()
-endif
-" " }}}
+" Packager plugin settings " }}}2
+" Packager plugin comands " {{{2
+command! PackagerInstall call PackagerInit() | call packager#install()
+command! -bang PackagerUpdate call PackagerInit() | call packager#update({ 'force_hooks': '<bang>' })
+command! PackagerClean call PackagerInit() | call packager#clean()
+command! PackagerStatus call PackagerInit() | call packager#status()
+nnoremap ,pc :PackagerClean<CR>
+nnoremap ,pi :PackagerInstall<CR>
+nnoremap ,ps :PackagerStatus<CR>
+nnoremap ,pu :PackagerUpdate<CR>
+" Packager plugin comands " }}}2
+" Plugins " }}}1
 
 " General Settings " {{{1
 filetype indent plugin on
@@ -464,7 +467,7 @@ let g:netrw_preview                    =  0
 let g:netrw_alto                       =  0
 nnoremap <silent> <Leader>x              :Lexplore<CR>
 
-" " }}}
+" General Settings " }}}1
 
 " Visual " {{{1
 let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
@@ -578,7 +581,7 @@ function! MyStatusline()
   call User_highlights()
 endfunction
 setlocal statusline=%!MyStatusline()
-" " }}}2
+" Statusline " }}}2
 " Tabline " {{{2
 set showtabline=2                      " always show the tabline above
 
@@ -647,8 +650,8 @@ function! MyTabline()
   return s
 endfunction
 set tabline=%!MyTabline()
-" " }}}2
-" " }}}
+" Tabline " }}}2
+" Visual " }}}1
 
 " Formatting " {{{1
 set comments=b:#,fb:-,fb:*,fb:o,:%,n:>|
@@ -656,8 +659,7 @@ set formatoptions=tcrqwnbj
 set nrformats+=alpha
 nnoremap Q gwap
 vnoremap Q gw
-
-" " }}}
+" Formatting " }}}1
 
 " Key mappings & abbreviations " {{{1
 
@@ -778,7 +780,7 @@ set pastetoggle=<F3>
 
 " Abbreviations
 source ~/.vim/abbreviations.vim
-" " }}}
+" Keymappings & abbreviations " }}}1
 
 " Auto commands " {{{1
 augroup vimrc
@@ -862,7 +864,7 @@ if has("autocmd") && exists("+omnifunc")
     \  setlocal omnifunc=syntaxcomplete#Complete |
     \ endif
 endif
-" " }}}
+" Auto commands " }}}1
 
 " Functions " {{{1
 function! User_highlights() abort
@@ -951,7 +953,7 @@ function! CCR()
 endfunction
 cnoremap <expr> <CR> CCR()
 
-" " }}}
+" Functions " }}}1
 
 finish
 Vim is ignoring *all* text after finish.
