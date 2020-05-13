@@ -53,8 +53,8 @@ function! PackagerInit() abort
   call packager#add('RRethy/vim-hexokinase', { 'do': 'make hexokinase' })
   call packager#add('lifepillar/vim-colortemplate')
   call packager#add('wimstefan/vim-artesanal')
-  call packager#add('chriskempson/base16-vim')
   call packager#add('romainl/Apprentice')
+  call packager#add('sonph/onehalf', {'rtp': 'vim/'})
 
 endfunction
 " Packager plugin install " }}}2
@@ -477,7 +477,7 @@ if !has('nvim')                        " enable under{line,curl}
 endif
 set termguicolors
 if &term =~ "linux"
-  color base16-google-dark
+  color onehalfdark
 else
   if has('gui_running')
     if $USER=='root'
