@@ -17,19 +17,19 @@ theme.border_width    =  dpi(4)
 theme.useless_gap     =  dpi(8)
 theme.wibar_position  =  'top'
 theme.wibar_height    =  dpi(18)
+--}}}
 
+-- Theme shapes {{{
 app_shape = function(cr, width, height)
   gears.shape.rounded_rect(cr, width, height, dpi(16))
 end
 theme.hotkeys_shape = function(cr, width, height)
-  gears.shape.partially_rounded_rect(cr, width, height, true, false, true, false, dpi(24))
+  gears.shape.partially_rounded_rect(cr, width, height, true, false, true, false, dpi(44))
 end
 theme.notification_shape = function(cr, width, height)
-  gears.shape.rounded_rect(cr, width, height, dpi(10))
+  gears.shape.partially_rounded_rect(cr, width, height, true, false, true, false, dpi(24))
 end
-theme.tooltip_shape = function(cr, width, height)
-  gears.shape.infobubble(cr, width, height, dpi(4), dpi(5))
-end
+theme.tooltip_shape = gears.shape.infobubble
 --}}}
 
 -- Theme fonts {{{
@@ -38,7 +38,6 @@ theme.mono_font                = 'Iosevka Artesanal Tailed Bold 10'
 theme.taglist_font             = 'Iosevka Artesanal Tailed HvEx 10.5'
 theme.tasklist_font            = 'Iosevka Artesanal Tailed 9'
 theme.clock_font               = 'Iosevka Artesanal Tailed XBdEx 10'
-theme.tooltip_font             = 'Iosevka Artesanal Tailed 10'
 theme.icon_font                = 'Webhostinghub-Glyphs 8'
 --}}}
 
@@ -52,7 +51,7 @@ theme.black2               =  '#121419'
 theme.grey1                =  '#bdbdbd'
 theme.grey2                =  '#616161'
 theme.red1                 =  '#e84256'
-theme.red2                 =  '#dc1b33'
+theme.red2                 =  '#b71c1c'
 theme.green1               =  '#00bf8a'
 theme.green2               =  '#008c65'
 theme.yellow1              =  '#fff176'
@@ -77,10 +76,10 @@ theme.fg_em                =  theme.grey1
 theme.bg_em                =  theme.grey2
 theme.fg_urgent            =  theme.white1
 theme.bg_urgent            =  theme.red1
-theme.border_color         =  theme.background
-theme.border_normal        =  theme.background
-theme.border_focus         =  theme.grey1
-theme.border_marked        =  theme.grey2
+theme.border_color         =  theme.black2
+theme.border_normal        =  theme.black2
+theme.border_focus         =  theme.black1
+theme.border_marked        =  theme.black1
 theme.cal_fg               =  theme.background
 theme.cal_bg               =  theme.blue2
 theme.clock_fg             =  theme.background
@@ -115,15 +114,20 @@ theme.menu_submenu_icon  =  recolor(theme.menu_submenu_icon, theme.decoration_ti
 --}}}
 
 -- Notification settings {{{
-theme.notification_border_color  =  theme.red2
-theme.notification_border_width  =  theme.border_width
-theme.notification_margin        =  dpi(14)
+theme.notification_border_color  =  theme.symbol_tint
+theme.notification_border_width  =  theme.border_width * 1.8
+theme.notification_fg            =  theme.symbol_tint
+theme.notification_padding       =  dpi(8)
+theme.notification_spacing       =  dpi(4)
 -- }}}
 
 -- Tooltip settings {{{
 theme.tooltip_align         =  'top'
-theme.tooltip_border_color  =  theme.border_color
-theme.tooltip_border_width  =  theme.border_width
+theme.tooltip_border_color  =  theme.border_focus
+theme.tooltip_border_width  =  theme.border_width * 1.5
+theme.tooltip_fg            =  theme.symbol_tint
+theme.tooltip_font          = 'Iosevka Artesanal Tailed 10'
+theme.tooltip_gaps          =  dpi(24)
 -- }}}
 
 -- Hotkeys settings {{{
@@ -131,7 +135,8 @@ theme.hotkeys_fg                =  theme.foreground
 theme.hotkeys_bg                =  theme.background
 theme.hotkeys_modifiers_fg      =  theme.blue2
 theme.hotkeys_border_color      =  theme.border_focus
-theme.hotkeys_group_margin      =  dpi(10)
+theme.hotkeys_border_width      =  theme.border_width * 2.8
+theme.hotkeys_group_margin      =  dpi(24)
 theme.hotkeys_font              =  'Iosevka Artesanal Tailed Bold 10'
 theme.hotkeys_description_font  =  'Iosevka Artesanal Tailed 10'
 -- }}}
