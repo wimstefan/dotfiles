@@ -54,7 +54,7 @@ function! PackagerInit() abort
   call packager#add('lifepillar/vim-colortemplate')
   call packager#add('wimstefan/vim-artesanal')
   call packager#add('romainl/Apprentice')
-  call packager#add('sonph/onehalf', {'rtp': 'vim/'})
+  call packager#add('rakr/vim-one')
 
 endfunction
 " Packager plugin install " }}}2
@@ -262,8 +262,8 @@ endfunction
   nnoremap <silent> ,tcp                 :packadd colorv.vim<BAR>ColorVPreview<CR>
 " }}}
 " vim-hexokinase config {{{3
-  let g:Hexokinase_highlighters          = [ 'foregroundfull', 'backgroundfull' ]
-  let g:Hexokinase_optInPatterns         = 'full_hex,triple_hex,rgb,rgba,hsl,hsla,colour_names'
+  let g:Hexokinase_highlighters        = [ 'foregroundfull', 'backgroundfull' ]
+  let g:Hexokinase_optInPatterns       = 'full_hex,triple_hex,rgb,rgba,hsl,hsla,colour_names'
 " }}}
 " vim-colortemplate config {{{3
   let g:colortemplate_no_stat          =  0
@@ -272,6 +272,9 @@ endfunction
 " vim-artesanal config {{{3
   let g:artesanal_dimmed               =  0
   let g:artesanal_transparent          =  0
+" }}}
+" vim-one config {{{3
+  let g:one_allow_italics              = 1
 " }}}
 " Packager plugin settings " }}}2
 " Packager plugin comands " {{{2
@@ -476,44 +479,34 @@ if !has('nvim')                        " enable under{line,curl}
   set t_Cs =
 endif
 set termguicolors
-if &term =~ "linux"
-  color onehalfdark
-else
-  if has('gui_running')
-    if $USER=='root'
-      color apprentice
+if has('gui_running')
+  if $USER=='root'
+    color apprentice
+  else
+    if filereadable(expand("~/.config/vim_theme"))
+      source ~/.config/vim_theme
     else
-      if filereadable(expand("~/.vimrc_background"))
-        source ~/.vimrc_background
-      elseif filereadable(expand("~/.config/colorscheme"))
-        source ~/.config/colorscheme
-      else
-        color default
-      endif
+      color default
+    endif
+  endif
+else
+  if $USER=='root'
+    if filereadable(expand("~/.config/vim_theme"))
+      source ~/.config/vim_theme
+    else
+      color apprentice
     endif
   else
-    if $USER=='root'
-      if filereadable(expand("~/.vimrc_background"))
-        source ~/.vimrc_background
-      elseif filereadable(expand("~/.config/colorscheme"))
-        source ~/.config/colorscheme
-      else
-        color apprentice
-      endif
+    if filereadable(expand("~/.config/vim_theme"))
+      source ~/.config/vim_theme
     else
-      if filereadable(expand("~/.vimrc_background"))
-        source ~/.vimrc_background
-      elseif filereadable(expand("~/.config/colorscheme"))
-        source ~/.config/colorscheme
-      else
-        color default
-      endif
+      color default
     endif
   endif
 endif
 
 if has('gui_running')
-  set guifont=IBM\ Plex\ Mono\ Medium\ Italic\ 9.0
+  set guifont=Iosevka\ Artesanal\ Tailed\ weight=453\ 12
   set guioptions-=T                    " disable toolbar
   set guioptions-=l                    " disable left scrollbar
   set guioptions-=L
