@@ -342,7 +342,7 @@ local tooltip_cpu = awful.tooltip({
   margin_topbottom = dpi(20),
 })
 awful.widget.watch('sensors', 4, function(widget, stdout)
-  widget:set_markup(markup.fg(beautiful.fg_normal, markup.bold(stdout)))
+  widget:set_markup(markup.fg(beautiful.fg_normal,stdout))
 end, tooltip_cpu)
 -- CPU widget }}}
 -- Temperature widget {{{2
@@ -414,7 +414,7 @@ local tooltip_bat = awful.tooltip({
   timer_function = function()
     local text
     if (not bat_now.status) or bat_now.status == "N/A" or type(bat_now.perc) ~= "number" then
-      text = '<span color="'..beautiful.fg_normal..'" weight="bold">'..
+      text = '<span color="'..beautiful.fg_normal..'">'..
              ' Plugged in \n' ..
              ' No battery </span>'
     elseif bat_now.status == 'Discharging' then
@@ -504,6 +504,16 @@ awful.screen.connect_for_each_screen(function(s)
     width = 0.8,
     vert = "bottom",
     horiz = "right"
+  })
+  s.quakeranger = lain.util.quake({
+    app = "kitty",
+    name = "Ranger",
+    argname = NAME.."%s",
+    extra = CMD.." ranger",
+    height = 1.0,
+    width = 0.9,
+    vert = "bottom",
+    horiz = "left"
   })
 end)
 -- Quake terminals }}}
@@ -763,9 +773,21 @@ awful.keyboard.append_global_keybindings({
           end
         end
       end,
+    },
+    awful.key {
+      modifiers   = { modkey },
+      keygroup    = "numpad",
+      description = "select layout directly",
+      group       = "layout",
+      on_press    = function (index)
+        local t = awful.screen.focused().selected_tag
+        if t then
+          t.layout = t.layouts[index] or t.layout
+        end
+      end,
     }
 })
--- Keybindings for volume control
+-- Keybindings for volume control & theme changing
 awful.keyboard.append_global_keybindings({
   awful.key({ altkey, "Shift"     }, "Up",
             function ()
@@ -785,6 +807,9 @@ awful.keyboard.append_global_keybindings({
               volume.notify()
             end,
             {description = "Mute volume", group = "controls"}),
+  awful.key({ altkey, "Shift"     }, "a",
+            function () awful.spawn.with_shell("bg-toggle") end,
+            {description = "Toggle between light &amp; dark", group = "controls"}),
 })
 -- Application keybindings
 awful.keyboard.append_global_keybindings({
@@ -821,6 +846,9 @@ awful.keyboard.append_global_keybindings({
   awful.key({ modkey            }, "r",
             function () awful.spawn("rofi -show combi") end,
             {description = "Rofi dialog", group = "awesome"}),
+  awful.key({ altkey,           }, "r",
+            function () awful.screen.focused().quakeranger:toggle() end,
+            {description = "Ranger", group = "applications"}),
   awful.key({ modkey,           }, "s",
             function () awful.screen.focused().quakescratch:toggle() end,
             {description = "Scratchpad", group = "applications"}),
