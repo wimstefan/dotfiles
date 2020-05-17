@@ -46,6 +46,7 @@ function! PackagerInit() abort
   call packager#add('dhruvasagar/vim-table-mode')
   call packager#add('jamessan/vim-gnupg')
   call packager#add('cespare/vim-toml')
+  call packager#add('MTDL9/vim-log-highlighting')
   call packager#add('vim-scripts/SyntaxAttr.vim')
   call packager#add('vim-scripts/visSum.vim')
   call packager#add('chrisbra/unicode.vim')
@@ -68,9 +69,6 @@ endfunction
   nnoremap          <Leader>gl           :<C-u>0Glog<CR>
   nnoremap          <Leader>gp           :<C-u>Gpush<CR>
   nnoremap          <Leader>gs           :<C-u>Gstatus<CR>
-" }}}
-" fzf config {{{3
-  set rtp+=~/.fzf
 " }}}
 " fzf.vim config {{{3
   function! s:build_quickfix_list(lines)
