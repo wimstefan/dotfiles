@@ -170,52 +170,52 @@ font:
 draw_bold_text_with_bright_colors: true
 
 # Colors
-colors:
-  # Default colors light
-  primary:
-    background: '#eff1f4'
-    foreground: '#2e3440'
-  normal:
-    black:   '#191c22'
-    red:     '#ae1528'
-    green:   '#009a5a'
-    yellow:  '#ff8c00'
-    blue:    '#004bb4'
-    magenta: '#b300a4'
-    cyan:    '#00a4b3'
-    white:   '#b8b8b8'
-  bright:
-    black:   '#77839b'
-    red:     '#ae1528'
-    green:   '#009a5a'
-    yellow:  '#ff8c00'
-    blue:    '#004bb4'
-    magenta: '#b300a4'
-    cyan:    '#00a4b3'
-    white:   '#9f9f9f'
-
-  # Default colors dark
-  # primary:
-    # background: '#2e3440'
-    # foreground: '#eaeaeb'
-  # normal:
-    # black:   '#434c5e'
-    # red:     '#e84256'
-    # green:   '#00bf8a'
-    # yellow:  '#ffffa8'
-    # blue:    '#6699cc'
-    # magenta: '#fa75e2'
-    # cyan:    '#00bbcc'
-    # white:   '#eaeaeb'
-  # bright:
-    # black:   '#788d9f'
-    # red:     '#e84256'
-    # green:   '#00bf8a'
-    # yellow:  '#ffffa8'
-    # blue:    '#6699cc'
-    # magenta: '#fa75e2'
-    # cyan:    '#00bbcc'
-    # white:   '#d0d0d2'
+color_schemes:
+  light: &light
+    primary:
+      background: '#eff1f4'
+      foreground: '#2e3440'
+    normal:
+      black:   '#191c22'
+      red:     '#ae1528'
+      green:   '#009a5a'
+      yellow:  '#ff8c00'
+      blue:    '#004bb4'
+      magenta: '#b300a4'
+      cyan:    '#00a4b3'
+      white:   '#b8b8b8'
+    bright:
+      black:   '#77839b'
+      red:     '#ae1528'
+      green:   '#009a5a'
+      yellow:  '#ff8c00'
+      blue:    '#004bb4'
+      magenta: '#b300a4'
+      cyan:    '#00a4b3'
+      white:   '#9f9f9f'
+  dark: &dark
+    primary:
+      background: '#2e3440'
+      foreground: '#eaeaeb'
+    normal:
+      black:   '#434c5e'
+      red:     '#e84256'
+      green:   '#00bf8a'
+      yellow:  '#ffffa8'
+      blue:    '#6699cc'
+      magenta: '#fa75e2'
+      cyan:    '#00bbcc'
+      white:   '#eaeaeb'
+    bright:
+      black:   '#788d9f'
+      red:     '#e84256'
+      green:   '#00bf8a'
+      yellow:  '#ffffa8'
+      blue:    '#6699cc'
+      magenta: '#fa75e2'
+      cyan:    '#00bbcc'
+      white:   '#d0d0d2'
+colors: *light
 
     # Bright and dim foreground colors
     #
