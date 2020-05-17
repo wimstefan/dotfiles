@@ -378,7 +378,7 @@ export HISTFILE="$HOME/.zsh/histfile"
 export HISTSIZE="5000"
 export SAVEHIST="5000"
 export CVS_RSH="ssh"
-export FZF_DEFAULT_OPTS='-x -m --cycle --border --layout=reverse --inline-info --height 80% --color=light --preview "bat --color=always {}" --preview-window right:70%:hidden:wrap --bind "?:toggle-preview"'
+export FZF_DEFAULT_OPTS='-x -m --cycle --border --layout=reverse --inline-info --height 80% --preview "bat --color=always {}" --preview-window right:70%:hidden:wrap --bind "?:toggle-preview" --color=bg+:-1,fg+:-1'
 export FZF_CTRL_T_OPTS='--preview "bat --color=always {}" --preview-window right:70%:hidden:wrap --bind "?:toggle-preview"'
 export HIGHLIGHT_STYLE="github"
 export XAUTHORITY="$HOME/.Xauthority"
@@ -516,8 +516,8 @@ if [[ $USER != root ]]; then
   # - Exports {{{3
   path=($HOME/bin $HOME/.local/bin $HOME/.fzf_browser $HOME/.cargo/bin $HOME/.gem/ruby/bin $path)
   manpath=($HOME/man $manpath)
-  export MANPAGER="$HOME/.vim/plugged/vimpager/vimpager"
-  export PAGER="$HOME/.vim/plugged/vimpager/vimpager"
+  export MANPAGER="vimpager"
+  export PAGER="vimpager"
   export MPD_HOST="localhost"
   export MPD_PORT="6600"
   export GPG_TTY=`tty`
@@ -740,22 +740,22 @@ if [[ $USER != root ]]; then
         rsync -azk  --delete /usr/local/share/icons/ $host:/usr/local/share/icons/
         rsync -azK  --delete /usr/local/share/themes/ $host:/usr/local/share/themes/
         rsync -azK  --delete /usr/local/share/rofi/themes/ $host:/usr/local/share/rofi/themes/
-        rsync -azLk --delete /usr/share/fonts/owned/ $host:/usr/share/fonts/owned/
+        rsync -azkL --delete /usr/share/fonts/owned/ $host:/usr/share/fonts/owned/
         rsync -az   --delete /home/swimmer/.config/libreoffice/4/user/template/ $host:.config/libreoffice/4/user/template/
         rsync -az            /home/swimmer/.gtkrc-2.0 $host:
         rsync -az            /home/swimmer/.config/gtk-3.0/ $host:.config/gtk-3.0/
         rsync -az            /home/swimmer/.config/fontconfig/fonts.conf $host:.config/fontconfig/
         rsync -az            /home/swimmer/.config/Trolltech.conf $host:.config/
-        rsync -az            /home/swimmer/.config/colorscheme $host:.config/
+        rsync -az            /home/swimmer/.config/vim_theme $host:.config/
         rsync -az            /home/swimmer/.config/base16-shell/ $host:.config/base16-shell/
         rsync -az            /home/swimmer/.config/emoji-list.txt $host:.config/
-        rsync -az            /usr/local/bin/bg-switch.sh $host:/usr/local/bin/
+        rsync -az            /usr/local/bin/bg-toggle $host:/usr/local/bin/
       }
       function sync-cli() {
       # zsh, vim, mc
         local host=$1
         echo "Syncing zsh on $host ..."
-        rsync -azkL --delete /home/swimmer/.fzf/ $host:.fzf/
+        rsync -l             /home/swimmer/.fzf $host:.fzf
         rsync -az   --delete /home/swimmer/.fzf.*sh $host:
         rsync -az   --delete /home/swimmer/.fzf_browser/ $host:.fzf_browser/
         rsync -az   --delete /home/swimmer/.zsh/external/ $host:.zsh/external/
