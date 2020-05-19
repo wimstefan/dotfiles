@@ -1,5 +1,5 @@
 --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---
---                       Materia theme - dark version                      ---
+--                       Artesanal theme - dark version                     ---
 --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- --- ---
 
 local beautiful     =  require('beautiful')
@@ -143,7 +143,7 @@ theme.hotkeys_description_font  =  'Iosevka Artesanal Tailed 10'
 
 -- Theme icons {{{
 theme.awesome_icon           =  theme_assets.awesome_icon( theme.menu_height, theme.taglist_bg_focus, theme.taglist_fg_focus )
-theme.icon_theme             =  home_dir .. '/.icons/oomox-ta-materia-light-blue'
+theme.icon_theme             =  home_dir .. '/.icons/oomox-artesanal-dark-blue'
 theme.tasklist_disable_icon  =  false
 
 theme.layout_fairh       =  icon_dir .. 'multicolor-icons/fairh.png'
