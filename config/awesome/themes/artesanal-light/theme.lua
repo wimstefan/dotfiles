@@ -33,11 +33,11 @@ theme.tooltip_shape = gears.shape.infobubble
 --}}}
 
 -- Theme fonts {{{
-theme.font                     = 'Iosevka Artesanal Tailed Semibold 10'
-theme.mono_font                = 'Iosevka Artesanal Tailed Bold 10'
-theme.taglist_font             = 'Iosevka Artesanal Tailed HvEx 10.5'
-theme.tasklist_font            = 'Iosevka Artesanal Tailed 9'
-theme.clock_font               = 'Iosevka Artesanal Tailed XBdEx 10'
+theme.font                     = 'Iosevka Artesanal Tailed Semibold 11'
+theme.mono_font                = 'Iosevka Artesanal Tailed Bold 11'
+theme.taglist_font             = 'Iosevka Artesanal Tailed HvEx 11.5'
+theme.tasklist_font            = 'Iosevka Artesanal Tailed 10'
+theme.clock_font               = 'Iosevka Artesanal Tailed XBdEx 11'
 theme.icon_font                = 'Webhostinghub-Glyphs 8'
 --}}}
 
@@ -125,7 +125,7 @@ theme.tooltip_align         =  'top'
 theme.tooltip_border_color  =  theme.border_color
 theme.tooltip_border_width  =  theme.border_width * 1.5
 theme.tooltip_fg            =  theme.symbol_tint
-theme.tooltip_font          = 'Iosevka Artesanal Tailed 10'
+theme.tooltip_font          = 'Iosevka Artesanal Tailed 11'
 theme.tooltip_gaps          =  dpi(24)
 -- }}}
 
@@ -136,8 +136,8 @@ theme.hotkeys_modifiers_fg      =  theme.blue2
 theme.hotkeys_border_color      =  theme.border_focus
 theme.hotkeys_border_width      =  theme.border_width * 2.8
 theme.hotkeys_group_margin      =  dpi(24)
-theme.hotkeys_font              =  'Iosevka Artesanal Tailed Bold 10'
-theme.hotkeys_description_font  =  'Iosevka Artesanal Tailed 10'
+theme.hotkeys_font              =  'Iosevka Artesanal Tailed Bold 11'
+theme.hotkeys_description_font  =  'Iosevka Artesanal Tailed 11'
 -- }}}
 
 -- Theme icons {{{
