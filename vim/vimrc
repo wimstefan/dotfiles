@@ -361,7 +361,7 @@ let &cc='+'.join(range(1,255),',+')    " highlights textwidth boundaries
 
 " virtually wrap lines to fit on the screen
 if exists('+linebreak')
-  set linebreak showbreak=\ ›››\       " break & visually mark wrapped lines
+  set linebreak showbreak=\ »\       " break & visually mark wrapped lines
 endif
 if has('patch594')
   set breakindent                      " keep indentation of wrapped lines
@@ -373,7 +373,7 @@ set incsearch                          " show matches while typing the query
 set hlsearch                           " highlight search results
 
 set list                               " display unprintable characters
-set listchars=tab:➡\ ,trail:·,eol:«,extends:◀,precedes:▶
+set listchars=tab:›\ ,trail:·,eol:«,extends:>,precedes:<
 
 set path=.,**                          " list of directories which will be searched with find et al
 set isfname=@,48-57,/,.,-,_,+,,,#,$,%,~,=,(,),[,],{,}     " allowed characters in file and path names
@@ -519,9 +519,9 @@ set laststatus=2                       " always show the statusline
 function! MyStatusline()
   let stl  = ''
   if $USER == 'root'
-    let stl .= '%#Status1# ■ '
+    let stl .= '%#Status1# ■  '
   else
-    let stl .= ' ■ '
+    let stl .= ' ■  '
   endif
   if mode() ==? 'i'
     let stl .= '%#Mode1# %f %*'
@@ -535,14 +535,14 @@ function! MyStatusline()
     let stl .= '%1* %f %*'
   endif
   if $USER=='root'
-    let stl .= '%#Status1# ■ %*'
+    let stl .= '%#Status1# ■  %*'
   else
-    let stl .= ' ■ %*'
+    let stl .= ' ■  %*'
   endif
-  let stl .= '%#Status2#%{&modified ? " ✓ " : ""}%*'
-  let stl .= '%#Status1#%{&ro ? " ✗ " : ""}%*'
+  let stl .= '%#Status2#%{&modified ? " ✓ " : ""}%*'
+  let stl .= '%#Status1#%{&ro ? " ✗ " : ""}%*'
   if exists('g:loaded_obsession')
-    let stl .= '%{ObsessionStatus("⏺", "⏸")}'
+    let stl .= '%{ObsessionStatus(" \\o/", " _o_")}'
   endif
   let stl .= '%= '
   if &filetype != 'help'
@@ -860,16 +860,16 @@ endif
 " Functions " {{{1
 function! User_highlights() abort
   " https://gist.github.com/ahmedelgabri/b9127dfe36ba86f4496c8c28eb65ef2b
-  let bgcolorgui=synIDattr(synIDtrans(hlID("Statusline")), "bg", "gui")
-  let bgcolorterm=synIDattr(synIDtrans(hlID("Statusline")), "bg", "cterm")
+  let bgcolorgui=synIDattr(synIDtrans(hlID("StatusLine")), "bg", "gui")
+  let bgcolorterm=synIDattr(synIDtrans(hlID("StatusLine")), "bg", "cterm")
 
   exe 'highlight User1 cterm=reverse gui=reverse'
   exe 'highlight User2 cterm=bold gui=bold'
 
-  exe 'highlight Status1 ctermfg=1 guifg=#e05a72'
-  exe 'highlight Status2 ctermfg=2 guifg=#59b387'
-  exe 'highlight Status3 ctermfg=3 guifg=#ffcc66'
-  exe 'highlight Status4 ctermfg=4 guifg=#5f87af'
+  exe 'highlight Status1 ctermfg=7 ctermbg=1 guifg=#eff1f4 guibg=#e05a72'
+  exe 'highlight Status2 ctermfg=7 ctermbg=2 guifg=#eff1f4 guibg=#59b387'
+  exe 'highlight Status3 ctermfg=0 ctermbg=3 guifg=#2e3440 guibg=#ffcc66'
+  exe 'highlight Status4 ctermfg=7 ctermbg=4 guifg=#eff1f4 guibg=#5f87af'
 
   exe 'highlight Mode1 ctermfg=7 ctermbg=2 guifg=#eff1f4 guibg=#59b387'
   exe 'highlight Mode2 ctermfg=7 ctermbg=4 guifg=#eff1f4 guibg=#5f87af'
