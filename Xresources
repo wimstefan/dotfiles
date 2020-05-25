@@ -5,7 +5,7 @@
   *faceName: xft:monospace:pixelsize=30.0
   rofi.font: Overlock 20
 #elif SRVR_tj
-  Xft.dpi: 116
+  Xft.dpi: 120
   Xcursor.size: 24
   *font: xft:monospace:pixelsize=16.0
   *faceName: xft:monospace:pixelsize=16.0
@@ -18,7 +18,7 @@ Xft.hintstyle: hintslight
 Xft.hinting: 1
 Xft.antialias: 1
 
-Xcursor.theme:              Dot-Light
+Xcursor.theme:              Vimix-white-cursors
 
 *xterm*termName:            xterm-256color
 *xterm*loginShell:          true
