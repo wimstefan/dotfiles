@@ -232,8 +232,8 @@ zle -N zle-line-init
 zle -N zle-keymap-select
 
 function vi_mode_prompt {
-  VIM_CMD="$bold$colorfg{red}●$uncolorfg$unbold"
-  VIM_MAIN="$bold$colorfg{blue}○$uncolorfg$unbold"
+  VIM_CMD="$bold$colorfg{red}⊡$uncolorfg$unbold"
+  VIM_MAIN="$bold$colorfg{blue}⊙$uncolorfg$unbold"
   echo "${${KEYMAP/vicmd/$VIM_CMD}/(main|viins)/$VIM_MAIN}"
 }
 
@@ -378,7 +378,7 @@ export HISTFILE="$HOME/.zsh/histfile"
 export HISTSIZE="5000"
 export SAVEHIST="5000"
 export CVS_RSH="ssh"
-export FZF_DEFAULT_OPTS='-x -m --cycle --border --layout=reverse --inline-info --height 80% --preview "bat --color=always {}" --preview-window right:70%:hidden:wrap --bind "?:toggle-preview" --color=bg+:-1,fg+:-1'
+export FZF_DEFAULT_OPTS='-x -m --cycle --border --layout=reverse --inline-info --height 80% --preview "bat --color=always {}" --preview-window right:70%:hidden:wrap --bind "?:toggle-preview" --color=bg+:-1,fg+:-1,hl:36,hl+:36,info:75'
 export FZF_CTRL_T_OPTS='--preview "bat --color=always {}" --preview-window right:70%:hidden:wrap --bind "?:toggle-preview"'
 export HIGHLIGHT_STYLE="github"
 export XAUTHORITY="$HOME/.Xauthority"
@@ -392,6 +392,7 @@ export QT_XFT=true
 alias -g B="| bat"
 alias -g G="| rg"
 alias -g L="| less"
+alias -g V="| vimpager"
 alias -g W="| wc -l"
 alias -g Z="| fzf"
 # commands
@@ -516,8 +517,6 @@ if [[ $USER != root ]]; then
   # - Exports {{{3
   path=($HOME/bin $HOME/.local/bin $HOME/.fzf_browser $HOME/.cargo/bin $HOME/.gem/ruby/bin $path)
   manpath=($HOME/man $manpath)
-  export MANPAGER="vimpager"
-  export PAGER="vimpager"
   export MPD_HOST="localhost"
   export MPD_PORT="6600"
   export GPG_TTY=`tty`
@@ -526,9 +525,7 @@ if [[ $USER != root ]]; then
   # [ -n "$PS1" ] && [ -s $BASE16_SHELL/profile_helper.sh ] && eval "$($BASE16_SHELL/profile_helper.sh)"
   # }}}3
   # - Aliases {{{3
-  alias less="$PAGER"
-  alias zless="$PAGER"
-  alias bless="/usr/bin/less"
+  alias zless="vimpager"
   # shortcuts
   alias ta="tmux attach -d -t"
   alias fbmplayer="mplayer -vo fbdev -fs"
