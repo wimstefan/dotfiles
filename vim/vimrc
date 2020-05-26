@@ -4,8 +4,8 @@
 
 let mapleader = "\<Space>"
 
-" Plugins " {{{1
-" Packager plugin install " {{{2
+" {{{1 Plugins
+" {{{2 Packager plugin install
 function! PackagerInit() abort
   packadd vim-packager
   call packager#init()
@@ -58,19 +58,19 @@ function! PackagerInit() abort
   call packager#add('rakr/vim-one')
 
 endfunction
-" Packager plugin install " }}}2
-" Packager plugin settings " {{{2
-" vim-obsession config {{{3
+" Packager plugin install }}}
+" {{{2 Packager plugin settings
+" {{{3 vim-obsession config
   nnoremap <silent> ,to                  :Obsession<CR>
 " }}}
-" git related config {{{3
+" {{{3 git related config
   nnoremap          <Leader>gc           :<C-u>Gcommit -v %<CR>
   nnoremap          <Leader>gd           :<C-u>Gdiff<CR>
   nnoremap          <Leader>gl           :<C-u>0Glog<CR>
   nnoremap          <Leader>gp           :<C-u>Gpush<CR>
   nnoremap          <Leader>gs           :<C-u>Gstatus<CR>
 " }}}
-" fzf.vim config {{{3
+" {{{3 fzf.vim config
   function! s:build_quickfix_list(lines)
     call setqflist(map(copy(a:lines), '{ "filename": v:val }'))
     copen
@@ -112,24 +112,24 @@ endfunction
   let g:fzf_layout                     = { 'up': '40%' }
   " let g:fzf_layout                     = { 'window': { 'width': 0.9, 'height': 0.6 } }
 " }}}
-" vim-peekaboo config {{{3
+" {{{3 vim-peekaboo config
   let g:peekaboo_ins_prefix            = '<C-x>'
 " }}}
-" goyo.vim config {{{3
+" {{{3 goyo.vim config
   let g:goyo_width                     = 114
   nnoremap <silent> ,tg                  :packadd goyo.vim<BAR>Goyo<CR>
 " }}}
-" limelight.vim config {{{3
+" {{{3 limelight.vim config
   let g:limelight_default_coefficient  = 0.7
   nnoremap <silent> ,tl                  :packadd limelight.vim<BAR>Limelight!!<CR>
 " }}}
-" vim-easy-align config {{{3
+" {{{3 vim-easy-align config
   " Start interactive EasyAlign in visual mode (e.g. vipea)
   xmap              ea                    <Plug>(EasyAlign)
   " Start interactive EasyAlign for a motion/text object (e.g. eaip)
   nmap              ea                    <Plug>(EasyAlign)
 " }}}
-" vim-sneak config {{{3
+" {{{3 vim-sneak config
   let g:sneak#prompt                   = '[sneak] '
   let g:sneak#label                    = 1
   let g:sneak#s_next                   = 1
@@ -152,7 +152,7 @@ endfunction
   omap              s                    <Plug>Sneak_s
   omap              S                    <Plug>Sneak_S
 " }}}
-" vim-signify config {{{3
+" {{{3 vim-signify config
   let g:signify_sign_add               = '+'
   let g:signify_sign_change            = '!'
   let g:signify_sign_delete            = '-'
@@ -164,7 +164,7 @@ endfunction
   nnoremap          ,sd                 :SignifyDiff<CR>
   nnoremap          ,sp                 :SignifyDiffPreview<CR>
 " }}}
-" vim-grepper config {{{3
+" {{{3 vim-grepper config
   nmap              gs                   <plug>(GrepperOperator)
   xmap              gs                   <plug>(GrepperOperator)
   nnoremap          <Leader>g            :Grepper<CR>
@@ -173,7 +173,7 @@ endfunction
   let g:grepper.tools                  = ['rg', 'ag', 'ack', 'grep', 'findstr', 'pt']
   let g:grepper.next_tool              = '<Leader>g'
 " }}}
-" vim-qf config {{{3
+" {{{3 vim-qf config
   let g:qf_mapping_ack_style           = 1
   let g:qf_auto_open_quickfix          = 0
   nmap              <C-q>                <Plug>QfSwitch
@@ -184,7 +184,7 @@ endfunction
   nmap              <C-Home>             <Plug>QfLprevious
   nmap              <C-End>              <Plug>QfLnext
 " }}}
-" vim-mucomplete config {{{3
+" {{{3 vim-mucomplete config
   let g:mucomplete#chains              = {}
   let g:mucomplete#chains              = {
                                         \ 'default':    ['path', 'keyn', 'omni', 'user', 'defs', 'incl', 'c-n', 'uspl'],
@@ -203,7 +203,7 @@ endfunction
   nnoremap <silent> ,ta                  :MUcompleteAutoToggle<CR>
   imap     <expr>   <right>              mucomplete#extend_fwd("\<right>")
 " }}}
-" nerdcommenter config {{{3
+" {{{3 nerdcommenter config
   let NERDSpaceDelims                  = 1
   let NERDCreateDefaultMappings        = 0
   map               gcc                  <Plug>NERDCommenterToggle
@@ -219,21 +219,21 @@ endfunction
   map               gcy                  <Plug>NERDCommenterYank
   map               gcs                  <Plug>NERDCommenterSexy
 " }}}
-" undotree config {{{3
+" {{{3 undotree config
   let g:undotree_WindowLayout          = 2
   let g:undotree_SetFocusWhenToggle    = 1
   let g:undotree_ShortIndicators       = 1
   nnoremap <silent> ,tu                  :packadd undotree<BAR>UndotreeToggle<CR>
 " }}}
-" vim-dirdiff config {{{3
+" {{{3 vim-dirdiff config
   let g:DirDiffExcludes                = ".git,.svn,CVS,*.class,*.exe,.*.swp,*.pyc,*.so,*.png,*.jp*g,*.svg,*.tiff"
 " }}}
-" VOoM config {{{3
+" {{{3 VOoM config
   let g:voom_tree_width                = 40
   let g:voom_ft_modes                  = {'adoc': 'asciidoc', 'asciidoc': 'asciidoc', 'markdown': 'markdown', 'md': 'markdown', 'rst': 'rest', 'tex': 'latex'}
   nnoremap          ,tv                  :VoomToggle<CR>
 " }}}
-" vimpager config {{{3
+" {{{3 vimpager config
   if exists('g:vimpager.enabled')
     let g:vimpager                     = {}
     let g:less                         = {}
@@ -241,41 +241,41 @@ endfunction
     set nolist
   endif
 " }}}"
-" tabular config {{{3
+" {{{3 tabular config
   nnoremap          <Leader><Tab>        :Tabularize<Space>
   vnoremap          <Leader><Tab>        :Tabularize<Space>
 " }}}
-" vim-table-mode config {{{3
+" {{{3 vim-table-mode config
   let g:table_mode_auto_align          = 1
 " }}}
-" SyntaxAttr.vim config {{{3
+" {{{3 SyntaxAttr.vim config
   nnoremap          <F12>                :call SyntaxAttr()<CR>
 " }}}
-" unicode.vim config {{{3
+" {{{3 unicode.vim config
   let g:Unicode_ShowPreviewWindow      = 0
   nnoremap          <Leader>ut           :UnicodeTable<CR>
   nnoremap          ga                   :UnicodeName<CR>
 " }}}
-" colorv config {{{3
+" {{{3 colorv config
   nnoremap <silent> ,tcp                 :packadd colorv.vim<BAR>ColorVPreview<CR>
 " }}}
-" vim-hexokinase config {{{3
+" {{{3 vim-hexokinase config
   let g:Hexokinase_highlighters        = [ 'foregroundfull', 'backgroundfull' ]
   let g:Hexokinase_optInPatterns       = 'full_hex,triple_hex,rgb,rgba,hsl,hsla,colour_names'
 " }}}
-" vim-colortemplate config {{{3
+" {{{3 vim-colortemplate config
   let g:colortemplate_no_stat          =  0
   let g:colortemplate_no_warnings      =  0
 " }}}
-" vim-artesanal config {{{3
+" {{{3 vim-artesanal config
   let g:artesanal_dimmed               =  0
   let g:artesanal_transparent          =  0
 " }}}
 " vim-one config {{{3
   let g:one_allow_italics              = 1
 " }}}
-" Packager plugin settings " }}}2
-" Packager plugin comands " {{{2
+" Packager plugin settings }}}
+" {{{2 Packager plugin comands
 command! PackagerInstall call PackagerInit() | call packager#install()
 command! -bang PackagerUpdate call PackagerInit() | call packager#update({ 'force_hooks': '<bang>' })
 command! PackagerClean call PackagerInit() | call packager#clean()
@@ -284,10 +284,10 @@ nnoremap ,pc :PackagerClean<CR>
 nnoremap ,pi :PackagerInstall<CR>
 nnoremap ,ps :PackagerStatus<CR>
 nnoremap ,pu :PackagerUpdate<CR>
-" Packager plugin comands " }}}2
-" Plugins " }}}1
+" Packager plugin comands }}}
+" Plugins }}}
 
-" General Settings " {{{1
+" {{{1 General Settings
 filetype indent plugin on
 syntax   on
 runtime  ftplugin/man.vim
@@ -468,9 +468,9 @@ let g:netrw_preview                    =  0
 let g:netrw_alto                       =  0
 nnoremap <silent> <Leader>x              :Lexplore<CR>
 
-" General Settings " }}}1
+" General Settings }}}
 
-" Visual " {{{1
+" {{{1 Visual
 let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
 let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
 if !has('nvim')                        " enable under{line,curl}
@@ -513,7 +513,7 @@ if has('gui_running')
   set guioptions-=e                    " disables the GUI tab line in favor of the plain text version
 endif
 
-" Statusline " {{{2
+" {{{2 Statusline
 set laststatus=2                       " always show the statusline
 
 function! MyStatusline()
@@ -572,8 +572,8 @@ function! MyStatusline()
   call User_highlights()
 endfunction
 setlocal statusline=%!MyStatusline()
-" Statusline " }}}2
-" Tabline " {{{2
+" Statusline }}}
+" {{{2 Tabline
 set showtabline=2                      " always show the tabline above
 
 function! MyTabline()
@@ -641,18 +641,18 @@ function! MyTabline()
   return s
 endfunction
 set tabline=%!MyTabline()
-" Tabline " }}}2
-" Visual " }}}1
+" Tabline }}}
+" Visual }}}
 
-" Formatting " {{{1
+" {{{1 Formatting
 set comments=b:#,fb:-,fb:*,fb:o,:%,n:>|
 set formatoptions=tcrqwnbj
 set nrformats+=alpha
 nnoremap Q gwap
 vnoremap Q gw
-" Formatting " }}}1
+" Formatting }}}
 
-" Key mappings & abbreviations " {{{1
+" {{{1 Key mappings & abbreviations
 
 " open/source $MYVIMRC
 nnoremap          <Leader>ev             :edit    $MYVIMRC<CR>
@@ -771,9 +771,9 @@ set pastetoggle=<F3>
 
 " Abbreviations
 source ~/.vim/abbreviations.vim
-" Keymappings & abbreviations " }}}1
+" Keymappings & abbreviations }}}
 
-" Auto commands " {{{1
+" {{{1 Auto commands 
 augroup vimrc
   autocmd!
   " Automatically chmod +x Shell and Perl scripts
@@ -855,9 +855,9 @@ if has("autocmd") && exists("+omnifunc")
     \  setlocal omnifunc=syntaxcomplete#Complete |
     \ endif
 endif
-" Auto commands " }}}1
+" Auto commands }}}
 
-" Functions " {{{1
+" {{{1 Functions
 function! User_highlights() abort
   " https://gist.github.com/ahmedelgabri/b9127dfe36ba86f4496c8c28eb65ef2b
   let bgcolorgui=synIDattr(synIDtrans(hlID("StatusLine")), "bg", "gui")
@@ -944,7 +944,7 @@ function! CCR()
 endfunction
 cnoremap <expr> <CR> CCR()
 
-" Functions " }}}1
+" Functions }}}
 
 finish
 Vim is ignoring *all* text after finish.
