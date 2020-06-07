@@ -16,12 +16,11 @@ function! PackagerInit() abort
   call packager#add('tpope/vim-repeat')
   call packager#add('tpope/vim-fugitive')
   call packager#add('rbong/vim-flog')
-  call packager#add('junegunn/fzf', { 'do': './install --all && ln -s $(pwd) ~/.fzf'})
+  call packager#add('junegunn/fzf', { 'do': './install --all && ln -sf $(pwd) ~/.fzf'})
   call packager#add('junegunn/fzf.vim')
   call packager#add('junegunn/vim-peekaboo')
   call packager#add('junegunn/goyo.vim', { 'type': 'opt' })
   call packager#add('junegunn/limelight.vim', { 'type': 'opt'})
-  call packager#add('junegunn/vim-easy-align')
   call packager#add('machakann/vim-sandwich')
   call packager#add('justinmk/vim-sneak')
   call packager#add('lambdalisue/vim-gista')
@@ -37,6 +36,7 @@ function! PackagerInit() abort
   call packager#add('fcpg/vim-spotlightify')
   call packager#add('markonm/traces.vim')
   call packager#add('andymass/vim-matchup')
+  call packager#add('mg979/vim-visual-multi')
   call packager#add('brooth/far.vim')
   call packager#add('qpkorr/vim-renamer')
   call packager#add('will133/vim-dirdiff')
@@ -122,12 +122,6 @@ endfunction
 " {{{3 limelight.vim config
   let g:limelight_default_coefficient  = 0.7
   nnoremap <silent> ,tl                  :packadd limelight.vim<BAR>Limelight!!<CR>
-" }}}
-" {{{3 vim-easy-align config
-  " Start interactive EasyAlign in visual mode (e.g. vipea)
-  xmap              ea                    <Plug>(EasyAlign)
-  " Start interactive EasyAlign for a motion/text object (e.g. eaip)
-  nmap              ea                    <Plug>(EasyAlign)
 " }}}
 " {{{3 vim-sneak config
   let g:sneak#prompt                   = '[sneak] '
@@ -228,8 +222,12 @@ endfunction
 " {{{3 vim-dirdiff config
   let g:DirDiffExcludes                = ".git,.svn,CVS,*.class,*.exe,.*.swp,*.pyc,*.so,*.png,*.jp*g,*.svg,*.tiff"
 " }}}
+" {{{3 vim-visual-multi config
+  let g:VM_verbose_commands            = 1
+" }}}
 " {{{3 VOoM config
   let g:voom_tree_width                = 40
+  let g:voom_default_mode              = 'fmr3'
   let g:voom_ft_modes                  = {'adoc': 'asciidoc', 'asciidoc': 'asciidoc', 'markdown': 'markdown', 'md': 'markdown', 'rst': 'rest', 'tex': 'latex'}
   nnoremap          ,tv                  :VoomToggle<CR>
 " }}}
