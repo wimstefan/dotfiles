@@ -45,6 +45,7 @@ function! PackagerInit() abort
   call packager#add('godlygeek/tabular')
   call packager#add('dhruvasagar/vim-table-mode')
   call packager#add('jamessan/vim-gnupg')
+  call packager#add('habamax/vim-asciidoctor')
   call packager#add('cespare/vim-toml')
   call packager#add('MTDL9/vim-log-highlighting')
   call packager#add('vim-scripts/SyntaxAttr.vim')
@@ -228,7 +229,7 @@ endfunction
 " {{{3 VOoM config
   let g:voom_tree_width                = 40
   let g:voom_default_mode              = 'fmr3'
-  let g:voom_ft_modes                  = {'adoc': 'asciidoc', 'asciidoc': 'asciidoc', 'markdown': 'markdown', 'md': 'markdown', 'rst': 'rest', 'tex': 'latex'}
+  let g:voom_ft_modes                  = {'adoc': 'asciidoc', 'asciidoc': 'asciidoc', 'asciidoctor': 'asciidoc', 'markdown': 'markdown', 'md': 'markdown', 'rst': 'rest', 'tex': 'latex'}
   nnoremap          ,tv                  :VoomToggle<CR>
 " }}}
 " {{{3 vimpager config
@@ -245,6 +246,11 @@ endfunction
 " }}}
 " {{{3 vim-table-mode config
   let g:table_mode_auto_align          = 1
+" }}}
+" {{{3 asciidoctor config
+  let g:asciidoctor_folding            = 1
+  let g:asciidoctor_syntax_indented    = 1
+  let g:asciidoctor_syntax_conceal     = 1
 " }}}
 " {{{3 SyntaxAttr.vim config
   nnoremap          <F12>                :call SyntaxAttr()<CR>
