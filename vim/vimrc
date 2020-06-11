@@ -475,6 +475,7 @@ nnoremap <silent> <Leader>x              :Lexplore<CR>
 " General Settings }}}
 
 " {{{1 Visual
+set term=xterm-256color
 let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
 let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
 if !has('nvim')                        " enable under{line,curl}
@@ -663,8 +664,6 @@ nnoremap          <Leader>ev             :edit    $MYVIMRC<CR>
 nnoremap          <Leader>sv             :source  $MYVIMRC<CR>
 
 " editing
-" change term to xterm-256color
-nnoremap          <Leader>tx             :set term=xterm-256color<CR>
 " replace the word under cursor globally
 nnoremap          <Leader>@              :%s@\<<c-r><c-w>\>@@<left>
 " jumping to a mark
