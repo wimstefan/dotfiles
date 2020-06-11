@@ -114,7 +114,7 @@ theme.menu_submenu_icon  =  recolor(theme.menu_submenu_icon, theme.decoration_ti
 
 -- Notification settings {{{
 theme.notification_border_color  =  theme.symbol_tint
-theme.notification_border_width  =  theme.border_width * 2.8
+theme.notification_border_width  =  theme.border_width * 1.8
 theme.notification_fg            =  theme.symbol_tint
 theme.notification_padding       =  dpi(8)
 theme.notification_spacing       =  dpi(4)
@@ -123,7 +123,7 @@ theme.notification_spacing       =  dpi(4)
 -- Tooltip settings {{{
 theme.tooltip_align         =  'top'
 theme.tooltip_border_color  =  theme.border_color
-theme.tooltip_border_width  =  theme.border_width * 1.5
+theme.tooltip_border_width  =  theme.border_width * 1.4
 theme.tooltip_fg            =  theme.symbol_tint
 theme.tooltip_font          = 'Iosevka Artesanal Tailed Condensed 11'
 theme.tooltip_gaps          =  dpi(24)
@@ -134,7 +134,7 @@ theme.hotkeys_fg                =  theme.foreground
 theme.hotkeys_bg                =  theme.background
 theme.hotkeys_modifiers_fg      =  theme.blue2
 theme.hotkeys_border_color      =  theme.border_focus
-theme.hotkeys_border_width      =  theme.border_width * 2.8
+theme.hotkeys_border_width      =  theme.border_width * 1.8
 theme.hotkeys_group_margin      =  dpi(24)
 theme.hotkeys_font              =  'Iosevka Artesanal Tailed Condensed Bold 10'
 theme.hotkeys_description_font  =  'Iosevka Artesanal Tailed Condensed 10'
