@@ -431,7 +431,7 @@ local tooltip_bat = awful.tooltip({
 })
 -- Power widget }}}
 -- Textclock widget {{{2
-mytextclock = wibox.widget.textclock( '<span font="'..beautiful.clock_font..'" background="'..beautiful.clock_bg..'" color="'..beautiful.clock_fg..'"> %a %b %d, %H:%M </span>' )
+mytextclock = wibox.widget.textclock( '<span font="'..beautiful.clock_font..'" background="'..beautiful.clock_bg..'" color="'..beautiful.clock_fg..'">  %a %b %d, %H:%M  </span>' )
 -- https://github.com/getzze/awesome_config/blob/master/rc.lua#L356 --
 local mycalendar = awful.widget.calendar_popup.month({
   font = beautiful.clock_font,
@@ -1229,6 +1229,8 @@ ruled.notification.connect_signal('request::rules', function()
     rule = { },
     properties = {
       screen = awful.screen.preferred,
+      border_width = beautiful.border_width * 1.4,
+      margin = dpi(10),
       implicit_timeout = 5,
     }
   }
