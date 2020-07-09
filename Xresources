@@ -18,84 +18,96 @@ Xft.hintstyle: hintslight
 Xft.hinting: 1
 Xft.antialias: 1
 
-Xcursor.theme:              Vimix-white-cursors
+Xcursor.theme: Vimix-white-cursors
 
-*xterm*termName:            xterm-256color
-*xterm*loginShell:          true
-*xterm*maximized:           true
-*xterm*renderFont:          true
-*xterm*highlightSelection:  true
-*xterm*highlightReverse:    true
-*xterm*trimSelection:       true
-*xterm*charClass:           33:48,36-47:48,58-59:48,61:48,63-64:48,95:48,126:48
-*xterm*on3Clicks:           regex ([[:alpha:]]+://)?([[:alnum:]!#+,./=?@_~-]|(%[[:xdigit:]][[:xdigit:]]))+
-*xterm*visualBell:          true
-*xterm*bellIsUrgent:        true
-*xterm*metaSendsEscape:     true
-*xterm.VT100.translations:  #override \n\
-    Ctrl <Key> -: smaller-vt-font() \n\
-    Ctrl <Key> +: larger-vt-font() \n\
-    Ctrl <Key> 0: set-vt-font(d) \n\
-    Ctrl Shift <Key> C: copy-selection(CLIPBOARD) \n\
-    Ctrl Shift <Key> V: insert-selection(CLIPBOARD) \n\
-    Meta<Btn1Up>: exec-formatted("xdg-open '%t'", PRIMARY)
+*internalBorder:           24
+*loginShell:               true
+*scrollBar:                false
+*saveLines:                10000
+
+URxvt.depth:               32
+URxvt.perl-ext-common:     default,matcher,resize-font
+URxvt.matcher.button:      1
+URxvt.url-launcher:        /usr/bin/xdg-open
+URxvt.clipboard.autocopy:  true
+URxvt.keysym.Ctrl-plus:    resize-font:bigger
+URxvt.keysym.Ctrl-minus:   resize-font:smaller
+URxvt.keysym.Ctrl-0:       resize-font:reset
+URxvt.keysym.Ctrl-slash:   resize-font:show
+
+*xterm*termName:           xterm-256color
+*xterm*renderFont:         true
+*xterm*highlightSelection: true
+*xterm*highlightReverse:   true
+*xterm*trimSelection:      true
+*xterm*charClass:          33:48,36-47:48,58-59:48,61:48,63-64:48,95:48,126:48
+*xterm*on3Clicks:          regex ([[:alpha:]]+://)?([[:alnum:]!#+,./=?@_~-]|(%[[:xdigit:]][[:xdigit:]]))+
+*xterm*visualBell:         true
+*xterm*bellIsUrgent:       true
+*xterm*VT100*translations: #override \n\
+  Ctrl <Key> -: smaller-vt-font() \n\
+  Ctrl <Key> +: larger-vt-font() \n\
+  Ctrl <Key> 0: set-vt-font(d) \n\
+  Ctrl Shift <Key> C: copy-selection(CLIPBOARD) \n\
+  Ctrl Shift <Key> V: insert-selection(CLIPBOARD) \n\
+  Meta<Btn1Up>: exec-formatted("xdg-open '%t'", PRIMARY)
 
 !!! Minimal colours
 ! *foreground:  #d0d0d0
 ! *background:  #080808
 
-!! Dark
-! *.foreground: #eaeaeb
-! *.background: #2e3440
-!! black
-!*.color0:     #434c5e
-!*.color8:     #788d9f
-!! red
-!*.color1:     #e84256
-!*.color9:     #e84256
-!! green
-!*.color2:     #00bf8a
-!*.color10:    #00bf8a
-!! yellow
-!*.color3:     #ffffa8
-!*.color11:    #ffffa8
-!! blue
-!*.color4:     #6699cc
-!*.color12:    #6699cc
-!! magenta
-!*.color5:     #fa75e2
-!*.color13:    #fa75e2
-!! cyan
-!*.color6:     #00bbcc
-!*.color14:    #00bbcc
-!! white
-!*.color7:     #eaeaeb
-!*.color15:    #d0d0d2
-
 !! Light
 *.foreground: #2e3440
 *.background: #eff1f4
 ! black
-*.color0:   #191c22
-*.color8:   #77839b
+*.color0:     #191c22
+*.color8:     #77839b
 ! red
-*.color1:   #ae1528
-*.color9:   #ae1528
+*.color1:     #ae1528
+*.color9:     #ae1528
 ! green
-*.color2:   #009a5a
-*.color10:  #009a5a
+*.color2:     #009a5a
+*.color10:    #009a5a
 ! yellow
-*.color3:   #ff8c00
-*.color11:  #ff8c00
+*.color3:     #ff8c00
+*.color11:    #ff8c00
 ! blue
-*.color4:   #004bb4
-*.color12:  #004bb4
+*.color4:     #004bb4
+*.color12:    #004bb4
 ! magenta
-*.color5:   #b300a4
-*.color13:  #b300a4
+*.color5:     #b300a4
+*.color13:    #b300a4
 ! cyan
-*.color6:   #00a4b3
-*.color14:  #00a4b3
+*.color6:     #00a4b3
+*.color14:    #00a4b3
 ! white
-*.color7:   #b8b8b8
-*.color15:  #9f9f9f
+*.color7:     #b8b8b8
+*.color15:    #9f9f9f
+
+!! Dark
+! *.foreground: #eaeaeb
+! *.background: #2e3440
+!! black
+!*.color0:      #434c5e
+!*.color8:      #788d9f
+!! red
+!*.color1:      #ff6679
+!*.color9:      #ff6679
+!! green
+!*.color2:      #52cc99
+!*.color10:     #52cc99
+!! yellow
+!*.color3:      #fafa7d
+!*.color11:     #fafa7d
+!! blue
+!*.color4:      #8ab0e6
+!*.color12:     #8ab0e6
+!! magenta
+!*.color5:      #e07ed8
+!*.color13:     #e07ed8
+!! cyan
+!*.color6:      #5cdbe6
+!*.color14:     #5cdbe6
+!! white
+!*.color7:      #eaeaeb
+!*.color15:     #d0d0d2
