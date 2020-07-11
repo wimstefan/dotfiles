@@ -546,8 +546,8 @@ screen.connect_signal("request::desktop_decoration", function(s)
     buttons = {
       awful.button({ }, 1, function () awful.layout.inc( 1) end),
       awful.button({ }, 3, function () awful.layout.inc(-1) end),
-      awful.button({ }, 4, function () awful.layout.inc( 1) end),
-      awful.button({ }, 5, function () awful.layout.inc(-1) end),
+      awful.button({ }, 4, function () awful.layout.inc(-1) end),
+      awful.button({ }, 5, function () awful.layout.inc( 1) end),
     }
   }
 
@@ -568,8 +568,8 @@ screen.connect_signal("request::desktop_decoration", function(s)
           client.focus:toggle_tag(t)
         end
       end),
-      awful.button({ }, 4, function(t) awful.tag.viewnext(t.screen) end),
-      awful.button({ }, 5, function(t) awful.tag.viewprev(t.screen) end),
+      awful.button({ }, 4, function(t) awful.tag.viewprev(t.screen) end),
+      awful.button({ }, 5, function(t) awful.tag.viewnext(t.screen) end),
     }
   }
 
@@ -582,8 +582,8 @@ screen.connect_signal("request::desktop_decoration", function(s)
           c:activate { context = "tasklist", action = "toggle_minimization" }
         end),
         awful.button({ }, 3, function() awful.menu.client_list { theme = { width = dpi(250) } } end),
-        awful.button({ }, 4, function() awful.client.focus.byidx( 1) end),
-        awful.button({ }, 5, function() awful.client.focus.byidx(-1) end),
+        awful.button({ }, 4, function() awful.client.focus.byidx(-1) end),
+        awful.button({ }, 5, function() awful.client.focus.byidx( 1) end),
       }
   }
 
@@ -630,8 +630,8 @@ end)
 -- Mouse bindings {{{1
 awful.mouse.append_global_mousebindings({
   awful.button({ }, 3, function () mymainmenu:toggle() end),
-  awful.button({ }, 4, awful.tag.viewnext),
-  awful.button({ }, 5, awful.tag.viewprev),
+  awful.button({ }, 4, awful.tag.viewprev),
+  awful.button({ }, 5, awful.tag.viewnext),
 })
 -- }}}
 
