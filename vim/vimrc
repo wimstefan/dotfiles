@@ -45,6 +45,7 @@ function! PackagerInit() abort
   call packager#add('godlygeek/tabular')
   call packager#add('dhruvasagar/vim-table-mode')
   call packager#add('jamessan/vim-gnupg')
+  call packager#add('hail2u/vim-css3-syntax')
   call packager#add('habamax/vim-asciidoctor')
   call packager#add('cespare/vim-toml')
   call packager#add('MTDL9/vim-log-highlighting')
@@ -829,6 +830,9 @@ augroup vimrc
 
   " Disable numbers & spell inside manpages
   autocmd FileType {man,help,*doc} setlocal nonumber norelativenumber nospell nolist nocursorcolumn
+
+  " Enable hyphen in css/html completion
+  autocmd FileType css,html setlocal iskeyword+=-
 
   " Disable folding in previews
   autocmd BufWinEnter * if &previewwindow | setlocal nofoldenable | endif
