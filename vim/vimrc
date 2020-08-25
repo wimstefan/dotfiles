@@ -16,7 +16,7 @@ function! PackagerInit() abort
   call packager#add('tpope/vim-repeat')
   call packager#add('tpope/vim-fugitive')
   call packager#add('rbong/vim-flog')
-  call packager#add('junegunn/fzf', { 'do': './install --all && ln -sf $(pwd) ~/.fzf'})
+  call packager#add('junegunn/fzf', { 'do': './install --all'})
   call packager#add('junegunn/fzf.vim')
   call packager#add('junegunn/vim-peekaboo')
   call packager#add('junegunn/goyo.vim', { 'type': 'opt' })
@@ -99,6 +99,7 @@ endfunction
   nnoremap          <Leader>fh           :History<CR>
   nnoremap          <Leader>fm           :Maps<CR>
   nnoremap          <Leader>fr           :Rg<Space>
+  nnoremap          <Leader>frw          :Rg <C-R>=expand('<cword>')<CR><CR>
   nnoremap          <Leader>fl           :Locate<Space>
   nnoremap          <Leader>ft           :Tags<CR>
   imap              <C-x><C-j>           <plug>(fzf-complete-file-ag)
@@ -246,6 +247,7 @@ endfunction
 " }}}
 " {{{3 vim-table-mode config
   let g:table_mode_auto_align          = 1
+  let g:table_mode_tableize_auto_border = 1
 " }}}
 " {{{3 asciidoctor config
   let g:asciidoctor_folding            = 1
@@ -309,9 +311,9 @@ set selection=exclusive                " defines the behaviour of the selection
 " protect changes between writes
 set swapfile
 " patch required to honor double slash at end
-if has("patch-8.1.0251")
-  if !isdirectory(expand("~/.cache/vim/swap/"))
-    call mkdir(expand("~/.cache/vim/swap/"), "p", "0700")
+if has('patch-8.1.0251')
+  if !isdirectory(expand('~/.cache/vim/swap/'))
+    call mkdir(expand('~/.cache/vim/swap/'), 'p', '0700')
   end
   set directory^=~/.cache/vim/swap//
 end
@@ -322,9 +324,9 @@ set nobackup
 " use rename-and-write-new method whenever safe
 set backupcopy=auto
 " patch required to honor double slash at end
-if has("patch-8.1.0251")
-  if !isdirectory(expand("~/.cache/vim/backup/"))
-    call mkdir(expand("~/.cache/vim/backup/"), "p", "0700")
+if has('patch-8.1.0251')
+  if !isdirectory(expand('~/.cache/vim/backup/'))
+    call mkdir(expand('~/.cache/vim/backup/'), 'p', '0700')
   end
   set backupdir^=~/.cache/vim/backup//
 end
@@ -332,9 +334,9 @@ end
 set undofile
 set undolevels=5000
 " patch required to honor double slash at end
-if has("patch-8.1.0251")
-  if !isdirectory(expand("~/.cache/vim/undo/"))
-    call mkdir(expand("~/.cache/vim/undo/"), "p", "0700")
+if has('patch-8.1.0251')
+  if !isdirectory(expand('~/.cache/vim/undo/'))
+    call mkdir(expand('~/.cache/vim/undo/'), 'p', '0700')
   end
   set undodir^=~/.cache/vim/undo//
 end
@@ -344,14 +346,14 @@ set autoread                           " automatically reads & loads changes
 
 "set viminfo='50,\"100,:100,%          " read/write a viminfo file with buffer list
 set viminfo='50,\"100,:100             " read/write a viminfo file without buffer list
-if has ('nvim')
-  if !isdirectory(expand("~/.cache/nvim/"))
-    call mkdir(expand("~/.cache/nvim/"), "p", "0700")
+if has('nvim')
+  if !isdirectory(expand('~/.cache/nvim/'))
+    call mkdir(expand('~/.cache/nvim/'), 'p', '0700')
   end
   set viminfo+=n~/.cache/nvim/viminfo " specify where to write the viminfo
 else
-  if !isdirectory(expand("~/.cache/vim/"))
-    call mkdir(expand("~/.cache/vim/"), "p", "0700")
+  if !isdirectory(expand('~/.cache/vim/'))
+    call mkdir(expand('~/.cache/vim/'), 'p', '0700')
   end
   set viminfo+=n~/.cache/vim/viminfo " specify where to write the viminfo
 endif
@@ -394,7 +396,7 @@ set showmode                           " shows mode
 set showcmd                            " show uncompleted command
 set showmatch                          " show matching hyphens
 set diffopt+=vertical                  " split vertical
-if has("patch-8.1.0360")               " make use of better algorithms if available
+if has('patch-8.1.0360')               " make use of better algorithms if available
   set diffopt+=indent-heuristic,algorithm:histogram
 endif
 set splitright                         " set vertical splits to split to the right
@@ -486,7 +488,7 @@ if has('gui_running')
   if $USER=='root'
     color apprentice
   else
-    if filereadable(expand("~/.config/vim_theme"))
+    if filereadable(expand('~/.config/vim_theme'))
       source ~/.config/vim_theme
     else
       color default
@@ -494,13 +496,13 @@ if has('gui_running')
   endif
 else
   if $USER=='root'
-    if filereadable(expand("~/.config/vim_theme"))
+    if filereadable(expand('~/.config/vim_theme'))
       source ~/.config/vim_theme
     else
       color apprentice
     endif
   else
-    if filereadable(expand("~/.config/vim_theme"))
+    if filereadable(expand('~/.config/vim_theme'))
       source ~/.config/vim_theme
     else
       color default
@@ -690,14 +692,14 @@ nnoremap <silent> <C-k>                  :call WinMove('k')<CR>
 nnoremap <silent> <C-l>                  :call WinMove('l')<CR>
 function! WinMove(key)
   let t:curwin = winnr()
-  exec "wincmd ".a:key
+  exec 'wincmd '.a:key
   if (t:curwin == winnr())
     if (match(a:key,'[jk]'))
       wincmd v
     else
       wincmd s
     endif
-    exec "wincmd ".a:key
+    exec 'wincmd '.a:key
   endif
 endfunction
 
@@ -833,9 +835,9 @@ augroup vimrc
 
   " When editing a file, always jump to the last known cursor position.
   autocmd BufReadPost *
-    \ if line("'\"") > 0 && line("'\"") <= line("$") |
-    \   exe "normal g`\"" |
-    \ endif
+    \ if line("'\"") >= 1 && line("'\"") <= line("$") && &ft !~# 'commit'
+    \ |   exe "normal! g`\""
+    \ | endif
 
   " Reload user defined highlights after changing colorschemes
   autocmd VimEnter,ColorScheme * call User_highlights()
@@ -852,7 +854,7 @@ augroup vimrc
 augroup END
 
 " Enable syntax code completion
-if has("autocmd") && exists("+omnifunc")
+if has('autocmd') && exists('+omnifunc')
   autocmd Filetype *
     \ if &omnifunc == "" |
     \  setlocal omnifunc=syntaxcomplete#Complete |
@@ -863,8 +865,8 @@ endif
 " {{{1 Functions
 function! User_highlights() abort
   " https://gist.github.com/ahmedelgabri/b9127dfe36ba86f4496c8c28eb65ef2b
-  let bgcolorgui=synIDattr(synIDtrans(hlID("StatusLine")), "bg", "gui")
-  let bgcolorterm=synIDattr(synIDtrans(hlID("StatusLine")), "bg", "cterm")
+  let bgcolorgui=synIDattr(synIDtrans(hlID('StatusLine')), 'bg', 'gui')
+  let bgcolorterm=synIDattr(synIDtrans(hlID('StatusLine')), 'bg', 'cterm')
 
   exe 'highlight User1 cterm=reverse gui=reverse'
   exe 'highlight User2 cterm=bold gui=bold'
