@@ -544,7 +544,6 @@ if [[ $USER != root ]]; then
   # shortcuts
   alias ta="tmux attach -d -t"
   alias fbmplayer="mplayer -vo fbdev -fs"
-  alias ta-locate='locate -d $HOME/Tango/ta-locate.db'
   ## read private aliases
   if [[ -s $HOME/.zsh/zsh_aliases ]]; then
     source $HOME/.zsh/zsh_aliases
