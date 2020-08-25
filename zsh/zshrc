@@ -680,7 +680,14 @@ if [[ $USER != root ]]; then
   git-download-dir()
   {
     i="$1"
-    svn export --force ${i/tree\/master/trunk}
+    svn export --force ${i/tree\/main/trunk}
+  }
+
+  ta-locate()
+  {
+    artist="$1"
+    title="$2"
+    locate -d $HOME/Tango/ta-locate.db "$artist" | rg -i "$title"
   }
 
   # }}}3
@@ -750,7 +757,7 @@ if [[ $USER != root ]]; then
         rsync -az            /home/swimmer/.Xresources $host:
         rsync -az   --delete --exclude '.thumbs' /home/swimmer/system/wallpapers/ $host\:system/wallpapers/
         rsync -azK  --delete /usr/local/share/cursors/ $host:/usr/local/share/cursors/
-        rsync -azk  --delete /usr/local/share/icons/ $host:/usr/local/share/icons/
+        rsync -az   --delete /usr/local/share/icons/ $host:/usr/local/share/icons/
         rsync -azK  --delete /usr/local/share/themes/ $host:/usr/local/share/themes/
         rsync -azK  --delete /usr/local/share/rofi/themes/ $host:/usr/local/share/rofi/themes/
         rsync -azkL --delete /usr/share/fonts/owned/ $host:/usr/share/fonts/owned/
@@ -768,7 +775,6 @@ if [[ $USER != root ]]; then
       # zsh, vim, mc
         local host=$1
         echo "Syncing zsh on $host ..."
-        rsync -l             /home/swimmer/.fzf $host:.fzf
         rsync -az   --delete /home/swimmer/.fzf.*sh $host:
         rsync -az   --delete /home/swimmer/.fzf_browser/ $host:.fzf_browser/
         rsync -az   --delete /home/swimmer/.zsh/external/ $host:.zsh/external/
