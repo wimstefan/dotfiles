@@ -46,6 +46,7 @@ function! PackagerInit() abort
   call packager#add('dhruvasagar/vim-table-mode')
   call packager#add('jamessan/vim-gnupg')
   call packager#add('hail2u/vim-css3-syntax')
+  call packager#add('editorconfig/editorconfig-vim')
   call packager#add('habamax/vim-asciidoctor')
   call packager#add('cespare/vim-toml')
   call packager#add('MTDL9/vim-log-highlighting')
@@ -254,6 +255,9 @@ endfunction
   let g:asciidoctor_folding            = 1
   let g:asciidoctor_syntax_indented    = 1
   let g:asciidoctor_syntax_conceal     = 1
+" }}}
+" {{{3 editorconfig-vim
+  let g:EditorConfig_verbose           = 1
 " }}}
 " {{{3 SyntaxAttr.vim config
   nnoremap          <F12>                :call SyntaxAttr()<CR>
