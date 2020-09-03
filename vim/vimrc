@@ -113,8 +113,8 @@ endfunction
                                         \ 'ctrl-t': 'tab split',
                                         \ 'ctrl-x': 'split',
                                         \ 'ctrl-v': 'vsplit' }
-  let g:fzf_layout                     = { 'up': '40%' }
-  " let g:fzf_layout                     = { 'window': { 'width': 0.9, 'height': 0.6 } }
+  " let g:fzf_layout                     = { 'up': '40%' }
+  let g:fzf_layout                     = { 'window': { 'width': 0.9, 'height': 0.8 } }
 " }}}
 " {{{3 vim-peekaboo config
   let g:peekaboo_ins_prefix            = '<C-x>'
@@ -516,7 +516,7 @@ else
 endif
 
 if has('gui_running')
-  set guifont=Iosevka\ Artesanal\ Tailed\ weight=453\ 12
+  set guifont=Rec\ Mono\ Custom\ 9
   set guioptions-=T                    " disable toolbar
   set guioptions-=l                    " disable left scrollbar
   set guioptions-=L
