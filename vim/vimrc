@@ -174,13 +174,13 @@ endfunction
 " {{{3 vim-qf config
   let g:qf_mapping_ack_style           = 1
   let g:qf_auto_open_quickfix          = 0
-  nmap              <C-q>                <Plug>QfSwitch
-  nmap              <C-c>                <Plug>QfCtoggle
-  nmap              <C-l>                <Plug>QfLtoggle
-  nmap              <Home>               <Plug>QfCprevious
-  nmap              <End>                <Plug>QfCnext
-  nmap              <C-Home>             <Plug>QfLprevious
-  nmap              <C-End>              <Plug>QfLnext
+  nmap              <C-q>                <Plug>(qf_qf_switch)
+  nmap              <C-c>                <Plug>(qf_qf_toggle_stay)
+  nmap              <F6>                 <Plug>(qf_loc_toggle_stay)
+  nmap              <Home>               <Plug>(qf_qf_previous)
+  nmap              <End>                <Plug>(qf_qf_next)
+  nmap              <C-Home>             <Plug>(qf_loc_previous)
+  nmap              <C-End>              <Plug>(qf_loc_next)
 " }}}
 " {{{3 vim-mucomplete config
   let g:mucomplete#chains              = {}
