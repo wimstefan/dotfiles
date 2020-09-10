@@ -835,8 +835,8 @@ augroup vimrc
   " Disable numbers & spell inside manpages
   autocmd FileType {man,help,*doc} setlocal nonumber norelativenumber nospell nolist nocursorcolumn
 
-  " Enable hyphen in css/html completion
-  autocmd FileType css,html setlocal iskeyword+=-
+  " Enable hyphen in css/html completion and disable uppercase tag completion
+  autocmd FileType css,html setlocal iskeyword+=- noignorecase
 
   " Disable folding in previews
   autocmd BufWinEnter * if &previewwindow | setlocal nofoldenable | endif
