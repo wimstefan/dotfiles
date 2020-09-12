@@ -29,7 +29,7 @@ function! PackagerInit() abort
   call packager#add('mhinz/vim-grepper')
   call packager#add('romainl/vim-qf')
   call packager#add('romainl/vim-qlist')
-  call packager#add('lifepillar/vim-mucomplete')
+  call packager#add('dense-analysis/ale')
   call packager#add('wellle/tmux-complete.vim')
   call packager#add('preservim/nerdcommenter')
   call packager#add('mbbill/undotree', { 'type': 'opt' })
@@ -175,32 +175,19 @@ endfunction
   let g:qf_mapping_ack_style           = 1
   let g:qf_auto_open_quickfix          = 0
   nmap              <C-q>                <Plug>(qf_qf_switch)
-  nmap              <C-c>                <Plug>(qf_qf_toggle_stay)
-  nmap              <F6>                 <Plug>(qf_loc_toggle_stay)
+  nmap              <C-c>                <Plug>(qf_qf_toggle)
+  nmap              <F6>                 <Plug>(qf_loc_toggle)
   nmap              <Home>               <Plug>(qf_qf_previous)
   nmap              <End>                <Plug>(qf_qf_next)
   nmap              <C-Home>             <Plug>(qf_loc_previous)
   nmap              <C-End>              <Plug>(qf_loc_next)
 " }}}
-" {{{3 vim-mucomplete config
-  let g:mucomplete#chains              = {}
-  let g:mucomplete#chains              = {
-                                        \ 'default':    ['path', 'keyn', 'omni', 'user', 'defs', 'incl', 'c-n', 'uspl'],
-                                        \ 'vim':        ['path', 'keyn', 'cmd',  'omni', 'user', 'c-n', 'uspl'],
-                                        \ 'gitcommit':  ['path', 'c-n',  'uspl', 'omni', 'user'],
-                                        \ 'mail':       ['path', 'c-n',  'uspl', 'omni', 'user'],
-                                        \ 'markdown':   ['path', 'c-n',  'uspl', 'omni', 'user'],
-                                        \ 'text':       ['path', 'c-n',  'uspl', 'omni', 'user']
-                                        \ }
-  let g:mucomplete#can_complete         = {}
-  let g:mucomplete#can_complete.default = {
-                                          \ 'keyn': { t -> t =~# '\v\k{3,}$' },
-                                          \ 'c-n':  { t -> t =~# '\v\k{3,}$' },
-                                          \ 'uspl': { t -> t =~# '\v\k{4,}$' && &l:spell && !empty(&l:spelllang) },
-                                          \ }
-  nnoremap <silent> ,ta                  :MUcompleteAutoToggle<CR>
-  imap     <expr>   <right>              mucomplete#extend_fwd("\<right>")
-" }}}
+" {{{3 ale config
+  let g:ale_completion_enabled         = 1
+  let g:ale_completion_autoimport      = 1
+  set completeopt+=menu
+  set omnifunc=ale#completion#OmniFunc
+"}}}
 " {{{3 nerdcommenter config
   let NERDSpaceDelims                  = 1
   let NERDCreateDefaultMappings        = 0
@@ -558,9 +545,6 @@ function! MyStatusline()
   endif
   let stl .= '%= '
   if &filetype != 'help'
-    if exists('g:loaded_mucomplete') && winwidth(0) > 70
-      let stl .= '%{MU()} ┃ '
-    endif
     if exists('b:git_dir') && winwidth(0) > 70
       let branch = fugitive#head(8)
       let stl .= (branch == 'master') ? 'master' : branch
@@ -900,11 +884,6 @@ function! s:sy_stats_wrapper()
   endif
 
   return hunkline
-endfunction
-
-function! MU()
-  return get(g:mucomplete#msg#short_methods,
-    \        get(g:, 'mucomplete_current_method', ''), '')
 endfunction
 
 " make list-like commands more intuitive
