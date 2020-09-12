@@ -545,6 +545,9 @@ function! MyStatusline()
   endif
   let stl .= '%= '
   if &filetype != 'help'
+    if exists('*complete_info') && winwidth(0) > 70
+      let stl .= '%{CIS()} ┃ '
+    endif
     if exists('b:git_dir') && winwidth(0) > 70
       let branch = fugitive#head(8)
       let stl .= (branch == 'master') ? 'master' : branch
@@ -928,6 +931,10 @@ function! CCR()
   endif
 endfunction
 cnoremap <expr> <CR> CCR()
+
+function! CIS()
+  return complete_info()['mode']
+endfunction
 
 " Functions }}}
 
