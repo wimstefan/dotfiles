@@ -780,7 +780,7 @@ if [[ $USER != root ]]; then
         rsync -az            /home/swimmer/.vimrc $host:
         rsync -azk  --delete /home/swimmer/.vim/ $host:.vim/
         echo "Syncing bat on $host ..."
-        rsync -az            /home/swimmer/.config/bat/config $host:.config/bat/config
+        rsync -az            /home/swimmer/.config/bat/ $host:.config/bat/
         echo "Syncing file explorers on $host ..."
         rsync -az            /home/swimmer/.config/mc/ini $host:.config/mc/
         rsync -az            /home/swimmer/.config/mc/mc.ext $host:.config/mc/
