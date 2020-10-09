@@ -87,7 +87,7 @@ endfunction
     \   <bang>0)
   command! -bang -nargs=* Rg
     \ call fzf#vim#grep(
-    \   'rg --vimgrep --color=always '.shellescape(<q-args>), 1,
+    \   'ugrep -RInk -j -u --tabs=1 --ignore-files '.shellescape(<q-args>), 1,
     \   <bang>0 ? fzf#vim#with_preview('right:60%')
     \           : fzf#vim#with_preview('right:70%:hidden', '?'),
     \   <bang>0)
@@ -168,8 +168,13 @@ endfunction
   xmap              gs                   <plug>(GrepperOperator)
   nnoremap          <Leader>g            :Grepper<CR>
   nnoremap          <Leader>*            :Grepper -cword -noprompt<cr>
-  let g:grepper                        = {}
-  let g:grepper.tools                  = ['rg', 'ag', 'ack', 'grep', 'findstr', 'pt']
+  let g:grepper = {
+    \ 'tools': ['ug', 'rg', 'grep'],
+    \ 'ug': {
+    \   'grepprg': 'ugrep -RInk -j -u --tabs=1 --ignore-files',
+    \   'grepformat': '%f:%l:%c:%m,%f+%l+%c+%m,%-G%f|%l|%c|%m'
+    \ }
+  \ }
   let g:grepper.next_tool              = '<Leader>g'
 " }}}
 " {{{3 vim-qf config
@@ -505,7 +510,10 @@ set foldmethod=indent                  " fold on indentation (only use marker if
 set foldlevel=100                      " don't autofold anything (but I can still fold manually)
 
 " Search settings
-if executable('rg')
+if executable('ugrep')
+  set grepprg=ugrep\ -RInk\ -j\ -u\ --tabs=1\ --ignore-files
+  set grepformat=%f:%l:%c:%m,%f+%l+%c+%m,%-G%f\\\|%l\\\|%c\\\|%m
+elseif executable('rg')
   set grepprg=rg\ --vimgrep\ --no-heading
   set grepformat=%f:%l:%c:%m
 elseif executable('ag')

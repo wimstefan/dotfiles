@@ -391,7 +391,7 @@ export QT_XFT=true
 # - Aliases {{{3
 # generic aliases
 alias -g B="| wat"
-alias -g G="| rg"
+alias -g G="| ug"
 alias -g L="| less"
 alias -g V="| vimpager"
 alias -g W="| wc -l"
@@ -423,7 +423,8 @@ alias gcal="gcal -s1"
 alias glances="PYTHONIOENCODING=utf8 glances"
 alias mtr="mtr --curses"
 alias eix="eix --force-color"
-alias ag="rg"
+alias ag="ug"
+alias rg="ug"
 alias history="history -i -44"
 # shortcuts
 alias xreload="xrdb $HOME/.Xresources"
@@ -692,7 +693,7 @@ if [[ $USER != root ]]; then
   {
     artist="$1"
     title="$2"
-    locate -d $HOME/Tango/ta-locate.db "$artist" | rg -i "$title"
+    locate -d $HOME/Tango/ta-locate.db "$artist" | ug -i "$title"
   }
 
   # }}}3
