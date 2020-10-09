@@ -29,7 +29,7 @@ function! PackagerInit() abort
   call packager#add('mhinz/vim-grepper')
   call packager#add('romainl/vim-qf')
   call packager#add('romainl/vim-qlist')
-  call packager#add('dense-analysis/ale')
+  call packager#add('neoclide/coc.nvim', {'branch': 'release'})
   call packager#add('wellle/tmux-complete.vim')
   call packager#add('preservim/nerdcommenter')
   call packager#add('mbbill/undotree', { 'type': 'opt' })
@@ -45,7 +45,6 @@ function! PackagerInit() abort
   call packager#add('godlygeek/tabular')
   call packager#add('dhruvasagar/vim-table-mode')
   call packager#add('jamessan/vim-gnupg')
-  call packager#add('hail2u/vim-css3-syntax')
   call packager#add('editorconfig/editorconfig-vim')
   call packager#add('habamax/vim-asciidoctor')
   call packager#add('cespare/vim-toml')
@@ -54,7 +53,6 @@ function! PackagerInit() abort
   call packager#add('vim-scripts/visSum.vim')
   call packager#add('chrisbra/unicode.vim')
   call packager#add('gu-fan/colorv.vim', { 'type': 'opt'})
-  call packager#add('RRethy/vim-hexokinase', { 'do': 'make hexokinase' })
   call packager#add('lifepillar/vim-colortemplate')
   call packager#add('wimstefan/vim-artesanal')
   call packager#add('romainl/Apprentice')
@@ -97,13 +95,15 @@ endfunction
   nnoremap          <Leader>c            :Colors<CR>
   nnoremap          <Leader>h            :Helptags<CR>
   nnoremap          <Leader>p            :Files<CR>
-  nnoremap          <Leader>fb           :BTags<CR>
   nnoremap          <Leader>fh           :History<CR>
   nnoremap          <Leader>fm           :Maps<CR>
   nnoremap          <Leader>fr           :Rg<Space>
   nnoremap          <Leader>frw          :Rg <C-R>=expand('<cword>')<CR><CR>
-  nnoremap          <Leader>fl           :Locate<Space>
-  nnoremap          <Leader>ft           :Tags<CR>
+  nnoremap          <Leader>flo          :Locate<Space>
+  nnoremap          <Leader>fl           :BLines<CR>
+  nnoremap          <Leader>fL           :Lines<CR>
+  nnoremap          <Leader>ft           :BTags<CR>
+  nnoremap          <Leader>fT           :Tags<CR>
   imap              <C-x><C-j>           <plug>(fzf-complete-file-ag)
   imap              <C-x><C-l>           <plug>(fzf-complete-line)
 
@@ -182,11 +182,84 @@ endfunction
   nmap              <C-Home>             <Plug>(qf_loc_previous)
   nmap              <C-End>              <Plug>(qf_loc_next)
 " }}}
-" {{{3 ale config
-  let g:ale_completion_enabled         = 1
-  let g:ale_completion_autoimport      = 1
-  set completeopt+=menu
-  set omnifunc=ale#completion#OmniFunc
+" {{{3 coc.nvim config
+  let g:coc_global_extensions = [
+    \ 'coc-lists',
+    \ 'coc-explorer',
+    \ 'coc-fzf-preview',
+    \ 'coc-highlight',
+    \ 'coc-stylelint',
+    \ 'coc-vimlsp',
+    \ 'coc-html',
+    \ 'coc-css',
+    \ 'coc-json'
+  \ ]
+
+  " Press Tab and Shift+Tab and navigate around completion selections
+  function! s:check_back_space() abort
+    let col = col('.') -1
+    return !col || getline('.')[col - 1] =~ '\s'
+  endfunction
+  inoremap <silent><expr> <Tab>
+    \ pumvisible() ? "\<C-n>" :
+    \ <SID>check_back_space() ? "\<Tab>" :
+    \ coc#refresh()
+  inoremap <silent><expr> <S-Tab>
+    \ pumvisible() ? "\<C-p>" :
+    \ <SID>check_back_space() ? "\<S-Tab>" :
+    \ coc#refresh()
+
+  nmap              <Leader>cc           :CocConfig<CR>
+  nmap              <Leader>ci           :CocInfo<CR>
+  nmap              <Leader>crn           <Plug>(coc-rename)
+  nnoremap          <Leader>cl           :CocList <C-D>
+  nnoremap <silent> <Leader>clc          :<C-u>CocList commands<CR>
+  nnoremap <silent> <Leader>cld          :<C-u>CocList diagnostics<CR>
+  nnoremap <silent> <Leader>cle          :<C-u>CocList extensions<CR>
+  nnoremap <silent> <Leader>clg          :<C-u>CocList --interactive --auto-preview grep<CR>
+  nnoremap <silent> <Leader>clo          :<C-u>CocList outline<CR>
+  nnoremap <silent> <Leader>clr          :<C-u>CocListResume<CR>
+  nnoremap <silent> <Leader>x            :CocCommand explorer --toggle<CR>
+
+  " fzf-preview bindings
+  nmap              <Leader>f             [fzf-p]
+  xmap              <Leader>f             [fzf-p]
+  nnoremap <silent> [fzf-p]p             :<C-u>CocCommand fzf-preview.FromResources project_mru git<CR>
+  nnoremap <silent> [fzf-p]gs            :<C-u>CocCommand fzf-preview.GitStatus<CR>
+  nnoremap <silent> [fzf-p]ga            :<C-u>CocCommand fzf-preview.GitActions<CR>
+  nnoremap <silent> [fzf-p]b             :<C-u>CocCommand fzf-preview.Buffers<CR>
+  nnoremap <silent> [fzf-p]B             :<C-u>CocCommand fzf-preview.AllBuffers<CR>
+  nnoremap <silent> [fzf-p]o             :<C-u>CocCommand fzf-preview.FromResources buffer project_mru<CR>
+  nnoremap <silent> [fzf-p]<C-o>         :<C-u>CocCommand fzf-preview.Jumps<CR>
+  nnoremap <silent> [fzf-p]g;            :<C-u>CocCommand fzf-preview.Changes<CR>
+  nnoremap <silent> [fzf-p]/             :<C-u>CocCommand fzf-preview.Lines --add-fzf-arg=--no-sort --add-fzf-arg=--query="'"<CR>
+  nnoremap <silent> [fzf-p]*             :<C-u>CocCommand fzf-preview.Lines --add-fzf-arg=--no-sort --add-fzf-arg=--query="'<C-r>=expand('<cword>')<CR>"<CR>
+  nnoremap          [fzf-p]gr            :<C-u>CocCommand fzf-preview.ProjectGrep<Space>
+  xnoremap          [fzf-p]gr            "sy:CocCommand   fzf-preview.ProjectGrep<Space>-F<Space>"<C-r>=substitute(substitute(@s, '\n', '', 'g'), '/', '\\/', 'g')<CR>"
+  nnoremap <silent> [fzf-p]Q             :<C-u>CocCommand fzf-preview.QuickFix<CR>
+  nnoremap <silent> [fzf-p]L             :<C-u>CocCommand fzf-preview.LocationList<CR>
+
+  " Use `[g` and `]g` to navigate diagnostics
+  nmap     <silent> [g                    <Plug>(coc-diagnostic-prev)
+  nmap     <silent> ]g                    <Plug>(coc-diagnostic-next)
+
+  " Remap keys for gotos
+  nmap     <silent> gd                    <Plug>(coc-definition)
+  nmap     <silent> gy                    <Plug>(coc-type-definition)
+  nmap     <silent> gi                    <Plug>(coc-implementation)
+  nmap     <silent> gr                    <Plug>(coc-references)
+
+  " Use K to show documentation in preview window
+  nnoremap <silent> K :call <SID>show_documentation()<CR>
+  function! s:show_documentation()
+    if (index(['vim','help'], &filetype) >= 0)
+      execute 'h '.expand('<cword>')
+    else
+      call CocAction('doHover')
+    endif
+  endfunction
+
+  autocmd CursorHold * silent call CocActionAsync('highlight')
 "}}}
 " {{{3 nerdcommenter config
   let NERDSpaceDelims                  = 1
@@ -256,10 +329,6 @@ endfunction
 " }}}
 " {{{3 colorv config
   nnoremap <silent> ,tcp                 :packadd colorv.vim<BAR>ColorVPreview<CR>
-" }}}
-" {{{3 vim-hexokinase config
-  let g:Hexokinase_highlighters        = [ 'foregroundfull', 'backgroundfull' ]
-  let g:Hexokinase_optInPatterns       = 'full_hex,triple_hex,rgb,rgba,hsl,hsla,colour_names'
 " }}}
 " {{{3 vim-colortemplate config
   let g:colortemplate_no_stat          =  0
@@ -464,7 +533,7 @@ let g:netrw_banner                     =  0
 let g:netrw_liststyle                  =  3
 let g:netrw_preview                    =  0
 let g:netrw_alto                       =  0
-nnoremap <silent> <Leader>x              :Lexplore<CR>
+" nnoremap <silent> <Leader>x              :Lexplore<CR>
 
 " General Settings }}}
 
@@ -545,9 +614,6 @@ function! MyStatusline()
   endif
   let stl .= '%= '
   if &filetype != 'help'
-    if exists('*complete_info') && winwidth(0) > 70
-      let stl .= '%{CIS()} ┃ '
-    endif
     if exists('b:git_dir') && winwidth(0) > 70
       let branch = fugitive#head(8)
       let stl .= (branch == 'master') ? 'master' : branch
@@ -825,6 +891,9 @@ augroup vimrc
   " Enable hyphen in css/html completion and disable uppercase tag completion
   autocmd FileType css,html setlocal iskeyword+=- noignorecase
 
+  " Correct comment highlighting for json config
+  autocmd FileType json syntax match Comment +\/\/.\+$+
+
   " Disable folding in previews
   autocmd BufWinEnter * if &previewwindow | setlocal nofoldenable | endif
 
@@ -931,10 +1000,6 @@ function! CCR()
   endif
 endfunction
 cnoremap <expr> <CR> CCR()
-
-function! CIS()
-  return complete_info()['mode']
-endfunction
 
 " Functions }}}
 
