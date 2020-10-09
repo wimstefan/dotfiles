@@ -27,16 +27,16 @@ theme.hotkeys_shape = function(cr, width, height)
   gears.shape.partially_rounded_rect(cr, width, height, true, false, true, false, dpi(44))
 end
 theme.notification_shape = function(cr, width, height)
-  gears.shape.partially_rounded_rect(cr, width, height, true, false, true, false, dpi(24))
+  gears.shape.partially_rounded_rect(cr, width, height, true, false, true, false, dpi(8))
 end
 theme.tooltip_shape = gears.shape.infobubble
 --}}}
 
 -- Theme fonts {{{
-theme.font                     = 'Iosevka Artesanal Tailed Medium Condensed 11'
-theme.mono_font                = 'Iosevka Artesanal Tailed Bold Condensed 11'
+theme.font                     = 'Iosevka Artesanal Tailed Medium 10.5'
+theme.mono_font                = 'Iosevka Artesanal Tailed Bold 10.5'
 theme.taglist_font             = 'Iosevka Artesanal Tailed Heavy 11.5'
-theme.tasklist_font            = 'Iosevka Artesanal Tailed Condensed 10'
+theme.tasklist_font            = 'Iosevka Artesanal Tailed 9'
 theme.clock_font               = 'Iosevka Artesanal Tailed ExtraBold 11'
 theme.icon_font                = 'Webhostinghub-Glyphs 8'
 --}}}
@@ -114,11 +114,9 @@ theme.menu_submenu_icon  =  recolor(theme.menu_submenu_icon, theme.decoration_ti
 --}}}
 
 -- Notification settings {{{
-theme.notification_border_color  =  theme.symbol_tint
-theme.notification_border_width  =  theme.border_width * 1.8
+theme.notification_font          =  'Iosevka Artesanal Tailed Medium 10'
+theme.notification_border_color  =  theme.border_focus
 theme.notification_fg            =  theme.symbol_tint
-theme.notification_padding       =  dpi(8)
-theme.notification_spacing       =  dpi(4)
 -- }}}
 
 -- Tooltip settings {{{
@@ -126,7 +124,7 @@ theme.tooltip_align         =  'top'
 theme.tooltip_border_color  =  theme.border_focus
 theme.tooltip_border_width  =  theme.border_width * 1.4
 theme.tooltip_fg            =  theme.symbol_tint
-theme.tooltip_font          = 'Iosevka Artesanal Tailed Condensed 11'
+theme.tooltip_font          = 'Iosevka Artesanal Tailed 10'
 theme.tooltip_gaps          =  dpi(24)
 -- }}}
 
@@ -137,8 +135,8 @@ theme.hotkeys_modifiers_fg      =  theme.blue2
 theme.hotkeys_border_color      =  theme.border_focus
 theme.hotkeys_border_width      =  theme.border_width * 1.8
 theme.hotkeys_group_margin      =  dpi(24)
-theme.hotkeys_font              =  'Iosevka Artesanal Tailed Condensed Bold 10'
-theme.hotkeys_description_font  =  'Iosevka Artesanal Tailed Condensed 10'
+theme.hotkeys_font              =  'Iosevka Artesanal Tailed Bold 9.5'
+theme.hotkeys_description_font  =  'Iosevka Artesanal Tailed 9.5'
 -- }}}
 
 -- Theme icons {{{
