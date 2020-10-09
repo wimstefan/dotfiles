@@ -379,8 +379,8 @@ export HISTFILE="$HOME/.zsh/histfile"
 export HISTSIZE="5000"
 export SAVEHIST="5000"
 export CVS_RSH="ssh"
-export FZF_DEFAULT_OPTS='--ansi -x -m --cycle --border --layout=reverse --inline-info --height 80% --preview "bat --color=always {}" --preview-window right:70%:hidden:wrap --bind "?:toggle-preview" --color=bg+:-1,fg+:-1,hl:36,hl+:36,info:75'
-export FZF_CTRL_T_OPTS='--ansi --preview "bat --color=always {}" --preview-window right:70%:hidden:wrap --bind "?:toggle-preview"'
+export FZF_DEFAULT_OPTS='-x -m --cycle --border --layout=reverse --inline-info --height 80% --preview "wat {}" --preview-window right:70%:hidden:wrap --bind "?:toggle-preview" --color=bg+:-1,fg+:-1,hl:36,hl+:36,info:75'
+export FZF_CTRL_T_OPTS='--preview "wat {}" --preview-window right:70%:hidden:wrap --bind "?:toggle-preview"'
 export HIGHLIGHT_STYLE="github"
 export XAUTHORITY="$HOME/.Xauthority"
 export DISPLAY=:0.0
@@ -390,7 +390,7 @@ export QT_XFT=true
 # }}}3
 # - Aliases {{{3
 # generic aliases
-alias -g B="| bat"
+alias -g B="| wat"
 alias -g G="| rg"
 alias -g L="| less"
 alias -g V="| vimpager"
@@ -457,6 +457,14 @@ function dirdiff() # compare two directories with vim
 function viz() # edit AND source ~/.zshrc
 {
   vim -O $HOME/.dotfiles/zsh/zshrc && exec zsh
+}
+
+function wat() {
+    if [ -t 1 ]; then
+        highlight --force --stdout -O ansi "$@" | less -RFX
+    else
+        cat "$@"
+    fi
 }
 
 function lowercase() # move filenames to lowercase

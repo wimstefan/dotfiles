@@ -115,6 +115,7 @@ endfunction
                                         \ 'ctrl-v': 'vsplit' }
   " let g:fzf_layout                     = { 'up': '40%' }
   let g:fzf_layout                     = { 'window': { 'width': 0.9, 'height': 0.8 } }
+  let g:fzf_preview_command            = 'highlight --force --stdout -O ansi {} | less -RFX'
 " }}}
 " {{{3 vim-peekaboo config
   let g:peekaboo_ins_prefix            = '<C-x>'
