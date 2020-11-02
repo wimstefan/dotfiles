@@ -459,14 +459,6 @@ function viz() # edit AND source ~/.zshrc
   vim -O $HOME/.dotfiles/zsh/zshrc && exec zsh
 }
 
-function wat() {
-    if [ -t 1 ]; then
-        highlight --force --stdout -O ansi "$@" | less -RFX
-    else
-        cat "$@"
-    fi
-}
-
 function lowercase() # move filenames to lowercase
 {
   for file ; do
