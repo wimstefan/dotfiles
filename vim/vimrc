@@ -29,7 +29,7 @@ function! PackagerInit() abort
   call packager#add('mhinz/vim-grepper')
   call packager#add('romainl/vim-qf')
   call packager#add('romainl/vim-qlist')
-  call packager#add('neoclide/coc.nvim', {'branch': 'release'})
+  call packager#add('neoclide/coc.nvim')
   call packager#add('wellle/tmux-complete.vim')
   call packager#add('preservim/nerdcommenter')
   call packager#add('mbbill/undotree', { 'type': 'opt' })
@@ -216,6 +216,7 @@ endfunction
     \ coc#refresh()
 
   nmap              <Leader>cc           :CocConfig<CR>
+  nmap              <Leader>cd           :CocDiagnostics<CR>
   nmap              <Leader>ci           :CocInfo<CR>
   nmap              <Leader>crn           <Plug>(coc-rename)
   nnoremap          <Leader>cl           :CocList <C-D>
