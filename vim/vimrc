@@ -57,7 +57,7 @@ function! PackagerInit() abort
   call packager#add('wimstefan/vim-artesanal')
   call packager#add('romainl/Apprentice')
   call packager#add('rakr/vim-one')
-
+  call packager#add('sainnhe/edge')
 endfunction
 " Packager plugin install }}}
 " {{{2 Packager plugin settings
@@ -346,6 +346,13 @@ endfunction
 " }}}
 " vim-one config {{{3
   let g:one_allow_italics              = 1
+" }}}
+" edge config {{{3
+  let g:edge_style                     = 'neon'
+  let g:edge_enable_italic             = 1
+  let g:edge_diagnostic_line_highlight = 1
+  let g:edge_current_word              = 'bold'
+  packadd! edge                        " workaround to load edge correctly - see https://github.com/sainnhe/edge/issues/16
 " }}}
 " Packager plugin settings }}}
 " {{{2 Packager plugin comands
