@@ -268,11 +268,11 @@ autoload -Uz vcs_info
 zstyle ':vcs_info:*' enable git hg svn
 zstyle ':vcs_info:*' check-for-changes true
 zstyle ':vcs_info:*' use-simple true
-zstyle ':vcs_info:*' unstagedstr '%F{red}u%f'
-zstyle ':vcs_info:*' stagedstr '%F{yellow}s%f'
+zstyle ':vcs_info:*' unstagedstr ' %F{cyan}⟨u⟩%f'
+zstyle ':vcs_info:*' stagedstr ' %F{yellow}⟨s⟩%f'
 
-zstyle ':vcs_info:*' formats "%B[%F{yellow}%s%f]%%b-[%F{green}%b%f%m]-[%F{red}%c%u%f]"
-zstyle ':vcs_info:*' actionformats "%B[%F{yellow}%s%f]%%b-[%F{green}%b@%a%f%m]-[%F{red}%c%u%f]"
+zstyle ':vcs_info:*' formats "%B[%F{yellow}%s%f%%b: %F{green}%b%f%m%c%u%B]%%b"
+zstyle ':vcs_info:*' actionformats "%B[%F{yellow}%s%f%%b: %F{green}%b@%a%f%m%c%u%B]%%b"
 
 zstyle ':vcs_info:git*+set-message:*' hooks git-untracked git-aheadbehind git-remotebranch git-changes
 ### git: Show marker if there are untracked files in repository
@@ -283,13 +283,13 @@ zstyle ':vcs_info:git*+set-message:*' hooks git-untracked git-aheadbehind git-re
     # If instead you want to show the marker only if there are untracked
     # files in $PWD, use:
     #[[ -n $(git ls-files --others --exclude-standard) ]] ; then
-    hook_com[unstaged]+='%F{cyan}x%f'
+    hook_com[unstaged]+=' %F{red}⟨x⟩%f'
   fi
 }
 
 ### git: Show +N/-N when your local branch is ahead-of or behind remote HEAD.
 function +vi-git-aheadbehind() {
-  local ahead behind remote
+  local ahead behind
   local -a gitstatus
 
   ahead=$(git rev-list ${hook_com[branch]}@{upstream}..HEAD 2>/dev/null | wc -l | tr -d ' ')
@@ -327,29 +327,27 @@ function +vi-git-changes() {
 
   local s_ch
   if [[ "$stats" = *changed* ]]; then
-    s_ch="$( echo $stats | sed -s 's/^ \([0-9]*\)\s*file.*/\1/')"
+    s_ch="~$( echo $stats | sed -s 's/^ \([0-9]*\)\s*file.*/\1/')"
   else
     s_ch=''
   fi
 
   local s_ins
   if [[ "$stats" = *insertion* ]]; then
-    s_ins=${stats/*changed, /}
-    s_ins=${s_ins/ inser*}
+    s_ins=" %F{green}+$(echo $stats | sed -s 's/^.*,\s\([0-9]*\)\s*insertion.*/\1/')%f"
   else
     s_ins=''
   fi
 
   local s_del
   if [[ "$stats" = *deletion* ]]; then
-    s_del=${stats/*\(+\), /}
-    s_del=${s_del/ del*}
+    s_del=" %F{red}-$(echo $stats | sed -s 's/^.*,\s\([0-9]*\)\s*deletion.*/\1/')%f"
   else
     s_del=''
   fi
 
   if [[ -n $s_ch ]]; then
-    s_lines="(~$s_ch,%F{green}+$s_ins%f/%F{red}-$s_del%f)"
+    s_lines="($s_ch$s_ins$s_del)"
   else
     s_lines=''
   fi
