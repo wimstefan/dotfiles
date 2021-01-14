@@ -349,7 +349,7 @@ endfunction
 " }}}
 " {{{3 vim-artesanal config
   let g:artesanal_dimmed               = 0
-  let g:artesanal_transparent          = 0
+  let g:artesanal_transparent          = 1
 " }}}
 " vim-one config {{{3
   let g:one_allow_italics              = 1
@@ -572,24 +572,24 @@ endif
 set termguicolors
 if has('gui_running')
   if $USER=='root'
-    color apprentice
+    color evening
   else
-    if filereadable(expand('~/.config/vim_theme'))
-      source ~/.config/vim_theme
+    if filereadable(expand('~/.config/colours/vim_theme'))
+      source ~/.config/colours/vim_theme
     else
       color default
     endif
   endif
 else
   if $USER=='root'
-    if filereadable(expand('~/.config/vim_theme'))
-      source ~/.config/vim_theme
+    if filereadable(expand('~/.config/colours/vim_theme'))
+      source ~/.config/colours/vim_theme
     else
-      color apprentice
+      color evening
     endif
   else
-    if filereadable(expand('~/.config/vim_theme'))
-      source ~/.config/vim_theme
+    if filereadable(expand('~/.config/colours/vim_theme'))
+      source ~/.config/colours/vim_theme
     else
       color default
     endif
