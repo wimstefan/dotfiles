@@ -374,8 +374,10 @@ export HISTFILE="$HOME/.zsh/histfile"
 export HISTSIZE="5000"
 export SAVEHIST="5000"
 export CVS_RSH="ssh"
-export FZF_DEFAULT_OPTS='-x -m --cycle --border --layout=reverse --inline-info --height 80% --preview "wat {}" --preview-window right:70%:hidden:wrap --bind "?:toggle-preview" --color=bg+:-1,fg+:-1,hl:36,hl+:36,info:75'
-export FZF_CTRL_T_OPTS='--preview "wat {}" --preview-window right:70%:hidden:wrap --bind "?:toggle-preview"'
+export FZF_DEFAULT_COMMAND='fd --type f'
+export FZF_DEFAULT_OPTS='-x -m --cycle --border --layout=reverse --inline-info --height 80% --padding 2% --preview "bat {}" --preview-window right:70%:hidden:wrap --bind "?:toggle-preview" --color=bg+:-1,fg+:-1,hl:36,hl+:36,info:75'
+export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+export FZF_CTRL_T_OPTS='--preview "bat {}" --preview-window right:70%:hidden:wrap --bind "?:toggle-preview"'
 export HIGHLIGHT_STYLE="github"
 export XAUTHORITY="$HOME/.Xauthority"
 export DISPLAY=:0.0
@@ -493,6 +495,25 @@ function check-overlays() {
   for i in $(layman -l | awk '{print $2}'); echo "\n*** Overlay $i ***\n" && eix -c --installed-in-overlay $i
 }
 
+# fzf related functions for usage of the fd command
+_fzf_compgen_path() {
+  fd --hidden --follow --exclude ".git" . "$1"
+}
+_fzf_compgen_dir() {
+  fd --type d --hidden --follow --exclude ".git" . "$1"
+}
+_fzf_comprun() {
+  local command=$1
+  shift
+
+  case "$command" in
+    cd)           fzf "$@" --preview 'tree -C {} | head -200' ;;
+    export|unset) fzf "$@" --preview "eval 'echo \$'{}" ;;
+    ssh)          fzf "$@" --preview 'dig {}' ;;
+    *)            fzf "$@" ;;
+  esac
+}
+
 # Dynamic titles
 function terminal_title_precmd() {
     print -Pn -- '\e]2;%n@%m:%~\a'
@@ -525,7 +546,7 @@ if [[ $USER != root ]]; then
 
   # }}}3
   # - Exports {{{3
-  path=($HOME/bin $HOME/.local/bin $HOME/.fzf_browser $HOME/.cargo/bin $HOME/.gem/ruby/bin $path)
+  path=($HOME/bin $HOME/.local/bin $HOME/.cargo/bin $HOME/.gem/ruby/bin $path)
   manpath=($HOME/man $manpath)
   export MPD_HOST="localhost"
   export MPD_PORT="6600"
@@ -792,7 +813,6 @@ if [[ $USER != root ]]; then
         local host=$1
         echo "Syncing zsh on $host ..."
         rsync -az   --delete /home/swimmer/.fzf.*sh $host:
-        rsync -az   --delete /home/swimmer/.fzf_browser/ $host:.fzf_browser/
         rsync -az   --delete /home/swimmer/.zsh/external/ $host:.zsh/external/
         rsync -az            /home/swimmer/.zsh/zsh_aliases $host:.zsh/zsh_aliases
         rsync -az            /home/swimmer/.zshrc $host:
