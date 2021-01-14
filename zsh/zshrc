@@ -446,6 +446,8 @@ function ff() { find . -iname '*'$1'*' ; }
 
 function fr() { find . -iname '*'$1'*' -exec $2 {} \; ; }
 
+function hc() { herbstclient "$@" }
+
 function dirdiff() # compare two directories with vim
 {
   DIR1=$(printf '%q' "$1"); shift
@@ -732,6 +734,9 @@ if [[ $USER != root ]]; then
     export TASKRC="$HOME/private/task/rc/taskrc"
     # task
 
+    # X related stuff
+    export POLYBAR_HEIGHT="55"
+
     # Key management
     eval `keychain --eval --agents gpg,ssh 451CEE7036BBF00C id_rsa`
 
@@ -799,11 +804,12 @@ if [[ $USER != root ]]; then
         rsync -az            /home/swimmer/.config/fontconfig/fonts.conf $host:.config/fontconfig/
         rsync -az            /home/swimmer/.config/Trolltech.conf $host:.config/
         rsync -az            /home/swimmer/.config/colours/ $host:.config/colours/
-        rsync -az            /home/swimmer/.config/bspwm/ $host:.config/bspwm/
-        rsync -az            /home/swimmer/.config/dunst/ $host:.config/dunst/
-        rsync -az            /home/swimmer/.config/picom/ $host:.config/picom/
-        rsync -az            /home/swimmer/.config/polybar/ $host:.config/polybar/
-        rsync -az            /home/swimmer/.config/sxhkd/ $host:.config/sxhkd/
+        rsync -az   --delete /home/swimmer/.config/bspwm/ $host:.config/bspwm/
+        rsync -az   --delete /home/swimmer/.config/dunst/ $host:.config/dunst/
+        rsync -az   --delete /home/swimmer/.config/herbstluftwm/ $host:.config/herbstluftwm/
+        rsync -az   --delete /home/swimmer/.config/picom/ $host:.config/picom/
+        rsync -az   --delete /home/swimmer/.config/polybar/ $host:.config/polybar/
+        rsync -az   --delete /home/swimmer/.config/sxhkd/ $host:.config/sxhkd/
         rsync -az            /home/swimmer/.config/emoji-list.txt $host:.config/
         rsync -az            /usr/local/bin/bg-toggle $host:/usr/local/bin/
       }
@@ -908,6 +914,9 @@ if [[ $USER != root ]]; then
   # . tj # {{{4
   if [[ $HOST == tj ]]; then
     echo "Loading host specific settings for $HOST ..."
+
+    # X related stuff
+    export POLYBAR_HEIGHT="35"
 
     # Key management
     eval `keychain --eval --agents ssh id_rsa`
