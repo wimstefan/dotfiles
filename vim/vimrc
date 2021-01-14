@@ -293,6 +293,9 @@ endfunction
   let g:undotree_ShortIndicators       = 1
   nnoremap <silent> ,tu                  :packadd undotree<BAR>UndotreeToggle<CR>
 " }}}
+" {{{3 vim-matchup config
+  let g:matchup_matchparen_offscreen   = {'method': 'popup'}
+" }}}
 " {{{3 vim-dirdiff config
   let g:DirDiffExcludes                = ".git,.svn,CVS,*.class,*.exe,.*.swp,*.pyc,*.so,*.png,*.jp*g,*.svg,*.tiff"
 " }}}
@@ -479,7 +482,9 @@ if has('patch-8.1.0360')               " make use of better algorithms if availa
 endif
 set splitright                         " set vertical splits to split to the right
 set splitbelow                         " set horizontal splits to split to the bottom
-set previewheight=24                   " set the height of the preview window
+if !has('nvim')
+  set previewpopup=height:30,width:140   " use popup window for previewing
+endif
 set scrolloff=4                        " minimal number of screen lines to keep above and below the cursor
 
 set gdefault                           " always use global substitutions
@@ -501,8 +506,8 @@ set mouse=a                            " enable mouse everywhere
 set mousemodel=popup_setpos
 
 " Completion settings
-set complete-=i                        " included files
-set complete-=t                        " tags
+set complete+=i                        " included files
+set complete+=t                        " tags
 set complete+=kspell                   " currently active spell checking
 set dictionary+=spell
 " ins-completion-menu options
@@ -913,6 +918,9 @@ augroup vimrc
 
   " Correct comment highlighting for json config
   autocmd FileType json syntax match Comment +\/\/.\+$+
+
+  " Use preview window for vim-packager
+  autocmd FileType packager set previewpopup= previewheight=40
 
   " Disable folding in previews
   autocmd BufWinEnter * if &previewwindow | setlocal nofoldenable | endif
