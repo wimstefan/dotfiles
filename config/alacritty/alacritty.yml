@@ -184,45 +184,45 @@ color_schemes:
       background: '#eff1f4'
       foreground: '#2e3440'
     normal:
-      black:   '#191c22'
-      red:     '#ae1528'
-      green:   '#009a5a'
-      yellow:  '#ff8c00'
-      blue:    '#004bb4'
-      magenta: '#b300a4'
-      cyan:    '#00a4b3'
-      white:   '#b8b8b8'
+      black:   '#1c313a'
+      red:     '#b2000f'
+      green:   '#0e8756'
+      yellow:  '#ff8f00'
+      blue:    '#0961a8'
+      magenta: '#8865c6'
+      cyan:    '#1d9fb0'
+      white:   '#eff1f4'
     bright:
-      black:   '#77839b'
-      red:     '#ae1528'
-      green:   '#009a5a'
-      yellow:  '#ff8c00'
-      blue:    '#004bb4'
-      magenta: '#b300a4'
-      cyan:    '#00a4b3'
-      white:   '#9f9f9f'
+      black:   '#718792'
+      red:     '#b2000f'
+      green:   '#0e8756'
+      yellow:  '#ff8f00'
+      blue:    '#0961a8'
+      magenta: '#8865c6'
+      cyan:    '#1d9fb0'
+      white:   '#8694ac'
   dark: &artesanal_dark
     primary:
       background: '#2e3440'
       foreground: '#eaeaeb'
     normal:
-      black:   '#434c5e'
-      red:     '#ff6679'
-      green:   '#52cc99'
-      yellow:  '#fafa7d'
-      blue:    '#8ab0e6'
-      magenta: '#e07ed8'
-      cyan:    '#5cdbe6'
+      black:   '#1c313a'
+      red:     '#ff616f'
+      green:   '#69f0b9'
+      yellow:  '#ffff8d'
+      blue:    '#90caf9'
+      magenta: '#b39ddb'
+      cyan:    '#80deea'
       white:   '#eaeaeb'
     bright:
-      black:   '#788d9f'
-      red:     '#ff6679'
-      green:   '#52cc99'
-      yellow:  '#fafa7d'
-      blue:    '#8ab0e6'
-      magenta: '#e07ed8'
-      cyan:    '#5cdbe6'
-      white:   '#d0d0d2'
+      black:   '#718792'
+      red:     '#ff616f'
+      green:   '#69f0b9'
+      yellow:  '#ffff8d'
+      blue:    '#90caf9'
+      magenta: '#b39ddb'
+      cyan:    '#80deea'
+      white:   '#f7f7f7'
 
   ### Edge
   edge_light: &edge_light
@@ -270,7 +270,7 @@ color_schemes:
       cyan: "#5dbbc1"
       white: "#c5cdd9"
 
-colors: *artesanal_light
+colors: *artesanal_dark
 
     # Bright and dim foreground colors
     #
