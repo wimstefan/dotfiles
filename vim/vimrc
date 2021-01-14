@@ -94,7 +94,7 @@ endfunction
   nnoremap          <Leader>b            :Buffers<CR>
   nnoremap          <Leader>c            :Colors<CR>
   nnoremap          <Leader>h            :Helptags<CR>
-  nnoremap          <Leader>p            :Files<CR>
+  nnoremap          <Leader>f            :Files<CR>
   nnoremap          <Leader>fh           :History<CR>
   nnoremap          <Leader>fm           :Maps<CR>
   nnoremap          <Leader>fr           :Rg<Space>
@@ -115,7 +115,6 @@ endfunction
                                         \ 'ctrl-v': 'vsplit' }
   " let g:fzf_layout                     = { 'up': '40%' }
   let g:fzf_layout                     = { 'window': { 'width': 0.9, 'height': 0.8 } }
-  let g:fzf_preview_command            = 'highlight --force --stdout -O ansi {} | less -RFX'
 " }}}
 " {{{3 vim-peekaboo config
   let g:peekaboo_ins_prefix            = '<C-x>'
@@ -194,11 +193,13 @@ endfunction
     \ 'coc-explorer',
     \ 'coc-fzf-preview',
     \ 'coc-highlight',
-    \ 'coc-stylelint',
+    \ 'coc-stylelintplus',
+    \ 'coc-rome',
     \ 'coc-vimlsp',
     \ 'coc-html',
     \ 'coc-css',
-    \ 'coc-json'
+    \ 'coc-json',
+    \ 'coc-sh'
   \ ]
 
   " Press Tab and Shift+Tab and navigate around completion selections
@@ -227,10 +228,11 @@ endfunction
   nnoremap <silent> <Leader>clo          :<C-u>CocList outline<CR>
   nnoremap <silent> <Leader>clr          :<C-u>CocListResume<CR>
   nnoremap <silent> <Leader>x            :CocCommand explorer --toggle<CR>
+  nmap              <Leader>cu           :CocUpdate<CR>
 
   " fzf-preview bindings
-  nmap              <Leader>f             [fzf-p]
-  xmap              <Leader>f             [fzf-p]
+  nmap              <Leader>p             [fzf-p]
+  xmap              <Leader>p             [fzf-p]
   nnoremap <silent> [fzf-p]p             :<C-u>CocCommand fzf-preview.FromResources project_mru git<CR>
   nnoremap <silent> [fzf-p]gs            :<C-u>CocCommand fzf-preview.GitStatus<CR>
   nnoremap <silent> [fzf-p]ga            :<C-u>CocCommand fzf-preview.GitActions<CR>
@@ -243,8 +245,9 @@ endfunction
   nnoremap <silent> [fzf-p]*             :<C-u>CocCommand fzf-preview.Lines --add-fzf-arg=--no-sort --add-fzf-arg=--query="'<C-r>=expand('<cword>')<CR>"<CR>
   nnoremap          [fzf-p]gr            :<C-u>CocCommand fzf-preview.ProjectGrep<Space>
   xnoremap          [fzf-p]gr            "sy:CocCommand   fzf-preview.ProjectGrep<Space>-F<Space>"<C-r>=substitute(substitute(@s, '\n', '', 'g'), '/', '\\/', 'g')<CR>"
-  nnoremap <silent> [fzf-p]Q             :<C-u>CocCommand fzf-preview.QuickFix<CR>
-  nnoremap <silent> [fzf-p]L             :<C-u>CocCommand fzf-preview.LocationList<CR>
+  nnoremap <silent> [fzf-p]l             :<C-u>CocCommand fzf-preview.LocationList<CR>
+  nnoremap <silent> [fzf-p]q             :<C-u>CocCommand fzf-preview.QuickFix<CR>
+  nnoremap <silent> [fzf-p]t             :<C-u>CocCommand fzf-preview.BufferTags<CR>
 
   " Use `[g` and `]g` to navigate diagnostics
   nmap     <silent> [g                    <Plug>(coc-diagnostic-prev)
