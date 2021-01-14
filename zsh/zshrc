@@ -170,7 +170,9 @@ bindkey '^Xh' _complete_help
 bindkey '^X?' _complete_debug
 
 # Completion for kitty
-kitty + complete setup zsh | source /dev/stdin
+if [[ -f /usr/bin/kitty ]]; then
+  kitty + complete setup zsh | source /dev/stdin
+fi
 # }}}2
 # - Key bindings {{{2
 # create a zkbd compatible hash;
@@ -387,7 +389,7 @@ export QT_XFT=true
 # }}}3
 # - Aliases {{{3
 # generic aliases
-alias -g B="| wat"
+alias -g B="| bat"
 alias -g G="| ug"
 alias -g L="| less"
 alias -g V="| vimpager"
@@ -558,17 +560,14 @@ if [[ $USER != root ]]; then
   if [[ $TERMINAL == "alacritty" ]]; then
     export TERM_TITLE="--title"
     export TERM_NAME="--class"
-    export TERM_GEO="--dimensions"
     export TERM_CMD="--command"
   elif [[ $TERMINAL == "kitty" ]]; then
     export TERM_TITLE="--title="
     export TERM_NAME="--class="
-    export TERM_GEO="-o WindowGeometry="
     export TERM_CMD=""
   else
     export TERM_TITLE="-title"
     export TERM_NAME="-name"
-    export TERM_GEO="-geometry"
     export TERM_CMD="-e"
   fi
 
@@ -734,7 +733,7 @@ if [[ $USER != root ]]; then
     # task
 
     # Key management
-    eval `keychain --eval --agents ssh,gpg id_rsa 451CEE7036BBF00C`
+    eval `keychain --eval --agents gpg,ssh 451CEE7036BBF00C id_rsa`
 
     alias tcom="tmux start-server && tmux attach -d -t com"
     alias lp="lp -o media=A4 -o page-border=single"
@@ -943,7 +942,7 @@ else
   path=($HOME/bin $path)
   # }}}3
   # - Key management # {{{3
-  eval `keychain --eval --agents ssh id_rsa`
+  eval `keychain --eval --agents ssh`
   # }}}3
   # - Aliases # {{{3
   alias mess="multitail -Z red,black,inverse -T -x '%m %u@%h %f (%t) [%l]' -m 0 -wh 12 -n 70 -f -cS syslog '/var/log/sshd' -m 0 -n 70 -f -cS syslog '/var/log/mail' -m 0 -n 70 -f -cS syslog -ev '---- MARK ----' '/var/log/messages'"
@@ -1028,20 +1027,20 @@ fi
 # END user config # }}}1
 
 # - External modules # {{{6
-if [[ -f $HOME/.zsh/external/zsh-syntax-highlighting.git/zsh-syntax-highlighting.zsh ]]; then
-  source $HOME/.zsh/external/zsh-syntax-highlighting.git/zsh-syntax-highlighting.zsh
-  export ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets )
-fi
+[ -f $HOME/.zsh/external/fzf-extras.git/fzf-extras.sh ] && source $HOME/.zsh/external/fzf-extras.git/fzf-extras.sh
+[ -f $HOME/.zsh/external/fzf-extras.git/fzf-extras.zsh ] && source $HOME/.zsh/external/fzf-extras.git/fzf-extras.zsh
+[ -f $HOME/.zsh/external/fzf-marks.git/fzf-marks.plugin.zsh ] && source $HOME/.zsh/external/fzf-marks.git/fzf-marks.plugin.zsh
+[ -f $HOME/.zsh/external/forgit.git/forgit.plugin.zsh ] && source $HOME/.zsh/external/forgit.git/forgit.plugin.zsh
 if [[ -f $HOME/.zsh/external/zsh-autosuggestions.git/zsh-autosuggestions.zsh ]]; then
   zmodload zsh/zpty
   source $HOME/.zsh/external/zsh-autosuggestions.git/zsh-autosuggestions.zsh
   export ZSH_AUTOSUGGEST_STRATEGY=(history completion)
   export ZSH_AUTOSUGGEST_USE_ASYNC=1
 fi
-[ -f $HOME/.zsh/external/fzf-extras.git/fzf-extras.sh ] && source $HOME/.zsh/external/fzf-extras.git/fzf-extras.sh
-[ -f $HOME/.zsh/external/fzf-extras.git/fzf-extras.zsh ] && source $HOME/.zsh/external/fzf-extras.git/fzf-extras.zsh
-[ -f $HOME/.zsh/external/fzf-marks.git/fzf-marks.plugin.zsh ] && source $HOME/.zsh/external/fzf-marks.git/fzf-marks.plugin.zsh
-[ -f $HOME/.zsh/external/forgit.git/forgit.plugin.zsh ] && source $HOME/.zsh/external/forgit.git/forgit.plugin.zsh
+if [[ -f $HOME/.zsh/external/zsh-syntax-highlighting.git/zsh-syntax-highlighting.zsh ]]; then
+  source $HOME/.zsh/external/zsh-syntax-highlighting.git/zsh-syntax-highlighting.zsh
+  export ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets )
+fi
 # }}}6
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
