@@ -5,7 +5,7 @@
 let mapleader = "\<Space>"
 
 " {{{1 Plugins
-" {{{2 Packager plugin install
+" {{{2 Plugin install
 function! PackagerInit() abort
   packadd vim-packager
   call packager#init()
@@ -34,7 +34,7 @@ function! PackagerInit() abort
   call packager#add('preservim/nerdcommenter')
   call packager#add('mbbill/undotree', {'type': 'opt'})
   call packager#add('fcpg/vim-spotlightify')
-  call packager#add('markonm/traces.vim', {'branch': 'subvert'})
+  call packager#add('markonm/traces.vim')
   call packager#add('andymass/vim-matchup')
   call packager#add('mg979/vim-visual-multi')
   call packager#add('brooth/far.vim')
@@ -59,8 +59,8 @@ function! PackagerInit() abort
   call packager#add('rakr/vim-one')
   call packager#add('sainnhe/edge')
 endfunction
-" Packager plugin install }}}
-" {{{2 Packager plugin settings
+" Plugin install }}}
+" {{{2 Plugin settings
 " {{{3 vim-obsession config
   nnoremap <silent> ,to                  :Obsession<CR>
 " }}}
@@ -190,16 +190,17 @@ endfunction
 " {{{3 coc.nvim config
   let g:coc_global_extensions = [
     \ 'coc-lists',
+    \ 'coc-syntax',
+    \ 'coc-calc',
     \ 'coc-explorer',
     \ 'coc-fzf-preview',
     \ 'coc-highlight',
     \ 'coc-stylelintplus',
-    \ 'coc-rome',
     \ 'coc-vimlsp',
     \ 'coc-html',
     \ 'coc-css',
-    \ 'coc-json',
-    \ 'coc-sh'
+    \ 'coc-cssmodules',
+    \ 'coc-json'
   \ ]
 
   " Press Tab and Shift+Tab and navigate around completion selections
@@ -293,6 +294,9 @@ endfunction
   let g:undotree_ShortIndicators       = 1
   nnoremap <silent> ,tu                  :packadd undotree<BAR>UndotreeToggle<CR>
 " }}}
+" {{{3 traces.vim config
+  let g:traces_abolish_integration     = 1
+" }}}
 " {{{3 vim-matchup config
   let g:matchup_matchparen_offscreen   = {'method': 'popup'}
 " }}}
@@ -358,11 +362,12 @@ endfunction
   let g:edge_style                     = 'neon'
   let g:edge_enable_italic             = 1
   let g:edge_diagnostic_line_highlight = 1
+  let g:edge_diagnostic_text_highlight = 1
   let g:edge_current_word              = 'bold'
   packadd! edge                        " workaround to load edge correctly - see https://github.com/sainnhe/edge/issues/16
 " }}}
-" Packager plugin settings }}}
-" {{{2 Packager plugin comands
+" Plugin settings }}}
+" {{{2 Plugin commands
 command! PackagerInstall call PackagerInit() | call packager#install()
 command! -bang PackagerUpdate call PackagerInit() | call packager#update({ 'force_hooks': '<bang>' })
 command! PackagerClean call PackagerInit() | call packager#clean()
@@ -371,7 +376,7 @@ nnoremap ,pc :PackagerClean<CR>
 nnoremap ,pi :PackagerInstall<CR>
 nnoremap ,ps :PackagerStatus<CR>
 nnoremap ,pu :PackagerUpdate<CR>
-" Packager plugin comands }}}
+" Plugin commands }}}
 " Plugins }}}
 
 " {{{1 General Settings
