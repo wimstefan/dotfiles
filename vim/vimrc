@@ -508,7 +508,9 @@ set clipboard+=unnamed                 " yank+paste with the '*' register
 
 " Mouse settings
 set mouse=a                            " enable mouse everywhere
-set mousemodel=popup_setpos
+if !has('nvim')
+  set ttymouse=sgr                     " mouse handling for modern terminal without 223 column limit
+endif
 
 " Completion settings
 set complete+=i                        " included files
