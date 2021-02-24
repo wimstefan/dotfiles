@@ -850,7 +850,7 @@ call s:option_map('l', 'list', 'setlocal')
 call s:option_map('n', 'number', 'setlocal')
 call s:option_map('r', 'relativenumber', 'setlocal')
 call s:option_map('s', 'spell', 'setlocal')
-call s:option_map('z', 'scrollbind', 'setlocal')
+call s:option_map('z', 'scrollbind', 'windo setlocal')
 nnoremap [ox :set cursorline cursorcolumn<CR>
 nnoremap ]ox :set nocursorline nocursorcolumn<CR>
 nnoremap cox :set <C-r>=&cursorline && &cursorcolumn ? 'nocursorline nocursorcolumn' : 'cursorline cursorcolumn'<CR><CR>
