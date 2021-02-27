@@ -261,7 +261,7 @@ color_schemes:
       cyan:    '#5dbbc1'
       white:   '#c5cdd9'
     bright:
-      black:   '#6d7492'
+      black:   '#71789d'
       red:     '#ec7279'
       green:   '#a0c980'
       yellow:  '#deb974'
@@ -306,7 +306,7 @@ color_schemes:
       cyan:    '#56b6c2'
       white:   '#dcdfe4'
     bright:
-      black:   '#282c34'
+      black:   '#778196'
       red:     '#e06c75'
       green:   '#98c379'
       yellow:  '#e5c07b'
