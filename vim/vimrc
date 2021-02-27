@@ -624,23 +624,27 @@ function! MyStatusline()
     let stl .= ' ■  '
   endif
   if mode() ==? 'i'
-    let stl .= '%#Mode1# %f %*'
+    let stl .= '%#Mode1# %f%{&modified ? "*" : ""} %*'
   elseif mode() ==? 'R'
-    let stl .= '%#Mode2# %f %*'
+    let stl .= '%#Mode2# %f%{&modified ? "*" : ""} %*'
   elseif mode() =~? '[sSvV]'
-    let stl .= '%#Mode3# %f %*'
+    let stl .= '%#Mode3# %f%{&modified ? "*" : ""} %*'
   elseif mode() ==? 'c'
-    let stl .= '%#Mode4# %f %*'
+    let stl .= '%#Mode4# %f%{&modified ? "*" : ""} %*'
   else
-    let stl .= '%1* %f %*'
+    let stl .= '%1* %f%{&modified ? "*" : ""} %*'
   endif
   if $USER=='root'
     let stl .= '%#Status1# ■  %*'
   else
     let stl .= ' ■  %*'
   endif
-  let stl .= '%#Status2#%{&modified ? " ✓ " : ""}%*'
-  let stl .= '%#Status1#%{&ro ? " ✗ " : ""}%*'
+  function! ActiveOrNot() abort
+    return g:statusline_winid ==# win_getid()
+      \ ? '%#Status5#'
+      \ : '%#Status6#'
+  endfunction
+  let stl .= ActiveOrNot() . '%{&ro ? "ro" : ""}%*'
   if exists('g:loaded_obsession')
     let stl .= '%{ObsessionStatus(" \\o/", " _o_")}'
   endif
@@ -666,7 +670,7 @@ function! MyStatusline()
   let stl .= '%p%% '
   let stl .= '%1* %l:%-2c %*'
   return stl
-  call User_highlights()
+  call MyHighlights()
 endfunction
 setlocal statusline=%!MyStatusline()
 " Statusline }}}
@@ -701,7 +705,7 @@ function! MyTabline()
     else
       " let file = pathshorten(fnamemodify(file, ':p:~:.'))
       if getbufvar(bufnr, '&modified')
-        let file = file . ' ±'
+        let file = file . '*'
       endif
     endif
     if file == ''
@@ -720,8 +724,8 @@ function! MyTabline()
       endfor
       let hl = (i == t ? '%#WinNumSel#' : '%#WinNum#')
       let nohl = (i == t ? '%#TabLineSel#' : '%#TabLine#')
-      " let s .= ' ' . modified . '(' . hl . winnr . nohl . '/' . nwins . ')'
-      let s .= ' ' . modified . hl . winnr . nohl . '/' . nwins
+      let s .= modified . ' ' . '[' . hl . winnr . nohl . '/' . nwins . ']'
+      " let s .= modified . ' ' . hl . winnr . nohl . '/' . nwins
     endif
 
     if i < tabpagenr('$')
@@ -733,7 +737,7 @@ function! MyTabline()
     let i = i + 1
   endwhile
 
-  let s .= '%#User2#%T + %#TabLineFill#%='
+  let s .= '%#User1#%T # %#TabLineFill#%='
   let s .= (tabpagenr('$') > 1 ? '%1*%999X x %*' : '%1* ^ %*')
   return s
 endfunction
@@ -869,8 +873,9 @@ source ~/.vim/abbreviations.vim
 " Keymappings & abbreviations }}}
 
 " {{{1 Auto commands 
-augroup vimrc
+augroup Vimrc
   autocmd!
+
   " Automatically chmod +x Shell and Perl scripts
   autocmd BufWritePost {*.sh,*.pl,*.py} silent !chmod +x %
 
@@ -938,35 +943,49 @@ augroup vimrc
     \ |   exe "normal! g`\""
     \ | endif
 
-  " Reload user defined highlights after changing colorschemes
-  autocmd VimEnter,ColorScheme * call User_highlights()
-
-  " Reload statusline after changing windows/buffer/tab
-  autocmd BufEnter * setlocal statusline=%!MyStatusline()
-  autocmd BufEnter * setlocal tabline=%!MyTabline()
-
   " Resize windows automagically
   autocmd VimResized * :wincmd =
 
   " Automatically reload vimrc when it's saved
   autocmd BufWritePost vimrc,.vimrc nested source $MYVIMRC
+
 augroup END
 
+augroup Visuals
+  autocmd!
+
+  " Reload user defined highlights after changing colorschemes
+  autocmd VimEnter,BufEnter,WinEnter,BufLeave,WinLeave,ColorScheme * call MyHighlights()
+
+  " Reload statusline after changing windows/buffer/tab
+  autocmd BufEnter * setlocal statusline=%!MyStatusline()
+  autocmd BufEnter * setlocal tabline=%!MyTabline()
+
+augroup END
 " Auto commands }}}
 
 " {{{1 Functions
-function! User_highlights() abort
-  " https://gist.github.com/ahmedelgabri/b9127dfe36ba86f4496c8c28eb65ef2b
-  let bgcolorgui=synIDattr(synIDtrans(hlID('StatusLine')), 'bg', 'gui')
-  let bgcolorterm=synIDattr(synIDtrans(hlID('StatusLine')), 'bg', 'cterm')
+" https://github.com/ahmedelgabri/dotfiles/blob/master/config/.vim/autoload/utils.vim#L212
+function! GetColorMode(synID, what, mode) abort
+  return synIDattr(synIDtrans(hlID(a:synID)), a:what, a:mode)
+endfunction
+function! GetStatusBg(synID) abort
+  let s:bg_status = synIDattr(synIDtrans(hlID(a:synID)), "bg", "gui")
+  return s:bg_status != ''
+        \ ? "guibg=" . s:bg_status
+        \ : ""
+endfunction
 
-  exe 'highlight User1 cterm=reverse gui=reverse'
+function! MyHighlights() abort
+  exe 'highlight User1 cterm=bold cterm=reverse gui=bold gui=reverse'
   exe 'highlight User2 cterm=bold gui=bold'
 
   exe 'highlight Status1 ctermfg=7 ctermbg=1 guifg=#eff1f4 guibg=#e05a72'
   exe 'highlight Status2 ctermfg=7 ctermbg=2 guifg=#eff1f4 guibg=#59b387'
   exe 'highlight Status3 ctermfg=0 ctermbg=3 guifg=#2e3440 guibg=#ffcc66'
   exe 'highlight Status4 ctermfg=7 ctermbg=4 guifg=#eff1f4 guibg=#5f87af'
+  exe (printf('highlight Status5 cterm=bold ctermfg=1 gui=bold guifg=#e05a72 %s', GetStatusBg('StatusLine')))
+  exe (printf('highlight Status6 cterm=bold ctermfg=1 gui=bold guifg=#e05a72 %s', GetStatusBg('StatusLineNC')))
 
   exe 'highlight Mode1 ctermfg=7 ctermbg=2 guifg=#eff1f4 guibg=#59b387'
   exe 'highlight Mode2 ctermfg=7 ctermbg=4 guifg=#eff1f4 guibg=#5f87af'
