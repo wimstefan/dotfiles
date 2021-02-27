@@ -377,7 +377,7 @@ export HISTSIZE="5000"
 export SAVEHIST="5000"
 export CVS_RSH="ssh"
 export FZF_DEFAULT_COMMAND='fd --type f'
-export FZF_DEFAULT_OPTS='-x -m --cycle --border --layout=reverse --inline-info --height 80% --padding 2% --preview "bat {}" --preview-window right:70%:hidden:wrap --bind "?:toggle-preview" --color=bg+:-1,fg+:-1,hl:36,hl+:36,info:75'
+export FZF_DEFAULT_OPTS='-x -m --cycle --border --layout=reverse --inline-info --height 90% --padding 2% --preview "bat {}" --preview-window right:70%:hidden:wrap --bind "?:toggle-preview" --color=bg+:-1,fg+:-1,hl:36,hl+:36,info:75'
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 export FZF_CTRL_T_OPTS='--preview "bat {}" --preview-window right:70%:hidden:wrap --bind "?:toggle-preview"'
 export HIGHLIGHT_STYLE="github"
@@ -425,6 +425,7 @@ alias eix="eix --force-color"
 alias ag="ug"
 alias rg="ug"
 alias history="history -i -44"
+alias time="/usr/bin/time"
 # shortcuts
 alias xreload="xrdb $HOME/.Xresources"
 alias reload="source $HOME/.zshrc"
@@ -564,8 +565,8 @@ if [[ $USER != root ]]; then
     export TERM_NAME="--class"
     export TERM_CMD="--command"
   elif [[ $TERMINAL == "kitty" ]]; then
-    export TERM_TITLE="--title="
-    export TERM_NAME="--class="
+    export TERM_TITLE="--title"
+    export TERM_NAME="--class"
     export TERM_CMD=""
   else
     export TERM_TITLE="-title"
