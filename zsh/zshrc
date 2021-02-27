@@ -380,6 +380,7 @@ export FZF_DEFAULT_COMMAND='fd --type f'
 export FZF_DEFAULT_OPTS='-x -m --cycle --border --layout=reverse --inline-info --height 90% --padding 2% --preview "bat {}" --preview-window right:70%:hidden:wrap --bind "?:toggle-preview" --color=bg+:-1,fg+:-1,hl:36,hl+:36,info:75'
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 export FZF_CTRL_T_OPTS='--preview "bat {}" --preview-window right:70%:hidden:wrap --bind "?:toggle-preview"'
+export MANPAGER="/bin/sh -c \"col -b | vim --not-a-term -c 'set ft=man ts=8 nomod nolist nonu noma linebreak breakindent wrap' -\""
 export HIGHLIGHT_STYLE="github"
 export XAUTHORITY="$HOME/.Xauthority"
 export DISPLAY=:0.0
@@ -498,6 +499,10 @@ function et() {
 
 function check-overlays() {
   for i in $(layman -l | awk '{print $2}'); echo "\n*** Overlay $i ***\n" && eix -c --installed-in-overlay $i
+}
+
+function fman() { # use fzf to list all manpages and read
+  man -k . | fzf --prompt='Man> ' | awk '{print $1}' | xargs -r man
 }
 
 # fzf related functions for usage of the fd command
