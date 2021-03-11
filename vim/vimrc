@@ -604,7 +604,7 @@ else
 endif
 
 if has('gui_running')
-  set guifont=Rec\ Mono\ Custom\ 9
+  set guifont=Iosevka\ Artesanal\ 10
   set guioptions-=T                    " disable toolbar
   set guioptions-=l                    " disable left scrollbar
   set guioptions-=L
@@ -623,30 +623,36 @@ function! MyStatusline()
   else
     let stl .= ' ■  '
   endif
-  if mode() ==? 'i'
-    let stl .= '%#Mode1# %f%{&modified ? "*" : ""} %*'
-  elseif mode() ==? 'R'
-    let stl .= '%#Mode2# %f%{&modified ? "*" : ""} %*'
+  if mode() ==? 'c'
+    let stl .= '%#User3# %f %*'
+  elseif mode() ==? 'i'
+    let stl .= '%#User4# %f %*'
   elseif mode() =~? '[sSvV]'
-    let stl .= '%#Mode3# %f%{&modified ? "*" : ""} %*'
-  elseif mode() ==? 'c'
-    let stl .= '%#Mode4# %f%{&modified ? "*" : ""} %*'
+    let stl .= '%#User5# %f %*'
+  elseif mode() ==? 'R'
+    let stl .= '%#User6# %f %*'
   else
-    let stl .= '%1* %f%{&modified ? "*" : ""} %*'
+    let stl .= '%1* %f %*'
   endif
   if $USER=='root'
     let stl .= '%#Status1# ■  %*'
   else
     let stl .= ' ■  %*'
   endif
-  function! ActiveOrNot() abort
+  function! RoActiveOrNot() abort
     return g:statusline_winid ==# win_getid()
-      \ ? '%#Status5#'
-      \ : '%#Status6#'
+      \ ? '%#Status1#'
+      \ : '%#Status2#'
   endfunction
-  let stl .= ActiveOrNot() . '%{&ro ? "ro" : ""}%*'
+  function! ChActiveOrNot() abort
+    return g:statusline_winid ==# win_getid()
+      \ ? '%#Status3#'
+      \ : '%#Status4#'
+  endfunction
+  let stl .= ChActiveOrNot() . '%{&modified ? "changed " : ""}%*'
+  let stl .= RoActiveOrNot() . '%{&ro ? "ro " : ""}%*'
   if exists('g:loaded_obsession')
-    let stl .= '%{ObsessionStatus(" \\o/", " _o_")}'
+    let stl .= '%{ObsessionStatus("\\o/", "_o_")}'
   endif
   let stl .= '%= '
   if &filetype != 'help'
@@ -705,7 +711,7 @@ function! MyTabline()
     else
       " let file = pathshorten(fnamemodify(file, ':p:~:.'))
       if getbufvar(bufnr, '&modified')
-        let file = file . '*'
+        let file = '^' . file . '^'
       endif
     endif
     if file == ''
@@ -718,7 +724,7 @@ function! MyTabline()
       let modified = ''
       for b in buflist
         if getbufvar(b, '&modified') && b != bufnr
-          let modified = '*'
+          let modified = '^'
           break
         endif
       endfor
@@ -737,7 +743,7 @@ function! MyTabline()
     let i = i + 1
   endwhile
 
-  let s .= '%#User1#%T # %#TabLineFill#%='
+  let s .= '%1*%T # %#TabLineFill#%='
   let s .= (tabpagenr('$') > 1 ? '%1*%999X x %*' : '%1* ^ %*')
   return s
 endfunction
@@ -966,31 +972,29 @@ augroup END
 
 " {{{1 Functions
 " https://github.com/ahmedelgabri/dotfiles/blob/master/config/.vim/autoload/utils.vim#L212
-function! GetColorMode(synID, what, mode) abort
-  return synIDattr(synIDtrans(hlID(a:synID)), a:what, a:mode)
+function! GetColorPair(synID, what, mode) abort
+  let s:colorID = synIDattr(synIDtrans(hlID(a:synID)), a:what, a:mode)
+  return s:colorID != ''
+        \ ? a:mode . a:what . '=' . s:colorID
+        \ : ''
 endfunction
-function! GetStatusBg(synID) abort
-  let s:bg_status = synIDattr(synIDtrans(hlID(a:synID)), "bg", "gui")
-  return s:bg_status != ''
-        \ ? "guibg=" . s:bg_status
-        \ : ""
+function! GetColor(synID, what, mode) abort
+  return synIDattr(synIDtrans(hlID(a:synID)), a:what, a:mode)
 endfunction
 
 function! MyHighlights() abort
-  exe 'highlight User1 cterm=bold cterm=reverse gui=bold gui=reverse'
+  exe 'highlight User1 cterm=bold,reverse gui=bold,reverse'
   exe 'highlight User2 cterm=bold gui=bold'
 
-  exe 'highlight Status1 ctermfg=7 ctermbg=1 guifg=#eff1f4 guibg=#e05a72'
-  exe 'highlight Status2 ctermfg=7 ctermbg=2 guifg=#eff1f4 guibg=#59b387'
-  exe 'highlight Status3 ctermfg=0 ctermbg=3 guifg=#2e3440 guibg=#ffcc66'
-  exe 'highlight Status4 ctermfg=7 ctermbg=4 guifg=#eff1f4 guibg=#5f87af'
-  exe (printf('highlight Status5 cterm=bold ctermfg=1 gui=bold guifg=#e05a72 %s', GetStatusBg('StatusLine')))
-  exe (printf('highlight Status6 cterm=bold ctermfg=1 gui=bold guifg=#e05a72 %s', GetStatusBg('StatusLineNC')))
+  exe 'highlight User3 cterm=reverse ctermfg=1 ctermbg=7 gui=reverse guifg=#e05a72 guibg=#eff1f4'
+  exe 'highlight User4 cterm=reverse ctermfg=2 ctermbg=7 gui=reverse guifg=#59b387 guibg=#eff1f4'
+  exe 'highlight User5 cterm=reverse ctermfg=3 ctermbg=0 gui=reverse guifg=#ffcc66 guibg=#2e3440'
+  exe 'highlight User6 cterm=reverse ctermfg=4 ctermbg=7 gui=reverse guifg=#5f87af guibg=#eff1f4'
 
-  exe 'highlight Mode1 ctermfg=7 ctermbg=2 guifg=#eff1f4 guibg=#59b387'
-  exe 'highlight Mode2 ctermfg=7 ctermbg=4 guifg=#eff1f4 guibg=#5f87af'
-  exe 'highlight Mode3 ctermfg=0 ctermbg=3 guifg=#2e3440 guibg=#ffcc66'
-  exe 'highlight Mode4 ctermfg=7 ctermbg=1 guifg=#eff1f4 guibg=#e05a72'
+  exe (printf('highlight Status1 cterm=bold %s gui=bold %s %s', GetColorPair('User3','fg','cterm'), GetColorPair('User3','fg','gui'), GetColorPair('StatusLine','bg','gui')))
+  exe (printf('highlight Status2 cterm=bold %s gui=bold %s %s', GetColorPair('User3','fg','cterm'), GetColorPair('User3','fg','gui'), GetColorPair('StatusLineNC','bg','gui')))
+  exe (printf('highlight Status3 cterm=bold %s gui=bold %s %s', GetColorPair('User4','fg','cterm'), GetColorPair('User4','fg','gui'), GetColorPair('StatusLine','bg','gui')))
+  exe (printf('highlight Status4 cterm=bold %s gui=bold %s %s', GetColorPair('User4','fg','cterm'), GetColorPair('User4','fg','gui'), GetColorPair('StatusLineNC','bg','gui')))
 endfunction
 
 function! s:sy_stats_wrapper()
