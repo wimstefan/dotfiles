@@ -487,7 +487,7 @@ if has('patch-8.1.0360')               " make use of better algorithms if availa
 endif
 set splitright                         " set vertical splits to split to the right
 set splitbelow                         " set horizontal splits to split to the bottom
-if !has('nvim')
+if has('patch-8.1.1714') && !has('nvim')
   set previewpopup=height:30,width:140   " use popup window for previewing
 endif
 set scrolloff=4                        " minimal number of screen lines to keep above and below the cursor
@@ -640,14 +640,22 @@ function! MyStatusline()
     let stl .= ' ■  %*'
   endif
   function! RoActiveOrNot() abort
-    return g:statusline_winid ==# win_getid()
-      \ ? '%#Status1#'
-      \ : '%#Status2#'
+    if has('patch-8.1.1372')
+      return g:statusline_winid ==# win_getid()
+        \ ? '%#Status1#'
+        \ : '%#Status2#'
+    else
+      return ''
+    endif
   endfunction
   function! ChActiveOrNot() abort
-    return g:statusline_winid ==# win_getid()
-      \ ? '%#Status3#'
-      \ : '%#Status4#'
+    if has('patch-8.1.1372')
+      return g:statusline_winid ==# win_getid()
+        \ ? '%#Status3#'
+        \ : '%#Status4#'
+    else
+      return ''
+    endif
   endfunction
   let stl .= ChActiveOrNot() . '%{&modified ? "changed " : ""}%*'
   let stl .= RoActiveOrNot() . '%{&ro ? "ro " : ""}%*'
@@ -938,7 +946,11 @@ augroup Vimrc
   autocmd FileType json syntax match Comment +\/\/.\+$+
 
   " Use preview window for vim-packager
-  autocmd FileType packager set previewpopup= previewheight=40
+  if has('patch-8.1.1714') && !has('nvim')
+    autocmd FileType packager set previewpopup= previewheight=40
+  else
+    autocmd FileType packager set previewheight=40
+  endif
 
   " Disable folding in previews
   autocmd BufWinEnter * if &previewwindow | setlocal nofoldenable | endif
