@@ -1,0 +1,596 @@
+-------------- My personal not so 300 lines of neovim config -------------------
+-- All credits to mjlbach for his thread at neovim.discourse.com:
+-- https://neovim.discourse.group/t/the-300-line-init-lua-challenge/
+-- {{{1 --------------------- OPTIONS ------------------------------------------
+local vim = vim
+-- define leader keys
+vim.api.nvim_set_keymap('', '<Space>', '<Nop>', { noremap = true, silent = true})
+vim.g.mapleader = " "
+
+local indent = 2
+local opts = { noremap = true, silent = true }
+
+
+vim.bo.expandtab = true
+vim.bo.nrformats = vim.bo.nrformats .. ',alpha'
+vim.bo.shiftwidth = indent
+vim.bo.softtabstop = indent
+vim.bo.spellfile = vim.fn.stdpath('config') .. '/spell/myspell.utf-8.add'
+vim.bo.spelllang = [[en,de,es,nl]]
+vim.o.autowrite = true
+vim.o.backupcopy = 'auto'
+vim.o.backup = false
+vim.o.breakindent = true
+vim.o.completeopt = [[menuone,noinsert,noselect]]
+vim.o.diffopt = vim.o.diffopt .. ',vertical,indent-heuristic,algorithm:histogram'
+vim.o.foldlevel = 0
+vim.o.gdefault = true
+vim.o.hidden = true
+vim.o.ignorecase = true
+vim.o.inccommand = 'split'
+vim.o.joinspaces = true
+vim.o.listchars = [[tab:›\ ,trail:·,eol:«,extends:>,precedes:<]]
+vim.o.modelineexpr = true
+vim.o.mouse = 'a'
+vim.o.pastetoggle = '<F3>'
+vim.o.pumblend = 10
+vim.o.selection = 'exclusive'
+vim.o.shiftround = true
+vim.o.showbreak = '  » '
+vim.o.showtabline = 2
+vim.o.smartcase = true
+vim.o.splitbelow = true
+vim.o.splitright = true
+vim.o.swapfile = true
+vim.o.termguicolors = true
+vim.o.updatetime = 300
+vim.o.writebackup = true
+vim.wo.cursorcolumn = true
+vim.wo.cursorline = true
+vim.wo.linebreak = true
+vim.wo.number = true
+vim.wo.relativenumber = true
+vim.wo.signcolumn = 'yes'
+vim.cmd[[set undofile]]
+-- }}}1 --------------------- OPTIONS ------------------------------------------
+-- {{{1 --------------------- PLUGINS ------------------------------------------
+local install_path = vim.fn.stdpath('data') .. '/site/pack/packer/opt/packer.nvim'
+if vim.fn.empty(vim.fn.glob(install_path)) > 0 then
+  vim.api.nvim_command('!git clone https://github.com/wbthomason/packer.nvim ' .. install_path)
+end
+
+vim.cmd[[packadd packer.nvim]]
+vim.api.nvim_exec([[
+  augroup Packer
+    autocmd!
+    autocmd FileType packer set previewheight=40
+    autocmd BufWritePost init.lua PackerCompile
+    autocmd BufWritePost init.lua luafile $MYVIMRC
+    autocmd BufWritePost init.lua PackerSync
+  augroup end
+]], false)
+
+local packer = require('packer')
+local use = packer.use
+packer.startup(function()
+  packer.init({ display = { open_cmd = '84vnew [packer]'}})
+  use {'wbthomason/packer.nvim', opt = true}
+  use {'nvim-telescope/telescope.nvim', requires = {{'nvim-lua/popup.nvim'}, {'nvim-lua/plenary.nvim'}}}
+  use {'nvim-treesitter/nvim-treesitter', run = ':TSUpdate'}
+  use 'neovim/nvim-lspconfig'
+  use 'kabouzeid/nvim-lspinstall'
+  use 'nvim-lua/lsp-status.nvim'
+  use 'hrsh7th/nvim-compe'
+  use 'tpope/vim-abolish'
+  use 'tpope/vim-eunuch'
+  use 'tpope/vim-fugitive'
+  use 'tpope/vim-repeat'
+  use 'tpope/vim-unimpaired'
+  use 'lewis6991/gitsigns.nvim'
+  use 'preservim/nerdcommenter'
+  use 'JoosepAlviste/nvim-ts-context-commentstring'
+  use 'machakann/vim-sandwich'
+  use 'andymass/vim-matchup'
+  use 'kevinhwang91/nvim-bqf'
+  use 'mbbill/undotree'
+  use 'will133/vim-dirdiff'
+  use 'qpkorr/vim-renamer'
+  use 'rmagatti/auto-session'
+  use 'kg8m/vim-simple-align'
+  use 'kyazdani42/nvim-tree.lua'
+  use 'jamessan/vim-gnupg'
+  use 'editorconfig/editorconfig-vim'
+  use 'habamax/vim-asciidoctor'
+  use 'norcalli/nvim-colorizer.lua'
+  use 'tjdevries/colorbuddy.nvim'
+  use 'lifepillar/vim-colortemplate'
+  use 'wimstefan/vim-artesanal'
+  use 'sainnhe/edge'
+  use 'Th3Whit3Wolf/one-nvim'
+end)
+-- }}}1 --------------------- PLUGINS ------------------------------------------
+-- {{{1 ------------------- PLUGIN SETTINGS ------------------------------------
+-- {{{2 packer.nvim config
+vim.api.nvim_set_keymap('n', ',pc', '<Cmd>PackerClean<CR>', opts)
+vim.api.nvim_set_keymap('n', ',pi', '<Cmd>PackerInstall<CR>', opts)
+vim.api.nvim_set_keymap('n', ',ps', '<Cmd>PackerSync<CR>', opts)
+vim.api.nvim_set_keymap('n', ',pu', '<Cmd>PackerUpdate<CR>', opts)
+-- }}}
+-- {{{2 telescope config
+require('telescope').setup {
+  defaults = {
+    mappings = {
+      i = {
+        ["<C-s>"] = require('telescope.actions').select_horizontal,
+        -- Experimental - but from the author himself :)
+        ["<tab>"] = require('telescope.actions').toggle_selection,
+        ["<C-q>"] = require('telescope.actions').send_to_qflist +require('telescope.actions').open_qflist,
+        ["<M-q>"] = require('telescope.actions').send_selected_to_qflist +require('telescope.actions').open_qflist,
+      },
+    },
+    layout_strategy = 'flex',
+    preview_cutoff = 120,
+    sorting_strategy = 'descending',
+    prompt_position = 'bottom',
+    vim_buffers_everywhere = true,
+    generic_sorter =  require('telescope.sorters').get_fzy_sorter,
+    file_sorter = require('telescope.sorters').get_fzy_sorter
+  }
+}
+vim.api.nvim_set_keymap('n', '<Leader>T', '<Cmd>Telescope<CR>', opts)
+vim.api.nvim_set_keymap('n', '<Leader>b', '<Cmd>Telescope buffers<CR>', opts)
+vim.api.nvim_set_keymap('n', '<Leader>c', '<Cmd>Telescope colorscheme<CR>', opts)
+vim.api.nvim_set_keymap('n', '<Leader>f', '<Cmd>Telescope find_files<CR>', opts)
+vim.api.nvim_set_keymap('n', '<Leader>h', '<Cmd>Telescope help_tags<CR>', opts)
+vim.api.nvim_set_keymap('n', '<Leader>M', '<Cmd>Telescope man_pages<CR>', opts)
+vim.api.nvim_set_keymap('n', '<Leader>m', '<Cmd>Telescope marks<CR>', opts)
+vim.api.nvim_set_keymap('n', '<Leader>r', '<Cmd>Telescope registers<CR>', opts)
+vim.api.nvim_set_keymap('n', '<Leader>Tg', '<Cmd>Telescope live_grep<CR>', opts)
+vim.api.nvim_set_keymap('n', '<Leader>Tm', '<Cmd>Telescope keymaps<CR>', opts)
+vim.api.nvim_set_keymap('n', '<Leader>Tw', '<Cmd>Telescope grep_string<CR>', opts)
+-- }}}
+-- {{{2 treesitter config
+require('nvim-treesitter.configs').setup {
+  ensure_installed = { 'bash', 'css', 'html', 'lua' },
+  context_commentstring = { enable = true },
+  highlight = { enable = true },
+  incremental_selection = { enable = true },
+  indent = { enable = false },
+  matchup = { enable = false },
+  textobjects = { enable = true },
+}
+-- }}}
+-- {{{2 nvim-compe config
+require('compe').setup {
+  enabled = true;
+  autocomplete = true;
+  debug = false;
+  min_length = 1;
+  preselect = 'enable';
+  throttle_time = 80;
+  source_timeout = 200;
+  incomplete_delay = 400;
+  max_abbr_width = 100;
+  max_kind_width = 100;
+  max_menu_width = 100;
+  documentation = true;
+  source = {
+    path = true;
+    buffer = true;
+    calc = true;
+    nvim_lsp = true;
+    nvim_lua = true;
+    nvim_treesitter = true;
+    omni = false;
+    spell = true;
+    tags = false;
+  };
+}
+-- }}}
+-- {{{2 LSP config
+local nvim_lspconfig = require('lspconfig')
+local nvim_lspinstall = require('lspinstall')
+local nvim_lspstatus = require('lsp-status')
+nvim_lspstatus.register_progress()
+nvim_lspstatus.config {
+  kind_labels = vim.g.completion_customize_lsp_label,
+  indicator_errors = 'E',
+  indicator_warnings = 'W',
+  indicator_info = 'i',
+  indicator_hint = '?',
+  indicator_ok = 'Ok',
+  status_symbol = '[LSP]',
+}
+
+local on_attach = function(client, bufnr)
+  -- options
+  vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
+
+  -- keybindings
+  vim.api.nvim_buf_set_keymap(bufnr, 'n', ',lca', '<Cmd>lua vim.lsp.buf.code_action()<CR>', opts)
+  vim.api.nvim_buf_set_keymap(bufnr, 'n', ',lD', '<Cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
+  vim.api.nvim_buf_set_keymap(bufnr, 'n', ',le', '<Cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', opts)
+  vim.api.nvim_buf_set_keymap(bufnr, 'n', ',lgD', '<Cmd>lua vim.lsp.buf.declaration()<CR>', opts)
+  vim.api.nvim_buf_set_keymap(bufnr, 'n', ',lgd', '<Cmd>lua vim.lsp.buf.definition()<CR>', opts)
+  vim.api.nvim_buf_set_keymap(bufnr, 'n', ',lgi', '<Cmd>lua vim.lsp.buf.implementation()<CR>', opts)
+  vim.api.nvim_buf_set_keymap(bufnr, 'n', ',lgr', '<Cmd>lua vim.lsp.buf.references()<CR>', opts)
+  vim.api.nvim_buf_set_keymap(bufnr, 'n', ',lq', '<Cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', opts)
+  vim.api.nvim_buf_set_keymap(bufnr, 'n', ',lrn', '<Cmd>lua vim.lsp.buf.rename()<CR>', opts)
+  vim.api.nvim_buf_set_keymap(bufnr, 'n', ',lwa', '<Cmd>lua vim.lsp.buf.add_workspace_folder()<CR>', opts)
+  vim.api.nvim_buf_set_keymap(bufnr, 'n', ',lwl', '<Cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>', opts)
+  vim.api.nvim_buf_set_keymap(bufnr, 'n', ',lwr', '<Cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>', opts)
+  vim.api.nvim_buf_set_keymap(bufnr, 'n', 'K', '<Cmd>lua vim.lsp.buf.hover()<CR>', opts)
+  vim.api.nvim_buf_set_keymap(bufnr, 'n', '[d', '<Cmd>lua vim.lsp.diagnostic.goto_prev()<CR>', opts)
+  vim.api.nvim_buf_set_keymap(bufnr, 'n', ']d', '<Cmd>lua vim.lsp.diagnostic.goto_next()<CR>', opts)
+  vim.api.nvim_buf_set_keymap(bufnr, 'i', '<C-s>', '<Cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
+  -- set some keybindings conditional on server capabilities
+  if client.resolved_capabilities.document_formatting then
+    vim.api.nvim_buf_set_keymap("n", ",lf", "<Cmd>lua vim.lsp.buf.formatting()<CR>", opts)
+  elseif client.resolved_capabilities.document_range_formatting then
+    vim.api.nvim_buf_set_keymap("n", ",lf", "<Cmd>lua vim.lsp.buf.range_formatting()<CR>", opts)
+  end
+
+  -- Set autocommands conditional on server_capabilities
+  if client.resolved_capabilities.document_highlight then
+    vim.api.nvim_exec([[
+    augroup lsp_document_highlight
+    autocmd! * <buffer>
+    autocmd CursorHold <buffer> lua vim.lsp.buf.document_highlight()
+    autocmd CursorMoved <buffer> lua vim.lsp.buf.clear_references()
+    augroup END
+    ]], false)
+  end
+end
+
+-- configure lua language server
+local lua_settings = {
+  Lua = {
+    runtime = { version = 'LuaJIT', path = vim.split(package.path, ';'), },
+    diagnostics = {
+      enable = true,
+      globals = {'vim', "describe", "it", "before_each", "after_each", "awesome", "theme", "client", "P",},
+    },
+    workspace = {
+      preloadFileSize = 400,
+    },
+  }
+}
+
+-- config that activates keymaps and enables snippet support
+local function make_config()
+  local capabilities = vim.lsp.protocol.make_client_capabilities()
+  capabilities.textDocument.completion.completionItem.snippetSupport = true
+  return {
+    -- enable snippet support
+    capabilities = capabilities,
+    -- map buffer local keybindings when the language server attaches
+    on_attach = on_attach,
+  }
+end
+
+-- lsp-install
+local function setup_servers()
+  nvim_lspinstall.setup()
+  nvim_lspstatus.register_progress()
+
+  -- get all installed servers
+  local servers = nvim_lspinstall.installed_servers()
+
+  for _, server in pairs(servers) do
+    local config = make_config()
+
+    -- language specific config
+    if server == "lua" then
+      config.settings = lua_settings
+    end
+
+    nvim_lspconfig[server].setup(config)
+    nvim_lspconfig[server].setup { on_attach = on_attach }
+  end
+end
+setup_servers()
+
+-- automatically reload after `:LspInstall <server>` so we don't have to restart neovim
+nvim_lspinstall.post_install_hook = function ()
+  setup_servers() -- reload installed servers
+  vim.cmd("bufdo e") -- this triggers the FileType autocmd that starts the server
+end
+-- }}}
+-- {{{2 vim-fugitive config
+vim.api.nvim_set_keymap('n', '<Leader>gc', '<Cmd>Gcommit -v %<CR>', opts)
+vim.api.nvim_set_keymap('n', '<Leader>gd', '<Cmd>Gdiff<CR>', opts)
+vim.api.nvim_set_keymap('n', '<Leader>gl', '<Cmd>0Glog<CR>', opts)
+vim.api.nvim_set_keymap('n', '<Leader>gp', '<Cmd>Gpush<CR>', opts)
+vim.api.nvim_set_keymap('n', '<Leader>gs', '<Cmd>Gstatus<CR>', opts)
+-- }}}
+-- {{{2 nerdcommenter config
+vim.g.NERDSpaceDelims = 1
+vim.g.NERDCreateDefaultMappings = 0
+vim.api.nvim_set_keymap('', 'gcc', '<Plug>NERDCommenterToggle', {})
+vim.api.nvim_set_keymap('', 'gcu', '<Plug>NERDCommenterUncomment', {})
+vim.api.nvim_set_keymap('', 'gcl', '<Plug>NERDCommenterAlignLeft', {})
+vim.api.nvim_set_keymap('', 'gcb', '<Plug>NERDCommenterAlignBoth', {})
+vim.api.nvim_set_keymap('', 'gca', '<Plug>NERDCommenterAltDelims', {})
+vim.api.nvim_set_keymap('', 'gcm', '<Plug>NERDCommenterMinimal', {})
+vim.api.nvim_set_keymap('', 'gcn', '<Plug>NERDCommenterNested', {})
+vim.api.nvim_set_keymap('', 'gci', '<Plug>NERDCommenterInvert', {})
+vim.api.nvim_set_keymap('', 'gcA', '<Plug>NERDCommenterAppend', {})
+vim.api.nvim_set_keymap('', 'gc$', '<Plug>NERDCommenterToEOL', {})
+vim.api.nvim_set_keymap('', 'gcy', '<Plug>NERDCommenterYank', {})
+vim.api.nvim_set_keymap('', 'gcs', '<Plug>NERDCommenterSexy', {})
+vim.api.nvim_set_keymap('', 'gcc', '<Plug>NERDCommenterToggle', {})
+vim.api.nvim_set_keymap('', 'gcu', '<Plug>NERDCommenterUncomment', {})
+vim.api.nvim_set_keymap('', 'gcl', '<Plug>NERDCommenterAlignLeft', {})
+vim.api.nvim_set_keymap('', 'gcb', '<Plug>NERDCommenterAlignBoth', {})
+vim.api.nvim_set_keymap('', 'gca', '<Plug>NERDCommenterAltDelims', {})
+vim.api.nvim_set_keymap('', 'gcm', '<Plug>NERDCommenterMinimal', {})
+vim.api.nvim_set_keymap('', 'gcn', '<Plug>NERDCommenterNested', {})
+vim.api.nvim_set_keymap('', 'gci', '<Plug>NERDCommenterInvert', {})
+vim.api.nvim_set_keymap('', 'gcA', '<Plug>NERDCommenterAppend', {})
+vim.api.nvim_set_keymap('', 'gc$', '<Plug>NERDCommenterToEOL', {})
+vim.api.nvim_set_keymap('', 'gcy', '<Plug>NERDCommenterYank', {})
+vim.api.nvim_set_keymap('', 'gcs', '<Plug>NERDCommenterSexy', {})
+-- }}}
+-- {{{2 gitsigns config
+require('gitsigns').setup {
+  numhl = true,
+  keymaps = {
+    noremap = true,
+    buffer = true,
+
+    ['n ]c'] = { expr = true, "&diff ? ']c' : '<Cmd>lua require\"gitsigns\".next_hunk()<CR>'"},
+    ['n [c'] = { expr = true, "&diff ? '[c' : '<Cmd>lua require\"gitsigns\".prev_hunk()<CR>'"},
+
+
+    ['n ,st'] = '<Cmd>lua require"gitsigns".toggle_signs()<CR>',
+    ['n ,sh'] = '<Cmd>lua require"gitsigns".toggle_linehl()<CR>',
+    ['n ,sp'] = '<Cmd>lua require"gitsigns".preview_hunk()<CR>',
+    ['n ,sb'] = '<Cmd>lua require"gitsigns".blame_line()<CR>',
+  }
+}
+-- }}}
+-- {{{2 nvim-bqf config
+require('bqf').setup({ auto_enable = true })
+-- }}}
+-- {{{2 undotree config
+vim.g.undotree_WindowLayout= 2
+vim.g.undotree_SetFocusWhenToggle= 1
+vim.g.undotree_ShortIndicators= 1
+vim.api.nvim_set_keymap('n', ',tu', '<Cmd>UndotreeToggle<CR>', opts)
+-- }}}
+-- {{{2 nvim-tree config
+vim.api.nvim_set_keymap('n', '<Leader>x', '<Cmd>NvimTreeToggle<CR>', opts)
+-- }}}
+-- {{{2 nvim-colorizer config
+require('colorizer').setup {
+  '*';
+  css = {
+    css = true;
+    css_fn = true;
+  };
+  html = {
+    names = false;
+  }
+}
+-- }}}
+-- {{{2 colortemplate config
+vim.g.colortemplate_toolbar = 0
+-- }}}
+-- {{{2 colorbuddy config
+require('colorbuddy').setup()
+-- }}}
+-- {{{2 colorschemes
+-- {{{3 artesanal
+vim.g.artesanal_dimmed = false
+vim.g.artesanal_transparent = true
+-- }}}
+-- {{{3 edge
+vim.g.edge_style = 'neon'
+vim.g.edge_enable_italic = true
+vim.g.edge_transparent_background = true
+vim.g.edge_diagnostic_line_highlight = true
+vim.g.edge_diagnostic_text_highlight = true
+vim.g.edge_current_word = 'bold'
+-- }}}
+-- {{{3 one-nvim
+vim.g.one_nvim_transparent_bg = true
+-- }}}
+if vim.fn.filereadable(vim.fn.expand('$HOME/.config/colours/nvim_theme.lua')) == 1 then
+  vim.cmd[[luafile $HOME/.config/colours/nvim_theme.lua]]
+else
+  vim.cmd[[colorscheme slate]]
+end
+-- }}}
+-- {{{2 statusline
+require('statusline')
+-- }}}
+-- }}}1 ------------------- PLUGIN SETTINGS ------------------------------------
+-- {{{1 --------------------- MAPPINGS -----------------------------------------
+vim.api.nvim_set_keymap('', 'cd', '<Cmd>cd %:h | pwd<CR>', opts)
+-- {{{2 editing
+vim.api.nvim_set_keymap('n', '<Leader>ev', '<Cmd>edit $MYVIMRC<CR>', opts)
+vim.api.nvim_set_keymap('n', '<Leader>sv', '<Cmd>luafile $MYVIMRC<CR>', opts)
+vim.api.nvim_set_keymap('n', '<Leader>w', '<Cmd>w!<CR>', opts)
+vim.api.nvim_set_keymap('n', '<Leader>wa', '<Cmd>wa!<CR>', opts)
+vim.api.nvim_set_keymap('n', '<Leader>q', '<Cmd>q!<CR>', opts)
+vim.api.nvim_set_keymap('n', '<Leader>qa', '<Cmd>qa!<CR>', opts)
+vim.api.nvim_set_keymap('n', '<Leader>wqa', '<Cmd>wqa!<CR>', opts)
+vim.api.nvim_set_keymap('n', ',ul', '<Cmd>undolist<CR>', opts)
+-- }}}
+-- {{{2 buffers
+vim.api.nvim_set_keymap('n', '<Tab>', '<Cmd>bnext<CR>', opts)
+vim.api.nvim_set_keymap('n', '<S-Tab>', '<Cmd>bprev<CR>', opts)
+vim.api.nvim_set_keymap('n', '<Leader><Leader>', '<C-^>', opts)
+vim.api.nvim_set_keymap('n', '<Leader>bd', '<Cmd>bdelete<CR>', opts)
+-- }}}
+-- {{{2 tabs
+vim.api.nvim_set_keymap('n', '<Leader>td', '<Cmd>tabclose<CR>', opts)
+-- }}}
+-- {{{2 terminals
+vim.api.nvim_set_keymap('n', '<Leader>t', [[<Cmd> split term://$SHELL<CR>]], opts)
+vim.api.nvim_set_keymap('n', '<Leader>vt', [[<Cmd> vnew term://$SHELL<CR>]], opts)
+-- }}}
+--{{{2 signatures
+vim.api.nvim_set_keymap('n', '<Leader>sa', [[ 1G:s#\(Stefan Wimmer\) <.*>#\1 <stefan@tangoartisan.com>#<CR> G?--<CR> jVGd :r $HOME/.mutt/short-signature-artisan<CR> /^To:<CR> ]] , opts)
+vim.api.nvim_set_keymap('n', '<Leader>sg', [[ 1G:s#\(Stefan Wimmer\) <.*>#\1 <wimstefan@gmail.com>#<CR> G?--<CR> jVGd :r ~/.mutt/short-signature-gmail<CR> /^To:<CR> ]], opts)
+vim.api.nvim_set_keymap('n', '<Leader>st', [[ G?--<CR>jVGd :r ~/.mutt/short-signature-tango<CR> ]], opts)
+vim.api.nvim_set_keymap('n', '<Leader>ss', [[ G?--<CR>jVGd :r ~/.mutt/short-signature<CR> ]], opts)
+vim.api.nvim_set_keymap('n', '<Leader>sl', [[ G?--<CR>jVGd :r ~/.mutt/signature<CR> ]], opts)
+-- }}}
+-- {{{2 toggle to disable mouse mode and indentlines for easier paste
+ToggleMouse = function()
+  if vim.o.mouse == 'a' then
+    vim.wo.signcolumn='no'
+    vim.o.mouse = 'v'
+    vim.wo.number = false
+    vim.wo.relativenumber = false
+    print("Mouse disabled")
+  else
+    vim.wo.signcolumn='yes'
+    vim.o.mouse = 'a'
+    vim.wo.number = true
+    vim.wo.relativenumber = true
+    print("Mouse enabled")
+  end
+end
+vim.api.nvim_set_keymap('n', '<F10>', '<Cmd>lua ToggleMouse()<CR>', { noremap = true })
+-- }}}
+-- {{{2 Completion
+-- Use (s-)tab to:
+--- move to prev/next item in completion menuone
+--- jump to prev/next snippet's placeholder
+local t = function(str)
+  return vim.api.nvim_replace_termcodes(str, true, true, true)
+end
+local check_back_space = function()
+    local col = vim.fn.col('.') - 1
+    if col == 0 or vim.fn.getline('.'):sub(col, col):match('%s') then
+        return true
+    else
+        return false
+    end
+end
+_G.tab_complete = function()
+  if vim.fn.pumvisible() == 1 then
+    return t "<C-n>"
+  elseif check_back_space() then
+    return t "<Tab>"
+  else
+    return vim.fn['compe#complete']()
+  end
+end
+_G.s_tab_complete = function()
+  if vim.fn.pumvisible() == 1 then
+    return t "<C-p>"
+  else
+    return t "<S-Tab>"
+  end
+end
+vim.api.nvim_set_keymap("i", "<Tab>", "v:lua.tab_complete()", {expr = true})
+vim.api.nvim_set_keymap("s", "<Tab>", "v:lua.tab_complete()", {expr = true})
+vim.api.nvim_set_keymap("i", "<S-Tab>", "v:lua.s_tab_complete()", {expr = true})
+vim.api.nvim_set_keymap("s", "<S-Tab>", "v:lua.s_tab_complete()", {expr = true})
+-- }}}
+-- {{{2 abbreviations
+vim.api.nvim_exec([[
+" generic
+inoreabbrev dATE <C-R>=strftime("%Y-%m-%d")<CR>
+
+" english
+inoreabbrev grz Greetz, Stefan
+inoreabbrev ky Kindly yours,<CR>Stefan
+
+" nederlands
+inoreabbrev mvg Met vriendelijke groet,<CR>Stefan
+inoreabbrev vg Vriendelijke groet,<CR>Stefan
+inoreabbrev lg Lieve groet,<CR>Stefan
+
+" deutsch
+inoreabbrev AL Alles Liebe,<CR>Stefan
+inoreabbrev LG Lieben Gruß,<CR>Stefan
+inoreabbrev VG Mit wohlwollendem Gruß,<CR>Stefan
+]], false)
+-- }}}
+-- }}}1 --------------------- MAPPINGS -----------------------------------------
+-- {{{1 --------------------- AUTOCMDS -----------------------------------------
+vim.api.nvim_exec([[
+  augroup help
+    autocmd!
+    autocmd WinNew * let w:new = 1
+    autocmd FileType help,man if exists('w:new') | unlet w:new | wincmd L | vertical resize 84 | endif
+  augroup END
+]], false)
+vim.api.nvim_exec([[
+  augroup Terminal
+    autocmd!
+    autocmd TermOpen * startinsert
+    autocmd TermOpen * set nonumber norelativenumber nolist
+  augroup END
+  ]], false)
+vim.api.nvim_exec([[
+augroup RC
+  autocmd!
+
+  " Automatically chmod +x Shell and Perl scripts
+  autocmd BufWritePost {*.sh,*.pl,*.py} silent !chmod +x %
+
+  " Commentstrings
+  autocmd FileType xdefaults setlocal commentstring=!\%s
+
+  " mail specific configuration
+  autocmd BufRead /tmp/mutt* silent! %s/^\([>|]\s\?\)\+/\=substitute(submatch(0), '\s', '', 'g').' '
+  autocmd BufRead /tmp/mutt* set nonumber nohls nolist filetype=mail formatoptions=tcroqwln21
+  autocmd BufRead /tmp/mutt* setlocal spell
+  autocmd FileType mail setlocal commentstring=>\%s
+  autocmd FileType mail setlocal wildignore-=*.tar.*,*.png,*.jpg,*.gif
+
+  " Syntax for tmux
+  autocmd BufNewFile,BufRead *tmux*conf* set filetype=tmux
+
+  " Syntax for htp files
+  autocmd BufNewFile,BufRead {*.htp,*.htt} set filetype=xhtml
+
+  " Syntax for xmp files
+  autocmd BufNewFile,BufRead {*.xmp} set filetype=xml
+
+  " Syntax for fvwm files
+  autocmd BufNewFile,BufRead */.fvwm*/* set filetype=fvwm syntax=fvwm
+
+  " Syntax for Xorg log files
+  autocmd BufNewFile,BufRead *Xorg*log* set filetype=msmessages
+
+  " Syntax for rofi themes
+  autocmd BufNewFile,BufRead {*.rasi} set filetype=css
+
+  " Change fileformat on playlist files (created by moc)
+  autocmd BufNewFile,BufRead *.m3u set encoding=utf-8 fileencoding=utf-8 ff=unix
+
+  " run xrdb whenever Xdefaults or Xresources are updated
+  autocmd BufWritePost X{resources,defaults} silent !xrdb %
+
+  " Encoding for cddb files
+  autocmd BufNewFile,BufRead *cddb* set encoding=utf-8 fileencoding=utf-8 ff=unix
+
+  " Enable spelling for text files
+  " autocmd BuFNewFile,BufRead {*.txt,*.md,*.adoc,*.asciidoc,*.rst} if &filetype !~ 'man\|help\|*doc' | setlocal spell | endif
+  autocmd FileType {text,markdown,asciidoc*,rst} if &filetype !~ 'man\|help' | setlocal spell | endif
+
+  " Disable numbers & spell inside manpages
+  autocmd FileType {man,help,*doc} setlocal nonumber norelativenumber nospell nolist nocursorcolumn
+
+  " Enable hyphen in css/html completion and disable uppercase tag completion
+  " autocmd FileType css,html setlocal iskeyword+=- noignorecase
+
+  " Correct comment highlighting for json config
+  autocmd FileType json syntax match Comment +\/\/.\+$+
+
+  " Disable folding in previews
+  autocmd BufWinEnter * if &previewwindow | setlocal nofoldenable | endif
+
+  " Resize windows automagically
+  "  autocmd VimResized * :wincmd =
+
+augroup END
+]], false)
+-- }}}1 --------------------- AUTOCMDS -----------------------------------------
+-- vim: foldmethod=marker foldlevel=0
