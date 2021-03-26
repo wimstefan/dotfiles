@@ -370,8 +370,23 @@ autoload -U run-help url-quote-magic zcalc zmv
 # BEGIN user config # {{{1
 # * Common config for *every* user # {{{2
 # - Exports {{{3
-export EDITOR="vim"
-export VISUAL="vim"
+if [[ "$(command -v nvim)" ]]; then
+  export EDITOR='nvim'
+  export VISUAL='nvim'
+  export MANPAGER='nvim +Man!'
+  export MANWIDTH=999
+  alias -g V="| nvimpager"
+  alias v='nvim -R'
+  alias nview='nvim -R'
+  alias nvimdiff='nvim -d'
+else
+  export EDITOR="vim"
+  export VISUAL="vim"
+  export MANPAGER="/bin/sh -c \"col -b | vim --not-a-term -c 'set ft=man ts=8 nomod nolist nonu noma linebreak breakindent wrap' -\""
+  export MANWIDTH=999
+  alias -g V="| vimpager"
+  alias v='view'
+fi
 export HISTFILE="$HOME/.zsh/histfile"
 export HISTSIZE="5000"
 export SAVEHIST="5000"
@@ -380,7 +395,6 @@ export FZF_DEFAULT_COMMAND='fd --type f'
 export FZF_DEFAULT_OPTS='-x -m --cycle --border --layout=reverse --inline-info --height 90% --padding 2% --preview "bat {}" --preview-window right:70%:hidden:wrap --bind "?:toggle-preview" --color=bg+:-1,fg+:-1,hl:36,hl+:36,info:75'
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 export FZF_CTRL_T_OPTS='--preview "bat {}" --preview-window right:70%:hidden:wrap --bind "?:toggle-preview"'
-export MANPAGER="/bin/sh -c \"col -b | vim --not-a-term -c 'set ft=man ts=8 nomod nolist nonu noma linebreak breakindent wrap' -\""
 export HIGHLIGHT_STYLE="github"
 export XAUTHORITY="$HOME/.Xauthority"
 export DISPLAY=:0.0
@@ -393,7 +407,6 @@ export QT_XFT=true
 alias -g B="| bat"
 alias -g G="| ug"
 alias -g L="| less"
-alias -g V="| vimpager"
 alias -g W="| wc -l"
 alias -g Z="| fzf"
 # commands
@@ -409,7 +422,6 @@ alias lss="ls -sSh1"
 alias b='${(z)BROWSER}'
 alias e='${(z)VISUAL:-${(z)EDITOR}}'
 alias p='${(z)PAGER}'
-alias v='view'
 alias rm="rm -i --preserve-root"
 alias cp="nocorrect cp -i"
 alias mv="nocorrect mv -i"
@@ -434,7 +446,7 @@ alias el="equery list -p -o"
 alias sf="setfont ter-112n"
 alias unmount="udevil unmount"
 if [ -x /usr/local/bin/fzf ]; then
-  alias vif='vim $(fzf)'
+  alias vif='$(EDITOR) $(fzf)'
 fi
 # urls
 alias packages="w3m https://packages.gentoo.org/"
@@ -454,12 +466,12 @@ function dirdiff() # compare two directories with vim
 {
   DIR1=$(printf '%q' "$1"); shift
   DIR2=$(printf '%q' "$1"); shift
-  vim $@ -c "DirDiff $DIR1 $DIR2"
+  $EDITOR $@ -c "DirDiff $DIR1 $DIR2"
 }
 
 function viz() # edit AND source ~/.zshrc
 {
-  vim -O $HOME/.dotfiles/zsh/zshrc && exec zsh
+  $EDITOR $HOME/.dotfiles/zsh/zshrc && exec zsh
 }
 
 function lowercase() # move filenames to lowercase
@@ -830,6 +842,7 @@ if [[ $USER != root ]]; then
         echo "Syncing vim on $host ..."
         rsync -az            /home/swimmer/.vimrc $host:
         rsync -azk  --delete /home/swimmer/.vim/ $host:.vim/
+        rsync -azK  --delete /home/swimmer/.config/nvim/ $host:.config/nvim/
         echo "Syncing bat on $host ..."
         rsync -az            /home/swimmer/.config/bat/ $host:.config/bat/
         echo "Syncing file explorers on $host ..."
