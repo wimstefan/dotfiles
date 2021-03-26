@@ -1,0 +1,134 @@
+#
+# bspwm hotkeys
+#
+# quit/restart bspwm
+alt + ctrl + {q,r}
+  bspc {quit,wm -r}
+# close and kill
+alt + ctrl + {_,shift + }w
+  bspc node -{c,k}
+
+#
+# state/flags
+#
+# set the window state (tiled,pseudo_tiled,floating,fullscreen)
+alt + super + ~{t,shift + t,s,f}
+  bspc node -t {tiled,pseudo_tiled,floating,fullscreen}
+# set the node flags (marked,locked,sticky,private)
+alt + super + {m,x,y,z}
+  bspc node -g {marked,locked,sticky,private}
+
+#
+# focus/swap/move
+#
+# alternate between the tiled and monocle layout
+alt + m
+  bspc desktop -l next
+# Move the focused node to the give side of the tiled area.
+# super + {Left,Up,Right,Down}
+super + {h,k,l,j}
+        ${HOME}/.config/bspwm/scripts/bspside {west,north,east,south}
+# preselect the direction
+super + ctrl + {h,j,k,l,space}
+  bspc node -p {west,south,north,east,cancel}
+# focus the node in the given direction
+super + alt + {_,shift + }{h,j,k,l}
+  bspc node -{f,s} {west,south,north,east}
+# focus the next/previous node in the current desktop
+super + {grave,Tab}
+  bspc node -f {next,prev}.local.!hidden.window
+# focus the older or newer node in the focus history
+super + Escape
+  bspc wm -h off; \
+  bspc node {older,newer} -f; \
+  bspc wm -h on
+# focus or send to the given desktop
+super + {_,shift + }{1-9,0}
+  bspc {desktop -f,node -d} '^{1-9,10}'
+# balance, equalize, rotate
+alt + shift + {b,e,r}
+  bspc node $(bspc query -N -n -n .!leaf || echo @/) {-B,-E,-R 90}
+
+#
+# move/resize
+#
+# expand a window by moving one of its side outward
+alt + ctrl + {h,j,k,l}
+  bspc node -z {left -10 0,bottom 0 10,top 0 -10,right 10 0}
+# contract a window by moving one of its side inward
+alt + ctrl + shift + {h,j,k,l}
+  bspc node -z {right -10 0,top 0 10,bottom 0 -10,left 10 0}
+# move a floating window
+alt + shift + {h,j,k,l}
+  bspc node -v {-10 0,0 10,0 -10,10 0}
+
+#
+# wm independent hotkeys
+#
+## System
+# Theme switcher
+alt + shift + a
+  bg-toggle
+# Rofi dialogue
+super + r
+  rofi -show combi
+# Rofi emoji
+super + z
+  rofi -show emoji -modi emoji -matching normal
+## terminal related
+# Terminal
+super + Return
+  $TERMINAL
+### dropdown terminals
+# Calculator
+super + c
+  tdrop -am -w 30% -h 30% -y $((POLYBAR_HEIGHT + 10)) -x 69% -n 2 $TERMINAL $TERM_TITLE "Calculator" $TERM_CMD wcalc
+# Explore
+super + m
+  tdrop -am -w 60% -h 60% -y 39% -x 39% -n 3 $TERMINAL $TERM_TITLE "Explore" $TERM_CMD mc
+# Explore with images
+alt + r
+  tdrop -am -w 70% -h 80% -y $((POLYBAR_HEIGHT + 10)) -x 30% -n 6 kitty --class="Ranger" ranger
+# Scratchpad
+super + s
+  tdrop -am -w 75% -h 66% -y $((POLYBAR_HEIGHT + 10)) -n 1 $TERMINAL $TERM_TITLE "Scratchpad" $TERM_NAME "Scratchpad"
+# Keybindings
+super + F1
+  tdrop -am -w 40% -h 77% -y $((POLYBAR_HEIGHT + 10)) -n 5 $TERMINAL $TERM_TITLE "Keybindings" $TERM_CMD $HOME/.config/bspwm/show_help.sh
+
+#
+# Applications
+#
+## Browser
+super + b
+  my-eye-into-the-world
+## Mail
+super + t
+  thunderbird
+## Editor
+super + e
+  gvim
+## Darktable
+super + d
+  darktable
+## Gimp
+super + g
+  gimp
+## Libreoffice
+super + o
+  libreoffice
+## Audacity
+super + a
+  audacity
+## Puddletag
+super + p
+  puddletag
+## Mixxx
+super + u
+  ta-mixxx
+## lxappearance
+super + x
+  lxappearance
+## Screenshot
+@Print
+  scrot -s "$HOME/tmp/screenshots/scrot-%F-%R.png"
