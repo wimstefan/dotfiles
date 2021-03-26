@@ -1,0 +1,70 @@
+#
+# wm independent hotkeys
+#
+## System
+# Theme switcher
+alt + shift + a
+  bg-toggle
+# Rofi dialogue
+super + r
+  rofi -show combi
+# Rofi emoji
+super + z
+  rofi -show emoji -modi emoji -matching normal
+## terminal related
+# Terminal
+# super + Return
+  # $TERMINAL
+### dropdown terminals
+# Calculator
+super + c
+  tdrop -m -w 30% -h 30% -y $((POLYBAR_HEIGHT + 10)) -x 69% -n 2 $TERMINAL $TERM_TITLE "Calculator" $TERM_CMD wcalc
+# Explore
+super + m
+  tdrop -m -w 60% -h 60% -y 39% -x 39% -n 3 $TERMINAL $TERM_TITLE "Explore" $TERM_CMD mc
+# Explore with images
+alt + r
+  tdrop -m -w 70% -h 80% -y $((POLYBAR_HEIGHT + 10)) -x 30% -n 6 kitty --class="Ranger" ranger
+# Scratchpad
+super + s
+  tdrop -m -w 75% -h 66% -y $((POLYBAR_HEIGHT + 10)) -n 1 $TERMINAL $TERM_TITLE "Scratchpad" $TERM_NAME "Scratchpad"
+# Keybindings
+super + F1
+  tdrop -m -w 40% -h 77% -y $((POLYBAR_HEIGHT + 10)) -n 5 $TERMINAL $TERM_TITLE "Keybindings" $TERM_CMD $HOME/.config/herbstluftwm/show_help.sh
+
+#
+# Applications
+#
+## Browser
+super + b
+  my-eye-into-the-world
+## Mail
+super + t
+  thunderbird
+## Editor
+super + e
+  gvim
+## Darktable
+super + d
+  darktable
+## Gimp
+super + g
+  gimp
+## Libreoffice
+super + o
+  libreoffice
+## Audacity
+super + a
+  audacity
+## Puddletag
+super + p
+  puddletag
+## Mixxx
+super + u
+  ta-mixxx
+## lxappearance
+super + x
+  lxappearance
+## Screenshot
+@Print
+  scrot -s "$HOME/tmp/screenshots/scrot-%F-%R.png"

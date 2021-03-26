@@ -1,0 +1,173 @@
+#!/usr/bin/env bash
+
+hc() {
+    herbstclient "$@"
+}
+
+hc emit_hook reload
+
+# remove all existing keybindings
+hc keyunbind --all
+
+# keybindings
+# if you have a super key you will be much happier with Mod set to Mod4
+Mod=Mod4   # Use the super key as the main modifier
+Alt=Mod1   # Use alt as the secondary modifier
+
+hc keybind $Alt-Control-q       quit
+hc keybind $Alt-Control-r       reload
+hc keybind $Mod-Return          spawn "${TERMINAL:-uxterm}"
+
+# basic movement in tiling and floating mode
+# focusing clients
+hc keybind $Mod-$Alt-h          focus left
+hc keybind $Mod-$Alt-j          focus down
+hc keybind $Mod-$Alt-k          focus up
+hc keybind $Mod-$Alt-l          focus right
+
+# moving clients in tiling and floating mode
+hc keybind $Mod-Shift-h         shift left
+hc keybind $Mod-Shift-j         shift down
+hc keybind $Mod-Shift-k         shift up
+hc keybind $Mod-Shift-l         shift right
+
+# splitting frames
+# create an empty frame at the specified direction
+hc keybind $Mod-Control-u       split bottom  0.5
+hc keybind $Mod-Control-o       split right   0.5
+# let the current frame explode into subframes
+hc keybind $Mod-Control-space   split explode
+
+# resizing frames and floating clients
+resizestep=0.001
+hc keybind $Mod-Control-h       resize left +$resizestep
+hc keybind $Mod-Control-j       resize down +$resizestep
+hc keybind $Mod-Control-k       resize up +$resizestep
+hc keybind $Mod-Control-l       resize right +$resizestep
+
+# tags
+tag_names=( {1..9} )
+tag_keys=( {1..9} 0 )
+
+hc rename default "${tag_names[0]}" || true
+for i in "${!tag_names[@]}" ; do
+    hc add "${tag_names[$i]}"
+    key="${tag_keys[$i]}"
+    if ! [ -z "$key" ] ; then
+        hc keybind "$Mod-$key" use_index "$i"
+        hc keybind "$Mod-Shift-$key" move_index "$i"
+    fi
+done
+
+# cycle through tags
+hc keybind $Mod-period          use_index +1 --skip-visible
+hc keybind $Mod-comma           use_index -1 --skip-visible
+hc keybind $Mod-Escape          substitute PRE tags.focus.index chain + use_index "$i" + or , compare tags.focus.index != PRE , use_previous
+
+# layouting
+hc keybind $Mod-$Alt-c          close
+hc keybind $Mod-$Alt-r          remove
+hc keybind $Mod-$Alt-s          floating toggle
+# hc keybind $Mod-$Alt-f          fullscreen toggle
+hc keybind $Mod-$Alt-f          spawn ${HOME}/.config/herbstluftwm/scripts/maximize.sh
+hc keybind $Mod-$Alt-p          pseudotile toggle
+hc keybind $Mod-Shift-f         set_attr clients.focus.floating toggle
+hc keybind $Mod-Shift-m         set_attr clients.focus.minimized true
+# restore all minimized windows of the focused tag
+hc keybind $Mod-Control-m foreach CLIENT clients. \
+     sprintf MINATT "%c.minimized" CLIENT \
+     sprintf TAGATT "%c.tag" CLIENT and \
+       , compare MINATT "=" "true" \
+       , substitute FOCUS "tags.focus.name" compare TAGATT "=" FOCUS \
+       , set_attr MINATT false
+# The following cycles through the available layouts within a frame, but skips
+# layouts, if the layout change wouldn't affect the actual window positions.
+# I.e. if there are two windows within a frame, the grid layout is skipped.
+hc keybind $Mod-space                                                           \
+            or , and . compare tags.focus.curframe_wcount = 2                   \
+                     . cycle_layout +1 vertical horizontal max vertical grid    \
+               , cycle_layout +1
+
+# mouse
+hc mouseunbind --all
+hc mousebind $Mod-Button1 move
+hc mousebind $Mod-Button2 zoom
+hc mousebind $Mod-Button3 resize
+
+# focus
+hc keybind $Mod-Tab             cycle_all +1
+hc keybind $Mod-Shift-Tab       cycle_all -1
+hc keybind $Mod-$Alt-i          jumpto urgent
+
+# theme
+hc attr theme.tiling.reset 1
+hc attr theme.floating.reset 1
+hc attr theme.border_width 4
+hc attr theme.active.color '#8894aa'
+hc attr theme.normal.color '#2e3440'
+hc attr theme.urgent.color '#d05858'
+
+hc set_layout vertical
+
+# hide frame border
+hc chain , set frame_border_width 0 , set frame_bg_transparent on , set frame_transparent_width 0
+hc set always_show_frame 0
+hc set frame_border_active_color '#8894aa'
+hc set frame_active_opacity 0
+hc set frame_border_normal_color '#2e3440'
+hc set frame_normal_opacity 0
+hc set frame_gap 4
+hc set frame_padding 0
+hc set smart_frame_surroundings 1
+hc set smart_window_surroundings 1
+hc set gapless_grid 1
+hc set window_gap 10
+hc set focus_follows_mouse 1
+hc set mouse_recenter_gap 0
+
+hc pad 0 $((POLYBAR_HEIGHT+5)) 0 0 0
+
+# rules
+hc unrule -F
+hc rule focus=on
+hc rule floatplacement=smart
+hc rule windowtype~'_NET_WM_WINDOW_TYPE_(DIALOG|UTILITY|SPLASH)' floating=on
+hc rule windowtype='_NET_WM_WINDOW_TYPE_DIALOG' focus=on
+hc rule windowtype~'_NET_WM_WINDOW_TYPE_(NOTIFICATION|DOCK|DESKTOP)' manage=off
+hc rule class=${TERMINAL} instance=sys tag=1
+hc rule class=${TERMINAL} instance=work tag=2
+hc rule class=${TERMINAL} instance=com tag=3 floating=on
+hc rule class=${TERMINAL} instance=tj tag=3
+hc rule class=${TERMINAL} instance=komala tag=5
+hc rule class=${TERMINAL} instance=home tag=6
+hc rule class=${TERMINAL} instance=tj-laptop tag=6
+hc rule title=Calculator floating=on
+hc rule title=Explore floating=on
+hc rule title=Keybindings floating=on
+hc rule title=Ranger floating=on
+hc rule title=Scratchpad floating=on
+hc rule class~'.*[Tt]erm' title=calendar manage=off
+hc rule class~'VirtualBox.*' tag=7
+hc rule class=scribus tag=7
+hc rule class=Thunderbird tag=7
+hc rule class=Darktable tag=8
+hc rule class=Gimp tag=8
+hc rule class=Inkscape tag=8
+hc rule class=Audacity tag=9
+hc rule class=puddletag tag=9
+
+hc set tree_style '╾│ ├└╼─┐'
+
+hc unlock
+
+pkill sxhkd
+sxhkd -c ${HOME}/.config/herbstluftwm/sxhkdrc &
+pkill picom
+while pgrep -x picom >/dev/null; do sleep 1; done
+picom &
+pkill dunst
+dunst &
+feh --bg-fill ${HOME}/system/wallpapers/default.jpg &
+$HOME/.config/polybar/launch.sh
+
+hc apply_rules --all
