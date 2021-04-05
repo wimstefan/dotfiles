@@ -74,17 +74,21 @@ vim.api.nvim_exec([[
     autocmd FileType packer set previewheight=40
     autocmd BufWritePost init.lua PackerCompile
     autocmd BufWritePost init.lua luafile $MYVIMRC
-    autocmd BufWritePost init.lua PackerSync
+    " autocmd BufWritePost init.lua PackerSync
+    autocmd User PackerComplete luafile $MYVIMRC
   augroup end
 ]], false)
 
 local packer = require('packer')
 local use = packer.use
 packer.startup(function()
-  packer.init({ display = { open_cmd = '84vnew [packer]'}})
+  packer.init({ display = {open_cmd = '84vnew [packer]'}})
   use {'wbthomason/packer.nvim', opt = true}
-  use {'nvim-telescope/telescope.nvim', requires = {{'nvim-lua/popup.nvim'}, {'nvim-lua/plenary.nvim'}}}
   use {'nvim-treesitter/nvim-treesitter', run = ':TSUpdate'}
+  use {'nvim-telescope/telescope.nvim', requires = {
+    'nvim-lua/popup.nvim',
+    'nvim-lua/plenary.nvim'
+  }}
   use {'neovim/nvim-lspconfig', requires = {
     'kabouzeid/nvim-lspinstall',
     'nvim-lua/lsp-status.nvim',
@@ -92,9 +96,11 @@ packer.startup(function()
     'ray-x/lsp_signature.nvim'
   }}
   use 'hrsh7th/nvim-compe'
+  use 'andersevenrud/compe-tmux'
   use 'tpope/vim-abolish'
   use 'tpope/vim-eunuch'
   use 'tpope/vim-fugitive'
+  use 'tpope/vim-obsession'
   use 'tpope/vim-repeat'
   use 'tpope/vim-unimpaired'
   use 'lewis6991/gitsigns.nvim'
@@ -102,30 +108,46 @@ packer.startup(function()
   use 'JoosepAlviste/nvim-ts-context-commentstring'
   use 'machakann/vim-sandwich'
   use 'andymass/vim-matchup'
+  use 'romainl/vim-cool'
+  use 'romainl/vim-qf'
+  use 'romainl/vim-qlist'
   use 'kevinhwang91/nvim-bqf'
   use 'mbbill/undotree'
+  use 'ChristianChiarulli/far.vim'
   use 'will133/vim-dirdiff'
   use 'qpkorr/vim-renamer'
-  use 'rmagatti/auto-session'
   use 'kg8m/vim-simple-align'
-  use 'kyazdani42/nvim-tree.lua'
   use 'jamessan/vim-gnupg'
   use 'editorconfig/editorconfig-vim'
   use 'habamax/vim-asciidoctor'
+  use 'chrisbra/unicode.vim'
+  use {'kyazdani42/nvim-tree.lua', requires = 'kyazdani42/nvim-web-devicons'}
   use 'norcalli/nvim-colorizer.lua'
-  use 'tjdevries/colorbuddy.nvim'
   use 'lifepillar/vim-colortemplate'
   use 'wimstefan/vim-artesanal'
   use 'sainnhe/edge'
   use 'Th3Whit3Wolf/one-nvim'
+  use 'AlxHnr/clear_colors'
 end)
 -- }}}1 --------------------- PLUGINS ------------------------------------------
 -- {{{1 ------------------- PLUGIN SETTINGS ------------------------------------
 -- {{{2 packer.nvim config
 vim.api.nvim_set_keymap('n', ',pc', '<Cmd>PackerClean<CR>', opts)
 vim.api.nvim_set_keymap('n', ',pi', '<Cmd>PackerInstall<CR>', opts)
+vim.api.nvim_set_keymap('n', ',pq', '<Cmd>PackerStatus<CR>', opts)
 vim.api.nvim_set_keymap('n', ',ps', '<Cmd>PackerSync<CR>', opts)
 vim.api.nvim_set_keymap('n', ',pu', '<Cmd>PackerUpdate<CR>', opts)
+-- }}}
+-- {{{2 treesitter config
+require('nvim-treesitter.configs').setup {
+  ensure_installed = 'maintained',
+  context_commentstring = { enable = true },
+  highlight = { enable = true, use_languagetree = true },
+  incremental_selection = { enable = false },
+  indent = { enable = false },
+  matchup = { enable = false },
+  textobjects = { enable = false },
+}
 -- }}}
 -- {{{2 telescope config
 require('telescope').setup {
@@ -140,62 +162,59 @@ require('telescope').setup {
       },
     },
     layout_strategy = 'flex',
-    preview_cutoff = 120,
-    sorting_strategy = 'descending',
-    prompt_position = 'bottom',
-    vim_buffers_everywhere = true,
-    generic_sorter =  require('telescope.sorters').get_fzy_sorter,
-    file_sorter = require('telescope.sorters').get_fzy_sorter
+    file_ignore_patterns = {'gif', 'jpeg', 'jpg', 'pdf', 'png', 'svg'},
   }
 }
-vim.api.nvim_set_keymap('n', '<Leader>T', '<Cmd>Telescope<CR>', opts)
-vim.api.nvim_set_keymap('n', '<Leader>b', '<Cmd>Telescope buffers<CR>', opts)
-vim.api.nvim_set_keymap('n', '<Leader>c', '<Cmd>Telescope colorscheme<CR>', opts)
-vim.api.nvim_set_keymap('n', '<Leader>f', '<Cmd>Telescope find_files<CR>', opts)
-vim.api.nvim_set_keymap('n', '<Leader>h', '<Cmd>Telescope help_tags<CR>', opts)
-vim.api.nvim_set_keymap('n', '<Leader>M', '<Cmd>Telescope man_pages<CR>', opts)
-vim.api.nvim_set_keymap('n', '<Leader>m', '<Cmd>Telescope marks<CR>', opts)
-vim.api.nvim_set_keymap('n', '<Leader>r', '<Cmd>Telescope registers<CR>', opts)
-vim.api.nvim_set_keymap('n', '<Leader>Tg', '<Cmd>Telescope live_grep<CR>', opts)
-vim.api.nvim_set_keymap('n', '<Leader>Tm', '<Cmd>Telescope keymaps<CR>', opts)
-vim.api.nvim_set_keymap('n', '<Leader>Tw', '<Cmd>Telescope grep_string<CR>', opts)
--- }}}
--- {{{2 treesitter config
-require('nvim-treesitter.configs').setup {
-  ensure_installed = { 'bash', 'css', 'html', 'lua' },
-  context_commentstring = { enable = true },
-  highlight = { enable = true },
-  incremental_selection = { enable = true },
-  indent = { enable = false },
-  matchup = { enable = false },
-  textobjects = { enable = true },
-}
+vim.api.nvim_set_keymap('n', '<Leader>T', [[<Cmd>lua require('telescope.builtin').builtin(require('telescope.themes').get_dropdown({previewer = false}))<CR>]], opts)
+vim.api.nvim_set_keymap('n', '<Leader>b', [[<Cmd>lua require('telescope.builtin').buffers()<CR>]], opts)
+vim.api.nvim_set_keymap('n', '<Leader>c', [[<Cmd>lua require('telescope.builtin').colorscheme(require('telescope.themes').get_dropdown({}))<CR>]], opts)
+vim.api.nvim_set_keymap('n', '<Leader>f', [[<Cmd>lua require('telescope.builtin').find_files({follow = true})<CR>]], opts)
+vim.api.nvim_set_keymap('n', '<Leader>g', [[<Cmd>lua require('telescope.builtin').live_grep()<CR>]], opts)
+vim.api.nvim_set_keymap('n', '<Leader>h', [[<Cmd>lua require('telescope.builtin').help_tags()<CR>]], opts)
+vim.api.nvim_set_keymap('n', '<Leader>M', [[<Cmd>lua require('telescope.builtin').man_pages()<CR>]], opts)
+vim.api.nvim_set_keymap('n', '<Leader>m', [[<Cmd>lua require('telescope.builtin').marks()<CR>]], opts)
+vim.api.nvim_set_keymap('n', '<Leader>r', [[<Cmd>lua require('telescope.builtin').registers()<CR>]], opts)
+vim.api.nvim_set_keymap('n', '<Leader>Tgb', [[<Cmd>lua require('telescope.builtin').git_bcommits()<CR>]], opts)
+vim.api.nvim_set_keymap('n', '<Leader>Tgc', [[<Cmd>lua require('telescope.builtin').git_commits()<CR>]], opts)
+vim.api.nvim_set_keymap('n', '<Leader>Tgf', [[<Cmd>lua require('telescope.builtin').git_files()<CR>]], opts)
+vim.api.nvim_set_keymap('n', '<Leader>Tgs', [[<Cmd>lua require('telescope.builtin').git_status()<CR>]], opts)
+vim.api.nvim_set_keymap('n', '<Leader>Tf', [[<Cmd>lua require('telescope.builtin').filetypes(require('telescope.themes').get_dropdown({}))<CR>]], opts)
+vim.api.nvim_set_keymap('n', '<Leader>Tm', [[<Cmd>lua require('telescope.builtin').keymaps()<CR>]], opts)
+vim.api.nvim_set_keymap('n', '<Leader>Ts', [[<Cmd>lua require('telescope.builtin').spell_suggest()<CR>]], opts)
+vim.api.nvim_set_keymap('n', '<Leader>Tw', [[<Cmd>lua require('telescope.builtin').grep_string()<CR>]], opts)
+vim.api.nvim_exec([[
+  augroup Telescope
+    autocmd!
+    autocmd User TelescopePreviewerLoaded setlocal wrap
+  augroup END
+]], false)
 -- }}}
 -- {{{2 nvim-compe config
 require('compe').setup {
-  enabled = true;
-  autocomplete = true;
-  debug = false;
-  min_length = 1;
-  preselect = 'enable';
-  throttle_time = 80;
-  source_timeout = 200;
-  incomplete_delay = 400;
-  max_abbr_width = 100;
-  max_kind_width = 100;
-  max_menu_width = 100;
-  documentation = true;
+  enabled = true,
+  autocomplete = true,
+  debug = false,
+  min_length = 1,
+  preselect = 'enable',
+  throttle_time = 80,
+  source_timeout = 200,
+  incomplete_delay = 400,
+  max_abbr_width = 100,
+  max_kind_width = 100,
+  max_menu_width = 100,
+  documentation = true,
   source = {
-    path = true;
-    buffer = true;
-    calc = true;
-    nvim_lsp = true;
-    nvim_lua = true;
-    nvim_treesitter = true;
-    omni = false;
-    spell = true;
-    tags = false;
-  };
+    buffer = true,
+    calc = true,
+    nvim_lsp = true,
+    nvim_lua = true,
+    nvim_treesitter = true,
+    omni = false,
+    path = true,
+    spell = true,
+    tags = false,
+    tmux = true,
+  },
 }
 -- }}}
 -- {{{2 LSP config
@@ -335,6 +354,9 @@ vim.api.nvim_set_keymap('n', '<Leader>gl', '<Cmd>0Glog<CR>', opts)
 vim.api.nvim_set_keymap('n', '<Leader>gp', '<Cmd>Gpush<CR>', opts)
 vim.api.nvim_set_keymap('n', '<Leader>gs', '<Cmd>Gstatus<CR>', opts)
 -- }}}
+-- {{{2 vim-obsession config
+vim.api.nvim_set_keymap('n', ',to', '<Cmd>Obsession<CR>', opts)
+-- }}}
 -- {{{2 nerdcommenter config
 vim.g.NERDSpaceDelims = 1
 vim.g.NERDCreateDefaultMappings = 0
@@ -365,21 +387,67 @@ vim.api.nvim_set_keymap('', 'gcs', '<Plug>NERDCommenterSexy', {})
 -- }}}
 -- {{{2 gitsigns config
 require('gitsigns').setup {
+  signs = {
+    add = {
+      hl = 'DiffAdd',
+      show_count = true,
+      numhl = 'GitSignsAddNr'
+    },
+    change = {
+      hl = 'DiffChange',
+      numhl = 'GitSignsChangeNr'},
+    delete = {
+      hl = 'DiffDelete',
+      show_count = true,
+      numhl = 'GitSignsDeleteNr'
+    },
+    topdelete = {
+      hl = 'DiffDelete',
+      show_count = true,
+      numhl = 'GitSignsDeleteNr'
+    },
+    changedelete = {
+      hl = 'DiffChange',
+      show_count = true,
+      numhl = 'GitSignsChangeNr'
+    }
+  },
+  count_chars = {
+    [1] = '₁',
+    [2] = '₂',
+    [3] = '₃',
+    [4] = '₄',
+    [5] = '₅',
+    [6] = '₆',
+    [7] = '₇',
+    [8] = '₈',
+    [9] = '₉',
+    ['+'] = '₊'
+  },
+  current_line_blame = false,
   numhl = true,
   keymaps = {
     noremap = true,
     buffer = true,
-
     ['n ]c'] = { expr = true, "&diff ? ']c' : '<Cmd>lua require\"gitsigns\".next_hunk()<CR>'"},
     ['n [c'] = { expr = true, "&diff ? '[c' : '<Cmd>lua require\"gitsigns\".prev_hunk()<CR>'"},
-
-
     ['n ,st'] = '<Cmd>lua require"gitsigns".toggle_signs()<CR>',
     ['n ,sh'] = '<Cmd>lua require"gitsigns".toggle_linehl()<CR>',
     ['n ,sp'] = '<Cmd>lua require"gitsigns".preview_hunk()<CR>',
     ['n ,sb'] = '<Cmd>lua require"gitsigns".blame_line()<CR>',
   }
 }
+-- }}}
+-- {{{2 vim-qf config
+vim.g.qf_mapping_ack_style = true
+vim.g.qf_auto_open_quickfix = true
+vim.api.nvim_set_keymap('n', '<C-q>', '<Plug>(qf_qf_switch)', {})
+vim.api.nvim_set_keymap('n', '<C-c>', '<Plug>(qf_qf_toggle)', {})
+vim.api.nvim_set_keymap('n', '<F6>', '<Plug>(qf_loc_toggle)', {})
+vim.api.nvim_set_keymap('n', '<Home>', '<Plug>(qf_qf_previous)', {})
+vim.api.nvim_set_keymap('n', '<End>', '<Plug>(qf_qf_next)', {})
+vim.api.nvim_set_keymap('n', '<C-Home>', '<Plug>(qf_loc_previous)', {})
+vim.api.nvim_set_keymap('n', '<C-End>', '<Plug>(qf_loc_next)', {})
 -- }}}
 -- {{{2 nvim-bqf config
 require('bqf').setup({ auto_enable = true })
@@ -390,7 +458,15 @@ vim.g.undotree_SetFocusWhenToggle= 1
 vim.g.undotree_ShortIndicators= 1
 vim.api.nvim_set_keymap('n', ',tu', '<Cmd>UndotreeToggle<CR>', opts)
 -- }}}
+-- {{{2 unicode.vim config
+vim.g.Unicode_data_directory = vim.fn.stdpath('data') .. '/site/pack/packer/start/unicode.vim/autoload/unicode/'
+vim.api.nvim_set_keymap('n', '<Leader>ut', '<Cmd>UnicodeTable<CR>', opts)
+vim.api.nvim_set_keymap('n', 'ga', '<Cmd>UnicodeName<CR>', opts)
+-- }}}
 -- {{{2 nvim-tree config
+require('nvim-web-devicons').setup()
+vim.g.nvim_tree_disable_netrw = 0
+vim.g.nvim_tree_hijack_netrw = 0
 vim.api.nvim_set_keymap('n', '<Leader>x', '<Cmd>NvimTreeToggle<CR>', opts)
 -- }}}
 -- {{{2 nvim-colorizer config
@@ -407,9 +483,6 @@ require('colorizer').setup {
 -- }}}
 -- {{{2 colortemplate config
 vim.g.colortemplate_toolbar = 0
--- }}}
--- {{{2 colorbuddy config
-require('colorbuddy').setup()
 -- }}}
 -- {{{2 colorschemes
 -- {{{3 artesanal
