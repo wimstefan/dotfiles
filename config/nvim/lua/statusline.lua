@@ -31,6 +31,7 @@ local highlights = {
   { 'ModeTerminal', { fg = '#b39bbd', bg = '#f7f7f7', gui = 'reverse' }},
   { 'ModeVisual',   { fg = '#ffcc66', bg = '#2e3440', gui = 'reverse' }},
   { 'Modified',     { fg = '#ff6167', gui = 'bold' }},
+  { 'Session',      { fg = '#5f87af', gui = 'bold' }},
 }
 for _, highlight in ipairs(highlights) do
   set_hl(highlight[1], highlight[2])
@@ -49,14 +50,15 @@ M.separators = {
 
 -- highlight groups
 M.colors = {
-  active       = '%#Active#',
-  inactive     = '%#StatusLineNC#',
-  separator    = '%#Separator#',
-  filetype     = '%#Filetype#',
-  git          = '%#Git#',
-  line_col     = '%#LineCol#',
-  mode         = '%#Mode#',
-  modified     = '%#Modified#',
+  active    = '%#Active#',
+  inactive  = '%#StatusLineNC#',
+  separator = '%#Separator#',
+  filetype  = '%#Filetype#',
+  git       = '%#Git#',
+  line_col  = '%#LineCol#',
+  mode      = '%#Mode#',
+  modified  = '%#Modified#',
+  session   = '%#Session#',
 }
 
 M.trunc_width = setmetatable({
@@ -139,12 +141,26 @@ M.get_filename = function(self)
   return ' %<%F '
 end
 
-M.get_modified = function()
-  return ' %M ' or ''
-end
-
 M.get_readonly = function()
   return '%r' or ''
+end
+
+M.get_session = function()
+  if not vim.g.loaded_obsession then
+    return ''
+  end
+  return '%{ObsessionStatus("\\\\o/", "_o_")}'
+end
+
+M.get_spell = function()
+  if not vim.wo.spell then
+    return ''
+  end
+  return '[SP]'
+end
+
+M.get_modified = function()
+  return ' %M ' or ''
 end
 
 M.get_filetype = function()
@@ -193,8 +209,10 @@ M.set_active = function(self)
   local git = colors.git .. self:get_git_status()
   local lsp = colors.git .. self:get_lsp_status()
   local readonly = colors.inactive .. self:get_readonly()
+  local spelling = colors.inactive .. self:get_spell()
   local filename = colors.active .. self:get_filename()
   local modified = colors.modified .. self:get_modified()
+  local session = colors.session .. self:get_session()
   local filetype = colors.filetype .. self:get_filetype()
   local line_col = colors.line_col .. self:get_line_col()
 
@@ -206,8 +224,10 @@ M.set_active = function(self)
     separator,
     '%=',
     readonly,
+    spelling,
     filename,
     modified,
+    session,
     '%=',
     separator,
     lsp,
@@ -224,7 +244,7 @@ end
 
 M.set_explorer = function(self)
   local title = self.colors.mode .. ' N·T '
-  local title_alt = self.colors.mode_alt .. self.separators[active_sep][2]
+  local title_alt = self.colors.separator .. self.separators[active_sep][2]
 
   return table.concat({ self.colors.active, title, title_alt })
 end
