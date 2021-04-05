@@ -2,14 +2,11 @@
 -- All credits to mjlbach for his thread at neovim.discourse.com:
 -- https://neovim.discourse.group/t/the-300-line-init-lua-challenge/
 -- {{{1 --------------------- OPTIONS ------------------------------------------
-local vim = vim
--- define leader keys
-vim.api.nvim_set_keymap('', '<Space>', '<Nop>', { noremap = true, silent = true})
-vim.g.mapleader = " "
-
 local indent = 2
 local opts = { noremap = true, silent = true }
 
+-- define leader keys
+vim.g.mapleader = " "
 
 vim.bo.expandtab = true
 vim.bo.nrformats = vim.bo.nrformats .. ',alpha'
@@ -23,7 +20,14 @@ vim.o.backup = false
 vim.o.breakindent = true
 vim.o.completeopt = [[menuone,noinsert,noselect]]
 vim.o.diffopt = vim.o.diffopt .. ',vertical,indent-heuristic,algorithm:histogram'
-vim.o.foldlevel = 0
+if vim.fn.executable('ugrep') == 1 then
+  vim.o.grepprg = 'ugrep -RInk -j -u --tabs=1 --ignore-files'
+  vim.o.grepformat = '%f:%l:%c:%m,%f+%l+%c+%m,%-G%f\\|%l\\|%c\\|%m'
+elseif vim.fn.executable('git') == 1 then
+  vim.o.grepprg = 'git'
+elseif vim.fn.executable('ack') == 1 then
+  vim.o.grepprg = 'ack --nogroup --column --smart-case --nocolor --follow $*'
+end
 vim.o.gdefault = true
 vim.o.hidden = true
 vim.o.ignorecase = true
@@ -39,6 +43,7 @@ vim.o.shiftround = true
 vim.o.showbreak = '  » '
 vim.o.showtabline = 2
 vim.o.smartcase = true
+vim.o.smarttab = true
 vim.o.splitbelow = true
 vim.o.splitright = true
 vim.o.swapfile = true
@@ -47,10 +52,13 @@ vim.o.updatetime = 300
 vim.o.writebackup = true
 vim.wo.cursorcolumn = true
 vim.wo.cursorline = true
+vim.wo.foldexpr = 'nvim_treesitter#foldexpr()'
+vim.wo.foldlevel = 99
+vim.wo.foldmethod = 'expr'
 vim.wo.linebreak = true
 vim.wo.number = true
 vim.wo.relativenumber = true
-vim.wo.signcolumn = 'yes'
+vim.wo.signcolumn = 'auto'
 vim.cmd[[set undofile]]
 -- }}}1 --------------------- OPTIONS ------------------------------------------
 -- {{{1 --------------------- PLUGINS ------------------------------------------
@@ -587,8 +595,8 @@ augroup RC
   " Disable folding in previews
   autocmd BufWinEnter * if &previewwindow | setlocal nofoldenable | endif
 
-  " Resize windows automagically
-  "  autocmd VimResized * :wincmd =
+  " Remember last cursor position
+  au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") && &ft !~# 'commit' |   exe "normal! g`\"" | endif
 
 augroup END
 ]], false)
