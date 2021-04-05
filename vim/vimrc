@@ -25,11 +25,11 @@ function! PackagerInit() abort
   call packager#add('justinmk/vim-sneak')
   call packager#add('lambdalisue/vim-gista')
   call packager#add('mhinz/vim-signify')
-  call packager#add('mhinz/vim-sayonara')
   call packager#add('mhinz/vim-grepper')
   call packager#add('romainl/vim-qf')
   call packager#add('romainl/vim-qlist')
   call packager#add('neoclide/coc.nvim', {'branch': 'release'})
+  " call packager#add('lifepillar/vim-mucomplete')
   call packager#add('wellle/tmux-complete.vim')
   call packager#add('preservim/nerdcommenter')
   call packager#add('mbbill/undotree', {'type': 'opt'})
@@ -160,7 +160,8 @@ endfunction
   nnoremap          ,st                 :SignifyToggle<CR>
   nnoremap          ,sh                 :SignifyToggleHighlight<CR>
   nnoremap          ,sd                 :SignifyDiff<CR>
-  nnoremap          ,sp                 :SignifyDiffPreview<CR>
+  nnoremap          ,sp                 :SignifyHunkDiff<CR>
+  nnoremap          ,sf                 :SignifyFold<CR>
 " }}}
 " {{{3 vim-grepper config
   nmap              gs                   <plug>(GrepperOperator)
@@ -466,6 +467,7 @@ set hlsearch                           " highlight search results
 
 set list                               " display unprintable characters
 set listchars=tab:›\ ,trail:·,eol:«,extends:>,precedes:<
+set fillchars=vert:┃,fold:⸱,foldopen:▾,foldclose:▴,foldsep:┃
 
 set path=.,**                          " list of directories which will be searched with find et al
 set isfname=@,48-57,/,.,-,_,+,,,#,$,%,~,=,(,),[,],{,}     " allowed characters in file and path names
@@ -815,7 +817,7 @@ endfunction
 nnoremap <silent> <Tab>                  :bnext<CR>
 nnoremap <silent> <S-Tab>                :bprev<CR>
 nnoremap          <Leader><Leader>        <c-^>                     " cycle between last two open buffers
-nnoremap          <Leader>bd             :Sayonara<CR>
+nnoremap          <Leader>bd             :bdelete<CR>
 
 " tabs
 nnoremap          <Leader>td             :tabclose<CR>
@@ -886,7 +888,7 @@ set pastetoggle=<F3>
 source ~/.vim/abbreviations.vim
 " Keymappings & abbreviations }}}
 
-" {{{1 Auto commands 
+" {{{1 Auto commands
 augroup Vimrc
   autocmd!
 
