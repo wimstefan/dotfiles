@@ -467,7 +467,7 @@ set hlsearch                           " highlight search results
 
 set list                               " display unprintable characters
 set listchars=tab:›\ ,trail:·,eol:«,extends:>,precedes:<
-set fillchars=vert:┃,fold:⸱,foldopen:▾,foldclose:▴,foldsep:┃
+set fillchars=vert:┃,foldopen:▾,foldclose:▴,foldsep:┃
 
 set path=.,**                          " list of directories which will be searched with find et al
 set isfname=@,48-57,/,.,-,_,+,,,#,$,%,~,=,(,),[,],{,}     " allowed characters in file and path names
