@@ -20,6 +20,7 @@ vim.o.backup = false
 vim.o.breakindent = true
 vim.o.completeopt = [[menuone,noinsert,noselect]]
 vim.o.diffopt = vim.o.diffopt .. ',vertical,indent-heuristic,algorithm:histogram'
+vim.o.fillchars = [[vert:┃,foldopen:▾,foldclose:▴,foldsep:┃,msgsep:⁘]]
 if vim.fn.executable('ugrep') == 1 then
   vim.o.grepprg = 'ugrep -RInk -j -u --tabs=1 --ignore-files'
   vim.o.grepformat = '%f:%l:%c:%m,%f+%l+%c+%m,%-G%f\\|%l\\|%c\\|%m'
@@ -52,9 +53,13 @@ vim.o.updatetime = 300
 vim.o.writebackup = true
 vim.wo.cursorcolumn = true
 vim.wo.cursorline = true
-vim.wo.foldexpr = 'nvim_treesitter#foldexpr()'
 vim.wo.foldlevel = 99
-vim.wo.foldmethod = 'expr'
+if vim.wo.foldmethod == '' then
+  vim.wo.foldmethod = 'expr'
+  vim.wo.foldexpr = 'nvim_treesitter#foldexpr()'
+else
+  vim.wo.foldmethod = vim.wo.foldmethod
+end
 vim.wo.linebreak = true
 vim.wo.number = true
 vim.wo.relativenumber = true
@@ -213,7 +218,7 @@ require('compe').setup {
     path = true,
     spell = true,
     tags = false,
-    tmux = true,
+    tmux = true
   },
 }
 -- }}}
