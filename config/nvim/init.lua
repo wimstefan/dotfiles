@@ -98,13 +98,13 @@ packer.startup(function()
   use 'hrsh7th/nvim-compe'
   use 'andersevenrud/compe-tmux'
   use 'tpope/vim-abolish'
+  use 'tpope/vim-commentary'
   use 'tpope/vim-eunuch'
   use 'tpope/vim-fugitive'
   use 'tpope/vim-obsession'
   use 'tpope/vim-repeat'
   use 'tpope/vim-unimpaired'
   use 'lewis6991/gitsigns.nvim'
-  use 'preservim/nerdcommenter'
   use 'JoosepAlviste/nvim-ts-context-commentstring'
   use 'machakann/vim-sandwich'
   use 'andymass/vim-matchup'
@@ -347,6 +347,9 @@ lsp_install.post_install_hook = function ()
   vim.cmd("bufdo e") -- this triggers the FileType autocmd that starts the server
 end
 -- }}}
+-- {{{2 vim-commentary config
+vim.api.nvim_set_keymap('v', 'gci', ':g/./Commentary<CR>', {noremap = false, silent = false})
+-- }}}
 -- {{{2 vim-fugitive config
 vim.api.nvim_set_keymap('n', '<Leader>gc', '<Cmd>Gcommit -v %<CR>', opts)
 vim.api.nvim_set_keymap('n', '<Leader>gd', '<Cmd>Gdiff<CR>', opts)
@@ -356,34 +359,6 @@ vim.api.nvim_set_keymap('n', '<Leader>gs', '<Cmd>Gstatus<CR>', opts)
 -- }}}
 -- {{{2 vim-obsession config
 vim.api.nvim_set_keymap('n', ',to', '<Cmd>Obsession<CR>', opts)
--- }}}
--- {{{2 nerdcommenter config
-vim.g.NERDSpaceDelims = 1
-vim.g.NERDCreateDefaultMappings = 0
-vim.api.nvim_set_keymap('', 'gcc', '<Plug>NERDCommenterToggle', {})
-vim.api.nvim_set_keymap('', 'gcu', '<Plug>NERDCommenterUncomment', {})
-vim.api.nvim_set_keymap('', 'gcl', '<Plug>NERDCommenterAlignLeft', {})
-vim.api.nvim_set_keymap('', 'gcb', '<Plug>NERDCommenterAlignBoth', {})
-vim.api.nvim_set_keymap('', 'gca', '<Plug>NERDCommenterAltDelims', {})
-vim.api.nvim_set_keymap('', 'gcm', '<Plug>NERDCommenterMinimal', {})
-vim.api.nvim_set_keymap('', 'gcn', '<Plug>NERDCommenterNested', {})
-vim.api.nvim_set_keymap('', 'gci', '<Plug>NERDCommenterInvert', {})
-vim.api.nvim_set_keymap('', 'gcA', '<Plug>NERDCommenterAppend', {})
-vim.api.nvim_set_keymap('', 'gc$', '<Plug>NERDCommenterToEOL', {})
-vim.api.nvim_set_keymap('', 'gcy', '<Plug>NERDCommenterYank', {})
-vim.api.nvim_set_keymap('', 'gcs', '<Plug>NERDCommenterSexy', {})
-vim.api.nvim_set_keymap('', 'gcc', '<Plug>NERDCommenterToggle', {})
-vim.api.nvim_set_keymap('', 'gcu', '<Plug>NERDCommenterUncomment', {})
-vim.api.nvim_set_keymap('', 'gcl', '<Plug>NERDCommenterAlignLeft', {})
-vim.api.nvim_set_keymap('', 'gcb', '<Plug>NERDCommenterAlignBoth', {})
-vim.api.nvim_set_keymap('', 'gca', '<Plug>NERDCommenterAltDelims', {})
-vim.api.nvim_set_keymap('', 'gcm', '<Plug>NERDCommenterMinimal', {})
-vim.api.nvim_set_keymap('', 'gcn', '<Plug>NERDCommenterNested', {})
-vim.api.nvim_set_keymap('', 'gci', '<Plug>NERDCommenterInvert', {})
-vim.api.nvim_set_keymap('', 'gcA', '<Plug>NERDCommenterAppend', {})
-vim.api.nvim_set_keymap('', 'gc$', '<Plug>NERDCommenterToEOL', {})
-vim.api.nvim_set_keymap('', 'gcy', '<Plug>NERDCommenterYank', {})
-vim.api.nvim_set_keymap('', 'gcs', '<Plug>NERDCommenterSexy', {})
 -- }}}
 -- {{{2 gitsigns config
 require('gitsigns').setup {
