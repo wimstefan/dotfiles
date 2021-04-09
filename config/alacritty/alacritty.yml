@@ -111,7 +111,6 @@ font:
     #   - (macOS) Menlo
     #   - (Linux/BSD) monospace
     #   - (Windows) Consolas
-    # family: Rec Mono Custom
     family: monospace
 
     # The `style` can be specified to pick a specific face.
@@ -151,7 +150,6 @@ font:
     #style: Bold Italic
 
   # Point size
-  # size: 10.0
   size: 11.0
 
   # Offset is the extra space around each character. `offset.y` can be thought
@@ -613,8 +611,18 @@ mouse:
 
   # List with all available hints
   #
+  # Each hint takes a `regex`, `binding` and either a `command` or an `action`.
+  #
   # The fields `command`, `binding.key` and `binding.mods` accept the same
   # values as they do in the `key_bindings` section.
+  #
+  # Values for `action`:
+  #   - Copy
+  #       Copy the hint's text to the clipboard.
+  #   - Paste
+  #       Paste the hint's text to the terminal or search.
+  #   - Select
+  #       Select the hint's text.
   #
   # Example
   #
@@ -946,25 +954,26 @@ mouse_bindings:
   #- { key: Return,   mods: Alt,           action: ToggleFullscreen }
 
   # (macOS only)
-  #- { key: K,              mods: Command, mode: ~Vi|~Search, chars: "\x0c"            }
-  #- { key: K,              mods: Command, mode: ~Vi|~Search, action: ClearHistory     }
-  #- { key: Key0,           mods: Command,                    action: ResetFontSize    }
-  #- { key: Equals,         mods: Command,                    action: IncreaseFontSize }
-  #- { key: Plus,           mods: Command,                    action: IncreaseFontSize }
-  #- { key: NumpadAdd,      mods: Command,                    action: IncreaseFontSize }
-  #- { key: Minus,          mods: Command,                    action: DecreaseFontSize }
-  #- { key: NumpadSubtract, mods: Command,                    action: DecreaseFontSize }
-  #- { key: V,              mods: Command,                    action: Paste            }
-  #- { key: C,              mods: Command,                    action: Copy             }
-  #- { key: C,              mods: Command, mode: Vi|~Search,  action: ClearSelection   }
-  #- { key: H,              mods: Command,                    action: Hide             }
-  #- { key: M,              mods: Command,                    action: Minimize         }
-  #- { key: Q,              mods: Command,                    action: Quit             }
-  #- { key: W,              mods: Command,                    action: Quit             }
-  #- { key: N,              mods: Command,                    action: SpawnNewInstance }
-  #- { key: F,              mods: Command|Control,            action: ToggleFullscreen }
-  #- { key: F,              mods: Command, mode: ~Search,     action: SearchForward    }
-  #- { key: B,              mods: Command, mode: ~Search,     action: SearchBackward   }
+  #- { key: K,              mods: Command, mode: ~Vi|~Search, chars: "\x0c"                 }
+  #- { key: K,              mods: Command, mode: ~Vi|~Search, action: ClearHistory          }
+  #- { key: Key0,           mods: Command,                    action: ResetFontSize         }
+  #- { key: Equals,         mods: Command,                    action: IncreaseFontSize      }
+  #- { key: Plus,           mods: Command,                    action: IncreaseFontSize      }
+  #- { key: NumpadAdd,      mods: Command,                    action: IncreaseFontSize      }
+  #- { key: Minus,          mods: Command,                    action: DecreaseFontSize      }
+  #- { key: NumpadSubtract, mods: Command,                    action: DecreaseFontSize      }
+  #- { key: V,              mods: Command,                    action: Paste                 }
+  #- { key: C,              mods: Command,                    action: Copy                  }
+  #- { key: C,              mods: Command, mode: Vi|~Search,  action: ClearSelection        }
+  #- { key: H,              mods: Command,                    action: Hide                  }
+  #- { key: H,              mods: Command|Alt,                action: HideOtherApplications }
+  #- { key: M,              mods: Command,                    action: Minimize              }
+  #- { key: Q,              mods: Command,                    action: Quit                  }
+  #- { key: W,              mods: Command,                    action: Quit                  }
+  #- { key: N,              mods: Command,                    action: SpawnNewInstance      }
+  #- { key: F,              mods: Command|Control,            action: ToggleFullscreen      }
+  #- { key: F,              mods: Command, mode: ~Search,     action: SearchForward         }
+  #- { key: B,              mods: Command, mode: ~Search,     action: SearchBackward        }
 
 #debug:
   # Display the time it takes to redraw each frame.
