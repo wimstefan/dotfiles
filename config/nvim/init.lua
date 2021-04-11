@@ -64,15 +64,16 @@ vim.wo.linebreak = true
 vim.wo.number = true
 vim.wo.relativenumber = true
 vim.wo.signcolumn = 'auto'
-vim.cmd[[set undofile]]
+vim.api.nvim_command[[set undofile]]
 -- }}}1 --------------------- OPTIONS ------------------------------------------
 -- {{{1 --------------------- PLUGINS ------------------------------------------
 local install_path = vim.fn.stdpath('data') .. '/site/pack/packer/opt/packer.nvim'
 if vim.fn.empty(vim.fn.glob(install_path)) > 0 then
   vim.api.nvim_command('!git clone https://github.com/wbthomason/packer.nvim ' .. install_path)
+  vim.api.nvim_command[[packadd packer.nvim]]
 end
 
-vim.cmd[[packadd packer.nvim]]
+vim.api.nvim_command[[packadd packer.nvim]]
 vim.api.nvim_exec([[
   augroup Packer
     autocmd!
@@ -258,9 +259,9 @@ local on_attach = function(client,bufnr)
   -- keybindings
   function _G.show_documentation()
     if vim.fn.index({'vim', 'help'}, vim.bo.filetype) >= 0 then
-      vim.cmd('h ' .. vim.fn.expand('<cword>'))
+      vim.api.nvim_command('h ' .. vim.fn.expand('<cword>'))
     else
-      vim.cmd('lua vim.lsp.buf.hover()')
+      vim.api.nvim_command('lua vim.lsp.buf.hover()')
     end
   end
   vim.api.nvim_buf_set_keymap(bufnr, 'n', 'K', [[<Cmd>lua show_documentation()<CR>]], opts)
@@ -349,7 +350,7 @@ setup_servers()
 -- automatically reload after `:LspInstall <server>` so we don't have to restart neovim
 lsp_install.post_install_hook = function ()
   setup_servers() -- reload installed servers
-  vim.cmd("bufdo e") -- this triggers the FileType autocmd that starts the server
+  vim.api.nvim_command[[bufdo e]] -- this triggers the FileType autocmd that starts the server
 end
 -- }}}
 -- {{{2 vim-commentary config
@@ -481,9 +482,9 @@ vim.g.edge_current_word = 'bold'
 vim.g.one_nvim_transparent_bg = true
 -- }}}
 if vim.fn.filereadable(vim.fn.expand('$HOME/.config/colours/nvim_theme.lua')) == 1 then
-  vim.cmd[[luafile $HOME/.config/colours/nvim_theme.lua]]
+  vim.api.nvim_command[[luafile $HOME/.config/colours/nvim_theme.lua]]
 else
-  vim.cmd[[colorscheme slate]]
+  vim.api.nvim_command[[colorscheme slate]]
 end
 -- }}}
 -- {{{2 statusline
