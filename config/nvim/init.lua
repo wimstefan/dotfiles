@@ -90,16 +90,14 @@ packer.startup(function()
   packer.init({ display = {open_cmd = '84vnew [packer]'}})
   use {'wbthomason/packer.nvim', opt = true}
   use {'nvim-treesitter/nvim-treesitter', run = ':TSUpdate'}
-  use {'nvim-telescope/telescope.nvim', requires = {
-    'nvim-lua/popup.nvim',
-    'nvim-lua/plenary.nvim'
-  }}
-  use {'neovim/nvim-lspconfig', requires = {
-    'kabouzeid/nvim-lspinstall',
-    'nvim-lua/lsp-status.nvim',
-    'onsails/lspkind-nvim',
-    'ray-x/lsp_signature.nvim'
-  }}
+  use 'windwp/nvim-ts-autotag'
+  use 'JoosepAlviste/nvim-ts-context-commentstring'
+  use {'nvim-telescope/telescope.nvim', requires = {'nvim-lua/popup.nvim', 'nvim-lua/plenary.nvim'}}
+  use 'neovim/nvim-lspconfig'
+  use 'kabouzeid/nvim-lspinstall'
+  use 'nvim-lua/lsp-status.nvim'
+  use 'onsails/lspkind-nvim'
+  use 'ray-x/lsp_signature.nvim'
   use 'hrsh7th/nvim-compe'
   use 'andersevenrud/compe-tmux'
   use 'tpope/vim-abolish'
@@ -110,15 +108,14 @@ packer.startup(function()
   use 'tpope/vim-repeat'
   use 'tpope/vim-unimpaired'
   use 'lewis6991/gitsigns.nvim'
-  use 'JoosepAlviste/nvim-ts-context-commentstring'
   use 'machakann/vim-sandwich'
   use 'andymass/vim-matchup'
   use 'romainl/vim-cool'
   use 'romainl/vim-qf'
   use 'romainl/vim-qlist'
   use 'kevinhwang91/nvim-bqf'
+  use 'windwp/nvim-spectre'
   use 'mbbill/undotree'
-  use 'ChristianChiarulli/far.vim'
   use 'will133/vim-dirdiff'
   use 'qpkorr/vim-renamer'
   use 'kg8m/vim-simple-align'
@@ -126,7 +123,6 @@ packer.startup(function()
   use 'editorconfig/editorconfig-vim'
   use 'habamax/vim-asciidoctor'
   use 'chrisbra/unicode.vim'
-  use {'kyazdani42/nvim-tree.lua', requires = 'kyazdani42/nvim-web-devicons'}
   use 'norcalli/nvim-colorizer.lua'
   use 'lifepillar/vim-colortemplate'
   use 'wimstefan/vim-artesanal'
@@ -145,12 +141,18 @@ vim.api.nvim_set_keymap('n', ',pu', '<Cmd>PackerUpdate<CR>', opts)
 -- }}}
 -- {{{2 treesitter config
 require('nvim-treesitter.configs').setup {
-  ensure_installed = 'maintained',
+  ensure_installed = {
+    'bash', 'c', 'comment', 'cpp', 'css',
+    'devicetree', 'go', 'html', 'javascript',
+    'jsdoc', 'json', 'jsonc', 'lua', 'php',
+    'python', 'query', 'regex', 'rst',
+    'toml', 'typescript', 'yaml'
+  },
+  autotag = { enable = true },
   context_commentstring = { enable = true },
   highlight = { enable = true, use_languagetree = true },
-  incremental_selection = { enable = false },
+  incremental_selection = { enable = true },
   indent = { enable = false },
-  matchup = { enable = false },
   textobjects = { enable = false },
 }
 -- }}}
@@ -221,6 +223,9 @@ require('compe').setup {
     tmux = true
   },
 }
+vim.api.nvim_set_keymap('i', '<C-Space>', [[compe#complete()]], {silent = true, expr = true})
+vim.api.nvim_set_keymap('i', '<CR>', [[compe#confirm('<CR>')]], {silent = true, expr = true})
+vim.api.nvim_set_keymap('i', '<C-e>', [[compe#close('<C-e>')]], {silent = true, expr = true})
 -- }}}
 -- {{{2 LSP config
 local lsp_config = require('lspconfig')
@@ -438,16 +443,23 @@ vim.g.undotree_SetFocusWhenToggle= 1
 vim.g.undotree_ShortIndicators= 1
 vim.api.nvim_set_keymap('n', ',tu', '<Cmd>UndotreeToggle<CR>', opts)
 -- }}}
+-- {{{2 nvim-spectre config
+require('spectre').setup()
+vim.api.nvim_set_keymap('n', '<Leader>S', [[<Cmd>lua require('spectre').open()<CR>]], opts)
+-- }}}
 -- {{{2 unicode.vim config
 vim.g.Unicode_data_directory = vim.fn.stdpath('data') .. '/site/pack/packer/start/unicode.vim/autoload/unicode/'
 vim.api.nvim_set_keymap('n', '<Leader>ut', '<Cmd>UnicodeTable<CR>', opts)
 vim.api.nvim_set_keymap('n', 'ga', '<Cmd>UnicodeName<CR>', opts)
 -- }}}
--- {{{2 nvim-tree config
-require('nvim-web-devicons').setup()
-vim.g.nvim_tree_disable_netrw = 0
-vim.g.nvim_tree_hijack_netrw = 0
-vim.api.nvim_set_keymap('n', '<Leader>x', '<Cmd>NvimTreeToggle<CR>', opts)
+-- {{{2 netrw config
+vim.g.netrw_winsize = 20
+vim.g.netrw_banner =  0
+vim.g.netrw_liststyle =  3
+vim.g.netrw_preview =  0
+vim.g.netrw_alto =  0
+vim.api.nvim_set_keymap('n', '<Leader>x', '<Cmd>Lexplore<CR>', opts)
+
 -- }}}
 -- {{{2 nvim-colorizer config
 require('colorizer').setup {
@@ -475,6 +487,7 @@ vim.g.edge_enable_italic = true
 vim.g.edge_transparent_background = true
 vim.g.edge_diagnostic_line_highlight = true
 vim.g.edge_diagnostic_text_highlight = true
+vim.g.edge_diagnostic_virtual_text = true
 vim.g.edge_current_word = 'bold'
 -- }}}
 -- {{{3 one-nvim
