@@ -20,7 +20,7 @@ vim.o.backup = false
 vim.o.breakindent = true
 vim.o.completeopt = [[menuone,noinsert,noselect]]
 vim.o.diffopt = vim.o.diffopt .. ',vertical,indent-heuristic,algorithm:histogram'
-vim.o.fillchars = [[vert:┃,foldopen:▾,foldclose:▴,foldsep:┃,msgsep:⁘]]
+vim.o.fillchars = [[vert:█,foldclose:▾,foldopen:▴,foldsep:🮍,msgsep:⁘]]
 if vim.fn.executable('ugrep') == 1 then
   vim.o.grepprg = 'ugrep -RInk -j -u --tabs=1 --ignore-files'
   vim.o.grepformat = '%f:%l:%c:%m,%f+%l+%c+%m,%-G%f\\|%l\\|%c\\|%m'
@@ -38,7 +38,6 @@ vim.o.listchars = [[tab:›\ ,trail:·,eol:«,extends:>,precedes:<]]
 vim.o.modelineexpr = true
 vim.o.mouse = 'a'
 vim.o.pastetoggle = '<F3>'
-vim.o.pumblend = 10
 vim.o.selection = 'exclusive'
 vim.o.shiftround = true
 vim.o.showbreak = '  » '
