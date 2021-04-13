@@ -108,6 +108,7 @@ packer.startup(function()
   use 'tpope/vim-repeat'
   use 'tpope/vim-unimpaired'
   use 'lewis6991/gitsigns.nvim'
+  use 'lambdalisue/vim-gista'
   use 'machakann/vim-sandwich'
   use 'andymass/vim-matchup'
   use 'romainl/vim-cool'
@@ -633,7 +634,7 @@ augroup RC
   autocmd BufWritePost {*.sh,*.pl,*.py} silent !chmod +x %
 
   " Commentstrings
-  autocmd FileType xdefaults setlocal commentstring=!\%s
+  autocmd FileType toml setlocal commentstring=#\%s
 
   " mail specific configuration
   autocmd BufRead /tmp/mutt* silent! %s/^\([>|]\s\?\)\+/\=substitute(submatch(0), '\s', '', 'g').' '
@@ -696,5 +697,6 @@ function _G.inspect(...)
   local objects = vim.tbl_map(vim.inspect, {...})
   print(unpack(objects))
 end
+
 -- }}}1 --------------------- FUNCTIONS ----------------------------------------
 -- vim: foldmethod=marker foldlevel=0
