@@ -729,17 +729,22 @@ if [[ $USER != root ]]; then
     echo "€ `wcalc "((($1*75) + ($2*60)) / 60) * 44" | sed 's/ = //'`"
   }
 
-  git-download-dir()
+  function git-download-dir()
   {
     i="$1"
     svn export --force ${i/tree\/main/trunk}
   }
 
-  ta-locate()
+  function ta-locate()
   {
     artist="$1"
     title="$2"
     locate -d $HOME/Tango/ta-locate.db "$artist" | ug -i "$title"
+  }
+
+  function npm-update()
+  {
+    for i in $(npm -g outdated | rg -v Package | awk '{print $1}'); echo $i && npm -g update $i
   }
 
   # }}}3
@@ -1072,3 +1077,6 @@ fi
 # }}}6
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+# The next line updates PATH for Netlify's Git Credential Helper.
+if [ -f '/home/swimmer/.netlify/helper/path.zsh.inc' ]; then source '/home/swimmer/.netlify/helper/path.zsh.inc'; fi
