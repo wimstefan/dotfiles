@@ -246,11 +246,17 @@ lsp_status.config {
 }
 lsp_status.register_progress()
 
-vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
+vim.lsp.handlers['textDocument/publishDiagnostics'] = vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
   signs = true,
-  virtual_text = {spacing = 6, prefix = '❰'},
   underline = true,
-  update_in_insert = true
+  update_in_insert = true,
+  virtual_text = {spacing = 4, prefix = '❰'}
+})
+vim.lsp.handlers['textDocument/signatureHelp'] = vim.lsp.with(vim.lsp.handlers.signature_help, {
+  border = 'double'
+})
+vim.lsp.handlers['textDocument/hover'] = vim.lsp.with(vim.lsp.handlers.hover, {
+  border = 'double'
 })
 
 local on_attach = function(client,bufnr)
@@ -260,7 +266,7 @@ local on_attach = function(client,bufnr)
   lsp_signature.on_attach(client)
   lsp_status.on_attach(client)
   -- options
-  vim.bo.omnifunc = 'v:lua.vim.lsp.omnifunc'
+  vim.bo.omnifunc = 'vim.lsp.omnifunc'
   -- keybindings
   function _G.show_documentation()
     if vim.fn.index({'vim', 'help'}, vim.bo.filetype) >= 0 then
@@ -269,45 +275,62 @@ local on_attach = function(client,bufnr)
       vim.api.nvim_command('lua vim.lsp.buf.hover()')
     end
   end
-  vim.api.nvim_buf_set_keymap(bufnr, 'n', 'K', [[<Cmd>lua show_documentation()<CR>]], opts)
-  vim.api.nvim_buf_set_keymap(bufnr, 'n', ',ls', [[<Cmd>lua vim.lsp.buf.signature_help()<CR>]], opts)
+  vim.api.nvim_buf_set_keymap(bufnr, 'n', 'K', [[<Cmd>lua show_documentation({border = 'double'})<CR>]], opts)
   vim.api.nvim_buf_set_keymap(bufnr, 'n', ',ld', [[<Cmd>lua vim.lsp.buf.definition()<CR>]], opts)
-  vim.api.nvim_buf_set_keymap(bufnr, 'n', ',ltd', [[<Cmd>lua vim.lsp.buf.type_definition()<CR>]], opts)
   vim.api.nvim_buf_set_keymap(bufnr, 'n', ',lr', [[<Cmd>lua vim.lsp.buf.references()<CR>]], opts)
-  vim.api.nvim_buf_set_keymap(bufnr, 'n', ',li', [[<Cmd>lua vim.lsp.buf.implementation()<CR>]], opts)
-  vim.api.nvim_buf_set_keymap(bufnr, 'n', ',lc', [[<Cmd>lua vim.lsp.buf.declaration()<CR>]], opts)
-  vim.api.nvim_buf_set_keymap(bufnr, 'n', ',le', [[<Cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>]], opts)
-  vim.api.nvim_buf_set_keymap(bufnr, 'n', '[d', [[<Cmd>lua vim.lsp.diagnostic.goto_prev()<CR>]], opts)
-  vim.api.nvim_buf_set_keymap(bufnr, 'n', ']d', [[<Cmd>lua vim.lsp.diagnostic.goto_next()<CR>]], opts)
+  vim.api.nvim_buf_set_keymap(bufnr, 'n', ',le', [[<Cmd>lua vim.lsp.diagnostic.show_line_diagnostics({border = 'double'})<CR>]], opts)
+  vim.api.nvim_buf_set_keymap(bufnr, 'n', '[d', [[<Cmd>lua vim.lsp.diagnostic.goto_prev({popup_opts = {border = 'double'}})<CR>]], opts)
+  vim.api.nvim_buf_set_keymap(bufnr, 'n', ']d', [[<Cmd>lua vim.lsp.diagnostic.goto_next({popup_opts = {border = 'double'}})<CR>]], opts)
   vim.api.nvim_buf_set_keymap(bufnr, 'n', ',lq', [[<Cmd>lua vim.lsp.diagnostic.set_loclist()<CR>]], opts)
   vim.api.nvim_buf_set_keymap(bufnr, 'n', ',lrn', [[<Cmd>lua vim.lsp.buf.rename()<CR>]], opts)
-  vim.api.nvim_buf_set_keymap(bufnr, 'n', ',lwa', [[<Cmd>lua vim.lsp.buf.add_workspace_folder()<CR>]], opts)
-  vim.api.nvim_buf_set_keymap(bufnr, 'n', ',lwl', [[<Cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>]], opts)
-  vim.api.nvim_buf_set_keymap(bufnr, 'n', ',lwr', [[<Cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>]], opts)
-  -- Set autocommands conditional on server_capabilities
   if client.resolved_capabilities.code_action then
     vim.api.nvim_buf_set_keymap(bufnr, 'n', ',lca', [[<Cmd>lua vim.lsp.buf.code_action()<CR>]], opts)
-    vim.api.nvim_buf_set_keymap(bufnr, 'v', ',lca', [[<Cmd>lua vim.lsp.buf.range_code_action()<CR>]], opts)
-    lsp_messages = lsp_messages .. 'Code actions' .. lsp_msg_sep
   else
-    lsp_messages = lsp_messages .. 'No code actions' .. lsp_msg_sep
+    lsp_messages = lsp_messages .. 'no codeAction' .. lsp_msg_sep
+  end
+  if client.resolved_capabilities.declaration then
+    vim.api.nvim_buf_set_keymap(bufnr, 'n', ',lc', [[<Cmd>lua vim.lsp.buf.declaration()<CR>]], opts)
+  else
+    vim.api.nvim_buf_set_keymap(bufnr, 'n', ',lc', [[<Nop>]], opts)
+    lsp_messages = lsp_messages .. 'no declaration' .. lsp_msg_sep
   end
   if client.resolved_capabilities.document_formatting then
-    vim.api.nvim_buf_set_keymap(bufnr, 'n', ',lf', '<Cmd>lua vim.lsp.buf.formatting()<CR>', opts)
-  elseif client.resolved_capabilities.document_range_formatting then
-    vim.api.nvim_buf_set_keymap(bufnr, 'v', ',lf', '<Cmd>lua vim.lsp.buf.range_formatting()<CR>', opts)
+    vim.api.nvim_buf_set_keymap(bufnr, 'n', ',lf', ':lua vim.lsp.buf.formatting()<CR>', opts)
   else
-    lsp_messages = lsp_messages .. 'No formatting' .. lsp_msg_sep
+    lsp_messages = lsp_messages .. 'no format' .. lsp_msg_sep
+  end
+  if client.resolved_capabilities.document_range_formatting then
+    vim.api.nvim_buf_set_keymap(bufnr, 'v', ',lf', ':lua vim.lsp.buf.range_formatting()<CR>', opts)
+  else
+    lsp_messages = lsp_messages .. 'no rangeFormat' .. lsp_msg_sep
   end
   if client.resolved_capabilities.document_highlight then
     vim.api.nvim_exec([[
     augroup lsp_document_highlight
       autocmd! * <buffer>
       autocmd CursorHold  <buffer> lua vim.lsp.buf.document_highlight()
-      autocmd CursorHoldI <buffer> lua vim.lsp.buf.document_highlight()
       autocmd CursorMoved <buffer> lua vim.lsp.buf.clear_references()
     augroup END
     ]], false)
+  end
+  if client.resolved_capabilities.implementation then
+    vim.api.nvim_buf_set_keymap(bufnr, 'n', ',li', [[<Cmd>lua vim.lsp.buf.implementation()<CR>]], opts)
+  else
+    vim.api.nvim_buf_set_keymap(bufnr, 'n', ',li', [[<Nop>]], opts)
+    lsp_messages = lsp_messages .. 'no implementation' .. lsp_msg_sep
+  end
+  if client.resolved_capabilities.signature_help then
+    vim.api.nvim_buf_set_keymap(bufnr, 'n', ',ls', [[<Cmd>lua vim.lsp.buf.signature_help({border = 'double'})<CR>]], opts)
+    vim.api.nvim_buf_set_keymap(bufnr, 'i', '<C-k>', [[<Cmd>lua vim.lsp.buf.signature_help({border = 'double'})<CR>]], opts)
+  else
+    vim.api.nvim_buf_set_keymap(bufnr, 'n', ',ls', [[<Nop>]], opts)
+    lsp_messages = lsp_messages .. 'no signatureHelp' .. lsp_msg_sep
+  end
+  if client.resolved_capabilities.type_definition then
+    vim.api.nvim_buf_set_keymap(bufnr, 'n', ',ltd', [[<Cmd>lua vim.lsp.buf.type_definition()<CR>]], opts)
+  else
+    vim.api.nvim_buf_set_keymap(bufnr, 'n', ',ltd', [[<Nop>]], opts)
+    lsp_messages = lsp_messages .. 'no typeDefinition' .. lsp_msg_sep
   end
   print(lsp_messages)
 end
@@ -318,7 +341,7 @@ local lua_settings = {
     runtime = { version = 'LuaJIT', path = vim.split(package.path, ';'), },
     diagnostics = {
       enable = true,
-      globals = {'vim'},
+      globals = {'vim', "use", "describe", "it", "assert", "before_each", "after_each"},
     },
     workspace = {
       preloadFileSize = 400,
@@ -328,6 +351,7 @@ local lua_settings = {
 
 local function make_config()
   local capabilities = vim.lsp.protocol.make_client_capabilities()
+  capabilities = vim.tbl_extend('keep', capabilities, lsp_status.capabilities)
   capabilities.textDocument.completion.completionItem.snippetSupport = true
   return {
     capabilities = capabilities,
