@@ -130,6 +130,7 @@ packer.startup(function()
   use 'sainnhe/edge'
   use 'Th3Whit3Wolf/one-nvim'
   use 'AlxHnr/clear_colors'
+  use 'preservim/vim-colors-pencil'
 end)
 -- }}}1 --------------------- PLUGINS ------------------------------------------
 -- {{{1 ------------------- PLUGIN SETTINGS ------------------------------------
@@ -518,6 +519,10 @@ vim.g.edge_current_word = 'bold'
 -- {{{3 one-nvim
 vim.g.one_nvim_transparent_bg = true
 -- }}}
+-- {{{3 vim-colors-pencil config
+vim.g.pencil_gutter_color = 1
+vim.g.pencil_terminal_italics = 1
+-- }}}
 if vim.fn.filereadable(vim.fn.expand('$HOME/.config/colours/nvim_theme.lua')) == 1 then
   vim.api.nvim_command[[luafile $HOME/.config/colours/nvim_theme.lua]]
 else
@@ -721,6 +726,5 @@ function _G.inspect(...)
   local objects = vim.tbl_map(vim.inspect, {...})
   print(unpack(objects))
 end
-
 -- }}}1 --------------------- FUNCTIONS ----------------------------------------
 -- vim: foldmethod=marker foldlevel=0
