@@ -389,9 +389,9 @@ vim.api.nvim_set_keymap('v', 'gci', ':g/./Commentary<CR>', {noremap = false, sil
 -- {{{2 vim-fugitive config
 vim.api.nvim_set_keymap('n', '<Leader>gc', '<Cmd>Gcommit -v %<CR>', opts)
 vim.api.nvim_set_keymap('n', '<Leader>gd', '<Cmd>Gdiff<CR>', opts)
-vim.api.nvim_set_keymap('n', '<Leader>gl', '<Cmd>0Glog<CR>', opts)
+vim.api.nvim_set_keymap('n', '<Leader>gl', '<Cmd>0Gclog<CR>', opts)
 vim.api.nvim_set_keymap('n', '<Leader>gp', '<Cmd>Gpush<CR>', opts)
-vim.api.nvim_set_keymap('n', '<Leader>gs', '<Cmd>Gstatus<CR>', opts)
+vim.api.nvim_set_keymap('n', '<Leader>gs', '<Cmd>Git<CR>', opts)
 -- }}}
 -- {{{2 vim-obsession config
 vim.api.nvim_set_keymap('n', ',to', '<Cmd>Obsession<CR>', opts)
