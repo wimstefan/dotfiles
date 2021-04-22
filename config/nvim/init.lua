@@ -123,6 +123,7 @@ packer.startup(function()
   use 'jamessan/vim-gnupg'
   use 'editorconfig/editorconfig-vim'
   use 'habamax/vim-asciidoctor'
+  use 'MTDL9/vim-log-highlighting'
   use 'chrisbra/unicode.vim'
   use 'norcalli/nvim-colorizer.lua'
   use 'lifepillar/vim-colortemplate'
