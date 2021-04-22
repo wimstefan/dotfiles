@@ -187,7 +187,6 @@ vim.api.nvim_set_keymap('n', '<Leader>T', [[<Cmd>lua require('telescope.builtin'
 vim.api.nvim_set_keymap('n', '<Leader>b', [[<Cmd>lua require('telescope.builtin').buffers()<CR>]], opts)
 vim.api.nvim_set_keymap('n', '<Leader>c', [[<Cmd>lua require('telescope.builtin').colorscheme(require('telescope.themes').get_dropdown({}))<CR>]], opts)
 vim.api.nvim_set_keymap('n', '<Leader>f', [[<Cmd>lua require('telescope.builtin').find_files({follow = true})<CR>]], opts)
-vim.api.nvim_set_keymap('n', '<Leader>g', [[<Cmd>lua require('telescope.builtin').live_grep()<CR>]], opts)
 vim.api.nvim_set_keymap('n', '<Leader>h', [[<Cmd>lua require('telescope.builtin').help_tags()<CR>]], opts)
 vim.api.nvim_set_keymap('n', '<Leader>M', [[<Cmd>lua require('telescope.builtin').man_pages()<CR>]], opts)
 vim.api.nvim_set_keymap('n', '<Leader>m', [[<Cmd>lua require('telescope.builtin').marks()<CR>]], opts)
@@ -197,6 +196,7 @@ vim.api.nvim_set_keymap('n', '<Leader>Tgc', [[<Cmd>lua require('telescope.builti
 vim.api.nvim_set_keymap('n', '<Leader>Tgf', [[<Cmd>lua require('telescope.builtin').git_files()<CR>]], opts)
 vim.api.nvim_set_keymap('n', '<Leader>Tgs', [[<Cmd>lua require('telescope.builtin').git_status()<CR>]], opts)
 vim.api.nvim_set_keymap('n', '<Leader>Tf', [[<Cmd>lua require('telescope.builtin').filetypes(require('telescope.themes').get_dropdown({}))<CR>]], opts)
+vim.api.nvim_set_keymap('n', '<Leader>Tg', [[<Cmd>lua require('telescope.builtin').live_grep()<CR>]], opts)
 vim.api.nvim_set_keymap('n', '<Leader>Tm', [[<Cmd>lua require('telescope.builtin').keymaps()<CR>]], opts)
 vim.api.nvim_set_keymap('n', '<Leader>Ts', [[<Cmd>lua require('telescope.builtin').spell_suggest()<CR>]], opts)
 vim.api.nvim_set_keymap('n', '<Leader>Tw', [[<Cmd>lua require('telescope.builtin').grep_string()<CR>]], opts)
@@ -629,10 +629,6 @@ vim.g.undotree_SetFocusWhenToggle= 1
 vim.g.undotree_ShortIndicators= 1
 vim.api.nvim_set_keymap('n', ',tu', '<Cmd>UndotreeToggle<CR>', opts)
 -- }}}
--- {{{2 nvim-spectre config
-require('spectre').setup()
-vim.api.nvim_set_keymap('n', '<Leader>S', [[<Cmd>lua require('spectre').open()<CR>]], opts)
--- }}}
 -- {{{2 unicode.vim config
 vim.g.Unicode_data_directory = vim.fn.stdpath('data') .. '/site/pack/packer/start/unicode.vim/autoload/unicode/'
 vim.api.nvim_set_keymap('n', '<Leader>ut', '<Cmd>UnicodeTable<CR>', opts)
@@ -702,6 +698,7 @@ require('statusline')
 -- }}}1 ------------------- PLUGIN SETTINGS ------------------------------------
 -- {{{1 --------------------- MAPPINGS -----------------------------------------
 vim.api.nvim_set_keymap('', 'cd', '<Cmd>cd %:h | pwd<CR>', opts)
+vim.api.nvim_set_keymap('n', '<Leader>g', ':grep ', { noremap = true, silent = false})
 -- {{{2 editing
 vim.api.nvim_set_keymap('n', '<Leader>ev', '<Cmd>edit $MYVIMRC<CR>', opts)
 vim.api.nvim_set_keymap('n', '<Leader>sv', '<Cmd>luafile $MYVIMRC<CR>', opts)
@@ -724,6 +721,11 @@ vim.api.nvim_set_keymap('n', '<Leader>td', '<Cmd>tabclose<CR>', opts)
 -- {{{2 terminals
 vim.api.nvim_set_keymap('n', '<Leader>t', [[<Cmd> split term://$SHELL<CR>]], opts)
 vim.api.nvim_set_keymap('n', '<Leader>vt', [[<Cmd> vnew term://$SHELL<CR>]], opts)
+vim.api.nvim_set_keymap('t', '<Esc>', [[<C-\><C-N>]], opts)
+vim.api.nvim_set_keymap('t', '<A-h>', [[<C-\><C-N><C-w>h]], opts)
+vim.api.nvim_set_keymap('t', '<A-j>', [[<C-\><C-N><C-w>j]], opts)
+vim.api.nvim_set_keymap('t', '<A-k>', [[<C-\><C-N><C-w>k]], opts)
+vim.api.nvim_set_keymap('t', '<A-l>', [[<C-\><C-N><C-w>l]], opts)
 -- }}}
 --{{{2 signatures
 vim.api.nvim_set_keymap('n', '<Leader>sa', [[ 1G:s#\(Stefan Wimmer\) <.*>#\1 <stefan@tangoartisan.com>#<CR> G?--<CR> jVGd :r $HOME/.mutt/short-signature-artisan<CR> /^To:<CR> ]] , opts)
@@ -753,7 +755,9 @@ vim.api.nvim_set_keymap('n', '<F10>', '<Cmd>lua ToggleMouse()<CR>', { noremap = 
 -- {{{2 abbreviations
 vim.api.nvim_exec([[
 " generic
-inoreabbrev dATE <C-R>=strftime("%Y-%m-%d")<CR>
+inoreabbrev dATE <C-R>=strftime('%Y-%m-%d')<CR>
+inoreabbrev svw stefan@vos-wimmer.nl
+inoreabbrev kvw komala@vos-wimmer.nl
 
 " english
 inoreabbrev grz Greetz, Stefan
@@ -794,7 +798,9 @@ augroup RC
   autocmd BufWritePost {*.sh,*.pl,*.py} silent !chmod +x %
 
   " Commentstrings
-  autocmd FileType toml setlocal commentstring=#\%s
+  autocmd FileType pfmain set commentstring=#\%s
+  autocmd FileType toml set commentstring=#\%s
+  autocmd FileType xdefaults set commentstring=!\%s
 
   " mail specific configuration
   autocmd BufRead /tmp/mutt* silent! %s/^\([>|]\s\?\)\+/\=substitute(submatch(0), '\s', '', 'g').' '
