@@ -97,7 +97,6 @@ packer.startup(function()
   use 'kabouzeid/nvim-lspinstall'
   use 'nvim-lua/lsp-status.nvim'
   use 'onsails/lspkind-nvim'
-  use 'ray-x/lsp_signature.nvim'
   use {'RishabhRD/nvim-lsputils', requires = 'RishabhRD/popfix'}
   use 'hrsh7th/nvim-compe'
   use 'andersevenrud/compe-tmux'
@@ -268,7 +267,6 @@ vim.api.nvim_set_keymap('i', '<C-e>', [[compe#close('<C-e>')]], {silent = true, 
 local lsp_config = require('lspconfig')
 local lsp_install = require('lspinstall')
 require('lspkind').init()
-local lsp_signature = require('lsp_signature')
 local lsp_status = require('lsp-status')
 lsp_status.config {
   current_function = true,
@@ -296,6 +294,54 @@ vim.lsp.handlers['textDocument/hover'] = vim.lsp.with(vim.lsp.handlers.hover, {
 })
 
 -- lsputils config
+local border_chars = {
+  TOP_LEFT = '╭',
+  TOP_RIGHT = '╮',
+  MID_HORIZONTAL = '─',
+  MID_VERTICAL = '│',
+  BOTTOM_LEFT = '╰',
+  BOTTOM_RIGHT = '╯',
+}
+vim.g.lsp_utils_location_opts = {
+  mode = 'split',
+  list = {
+    border = true,
+    border_chars = border_chars,
+    numbering = false
+  },
+  preview = {
+    title = 'Location Preview',
+    border = true,
+    border_chars = border_chars
+  },
+  keymaps = {
+    n = {
+      ['<C-n>'] = 'j',
+      ['<C-p>'] = 'k',
+    }
+  },
+  prompt = {
+    border = true,
+    border_chars = border_chars
+  },
+}
+vim.g.lsp_utils_symbols_opts = {
+  mode = 'split',
+  list = {
+    border = true,
+    border_chars = border_chars,
+    numbering = false
+  },
+  preview = {
+    title = 'Symbols Preview',
+    border = true,
+    border_chars = border_chars
+  },
+  prompt = {
+    border = true,
+    border_chars = border_chars
+  },
+}
 vim.lsp.handlers['textDocument/codeAction'] = require('lsputil.codeAction').code_action_handler
 vim.lsp.handlers['textDocument/references'] = require('lsputil.locations').references_handler
 vim.lsp.handlers['textDocument/definition'] = require('lsputil.locations').definition_handler
@@ -309,7 +355,6 @@ local on_attach = function(client,bufnr)
   local lsp_messages = {}
   local lsp_msg_sep = ' ∷ '
   lsp_messages = lsp_msg_sep .. 'LSP attached' .. lsp_msg_sep
-  lsp_signature.on_attach(client)
   lsp_status.on_attach(client)
   -- options
   vim.bo.omnifunc = 'vim.lsp.omnifunc'
@@ -368,8 +413,14 @@ local on_attach = function(client,bufnr)
     lsp_messages = lsp_messages .. 'no implementation' .. lsp_msg_sep
   end
   if client.resolved_capabilities.signature_help then
-    vim.api.nvim_buf_set_keymap(bufnr, 'n', ',ls', [[<Cmd>lua vim.lsp.buf.signature_help({border = 'double'})<CR>]], opts)
+    vim.api.nvim_exec([[
+    augroup lsp_signature_help
+      autocmd! * <buffer>
+      autocmd CursorHoldI <buffer> lua vim.lsp.buf.signature_help({border = 'double'})
+    augroup END
+    ]], false)
     vim.api.nvim_buf_set_keymap(bufnr, 'i', '<C-k>', [[<Cmd>lua vim.lsp.buf.signature_help({border = 'double'})<CR>]], opts)
+    vim.api.nvim_buf_set_keymap(bufnr, 'n', ',ls', [[<Cmd>lua vim.lsp.buf.signature_help({border = 'double'})<CR>]], opts)
   else
     vim.api.nvim_buf_set_keymap(bufnr, 'n', ',ls', [[<Nop>]], opts)
     lsp_messages = lsp_messages .. 'no signatureHelp' .. lsp_msg_sep
