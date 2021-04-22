@@ -12,9 +12,9 @@ local set_hl = function(group, options)
   local link   = options.link or false
   local target = options.target
   if not link then
-    vim.cmd(string.format('autocmd VimEnter,ColorScheme * hi %s %s %s %s', group, bg, fg, gui))
+    vim.api.nvim_command(string.format('autocmd VimEnter,ColorScheme * hi %s %s %s %s', group, bg, fg, gui))
   else
-    vim.cmd(string.format('autocmd VimEnter, ColorScheme * hi! link', group, target))
+    vim.api.nvim_command(string.format('autocmd VimEnter, ColorScheme * hi! link', group, target))
   end
 end
 local highlights = {
@@ -271,6 +271,6 @@ vim.api.nvim_exec([[
   au WinEnter,BufEnter * setlocal statusline=%!v:lua.Statusline('active')
   au WinLeave,BufLeave * setlocal statusline=%!v:lua.Statusline('inactive')
   au WinEnter,BufEnter,FileType NvimTree setlocal statusline=%!v:lua.Statusline('explorer')
-
+  au WinEnter,BufEnter,FileType NetrwTreeListing setlocal statusline=%!v:lua.Statusline('explorer')
   augroup END
 ]], false)
