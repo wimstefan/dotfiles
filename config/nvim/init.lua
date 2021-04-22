@@ -131,6 +131,7 @@ packer.startup(function()
   use 'Th3Whit3Wolf/one-nvim'
   use 'AlxHnr/clear_colors'
   use 'preservim/vim-colors-pencil'
+  use 'folke/tokyonight.nvim'
 end)
 -- }}}1 --------------------- PLUGINS ------------------------------------------
 -- {{{1 ------------------- PLUGIN SETTINGS ------------------------------------
@@ -676,6 +677,13 @@ vim.g.edge_current_word = 'bold'
 -- }}}
 -- {{{3 one-nvim
 vim.g.one_nvim_transparent_bg = true
+-- }}}
+-- {{{3 tokyonight-nvim
+vim.g.tokyonight_italic_functions = true
+vim.g.tokyonight_sidebars = { 'quickfix', 'netrw', 'terminal' }
+vim.g.tokyonight_dark_float = true
+vim.g.tokyonight_dark_sidebar = true
+vim.g.tokyonight_transparent = true
 -- }}}
 -- {{{3 vim-colors-pencil config
 vim.g.pencil_gutter_color = 1
