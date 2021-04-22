@@ -6,7 +6,7 @@ local indent = 2
 local opts = { noremap = true, silent = true }
 
 -- define leader keys
-vim.g.mapleader = " "
+vim.g.mapleader = ' '
 
 vim.bo.expandtab = true
 vim.bo.nrformats = vim.bo.nrformats .. ',alpha'
@@ -172,11 +172,10 @@ require('telescope').setup {
   defaults = {
     mappings = {
       i = {
-        ["<C-s>"] = require('telescope.actions').select_horizontal,
-        -- Experimental - but from the author himself :)
-        ["<tab>"] = require('telescope.actions').toggle_selection,
-        ["<C-q>"] = require('telescope.actions').send_to_qflist +require('telescope.actions').open_qflist,
-        ["<M-q>"] = require('telescope.actions').send_selected_to_qflist +require('telescope.actions').open_qflist,
+        ['<C-s>'] = require('telescope.actions').select_horizontal,
+        ['<Tab>'] = require('telescope.actions').toggle_selection,
+        ['<C-q>'] = require('telescope.actions').send_to_qflist +require('telescope.actions').open_qflist,
+        ['<M-q>'] = require('telescope.actions').send_selected_to_qflist +require('telescope.actions').open_qflist,
       },
     },
     layout_strategy = 'flex',
@@ -449,7 +448,7 @@ local lua_settings = {
     runtime = { version = 'LuaJIT', path = vim.split(package.path, ';'), },
     diagnostics = {
       enable = true,
-      globals = {'vim', "use", "describe", "it", "assert", "before_each", "after_each"},
+      globals = {'vim', 'use', 'describe', 'it', 'assert', 'before_each', 'after_each'},
     },
     workspace = {
       preloadFileSize = 400,
@@ -480,10 +479,10 @@ local function setup_servers()
   local servers = lsp_install.installed_servers()
   for _, server in pairs(servers) do
     local config = make_config()
-    if server == "bash" then
+    if server == 'bash' then
       config.filetypes = { 'bash', 'sh', 'zsh' }
     end
-    if server == "lua" then
+    if server == 'lua' then
       config.settings = lua_settings
     end
     lsp_config[server].setup(config)
@@ -741,13 +740,13 @@ ToggleMouse = function()
     vim.o.mouse = 'v'
     vim.wo.number = false
     vim.wo.relativenumber = false
-    print("Mouse disabled")
+    print('Mouse disabled')
   else
     vim.wo.signcolumn='yes'
     vim.o.mouse = 'a'
     vim.wo.number = true
     vim.wo.relativenumber = true
-    print("Mouse enabled")
+    print('Mouse enabled')
   end
 end
 vim.api.nvim_set_keymap('n', '<F10>', '<Cmd>lua ToggleMouse()<CR>', { noremap = true })
