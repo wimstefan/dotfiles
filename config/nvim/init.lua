@@ -90,8 +90,8 @@ packer.startup(function()
   packer.init({ display = {open_cmd = '84vnew [packer]'}})
   use {'wbthomason/packer.nvim', opt = true}
   use {'nvim-treesitter/nvim-treesitter', run = ':TSUpdate'}
+  use 'nvim-treesitter/playground'
   use 'windwp/nvim-ts-autotag'
-  use 'JoosepAlviste/nvim-ts-context-commentstring'
   use {'nvim-telescope/telescope.nvim', requires = {'nvim-lua/popup.nvim', 'nvim-lua/plenary.nvim'}}
   use 'neovim/nvim-lspconfig'
   use 'kabouzeid/nvim-lspinstall'
@@ -148,14 +148,21 @@ require('nvim-treesitter.configs').setup {
     'devicetree', 'go', 'html', 'javascript',
     'jsdoc', 'json', 'jsonc', 'lua', 'php',
     'python', 'query', 'regex', 'rst',
-    'toml', 'typescript', 'yaml'
+    'scss', 'toml', 'typescript', 'yaml'
   },
-  autotag = { enable = true },
-  context_commentstring = { enable = true },
-  highlight = { enable = true, use_languagetree = true },
-  incremental_selection = { enable = true },
-  indent = { enable = false },
-  textobjects = { enable = false },
+  autotag = {
+    enable = true
+  },
+  highlight = {
+    enable = true,
+    use_languagetree = true
+  },
+  incremental_selection = {
+    enable = true
+  },
+  indent = {
+    enable = false
+  },
 }
 -- }}}
 -- {{{2 telescope config
