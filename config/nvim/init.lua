@@ -365,7 +365,7 @@ local on_attach = function(client,bufnr)
   lsp_messages = lsp_msg_sep .. 'LSP attached' .. lsp_msg_sep
   lsp_status.on_attach(client)
   -- options
-  vim.bo.omnifunc = 'vim.lsp.omnifunc'
+  vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
   -- keybindings
   function _G.show_documentation()
     if vim.fn.index({'vim', 'help'}, vim.bo.filetype) >= 0 then
@@ -442,7 +442,10 @@ local on_attach = function(client,bufnr)
   print(lsp_messages)
 end
 
--- configure lua language server
+-- configure language servers
+local css_settings = {
+  root_dir = vim.loop.cwd(),
+}
 local lua_settings = {
   Lua = {
     runtime = { version = 'LuaJIT', path = vim.split(package.path, ';'), },
@@ -454,6 +457,9 @@ local lua_settings = {
       preloadFileSize = 400,
     },
   }
+}
+local php_settings = {
+  root_dir = vim.loop.cwd(),
 }
 
 local function make_config()
@@ -482,8 +488,14 @@ local function setup_servers()
     if server == 'bash' then
       config.filetypes = { 'bash', 'sh', 'zsh' }
     end
+    if server == 'css' then
+      config.settings = css_settings
+    end
     if server == 'lua' then
       config.settings = lua_settings
+    end
+    if server == 'php' then
+      config.settings = php_settings
     end
     lsp_config[server].setup(config)
   end
