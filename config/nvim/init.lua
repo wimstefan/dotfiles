@@ -552,25 +552,25 @@ vim.api.nvim_set_keymap('n', ',to', '<Cmd>Obsession<CR>', opts)
 require('gitsigns').setup {
   signs = {
     add = {
-      hl = 'DiffAdd',
+      hl = 'GitSignsAdd',
       show_count = true,
       numhl = 'GitSignsAddNr'
     },
     change = {
-      hl = 'DiffChange',
+      hl = 'GitSignsChange',
       numhl = 'GitSignsChangeNr'},
     delete = {
-      hl = 'DiffDelete',
+      hl = 'GitSignsDelete',
       show_count = true,
       numhl = 'GitSignsDeleteNr'
     },
     topdelete = {
-      hl = 'DiffDelete',
+      hl = 'GitSignsDelete',
       show_count = true,
       numhl = 'GitSignsDeleteNr'
     },
     changedelete = {
-      hl = 'DiffChange',
+      hl = 'GitSignsChange',
       show_count = true,
       numhl = 'GitSignsChangeNr'
     }
