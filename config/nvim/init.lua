@@ -254,7 +254,9 @@ require('compe').setup {
     path = true,
     spell = true,
     tags = false,
-    tmux = true
+    tmux = {
+      all_panes = true
+    }
   },
 }
 -- Use (s-)tab to:
