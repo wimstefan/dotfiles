@@ -102,6 +102,7 @@ packer.startup(function()
   use 'nvim-lua/lsp-status.nvim'
   use 'onsails/lspkind-nvim'
   use {'RishabhRD/nvim-lsputils', requires = 'RishabhRD/popfix'}
+  use 'folke/which-key.nvim'
   use 'hrsh7th/nvim-compe'
   use 'andersevenrud/compe-tmux'
   use 'tpope/vim-abolish'
@@ -209,6 +210,11 @@ vim.api.nvim_exec([[
     autocmd User TelescopePreviewerLoaded setlocal wrap
   augroup END
 ]], false)
+-- }}}
+-- {{{2 which-key config
+require('which-key').setup {
+  window = { border = "double" }
+}
 -- }}}
 -- {{{2 nvim-compe config
 require('compe').setup {
