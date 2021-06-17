@@ -133,11 +133,12 @@ packer.startup(function()
   use 'norcalli/nvim-colorizer.lua'
   use 'lifepillar/vim-colortemplate'
   use 'wimstefan/vim-artesanal'
-  use 'sainnhe/edge'
-  use 'Th3Whit3Wolf/one-nvim'
   use 'AlxHnr/clear_colors'
   use 'preservim/vim-colors-pencil'
+  use 'sainnhe/edge'
   use 'folke/tokyonight.nvim'
+  use 'folke/lsp-colors.nvim'
+  use 'marko-cerovac/material.nvim'
 end)
 -- }}}1 --------------------- PLUGINS ------------------------------------------
 -- {{{1 ------------------- PLUGIN SETTINGS ------------------------------------
@@ -686,26 +687,40 @@ vim.g.artesanal_transparent = true
 -- }}}
 -- {{{3 edge
 vim.g.edge_style = 'neon'
-vim.g.edge_enable_italic = true
-vim.g.edge_transparent_background = true
-vim.g.edge_diagnostic_line_highlight = true
-vim.g.edge_diagnostic_text_highlight = true
-vim.g.edge_diagnostic_virtual_text = true
+vim.g.edge_enable_italic = 1
+vim.g.edge_transparent_background = 1
+vim.g.edge_diagnostic_line_highlight = 1
+vim.g.edge_diagnostic_text_highlight = 1
+vim.g.edge_diagnostic_virtual_text = 1
 vim.g.edge_current_word = 'bold'
 -- }}}
 -- {{{3 one-nvim
 vim.g.one_nvim_transparent_bg = true
 -- }}}
 -- {{{3 tokyonight-nvim
-vim.g.tokyonight_italic_functions = true
-vim.g.tokyonight_sidebars = { 'quickfix', 'netrw', 'terminal' }
-vim.g.tokyonight_dark_float = true
-vim.g.tokyonight_dark_sidebar = true
-vim.g.tokyonight_transparent = true
+vim.g.tokyonight_italic_functions = 1
+vim.g.tokyonight_sidebars = { 'qf', 'netrw', 'terminal' }
+vim.g.tokyonight_dark_float = 1
+vim.g.tokyonight_dark_sidebar = 1
+vim.g.tokyonight_transparent = 1
+vim.g.tokyonight_day_brightness = '0.3'
 -- }}}
 -- {{{3 vim-colors-pencil config
 vim.g.pencil_gutter_color = 1
 vim.g.pencil_terminal_italics = 1
+-- }}}
+-- {{{3 material.nvim config
+vim.g.material_italic_comments = true
+vim.g.material_italic_keywords = true
+vim.g.material_italic_functions = false
+vim.g.material_italic_variables = false
+vim.g.material_contrast = false
+vim.g.material_lighter_contrast = true
+vim.g.material_borders = true
+vim.g.material_disable_background = true
+vim.api.nvim_set_keymap('n', '<Leader>mm', [[<Cmd>lua require('material.functions').toggle_style()<CR>]], opts)
+vim.api.nvim_set_keymap('n', '<leader>ml', [[<Cmd>lua require('material.functions').change_style('lighter')<CR>]], opts)
+vim.api.nvim_set_keymap('n', '<leader>md', [[<Cmd>lua require('material.functions').change_style('deep ocean')<CR>]], opts)
 -- }}}
 if vim.fn.filereadable(vim.fn.expand('$HOME/.config/colours/nvim_theme.lua')) == 1 then
   vim.api.nvim_command[[luafile $HOME/.config/colours/nvim_theme.lua]]
