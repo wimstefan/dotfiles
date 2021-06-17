@@ -134,13 +134,13 @@ hc rule floatplacement=smart
 hc rule windowtype~'_NET_WM_WINDOW_TYPE_(DIALOG|UTILITY|SPLASH)' floating=on
 hc rule windowtype='_NET_WM_WINDOW_TYPE_DIALOG' focus=on
 hc rule windowtype~'_NET_WM_WINDOW_TYPE_(NOTIFICATION|DOCK|DESKTOP)' manage=off
-hc rule class=${TERMINAL} instance=sys tag=1
-hc rule class=${TERMINAL} instance=work tag=2
-hc rule class=${TERMINAL} instance=com tag=3 floating=on
-hc rule class=${TERMINAL} instance=tj tag=3
-hc rule class=${TERMINAL} instance=komala tag=5
-hc rule class=${TERMINAL} instance=home tag=6
-hc rule class=${TERMINAL} instance=tj-laptop tag=6
+hc rule instance=sys tag=1
+hc rule instance=work tag=2
+hc rule instance=com tag=3 floating=on
+hc rule instance=tj tag=3
+hc rule instance=komala tag=5
+hc rule instance=home tag=6
+hc rule instance=tj-laptop tag=6
 hc rule title=Calculator floating=on
 hc rule title=Explore floating=on
 hc rule title=Keybindings floating=on
