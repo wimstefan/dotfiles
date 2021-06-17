@@ -102,6 +102,7 @@ packer.startup(function()
   use 'nvim-lua/lsp-status.nvim'
   use 'onsails/lspkind-nvim'
   use {'RishabhRD/nvim-lsputils', requires = 'RishabhRD/popfix'}
+  use 'folke/trouble.nvim'
   use 'folke/which-key.nvim'
   use 'hrsh7th/nvim-compe'
   use 'andersevenrud/compe-tmux'
@@ -180,8 +181,12 @@ require('telescope').setup {
       i = {
         ['<C-s>'] = require('telescope.actions').select_horizontal,
         ['<Tab>'] = require('telescope.actions').toggle_selection,
+        ['<C-t>'] = require('trouble.providers.telescope').open_with_trouble,
         ['<C-q>'] = require('telescope.actions').send_to_qflist +require('telescope.actions').open_qflist,
         ['<M-q>'] = require('telescope.actions').send_selected_to_qflist +require('telescope.actions').open_qflist,
+      },
+      n = {
+        ['<C-t>'] = require('trouble.providers.telescope').open_with_trouble,
       },
     },
     layout_strategy = 'flex',
@@ -298,6 +303,7 @@ lsp_status.config {
   status_symbol = '[LSP] ',
 }
 lsp_status.register_progress()
+local lsp_trouble = require('trouble')
 
 vim.lsp.handlers['textDocument/publishDiagnostics'] = vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
   signs = true,
@@ -311,6 +317,16 @@ vim.lsp.handlers['textDocument/signatureHelp'] = vim.lsp.with(vim.lsp.handlers.s
 vim.lsp.handlers['textDocument/hover'] = vim.lsp.with(vim.lsp.handlers.hover, {
   border = 'double'
 })
+
+-- trouble config
+lsp_trouble.setup {
+  icons = false,
+  -- mode = 'document'
+}
+vim.api.nvim_set_keymap('n', '<Leader>xx', '<Cmd>TroubleToggle<CR>', opts)
+vim.api.nvim_set_keymap('n', '<Leader>xd', '<Cmd>TroubleToggle lsp_definitions<CR>', opts)
+vim.api.nvim_set_keymap('n', '<Leader>xr', '<Cmd>TroubleToggle lsp_references<CR>', opts)
+vim.api.nvim_set_keymap('n', '<Leader>xq', '<Cmd>TroubleToggle quickfix<CR>', opts)
 
 -- lsputils config
 local border_chars = {
@@ -455,7 +471,7 @@ end
 
 -- configure language servers
 local css_settings = {
-  root_dir = vim.loop.cwd(),
+  root_dir = vim.loop.cwd()
 }
 local lua_settings = {
   Lua = {
@@ -470,7 +486,7 @@ local lua_settings = {
   }
 }
 local php_settings = {
-  root_dir = vim.loop.cwd(),
+  root_dir = vim.loop.cwd()
 }
 
 local function make_config()
@@ -515,7 +531,7 @@ setup_servers()
 
 -- automatically reload after `:LspInstall <server>` so we don't have to restart neovim
 lsp_install.post_install_hook = function ()
-  setup_servers() -- reload installed servers
+  setup_servers()
   vim.api.nvim_command[[bufdo e]] -- this triggers the FileType autocmd that starts the server
 end
 -- }}}
