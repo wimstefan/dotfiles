@@ -172,6 +172,9 @@ require('nvim-treesitter.configs').setup {
   indent = {
     enable = false
   },
+  matchup = {
+    enable = true
+  },
 }
 -- }}}
 -- {{{2 telescope config
