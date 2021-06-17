@@ -22,7 +22,7 @@ vim.o.completeopt = [[menuone,noinsert,noselect]]
 vim.o.diffopt = vim.o.diffopt .. ',vertical,indent-heuristic,algorithm:histogram'
 vim.o.fillchars = [[vert:█,foldclose:▾,foldopen:▴,foldsep:🮍,msgsep:⁘]]
 if vim.fn.executable('ugrep') == 1 then
-  vim.o.grepprg = 'ugrep -RInk -j -u --tabs=1 --ignore-files'
+  vim.o.grepprg = 'ugrep -RInk -j -u --tabs=1'
   vim.o.grepformat = '%f:%l:%c:%m,%f+%l+%c+%m,%-G%f\\|%l\\|%c\\|%m'
 elseif vim.fn.executable('git') == 1 then
   vim.o.grepprg = 'git'
@@ -48,10 +48,12 @@ vim.o.splitbelow = true
 vim.o.splitright = true
 vim.o.swapfile = true
 vim.o.termguicolors = true
+vim.o.timeoutlen = 500
 vim.o.updatetime = 300
 vim.o.writebackup = true
 vim.wo.cursorcolumn = true
 vim.wo.cursorline = true
+vim.wo.foldcolumn = 'auto:4'
 vim.wo.foldlevel = 99
 if vim.wo.foldmethod == '' then
   vim.wo.foldmethod = 'expr'
@@ -786,7 +788,7 @@ vim.api.nvim_set_keymap('t', '<A-k>', [[<C-\><C-N><C-w>k]], opts)
 vim.api.nvim_set_keymap('t', '<A-l>', [[<C-\><C-N><C-w>l]], opts)
 -- }}}
 --{{{2 signatures
-vim.api.nvim_set_keymap('n', '<Leader>sa', [[ 1G:s#\(Stefan Wimmer\) <.*>#\1 <stefan@tangoartisan.com>#<CR> G?--<CR> jVGd :r $HOME/.mutt/short-signature-artisan<CR> /^To:<CR> ]] , opts)
+vim.api.nvim_set_keymap('n', '<Leader>sa', [[ 1G:s#\(Stefan Wimmer\) <.*>#\1 <stefan@tangoartisan.com>#<CR> G?--<CR> jVGd :r ~/.mutt/short-signature-artisan<CR> /^To:<CR> ]] , opts)
 vim.api.nvim_set_keymap('n', '<Leader>sg', [[ 1G:s#\(Stefan Wimmer\) <.*>#\1 <wimstefan@gmail.com>#<CR> G?--<CR> jVGd :r ~/.mutt/short-signature-gmail<CR> /^To:<CR> ]], opts)
 vim.api.nvim_set_keymap('n', '<Leader>st', [[ G?--<CR>jVGd :r ~/.mutt/short-signature-tango<CR> ]], opts)
 vim.api.nvim_set_keymap('n', '<Leader>ss', [[ G?--<CR>jVGd :r ~/.mutt/short-signature<CR> ]], opts)
@@ -852,6 +854,9 @@ vim.api.nvim_exec([[
 augroup RC
   autocmd!
 
+  " Reload $MYVIMRC after changes
+  autocmd BufWritePost init.lua luafile $MYVIMRC
+
   " Automatically chmod +x Shell and Perl scripts
   autocmd BufWritePost {*.sh,*.pl,*.py} silent !chmod +x %
 
@@ -862,7 +867,9 @@ augroup RC
 
   " mail specific configuration
   autocmd BufRead /tmp/mutt* silent! %s/^\([>|]\s\?\)\+/\=substitute(submatch(0), '\s', '', 'g').' '
-  autocmd BufRead /tmp/mutt* set nonumber nohls nolist filetype=mail formatoptions=tcroqwln21
+  autocmd BufRead /tmp/mutt* %s/\s\+$//e
+  autocmd BufRead /tmp/mutt* %s/^>\n>/>/e
+  autocmd BufRead /tmp/mutt* setlocal nonumber nohls nolist filetype=mail formatoptions=tcroqwln21
   autocmd BufRead /tmp/mutt* setlocal spell
   autocmd FileType mail setlocal commentstring=>\%s
   autocmd FileType mail setlocal wildignore-=*.tar.*,*.png,*.jpg,*.gif
