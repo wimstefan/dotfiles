@@ -182,6 +182,8 @@ require('telescope').setup {
   defaults = {
     mappings = {
       i = {
+        ['<C-n>'] = require('telescope.actions').cycle_previewers_next,
+        ['<C-p>'] = require('telescope.actions').cycle_previewers_prev,
         ['<C-s>'] = require('telescope.actions').select_horizontal,
         ['<Tab>'] = require('telescope.actions').toggle_selection,
         ['<C-t>'] = require('trouble.providers.telescope').open_with_trouble,
@@ -192,6 +194,7 @@ require('telescope').setup {
         ['<C-t>'] = require('trouble.providers.telescope').open_with_trouble,
       },
     },
+    dynamic_preview_title = true,
     layout_strategy = 'flex',
     file_ignore_patterns = {'gif', 'jpeg', 'jpg', 'pdf', 'png', 'svg'},
   }
