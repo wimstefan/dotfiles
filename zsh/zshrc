@@ -568,7 +568,7 @@ if [[ $USER != root ]]; then
 
   # }}}3
   # - Exports {{{3
-  path=($HOME/bin $HOME/.local/bin $HOME/.cargo/bin $HOME/.gem/ruby/bin $path)
+  path=($HOME/bin $HOME/.local/bin $HOME/.cargo/bin $HOME/.gem/ruby/bin $HOME/go/bin $path)
   manpath=($HOME/man $manpath)
   export MPD_HOST="localhost"
   export MPD_PORT="6600"
@@ -576,7 +576,7 @@ if [[ $USER != root ]]; then
   export GTK2_RC_FILES="$HOME/.gtkrc-2.0"
   export BROWSER="my-eye-into-the-world"
   export COLORTERM=truecolor
-  export TERMINAL="alacritty"
+  export TERMINAL="kitty"
   if [[ $TERMINAL == "alacritty" ]]; then
     export TERM_TITLE="--title"
     export TERM_NAME="--class"
@@ -844,7 +844,7 @@ if [[ $USER != root ]]; then
         rsync -az   --delete /home/swimmer/.zsh/external/ $host:.zsh/external/
         rsync -az            /home/swimmer/.zsh/zsh_aliases $host:.zsh/zsh_aliases
         rsync -az            /home/swimmer/.zshrc $host:
-        echo "Syncing vim on $host ..."
+        echo "Syncing vim & neovim on $host ..."
         rsync -az            /home/swimmer/.vimrc $host:
         rsync -azk  --delete /home/swimmer/.vim/ $host:.vim/
         rsync -azK  --delete /home/swimmer/.config/nvim/ $host:.config/nvim/
