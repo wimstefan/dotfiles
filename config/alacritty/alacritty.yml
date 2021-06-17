@@ -608,9 +608,11 @@ mouse:
   #       Paste the hint's text to the terminal or search.
   #   - Select
   #       Select the hint's text.
+  #   - MoveViModeCursor
+  #       Move the vi mode cursor to the beginning of the hint.
   #enabled:
-  # - regex: "(mailto:|gemini:|gopher:|https:|http:|news:|file:|git:|ssh:|ftp:)\
-  #           [^\u0000-\u001F\u007F-\u009F<>\" {-}\\^⟨⟩`]+"
+  # - regex: "(ipfs:|ipns:|magnet:|mailto:|gemini:|gopher:|https:|http:|news:|file:|git:|ssh:|ftp:)\
+  #           [^\u0000-\u001F\u007F-\u009F<>\"\\s{-}\\^⟨⟩`]+"
   #   command: xdg-open
   #   post_processing: true
   #   mouse:
@@ -723,8 +725,8 @@ mouse_bindings:
 # - Vi mode exclusive actions:
 #
 #   - Open
-#       Open URLs at the cursor location with the launcher configured in
-#       `url.launcher`.
+#       Perform the action of the first matching hint under the vi mode cursor
+#       with `mouse.enabled` set to `true`.
 #   - ToggleNormalSelection
 #   - ToggleLineSelection
 #   - ToggleBlockSelection
