@@ -76,10 +76,8 @@ vim.api.nvim_command[[packadd packer.nvim]]
 vim.api.nvim_exec([[
   augroup Packer
     autocmd!
-    autocmd FileType packer set previewheight=40
+    autocmd FileType packer set previewheight=36
     autocmd BufWritePost init.lua PackerCompile
-    autocmd BufWritePost init.lua luafile $MYVIMRC
-    " autocmd BufWritePost init.lua PackerSync
     autocmd User PackerComplete luafile $MYVIMRC
   augroup end
 ]], false)
@@ -87,7 +85,13 @@ vim.api.nvim_exec([[
 local packer = require('packer')
 local use = packer.use
 packer.startup(function()
-  packer.init({ display = {open_cmd = '84vnew [packer]'}})
+  packer.init({
+    display = {
+      open_cmd = '84vnew [packer]',
+      working_sym = '… ',
+      prompt_border = 'double'
+    }
+  })
   use {'wbthomason/packer.nvim', opt = true}
   use {'nvim-treesitter/nvim-treesitter', run = ':TSUpdate'}
   use 'nvim-treesitter/playground'
