@@ -145,6 +145,7 @@ hc rule class~'.*[Tt]erm' title=calendar manage=off
 hc rule class~'[Ll]xappearance' floating=on
 hc rule class=scribus tag=7
 hc rule class=Thunderbird tag=7
+hc rule class=Thunderbird title='Edit Item' floating=on tag=7 
 hc rule class=Darktable tag=8
 hc rule class=Gimp tag=8
 hc rule class=Inkscape tag=8
