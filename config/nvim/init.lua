@@ -1,6 +1,8 @@
--------------- My personal not so 300 lines of neovim config -------------------
--- All credits to mjlbach for his thread at neovim.discourse.com:
--- https://neovim.discourse.group/t/the-300-line-init-lua-challenge/
+--------------------- MY PERSONAL NEOVIM CONFIGURATION -------------------------
+------------------------------ Credits to --------------------------------------
+----------------- mjlbach for encouraging me to switch to lua ------------------
+---------- elianiva for the inspiration for statusline and lazy-loading --------
+--------------- All involved developers for their tremendous work! -------------
 -- {{{1 --------------------- OPTIONS ------------------------------------------
 -- disable unused built-in plugins
 vim.g.loaded_2html_plugin = false
