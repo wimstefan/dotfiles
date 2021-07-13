@@ -81,7 +81,8 @@ vim.g.netrw_alto =  0
 -- }}}1 --------------------- OPTIONS ------------------------------------------
 -- {{{1 --------------------- MAPPINGS -----------------------------------------
 vim.api.nvim_set_keymap('', 'cd', '<Cmd>cd %:h | pwd<CR>', {noremap = true, silent = true})
-vim.api.nvim_set_keymap('n', '<Leader>g', ':grep ', { noremap = true, silent = false})
+vim.api.nvim_set_keymap('n', '<Leader>g', ':grep ', {noremap = true, silent = false})
+vim.api.nvim_set_keymap('n', '<Leader>l', ':set hlsearch!<CR>', {noremap = true, silent = true})
 vim.api.nvim_set_keymap('n', '<Leader>x', '<Cmd>Lexplore<CR>', {noremap = true, silent = true})
 -- {{{2 editing
 vim.api.nvim_set_keymap('n', '<Leader>ev', '<Cmd>edit $MYVIMRC<CR>', {noremap = true, silent = true})
@@ -242,7 +243,10 @@ augroup RC
   autocmd BufWinEnter * if &previewwindow | setlocal nofoldenable | endif
 
   " Remember last cursor position
-  au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") && &ft !~# 'commit' |   exe "normal! g`\"" | endif
+  autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") && &ft !~# 'commit' | execute "normal! g`\"" | endif
+
+  " Enable yank highlighting
+  autocmd TextYankPost * silent! lua vim.highlight.on_yank {higroup='WildMenu', timeout=800}
 
 augroup END
 ]], false)
@@ -659,53 +663,6 @@ packer.startup(function()
       require('bqf').setup {
         auto_enable = true
       }
-    end
-  }
--- }}}
--- {{{2 nvim-hlslens
-  use {
-    'kevinhwang91/nvim-hlslens',
-    config = function()
-      require('hlslens').setup {
-        auto_enable = true,
-        enable_incsearch = true,
-        calm_down = false,
-        nearest_only = false,
-        nearest_float_when = 'auto',
-        float_shadow_blend = 50,
-        virt_priority = 100,
-        override_lens = function(render, plist, nearest, idx, r_idx)
-          local sfw = vim.v.searchforward == 1
-          local indicator, text, chunks
-          local abs_r_idx = math.abs(r_idx)
-          if abs_r_idx > 1 then
-            indicator = string.format('%d%s', abs_r_idx, sfw ~= (r_idx > 1) and '▲' or '▼')
-          elseif abs_r_idx == 1 then
-            indicator = sfw ~= (r_idx == 1) and '▲' or '▼'
-          else
-            indicator = ''
-          end
-          local lnum, col = unpack(plist[idx])
-          if nearest then
-            local cnt = #plist
-            if indicator ~= '' then
-              text = string.format('[%s %d/%d]', indicator, idx, cnt)
-            else
-              text = string.format('[%d/%d]', idx, cnt)
-            end
-            chunks = {{' ', 'Ignore'}, {text, 'HlSearchLensNear'}}
-          else
-            text = string.format('[%s %d]', indicator, idx)
-            chunks = {{' ', 'Ignore'}, {text, 'HlSearchLens'}}
-          end
-          render.set_virt(0, lnum - 1, col - 1, chunks, nearest)
-        end
-      }
-    end,
-    setup = function()
-      vim.api.nvim_set_keymap('n', 'n', [[<Cmd>execute('norm! ' . v:count1 . 'n')<CR><Cmd>lua require('hlslens').start()<CR>]], {noremap = true, silent = true})
-      vim.api.nvim_set_keymap('n', 'N', [[<Cmd>execute('norm! ' . v:count1 . 'N')<CR><Cmd>lua require('hlslens').start()<CR>]], {noremap = true, silent = true})
-      vim.api.nvim_set_keymap('n', '<Leader>l', ':nohlsearch<CR>', {noremap = true, silent = true})
     end
   }
 -- }}}
