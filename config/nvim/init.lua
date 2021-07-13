@@ -802,14 +802,6 @@ packer.startup(function()
   vim.g.artesanal_dimmed = false
   vim.g.artesanal_transparent = true
 -- }}}
--- {{{3 clear_colors
-  use 'AlxHnr/clear_colors'
--- }}}
--- {{{3 vim-colors-pencil
-  use 'preservim/vim-colors-pencil'
-  vim.g.pencil_gutter_color = 1
-  vim.g.pencil_terminal_italics = 1
--- }}}
 -- {{{3 edge
   use 'sainnhe/edge'
   vim.g.edge_style = 'neon'
@@ -823,7 +815,7 @@ packer.startup(function()
 -- {{{3 tokyonight-nvim
   use 'folke/tokyonight.nvim'
   vim.g.tokyonight_italic_functions = 1
-  vim.g.tokyonight_sidebars = { 'qf', 'netrw', 'terminal' }
+  vim.g.tokyonight_sidebars = {'qf', 'netrw', 'terminal'}
   vim.g.tokyonight_dark_float = 1
   vim.g.tokyonight_dark_sidebar = 1
   vim.g.tokyonight_transparent = 1
