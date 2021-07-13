@@ -384,6 +384,9 @@ packer.startup(function()
       ]], false)
       require('telescope').setup {
         defaults = {
+          dynamic_preview_title = true,
+          file_ignore_patterns = {'gif', 'jpeg', 'jpg', 'pdf', 'png', 'svg'},
+          layout_strategy = 'flex',
           mappings = {
             i = {
               ['<C-n>'] = require('telescope.actions').cycle_previewers_next,
@@ -391,16 +394,13 @@ packer.startup(function()
               ['<C-s>'] = require('telescope.actions').select_horizontal,
               ['<Tab>'] = require('telescope.actions').toggle_selection,
               ['<C-t>'] = require('trouble.providers.telescope').open_with_trouble,
-              ['<C-q>'] = require('telescope.actions').send_to_qflist +require('telescope.actions').open_qflist,
-              ['<M-q>'] = require('telescope.actions').send_selected_to_qflist +require('telescope.actions').open_qflist,
+              ['<C-q>'] = require('telescope.actions').smart_send_to_qflist +require('telescope.actions').open_qflist,
+              ['<M-q>'] = require('telescope.actions').smart_add_to_qflist +require('telescope.actions').open_qflist,
             },
             n = {
               ['<C-t>'] = require('trouble.providers.telescope').open_with_trouble,
             },
           },
-          dynamic_preview_title = true,
-          layout_strategy = 'flex',
-          file_ignore_patterns = {'gif', 'jpeg', 'jpg', 'pdf', 'png', 'svg'},
         },
         extensions = {
           fzf = {
