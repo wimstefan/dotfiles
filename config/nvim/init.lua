@@ -625,6 +625,7 @@ packer.startup(function()
       vim.api.nvim_set_keymap('n', '<Leader>Tm', [[<Cmd>lua require('telescope.builtin').keymaps()<CR>]], {noremap = true, silent = true})
       vim.api.nvim_set_keymap('n', '<Leader>Ts', [[<Cmd>lua require('telescope.builtin').spell_suggest()<CR>]], {noremap = true, silent = true})
       vim.api.nvim_set_keymap('n', '<Leader>Tw', [[<Cmd>lua require('telescope.builtin').grep_string()<CR>]], {noremap = true, silent = true})
+      vim.api.nvim_set_keymap('n', '<Leader>Tx', [[<Cmd>lua require('telescope.builtin').file_browser({follow = true})<CR>]], {noremap = true, silent = true})
       vim.api.nvim_exec([[
         augroup Telescope
           autocmd!
@@ -640,14 +641,8 @@ packer.startup(function()
             i = {
               ['<C-n>'] = require('telescope.actions').cycle_previewers_next,
               ['<C-p>'] = require('telescope.actions').cycle_previewers_prev,
-              ['<C-s>'] = require('telescope.actions').select_horizontal,
-              ['<Tab>'] = require('telescope.actions').toggle_selection,
-              ['<C-t>'] = require('trouble.providers.telescope').open_with_trouble,
               ['<C-q>'] = require('telescope.actions').smart_send_to_qflist +require('telescope.actions').open_qflist,
               ['<M-q>'] = require('telescope.actions').smart_add_to_qflist +require('telescope.actions').open_qflist,
-            },
-            n = {
-              ['<C-t>'] = require('trouble.providers.telescope').open_with_trouble,
             },
           },
         },
