@@ -323,7 +323,8 @@ packer.startup(function()
           enable = true
         },
         highlight = {
-          enable = true
+          enable = true,
+          use_languagetree = true
         },
         incremental_selection = {
           enable = true
