@@ -429,10 +429,29 @@ packer.startup(function()
   use {
     'hrsh7th/nvim-compe',
     event = 'InsertEnter',
+    wants = 'LuaSnip',
     requires = {
-      'andersevenrud/compe-tmux',
-      opt = true,
-      event = 'InsertEnter'
+      {
+        'L3MON4D3/LuaSnip',
+        after = 'nvim-compe',
+        event = 'InsertCharPre',
+        wants = 'friendly-snippets',
+        config = function()
+          require('luasnip').config.set_config({
+            history = true,
+            updateevents = 'TextChanged,TextChangedI'
+          })
+          require('luasnip/loaders/from_vscode').load()
+        end
+      },
+      {
+        'rafamadriz/friendly-snippets',
+        event = 'InsertCharPre'
+      },
+      {
+        'andersevenrud/compe-tmux',
+        event = 'InsertEnter'
+      }
     },
     config = function()
       local t = function(str)
@@ -445,6 +464,8 @@ packer.startup(function()
       _G.tab_complete = function()
         if vim.fn.pumvisible() == 1 then
           return t '<C-n>'
+        elseif require('luasnip').expand_or_jumpable() then
+          return t '<Plug>luasnip-expand-or-jump'
         elseif check_back_space() then
           return t '<Tab>'
         else
@@ -454,6 +475,8 @@ packer.startup(function()
       _G.s_tab_complete = function()
         if vim.fn.pumvisible() == 1 then
           return t '<C-p>'
+        elseif require('luasnip').jumpable(-1) then
+          return t '<Plug>luasnip-jump-prev'
         else
           return t '<S-Tab>'
         end
@@ -488,16 +511,17 @@ packer.startup(function()
         source = {
           buffer = true,
           calc = true,
+          luasnip = true,
           nvim_lsp = true,
           nvim_lua = true,
-          treesitter = true,
           omni = false,
           path = true,
           spell = true,
           tags = false,
           tmux = {
             all_panes = true
-          }
+          },
+          treesitter = true
         }
       }
     end
