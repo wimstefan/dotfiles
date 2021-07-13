@@ -658,7 +658,7 @@ packer.startup(function()
 -- {{{2 vim-qf
   use {
     'romainl/vim-qf',
-    event = {'QuickFixCmdPre', 'QuickFixCmdPost'},
+    event = {'BufRead', 'QuickFixCmdPre', 'QuickFixCmdPost'},
     config = function()
       vim.g.qf_mapping_ack_style = true
       vim.g.qf_auto_open_quickfix = true
@@ -677,13 +677,13 @@ packer.startup(function()
 -- {{{2 vim-qlist
   use {
     'romainl/vim-qlist',
-    event = {'QuickFixCmdPre', 'QuickFixCmdPost'}
+    event = {'BufRead', 'QuickFixCmdPre', 'QuickFixCmdPost'}
   }
 -- }}}
 -- {{{2 nvim-bqf
   use {
     'kevinhwang91/nvim-bqf',
-    event = 'QuickFixCmdPre',
+    event = {'BufRead', 'QuickFixCmdPre', 'QuickFixCmdPost'},
     config = function()
       require('bqf').setup {
         auto_enable = true
@@ -706,7 +706,7 @@ packer.startup(function()
   use {
     'mbbill/undotree',
     cmd = 'UndotreeToggle',
-    setup = function()
+    config = function()
       vim.g.undotree_WindowLayout= 2
       vim.g.undotree_SetFocusWhenToggle= 1
       vim.g.undotree_ShortIndicators= 1
@@ -717,7 +717,7 @@ packer.startup(function()
 -- {{{2 vim-dirdiff
   use {
     'will133/vim-dirdiff',
-    cmd = 'Dirdiff'
+    cmd = 'DirDiff'
   }
 -- }}}
 -- {{{2 vim-renamer
