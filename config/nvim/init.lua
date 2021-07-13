@@ -1,8 +1,8 @@
 --------------------- MY PERSONAL NEOVIM CONFIGURATION -------------------------
------------------------------- Credits to --------------------------------------
+-- {{{1 --------------------- CREDITS ------------------------------------------
 ----------------- mjlbach for encouraging me to switch to lua ------------------
 ---------- elianiva for the inspiration for statusline and lazy-loading --------
---------------- All involved developers for their tremendous work! -------------
+--------------- All involved developers for their tremendous work! ----- 1}}} --
 -- {{{1 --------------------- OPTIONS ------------------------------------------
 -- disable unused built-in plugins
 vim.g.loaded_2html_plugin = false
