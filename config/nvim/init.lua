@@ -1036,54 +1036,166 @@ packer.startup(function()
     end
   }
 -- }}}
+-- {{{2 lualine.nvim
+use {
+  'hoob3rt/lualine.nvim',
+  event = {'BufRead', 'ColorScheme', 'VimEnter'},
+  config = function()
+    if vim.fn.filereadable(vim.fn.expand('$HOME/.config/colours/nvim_theme.lua')) == 1 then
+      vim.api.nvim_command[[luafile $HOME/.config/colours/nvim_theme.lua]]
+    else
+      vim.api.nvim_command[[colorscheme slate]]
+    end
+    local get_modified = function()
+      return '%m' or ''
+    end
+    local get_readonly = function()
+      if not vim.bo.readonly then
+        return ''
+      end
+      return '[RO]'
+    end
+    local get_session = function()
+      if not vim.g.loaded_obsession then
+        return ''
+      end
+      return '%{ObsessionStatus("\\\\o/", "_o_")}'
+    end
+    local get_spell = function()
+      if not vim.wo.spell then
+        return ''
+      end
+      return '[SP]'
+    end
+    local minimal_extension = {
+      sections = {
+        lualine_a = {{'filename', file_status = false}},
+        lualine_b = {},
+        lualine_c = {},
+        lualine_x = {},
+        lualine_y = {'location', 'progress'},
+        lualine_z = {'filetype'},
+      },
+      filetypes = {'help', 'packer', 'qf'}
+    }
+
+    require('lualine').setup {
+      options = {
+        icons_enabled = false,
+        theme = 'github',
+        section_separators = {'┃', '┃'},
+        component_separators = {''},
+      },
+      sections = {
+        lualine_a = {'mode'},
+        lualine_b = {'location', 'progress'},
+        lualine_c = {
+          {'filename', file_status = false, path = 2},
+          {
+            get_readonly,
+            padding = 0,
+            color = {fg = 'grey'},
+          },
+          {
+            get_modified,
+            padding = 0,
+            color = {fg = 'red'},
+          },
+          {
+            get_spell,
+            padding = 1,
+            color = {fg = 'brown'},
+          },
+          {
+            get_session,
+            padding = 1,
+            color = {fg = 'yellow'},
+          },
+        },
+        lualine_x = {
+          require('lsp-status').status,
+          {
+            'diagnostics',
+            sources = {'nvim_lsp'},
+            sections = {'error', 'warn', 'info', 'hint'},
+          },
+        },
+        lualine_y = {'diff', 'branch'},
+        lualine_z = {'filetype'},
+      },
+      inactive_sections = {
+        lualine_a = {'filename'},
+        lualine_b = {},
+        lualine_c = {},
+        lualine_x = {},
+        lualine_y = {'location'},
+        lualine_z = {'filetype'},
+      },
+      extensions = {'fugitive', minimal_extension, 'nvim-tree'},
+    }
+  end
+}
+-- }}}
 -- {{{2 Colour schemes
 -- {{{3 artesanal
-  use 'wimstefan/vim-artesanal'
-  vim.g.artesanal_dimmed = false
-  vim.g.artesanal_transparent = true
+  use {
+    'wimstefan/vim-artesanal',
+    setup = function()
+      vim.g.artesanal_dimmed = false
+      vim.g.artesanal_transparent = true
+    end
+  }
 -- }}}
 -- {{{3 edge
-  use 'sainnhe/edge'
-  vim.g.edge_style = 'neon'
-  vim.g.edge_enable_italic = 1
-  vim.g.edge_transparent_background = 1
-  vim.g.edge_diagnostic_line_highlight = 1
-  vim.g.edge_diagnostic_text_highlight = 1
-  vim.g.edge_diagnostic_virtual_text = 1
-  vim.g.edge_current_word = 'bold'
+  use {
+    'sainnhe/edge',
+    setup = function ()
+      vim.g.edge_style = 'neon'
+      vim.g.edge_enable_italic = 1
+      vim.g.edge_transparent_background = 1
+      vim.g.edge_diagnostic_line_highlight = 1
+      vim.g.edge_diagnostic_text_highlight = 1
+      vim.g.edge_diagnostic_virtual_text = 1
+      vim.g.edge_current_word = 'bold'
+    end
+  }
 -- }}}
 -- {{{3 tokyonight-nvim
-  use 'folke/tokyonight.nvim'
-  vim.g.tokyonight_italic_functions = 1
-  vim.g.tokyonight_sidebars = {'qf', 'netrw', 'terminal'}
-  vim.g.tokyonight_dark_float = 1
-  vim.g.tokyonight_dark_sidebar = 1
-  vim.g.tokyonight_transparent = 1
-  vim.g.tokyonight_day_brightness = '0.3'
+  use {
+    'folke/tokyonight.nvim',
+    setup = function()
+      vim.g.tokyonight_style = 'storm'
+      vim.g.tokyonight_italic_functions = 1
+      vim.g.tokyonight_sidebars = {'qf', 'netrw', 'terminal'}
+      vim.g.tokyonight_dark_float = 1
+      vim.g.tokyonight_dark_sidebar = 1
+      vim.g.tokyonight_transparent = 1
+      vim.g.tokyonight_day_brightness = '0.3'
+    end
+  }
 -- }}}
 -- {{{3 material.nvim
-  use 'marko-cerovac/material.nvim'
-  vim.g.material_italic_comments = true
-  vim.g.material_italic_keywords = true
-  vim.g.material_italic_functions = false
-  vim.g.material_italic_variables = false
-  vim.g.material_contrast = false
-  vim.g.material_lighter_contrast = true
-  vim.g.material_borders = true
-  vim.g.material_disable_background = true
-  vim.api.nvim_set_keymap('n', '<Leader>mm', [[<Cmd>lua require('material.functions').toggle_style()<CR>]], {noremap = true, silent = true})
-  vim.api.nvim_set_keymap('n', '<leader>ml', [[<Cmd>lua require('material.functions').change_style('lighter')<CR>]], {noremap = true, silent = true})
-  vim.api.nvim_set_keymap('n', '<leader>md', [[<Cmd>lua require('material.functions').change_style('darker')<CR>]], {noremap = true, silent = true})
+  use {
+    'marko-cerovac/material.nvim',
+    setup = function ()
+      vim.g.material_italic_comments = true
+      vim.g.material_italic_keywords = true
+      vim.g.material_italic_functions = false
+      vim.g.material_italic_variables = false
+      vim.g.material_contrast = false
+      vim.g.material_lighter_contrast = true
+      vim.g.material_borders = true
+      vim.g.material_disable_background = true
+      vim.api.nvim_set_keymap('n', '<Leader>mm', [[<Cmd>lua require('material.functions').toggle_style()<CR>]], {noremap = true, silent = true})
+      vim.api.nvim_set_keymap('n', '<leader>ml', [[<Cmd>lua require('material.functions').change_style('lighter')<CR>]], {noremap = true, silent = true})
+      vim.api.nvim_set_keymap('n', '<leader>md', [[<Cmd>lua require('material.functions').change_style('darker')<CR>]], {noremap = true, silent = true})
+    end
+  }
+-- }}}
+-- {{{3 github-nvim-theme
+  use {'projekt0n/github-nvim-theme'}
 -- }}}
 -- }}}
 end)
 -- }}}1 --------------------- PLUGINS ------------------------------------------
--- {{{1 --------------------- VISUALS ------------------------------------------
-if vim.fn.filereadable(vim.fn.expand('$HOME/.config/colours/nvim_theme.lua')) == 1 then
-  vim.api.nvim_command[[luafile $HOME/.config/colours/nvim_theme.lua]]
-else
-  vim.api.nvim_command[[colorscheme slate]]
-end
-require('statusline')
--- }}}1 --------------------- VISUALS ------------------------------------------
 -- vim: foldmethod=marker foldlevel=0
