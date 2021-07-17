@@ -298,50 +298,28 @@ packer.startup(function()
     requires = {
       'kabouzeid/nvim-lspinstall',
       'nvim-lua/lsp-status.nvim',
-      'onsails/lspkind-nvim',
       {'RishabhRD/nvim-lsputils', requires = 'RishabhRD/popfix'},
       {'folke/trouble.nvim', requires = 'folke/lsp-colors.nvim'}
     },
     config = function()
       local lsp_config = require('lspconfig')
       local lsp_install = require('lspinstall')
-      require('lspkind').init()
       local lsp_status = require('lsp-status')
+      local lsp_trouble = require('trouble')
+
+      -- lsp-status config
       lsp_status.config {
         current_function = true,
+        diagnostics = false,
         indicator_separator = ':',
         indicator_errors = 'E',
         indicator_warnings = 'W',
         indicator_info = 'I',
         indicator_hint = 'H',
         indicator_ok = 'OK',
-        status_symbol = '[LSP] ',
+        status_symbol = '[LSP]',
       }
       lsp_status.register_progress()
-      local lsp_trouble = require('trouble')
-
-      vim.lsp.handlers['textDocument/publishDiagnostics'] = vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
-        signs = true,
-        underline = true,
-        update_in_insert = true,
-        virtual_text = {spacing = 4, prefix = '❰'}
-      })
-      vim.lsp.handlers['textDocument/signatureHelp'] = vim.lsp.with(vim.lsp.handlers.signature_help, {
-        border = 'double'
-      })
-      vim.lsp.handlers['textDocument/hover'] = vim.lsp.with(vim.lsp.handlers.hover, {
-        border = 'double'
-      })
-
-      -- trouble config
-      lsp_trouble.setup {
-        icons = false,
-        mode = 'lsp_document_diagnostics'
-      }
-      vim.api.nvim_set_keymap('n', '<Leader>xx', '<Cmd>TroubleToggle<CR>', {noremap = true, silent = true})
-      vim.api.nvim_set_keymap('n', '<Leader>xd', '<Cmd>TroubleToggle lsp_definitions<CR>', {noremap = true, silent = true})
-      vim.api.nvim_set_keymap('n', '<Leader>xr', '<Cmd>TroubleToggle lsp_references<CR>', {noremap = true, silent = true})
-      vim.api.nvim_set_keymap('n', '<Leader>xq', '<Cmd>TroubleToggle quickfix<CR>', {noremap = true, silent = true})
 
       -- lsputils config
       local border_chars = {
@@ -401,6 +379,32 @@ packer.startup(function()
       vim.lsp.handlers['textDocument/documentSymbol'] = require('lsputil.symbols').document_handler
       vim.lsp.handlers['workspace/symbol'] = require('lsputil.symbols').workspace_handler
 
+      -- trouble config
+      lsp_trouble.setup {
+        border = 'double',
+        icons = false,
+        mode = 'lsp_document_diagnostics'
+      }
+      vim.api.nvim_set_keymap('n', '<Leader>xx', '<Cmd>TroubleToggle<CR>', {noremap = true, silent = true})
+      vim.api.nvim_set_keymap('n', '<Leader>xd', '<Cmd>TroubleToggle lsp_definitions<CR>', {noremap = true, silent = true})
+      vim.api.nvim_set_keymap('n', '<Leader>xr', '<Cmd>TroubleToggle lsp_references<CR>', {noremap = true, silent = true})
+      vim.api.nvim_set_keymap('n', '<Leader>xq', '<Cmd>TroubleToggle quickfix<CR>', {noremap = true, silent = true})
+
+      -- LSP handlers
+      vim.lsp.handlers['textDocument/publishDiagnostics'] = vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
+        signs = true,
+        underline = true,
+        update_in_insert = true,
+        virtual_text = {spacing = 4, prefix = '❰'}
+      })
+      vim.lsp.handlers['textDocument/signatureHelp'] = vim.lsp.with(vim.lsp.handlers.signature_help, {
+        border = 'double'
+      })
+      vim.lsp.handlers['textDocument/hover'] = vim.lsp.with(vim.lsp.handlers.hover, {
+        border = 'double'
+      })
+
+
       local on_attach = function(client,bufnr)
         local lsp_messages = {}
         local lsp_msg_sep = ' ∷ '
@@ -434,7 +438,7 @@ packer.startup(function()
         if client.resolved_capabilities.declaration then
           vim.api.nvim_buf_set_keymap(bufnr, 'n', ',lc', [[<Cmd>lua vim.lsp.buf.declaration()<CR>]], {noremap = true, silent = true})
         else
-          vim.api.nvim_buf_set_keymap(bufnr, 'n', ',lc', [[<Nop>]], {noremap = true, silent = true})
+          vim.api.nvim_buf_set_keymap(bufnr, 'n', ',lc', [[<Nop>]], {})
           lsp_messages = lsp_messages .. 'no declaration' .. lsp_msg_sep
         end
         if client.resolved_capabilities.document_formatting then
@@ -459,7 +463,7 @@ packer.startup(function()
         if client.resolved_capabilities.implementation then
           vim.api.nvim_buf_set_keymap(bufnr, 'n', ',li', [[<Cmd>lua vim.lsp.buf.implementation()<CR>]], {noremap = true, silent = true})
         else
-          vim.api.nvim_buf_set_keymap(bufnr, 'n', ',li', [[<Nop>]], {noremap = true, silent = true})
+          vim.api.nvim_buf_set_keymap(bufnr, 'n', ',li', [[<Nop>]], {})
           lsp_messages = lsp_messages .. 'no implementation' .. lsp_msg_sep
         end
         if client.resolved_capabilities.signature_help then
@@ -469,16 +473,16 @@ packer.startup(function()
             autocmd CursorHoldI <buffer> lua vim.lsp.buf.signature_help({border = 'double'})
           augroup END
           ]], false)
-          vim.api.nvim_buf_set_keymap(bufnr, 'i', '<C-k>', [[<Cmd>lua vim.lsp.buf.signature_help({border = 'double'})<CR>]], {noremap = true, silent = true})
+          vim.api.nvim_buf_set_keymap(bufnr, 'i', '<C-s>', [[<Cmd>lua vim.lsp.buf.signature_help({border = 'double'})<CR>]], {noremap = true, silent = true})
           vim.api.nvim_buf_set_keymap(bufnr, 'n', ',ls', [[<Cmd>lua vim.lsp.buf.signature_help({border = 'double'})<CR>]], {noremap = true, silent = true})
         else
-          vim.api.nvim_buf_set_keymap(bufnr, 'n', ',ls', [[<Nop>]], {noremap = true, silent = true})
+          vim.api.nvim_buf_set_keymap(bufnr, 'n', ',ls', [[<Nop>]], {})
           lsp_messages = lsp_messages .. 'no signatureHelp' .. lsp_msg_sep
         end
         if client.resolved_capabilities.type_definition then
           vim.api.nvim_buf_set_keymap(bufnr, 'n', ',ltd', [[<Cmd>lua vim.lsp.buf.type_definition()<CR>]], {noremap = true, silent = true})
         else
-          vim.api.nvim_buf_set_keymap(bufnr, 'n', ',ltd', [[<Nop>]], {noremap = true, silent = true})
+          vim.api.nvim_buf_set_keymap(bufnr, 'n', ',ltd', [[<Nop>]], {})
           lsp_messages = lsp_messages .. 'no typeDefinition' .. lsp_msg_sep
         end
         print(lsp_messages)
