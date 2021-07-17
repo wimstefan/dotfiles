@@ -794,7 +794,7 @@ packer.startup(function()
     'tpope/vim-commentary',
     keys = {'gci', 'gc'},
     config = function()
-      vim.api.nvim_set_keymap('v', 'gci', ':g/./Commentary<CR>', {noremap = false, silent = false})
+      vim.api.nvim_set_keymap('x', 'gci', ':g/./Commentary<CR>', {})
     end
   }
 -- }}}
@@ -962,7 +962,7 @@ packer.startup(function()
   use {
     'mbbill/undotree',
     cmd = 'UndotreeToggle',
-    config = function()
+    setup = function()
       vim.g.undotree_WindowLayout= 2
       vim.g.undotree_SetFocusWhenToggle= 1
       vim.g.undotree_ShortIndicators= 1
