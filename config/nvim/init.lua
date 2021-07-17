@@ -71,7 +71,7 @@ vim.wo.number = true
 vim.wo.relativenumber = true
 vim.wo.signcolumn = 'auto'
 vim.api.nvim_command[[set undofile]]
-vim.g.netrw_winsize = 14
+vim.g.netrw_winsize = 20
 vim.g.netrw_banner =  0
 vim.g.netrw_liststyle =  3
 vim.g.netrw_preview =  0
@@ -81,7 +81,6 @@ vim.g.netrw_alto =  0
 vim.api.nvim_set_keymap('', 'cd', '<Cmd>cd %:h | pwd<CR>', {noremap = true, silent = true})
 vim.api.nvim_set_keymap('n', '<Leader>g', ':grep ', {noremap = true, silent = false})
 vim.api.nvim_set_keymap('n', '<Leader>l', ':set hlsearch!<CR>', {noremap = true, silent = true})
-vim.api.nvim_set_keymap('n', '<Leader>x', '<Cmd>Lexplore<CR>', {noremap = true, silent = true})
 -- {{{2 editing
 vim.api.nvim_set_keymap('n', '<Leader>ev', '<Cmd>edit $MYVIMRC<CR>', {noremap = true, silent = true})
 vim.api.nvim_set_keymap('n', '<Leader>sv', '<Cmd>luafile $MYVIMRC<CR>', {noremap = true, silent = true})
@@ -951,6 +950,16 @@ packer.startup(function()
       vim.g.undotree_SetFocusWhenToggle= 1
       vim.g.undotree_ShortIndicators= 1
       vim.api.nvim_set_keymap('n', ',tu', '<Cmd>UndotreeToggle<CR>', {})
+    end
+  }
+-- }}}
+-- {{{2 nvim-tree.lua
+  use {
+    'kyazdani42/nvim-tree.lua',
+    config = function ()
+      vim.g.nvim_tree_disable_netrw = 0
+      vim.g.nvim_tree_hijack_netrw = 0
+      vim.api.nvim_set_keymap('n', '<Leader>x', '<Cmd>NvimTreeToggle<CR>', {})
     end
   }
 -- }}}
