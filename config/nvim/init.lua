@@ -582,14 +582,27 @@ packer.startup(function()
         },
         matchup = {
           enable = true
+        },
+        playground = {
+          enable = true
         }
       }
-    end
-  }
-  use {
-    'windwp/nvim-ts-autotag',
-    event = 'InsertEnter',
-    after = 'nvim-treesitter'
+    end,
+    requires = {
+      {
+        'nvim-treesitter/playground',
+        config = function ()
+          vim.api.nvim_set_keymap('n', '<F12>', [[<Cmd>TSHighlightCapturesUnderCursor<CR>]], {noremap = true, silent = false})
+          vim.api.nvim_set_keymap('n', ',tsp', [[<Cmd>TSPlaygroundToggle<CR>]], {noremap = true, silent = true})
+        end,
+        after = 'nvim-treesitter'
+      },
+      {
+        'windwp/nvim-ts-autotag',
+        event = 'InsertEnter',
+        after = 'nvim-treesitter'
+      }
+    }
   }
 -- }}}
 -- {{{2 Telescope
