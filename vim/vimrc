@@ -64,11 +64,11 @@ endfunction
   nnoremap <silent> ,to                  :Obsession<CR>
 " }}}
 " {{{3 git related config 
-  nnoremap          <Leader>gc           :<C-u>Gcommit -v %<CR>
-  nnoremap          <Leader>gd           :<C-u>Gdiff<CR>
-  nnoremap          <Leader>gl           :<C-u>0Glog<CR>
-  nnoremap          <Leader>gp           :<C-u>Gpush<CR>
-  nnoremap          <Leader>gs           :<C-u>Gstatus<CR>
+  nnoremap          <Leader>gc           :<C-u>Git commit -v %<CR>
+  nnoremap          <Leader>gd           :<C-u>Gdiffsplit<CR>
+  nnoremap          <Leader>gl           :<C-u>0Glog!<CR>
+  nnoremap          <Leader>gp           :<C-u>Git push<CR>
+  nnoremap          <Leader>gs           :<C-u>Git<CR>
 " }}}
 " {{{3 fzf.vim config 
   function! s:build_quickfix_list(lines)
