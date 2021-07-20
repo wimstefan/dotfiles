@@ -418,7 +418,7 @@ packer.startup(function()
         vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
         -- keybindings
         function _G.show_documentation()
-          if vim.fn.index({'vim', 'help'}, vim.bo.filetype) >= 0 then
+          if vim.fn.index({'help', 'lua', 'man', 'vim'}, vim.bo.filetype) >= 0 then
             vim.api.nvim_command('h ' .. vim.fn.expand('<cword>'))
           else
             vim.api.nvim_command('lua vim.lsp.buf.hover()')
