@@ -19,6 +19,7 @@ vim.bo.softtabstop = indent
 vim.bo.spellfile = vim.fn.stdpath('config') .. '/spell/myspell.utf-8.add'
 vim.bo.spelllang = [[en,de,es,nl]]
 vim.bo.tabstop = indent
+vim.bo.undofile = true
 vim.o.autowrite = true
 vim.o.backupcopy = 'auto'
 vim.o.backup = false
@@ -70,7 +71,6 @@ vim.wo.linebreak = true
 vim.wo.number = true
 vim.wo.relativenumber = true
 vim.wo.signcolumn = 'auto'
-vim.api.nvim_command[[set undofile]]
 vim.g.netrw_winsize = 20
 vim.g.netrw_banner =  0
 vim.g.netrw_liststyle =  3
