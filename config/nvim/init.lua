@@ -177,7 +177,7 @@ augroup RC
   autocmd!
 
   " Reload $MYVIMRC after changes
-  autocmd BufWritePost init.lua luafile $MYVIMRC
+  autocmd BufWritePost init.lua source $MYVIMRC
 
   " Automatically chmod +x Shell and Perl scripts
   autocmd BufWritePost {*.sh,*.pl,*.py} silent !chmod +x %
@@ -236,6 +236,10 @@ augroup RC
   " Correct comment highlighting for json config
   autocmd FileType json syntax match Comment +\/\/.\+$+
 
+  " Some buffers can be closed with 'q'
+  autocmd FileType help,startuptime,qf,lspinfo nnoremap <buffer><silent> q :close<CR>
+  autocmd FileType man nnoremap <buffer><silent> q :quit<CR>
+  
   " Disable folding in previews
   autocmd BufWinEnter * if &previewwindow | setlocal nofoldenable | endif
 
@@ -266,7 +270,7 @@ vim.api.nvim_exec([[
     autocmd!
     autocmd FileType packer set previewheight=36
     autocmd BufWritePost init.lua PackerCompile
-    autocmd User PackerComplete luafile $MYVIMRC
+    autocmd User PackerComplete source $MYVIMRC
   augroup end
 ]], false)
 
