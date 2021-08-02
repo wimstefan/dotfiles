@@ -285,7 +285,11 @@ packer.startup(function()
   packer.init({
     display = {
       open_cmd = '84vnew [packer]',
-      working_sym = '… '
+      working_sym = '..',
+      error_sym = 'x',
+      done_sym = '✓',
+      removed_sym = '-',
+      moved_sym = '->',
     }
   })
 -- {{{2 packer.nvim
@@ -299,6 +303,12 @@ packer.startup(function()
       vim.api.nvim_set_keymap('n', ',ps', '<Cmd>PackerSync<CR>', {noremap = true, silent = true})
       vim.api.nvim_set_keymap('n', ',pu', '<Cmd>PackerUpdate<CR>', {noremap = true, silent = true})
     end
+  }
+-- }}}
+-- {{{2 startuptime.vim
+  use {
+    'tweekmonster/startuptime.vim',
+    cmd = 'StartupTime'
   }
 -- }}}
 -- {{{2 LSP
@@ -407,10 +417,10 @@ packer.startup(function()
         virtual_text = {spacing = 4, prefix = '❰'}
       })
       vim.lsp.handlers['textDocument/signatureHelp'] = vim.lsp.with(vim.lsp.handlers.signature_help, {
-        border = 'double'
+        border = 'rounded'
       })
       vim.lsp.handlers['textDocument/hover'] = vim.lsp.with(vim.lsp.handlers.hover, {
-        border = 'double'
+        border = 'rounded'
       })
 
 
@@ -429,15 +439,16 @@ packer.startup(function()
             vim.api.nvim_command('lua vim.lsp.buf.hover()')
           end
         end
-        vim.api.nvim_buf_set_keymap(bufnr, 'n', 'K', [[<Cmd>lua show_documentation({border = 'double'})<CR>]], {noremap = true, silent = true})
+        vim.api.nvim_buf_set_keymap(bufnr, 'n', 'K', [[<Cmd>lua show_documentation({border = 'rounded'})<CR>]], {noremap = true, silent = true})
         vim.api.nvim_buf_set_keymap(bufnr, 'n', ',ld', [[<Cmd>lua vim.lsp.buf.definition()<CR>]], {noremap = true, silent = true})
         vim.api.nvim_buf_set_keymap(bufnr, 'n', ',lr', [[<Cmd>lua vim.lsp.buf.references()<CR>]], {noremap = true, silent = true})
         vim.api.nvim_buf_set_keymap(bufnr, 'n', ',ly', [[<Cmd>lua vim.lsp.buf.document_symbol()<CR>]], {noremap = true, silent = true})
         vim.api.nvim_buf_set_keymap(bufnr, 'n', ',lY', [[<Cmd>lua vim.lsp.buf.workspace_symbol()<CR>]], {noremap = true, silent = true})
-        vim.api.nvim_buf_set_keymap(bufnr, 'n', ',le', [[<Cmd>lua vim.lsp.diagnostic.show_line_diagnostics({border = 'double'})<CR>]], {noremap = true, silent = true})
-        vim.api.nvim_buf_set_keymap(bufnr, 'n', '[d', [[<Cmd>lua vim.lsp.diagnostic.goto_prev({popup_opts = {border = 'double'}})<CR>]], {noremap = true, silent = true})
-        vim.api.nvim_buf_set_keymap(bufnr, 'n', ']d', [[<Cmd>lua vim.lsp.diagnostic.goto_next({popup_opts = {border = 'double'}})<CR>]], {noremap = true, silent = true})
-        vim.api.nvim_buf_set_keymap(bufnr, 'n', ',lq', [[<Cmd>lua vim.lsp.diagnostic.set_loclist()<CR>]], {noremap = true, silent = true})
+        vim.api.nvim_buf_set_keymap(bufnr, 'n', ',le', [[<Cmd>lua vim.lsp.diagnostic.show_line_diagnostics({border = 'rounded'})<CR>]], {noremap = true, silent = true})
+        vim.api.nvim_buf_set_keymap(bufnr, 'n', '[d', [[<Cmd>lua vim.lsp.diagnostic.goto_prev({enable_popup = false})<CR>]], {noremap = true, silent = true})
+        vim.api.nvim_buf_set_keymap(bufnr, 'n', ']d', [[<Cmd>lua vim.lsp.diagnostic.goto_next({enable_popup = false})<CR>]], {noremap = true, silent = true})
+        vim.api.nvim_buf_set_keymap(bufnr, 'n', ',lq', [[<Cmd>lua vim.lsp.diagnostic.set_qflist({workspace =  false})<CR>]], {noremap = true, silent = true})
+        vim.api.nvim_buf_set_keymap(bufnr, 'n', ',lQ', [[<Cmd>lua vim.lsp.diagnostic.set_qflist({workspace =  true})<CR>]], {noremap = true, silent = true})
         vim.api.nvim_buf_set_keymap(bufnr, 'n', ',lrn', [[<Cmd>lua vim.lsp.buf.rename()<CR>]], {noremap = true, silent = true})
         if client.resolved_capabilities.code_action then
           vim.api.nvim_buf_set_keymap(bufnr, 'n', ',lca', [[<Cmd>lua vim.lsp.buf.code_action()<CR>]], {noremap = true, silent = true})
@@ -482,8 +493,8 @@ packer.startup(function()
             autocmd CursorHoldI <buffer> lua vim.lsp.buf.signature_help({border = 'double'})
           augroup END
           ]], false)
-          vim.api.nvim_buf_set_keymap(bufnr, 'i', '<C-s>', [[<Cmd>lua vim.lsp.buf.signature_help({border = 'double'})<CR>]], {noremap = true, silent = true})
-          vim.api.nvim_buf_set_keymap(bufnr, 'n', ',ls', [[<Cmd>lua vim.lsp.buf.signature_help({border = 'double'})<CR>]], {noremap = true, silent = true})
+          vim.api.nvim_buf_set_keymap(bufnr, 'i', '<C-s>', [[<Cmd>lua vim.lsp.buf.signature_help({border = 'rounded'})<CR>]], {noremap = true, silent = true})
+          vim.api.nvim_buf_set_keymap(bufnr, 'n', ',ls', [[<Cmd>lua vim.lsp.buf.signature_help({border = 'rounded'})<CR>]], {noremap = true, silent = true})
         else
           vim.api.nvim_buf_set_keymap(bufnr, 'n', ',ls', [[<Nop>]], {})
           lsp_messages = lsp_messages .. 'no signatureHelp' .. lsp_msg_sep
@@ -685,7 +696,7 @@ packer.startup(function()
     'folke/which-key.nvim',
     config = function()
       require('which-key').setup {
-        window = { border = "double" }
+        window = { border = 'rounded' }
       }
     end
   }
@@ -766,8 +777,8 @@ packer.startup(function()
         max_kind_width = 100,
         max_menu_width = 100,
         documentation = {
-          border = "rounded",
-          winhighlight = "NormalFloat:CompeDocumentation,FloatBorder:CompeDocumentationBorder",
+          border = 'rounded',
+          winhighlight = 'NormalFloat:CompeDocumentation,FloatBorder:CompeDocumentationBorder',
           max_width = 120,
           min_width = 60,
           max_height = math.floor(vim.o.lines * 0.3),
@@ -806,9 +817,6 @@ packer.startup(function()
       vim.api.nvim_set_keymap('x', 'gci', ':g/./Commentary<CR>', {})
     end
   }
--- }}}
--- {{{2 vim-eunuch
-  use {'tpope/vim-eunuch', cmd = {'Delete', 'Unlink', 'Remove', 'Move', 'Rename', 'Chmod', 'Mkdir', 'Sudo'}}
 -- }}}
 -- {{{2 vim-fugitive
   use {
@@ -901,6 +909,9 @@ packer.startup(function()
           ['n ,sh'] = '<Cmd>lua require"gitsigns".toggle_linehl()<CR>',
           ['n ,sp'] = '<Cmd>lua require"gitsigns".preview_hunk()<CR>',
           ['n ,sb'] = '<Cmd>lua require"gitsigns".blame_line()<CR>',
+        },
+        preview_config = {
+          border = 'rounded',
         }
       }
     end
@@ -1013,22 +1024,15 @@ packer.startup(function()
 -- {{{2 vim-gnupg
   use {'jamessan/vim-gnupg'}
 -- }}}
--- {{{2 editorconfig-vim
-  use {
-    'editorconfig/editorconfig-vim',
-    event = 'BufRead'
-  }
--- }}}
--- {{{2 startuptime.vim
-  use {
-    'tweekmonster/startuptime.vim',
-    cmd = 'StartupTime'
-  }
--- }}}
 -- {{{2 vim-asciidoctor
   use {
     'habamax/vim-asciidoctor',
-    ft = {'asciidoc', 'asciidoctor'}
+    ft = {'asciidoc', 'asciidoctor'},
+    setup = function()
+      vim.g.asciidoctor_folding = 1
+      vim.g.asciidoctor_foldnested = 0
+      vim.g.asciidoctor_foldtitle_as_h1 = 1
+    end
   }
 -- }}}
 -- {{{2 vim-log-highlighting
