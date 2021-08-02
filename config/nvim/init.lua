@@ -690,28 +690,26 @@ packer.startup(function()
   use {
     'hrsh7th/nvim-compe',
     event = 'InsertEnter',
-    wants = 'LuaSnip',
     requires = {
       {
         'L3MON4D3/LuaSnip',
         after = 'nvim-compe',
         event = 'InsertCharPre',
-        wants = 'friendly-snippets',
         config = function()
           require('luasnip').config.set_config({
             history = true,
             updateevents = 'TextChanged,TextChangedI'
           })
           require('luasnip/loaders/from_vscode').load()
-        end
-      },
-      {
-        'rafamadriz/friendly-snippets',
-        event = 'InsertCharPre'
+        end,
+        requires = {
+          'rafamadriz/friendly-snippets',
+          event = 'InsertCharPre'
+        },
       },
       {
         'andersevenrud/compe-tmux',
-        event = 'InsertEnter'
+        event = 'InsertCharPre'
       }
     },
     config = function()
