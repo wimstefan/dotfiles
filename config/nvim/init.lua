@@ -314,17 +314,16 @@ packer.startup(function()
 -- {{{2 LSP
   use {
     'neovim/nvim-lspconfig',
+    event = 'BufReadPre',
     requires = {
       'kabouzeid/nvim-lspinstall',
-      'nvim-lua/lsp-status.nvim',
       {'RishabhRD/nvim-lsputils', requires = 'RishabhRD/popfix'},
-      {'folke/trouble.nvim', requires = 'folke/lsp-colors.nvim'}
+      'nvim-lua/lsp-status.nvim',
     },
     config = function()
       local lsp_config = require('lspconfig')
       local lsp_install = require('lspinstall')
       local lsp_status = require('lsp-status')
-      local lsp_trouble = require('trouble')
 
       -- lsp-status config
       lsp_status.config {
@@ -398,23 +397,12 @@ packer.startup(function()
       vim.lsp.handlers['textDocument/documentSymbol'] = require('lsputil.symbols').document_handler
       vim.lsp.handlers['workspace/symbol'] = require('lsputil.symbols').workspace_handler
 
-      -- trouble config
-      lsp_trouble.setup {
-        border = 'double',
-        icons = false,
-        mode = 'lsp_document_diagnostics'
-      }
-      vim.api.nvim_set_keymap('n', '<Leader>xx', '<Cmd>TroubleToggle<CR>', {noremap = true, silent = true})
-      vim.api.nvim_set_keymap('n', '<Leader>xd', '<Cmd>TroubleToggle lsp_definitions<CR>', {noremap = true, silent = true})
-      vim.api.nvim_set_keymap('n', '<Leader>xr', '<Cmd>TroubleToggle lsp_references<CR>', {noremap = true, silent = true})
-      vim.api.nvim_set_keymap('n', '<Leader>xq', '<Cmd>TroubleToggle quickfix<CR>', {noremap = true, silent = true})
-
       -- LSP handlers
       vim.lsp.handlers['textDocument/publishDiagnostics'] = vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
         signs = true,
         underline = true,
         update_in_insert = true,
-        virtual_text = {spacing = 4, prefix = '❰'}
+        virtual_text = {prefix = '❰'}
       })
       vim.lsp.handlers['textDocument/signatureHelp'] = vim.lsp.with(vim.lsp.handlers.signature_help, {
         border = 'rounded'
@@ -423,6 +411,15 @@ packer.startup(function()
         border = 'rounded'
       })
 
+      -- symbols for autocomplete
+      vim.lsp.protocol.CompletionItemKind = {
+        "   (Text) ", "   (Method)", "   (Function)", "   (Constructor)",
+        " ﴲ  (Field)", "[] (Variable)", "   (Class)", " ﰮ  (Interface)",
+        "   (Module)", " 襁 (Property)", "   (Unit)", "   (Value)", " 練 (Enum)",
+        "   (Keyword)", "   (Snippet)", "   (Color)", "   (File)",
+        "   (Reference)", "   (Folder)", "   (EnumMember)", " ﲀ  (Constant)",
+        " ﳤ  (Struct)", "   (Event)", "   (Operator)", "   (TypeParameter)"
+      }
 
       local on_attach = function(client,bufnr)
         local lsp_messages = {}
@@ -471,15 +468,6 @@ packer.startup(function()
         else
           lsp_messages = lsp_messages .. 'no rangeFormat' .. lsp_msg_sep
         end
-        if client.resolved_capabilities.document_highlight then
-          vim.api.nvim_exec([[
-          augroup lsp_document_highlight
-            autocmd! * <buffer>
-            autocmd CursorHold  <buffer> lua vim.lsp.buf.document_highlight()
-            autocmd CursorMoved <buffer> lua vim.lsp.buf.clear_references()
-          augroup END
-          ]], false)
-        end
         if client.resolved_capabilities.implementation then
           vim.api.nvim_buf_set_keymap(bufnr, 'n', ',li', [[<Cmd>lua vim.lsp.buf.implementation()<CR>]], {noremap = true, silent = true})
         else
@@ -487,12 +475,6 @@ packer.startup(function()
           lsp_messages = lsp_messages .. 'no implementation' .. lsp_msg_sep
         end
         if client.resolved_capabilities.signature_help then
-          vim.api.nvim_exec([[
-          augroup lsp_signature_help
-            autocmd! * <buffer>
-            autocmd CursorHoldI <buffer> lua vim.lsp.buf.signature_help({border = 'double'})
-          augroup END
-          ]], false)
           vim.api.nvim_buf_set_keymap(bufnr, 'i', '<C-s>', [[<Cmd>lua vim.lsp.buf.signature_help({border = 'rounded'})<CR>]], {noremap = true, silent = true})
           vim.api.nvim_buf_set_keymap(bufnr, 'n', ',ls', [[<Cmd>lua vim.lsp.buf.signature_help({border = 'rounded'})<CR>]], {noremap = true, silent = true})
         else
@@ -521,6 +503,9 @@ packer.startup(function()
           },
           workspace = {
             preloadFileSize = 400,
+          },
+          telemetry = {
+            enable = false,
           },
         }
       }
