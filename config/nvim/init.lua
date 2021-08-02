@@ -201,6 +201,9 @@ augroup RC
   " Syntax for tmux
   autocmd BufNewFile,BufRead *tmux*conf* set filetype=tmux
 
+  " Syntax for Iosevka files
+  autocmd BufNewFile,BufRead *.ptl set filetype=julia commentstring=#\ %s
+
   " Syntax for htp files
   autocmd BufNewFile,BufRead {*.htp,*.htt} set filetype=xhtml
 
