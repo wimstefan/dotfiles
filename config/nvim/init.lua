@@ -956,6 +956,19 @@ packer.startup(function()
     end
   }
 -- }}}
+-- {{{2 rnvimr
+  use {
+    'kevinhwang91/rnvimr',
+    cmd = {'RnvimrToggle', 'RnvimrResize'},
+    setup = function()
+      vim.api.nvim_set_keymap('n', '<Leader>x', '<Cmd>RnvimrToggle<CR>', {})
+    end,
+    config = function()
+      vim.g.rnvimr_enable_ex = 1
+      vim.g.rnvimr_enable_picker = 1
+    end
+  }
+-- }}}
 -- {{{2 nvim-spectre
   use {
     'windwp/nvim-spectre',
@@ -976,16 +989,6 @@ packer.startup(function()
       vim.g.undotree_SetFocusWhenToggle= 1
       vim.g.undotree_ShortIndicators= 1
       vim.api.nvim_set_keymap('n', ',tu', '<Cmd>UndotreeToggle<CR>', {})
-    end
-  }
--- }}}
--- {{{2 nvim-tree.lua
-  use {
-    'kyazdani42/nvim-tree.lua',
-    config = function ()
-      vim.g.nvim_tree_disable_netrw = 0
-      vim.g.nvim_tree_hijack_netrw = 0
-      vim.api.nvim_set_keymap('n', '<Leader>x', '<Cmd>NvimTreeToggle<CR>', {})
     end
   }
 -- }}}
