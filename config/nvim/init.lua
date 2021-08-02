@@ -1,83 +1,113 @@
 --------------------- MY PERSONAL NEOVIM CONFIGURATION -------------------------
 -- {{{1 --------------------- OPTIONS ------------------------------------------
--- disable unused built-in plugins
-vim.g.loaded_2html_plugin = false
-vim.g.loaded_matchit      = false
-vim.g.loaded_matchparen   = false
-vim.g.loaded_spec         = false
-
-local indent = 2
-
 -- define leader keys
 vim.g.mapleader = ' '
 
-vim.bo.expandtab = true
-vim.bo.nrformats = vim.bo.nrformats .. ',alpha'
-vim.bo.shiftwidth = indent
-vim.bo.smartindent = true
-vim.bo.softtabstop = indent
-vim.bo.spellfile = vim.fn.stdpath('config') .. '/spell/myspell.utf-8.add'
-vim.bo.spelllang = [[en,de,es,nl]]
-vim.bo.tabstop = indent
-vim.o.autowrite = true
-vim.o.backupcopy = 'auto'
-vim.o.backup = false
-vim.o.breakindent = true
-vim.o.completeopt = [[menuone,noinsert,noselect]]
-vim.o.diffopt = vim.o.diffopt .. ',vertical,indent-heuristic,algorithm:histogram'
-vim.o.fillchars = [[vert:█,foldclose:▾,foldopen:▴,foldsep:🮍,msgsep:⁘]]
+local indent = 2
+
+vim.opt.termguicolors = true
+vim.opt.cursorcolumn = true
+vim.opt.cursorline = true
+vim.opt.signcolumn = 'auto'
+vim.opt.number = true
+vim.opt.relativenumber = true
+vim.opt.showtabline = 2
+vim.opt.linebreak = true
+vim.opt.showbreak = '  » '
+vim.opt.splitbelow = true
+vim.opt.splitright = true
+vim.opt.listchars = {
+  tab = '› ',
+  trail = '·',
+  eol = '«',
+  extends = '>',
+  precedes = '<'
+}
+vim.opt.fillchars = {
+  vert = '█',
+  foldclose = '▾',
+  foldopen = '▴',
+  foldsep = '🮍',
+  msgsep = '⁘'
+}
+vim.opt.mouse = 'a'
+vim.opt.guifont = 'Iosevka Artesanal:h11'
+
+vim.opt.shiftwidth = indent
+vim.opt.shiftround = true
+vim.opt.softtabstop = indent
+vim.opt.tabstop = indent
+vim.opt.expandtab = true
+vim.opt.smarttab = true
+vim.opt.breakindent = true
+vim.opt.smartindent = true
+vim.opt.smartcase = true
+vim.opt.ignorecase = true
+vim.opt.joinspaces = true
+vim.opt.gdefault = true
+vim.opt.inccommand = 'split'
+vim.opt.selection = 'exclusive'
+vim.opt.pastetoggle = '<F3>'
+vim.opt.completeopt = {
+  'menuone',
+  'noinsert',
+  'noselect'
+}
+vim.opt.diffopt:append {
+  'vertical',
+  'indent-heuristic',
+  'algorithm:histogram'
+}
+vim.opt.spellfile = vim.fn.stdpath('config') .. '/spell/myspell.utf-8.add'
+vim.opt.spelllang = {
+  'en',
+  'de',
+  'es',
+  'nl'
+}
+vim.opt.nrformats:append {
+  'alpha'
+}
 if vim.fn.executable('ugrep') == 1 then
-  vim.o.grepprg = 'ugrep -RInk -j -u --tabs=1'
-  vim.o.grepformat = '%f:%l:%c:%m,%f+%l+%c+%m,%-G%f\\|%l\\|%c\\|%m'
+  vim.opt.grepprg = 'ugrep -RInk -j -u --tabs=1'
+  vim.opt.grepformat = '%f:%l:%c:%m,%f+%l+%c+%m,%-G%f\\|%l\\|%c\\|%m'
 elseif vim.fn.executable('git') == 1 then
-  vim.o.grepprg = 'git'
+  vim.opt.grepprg = 'git'
 elseif vim.fn.executable('ack') == 1 then
-  vim.o.grepprg = 'ack --nogroup --column --smart-case --nocolor --follow $*'
+  vim.opt.grepprg = 'ack --nogroup --column --smart-case --nocolor --follow $*'
 end
-vim.o.gdefault = true
-vim.o.guifont = 'Iosevka Artesanal:h11'
-vim.o.hidden = true
-vim.o.ignorecase = true
-vim.o.inccommand = 'split'
-vim.o.joinspaces = true
-vim.o.lazyredraw = true
-vim.o.listchars = [[tab:›\ ,trail:·,eol:«,extends:>,precedes:<]]
-vim.o.modelineexpr = true
-vim.o.mouse = 'a'
-vim.o.pastetoggle = '<F3>'
-vim.o.selection = 'exclusive'
-vim.o.shiftround = true
-vim.o.showbreak = '  » '
-vim.o.showtabline = 2
-vim.o.smartcase = true
-vim.o.smarttab = true
-vim.o.splitbelow = true
-vim.o.splitright = true
-vim.o.swapfile = true
-vim.o.termguicolors = true
-vim.o.timeoutlen = 500
-vim.o.undofile = true
-vim.o.updatetime = 300
-vim.o.writebackup = true
-vim.wo.cursorcolumn = true
-vim.wo.cursorline = true
-vim.wo.foldcolumn = 'auto:4'
-vim.wo.foldlevel = 99
-if vim.wo.foldmethod == '' then
-  vim.wo.foldmethod = 'expr'
-  vim.wo.foldexpr = 'nvim_treesitter#foldexpr()'
+
+vim.opt.lazyredraw = true
+vim.opt.timeoutlen = 500
+vim.opt.updatetime = 300
+vim.opt.autowrite = true
+vim.opt.backup = false
+vim.opt.backupcopy = 'auto'
+vim.opt.writebackup = true
+vim.opt.swapfile = true
+vim.opt.undofile = true
+vim.opt.hidden = true
+vim.opt.modelineexpr = true
+
+vim.opt.foldcolumn = 'auto:4'
+vim.opt.foldlevel = 99
+if vim.opt.foldmethod == '' then
+  vim.opt.foldmethod = 'expr'
+  vim.opt.foldexpr = 'nvim_treesitter#foldexpr()'
 else
-  vim.wo.foldmethod = vim.wo.foldmethod
+  vim.opt.foldmethod = vim.opt.foldmethod
 end
-vim.wo.linebreak = true
-vim.wo.number = true
-vim.wo.relativenumber = true
-vim.wo.signcolumn = 'auto'
+
 vim.g.netrw_winsize = 20
 vim.g.netrw_banner =  0
 vim.g.netrw_liststyle =  3
 vim.g.netrw_preview =  0
 vim.g.netrw_alto =  0
+-- disable unused built-in plugins
+vim.g.loaded_2html_plugin = false
+vim.g.loaded_matchit      = false
+vim.g.loaded_matchparen   = false
+vim.g.loaded_spec         = false
 -- }}}1 --------------------- OPTIONS ------------------------------------------
 -- {{{1 --------------------- MAPPINGS -----------------------------------------
 vim.api.nvim_set_keymap('', 'cd', '<Cmd>cd %:h | pwd<CR>', {noremap = true, silent = true})
@@ -120,17 +150,22 @@ vim.api.nvim_set_keymap('n', '<Leader>sl', [[ G?--<CR>jVGd :r ~/.mutt/signature<
 -- }}}
 -- {{{2 toggle to disable mouse mode and indentlines for easier paste
 ToggleMouse = function()
-  if vim.o.mouse == 'a' then
-    vim.wo.signcolumn='no'
-    vim.o.mouse = 'v'
-    vim.wo.number = false
-    vim.wo.relativenumber = false
+  local mouse_opts = vim.opt.mouse:get()
+  if mouse_opts.a then
+    vim.opt.mouse = 'v'
+    vim.opt.cursorcolumn = false
+    vim.opt.cursorline = false
+    vim.opt.signcolumn = 'no'
+    vim.opt.number = false
+    vim.opt.relativenumber = false
     print('Mouse disabled')
   else
-    vim.wo.signcolumn='yes'
-    vim.o.mouse = 'a'
-    vim.wo.number = true
-    vim.wo.relativenumber = true
+    vim.opt.mouse = 'a'
+    vim.opt.cursorcolumn = true
+    vim.opt.cursorline = true
+    vim.opt.signcolumn = 'yes'
+    vim.opt.number = true
+    vim.opt.relativenumber = true
     print('Mouse enabled')
   end
 end
@@ -1130,7 +1165,7 @@ packer.startup(function()
       if vim.fn.filereadable(vim.fn.expand('$HOME/.config/colours/nvim_theme.lua')) == 1 then
         vim.api.nvim_command[[luafile $HOME/.config/colours/nvim_theme.lua]]
       else
-        vim.api.nvim_command[[colorscheme slate]]
+        vim.api.nvim_command[[colorscheme desert]]
       end
       local get_modified = function()
         return '%m' or ''
