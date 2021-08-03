@@ -31,7 +31,7 @@ window:
   # fall back to the window manager's recommended size.
   dimensions:
    columns: 180
-   lines: 58
+   lines: 62
 
   # Window position (changes require restart)
   #
@@ -313,7 +313,7 @@ color_schemes:
       cyan:    '#56b6c2'
       white:   '#dcdfe4'
 
-colors: *artesanal_dark
+colors: *artesanal_light
 
     # Bright and dim foreground colors
     #
