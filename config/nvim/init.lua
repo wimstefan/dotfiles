@@ -91,7 +91,8 @@ vim.opt.modelineexpr = true
 
 vim.opt.foldcolumn = 'auto:4'
 vim.opt.foldlevel = 99
-if vim.opt.foldmethod == '' then
+local fm_opts = vim.opt.foldmethod:get()
+if fm_opts == '' or fm_opts == 'manual' then
   vim.opt.foldmethod = 'expr'
   vim.opt.foldexpr = 'nvim_treesitter#foldexpr()'
 else
@@ -148,28 +149,30 @@ vim.api.nvim_set_keymap('n', '<Leader>st', [[ G?--<CR>jVGd :r ~/.mutt/short-sign
 vim.api.nvim_set_keymap('n', '<Leader>ss', [[ G?--<CR>jVGd :r ~/.mutt/short-signature<CR> ]], {noremap = true, silent = true})
 vim.api.nvim_set_keymap('n', '<Leader>sl', [[ G?--<CR>jVGd :r ~/.mutt/signature<CR> ]], {noremap = true, silent = true})
 -- }}}
--- {{{2 toggle to disable mouse mode and indentlines for easier paste
-ToggleMouse = function()
+-- {{{2 toggle to disable detailed information for easier paste
+ToggleDetails = function()
   local mouse_opts = vim.opt.mouse:get()
   if mouse_opts.a then
     vim.opt.mouse = 'v'
     vim.opt.cursorcolumn = false
     vim.opt.cursorline = false
     vim.opt.signcolumn = 'no'
+    vim.opt.foldenable = false
     vim.opt.number = false
     vim.opt.relativenumber = false
-    print('Mouse disabled')
+    print('Details disabled')
   else
     vim.opt.mouse = 'a'
     vim.opt.cursorcolumn = true
     vim.opt.cursorline = true
     vim.opt.signcolumn = 'yes'
+    vim.opt.foldenable = true
     vim.opt.number = true
     vim.opt.relativenumber = true
-    print('Mouse enabled')
+    print('Details enabled')
   end
 end
-vim.api.nvim_set_keymap('n', '<F10>', '<Cmd>lua ToggleMouse()<CR>', { noremap = true })
+vim.api.nvim_set_keymap('n', '<F10>', '<Cmd>lua ToggleDetails()<CR>', { noremap = true , silent = true})
 -- }}}
 -- {{{2 abbreviations
 vim.api.nvim_exec([[
