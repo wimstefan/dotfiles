@@ -547,6 +547,15 @@ function terminal_title_preexec() {
 add-zsh-hook -Uz precmd terminal_title_precmd
 add-zsh-hook -Uz preexec terminal_title_preexec
 
+function npm-update()
+{
+  for i in $(npm -g outdated | rg -v Package | awk '{print $1}'); echo $i && npm -g update $i
+}
+
+function pip-update()
+{
+  for i in $(pip freeze --user | cut -d '=' -f 1); echo "--- $i ---" && pip install -U --user $i
+}
 
 # }}}3
 stty -ixon
@@ -740,11 +749,6 @@ if [[ $USER != root ]]; then
     artist="$1"
     title="$2"
     locate -d $HOME/Tango/ta-locate.db "$artist" | ug -i "$title"
-  }
-
-  function npm-update()
-  {
-    for i in $(npm -g outdated | rg -v Package | awk '{print $1}'); echo $i && npm -g update $i
   }
 
   # }}}3
