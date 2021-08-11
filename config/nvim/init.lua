@@ -349,6 +349,55 @@ packer.startup(function()
     cmd = 'StartupTime'
   }
 -- }}}
+-- {{{2 nvim-cmp
+use {
+  'hrsh7th/nvim-cmp',
+  requires = {
+    'hrsh7th/cmp-buffer',
+    'hrsh7th/cmp-calc',
+    'hrsh7th/cmp-path',
+    {
+      'hrsh7th/cmp-vsnip',
+      requires = {
+        {
+          'hrsh7th/vim-vsnip',
+          config = function()
+          end
+        },
+        'rafamadriz/friendly-snippets'
+      }
+    },
+    {
+      'hrsh7th/cmp-nvim-lsp',
+      config = function()
+        require('cmp_nvim_lsp').setup {}
+      end
+    },
+  },
+  config = function()
+    require('cmp').setup {
+      documentation = {
+        border = 'rounded'
+      },
+      snippet = {
+        expand = function(args)
+          vim.fn['vsnip#anonymous'](args.body)
+        end
+      },
+      sources = {
+        {name = 'buffer'},
+        {name = 'path'},
+        {name = 'calc'},
+        {name = 'vsnip'},
+        {name = 'nvim_lsp'},
+        {name = 'nvim_lua'},
+      }
+    }
+    vim.api.nvim_set_keymap('i', '<Tab>', 'pumvisible() ? "<C-N>" : "<Tab>"', {expr = true})
+    vim.api.nvim_set_keymap('i', '<S-Tab>', 'pumvisible() ? "<C-P>" : "<S-Tab>"', {expr = true})
+  end,
+}
+-- }}}
 -- {{{2 LSP
   use {
     'neovim/nvim-lspconfig',
@@ -720,106 +769,6 @@ packer.startup(function()
     config = function()
       require('which-key').setup {
         window = { border = 'rounded' }
-      }
-    end
-  }
--- }}}
--- {{{2 nvim-compe
-  use {
-    'hrsh7th/nvim-compe',
-    event = 'InsertEnter',
-    requires = {
-      {
-        'L3MON4D3/LuaSnip',
-        after = 'nvim-compe',
-        event = 'InsertCharPre',
-        config = function()
-          require('luasnip').config.set_config({
-            history = true,
-            updateevents = 'TextChanged,TextChangedI'
-          })
-          require('luasnip/loaders/from_vscode').load()
-        end,
-        requires = {
-          'rafamadriz/friendly-snippets',
-          event = 'InsertCharPre'
-        },
-      },
-      {
-        'andersevenrud/compe-tmux',
-        event = 'InsertCharPre'
-      }
-    },
-    config = function()
-      local t = function(str)
-        return vim.api.nvim_replace_termcodes(str, true, true, true)
-      end
-      local check_back_space = function()
-          local col = vim.fn.col('.') - 1
-          return col == 0 or vim.fn.getline('.'):sub(col, col):match('%s') ~= nil
-      end
-      _G.tab_complete = function()
-        if vim.fn.pumvisible() == 1 then
-          return t '<C-n>'
-        elseif require('luasnip').expand_or_jumpable() then
-          return t '<Plug>luasnip-expand-or-jump'
-        elseif check_back_space() then
-          return t '<Tab>'
-        else
-          return vim.fn['compe#complete']()
-        end
-      end
-      _G.s_tab_complete = function()
-        if vim.fn.pumvisible() == 1 then
-          return t '<C-p>'
-        elseif require('luasnip').jumpable(-1) then
-          return t '<Plug>luasnip-jump-prev'
-        else
-          return t '<S-Tab>'
-        end
-      end
-      vim.api.nvim_set_keymap('i', '<Tab>', 'v:lua.tab_complete()', {expr = true})
-      vim.api.nvim_set_keymap('s', '<Tab>', 'v:lua.tab_complete()', {expr = true})
-      vim.api.nvim_set_keymap('i', '<S-Tab>', 'v:lua.s_tab_complete()', {expr = true})
-      vim.api.nvim_set_keymap('s', '<S-Tab>', 'v:lua.s_tab_complete()', {expr = true})
-      vim.api.nvim_set_keymap('i', '<C-Space>', [[compe#complete()]], {silent = true, expr = true})
-      vim.api.nvim_set_keymap('i', '<CR>', [[compe#confirm('<CR>')]], {silent = true, expr = true})
-      vim.api.nvim_set_keymap('i', '<C-e>', [[compe#close('<C-e>')]], {silent = true, expr = true})
-      require('compe').setup {
-        enabled = true,
-        autocomplete = true,
-        debug = false,
-        min_length = 1,
-        preselect = 'enable',
-        throttle_time = 80,
-        source_timeout = 200,
-        incomplete_delay = 400,
-        max_abbr_width = 100,
-        max_kind_width = 100,
-        max_menu_width = 100,
-        documentation = {
-          border = 'rounded',
-          winhighlight = 'NormalFloat:CompeDocumentation,FloatBorder:CompeDocumentationBorder',
-          max_width = 120,
-          min_width = 60,
-          max_height = math.floor(vim.o.lines * 0.3),
-          min_height = 1,
-        },
-        source = {
-          buffer = true,
-          calc = true,
-          luasnip = true,
-          nvim_lsp = true,
-          nvim_lua = true,
-          omni = false,
-          path = true,
-          spell = true,
-          tags = false,
-          tmux = {
-            all_panes = true
-          },
-          treesitter = true
-        }
       }
     end
   }
