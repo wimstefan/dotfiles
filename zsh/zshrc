@@ -390,6 +390,7 @@ fi
 export HISTFILE="$HOME/.zsh/histfile"
 export HISTSIZE="5000"
 export SAVEHIST="5000"
+export MAKEFLAGS="-j $(nproc)"
 export CVS_RSH="ssh"
 export FZF_DEFAULT_COMMAND='fd --type f'
 export FZF_DEFAULT_OPTS='-x -m --cycle --border --layout=reverse --inline-info --height 90% --padding 2% --preview "bat {}" --preview-window right:70%:hidden:wrap --bind "?:toggle-preview" --color=bg+:-1,fg+:-1,hl:36,hl+:36,info:75'
