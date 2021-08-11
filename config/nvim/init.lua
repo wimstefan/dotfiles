@@ -31,7 +31,7 @@ vim.opt.fillchars = {
   msgsep = '⁘'
 }
 vim.opt.mouse = 'a'
-vim.opt.guifont = 'Iosevka Artesanal:h11'
+vim.opt.guifont = 'monospace:h11'
 
 vim.opt.shiftwidth = indent
 vim.opt.shiftround = true
@@ -77,7 +77,7 @@ elseif vim.fn.executable('ack') == 1 then
   vim.opt.grepprg = 'ack --nogroup --column --smart-case --nocolor --follow $*'
 end
 
-vim.opt.lazyredraw = true
+vim.opt.lazyredraw = false
 vim.opt.timeoutlen = 500
 vim.opt.updatetime = 300
 vim.opt.autowrite = true
@@ -89,7 +89,7 @@ vim.opt.undofile = true
 vim.opt.hidden = true
 vim.opt.modelineexpr = true
 
-vim.opt.foldcolumn = 'auto:4'
+vim.opt.foldcolumn = 'auto:8'
 vim.opt.foldlevel = 99
 local fm_opts = vim.opt.foldmethod:get()
 if fm_opts == '' or fm_opts == 'manual' then
