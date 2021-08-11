@@ -447,6 +447,69 @@ packer.startup(function()
     }
   }
 -- }}}
+-- {{{2 Telescope
+  use {
+    'nvim-telescope/telescope.nvim',
+    requires = {
+      'nvim-lua/popup.nvim',
+      'nvim-lua/plenary.nvim',
+      {
+        'nvim-telescope/telescope-fzf-native.nvim',
+        run = 'make'
+      }
+    },
+    config = function()
+      vim.api.nvim_set_keymap('n', '<Leader>T', [[<Cmd>lua require('telescope.builtin').builtin(require('telescope.themes').get_dropdown({previewer = false}))<CR>]], {noremap = true})
+      vim.api.nvim_set_keymap('n', '<Leader>b', [[<Cmd>lua require('telescope.builtin').buffers()<CR>]], {noremap = true, silent = true})
+      vim.api.nvim_set_keymap('n', '<Leader>c', [[<Cmd>lua require('telescope.builtin').colorscheme({enable_preview = true})<CR>]], {noremap = true, silent = true})
+      vim.api.nvim_set_keymap('n', '<Leader>f', [[<Cmd>lua require('telescope.builtin').find_files({follow = true})<CR>]], {noremap = true, silent = true})
+      vim.api.nvim_set_keymap('n', '<Leader>h', [[<Cmd>lua require('telescope.builtin').help_tags()<CR>]], {noremap = true, silent = true})
+      vim.api.nvim_set_keymap('n', '<Leader>M', [[<Cmd>lua require('telescope.builtin').man_pages()<CR>]], {noremap = true, silent = true})
+      vim.api.nvim_set_keymap('n', '<Leader>m', [[<Cmd>lua require('telescope.builtin').marks()<CR>]], {noremap = true, silent = true})
+      vim.api.nvim_set_keymap('n', '<Leader>r', [[<Cmd>lua require('telescope.builtin').registers()<CR>]], {noremap = true, silent = true})
+      vim.api.nvim_set_keymap('n', '<Leader>Tgb', [[<Cmd>lua require('telescope.builtin').git_bcommits()<CR>]], {noremap = true, silent = true})
+      vim.api.nvim_set_keymap('n', '<Leader>Tgc', [[<Cmd>lua require('telescope.builtin').git_commits()<CR>]], {noremap = true, silent = true})
+      vim.api.nvim_set_keymap('n', '<Leader>Tgf', [[<Cmd>lua require('telescope.builtin').git_files()<CR>]], {noremap = true, silent = true})
+      vim.api.nvim_set_keymap('n', '<Leader>Tgs', [[<Cmd>lua require('telescope.builtin').git_status()<CR>]], {noremap = true, silent = true})
+      vim.api.nvim_set_keymap('n', '<Leader>Tf', [[<Cmd>lua require('telescope.builtin').filetypes(require('telescope.themes').get_dropdown({}))<CR>]], {noremap = true, silent = true})
+      vim.api.nvim_set_keymap('n', '<Leader>Tg', [[<Cmd>lua require('telescope.builtin').live_grep()<CR>]], {noremap = true, silent = true})
+      vim.api.nvim_set_keymap('n', '<Leader>Tm', [[<Cmd>lua require('telescope.builtin').keymaps()<CR>]], {noremap = true, silent = true})
+      vim.api.nvim_set_keymap('n', '<Leader>Ts', [[<Cmd>lua require('telescope.builtin').spell_suggest()<CR>]], {noremap = true, silent = true})
+      vim.api.nvim_set_keymap('n', '<Leader>Tw', [[<Cmd>lua require('telescope.builtin').grep_string()<CR>]], {noremap = true, silent = true})
+      vim.api.nvim_set_keymap('n', '<Leader>Tx', [[<Cmd>lua require('telescope.builtin').file_browser({follow = true})<CR>]], {noremap = true, silent = true})
+      vim.api.nvim_exec([[
+        augroup Telescope
+          autocmd!
+          autocmd User TelescopePreviewerLoaded setlocal wrap
+        augroup END
+      ]], false)
+      require('telescope').setup {
+        defaults = {
+          dynamic_preview_title = true,
+          file_ignore_patterns = {'db', 'gif', 'jpeg', 'jpg', 'ods', 'odt', 'pdf', 'png', 'svg', 'xcf', 'xls'},
+          layout_strategy = 'flex',
+          mappings = {
+            i = {
+              ['<C-n>'] = require('telescope.actions').cycle_previewers_next,
+              ['<C-p>'] = require('telescope.actions').cycle_previewers_prev,
+              ['<C-q>'] = require('telescope.actions').smart_send_to_qflist +require('telescope.actions').open_qflist,
+              ['<M-q>'] = require('telescope.actions').smart_add_to_qflist +require('telescope.actions').open_qflist,
+            },
+          },
+        },
+        extensions = {
+          fzf = {
+            fuzzy = true,
+            override_generic_sorter = true,
+            override_file_sorter = true,
+            case_mode = "smart_case"
+          }
+        }
+      }
+      require('telescope').load_extension('fzf')
+    end
+  }
+-- }}}
 -- {{{2 nvim-cmp
 use {
   'hrsh7th/nvim-cmp',
@@ -746,72 +809,6 @@ use {
         setup_servers()
         vim.api.nvim_command[[bufdo e]] -- this triggers the FileType autocmd that starts the server
       end
-    end
-  }
--- }}}
--- {{{2 Telescope
-  use {
-    'nvim-telescope/telescope.nvim',
-    requires = {
-      'nvim-lua/popup.nvim',
-      'nvim-lua/plenary.nvim',
-      {
-        'nvim-telescope/telescope-fzf-native.nvim',
-        run = 'make',
-        config = function()
-          require('telescope').load_extension('fzf')
-        end
-      }
-    },
-    config = function()
-      vim.api.nvim_set_keymap('n', '<Leader>T', [[<Cmd>lua require('telescope.builtin').builtin(require('telescope.themes').get_dropdown({previewer = false}))<CR>]], {noremap = true})
-      vim.api.nvim_set_keymap('n', '<Leader>b', [[<Cmd>lua require('telescope.builtin').buffers()<CR>]], {noremap = true, silent = true})
-      vim.api.nvim_set_keymap('n', '<Leader>c', [[<Cmd>lua require('telescope.builtin').colorscheme({enable_preview = true})<CR>]], {noremap = true, silent = true})
-      vim.api.nvim_set_keymap('n', '<Leader>f', [[<Cmd>lua require('telescope.builtin').find_files({follow = true})<CR>]], {noremap = true, silent = true})
-      vim.api.nvim_set_keymap('n', '<Leader>h', [[<Cmd>lua require('telescope.builtin').help_tags()<CR>]], {noremap = true, silent = true})
-      vim.api.nvim_set_keymap('n', '<Leader>M', [[<Cmd>lua require('telescope.builtin').man_pages()<CR>]], {noremap = true, silent = true})
-      vim.api.nvim_set_keymap('n', '<Leader>m', [[<Cmd>lua require('telescope.builtin').marks()<CR>]], {noremap = true, silent = true})
-      vim.api.nvim_set_keymap('n', '<Leader>r', [[<Cmd>lua require('telescope.builtin').registers()<CR>]], {noremap = true, silent = true})
-      vim.api.nvim_set_keymap('n', '<Leader>Tgb', [[<Cmd>lua require('telescope.builtin').git_bcommits()<CR>]], {noremap = true, silent = true})
-      vim.api.nvim_set_keymap('n', '<Leader>Tgc', [[<Cmd>lua require('telescope.builtin').git_commits()<CR>]], {noremap = true, silent = true})
-      vim.api.nvim_set_keymap('n', '<Leader>Tgf', [[<Cmd>lua require('telescope.builtin').git_files()<CR>]], {noremap = true, silent = true})
-      vim.api.nvim_set_keymap('n', '<Leader>Tgs', [[<Cmd>lua require('telescope.builtin').git_status()<CR>]], {noremap = true, silent = true})
-      vim.api.nvim_set_keymap('n', '<Leader>Tf', [[<Cmd>lua require('telescope.builtin').filetypes(require('telescope.themes').get_dropdown({}))<CR>]], {noremap = true, silent = true})
-      vim.api.nvim_set_keymap('n', '<Leader>Tg', [[<Cmd>lua require('telescope.builtin').live_grep()<CR>]], {noremap = true, silent = true})
-      vim.api.nvim_set_keymap('n', '<Leader>Tm', [[<Cmd>lua require('telescope.builtin').keymaps()<CR>]], {noremap = true, silent = true})
-      vim.api.nvim_set_keymap('n', '<Leader>Ts', [[<Cmd>lua require('telescope.builtin').spell_suggest()<CR>]], {noremap = true, silent = true})
-      vim.api.nvim_set_keymap('n', '<Leader>Tw', [[<Cmd>lua require('telescope.builtin').grep_string()<CR>]], {noremap = true, silent = true})
-      vim.api.nvim_set_keymap('n', '<Leader>Tx', [[<Cmd>lua require('telescope.builtin').file_browser({follow = true})<CR>]], {noremap = true, silent = true})
-      vim.api.nvim_exec([[
-        augroup Telescope
-          autocmd!
-          autocmd User TelescopePreviewerLoaded setlocal wrap
-        augroup END
-      ]], false)
-      require('telescope').setup {
-        defaults = {
-          dynamic_preview_title = true,
-          file_ignore_patterns = {'gif', 'jpeg', 'jpg', 'pdf', 'png', 'svg'},
-          layout_strategy = 'flex',
-          mappings = {
-            i = {
-              ['<C-n>'] = require('telescope.actions').cycle_previewers_next,
-              ['<C-p>'] = require('telescope.actions').cycle_previewers_prev,
-              ['<C-q>'] = require('telescope.actions').smart_send_to_qflist +require('telescope.actions').open_qflist,
-              ['<M-q>'] = require('telescope.actions').smart_add_to_qflist +require('telescope.actions').open_qflist,
-            },
-          },
-        },
-        extensions = {
-          fzf = {
-            fuzzy = true,                    -- false will only do exact matching
-            override_generic_sorter = true, -- override the generic sorter
-            override_file_sorter = true,     -- override the file sorter
-            case_mode = "smart_case",        -- or "ignore_case" or "respect_case"
-                                            -- the default case_mode is "smart_case"
-          }
-        }
-      }
     end
   }
 -- }}}
