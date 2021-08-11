@@ -324,8 +324,8 @@ packer.startup(function()
     display = {
       open_cmd = '84vnew [packer]',
       working_sym = '..',
-      error_sym = 'x',
-      done_sym = '✓',
+      error_sym = '✘',
+      done_sym = '✔',
       removed_sym = '-',
       moved_sym = '->',
     }
@@ -943,20 +943,6 @@ use {
     end
   }
 -- }}}
--- {{{2 vim-sandwich
-  use {
-    'machakann/vim-sandwich',
-    after = 'nvim-treesitter',
-    keys = 's'
-  }
--- }}}
--- {{{2 vim-matchup
-  use {
-    'andymass/vim-matchup',
-    event = 'VimEnter',
-    after = 'nvim-treesitter'
-  }
--- }}}
 -- {{{2 vim-qf
   use {
     'romainl/vim-qf',
@@ -982,10 +968,43 @@ use {
     event = {'BufRead', 'QuickFixCmdPre', 'QuickFixCmdPost'}
   }
 -- }}}
+-- {{{2 vim-sandwich
+  use {
+    'machakann/vim-sandwich',
+    after = 'nvim-treesitter',
+    keys = 's'
+  }
+-- }}}
+-- {{{2 vim-matchup
+  use {
+    'andymass/vim-matchup',
+    event = 'VimEnter',
+    after = 'nvim-treesitter',
+    setup = function()
+      vim.g.matchup_matchparen_deferred = true
+      vim.g.matchup_matchparen_offscreen = {method = 'popup', fullwidth = true}
+      vim.g.matchup_surround_enabled = true
+    end
+  }
+-- }}}
+-- {{{2 nvim-hlslens
+  use {
+    'kevinhwang91/nvim-hlslens',
+    config = function()
+      require('hlslens').setup()
+      vim.api.nvim_set_keymap('n', 'n', [[<Cmd>execute('norm! ' . v:count1 . 'n')<CR><Cmd>lua require('hlslens').start()<CR>]], {noremap = true, silent = true})
+      vim.api.nvim_set_keymap('n', 'N', [[<Cmd>execute('norm! ' . v:count1 . 'N')<CR><Cmd>lua require('hlslens').start()<CR>]], {noremap = true, silent = true})
+      vim.api.nvim_set_keymap('n', '*', [[*<Cmd>lua require('hlslens').start()<CR>]], {noremap = true, silent = true})
+      vim.api.nvim_set_keymap('n', 'g*', [[g*<Cmd>lua require('hlslens').start()<CR>]], {noremap = true, silent = true})
+      vim.api.nvim_set_keymap('n', '#', [[#<Cmd>lua require('hlslens').start()<CR>]], {noremap = true, silent = true})
+      vim.api.nvim_set_keymap('n', 'g#', [[g#<Cmd>lua require('hlslens').start()<CR>]], {noremap = true, silent = true})
+    end
+  }
+-- }}}
 -- {{{2 nvim-bqf
   use {
     'kevinhwang91/nvim-bqf',
-    event = {'BufRead', 'QuickFixCmdPre', 'QuickFixCmdPost'},
+    event = {'QuickFixCmdPre', 'QuickFixCmdPost'},
     config = function()
       require('bqf').setup {
         auto_enable = true
@@ -1124,7 +1143,7 @@ use {
       vim.g.edge_transparent_background = 1
       vim.g.edge_diagnostic_line_highlight = 1
       vim.g.edge_diagnostic_text_highlight = 1
-      vim.g.edge_diagnostic_virtual_text = 1
+      vim.g.edge_diagnostic_virtual_text = 'colored'
       vim.g.edge_current_word = 'bold'
       vim.g.edge_show_eob = 0
     end
