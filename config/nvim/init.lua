@@ -349,6 +349,104 @@ packer.startup(function()
     cmd = 'StartupTime'
   }
 -- }}}
+-- {{{2 Treesitter
+  use {
+    'nvim-treesitter/nvim-treesitter',
+    event = 'BufRead',
+    run = ':TSUpdate',
+    config = function()
+      require('nvim-treesitter.configs').setup {
+        ensure_installed = 'maintained',
+        autotag = {
+          enable = true
+        },
+        highlight = {
+          enable = true,
+          use_languagetree = true
+        },
+        incremental_selection = {
+          enable = true,
+        keymaps = {
+          init_selection = 'gnn',
+          node_incremental = 'grn',
+          scope_incremental = 'grc',
+          node_decremental = 'grm',
+        },
+        },
+        indent = {
+          enable = false
+        },
+        matchup = {
+          enable = true
+        },
+        playground = {
+          enable = true
+        },
+        textobjects = {
+          move = {
+            enable = true,
+            set_jumps = true,
+            goto_next_start = {
+              [']m'] = '@function.outer',
+              [']]'] = '@class.outer',
+            },
+            goto_next_end = {
+              [']M'] = '@function.outer',
+              [']['] = '@class.outer',
+            },
+            goto_previous_start = {
+              ['[m'] = '@function.outer',
+              ['[['] = '@class.outer',
+            },
+            goto_previous_end = {
+              ['[M'] = '@function.outer',
+              ['[]'] = '@class.outer',
+            },
+          },
+          select = {
+            enable = true,
+            lookahead = true,
+            keymaps = {
+              ['af'] = '@function.outer',
+              ['if'] = '@function.inner',
+              ['ac'] = '@class.outer',
+              ['ic'] = '@class.inner',
+            },
+          },
+          swap = {
+            enable = true,
+            swap_next = {
+              ['[S'] = '@parameter.inner',
+            },
+            swap_previous = {
+              [']S'] = '@parameter.inner',
+            },
+          },
+        },
+      }
+    end,
+    requires = {
+      {
+        'nvim-treesitter/nvim-treesitter-textobjects',
+        event = 'InsertEnter',
+        after = 'nvim-treesitter'
+      },
+      {
+        'windwp/nvim-ts-autotag',
+        event = 'InsertEnter',
+        after = 'nvim-treesitter'
+      },
+      {
+        'nvim-treesitter/playground',
+        config = function ()
+          vim.api.nvim_set_keymap('n', '<F12>', [[<Cmd>TSHighlightCapturesUnderCursor<CR>]], {noremap = true, silent = false})
+          vim.api.nvim_set_keymap('n', ',tsp', [[<Cmd>TSPlaygroundToggle<CR>]], {noremap = true, silent = true})
+        end,
+        after = 'nvim-treesitter'
+      }
+    }
+  }
+-- }}}
 -- {{{2 nvim-cmp
 use {
   'hrsh7th/nvim-cmp',
@@ -649,52 +747,6 @@ use {
         vim.api.nvim_command[[bufdo e]] -- this triggers the FileType autocmd that starts the server
       end
     end
-  }
--- }}}
--- {{{2 Treesitter
-  use {
-    'nvim-treesitter/nvim-treesitter',
-    event = 'BufRead',
-    run = ':TSUpdate',
-    config = function()
-      require('nvim-treesitter.configs').setup {
-        ensure_installed = 'maintained',
-        autotag = {
-          enable = true
-        },
-        highlight = {
-          enable = true,
-          use_languagetree = true
-        },
-        incremental_selection = {
-          enable = true
-        },
-        indent = {
-          enable = false
-        },
-        matchup = {
-          enable = true
-        },
-        playground = {
-          enable = true
-        }
-      }
-    end,
-    requires = {
-      {
-        'windwp/nvim-ts-autotag',
-        event = 'InsertEnter',
-        after = 'nvim-treesitter'
-      },
-      {
-        'nvim-treesitter/playground',
-        config = function ()
-          vim.api.nvim_set_keymap('n', '<F12>', [[<Cmd>TSHighlightCapturesUnderCursor<CR>]], {noremap = true, silent = false})
-          vim.api.nvim_set_keymap('n', ',tsp', [[<Cmd>TSPlaygroundToggle<CR>]], {noremap = true, silent = true})
-        end,
-        after = 'nvim-treesitter'
-      }
-    }
   }
 -- }}}
 -- {{{2 Telescope
