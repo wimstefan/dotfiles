@@ -1114,12 +1114,14 @@ packer.startup(function()
     'sainnhe/edge',
     setup = function()
       vim.g.edge_style = 'neon'
+      vim.g.edge_better_performance = 1
       vim.g.edge_enable_italic = 1
       vim.g.edge_transparent_background = 1
       vim.g.edge_diagnostic_line_highlight = 1
       vim.g.edge_diagnostic_text_highlight = 1
       vim.g.edge_diagnostic_virtual_text = 1
       vim.g.edge_current_word = 'bold'
+      vim.g.edge_show_eob = 0
     end
   }
 -- }}}
@@ -1130,8 +1132,8 @@ packer.startup(function()
       vim.g.tokyonight_style = 'storm'
       vim.g.tokyonight_italic_functions = 1
       vim.g.tokyonight_sidebars = {'qf', 'netrw', 'terminal'}
-      vim.g.tokyonight_dark_float = 1
-      vim.g.tokyonight_dark_sidebar = 1
+      vim.g.tokyonight_dark_float = 0
+      vim.g.tokyonight_dark_sidebar = 0
       vim.g.tokyonight_transparent = 1
       vim.g.tokyonight_day_brightness = '0.3'
     end
@@ -1156,14 +1158,24 @@ packer.startup(function()
     end
   }
 -- }}}
--- {{{3 github-nvim-theme
-  use {'projekt0n/github-nvim-theme'}
+-- {{{3 nordbuddy
+  use {
+    'maaslalani/nordbuddy',
+    setup = function()
+      vim.g.nord_underline_option = 'undercurl'
+      vim.g.nord_italic = true
+      vim.g.nord_italic_comments = true
+      vim.g.nord_minimal_mode = true
+    end
+  }
 -- }}}
 -- }}}
--- {{{2 lualine.nvim
+-- {{{2 Statusline
+-- {{{3 lualine.nvim
   use {
     'shadmansaleh/lualine.nvim',
     event = {'BufEnter', 'ColorScheme', 'WinEnter'},
+    requires = {'kyazdani42/nvim-web-devicons', opt = true},
     config = function()
       if vim.fn.filereadable(vim.fn.expand('$HOME/.config/colours/nvim_theme.lua')) == 1 then
         vim.api.nvim_command[[luafile $HOME/.config/colours/nvim_theme.lua]]
@@ -1191,6 +1203,12 @@ packer.startup(function()
         end
         return '[SP]'
       end
+      local diff_source = function()
+        local gitsigns = vim.b.gitsigns_status_dict
+        if gitsigns then
+          return {added = gitsigns.added, modified = gitsigns.changed, removed = gitsigns.removed}
+        end
+      end
       local minimal_extension = {
         sections = {
           lualine_a = {{'filename', file_status = false}},
@@ -1205,7 +1223,7 @@ packer.startup(function()
 
       require('lualine').setup {
         options = {
-          icons_enabled = false,
+          icons_enabled = true,
           section_separators = {'┃', '┃'},
           component_separators = {''},
         },
@@ -1236,19 +1254,19 @@ packer.startup(function()
             },
           },
           lualine_x = {
-            require('lsp-status').status,
+            function() return require('lsp-status').status() end,
             {
               'diagnostics',
               sources = {'nvim_lsp'},
-              sections = {'error', 'warn', 'info', 'hint'},
+              color_warn = {fg = 'orange'},
+              symbols = { error = '  ', warn = '   ', info = '   ', hint = '  ' }
             },
           },
           lualine_y = {
             {
               'diff',
-              color_added = 'orange',
-              color_modified = 'red',
-              color_removed = 'green'
+              source = diff_source,
+              symbols = { added = '  ', modified = '  ', removed = '  ' },
             },
             'branch'
           },
@@ -1266,6 +1284,7 @@ packer.startup(function()
       }
     end
   }
+-- }}}
 -- }}}
 end)
 -- }}}1 --------------------- PLUGINS ------------------------------------------
