@@ -1005,6 +1005,7 @@ use {
   use {
     'kevinhwang91/nvim-bqf',
     event = {'QuickFixCmdPre', 'QuickFixCmdPost'},
+    after = 'vim-qf',
     config = function()
       require('bqf').setup {
         auto_enable = true
