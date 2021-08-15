@@ -744,16 +744,20 @@ use {
       }
       local lua_settings = {
         Lua = {
-          runtime = { version = 'LuaJIT', path = vim.split(package.path, ';'), },
+          runtime = {
+            version = 'LuaJIT',
+            path = vim.split(package.path, ';')
+          },
           diagnostics = {
             enable = true,
-            globals = {'vim', 'describe', 'it', 'before_each', 'after_each', 'awsesome', 'theme', 'client', 'P'},
+            globals = {'vim'}
           },
           workspace = {
-            preloadFileSize = 400,
+            library = vim.api.nvim_get_runtime_file('', true),
+            preloadFileSize = 400
           },
           telemetry = {
-            enable = false,
+            enable = false
           },
         }
       }
