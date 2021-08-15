@@ -1243,6 +1243,9 @@ use {
         end
         return '[SP]'
       end
+      local get_path = function()
+        return '%F'
+      end
       local diff_source = function()
         local gitsigns = vim.b.gitsigns_status_dict
         if gitsigns then
@@ -1251,7 +1254,7 @@ use {
       end
       local minimal_extension = {
         sections = {
-          lualine_a = {{'filename', file_status = false}},
+          lualine_a = {get_path},
           lualine_b = {},
           lualine_c = {},
           lualine_x = {},
@@ -1271,7 +1274,7 @@ use {
           lualine_a = {'mode'},
           lualine_b = {'location', 'progress'},
           lualine_c = {
-            {'filename', file_status = false, path = 3},
+            {get_path},
             {
               get_readonly,
               padding = 0,
@@ -1313,7 +1316,7 @@ use {
           lualine_z = {'filetype'},
         },
         inactive_sections = {
-          lualine_a = {'filename'},
+          lualine_a = {get_path},
           lualine_b = {},
           lualine_c = {},
           lualine_x = {},
