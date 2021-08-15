@@ -947,6 +947,25 @@ use {
     end
   }
 -- }}}
+-- {{{2 vim-sandwich
+  use {
+    'machakann/vim-sandwich',
+    after = 'nvim-treesitter',
+    keys = 's'
+  }
+-- }}}
+-- {{{2 vim-matchup
+  use {
+    'andymass/vim-matchup',
+    event = 'VimEnter',
+    after = 'nvim-treesitter',
+    setup = function()
+      vim.g.matchup_matchparen_deferred = true
+      vim.g.matchup_matchparen_offscreen = {method = 'popup', fullwidth = true}
+      vim.g.matchup_surround_enabled = true
+    end
+  }
+-- }}}
 -- {{{2 vim-qf
   use {
     'romainl/vim-qf',
@@ -972,22 +991,15 @@ use {
     event = {'BufRead', 'QuickFixCmdPre', 'QuickFixCmdPost'}
   }
 -- }}}
--- {{{2 vim-sandwich
+-- {{{2 nvim-bqf
   use {
-    'machakann/vim-sandwich',
-    after = 'nvim-treesitter',
-    keys = 's'
-  }
--- }}}
--- {{{2 vim-matchup
-  use {
-    'andymass/vim-matchup',
-    event = 'VimEnter',
-    after = 'nvim-treesitter',
-    setup = function()
-      vim.g.matchup_matchparen_deferred = true
-      vim.g.matchup_matchparen_offscreen = {method = 'popup', fullwidth = true}
-      vim.g.matchup_surround_enabled = true
+    'kevinhwang91/nvim-bqf',
+    event = {'QuickFixCmdPre', 'QuickFixCmdPost'},
+    after = 'vim-qf',
+    config = function()
+      require('bqf').setup {
+        auto_enable = true
+      }
     end
   }
 -- }}}
@@ -1005,16 +1017,10 @@ use {
     end
   }
 -- }}}
--- {{{2 nvim-bqf
+-- {{{2 vim-simple-align
   use {
-    'kevinhwang91/nvim-bqf',
-    event = {'QuickFixCmdPre', 'QuickFixCmdPost'},
-    after = 'vim-qf',
-    config = function()
-      require('bqf').setup {
-        auto_enable = true
-      }
-    end
+    'kg8m/vim-simple-align',
+    cmd = 'SimpleAlign'
   }
 -- }}}
 -- {{{2 rnvimr
@@ -1059,16 +1065,21 @@ use {
     cmd = 'DirDiff'
   }
 -- }}}
+-- {{{2 paperplanes.nvim
+use {
+  'rktjmp/paperplanes.nvim',
+  config = function()
+    require('paperplanes').setup({
+      register = 'p',
+      provider = '0x0.st'
+    })
+  end
+}
+-- }}}
 -- {{{2 vim-renamer
   use {
     'qpkorr/vim-renamer',
     cmd = {'Ren', 'Renamer'}
-  }
--- }}}
--- {{{2 vim-simple-align
-  use {
-    'kg8m/vim-simple-align',
-    cmd = 'SimpleAlign'
   }
 -- }}}
 -- {{{2 vim-gnupg
