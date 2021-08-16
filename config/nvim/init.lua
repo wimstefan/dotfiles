@@ -625,18 +625,18 @@ use {
         '   [Unit]',
         '   [Value]',
         ' 練 [Enum]',
-        ' 者 [EnumMember]',
         '   [Keyword]',
         ' ✂  [Snippet]',
         '   [Color]',
+        ' ﰹ  [File]',
         '   [Reference]',
+        ' ﱮ  [Folder]',
+        ' 者 [EnumMember]',
         ' ﭭ  [Constant]',
         ' פּ  [Struct]',
         ' 數 [Event]',
         ' 璉 [Operator]',
-        '   [TypeParameter]',
-        ' ﰹ  [File]',
-        ' ﱮ  [Folder]'
+        '   [TypeParameter]'
       }
 
       -- lsp-status config
