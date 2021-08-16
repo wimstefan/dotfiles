@@ -554,15 +554,15 @@ use {
         {name = 'nvim_lua'},
       }
     }
-    vim.api.nvim_set_keymap('i', '<Tab>', 'pumvisible() ? "<C-N>" : "<Tab>"', {expr = true})
-    vim.api.nvim_set_keymap('i', '<S-Tab>', 'pumvisible() ? "<C-P>" : "<S-Tab>"', {expr = true})
+    for index, value in ipairs(vim.lsp.protocol.CompletionItemKind) do
+      cmp.lsp.CompletionItemKind[index] = value
+    end
   end,
 }
 -- }}}
 -- {{{2 LSP
   use {
     'neovim/nvim-lspconfig',
-    event = 'BufReadPre',
     requires = {
       'kabouzeid/nvim-lspinstall',
       {'RishabhRD/nvim-lsputils', requires = 'RishabhRD/popfix'},
@@ -573,17 +573,57 @@ use {
       local lsp_install = require('lspinstall')
       local lsp_status = require('lsp-status')
 
+      -- symbols for diagnostics
+      local signs = {
+        Error = ' ',
+        Warning = ' ',
+        Hint = ' ',
+        Information = ' ',
+      }
+      for type, icon in pairs(signs) do
+        local hl = 'LspDiagnosticsSign' .. type
+        vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = '' })
+      end
+
+      -- symbols for autocomplete
+      vim.lsp.protocol.CompletionItemKind = {
+        '   [Text]',
+        '   [Method]',
+        '   [Function]',
+        ' אּ  [Constructor]',
+        ' ﴲ  [Field]',
+        '   [Variable]',
+        '   [Class]',
+        ' ﰮ  [Interface]',
+        '   [Module]',
+        ' 襁 [Property]',
+        '   [Unit]',
+        '   [Value]',
+        ' 練 [Enum]',
+        ' 者 [EnumMember]',
+        '   [Keyword]',
+        ' ✂  [Snippet]',
+        '   [Color]',
+        '   [Reference]',
+        ' ﭭ  [Constant]',
+        ' פּ  [Struct]',
+        ' 數 [Event]',
+        ' 璉 [Operator]',
+        '   [TypeParameter]',
+        ' ﰹ  [File]',
+        ' ﱮ  [Folder]'
+      }
+
       -- lsp-status config
       lsp_status.config {
         current_function = true,
         diagnostics = false,
-        indicator_separator = ':',
-        indicator_errors = 'E',
-        indicator_warnings = 'W',
-        indicator_info = 'I',
-        indicator_hint = 'H',
+        indicator_errors = ' ' .. vim.trim(vim.fn.sign_getdefined('LspDiagnosticsSignError')[1].text) .. ' ',
+        indicator_warnings = ' ' .. vim.trim(vim.fn.sign_getdefined('LspDiagnosticsSignWarning')[1].text) .. ' ',
+        indicator_info = ' ' .. vim.trim(vim.fn.sign_getdefined('LspDiagnosticsSignInformation')[1].text) .. ' ',
+        indicator_hint = ' ' .. vim.trim(vim.fn.sign_getdefined('LspDiagnosticsSignHint')[1].text) .. ' ',
         indicator_ok = 'OK',
-        status_symbol = '[LSP]',
+        status_symbol = '[LSP] ',
       }
       lsp_status.register_progress()
 
@@ -658,16 +698,6 @@ use {
       vim.lsp.handlers['textDocument/hover'] = vim.lsp.with(vim.lsp.handlers.hover, {
         border = 'rounded'
       })
-
-      -- symbols for autocomplete
-      vim.lsp.protocol.CompletionItemKind = {
-        "   (Text) ", "   (Method)", "   (Function)", "   (Constructor)",
-        " ﴲ  (Field)", "[] (Variable)", "   (Class)", " ﰮ  (Interface)",
-        "   (Module)", " 襁 (Property)", "   (Unit)", "   (Value)", " 練 (Enum)",
-        "   (Keyword)", "   (Snippet)", "   (Color)", "   (File)",
-        "   (Reference)", "   (Folder)", "   (EnumMember)", " ﲀ  (Constant)",
-        " ﳤ  (Struct)", "   (Event)", "   (Operator)", "   (TypeParameter)"
-      }
 
       local on_attach = function(client,bufnr)
         local lsp_messages = {}
@@ -1302,7 +1332,12 @@ use {
               'diagnostics',
               sources = {'nvim_lsp'},
               color_warn = {fg = 'orange'},
-              symbols = { error = '  ', warn = '   ', info = '   ', hint = '  ' }
+              symbols = {
+                error = ' ' .. vim.trim(vim.fn.sign_getdefined('LspDiagnosticsSignError')[1].text) .. ' ',
+                warn = ' ' .. vim.trim(vim.fn.sign_getdefined('LspDiagnosticsSignWarning')[1].text) .. ' ',
+                info = ' ' .. vim.trim(vim.fn.sign_getdefined('LspDiagnosticsSignInformation')[1].text) .. ' ',
+                hint = ' ' .. vim.trim(vim.fn.sign_getdefined('LspDiagnosticsSignHint')[1].text) .. ' '
+              }
             },
           },
           lualine_y = {
