@@ -571,14 +571,7 @@ use {
         end
       },
       sources = {
-        {
-          name = 'buffer',
-          opts = {
-            get_bufnrs = function()
-              return vim.api.nvim_list_bufs()()
-            end
-          }
-        },
+        {name = 'buffer'},
         {name = 'nvim_lsp'},
         {name = 'nvim_lua'},
         {name = 'vsnip'},
