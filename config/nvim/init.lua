@@ -510,81 +510,6 @@ packer.startup(function()
     end
   }
 -- }}}
--- {{{2 nvim-cmp
-use {
-  'hrsh7th/nvim-cmp',
-  after = 'nvim-lspconfig',
-  requires = {
-    {
-      'hrsh7th/cmp-buffer',
-      after = 'nvim-cmp'
-    },
-    {
-      'hrsh7th/cmp-calc',
-      after = 'nvim-cmp'
-    },
-    {
-      'hrsh7th/cmp-path',
-      after = 'nvim-cmp'
-    },
-    {
-      'hrsh7th/cmp-vsnip',
-      after = 'nvim-cmp',
-      requires = {
-        'hrsh7th/vim-vsnip',
-        'rafamadriz/friendly-snippets'
-      }
-    },
-    {
-      'hrsh7th/cmp-nvim-lsp',
-      after = 'nvim-cmp',
-      config = function()
-        require('cmp_nvim_lsp').setup {}
-      end
-    },
-  },
-  config = function()
-    local cmp = require('cmp')
-    local types = require('cmp.types')
-    cmp.setup {
-      completion = {
-        autocomplete = {types.cmp.TriggerEvent.InsertEnter, types.cmp.TriggerEvent.TextChanged}
-      },
-      documentation = {
-        border = 'rounded'
-      },
-      mapping = {
-        ['<TAB>'] = cmp.mapping.next_item(),
-        ['<S-TAB>'] = cmp.mapping.prev_item(),
-        ['<C-d>'] = cmp.mapping.scroll(-4),
-        ['<C-f>'] = cmp.mapping.scroll(4),
-        ['<C-Space>'] = cmp.mapping.complete(),
-        ['<C-e>'] = cmp.mapping.close(),
-        ['<CR>'] = cmp.mapping.confirm({
-          behavior = cmp.ConfirmBehavior.Replace,
-          select = true,
-        })
-      },
-      snippet = {
-        expand = function(args)
-          vim.fn['vsnip#anonymous'](args.body)
-        end
-      },
-      sources = {
-        {name = 'buffer'},
-        {name = 'nvim_lsp'},
-        {name = 'nvim_lua'},
-        {name = 'vsnip'},
-        {name = 'path'},
-        {name = 'calc'},
-      }
-    }
-    for index, value in ipairs(vim.lsp.protocol.CompletionItemKind) do
-      cmp.lsp.CompletionItemKind[index] = value
-    end
-  end,
-}
--- }}}
 -- {{{2 LSP
   use {
     'neovim/nvim-lspconfig',
@@ -877,6 +802,81 @@ use {
       end
     end
   }
+-- }}}
+-- {{{2 nvim-cmp
+use {
+  'hrsh7th/nvim-cmp',
+  after = 'nvim-lspconfig',
+  requires = {
+    {
+      'hrsh7th/cmp-buffer',
+      after = 'nvim-cmp'
+    },
+    {
+      'hrsh7th/cmp-calc',
+      after = 'nvim-cmp'
+    },
+    {
+      'hrsh7th/cmp-path',
+      after = 'nvim-cmp'
+    },
+    {
+      'hrsh7th/cmp-vsnip',
+      after = 'nvim-cmp',
+      requires = {
+        'hrsh7th/vim-vsnip',
+        'rafamadriz/friendly-snippets'
+      }
+    },
+    {
+      'hrsh7th/cmp-nvim-lsp',
+      after = 'nvim-cmp',
+      config = function()
+        require('cmp_nvim_lsp').setup {}
+      end
+    },
+  },
+  config = function()
+    local cmp = require('cmp')
+    local types = require('cmp.types')
+    cmp.setup {
+      completion = {
+        autocomplete = {types.cmp.TriggerEvent.InsertEnter, types.cmp.TriggerEvent.TextChanged}
+      },
+      documentation = {
+        border = 'rounded'
+      },
+      mapping = {
+        ['<TAB>'] = cmp.mapping.next_item(),
+        ['<S-TAB>'] = cmp.mapping.prev_item(),
+        ['<C-d>'] = cmp.mapping.scroll(-4),
+        ['<C-f>'] = cmp.mapping.scroll(4),
+        ['<C-Space>'] = cmp.mapping.complete(),
+        ['<C-e>'] = cmp.mapping.close(),
+        ['<CR>'] = cmp.mapping.confirm({
+          behavior = cmp.ConfirmBehavior.Replace,
+          select = true,
+        })
+      },
+      snippet = {
+        expand = function(args)
+          vim.fn['vsnip#anonymous'](args.body)
+        end
+      },
+      sources = {
+        {name = 'buffer'},
+        {name = 'nvim_lsp'},
+        {name = 'nvim_lua'},
+        {name = 'vsnip'},
+        {name = 'path'},
+        {name = 'calc'},
+      }
+    }
+    for index, value in ipairs(vim.lsp.protocol.CompletionItemKind) do
+      cmp.lsp.CompletionItemKind[index] = value
+    end
+  end,
+}
 -- }}}
 -- {{{2 which-key.nvim
   use {
