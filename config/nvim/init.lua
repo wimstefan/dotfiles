@@ -513,32 +513,57 @@ packer.startup(function()
 -- {{{2 nvim-cmp
 use {
   'hrsh7th/nvim-cmp',
+  after = 'nvim-lspconfig',
   requires = {
-    'hrsh7th/cmp-buffer',
-    'hrsh7th/cmp-calc',
-    'hrsh7th/cmp-path',
+    {
+      'hrsh7th/cmp-buffer',
+      after = 'nvim-cmp'
+    },
+    {
+      'hrsh7th/cmp-calc',
+      after = 'nvim-cmp'
+    },
+    {
+      'hrsh7th/cmp-path',
+      after = 'nvim-cmp'
+    },
     {
       'hrsh7th/cmp-vsnip',
+      after = 'nvim-cmp',
       requires = {
-        {
-          'hrsh7th/vim-vsnip',
-          config = function()
-          end
-        },
+        'hrsh7th/vim-vsnip',
         'rafamadriz/friendly-snippets'
       }
     },
     {
       'hrsh7th/cmp-nvim-lsp',
+      after = 'nvim-cmp',
       config = function()
         require('cmp_nvim_lsp').setup {}
       end
     },
   },
   config = function()
-    require('cmp').setup {
+    local cmp = require('cmp')
+    local types = require('cmp.types')
+    cmp.setup {
+      completion = {
+        autocomplete = {types.cmp.TriggerEvent.InsertEnter, types.cmp.TriggerEvent.TextChanged}
+      },
       documentation = {
         border = 'rounded'
+      },
+      mapping = {
+        ['<TAB>'] = cmp.mapping.next_item(),
+        ['<S-TAB>'] = cmp.mapping.prev_item(),
+        ['<C-d>'] = cmp.mapping.scroll(-4),
+        ['<C-f>'] = cmp.mapping.scroll(4),
+        ['<C-Space>'] = cmp.mapping.complete(),
+        ['<C-e>'] = cmp.mapping.close(),
+        ['<CR>'] = cmp.mapping.confirm({
+          behavior = cmp.ConfirmBehavior.Replace,
+          select = true,
+        })
       },
       snippet = {
         expand = function(args)
@@ -546,12 +571,19 @@ use {
         end
       },
       sources = {
-        {name = 'buffer'},
-        {name = 'path'},
-        {name = 'calc'},
-        {name = 'vsnip'},
+        {
+          name = 'buffer',
+          opts = {
+            get_bufnrs = function()
+              return vim.api.nvim_list_bufs()()
+            end
+          }
+        },
         {name = 'nvim_lsp'},
         {name = 'nvim_lua'},
+        {name = 'vsnip'},
+        {name = 'path'},
+        {name = 'calc'},
       }
     }
     for index, value in ipairs(vim.lsp.protocol.CompletionItemKind) do
