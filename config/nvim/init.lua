@@ -809,6 +809,25 @@ use {
   after = 'nvim-lspconfig',
   requires = {
     {
+      'hrsh7th/cmp-nvim-lua',
+      after = 'nvim-cmp'
+    },
+    {
+      'hrsh7th/cmp-nvim-lsp',
+      after = 'nvim-cmp',
+      config = function()
+        require('cmp_nvim_lsp').setup {}
+      end
+    },
+    {
+      'hrsh7th/cmp-vsnip',
+      after = 'nvim-cmp',
+      requires = {
+        'hrsh7th/vim-vsnip',
+        'rafamadriz/friendly-snippets'
+      }
+    },
+    {
       'hrsh7th/cmp-buffer',
       after = 'nvim-cmp'
     },
@@ -820,35 +839,32 @@ use {
       'hrsh7th/cmp-path',
       after = 'nvim-cmp'
     },
-    {
-      'hrsh7th/cmp-vsnip',
-      after = 'nvim-cmp',
-      requires = {
-        'hrsh7th/vim-vsnip',
-        'rafamadriz/friendly-snippets'
-      }
-    },
-    {
-      'hrsh7th/cmp-nvim-lsp',
-      after = 'nvim-cmp',
-      config = function()
-        require('cmp_nvim_lsp').setup {}
-      end
-    },
   },
   config = function()
     local cmp = require('cmp')
-    local types = require('cmp.types')
     cmp.setup {
-      completion = {
-        autocomplete = {types.cmp.TriggerEvent.InsertEnter, types.cmp.TriggerEvent.TextChanged}
-      },
       documentation = {
         border = 'rounded'
       },
       mapping = {
-        ['<TAB>'] = cmp.mapping.next_item(),
-        ['<S-TAB>'] = cmp.mapping.prev_item(),
+        ['<Tab>'] = cmp.mapping.mode({ 'i', 's' }, function(core, fallback)
+          if vim.fn.pumvisible() == 1 then
+            vim.fn.feedkeys(vim.api.nvim_replace_termcodes('<C-n>', true, true, true), 'n')
+          elseif vim.fn.call("vsnip#available", {1}) == 1 then
+            vim.fn.feedkeys(vim.api.nvim_replace_termcodes('<Plug>vsnip-expand-or-jump', true, true, true), '')
+          else
+            fallback()
+          end
+        end),
+        ['<S-Tab>'] = cmp.mapping.mode({ 'i', 's' }, function(core, fallback)
+          if vim.fn.pumvisible() == 1 then
+            vim.fn.feedkeys(vim.api.nvim_replace_termcodes('<C-p>', true, true, true), 'n')
+          elseif vim.fn.call("vsnip#jumpable", {-1}) == 1 then
+            vim.fn.feedkeys(vim.api.nvim_replace_termcodes('<Plug>vsnip-jump-prev', true, true, true), '')
+          else
+            fallback()
+          end
+        end),
         ['<C-d>'] = cmp.mapping.scroll(-4),
         ['<C-f>'] = cmp.mapping.scroll(4),
         ['<C-Space>'] = cmp.mapping.complete(),
@@ -864,10 +880,10 @@ use {
         end
       },
       sources = {
-        {name = 'buffer'},
-        {name = 'nvim_lsp'},
         {name = 'nvim_lua'},
+        {name = 'nvim_lsp'},
         {name = 'vsnip'},
+        {name = 'buffer'},
         {name = 'path'},
         {name = 'calc'},
       }
