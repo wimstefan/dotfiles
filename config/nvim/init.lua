@@ -514,13 +514,11 @@ packer.startup(function()
   use {
     'neovim/nvim-lspconfig',
     requires = {
-      'kabouzeid/nvim-lspinstall',
       {'RishabhRD/nvim-lsputils', requires = 'RishabhRD/popfix'},
       'nvim-lua/lsp-status.nvim',
     },
     config = function()
       local lsp_config = require('lspconfig')
-      local lsp_install = require('lspinstall')
       local lsp_status = require('lsp-status')
 
       -- symbols for diagnostics
@@ -537,43 +535,43 @@ packer.startup(function()
 
       -- symbols for autocomplete
       vim.lsp.protocol.CompletionItemKind = {
-        '   [Text]',
-        '   [Method]',
-        '   [Function]',
-        ' אּ  [Constructor]',
-        ' ﴲ  [Field]',
-        '   [Variable]',
-        '   [Class]',
-        ' ﰮ  [Interface]',
-        '   [Module]',
-        ' 襁 [Property]',
-        '   [Unit]',
-        '   [Value]',
-        ' 練 [Enum]',
-        '   [Keyword]',
-        ' ✂  [Snippet]',
-        '   [Color]',
-        ' ﰹ  [File]',
-        '   [Reference]',
-        ' ﱮ  [Folder]',
-        ' 者 [EnumMember]',
-        ' ﭭ  [Constant]',
-        ' פּ  [Struct]',
-        ' 數 [Event]',
-        ' 璉 [Operator]',
-        '   [TypeParameter]'
+        '    [Text]',
+        '    [Method]',
+        '    [Function]',
+        ' אּ   [Constructor]',
+        ' ﴲ   [Field]',
+        '    [Variable]',
+        '    [Class]',
+        ' ﰮ   [Interface]',
+        '    [Module]',
+        ' 襁  [Property]',
+        '    [Unit]',
+        '    [Value]',
+        ' 練  [Enum]',
+        '    [Keyword]',
+        ' ✀   [Snippet]',
+        '    [Color]',
+        ' ﰹ   [File]',
+        '    [Reference]',
+        ' ﱮ   [Folder]',
+        ' 者  [EnumMember]',
+        ' ﭭ   [Constant]',
+        ' פּ   [Struct]',
+        ' 數  [Event]',
+        ' 璉  [Operator]',
+        '    [TypeParameter]'
       }
 
       -- lsp-status config
       lsp_status.config {
         current_function = true,
         diagnostics = false,
-        indicator_errors = ' ' .. vim.trim(vim.fn.sign_getdefined('LspDiagnosticsSignError')[1].text) .. ' ',
-        indicator_warnings = ' ' .. vim.trim(vim.fn.sign_getdefined('LspDiagnosticsSignWarning')[1].text) .. ' ',
-        indicator_info = ' ' .. vim.trim(vim.fn.sign_getdefined('LspDiagnosticsSignInformation')[1].text) .. ' ',
-        indicator_hint = ' ' .. vim.trim(vim.fn.sign_getdefined('LspDiagnosticsSignHint')[1].text) .. ' ',
+        indicator_errors = ' ' .. vim.trim(vim.fn.sign_getdefined('LspDiagnosticsSignError')[1].text) .. '  ',
+        indicator_warnings = ' ' .. vim.trim(vim.fn.sign_getdefined('LspDiagnosticsSignWarning')[1].text) .. '  ',
+        indicator_info = ' ' .. vim.trim(vim.fn.sign_getdefined('LspDiagnosticsSignInformation')[1].text) .. '  ',
+        indicator_hint = ' ' .. vim.trim(vim.fn.sign_getdefined('LspDiagnosticsSignHint')[1].text) .. '  ',
         indicator_ok = 'OK',
-        status_symbol = '[LSP] ',
+        status_symbol = '[LSP]',
       }
       lsp_status.register_progress()
 
@@ -649,6 +647,7 @@ packer.startup(function()
         border = 'rounded'
       })
 
+      -- LSP functions
       local on_attach = function(client,bufnr)
         local lsp_messages = {}
         local lsp_msg_sep = ' ∷ '
@@ -718,88 +717,77 @@ packer.startup(function()
         print(lsp_messages)
       end
 
-      -- configure language servers
-      local css_settings = {
-        root_dir = vim.loop.cwd()
-      }
-      local lua_settings = {
-        Lua = {
-          runtime = {
-            version = 'LuaJIT',
-            path = vim.split(package.path, ';')
-          },
-          diagnostics = {
-            enable = true,
-            globals = {'vim'}
-          },
-          workspace = {
-            library = vim.api.nvim_get_runtime_file('', true),
-            preloadFileSize = 400
-          },
-          telemetry = {
-            enable = false
-          },
+      local capabilities = vim.lsp.protocol.make_client_capabilities()
+      capabilities = vim.tbl_extend('keep', capabilities, lsp_status.capabilities)
+      capabilities.textDocument.completion.completionItem.documentationFormat = { 'markdown' }
+      capabilities.textDocument.completion.completionItem.snippetSupport = true
+      capabilities.textDocument.completion.completionItem.preselectSupport = true
+      capabilities.textDocument.completion.completionItem.insertReplaceSupport = true
+      capabilities.textDocument.completion.completionItem.labelDetailsSupport = true
+      capabilities.textDocument.completion.completionItem.deprecatedSupport = true
+      capabilities.textDocument.completion.completionItem.commitCharactersSupport = true
+      capabilities.textDocument.completion.completionItem.tagSupport = { valueSet = { 1 } }
+      capabilities.textDocument.completion.completionItem.resolveSupport = {
+        properties = {
+          'documentation',
+          'detail',
+          'additionalTextEdits',
         }
-      }
-      local php_settings = {
-        root_dir = vim.loop.cwd()
       }
 
-      local function make_config()
-        local capabilities = vim.lsp.protocol.make_client_capabilities()
-        capabilities = vim.tbl_extend('keep', capabilities, lsp_status.capabilities)
-        capabilities.textDocument.completion.completionItem.documentationFormat = { 'markdown' }
-        capabilities.textDocument.completion.completionItem.snippetSupport = true
-        capabilities.textDocument.completion.completionItem.preselectSupport = true
-        capabilities.textDocument.completion.completionItem.insertReplaceSupport = true
-        capabilities.textDocument.completion.completionItem.labelDetailsSupport = true
-        capabilities.textDocument.completion.completionItem.deprecatedSupport = true
-        capabilities.textDocument.completion.completionItem.commitCharactersSupport = true
-        capabilities.textDocument.completion.completionItem.tagSupport = { valueSet = { 1 } }
-        capabilities.textDocument.completion.completionItem.resolveSupport = {
-          properties = {
-            'documentation',
-            'detail',
-            'additionalTextEdits',
-          }
-        }
-        return {
+      -- LSP servers
+      local servers = {
+        cssls = {},
+        html = {
+          filetypes = { 'html', 'liquid', 'markdown' }
+        },
+        jsonls = {},
+        vimls = {}
+      }
+      for server, config in pairs(servers) do
+        lsp_config[server].setup(vim.tbl_deep_extend('force', {
           capabilities = capabilities,
           on_attach = on_attach,
           flags = {
             debounce_text_changes = 150,
-          }
+          },
+          init_options = config
+        }, {}))
+      end
+
+      local sumneko_root_path = vim.fn.stdpath('data')..'/lspconfig/sumneko_lua'
+      local sumneko_binary = sumneko_root_path..'/bin/Linux/lua-language-server'
+      local runtime_path = vim.split(package.path, ';')
+      table.insert(runtime_path, 'lua/?.lua')
+      table.insert(runtime_path, 'lua/?/init.lua')
+      lsp_config.sumneko_lua.setup {
+        capabilities = capabilities,
+        cmd = { sumneko_binary, '-E', sumneko_root_path .. '/main.lua' },
+        flags = {
+          debounce_text_changes = 150,
+        },
+        on_attach = on_attach,
+        settings = {
+          Lua = {
+            runtime = {
+              version = 'LuaJIT',
+              path = runtime_path,
+            },
+            diagnostics = {
+              enable = true,
+              globals = { 'vim' },
+            },
+            workspace = {
+              library = vim.api.nvim_get_runtime_file('', true),
+              preloadFileSize = 400,
+            },
+            telemetry = {
+              enable = false,
+            },
+          },
         }
-      end
+      }
 
-      -- lsp-install
-      local function setup_servers()
-        lsp_install.setup()
-        local servers = lsp_install.installed_servers()
-        for _, server in pairs(servers) do
-          local config = make_config()
-          if server == 'bash' then
-            config.filetypes = { 'bash', 'sh', 'zsh' }
-          end
-          if server == 'css' then
-            config.settings = css_settings
-          end
-          if server == 'lua' then
-            config.settings = lua_settings
-          end
-          if server == 'php' then
-            config.settings = php_settings
-          end
-          lsp_config[server].setup(config)
-        end
-      end
-      setup_servers()
-
-      -- automatically reload after `:LspInstall <server>` so we don't have to restart neovim
-      lsp_install.post_install_hook = function()
-        setup_servers()
-        vim.api.nvim_command[[bufdo e]] -- this triggers the FileType autocmd that starts the server
-      end
     end
   }
 -- }}}
