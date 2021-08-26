@@ -1316,10 +1316,7 @@ use {
   }
 -- }}}
 -- {{{3 zenbones.nvim
-  use {
-    'mcchrish/zenbones.nvim',
-    requires = {'rktjmp/lush.nvim'}
-  }
+  use {'mcchrish/zenbones.nvim'}
 -- }}}
 -- }}}
 -- {{{2 Statusline
