@@ -494,6 +494,123 @@ packer.startup(function()
     end
   }
 -- }}}
+-- {{{2 nvim-cmp
+use {
+  'hrsh7th/nvim-cmp',
+  event = 'InsertEnter',
+  requires = {
+    {
+      'hrsh7th/cmp-nvim-lua',
+      after = 'nvim-cmp'
+    },
+    {
+      'hrsh7th/cmp-nvim-lsp',
+      after = 'nvim-cmp',
+    },
+    {
+      'hrsh7th/cmp-vsnip',
+      after = 'nvim-cmp',
+      requires = {
+        'hrsh7th/vim-vsnip',
+        'rafamadriz/friendly-snippets'
+      }
+    },
+    {
+      'f3fora/cmp-spell',
+      after = 'nvim-cmp'
+    },
+    {
+      'hrsh7th/cmp-buffer',
+      after = 'nvim-cmp'
+    },
+    {
+      'hrsh7th/cmp-calc',
+      after = 'nvim-cmp'
+    },
+    {
+      'hrsh7th/cmp-path',
+      after = 'nvim-cmp'
+    },
+  },
+  config = function()
+    local cmp = require('cmp')
+    cmp.setup {
+      documentation = {
+        border = 'rounded'
+      },
+      formatting = {
+        format = function(entry, vim_item)
+          vim_item.menu = ({
+            buffer   = '[Buffer]',
+            calc     = '[Calc]',
+            nvim_lsp = '[LSP]',
+            nvim_lua = '[Lua]',
+            path     = '[Filesystem]',
+            spell    = '[Spelling]',
+            vsnip    = '[Snippet]',
+          })[entry.source.name]
+          vim_item.kind = vim.lsp.protocol.CompletionItemKind[vim_item.kind] .. ' ' .. vim_item.kind
+          return vim_item
+        end
+      },
+      mapping = {
+        ['<C-p>'] = cmp.mapping.select_prev_item(),
+        ['<C-n>'] = cmp.mapping.select_next_item(),
+        ['<C-d>'] = cmp.mapping.scroll_docs(-4),
+        ['<C-f>'] = cmp.mapping.scroll_docs(4),
+        ['<C-Space>'] = cmp.mapping.complete(),
+        ['<C-e>'] = cmp.mapping.close(),
+        ['<CR>'] = cmp.mapping.confirm({
+          behavior = cmp.ConfirmBehavior.Insert,
+          select = true,
+        }),
+        ['<Tab>'] = function(fallback)
+          if vim.fn.pumvisible() == 1 then
+            vim.fn.feedkeys(vim.api.nvim_replace_termcodes('<C-n>', true, true, true), 'n')
+          elseif vim.fn['vsnip#available']() == 1 then
+            vim.fn.feedkeys(vim.api.nvim_replace_termcodes('<Plug>(vsnip-expand-or-jump)', true, true, true), '')
+          else
+            fallback()
+          end
+        end,
+        ['<S-Tab>'] = function(fallback)
+          if vim.fn.pumvisible() == 1 then
+            vim.fn.feedkeys(vim.api.nvim_replace_termcodes('<C-np', true, true, true), 'n')
+          elseif vim.fn['vsnip#jumpable']() == 1 then
+            vim.fn.feedkeys(vim.api.nvim_replace_termcodes('<Plug>(vsnip-jump-prev)', true, true, true), '')
+          else
+            fallback()
+          end
+        end,
+      },
+      snippet = {
+        expand = function(args)
+          vim.fn['vsnip#anonymous'](args.body)
+        end
+      },
+      sources = {
+        {name = 'nvim_lua'},
+        {name = 'nvim_lsp'},
+        {name = 'vsnip'},
+        {name = 'path'},
+        {name = 'calc'},
+        {name = 'spell'},
+        {name = 'buffer',
+          opts = {
+            get_bufnrs = function()
+              local bufs = {}
+              for _, win in ipairs(vim.api.nvim_list_wins()) do
+                bufs[vim.api.nvim_win_get_buf(win)] = true
+              end
+              return vim.tbl_keys(bufs)
+            end
+          }
+        },
+      }
+    }
+  end,
+}
+-- }}}
 -- {{{2 LSP
   use {
     'neovim/nvim-lspconfig',
@@ -774,97 +891,6 @@ packer.startup(function()
 
     end
   }
--- }}}
--- {{{2 nvim-cmp
-use {
-  'hrsh7th/nvim-cmp',
-  after = 'nvim-lspconfig',
-  requires = {
-    {
-      'hrsh7th/cmp-nvim-lua',
-      after = 'nvim-cmp'
-    },
-    {
-      'hrsh7th/cmp-nvim-lsp',
-      after = 'nvim-cmp',
-      config = function()
-        require('cmp_nvim_lsp').setup {}
-      end
-    },
-    {
-      'hrsh7th/cmp-vsnip',
-      after = 'nvim-cmp',
-      requires = {
-        'hrsh7th/vim-vsnip',
-        'rafamadriz/friendly-snippets'
-      }
-    },
-    {
-      'hrsh7th/cmp-buffer',
-      after = 'nvim-cmp'
-    },
-    {
-      'hrsh7th/cmp-calc',
-      after = 'nvim-cmp'
-    },
-    {
-      'hrsh7th/cmp-path',
-      after = 'nvim-cmp'
-    },
-  },
-  config = function()
-    local cmp = require('cmp')
-    cmp.setup {
-      documentation = {
-        border = 'rounded'
-      },
-      mapping = {
-        ['<Tab>'] = cmp.mapping.mode({ 'i', 's' }, function(core, fallback)
-          if vim.fn.pumvisible() == 1 then
-            vim.fn.feedkeys(vim.api.nvim_replace_termcodes('<C-n>', true, true, true), 'n')
-          elseif vim.fn.call("vsnip#available", {1}) == 1 then
-            vim.fn.feedkeys(vim.api.nvim_replace_termcodes('<Plug>vsnip-expand-or-jump', true, true, true), '')
-          else
-            fallback()
-          end
-        end),
-        ['<S-Tab>'] = cmp.mapping.mode({ 'i', 's' }, function(core, fallback)
-          if vim.fn.pumvisible() == 1 then
-            vim.fn.feedkeys(vim.api.nvim_replace_termcodes('<C-p>', true, true, true), 'n')
-          elseif vim.fn.call("vsnip#jumpable", {-1}) == 1 then
-            vim.fn.feedkeys(vim.api.nvim_replace_termcodes('<Plug>vsnip-jump-prev', true, true, true), '')
-          else
-            fallback()
-          end
-        end),
-        ['<C-d>'] = cmp.mapping.scroll(-4),
-        ['<C-f>'] = cmp.mapping.scroll(4),
-        ['<C-Space>'] = cmp.mapping.complete(),
-        ['<C-e>'] = cmp.mapping.close(),
-        ['<CR>'] = cmp.mapping.confirm({
-          behavior = cmp.ConfirmBehavior.Replace,
-          select = true,
-        })
-      },
-      snippet = {
-        expand = function(args)
-          vim.fn['vsnip#anonymous'](args.body)
-        end
-      },
-      sources = {
-        {name = 'nvim_lua'},
-        {name = 'nvim_lsp'},
-        {name = 'vsnip'},
-        {name = 'buffer'},
-        {name = 'path'},
-        {name = 'calc'},
-      }
-    }
-    for index, value in ipairs(vim.lsp.protocol.CompletionItemKind) do
-      cmp.lsp.CompletionItemKind[index] = value
-    end
-  end,
-}
 -- }}}
 -- {{{2 which-key.nvim
   use {
