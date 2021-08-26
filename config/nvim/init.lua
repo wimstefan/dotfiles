@@ -338,6 +338,26 @@ packer.startup(function()
     'nvim-treesitter/nvim-treesitter',
     event = 'BufRead',
     run = ':TSUpdate',
+    requires = {
+      {
+        'nvim-treesitter/nvim-treesitter-textobjects',
+        event = 'InsertEnter',
+        after = 'nvim-treesitter'
+      },
+      {
+        'windwp/nvim-ts-autotag',
+        event = 'InsertEnter',
+        after = 'nvim-treesitter'
+      },
+      {
+        'nvim-treesitter/playground',
+        config = function ()
+          vim.api.nvim_set_keymap('n', '<F12>', [[<Cmd>TSHighlightCapturesUnderCursor<CR>]], {noremap = true, silent = false})
+          vim.api.nvim_set_keymap('n', ',tsp', [[<Cmd>TSPlaygroundToggle<CR>]], {noremap = true, silent = true})
+        end,
+        after = 'nvim-treesitter'
+      }
+    },
     config = function()
       require('nvim-treesitter.configs').setup {
         ensure_installed = 'maintained',
@@ -350,12 +370,12 @@ packer.startup(function()
         },
         incremental_selection = {
           enable = true,
-        keymaps = {
-          init_selection = 'gnn',
-          node_incremental = 'grn',
-          scope_incremental = 'grc',
-          node_decremental = 'grm',
-        },
+          keymaps = {
+            init_selection = 'gnn',
+            node_incremental = 'grn',
+            scope_incremental = 'grc',
+            node_decremental = 'grm',
+          },
         },
         indent = {
           enable = false
@@ -408,27 +428,7 @@ packer.startup(function()
           },
         },
       }
-    end,
-    requires = {
-      {
-        'nvim-treesitter/nvim-treesitter-textobjects',
-        event = 'InsertEnter',
-        after = 'nvim-treesitter'
-      },
-      {
-        'windwp/nvim-ts-autotag',
-        event = 'InsertEnter',
-        after = 'nvim-treesitter'
-      },
-      {
-        'nvim-treesitter/playground',
-        config = function ()
-          vim.api.nvim_set_keymap('n', '<F12>', [[<Cmd>TSHighlightCapturesUnderCursor<CR>]], {noremap = true, silent = false})
-          vim.api.nvim_set_keymap('n', ',tsp', [[<Cmd>TSPlaygroundToggle<CR>]], {noremap = true, silent = true})
-        end,
-        after = 'nvim-treesitter'
-      }
-    }
+    end
   }
 -- }}}
 -- {{{2 Telescope
