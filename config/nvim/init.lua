@@ -497,7 +497,7 @@ packer.startup(function()
 -- {{{2 nvim-cmp
 use {
   'hrsh7th/nvim-cmp',
-  event = 'InsertEnter',
+  event = 'InsertCharPre',
   requires = {
     {
       'hrsh7th/cmp-nvim-lua',
@@ -614,12 +614,14 @@ use {
 -- {{{2 LSP
   use {
     'neovim/nvim-lspconfig',
+    after = 'cmp-nvim-lsp',
     requires = {
       {'RishabhRD/nvim-lsputils', requires = 'RishabhRD/popfix'},
       'nvim-lua/lsp-status.nvim',
       'folke/lua-dev.nvim',
     },
     config = function()
+      local lsp_cmp = require('cmp_nvim_lsp')
       local lsp_config = require('lspconfig')
       local lsp_status = require('lsp-status')
 
@@ -637,31 +639,31 @@ use {
 
       -- symbols for autocomplete
       vim.lsp.protocol.CompletionItemKind = {
-        '    [Text]',
-        '    [Method]',
-        '    [Function]',
-        ' אּ   [Constructor]',
-        ' ﴲ   [Field]',
-        '    [Variable]',
-        '    [Class]',
-        ' ﰮ   [Interface]',
-        '    [Module]',
-        ' 襁  [Property]',
-        '    [Unit]',
-        '    [Value]',
-        ' 練  [Enum]',
-        '    [Keyword]',
-        ' ✀   [Snippet]',
-        '    [Color]',
-        ' ﰹ   [File]',
-        '    [Reference]',
-        ' ﱮ   [Folder]',
-        ' 者  [EnumMember]',
-        ' ﭭ   [Constant]',
-        ' פּ   [Struct]',
-        ' 數  [Event]',
-        ' 璉  [Operator]',
-        '    [TypeParameter]'
+        Class = ' ',
+        Color = '󰸌 ',
+        Constant = '󰏿 ',
+        Constructor = '󱌣 ',
+        EnumMember = '者',
+        Enum = '練',
+        Event = '廊',
+        Field = ' ',
+        File = ' ',
+        Folder = ' ',
+        Function = '',
+        Interface = '󱁦 ',
+        Keyword = ' ',
+        Method = ' ',
+        Module = '󰅩 ',
+        Operator = '璉',
+        Property = ' ',
+        Reference = '󰌹 ',
+        Snippet = '󰆐 ',
+        Struct = '褐',
+        Text = '󰬴 ',
+        TypeParameter = '謹',
+        Unit = ' ',
+        Value = '󰚔 ',
+        Variable = ' ',
       }
 
       -- lsp-status config
@@ -820,22 +822,7 @@ use {
       end
 
       local capabilities = vim.lsp.protocol.make_client_capabilities()
-      capabilities = vim.tbl_extend('keep', capabilities, lsp_status.capabilities)
-      capabilities.textDocument.completion.completionItem.documentationFormat = { 'markdown' }
-      capabilities.textDocument.completion.completionItem.snippetSupport = true
-      capabilities.textDocument.completion.completionItem.preselectSupport = true
-      capabilities.textDocument.completion.completionItem.insertReplaceSupport = true
-      capabilities.textDocument.completion.completionItem.labelDetailsSupport = true
-      capabilities.textDocument.completion.completionItem.deprecatedSupport = true
-      capabilities.textDocument.completion.completionItem.commitCharactersSupport = true
-      capabilities.textDocument.completion.completionItem.tagSupport = { valueSet = { 1 } }
-      capabilities.textDocument.completion.completionItem.resolveSupport = {
-        properties = {
-          'documentation',
-          'detail',
-          'additionalTextEdits',
-        }
-      }
+      capabilities = lsp_cmp.update_capabilities(capabilities)
 
       -- LSP servers
       local servers = {
