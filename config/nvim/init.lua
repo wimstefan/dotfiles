@@ -1251,6 +1251,20 @@ use {
     end
   }
 -- }}}
+-- {{{3 sonokai
+  use {
+    'sainnhe/sonokai',
+    setup = function()
+      vim.g.sonokai_style = 'andromeda'
+      vim.g.sonokai_enable_italic = 1
+      vim.g.sonokai_transparent_background = 1
+      vim.g.sonokai_diagnostic_line_highlight = 1
+      vim.g.sonokai_diagnostic_text_highlight = 1
+      vim.g.sonokai_diagnostic_virtual_text = 'colored'
+      vim.g.sonokai_current_word = 'bold'
+    end
+  }
+-- }}}
 -- {{{3 tokyonight-nvim
   use {
     'folke/tokyonight.nvim',
@@ -1279,8 +1293,8 @@ use {
       vim.g.material_disable_background = true
       vim.g.material_hide_eob = true
       vim.api.nvim_set_keymap('n', '<Leader>mm', [[<Cmd>lua require('material.functions').toggle_style()<CR>]], {noremap = true, silent = true})
-      vim.api.nvim_set_keymap('n', '<leader>ml', [[<Cmd>lua require('material.functions').change_style('lighter')<CR>]], {noremap = true, silent = true})
-      vim.api.nvim_set_keymap('n', '<leader>md', [[<Cmd>lua require('material.functions').change_style('oceanic')<CR>]], {noremap = true, silent = true})
+      vim.api.nvim_set_keymap('n', '<Leader>ml', [[<Cmd>lua require('material.functions').change_style('lighter')<CR>]], {noremap = true, silent = true})
+      vim.api.nvim_set_keymap('n', '<Leader>md', [[<Cmd>lua require('material.functions').change_style('oceanic')<CR>]], {noremap = true, silent = true})
     end
   }
 -- }}}
@@ -1293,6 +1307,12 @@ use {
       vim.g.nord_italic_comments = true
       vim.g.nord_minimal_mode = true
     end
+  }
+-- }}}
+-- {{{3 zenbones.nvim
+  use {
+    'mcchrish/zenbones.nvim',
+    requires = {'rktjmp/lush.nvim'}
   }
 -- }}}
 -- }}}
