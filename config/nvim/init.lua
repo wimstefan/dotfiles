@@ -617,6 +617,7 @@ use {
     requires = {
       {'RishabhRD/nvim-lsputils', requires = 'RishabhRD/popfix'},
       'nvim-lua/lsp-status.nvim',
+      'folke/lua-dev.nvim',
     },
     config = function()
       local lsp_config = require('lspconfig')
@@ -840,7 +841,12 @@ use {
       local servers = {
         cssls = {},
         html = {
-          filetypes = { 'html', 'liquid', 'markdown' }
+          filetypes = {
+            'html',
+            'html-eex',
+            'liquid',
+            'markdown',
+          }
         },
         jsonls = {},
         vimls = {}
@@ -856,38 +862,49 @@ use {
         }, {}))
       end
 
+      -- Lua LSP server & lua-dev configuration
       local sumneko_root_path = vim.fn.stdpath('data')..'/lspconfig/sumneko_lua'
       local sumneko_binary = sumneko_root_path..'/bin/Linux/lua-language-server'
       local runtime_path = vim.split(package.path, ';')
       table.insert(runtime_path, 'lua/?.lua')
       table.insert(runtime_path, 'lua/?/init.lua')
-      lsp_config.sumneko_lua.setup {
-        capabilities = capabilities,
-        cmd = { sumneko_binary, '-E', sumneko_root_path .. '/main.lua' },
-        flags = {
-          debounce_text_changes = 150,
+      local lua_dev = require('lua-dev').setup({
+        library = {
+          vimruntime = true,
+          types = true,
+          plugins = true
         },
-        on_attach = on_attach,
-        settings = {
-          Lua = {
-            runtime = {
-              version = 'LuaJIT',
-              path = runtime_path,
-            },
-            diagnostics = {
-              enable = true,
-              globals = { 'vim' },
-            },
-            workspace = {
-              library = vim.api.nvim_get_runtime_file('', true),
-              preloadFileSize = 400,
-            },
-            telemetry = {
-              enable = false,
-            },
+        lspconfig = {
+          capabilities = capabilities,
+          cmd = { sumneko_binary, '-E', sumneko_root_path .. '/main.lua' },
+          flags = {
+            debounce_text_changes = 150,
           },
+          on_attach = on_attach,
+          settings = {
+            Lua = {
+              runtime = {
+                version = 'LuaJIT',
+                path = runtime_path,
+              },
+              diagnostics = {
+                enable = true,
+                globals = {
+                  'vim'
+                },
+              },
+              workspace = {
+                library = vim.api.nvim_get_runtime_file('', true),
+                preloadFileSize = 400,
+              },
+              telemetry = {
+                enable = false,
+              },
+            },
+          }
         }
-      }
+      })
+      lsp_config.sumneko_lua.setup(lua_dev)
 
     end
   }
