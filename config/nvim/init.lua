@@ -307,7 +307,7 @@ packer.startup(function()
   packer.init({
     display = {
       open_cmd = '84vnew [packer]',
-      working_sym = '..',
+      working_sym = '北',
       error_sym = '✘',
       done_sym = '✔',
       removed_sym = '-',
@@ -902,16 +902,29 @@ use {
     end
   }
 -- }}}
+-- {{{2 nvim-notify
+  use {
+    'rcarriga/nvim-notify',
+    config = function()
+      vim.notify = function(msg, kind, opts)
+        opts = vim.tbl_deep_extend('keep', opts, { timeout = 3000 })
+        require 'notify'(msg, kind, opts)
+      end
+    end,
+  }
+-- }}}
 -- {{{2 vim-abolish
   use {
     'tpope/vim-abolish',
-    event = 'BufRead'
+    cmd = {'Abolish', 'S'},
+    config = function()
+      vim.g.abolish_save_file = vim.fn.stdpath('config') .. '/after/plugin/abolish.vim'
+    end
   }
 -- }}}
 -- {{{2 vim-commentary
   use {
     'tpope/vim-commentary',
-    keys = {'gci', 'gc'},
     config = function()
       vim.api.nvim_set_keymap('x', 'gci', ':g/./Commentary<CR>', {})
     end
@@ -920,8 +933,9 @@ use {
 -- {{{2 vim-fugitive
   use {
     'tpope/vim-fugitive',
-    cmd = {'Git', 'Gdiffsplit', 'Gclog'},
-    setup = function()
+    cmd = {'G', 'Git'},
+    keys = {'<Leader>gc', '<Leader>gd', '<Leader>gl', '<Leader>gp', '<Leader>gs'},
+    config = function()
       vim.api.nvim_set_keymap('n', '<Leader>gc', '<Cmd>Git commit -v %<CR>', {noremap = true, silent = true})
       vim.api.nvim_set_keymap('n', '<Leader>gd', '<Cmd>Gdiffsplit<CR>', {noremap = true, silent = true})
       vim.api.nvim_set_keymap('n', '<Leader>gl', '<Cmd>0Gclog!<CR>', {noremap = true, silent = true})
@@ -998,6 +1012,9 @@ use {
           ['+'] = '₊'
         },
         current_line_blame = false,
+        current_line_blame_opts = {
+          virt_text_pos = 'right_align'
+        },
         numhl = true,
         keymaps = {
           noremap = true,
@@ -1007,7 +1024,7 @@ use {
           ['n ,st'] = '<Cmd>lua require"gitsigns".toggle_signs()<CR>',
           ['n ,sh'] = '<Cmd>lua require"gitsigns".toggle_linehl()<CR>',
           ['n ,sp'] = '<Cmd>lua require"gitsigns".preview_hunk()<CR>',
-          ['n ,sb'] = '<Cmd>lua require"gitsigns".blame_line()<CR>',
+          ['n ,sb'] = '<Cmd>lua require"gitsigns".blame_line({true})<CR>',
         },
         preview_config = {
           border = 'rounded',
@@ -1284,7 +1301,7 @@ use {
   use {
     'shadmansaleh/lualine.nvim',
     event = {'BufEnter', 'ColorScheme', 'WinEnter'},
-    requires = {'kyazdani42/nvim-web-devicons', opt = true},
+    requires = {'kyazdani42/nvim-web-devicons'},
     config = function()
       if vim.fn.filereadable(vim.fn.expand('$HOME/.config/colours/nvim_theme.lua')) == 1 then
         vim.api.nvim_command[[luafile $HOME/.config/colours/nvim_theme.lua]]
