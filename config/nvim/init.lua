@@ -919,17 +919,6 @@ use {
     end
   }
 -- }}}
--- {{{2 nvim-notify
-  use {
-    'rcarriga/nvim-notify',
-    config = function()
-      vim.notify = function(msg, kind, opts)
-        opts = vim.tbl_deep_extend('keep', opts, { timeout = 3000 })
-        require 'notify'(msg, kind, opts)
-      end
-    end,
-  }
--- }}}
 -- {{{2 vim-abolish
   use {
     'tpope/vim-abolish',
