@@ -14,6 +14,7 @@ vim.opt.relativenumber = true
 vim.opt.showtabline = 2
 vim.opt.linebreak = true
 vim.opt.showbreak = '  » '
+vim.opt.conceallevel = 2
 vim.opt.splitbelow = true
 vim.opt.splitright = true
 vim.opt.listchars = {
@@ -105,10 +106,10 @@ vim.g.netrw_liststyle =  3
 vim.g.netrw_preview =  0
 vim.g.netrw_alto =  0
 -- disable unused built-in plugins
-vim.g.loaded_2html_plugin = false
-vim.g.loaded_matchit      = false
-vim.g.loaded_matchparen   = false
-vim.g.loaded_spec         = false
+vim.g.loaded_2html_plugin = 1
+vim.g.loaded_matchit      = 1
+vim.g.loaded_matchparen   = 1
+vim.g.loaded_spec         = 1
 -- }}}1 --------------------- OPTIONS ------------------------------------------
 -- {{{1 --------------------- MAPPINGS -----------------------------------------
 vim.api.nvim_set_keymap('', 'cd', '<Cmd>cd %:h | pwd<CR>', {noremap = true, silent = true})
@@ -173,28 +174,6 @@ ToggleDetails = function()
   end
 end
 vim.api.nvim_set_keymap('n', '<F10>', '<Cmd>lua ToggleDetails()<CR>', { noremap = true , silent = true})
--- }}}
--- {{{2 abbreviations
-vim.api.nvim_exec([[
-" generic
-inoreabbrev dATE <C-R>=strftime('%Y-%m-%d')<CR>
-inoreabbrev svw stefan@vos-wimmer.nl
-inoreabbrev kvw komala@vos-wimmer.nl
-
-" english
-inoreabbrev grz Greetz, Stefan
-inoreabbrev ky Kindly yours,<CR>Stefan
-
-" nederlands
-inoreabbrev mvg Met vriendelijke groet,<CR>Stefan
-inoreabbrev vg Vriendelijke groet,<CR>Stefan
-inoreabbrev lg Lieve groet,<CR>Stefan
-
-" deutsch
-inoreabbrev AL Alles Liebe,<CR>Stefan
-inoreabbrev LG Lieben Gruß,<CR>Stefan
-inoreabbrev VG Mit wohlwollendem Gruß,<CR>Stefan
-]], false)
 -- }}}
 -- }}}1 --------------------- MAPPINGS -----------------------------------------
 -- {{{1 --------------------- AUTOCMDS -----------------------------------------
@@ -290,15 +269,20 @@ augroup RC
   autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") && &ft !~# 'commit' | execute "normal! g`\"" | endif
 
   " Enable yank highlighting
-  autocmd TextYankPost * silent! lua vim.highlight.on_yank {higroup='WildMenu', timeout=800}
+  autocmd TextYankPost * silent! lua vim.highlight.on_yank {higroup='WildMenu', timeout=4444}
 
 augroup END
 ]], false)
 -- }}}1 --------------------- AUTOCMDS -----------------------------------------
 -- {{{1 --------------------- FUNCTIONS ----------------------------------------
 function _G.inspect(...)
-  local objects = vim.tbl_map(vim.inspect, {...})
-  print(unpack(objects))
+  local objects = {}
+  for i = 1, select('#', ...) do
+    local v = select(i, ...)
+    table.insert(objects, vim.inspect(v))
+  end
+  print(table.concat(objects, '\n'))
+  return ...
 end
 -- }}}1 --------------------- FUNCTIONS ----------------------------------------
 -- {{{1 --------------------- PLUGINS ------------------------------------------
