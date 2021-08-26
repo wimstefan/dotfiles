@@ -497,7 +497,6 @@ packer.startup(function()
 -- {{{2 nvim-cmp
 use {
   'hrsh7th/nvim-cmp',
-  event = 'InsertCharPre',
   requires = {
     {
       'hrsh7th/cmp-nvim-lua',
