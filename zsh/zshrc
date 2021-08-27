@@ -1085,3 +1085,8 @@ fi
 
 # The next line updates PATH for Netlify's Git Credential Helper.
 if [ -f '/home/swimmer/.netlify/helper/path.zsh.inc' ]; then source '/home/swimmer/.netlify/helper/path.zsh.inc'; fi
+
+
+# BEGIN_KITTY_SHELL_INTEGRATION
+if test -e "$HOME/.local/lib/kitty/shell-integration/kitty.zsh"; then source "$HOME/.local/lib/kitty/shell-integration/kitty.zsh"; fi
+# END_KITTY_SHELL_INTEGRATION
