@@ -1188,7 +1188,8 @@ use {
     end
   }
 -- }}}
--- {{{2 nvim-colorizer.lua
+-- {{{2 Visuals
+-- {{{3 nvim-colorizer.lua
   use {
     'norcalli/nvim-colorizer.lua',
     config = function()
@@ -1205,15 +1206,12 @@ use {
     end
   }
 -- }}}
--- {{{2 vim-colortemplate
-  use {
-    'lifepillar/vim-colortemplate',
-    setup = function()
-      vim.g.colortemplate_toolbar = 0
-    end
-  }
+-- {{{3 nvim-web-devicons
+  use {'kyazdani42/nvim-web-devicons'}
 -- }}}
--- {{{2 Colour schemes
+-- {{{3 lush.nvim
+  use {'rktjmp/lush.nvim'}
+-- }}}
 -- {{{3 artesanal
   use {
     'wimstefan/vim-artesanal',
@@ -1253,20 +1251,6 @@ use {
     end
   }
 -- }}}
--- {{{3 tokyonight-nvim
-  use {
-    'folke/tokyonight.nvim',
-    setup = function()
-      vim.g.tokyonight_style = 'storm'
-      vim.g.tokyonight_italic_functions = 1
-      vim.g.tokyonight_sidebars = {'qf', 'netrw', 'terminal'}
-      vim.g.tokyonight_dark_float = 0
-      vim.g.tokyonight_dark_sidebar = 0
-      vim.g.tokyonight_transparent = 1
-      vim.g.tokyonight_day_brightness = '0.3'
-    end
-  }
--- }}}
 -- {{{3 material.nvim
   use {
     'marko-cerovac/material.nvim',
@@ -1280,9 +1264,9 @@ use {
       vim.g.material_borders = true
       vim.g.material_disable_background = true
       vim.g.material_hide_eob = true
-      vim.api.nvim_set_keymap('n', '<Leader>mm', [[<Cmd>lua require('material.functions').toggle_style()<CR>]], {noremap = true, silent = true})
-      vim.api.nvim_set_keymap('n', '<Leader>ml', [[<Cmd>lua require('material.functions').change_style('lighter')<CR>]], {noremap = true, silent = true})
-      vim.api.nvim_set_keymap('n', '<Leader>md', [[<Cmd>lua require('material.functions').change_style('oceanic')<CR>]], {noremap = true, silent = true})
+      vim.api.nvim_set_keymap('n', '<Leader>cmm', [[<Cmd>lua require('material.functions').toggle_style()<CR>]], {noremap = true, silent = true})
+      vim.api.nvim_set_keymap('n', '<Leader>cml', [[<Cmd>lua require('material.functions').change_style('lighter')<CR>]], {noremap = true, silent = true})
+      vim.api.nvim_set_keymap('n', '<Leader>cmd', [[<Cmd>lua require('material.functions').change_style('oceanic')<CR>]], {noremap = true, silent = true})
     end
   }
 -- }}}
@@ -1301,12 +1285,10 @@ use {
   use {'mcchrish/zenbones.nvim'}
 -- }}}
 -- }}}
--- {{{2 Statusline
 -- {{{3 lualine.nvim
   use {
     'shadmansaleh/lualine.nvim',
     event = {'BufEnter', 'ColorScheme', 'WinEnter'},
-    requires = {'kyazdani42/nvim-web-devicons'},
     config = function()
       if vim.fn.filereadable(vim.fn.expand('$HOME/.config/colours/nvim_theme.lua')) == 1 then
         vim.api.nvim_command[[luafile $HOME/.config/colours/nvim_theme.lua]]
