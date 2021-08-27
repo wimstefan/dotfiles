@@ -207,13 +207,7 @@ augroup RC
   autocmd FileType xdefaults set commentstring=!\%s
 
   " mail specific configuration
-  autocmd BufRead /tmp/mutt* silent! %s/^\([>|]\s\?\)\+/\=substitute(submatch(0), '\s', '', 'g').' '
-  autocmd BufRead /tmp/mutt* %s/\s\+$//e
-  autocmd BufRead /tmp/mutt* %s/^>\n>/>/e
-  autocmd BufRead /tmp/mutt* setlocal nonumber nohls nolist filetype=mail formatoptions=tcroqwln21
-  autocmd BufRead /tmp/mutt* setlocal spell
-  autocmd FileType mail setlocal commentstring=>\%s
-  autocmd FileType mail setlocal wildignore-=*.tar.*,*.png,*.jpg,*.gif
+  autocmd BufRead /tmp/mutt* setlocal filetype=mail
 
   " Syntax for tmux
   autocmd BufNewFile,BufRead *tmux*conf* set filetype=tmux
