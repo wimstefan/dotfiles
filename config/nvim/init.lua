@@ -631,31 +631,31 @@ use {
 
       -- symbols for autocomplete
       vim.lsp.protocol.CompletionItemKind = {
-        Class = ' ',
-        Color = '󰸌 ',
-        Constant = '󰏿 ',
-        Constructor = '󱌣 ',
-        EnumMember = '者',
-        Enum = '練',
-        Event = '廊',
-        Field = ' ',
-        File = ' ',
-        Folder = ' ',
-        Function = '',
-        Interface = '󱁦 ',
-        Keyword = ' ',
-        Method = ' ',
-        Module = '󰅩 ',
-        Operator = '璉',
-        Property = ' ',
-        Reference = '󰌹 ',
-        Snippet = '󰆐 ',
-        Struct = '褐',
-        Text = '󰬴 ',
-        TypeParameter = '謹',
-        Unit = ' ',
-        Value = '󰚔 ',
-        Variable = ' ',
+        Class = ' ',
+        Color = ' ',
+        Constant = ' ',
+        Constructor = ' ',
+        EnumMember = ' ',
+        Enum = ' ',
+        Event = ' ',
+        Field = ' ',
+        File = ' ',
+        Folder = ' ',
+        Function = ' ',
+        Interface = ' ',
+        Keyword = ' ',
+        Method = ' ',
+        Module = ' ',
+        Operator = ' ',
+        Property = ' ',
+        Reference = ' ',
+        Snippet = ' ',
+        Struct = ' ',
+        Text = ' ',
+        TypeParameter = ' ',
+        Unit = ' ',
+        Value = ' ',
+        Variable = ' ',
       }
 
       -- lsp-status config
@@ -818,6 +818,13 @@ use {
 
       -- LSP servers
       local servers = {
+        bashls = {
+          filetypes = {
+            'sh',
+            'bash',
+            'zsh'
+          }
+        },
         cssls = {},
         html = {
           filetypes = {
