@@ -506,11 +506,15 @@ use {
       after = 'nvim-cmp',
     },
     {
-      'hrsh7th/cmp-vsnip',
+      'ray-x/cmp-treesitter',
+      after = 'nvim-cmp'
+    },
+    {
+      'dcampos/cmp-snippy',
       after = 'nvim-cmp',
       requires = {
-        'hrsh7th/vim-vsnip',
-        'rafamadriz/friendly-snippets'
+        'dcampos/nvim-snippy',
+        'honza/vim-snippets'
       }
     },
     {
@@ -539,13 +543,14 @@ use {
       formatting = {
         format = function(entry, vim_item)
           vim_item.menu = ({
-            buffer   = '[Buffer]',
-            calc     = '[Calc]',
+            buffer = '[Buffer]',
+            calc = '[Calc]',
             nvim_lsp = '[LSP]',
             nvim_lua = '[Lua]',
-            path     = '[Filesystem]',
-            spell    = '[Spelling]',
-            vsnip    = '[Snippet]',
+            path = '[Filesystem]',
+            snippy = '[Snippet]',
+            spell = '[Spelling]',
+            treesitter = '[Treesitter]',
           })[entry.source.name]
           vim_item.kind = vim.lsp.protocol.CompletionItemKind[vim_item.kind] .. ' ' .. vim_item.kind
           return vim_item
@@ -555,23 +560,21 @@ use {
         ['<Tab>'] = function(fallback)
           if vim.fn.pumvisible() == 1 then
             vim.fn.feedkeys(vim.api.nvim_replace_termcodes('<C-n>', true, true, true), 'n')
-          elseif vim.fn['vsnip#available']() == 1 then
-            vim.fn.feedkeys(vim.api.nvim_replace_termcodes('<Plug>(vsnip-expand-or-jump)', true, true, true), '')
+          elseif vim.fn['snippy#can_expand_or_advance']() == 1 then
+            vim.fn.feedkeys(vim.api.nvim_replace_termcodes('<Plug>(snippy-expand-or-next)', true, true, true), '')
           else
             fallback()
           end
         end,
         ['<S-Tab>'] = function(fallback)
           if vim.fn.pumvisible() == 1 then
-            vim.fn.feedkeys(vim.api.nvim_replace_termcodes('<C-np', true, true, true), 'n')
-          elseif vim.fn['vsnip#jumpable']() == 1 then
-            vim.fn.feedkeys(vim.api.nvim_replace_termcodes('<Plug>(vsnip-jump-prev)', true, true, true), '')
+            vim.fn.feedkeys(vim.api.nvim_replace_termcodes('<C-p', true, true, true), 'n')
+          elseif vim.fn['snippy#can_jump'](-1) == 1 then
+            vim.fn.feedkeys(vim.api.nvim_replace_termcodes('<Plug>(snippy-previous)', true, true, true), '')
           else
             fallback()
           end
         end,
-        ['<C-p>'] = cmp.mapping.select_prev_item(),
-        ['<C-n>'] = cmp.mapping.select_next_item(),
         ['<C-d>'] = cmp.mapping.scroll_docs(-4),
         ['<C-f>'] = cmp.mapping.scroll_docs(4),
         ['<C-Space>'] = cmp.mapping.complete(),
@@ -583,16 +586,13 @@ use {
       },
       snippet = {
         expand = function(args)
-          vim.fn['vsnip#anonymous'](args.body)
+          require('snippy').expand_snippet(args.body)
         end
       },
       sources = {
         {name = 'nvim_lua'},
         {name = 'nvim_lsp'},
-        {name = 'vsnip'},
-        {name = 'path'},
-        {name = 'calc'},
-        {name = 'spell'},
+        {name = 'treesitter'},
         {name = 'buffer',
           opts = {
             get_bufnrs = function()
@@ -604,6 +604,10 @@ use {
             end
           }
         },
+        {name = 'snippy'},
+        {name = 'spell'},
+        {name = 'path'},
+        {name = 'calc'},
       }
     }
   end,
