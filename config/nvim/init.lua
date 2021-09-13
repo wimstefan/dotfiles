@@ -1127,9 +1127,6 @@ use {
 -- {{{2 nvim-spectre
   use {
     'windwp/nvim-spectre',
-    requires = {
-      'nvim-lua/popup.nvim'
-    },
     config = function()
       require('spectre').setup()
     end,
