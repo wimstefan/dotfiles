@@ -1,4 +1,7 @@
 --------------------- MY PERSONAL NEOVIM CONFIGURATION -------------------------
+-- {{{1 --------------------- First things first. ------------------------------
+require('impatient').enable_profile()
+-- }}}
 -- {{{1 --------------------- OPTIONS ------------------------------------------
 -- define leader keys
 vim.g.mapleader = ' '
@@ -321,9 +324,12 @@ packer.startup(function()
     end
   }
 -- }}}
--- {{{2 startuptime.vim
+-- {{{2 impatient.nvim
+  use {'lewis6991/impatient.nvim'}
+-- }}}
+-- {{{2 startuptime
   use {
-    'tweekmonster/startuptime.vim',
+    'dstein64/vim-startuptime',
     cmd = 'StartupTime'
   }
 -- }}}
