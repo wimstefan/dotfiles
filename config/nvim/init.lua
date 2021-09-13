@@ -1271,16 +1271,32 @@ use {
 -- {{{3 material.nvim
   use {
     'marko-cerovac/material.nvim',
-    setup = function()
-      vim.g.material_italic_comments = true
-      vim.g.material_italic_keywords = true
-      vim.g.material_italic_functions = false
-      vim.g.material_italic_variables = false
-      vim.g.material_contrast = false
-      vim.g.material_lighter_contrast = true
-      vim.g.material_borders = true
-      vim.g.material_disable_background = true
-      vim.g.material_hide_eob = true
+    config = function()
+      require('material').setup({
+        contrast = false,
+        borders = true,
+        italics = {
+          comments = true,
+          keywords = true,
+          functions = false,
+          variables = false
+        },
+        contrast_windows = {
+          "terminal",
+          "packer",
+          "qf"
+        },
+        text_contrast = {
+          lighter = true,
+          darker = false
+        },
+        disable = {
+          background = true,
+          term_colors = false,
+          eob_lines = true
+        },
+        custom_highlights = {}
+      })
       vim.api.nvim_set_keymap('n', '<Leader>cmm', [[<Cmd>lua require('material.functions').toggle_style()<CR>]], {noremap = true, silent = true})
       vim.api.nvim_set_keymap('n', '<Leader>cml', [[<Cmd>lua require('material.functions').change_style('lighter')<CR>]], {noremap = true, silent = true})
       vim.api.nvim_set_keymap('n', '<Leader>cmd', [[<Cmd>lua require('material.functions').change_style('oceanic')<CR>]], {noremap = true, silent = true})
@@ -1299,8 +1315,12 @@ use {
   }
 -- }}}
 -- {{{3 zenbones.nvim
-  use {'mcchrish/zenbones.nvim'}
--- }}}
+  use {
+    'mcchrish/zenbones.nvim',
+    setup = function()
+      vim.g.zenbones_lightness = 'bright'
+    end
+  }
 -- }}}
 -- {{{3 lualine.nvim
   use {
