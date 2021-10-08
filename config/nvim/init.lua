@@ -618,25 +618,49 @@ use {
     after = 'cmp-nvim-lsp',
     requires = {
       {'RishabhRD/nvim-lsputils', requires = 'RishabhRD/popfix'},
+      {
+        'kosayoda/nvim-lightbulb',
+        config = function()
+          vim.fn.sign_define('LightBulbSign', {text = ' ', texthl = 'WarningMsg', linehl='', numhl=''})
+          vim.cmd [[autocmd CursorHold,CursorHoldI * lua require'nvim-lightbulb'.update_lightbulb()]]
+          require('nvim-lightbulb').update_lightbulb {
+            sign = {enabled = false},
+            float = {enabled = false},
+            virtual_text = {enabled = true}
+          }
+        end
+      },
       'nvim-lua/lsp-status.nvim',
       'folke/lua-dev.nvim',
+      {
+        'simrat39/symbols-outline.nvim',
+        config = function()
+          vim.api.nvim_set_keymap('n', ',ts', '<Cmd>SymbolsOutline<CR>', {noremap = true, silent = true})
+        end
+      }
     },
     config = function()
       local lsp_cmp = require('cmp_nvim_lsp')
       local lsp_config = require('lspconfig')
       local lsp_status = require('lsp-status')
 
-      -- symbols for diagnostics
+      -- diagnostic handling
       local signs = {
         Error = ' ',
-        Warning = ' ',
+        Warn = ' ',
         Hint = ' ',
-        Information = ' ',
+        Info = ' ',
       }
       for type, icon in pairs(signs) do
-        local hl = 'LspDiagnosticsSign' .. type
+        local hl = 'DiagnosticSign' .. type
         vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = '' })
       end
+      vim.diagnostic.config {
+        signs = true,
+        underline = true,
+        update_in_insert = true,
+        virtual_text = {prefix = '❰'}
+      }
 
       -- symbols for autocomplete
       vim.lsp.protocol.CompletionItemKind = {
@@ -671,10 +695,10 @@ use {
       lsp_status.config {
         current_function = true,
         diagnostics = false,
-        indicator_errors = ' ' .. vim.trim(vim.fn.sign_getdefined('LspDiagnosticsSignError')[1].text) .. '  ',
-        indicator_warnings = ' ' .. vim.trim(vim.fn.sign_getdefined('LspDiagnosticsSignWarning')[1].text) .. '  ',
-        indicator_info = ' ' .. vim.trim(vim.fn.sign_getdefined('LspDiagnosticsSignInformation')[1].text) .. '  ',
-        indicator_hint = ' ' .. vim.trim(vim.fn.sign_getdefined('LspDiagnosticsSignHint')[1].text) .. '  ',
+        indicator_errors = ' ' .. vim.trim(vim.fn.sign_getdefined('DiagnosticSignError')[1].text) .. '  ',
+        indicator_warnings = ' ' .. vim.trim(vim.fn.sign_getdefined('DiagnosticSignWarn')[1].text) .. '  ',
+        indicator_info = ' ' .. vim.trim(vim.fn.sign_getdefined('DiagnosticSignInfo')[1].text) .. '  ',
+        indicator_hint = ' ' .. vim.trim(vim.fn.sign_getdefined('DiagnosticSignHint')[1].text) .. '  ',
         indicator_ok = 'OK',
         status_symbol = '[LSP]',
       }
@@ -729,22 +753,44 @@ use {
           border_chars = border_chars
         },
       }
-      vim.lsp.handlers['textDocument/codeAction'] = require('lsputil.codeAction').code_action_handler
-      vim.lsp.handlers['textDocument/references'] = require('lsputil.locations').references_handler
-      vim.lsp.handlers['textDocument/definition'] = require('lsputil.locations').definition_handler
-      vim.lsp.handlers['textDocument/declaration'] = require('lsputil.locations').declaration_handler
-      vim.lsp.handlers['textDocument/typeDefinition'] = require('lsputil.locations').typeDefinition_handler
-      vim.lsp.handlers['textDocument/implementation'] = require('lsputil.locations').implementation_handler
-      vim.lsp.handlers['textDocument/documentSymbol'] = require('lsputil.symbols').document_handler
-      vim.lsp.handlers['workspace/symbol'] = require('lsputil.symbols').workspace_handler
+      if vim.fn.has('nvim-0.6') == 1 then
+        vim.lsp.handlers['textDocument/codeAction'] = require'lsputil.codeAction'.code_action_handler
+        vim.lsp.handlers['textDocument/references'] = require'lsputil.locations'.references_handler
+        vim.lsp.handlers['textDocument/definition'] = require'lsputil.locations'.definition_handler
+        vim.lsp.handlers['textDocument/declaration'] = require'lsputil.locations'.declaration_handler
+        vim.lsp.handlers['textDocument/typeDefinition'] = require'lsputil.locations'.typeDefinition_handler
+        vim.lsp.handlers['textDocument/implementation'] = require'lsputil.locations'.implementation_handler
+        vim.lsp.handlers['textDocument/documentSymbol'] = require'lsputil.symbols'.document_handler
+        vim.lsp.handlers['workspace/symbol'] = require'lsputil.symbols'.workspace_handler
+      else
+        local bufnr = vim.api.nvim_buf_get_number(0)
+        vim.lsp.handlers['textDocument/codeAction'] = function(_, _, actions)
+          require('lsputil.codeAction').code_action_handler(nil, actions, nil, nil, nil)
+        end
+        vim.lsp.handlers['textDocument/references'] = function(_, _, result)
+          require('lsputil.locations').references_handler(nil, result, { bufnr = bufnr }, nil)
+        end
+        vim.lsp.handlers['textDocument/definition'] = function(_, method, result)
+          require('lsputil.locations').definition_handler(nil, result, { bufnr = bufnr, method = method }, nil)
+        end
+        vim.lsp.handlers['textDocument/declaration'] = function(_, method, result)
+          require('lsputil.locations').declaration_handler(nil, result, { bufnr = bufnr, method = method }, nil)
+        end
+        vim.lsp.handlers['textDocument/typeDefinition'] = function(_, method, result)
+          require('lsputil.locations').typeDefinition_handler(nil, result, { bufnr = bufnr, method = method }, nil)
+        end
+        vim.lsp.handlers['textDocument/implementation'] = function(_, method, result)
+          require('lsputil.locations').implementation_handler(nil, result, { bufnr = bufnr, method = method }, nil)
+        end
+        vim.lsp.handlers['textDocument/documentSymbol'] = function(_, _, result, _, bufn)
+          require('lsputil.symbols').document_handler(nil, result, { bufnr = bufn }, nil)
+        end
+        vim.lsp.handlers['textDocument/symbol'] = function(_, _, result, _, bufn)
+          require('lsputil.symbols').workspace_handler(nil, result, { bufnr = bufn }, nil)
+        end
+      end
 
       -- LSP handlers
-      vim.lsp.handlers['textDocument/publishDiagnostics'] = vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
-        signs = true,
-        underline = true,
-        update_in_insert = true,
-        virtual_text = {prefix = '❰'}
-      })
       vim.lsp.handlers['textDocument/signatureHelp'] = vim.lsp.with(vim.lsp.handlers.signature_help, {
         border = 'rounded'
       })
@@ -773,11 +819,11 @@ use {
         vim.api.nvim_buf_set_keymap(bufnr, 'n', ',lr', [[<Cmd>lua vim.lsp.buf.references()<CR>]], {noremap = true, silent = true})
         vim.api.nvim_buf_set_keymap(bufnr, 'n', ',ly', [[<Cmd>lua vim.lsp.buf.document_symbol()<CR>]], {noremap = true, silent = true})
         vim.api.nvim_buf_set_keymap(bufnr, 'n', ',lY', [[<Cmd>lua vim.lsp.buf.workspace_symbol()<CR>]], {noremap = true, silent = true})
-        vim.api.nvim_buf_set_keymap(bufnr, 'n', ',le', [[<Cmd>lua vim.lsp.diagnostic.show_line_diagnostics({border = 'rounded'})<CR>]], {noremap = true, silent = true})
-        vim.api.nvim_buf_set_keymap(bufnr, 'n', '[d', [[<Cmd>lua vim.lsp.diagnostic.goto_prev({enable_popup = false})<CR>]], {noremap = true, silent = true})
-        vim.api.nvim_buf_set_keymap(bufnr, 'n', ']d', [[<Cmd>lua vim.lsp.diagnostic.goto_next({enable_popup = false})<CR>]], {noremap = true, silent = true})
-        vim.api.nvim_buf_set_keymap(bufnr, 'n', ',lq', [[<Cmd>lua vim.lsp.diagnostic.set_qflist({workspace =  false})<CR>]], {noremap = true, silent = true})
-        vim.api.nvim_buf_set_keymap(bufnr, 'n', ',lQ', [[<Cmd>lua vim.lsp.diagnostic.set_qflist({workspace =  true})<CR>]], {noremap = true, silent = true})
+        vim.api.nvim_buf_set_keymap(bufnr, 'n', ',le', [[<Cmd>lua vim.diagnostic.show_line_diagnostics({border = 'rounded'})<CR>]], {noremap = true, silent = true})
+        vim.api.nvim_buf_set_keymap(bufnr, 'n', '[d', [[<Cmd>lua vim.diagnostic.goto_prev({enable_popup = false})<CR>]], {noremap = true, silent = true})
+        vim.api.nvim_buf_set_keymap(bufnr, 'n', ']d', [[<Cmd>lua vim.diagnostic.goto_next({enable_popup = false})<CR>]], {noremap = true, silent = true})
+        vim.api.nvim_buf_set_keymap(bufnr, 'n', ',lq', [[<Cmd>lua vim.diagnostic.set_qflist({workspace =  false})<CR>]], {noremap = true, silent = true})
+        vim.api.nvim_buf_set_keymap(bufnr, 'n', ',lQ', [[<Cmd>lua vim.diagnostic.set_qflist({workspace =  true})<CR>]], {noremap = true, silent = true})
         vim.api.nvim_buf_set_keymap(bufnr, 'n', ',lrn', [[<Cmd>lua vim.lsp.buf.rename()<CR>]], {noremap = true, silent = true})
         if client.resolved_capabilities.code_action then
           vim.api.nvim_buf_set_keymap(bufnr, 'n', ',lca', [[<Cmd>lua vim.lsp.buf.code_action()<CR>]], {noremap = true, silent = true})
