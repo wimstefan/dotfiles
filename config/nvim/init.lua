@@ -1323,11 +1323,7 @@ use {
           functions = false,
           variables = false
         },
-        contrast_windows = {
-          "terminal",
-          "packer",
-          "qf"
-        },
+        contrast_windows = {},
         text_contrast = {
           lighter = true,
           darker = false
@@ -1361,7 +1357,14 @@ use {
     'mcchrish/zenbones.nvim',
     setup = function()
       vim.g.zenbones_lightness = 'bright'
+      vim.g.zenflesh_darkness = 'warm'
     end
+  }
+-- }}}
+-- {{{3 github-nvim-theme
+  use {
+    'projekt0n/github-nvim-theme',
+    after = 'lualine.nvim'
   }
 -- }}}
 -- {{{3 lualine.nvim
@@ -1419,8 +1422,8 @@ use {
       require('lualine').setup {
         options = {
           icons_enabled = true,
-          section_separators = {'┃', '┃'},
-          component_separators = {''},
+          section_separators = '',
+          component_separators = '',
         },
         sections = {
           lualine_a = {'mode'},
@@ -1453,12 +1456,11 @@ use {
             {
               'diagnostics',
               sources = {'nvim_lsp'},
-              color_warn = {fg = 'orange'},
               symbols = {
-                error = ' ' .. vim.trim(vim.fn.sign_getdefined('LspDiagnosticsSignError')[1].text) .. ' ',
-                warn = ' ' .. vim.trim(vim.fn.sign_getdefined('LspDiagnosticsSignWarning')[1].text) .. ' ',
-                info = ' ' .. vim.trim(vim.fn.sign_getdefined('LspDiagnosticsSignInformation')[1].text) .. ' ',
-                hint = ' ' .. vim.trim(vim.fn.sign_getdefined('LspDiagnosticsSignHint')[1].text) .. ' '
+                error = vim.trim(vim.fn.sign_getdefined('DiagnosticSignError')[1].text) .. ' ',
+                warn = vim.trim(vim.fn.sign_getdefined('DiagnosticSignWarn')[1].text) .. ' ',
+                info = vim.trim(vim.fn.sign_getdefined('DiagnosticSignInfo')[1].text) .. ' ',
+                hint = vim.trim(vim.fn.sign_getdefined('DiagnosticSignHint')[1].text) .. ' '
               }
             },
           },
@@ -1466,7 +1468,8 @@ use {
             {
               'diff',
               source = diff_source,
-              symbols = { added = '  ', modified = '  ', removed = '  ' },
+              diff_color = {added = 'GitSignsAdd', modified = 'GitSignsChange', removed = 'GitSignsDelete'},
+              symbols = {added = '  ', modified = '  ', removed = '  '},
             },
             'branch'
           },
