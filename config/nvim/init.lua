@@ -12,7 +12,6 @@ vim.opt.termguicolors = true
 vim.opt.cursorcolumn = true
 vim.opt.cursorline = true
 vim.opt.signcolumn = 'auto'
-vim.opt.number = true
 vim.opt.relativenumber = true
 vim.opt.showtabline = 2
 vim.opt.linebreak = true
@@ -32,7 +31,7 @@ vim.opt.fillchars = {
   foldclose = '▾',
   foldopen = '▴',
   foldsep = '🮍',
-  msgsep = '⁘'
+  msgsep = '🮑'
 }
 vim.opt.mouse = 'a'
 vim.opt.guifont = 'monospace:h11'
