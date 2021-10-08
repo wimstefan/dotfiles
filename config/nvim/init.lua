@@ -505,10 +505,6 @@ use {
       after = 'nvim-cmp',
     },
     {
-      'ray-x/cmp-treesitter',
-      after = 'nvim-cmp'
-    },
-    {
       'dcampos/cmp-snippy',
       after = 'nvim-cmp',
       requires = {
@@ -549,7 +545,6 @@ use {
             path = '[Filesystem]',
             snippy = '[Snippet]',
             spell = '[Spelling]',
-            treesitter = '[Treesitter]',
           })[entry.source.name]
           vim_item.kind = vim.lsp.protocol.CompletionItemKind[vim_item.kind] .. ' ' .. vim_item.kind
           return vim_item
@@ -559,8 +554,10 @@ use {
         ['<Tab>'] = function(fallback)
           if vim.fn.pumvisible() == 1 then
             vim.fn.feedkeys(vim.api.nvim_replace_termcodes('<C-n>', true, true, true), 'n')
+          elseif cmp.visible() then
+            cmp.select_next_item()
           elseif vim.fn['snippy#can_expand_or_advance']() == 1 then
-            vim.fn.feedkeys(vim.api.nvim_replace_termcodes('<Plug>(snippy-expand-or-next)', true, true, true), '')
+            vim.fn.feedkeys(vim.api.nvim_replace_termcodes('<Plug>(snippy-expand-or-next)', true, true, true), 'n')
           else
             fallback()
           end
@@ -568,8 +565,10 @@ use {
         ['<S-Tab>'] = function(fallback)
           if vim.fn.pumvisible() == 1 then
             vim.fn.feedkeys(vim.api.nvim_replace_termcodes('<C-p', true, true, true), 'n')
+          elseif cmp.visible() then
+            cmp.select_prev_item()
           elseif vim.fn['snippy#can_jump'](-1) == 1 then
-            vim.fn.feedkeys(vim.api.nvim_replace_termcodes('<Plug>(snippy-previous)', true, true, true), '')
+            vim.fn.feedkeys(vim.api.nvim_replace_termcodes('<Plug>(snippy-previous)', true, true, true), 'n')
           else
             fallback()
           end
@@ -591,7 +590,6 @@ use {
       sources = {
         {name = 'nvim_lua'},
         {name = 'nvim_lsp'},
-        {name = 'treesitter'},
         {name = 'buffer',
           opts = {
             get_bufnrs = function()
