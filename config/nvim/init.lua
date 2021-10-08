@@ -505,11 +505,10 @@ use {
       after = 'nvim-cmp',
     },
     {
-      'dcampos/cmp-snippy',
+      'saadparwaiz1/cmp_luasnip',
       after = 'nvim-cmp',
       requires = {
-        'dcampos/nvim-snippy',
-        'honza/vim-snippets'
+        'L3MON4D3/LuaSnip'
       }
     },
     {
@@ -530,6 +529,11 @@ use {
     },
   },
   config = function()
+    local has_words_before = function()
+      local line, col = unpack(vim.api.nvim_win_get_cursor(0))
+      return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match('%s') == nil
+    end
+    local luasnip = require('luasnip')
     local cmp = require('cmp')
     cmp.setup {
       documentation = {
@@ -543,7 +547,7 @@ use {
             nvim_lsp = '[LSP]',
             nvim_lua = '[Lua]',
             path = '[Filesystem]',
-            snippy = '[Snippet]',
+            luasnip = '[Snippet]',
             spell = '[Spelling]',
           })[entry.source.name]
           vim_item.kind = vim.lsp.protocol.CompletionItemKind[vim_item.kind] .. ' ' .. vim_item.kind
@@ -551,28 +555,27 @@ use {
         end
       },
       mapping = {
-        ['<Tab>'] = function(fallback)
-          if vim.fn.pumvisible() == 1 then
-            vim.fn.feedkeys(vim.api.nvim_replace_termcodes('<C-n>', true, true, true), 'n')
-          elseif cmp.visible() then
+        ['<Tab>'] = cmp.mapping(function(fallback)
+          if cmp.visible() then
             cmp.select_next_item()
-          elseif vim.fn['snippy#can_expand_or_advance']() == 1 then
-            vim.fn.feedkeys(vim.api.nvim_replace_termcodes('<Plug>(snippy-expand-or-next)', true, true, true), 'n')
+          elseif luasnip.expand_or_jumpable() then
+            luasnip.expand_or_jump()
+          elseif has_words_before() then
+            cmp.complete()
           else
             fallback()
           end
-        end,
-        ['<S-Tab>'] = function(fallback)
-          if vim.fn.pumvisible() == 1 then
-            vim.fn.feedkeys(vim.api.nvim_replace_termcodes('<C-p', true, true, true), 'n')
-          elseif cmp.visible() then
+        end, { 'i', 's' }),
+
+        ['<S-Tab>'] = cmp.mapping(function(fallback)
+          if cmp.visible() then
             cmp.select_prev_item()
-          elseif vim.fn['snippy#can_jump'](-1) == 1 then
-            vim.fn.feedkeys(vim.api.nvim_replace_termcodes('<Plug>(snippy-previous)', true, true, true), 'n')
+          elseif luasnip.jumpable(-1) then
+            luasnip.jump(-1)
           else
             fallback()
           end
-        end,
+        end, { 'i', 's' }),
         ['<C-d>'] = cmp.mapping.scroll_docs(-4),
         ['<C-f>'] = cmp.mapping.scroll_docs(4),
         ['<C-Space>'] = cmp.mapping.complete(),
@@ -584,7 +587,7 @@ use {
       },
       snippet = {
         expand = function(args)
-          require('snippy').expand_snippet(args.body)
+          require('luasnip').lsp_expand(args.body)
         end
       },
       sources = {
@@ -601,7 +604,7 @@ use {
             end
           }
         },
-        {name = 'snippy'},
+        {name = 'luasnip'},
         {name = 'spell'},
         {name = 'path'},
         {name = 'calc'},
