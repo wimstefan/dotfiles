@@ -1016,7 +1016,7 @@ use {
   use {
     'lewis6991/gitsigns.nvim',
     requires = {
-      'plenary.nvim',
+      'nvim-lua/plenary.nvim'
     },
     event = 'BufRead',
     config = function()
