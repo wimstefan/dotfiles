@@ -15,7 +15,6 @@ function! PackagerInit() abort
   call packager#add('tpope/vim-obsession')
   call packager#add('tpope/vim-repeat')
   call packager#add('tpope/vim-fugitive')
-  call packager#add('rbong/vim-flog')
   call packager#add('junegunn/fzf', {'do': './install --all'})
   call packager#add('junegunn/fzf.vim')
   call packager#add('junegunn/vim-peekaboo')
@@ -62,7 +61,7 @@ endfunction
 " {{{3 git related config 
   nnoremap          <Leader>gc           :<C-u>Git commit -v %<CR>
   nnoremap          <Leader>gd           :<C-u>Gdiffsplit<CR>
-  nnoremap          <Leader>gl           :<C-u>0Glog!<CR>
+  nnoremap          <Leader>gl           :<C-u>0Gclog!<CR>
   nnoremap          <Leader>gp           :<C-u>Git push<CR>
   nnoremap          <Leader>gs           :<C-u>Git<CR>
 " }}}
