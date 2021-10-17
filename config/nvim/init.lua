@@ -1010,7 +1010,7 @@ use {
     setup = function()
       vim.g.matchup_matchparen_deferred = true
       vim.g.matchup_matchparen_offscreen = {method = 'popup', fullwidth = true}
-      vim.g.matchup_surround_enabled = true
+      vim.g.matchup_surround_enabled = false
     end
   }
 -- }}}
