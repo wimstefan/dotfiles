@@ -618,7 +618,6 @@ use {
     'neovim/nvim-lspconfig',
     after = 'cmp-nvim-lsp',
     requires = {
-      {'RishabhRD/nvim-lsputils', requires = 'RishabhRD/popfix'},
       {
         'kosayoda/nvim-lightbulb',
         config = function()
@@ -705,92 +704,6 @@ use {
       }
       lsp_status.register_progress()
 
-      -- lsputils config
-      local border_chars = {
-        TOP_LEFT = '╭',
-        TOP_RIGHT = '╮',
-        MID_HORIZONTAL = '─',
-        MID_VERTICAL = '│',
-        BOTTOM_LEFT = '╰',
-        BOTTOM_RIGHT = '╯',
-      }
-      vim.g.lsp_utils_location_opts = {
-        mode = 'split',
-        list = {
-          border = true,
-          border_chars = border_chars,
-          numbering = false
-        },
-        preview = {
-          title = 'Location Preview',
-          border = true,
-          border_chars = border_chars
-        },
-        keymaps = {
-          n = {
-            ['<C-n>'] = 'j',
-            ['<C-p>'] = 'k',
-          }
-        },
-        prompt = {
-          border = true,
-          border_chars = border_chars
-        },
-      }
-      vim.g.lsp_utils_symbols_opts = {
-        mode = 'split',
-        list = {
-          border = true,
-          border_chars = border_chars,
-          numbering = false
-        },
-        preview = {
-          title = 'Symbols Preview',
-          border = true,
-          border_chars = border_chars
-        },
-        prompt = {
-          border = true,
-          border_chars = border_chars
-        },
-      }
-      if vim.fn.has('nvim-0.6') == 1 then
-        vim.lsp.handlers['textDocument/codeAction'] = require'lsputil.codeAction'.code_action_handler
-        vim.lsp.handlers['textDocument/references'] = require'lsputil.locations'.references_handler
-        vim.lsp.handlers['textDocument/definition'] = require'lsputil.locations'.definition_handler
-        vim.lsp.handlers['textDocument/declaration'] = require'lsputil.locations'.declaration_handler
-        vim.lsp.handlers['textDocument/typeDefinition'] = require'lsputil.locations'.typeDefinition_handler
-        vim.lsp.handlers['textDocument/implementation'] = require'lsputil.locations'.implementation_handler
-        vim.lsp.handlers['textDocument/documentSymbol'] = require'lsputil.symbols'.document_handler
-        vim.lsp.handlers['workspace/symbol'] = require'lsputil.symbols'.workspace_handler
-      else
-        local bufnr = vim.api.nvim_buf_get_number(0)
-        vim.lsp.handlers['textDocument/codeAction'] = function(_, _, actions)
-          require('lsputil.codeAction').code_action_handler(nil, actions, nil, nil, nil)
-        end
-        vim.lsp.handlers['textDocument/references'] = function(_, _, result)
-          require('lsputil.locations').references_handler(nil, result, { bufnr = bufnr }, nil)
-        end
-        vim.lsp.handlers['textDocument/definition'] = function(_, method, result)
-          require('lsputil.locations').definition_handler(nil, result, { bufnr = bufnr, method = method }, nil)
-        end
-        vim.lsp.handlers['textDocument/declaration'] = function(_, method, result)
-          require('lsputil.locations').declaration_handler(nil, result, { bufnr = bufnr, method = method }, nil)
-        end
-        vim.lsp.handlers['textDocument/typeDefinition'] = function(_, method, result)
-          require('lsputil.locations').typeDefinition_handler(nil, result, { bufnr = bufnr, method = method }, nil)
-        end
-        vim.lsp.handlers['textDocument/implementation'] = function(_, method, result)
-          require('lsputil.locations').implementation_handler(nil, result, { bufnr = bufnr, method = method }, nil)
-        end
-        vim.lsp.handlers['textDocument/documentSymbol'] = function(_, _, result, _, bufn)
-          require('lsputil.symbols').document_handler(nil, result, { bufnr = bufn }, nil)
-        end
-        vim.lsp.handlers['textDocument/symbol'] = function(_, _, result, _, bufn)
-          require('lsputil.symbols').workspace_handler(nil, result, { bufnr = bufn }, nil)
-        end
-      end
-
       -- LSP handlers
       vim.lsp.handlers['textDocument/signatureHelp'] = vim.lsp.with(vim.lsp.handlers.signature_help, {
         border = 'rounded'
@@ -816,23 +729,23 @@ use {
           end
         end
         vim.api.nvim_buf_set_keymap(bufnr, 'n', 'K', [[<Cmd>lua show_documentation({border = 'rounded'})<CR>]], {noremap = true, silent = true})
-        vim.api.nvim_buf_set_keymap(bufnr, 'n', ',ld', [[<Cmd>lua vim.lsp.buf.definition()<CR>]], {noremap = true, silent = true})
-        vim.api.nvim_buf_set_keymap(bufnr, 'n', ',lr', [[<Cmd>lua vim.lsp.buf.references()<CR>]], {noremap = true, silent = true})
-        vim.api.nvim_buf_set_keymap(bufnr, 'n', ',ly', [[<Cmd>lua vim.lsp.buf.document_symbol()<CR>]], {noremap = true, silent = true})
-        vim.api.nvim_buf_set_keymap(bufnr, 'n', ',lY', [[<Cmd>lua vim.lsp.buf.workspace_symbol()<CR>]], {noremap = true, silent = true})
+        vim.api.nvim_buf_set_keymap(bufnr, 'n', ',lR', [[<Cmd>lua require('fzf-lua').lsp_definitions()<CR>]], {noremap = true, silent = true})
+        vim.api.nvim_buf_set_keymap(bufnr, 'n', ',lr', [[<Cmd>lua require('fzf-lua').lsp_references()<CR>]], {noremap = true, silent = true})
+        vim.api.nvim_buf_set_keymap(bufnr, 'n', ',ly', [[<Cmd>lua require('fzf-lua').lsp_document_symbols()<CR>]], {noremap = true, silent = true})
+        vim.api.nvim_buf_set_keymap(bufnr, 'n', ',lY', [[<Cmd>lua require('fzf-lua').lsp_workspace_symbols()<CR>]], {noremap = true, silent = true})
+        vim.api.nvim_buf_set_keymap(bufnr, 'n', ',ld', [[<Cmd>lua require('fzf-lua').lsp_document_diagnostics()<CR>]], {noremap = true, silent = true})
+        vim.api.nvim_buf_set_keymap(bufnr, 'n', ',lD', [[<Cmd>lua require('fzf-lua').lsp_workspace_diagnostics()<CR>]], {noremap = true, silent = true})
         vim.api.nvim_buf_set_keymap(bufnr, 'n', ',le', [[<Cmd>lua vim.diagnostic.show_line_diagnostics({border = 'rounded'})<CR>]], {noremap = true, silent = true})
         vim.api.nvim_buf_set_keymap(bufnr, 'n', '[d', [[<Cmd>lua vim.diagnostic.goto_prev({enable_popup = false})<CR>]], {noremap = true, silent = true})
         vim.api.nvim_buf_set_keymap(bufnr, 'n', ']d', [[<Cmd>lua vim.diagnostic.goto_next({enable_popup = false})<CR>]], {noremap = true, silent = true})
-        vim.api.nvim_buf_set_keymap(bufnr, 'n', ',lq', [[<Cmd>lua vim.diagnostic.set_qflist({workspace =  false})<CR>]], {noremap = true, silent = true})
-        vim.api.nvim_buf_set_keymap(bufnr, 'n', ',lQ', [[<Cmd>lua vim.diagnostic.set_qflist({workspace =  true})<CR>]], {noremap = true, silent = true})
         vim.api.nvim_buf_set_keymap(bufnr, 'n', ',lrn', [[<Cmd>lua vim.lsp.buf.rename()<CR>]], {noremap = true, silent = true})
-        if client.resolved_capabilities.code_action then
-          vim.api.nvim_buf_set_keymap(bufnr, 'n', ',lca', [[<Cmd>lua vim.lsp.buf.code_action()<CR>]], {noremap = true, silent = true})
+        if client.supports_method('textDocument/codeAction') then
+          vim.api.nvim_buf_set_keymap(bufnr, 'n', ',lca', [[<Cmd>lua require('fzf-lua').lsp_code_actions()<CR>]], {noremap = true, silent = true})
         else
           lsp_messages = lsp_messages .. 'no codeAction' .. lsp_msg_sep
         end
         if client.resolved_capabilities.declaration then
-          vim.api.nvim_buf_set_keymap(bufnr, 'n', ',lc', [[<Cmd>lua vim.lsp.buf.declaration()<CR>]], {noremap = true, silent = true})
+          vim.api.nvim_buf_set_keymap(bufnr, 'n', ',lc', [[<Cmd>lua require('fzf-lua').lsp_declarations()<CR>]], {noremap = true, silent = true})
         else
           vim.api.nvim_buf_set_keymap(bufnr, 'n', ',lc', [[<Nop>]], {})
           lsp_messages = lsp_messages .. 'no declaration' .. lsp_msg_sep
@@ -848,7 +761,7 @@ use {
           lsp_messages = lsp_messages .. 'no rangeFormat' .. lsp_msg_sep
         end
         if client.resolved_capabilities.implementation then
-          vim.api.nvim_buf_set_keymap(bufnr, 'n', ',li', [[<Cmd>lua vim.lsp.buf.implementation()<CR>]], {noremap = true, silent = true})
+          vim.api.nvim_buf_set_keymap(bufnr, 'n', ',li', [[<Cmd>lua require('fzf-lua').lsp_implementations()<CR>]], {noremap = true, silent = true})
         else
           vim.api.nvim_buf_set_keymap(bufnr, 'n', ',li', [[<Nop>]], {})
           lsp_messages = lsp_messages .. 'no implementation' .. lsp_msg_sep
@@ -861,7 +774,7 @@ use {
           lsp_messages = lsp_messages .. 'no signatureHelp' .. lsp_msg_sep
         end
         if client.resolved_capabilities.type_definition then
-          vim.api.nvim_buf_set_keymap(bufnr, 'n', ',ltd', [[<Cmd>lua vim.lsp.buf.type_definition()<CR>]], {noremap = true, silent = true})
+          vim.api.nvim_buf_set_keymap(bufnr, 'n', ',ltd', [[<Cmd>lua require('fzf-lua').lsp_typedefs()<CR>]], {noremap = true, silent = true})
         else
           vim.api.nvim_buf_set_keymap(bufnr, 'n', ',ltd', [[<Nop>]], {})
           lsp_messages = lsp_messages .. 'no typeDefinition' .. lsp_msg_sep
