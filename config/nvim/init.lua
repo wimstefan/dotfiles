@@ -883,14 +883,6 @@ use {
     end
   }
 -- }}}
--- {{{2 vim-commentary
-  use {
-    'tpope/vim-commentary',
-    config = function()
-      vim.api.nvim_set_keymap('x', 'gci', ':g/./Commentary<CR>', {})
-    end
-  }
--- }}}
 -- {{{2 vim-fugitive
   use {
     'tpope/vim-fugitive',
@@ -999,6 +991,15 @@ use {
     'machakann/vim-sandwich',
     after = 'nvim-treesitter',
     keys = 's'
+  }
+-- }}}
+-- {{{2 Comment.nvim
+  use {
+    'numToStr/Comment.nvim',
+    config = function()
+      vim.api.nvim_set_keymap('x', 'gci', ':g/./lua require\'Comment\'.toggle()<CR><cmd>nohls<CR>', {noremap = true, silent = true})
+      require('Comment').setup()
+    end
   }
 -- }}}
 -- {{{2 vim-matchup
