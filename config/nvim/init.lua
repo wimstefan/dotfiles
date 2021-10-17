@@ -326,6 +326,9 @@ packer.startup(function()
 -- {{{2 impatient.nvim
   use {'lewis6991/impatient.nvim'}
 -- }}}
+-- {{{2 filetype.nvim
+  use {'nathom/filetype.nvim'}
+-- }}}
 -- {{{2 startuptime
   use {
     'dstein64/vim-startuptime',
