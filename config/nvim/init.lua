@@ -1195,36 +1195,6 @@ use {
     end
   }
 -- }}}
--- {{{3 edge
-  use {
-    'sainnhe/edge',
-    setup = function()
-      vim.g.edge_style = 'neon'
-      vim.g.edge_better_performance = 1
-      vim.g.edge_enable_italic = 1
-      vim.g.edge_transparent_background = 1
-      vim.g.edge_diagnostic_line_highlight = 1
-      vim.g.edge_diagnostic_text_highlight = 1
-      vim.g.edge_diagnostic_virtual_text = 'colored'
-      vim.g.edge_current_word = 'bold'
-      vim.g.edge_show_eob = 0
-    end
-  }
--- }}}
--- {{{3 sonokai
-  use {
-    'sainnhe/sonokai',
-    setup = function()
-      vim.g.sonokai_style = 'andromeda'
-      vim.g.sonokai_enable_italic = 1
-      vim.g.sonokai_transparent_background = 1
-      vim.g.sonokai_diagnostic_line_highlight = 1
-      vim.g.sonokai_diagnostic_text_highlight = 1
-      vim.g.sonokai_diagnostic_virtual_text = 'colored'
-      vim.g.sonokai_current_word = 'bold'
-    end
-  }
--- }}}
 -- {{{3 material.nvim
   use {
     'marko-cerovac/material.nvim',
