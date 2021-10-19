@@ -163,7 +163,7 @@ ToggleDetails = function()
     vim.opt.foldenable = false
     vim.opt.number = false
     vim.opt.relativenumber = false
-    print('Details disabled')
+    vim.notify('Details disabled', vim.log.levels.INFO, {title = '[UI]'})
   else
     vim.opt.mouse = 'a'
     vim.opt.cursorcolumn = true
@@ -172,7 +172,7 @@ ToggleDetails = function()
     vim.opt.foldenable = true
     vim.opt.number = true
     vim.opt.relativenumber = true
-    print('Details enabled')
+    vim.notify('Details enabled', vim.log.levels.INFO, {title = '[UI]'})
   end
 end
 vim.api.nvim_set_keymap('n', '<F10>', '<Cmd>lua ToggleDetails()<CR>', { noremap = true , silent = true})
@@ -277,7 +277,7 @@ function _G.inspect(...)
     local v = select(i, ...)
     table.insert(objects, vim.inspect(v))
   end
-  print(table.concat(objects, '\n'))
+  vim.notify(table.concat(objects, '\n'), vim.log.levels.INFO, {title = '[Inspect]'})
   return ...
 end
 -- }}}1 --------------------- FUNCTIONS ----------------------------------------
@@ -779,7 +779,7 @@ use {
           vim.api.nvim_buf_set_keymap(bufnr, 'n', ',ltd', [[<Nop>]], {})
           lsp_messages = lsp_messages .. 'no typeDefinition' .. lsp_msg_sep
         end
-        print(lsp_messages)
+        vim.notify(lsp_messages, vim.log.levels.INFO, {title = '[LSP]'})
       end
 
       local capabilities = vim.lsp.protocol.make_client_capabilities()
