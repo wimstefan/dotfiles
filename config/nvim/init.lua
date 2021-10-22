@@ -436,56 +436,60 @@ packer.startup(function()
 -- {{{2 Telescope
   use {
     'nvim-telescope/telescope.nvim',
-    requires = 'nvim-lua/plenary.nvim',
+    requires = {
+      'nvim-lua/plenary.nvim',
+      {
+        'nvim-telescope/telescope-fzf-native.nvim',
+        run = 'make'
+      }
+    },
     config = function()
       vim.api.nvim_set_keymap('n', '<Leader>T', [[<Cmd>lua require('telescope.builtin').builtin(require('telescope.themes').get_dropdown({previewer = false}))<CR>]], {noremap = true})
-      vim.api.nvim_set_keymap('n', '<Leader>Tb', [[<Cmd>lua require('telescope.builtin').buffers()<CR>]], {noremap = true, silent = true})
-      vim.api.nvim_set_keymap('n', '<Leader>Tc', [[<Cmd>lua require('telescope.builtin').colorscheme({enable_preview = true})<CR>]], {noremap = true, silent = true})
-      vim.api.nvim_set_keymap('n', '<Leader>Tf', [[<Cmd>lua require('telescope.builtin').find_files({follow = true})<CR>]], {noremap = true, silent = true})
+      vim.api.nvim_set_keymap('n', '<Leader>b', [[<Cmd>lua require('telescope.builtin').buffers()<CR>]], {noremap = true, silent = true})
+      vim.api.nvim_set_keymap('n', '<Leader>c', [[<Cmd>lua require('telescope.builtin').colorscheme({enable_preview = true})<CR>]], {noremap = true, silent = true})
+      vim.api.nvim_set_keymap('n', '<Leader>f', [[<Cmd>lua require('telescope.builtin').find_files({follow = true})<CR>]], {noremap = true, silent = true})
       vim.api.nvim_set_keymap('n', '<Leader>Tg', [[<Cmd>lua require('telescope.builtin').live_grep()<CR>]], {noremap = true, silent = true})
-      vim.api.nvim_set_keymap('n', '<Leader>Th', [[<Cmd>lua require('telescope.builtin').help_tags()<CR>]], {noremap = true, silent = true})
-      vim.api.nvim_set_keymap('n', '<Leader>Tm', [[<Cmd>lua require('telescope.builtin').man_pages()<CR>]], {noremap = true, silent = true})
-    end
-  }
--- }}}
--- {{{2 fzf-lua
-  use {
-    'ibhagwan/fzf-lua',
-    requires = 'vijaymarupudi/nvim-fzf',
-    config = function()
-      require('fzf-lua').setup {
-        file_icon_padding = '',
-        lsp = {
-          async_or_timeout  = true,
-          icons = {
-            ['Error'] = {icon = ' ', color = 'red'},
-            ['Warning'] = {icon = ' ', color = 'yellow'},
-            ['Hint'] = {icon = ' ', color = 'magenta'},
-            ['Information'] = {icon = ' ', color = 'blue'},
+      vim.api.nvim_set_keymap('n', '<Leader>h', [[<Cmd>lua require('telescope.builtin').help_tags()<CR>]], {noremap = true, silent = true})
+      vim.api.nvim_set_keymap('n', '<Leader>M', [[<Cmd>lua require('telescope.builtin').man_pages()<CR>]], {noremap = true, silent = true})
+      vim.api.nvim_set_keymap('n', '<Leader>m', [[<Cmd>lua require('telescope.builtin').marks()<CR>]], {noremap = true, silent = true})
+      vim.api.nvim_set_keymap('n', '<Leader>r', [[<Cmd>lua require('telescope.builtin').registers()<CR>]], {noremap = true, silent = true})
+      vim.api.nvim_set_keymap('n', '<Leader>Tgb', [[<Cmd>lua require('telescope.builtin').git_bcommits()<CR>]], {noremap = true, silent = true})
+      vim.api.nvim_set_keymap('n', '<Leader>Tgc', [[<Cmd>lua require('telescope.builtin').git_commits()<CR>]], {noremap = true, silent = true})
+      vim.api.nvim_set_keymap('n', '<Leader>Tgf', [[<Cmd>lua require('telescope.builtin').git_files()<CR>]], {noremap = true, silent = true})
+      vim.api.nvim_set_keymap('n', '<Leader>Tgs', [[<Cmd>lua require('telescope.builtin').git_status()<CR>]], {noremap = true, silent = true})
+      vim.api.nvim_set_keymap('n', '<Leader>Tf', [[<Cmd>lua require('telescope.builtin').filetypes(require('telescope.themes').get_dropdown({}))<CR>]], {noremap = true, silent = true})
+      vim.api.nvim_set_keymap('n', '<Leader>Tm', [[<Cmd>lua require('telescope.builtin').keymaps()<CR>]], {noremap = true, silent = true})
+      vim.api.nvim_set_keymap('n', '<Leader>Ts', [[<Cmd>lua require('telescope.builtin').spell_suggest(require('telescope.themes').get_cursor({}))<CR>]], {noremap = true, silent = true})
+      vim.api.nvim_set_keymap('n', '<Leader>Tw', [[<Cmd>lua require('telescope.builtin').grep_string()<CR>]], {noremap = true, silent = true})
+      require('telescope').setup {
+        defaults = {
+          dynamic_preview_title = true,
+          file_ignore_patterns = {'db', 'gif', 'jpeg', 'jpg', 'ods', 'odt', 'pdf', 'png', 'svg', 'xcf', 'xls'},
+          layout_config = {
+            horizontal = {
+              preview_width = 0.6
+            }
+          },
+          layout_strategy = 'flex',
+          mappings = {
+            i = {
+              ['<C-n>'] = require('telescope.actions').cycle_previewers_next,
+              ['<C-p>'] = require('telescope.actions').cycle_previewers_prev,
+              ['<C-q>'] = require('telescope.actions').smart_send_to_qflist +require('telescope.actions').open_qflist,
+              ['<M-q>'] = require('telescope.actions').smart_add_to_qflist +require('telescope.actions').open_qflist,
+            },
           },
         },
-        previewers = {
-          man = {
-            cmd = 'man %s | col -bx'
+        extensions = {
+          fzf = {
+            fuzzy = true,
+            override_generic_sorter = true,
+            override_file_sorter = true,
+            case_mode = "smart_case"
           }
-        },
+        }
       }
-      vim.api.nvim_set_keymap('n', '<Leader>F', [[<Cmd>lua require('fzf-lua').builtin()<CR>]], {})
-      vim.api.nvim_set_keymap('n', '<Leader>b', [[<Cmd>lua require('fzf-lua').buffers()<CR>]], {noremap = true, silent = true})
-      vim.api.nvim_set_keymap('n', '<Leader>c', [[<Cmd>lua require('fzf-lua').colorschemes()<CR>]], {noremap = true, silent = true})
-      vim.api.nvim_set_keymap('n', '<Leader>f', [[<Cmd>lua require('fzf-lua').files()<CR>]], {noremap = true, silent = true})
-      vim.api.nvim_set_keymap('n', '<Leader>h', [[<Cmd>lua require('fzf-lua').help_tags()<CR>]], {noremap = true, silent = true})
-      vim.api.nvim_set_keymap('n', '<Leader>M', [[<Cmd>lua require('fzf-lua').man_pages()<CR>]], {noremap = true, silent = true})
-      vim.api.nvim_set_keymap('n', '<Leader>m', [[<Cmd>lua require('fzf-lua').marks()<CR>]], {noremap = true, silent = true})
-      vim.api.nvim_set_keymap('n', '<Leader>r', [[<Cmd>lua require('fzf-lua').registers()<CR>]], {noremap = true, silent = true})
-      vim.api.nvim_set_keymap('n', '<Leader>Fgb', [[<Cmd>lua require('fzf-lua').git_bcommits()<CR>]], {noremap = true, silent = true})
-      vim.api.nvim_set_keymap('n', '<Leader>Fgc', [[<Cmd>lua require('fzf-lua').git_commits()<CR>]], {noremap = true, silent = true})
-      vim.api.nvim_set_keymap('n', '<Leader>Fgf', [[<Cmd>lua require('fzf-lua').git_files()<CR>]], {noremap = true, silent = true})
-      vim.api.nvim_set_keymap('n', '<Leader>Fgs', [[<Cmd>lua require('fzf-lua').git_status()<CR>]], {noremap = true, silent = true})
-      vim.api.nvim_set_keymap('n', '<Leader>Fg', [[<Cmd>lua require('fzf-lua').live_grep()<CR>]], {noremap = true, silent = true})
-      vim.api.nvim_set_keymap('n', '<Leader>Fm', [[<Cmd>lua require('fzf-lua').keymaps()<CR>]], {noremap = true, silent = true})
-      vim.api.nvim_set_keymap('n', '<Leader>Fs', [[<Cmd>lua require('fzf-lua').spell_suggest()<CR>]], {noremap = true, silent = true})
-      vim.api.nvim_set_keymap('n', '<Leader>Fw', [[<Cmd>lua require('fzf-lua').grep_cword()<CR>]], {noremap = true, silent = true})
+      require('telescope').load_extension('fzf')
     end
   }
 -- }}}
@@ -724,52 +728,52 @@ use {
           end
         end
         vim.api.nvim_buf_set_keymap(bufnr, 'n', 'K', [[<Cmd>lua show_documentation({border = 'rounded'})<CR>]], {noremap = true, silent = true})
-        vim.api.nvim_buf_set_keymap(bufnr, 'n', ',lR', [[<Cmd>lua require('fzf-lua').lsp_definitions()<CR>]], {noremap = true, silent = true})
-        vim.api.nvim_buf_set_keymap(bufnr, 'n', ',lr', [[<Cmd>lua require('fzf-lua').lsp_references()<CR>]], {noremap = true, silent = true})
-        vim.api.nvim_buf_set_keymap(bufnr, 'n', ',ly', [[<Cmd>lua require('fzf-lua').lsp_document_symbols()<CR>]], {noremap = true, silent = true})
-        vim.api.nvim_buf_set_keymap(bufnr, 'n', ',lY', [[<Cmd>lua require('fzf-lua').lsp_workspace_symbols()<CR>]], {noremap = true, silent = true})
-        vim.api.nvim_buf_set_keymap(bufnr, 'n', ',ld', [[<Cmd>lua require('fzf-lua').lsp_document_diagnostics()<CR>]], {noremap = true, silent = true})
-        vim.api.nvim_buf_set_keymap(bufnr, 'n', ',lD', [[<Cmd>lua require('fzf-lua').lsp_workspace_diagnostics()<CR>]], {noremap = true, silent = true})
-        vim.api.nvim_buf_set_keymap(bufnr, 'n', ',le', [[<Cmd>lua vim.diagnostic.show_line_diagnostics({border = 'rounded'})<CR>]], {noremap = true, silent = true})
-        vim.api.nvim_buf_set_keymap(bufnr, 'n', '[d', [[<Cmd>lua vim.diagnostic.goto_prev({enable_popup = false})<CR>]], {noremap = true, silent = true})
-        vim.api.nvim_buf_set_keymap(bufnr, 'n', ']d', [[<Cmd>lua vim.diagnostic.goto_next({enable_popup = false})<CR>]], {noremap = true, silent = true})
-        vim.api.nvim_buf_set_keymap(bufnr, 'n', ',lrn', [[<Cmd>lua vim.lsp.buf.rename()<CR>]], {noremap = true, silent = true})
+        vim.api.nvim_buf_set_keymap(bufnr, 'n', ',lR', [[<Cmd>lua require('telescope.builtin').lsp_definitions()<CR>]], {noremap = true, silent = false})
+        vim.api.nvim_buf_set_keymap(bufnr, 'n', ',lr', [[<Cmd>lua require('telescope.builtin').lsp_references()<CR>]], {noremap = true, silent = false})
+        vim.api.nvim_buf_set_keymap(bufnr, 'n', ',ly', [[<Cmd>lua require('telescope.builtin').lsp_document_symbols()<CR>]], {noremap = true, silent = true})
+        vim.api.nvim_buf_set_keymap(bufnr, 'n', ',lY', [[<Cmd>lua require('telescope.builtin').lsp_workspace_symbols()<CR>]], {noremap = true, silent = true})
+        vim.api.nvim_buf_set_keymap(bufnr, 'n', ',ld', [[<Cmd>lua require('telescope.builtin').lsp_document_diagnostics()<CR>]], {noremap = true, silent = false})
+        vim.api.nvim_buf_set_keymap(bufnr, 'n', ',lD', [[<Cmd>lua require('telescope.builtin').lsp_workspace_diagnostics()<CR>]], {noremap = true, silent = true})
+        vim.api.nvim_buf_set_keymap(bufnr, 'n', ',le', [[<Cmd>lua vim.diagnostic.open_float(0, {scope = 'line', border = 'rounded'})<CR>]], {noremap = true, silent = false})
+        vim.api.nvim_buf_set_keymap(bufnr, 'n', '[d', [[<Cmd>lua vim.diagnostic.goto_prev({float = false})<CR>]], {noremap = true, silent = true})
+        vim.api.nvim_buf_set_keymap(bufnr, 'n', ']d', [[<Cmd>lua vim.diagnostic.goto_next({float = false})<CR>]], {noremap = true, silent = true})
+        vim.api.nvim_buf_set_keymap(bufnr, 'n', ',lrn', [[<Cmd>lua vim.lsp.buf.rename()<CR>]], {noremap = true, silent = false})
         if client.supports_method('textDocument/codeAction') then
-          vim.api.nvim_buf_set_keymap(bufnr, 'n', ',lca', [[<Cmd>lua require('fzf-lua').lsp_code_actions()<CR>]], {noremap = true, silent = true})
+          vim.api.nvim_buf_set_keymap(bufnr, 'n', ',lca', [[<Cmd>lua require('telescope.builtin').lsp_code_actions(require('telescope.themes').get_cursor({}))<CR>]], {noremap = true, silent = false})
         else
           lsp_messages = lsp_messages .. 'no codeAction' .. lsp_msg_sep
         end
         if client.resolved_capabilities.declaration then
-          vim.api.nvim_buf_set_keymap(bufnr, 'n', ',lc', [[<Cmd>lua require('fzf-lua').lsp_declarations()<CR>]], {noremap = true, silent = true})
+          vim.api.nvim_buf_set_keymap(bufnr, 'n', ',lc', [[<Cmd>lua require('telescope.builtin').lsp_declarations(require('telescope.themes').get_cursor({}))<CR>]], {noremap = true, silent = false})
         else
           vim.api.nvim_buf_set_keymap(bufnr, 'n', ',lc', [[<Nop>]], {})
           lsp_messages = lsp_messages .. 'no declaration' .. lsp_msg_sep
         end
         if client.resolved_capabilities.document_formatting then
-          vim.api.nvim_buf_set_keymap(bufnr, 'n', ',lf', ':lua vim.lsp.buf.formatting()<CR>', {noremap = true, silent = true})
+          vim.api.nvim_buf_set_keymap(bufnr, 'n', ',lf', ':lua vim.lsp.buf.formatting()<CR>', {noremap = true, silent = false})
         else
           lsp_messages = lsp_messages .. 'no format' .. lsp_msg_sep
         end
         if client.resolved_capabilities.document_range_formatting then
-          vim.api.nvim_buf_set_keymap(bufnr, 'v', ',lf', ':lua vim.lsp.buf.range_formatting()<CR>', {noremap = true, silent = true})
+          vim.api.nvim_buf_set_keymap(bufnr, 'v', ',lf', ':lua vim.lsp.buf.range_formatting()<CR>', {noremap = true, silent = false})
         else
           lsp_messages = lsp_messages .. 'no rangeFormat' .. lsp_msg_sep
         end
         if client.resolved_capabilities.implementation then
-          vim.api.nvim_buf_set_keymap(bufnr, 'n', ',li', [[<Cmd>lua require('fzf-lua').lsp_implementations()<CR>]], {noremap = true, silent = true})
+          vim.api.nvim_buf_set_keymap(bufnr, 'n', ',li', [[<Cmd>lua require('telescope.builtin').lsp_implementations(require('telescope.themes').get_cursor({}))<CR>]], {noremap = true, silent = false})
         else
           vim.api.nvim_buf_set_keymap(bufnr, 'n', ',li', [[<Nop>]], {})
           lsp_messages = lsp_messages .. 'no implementation' .. lsp_msg_sep
         end
         if client.resolved_capabilities.signature_help then
           vim.api.nvim_buf_set_keymap(bufnr, 'i', '<C-s>', [[<Cmd>lua vim.lsp.buf.signature_help({border = 'rounded'})<CR>]], {noremap = true, silent = true})
-          vim.api.nvim_buf_set_keymap(bufnr, 'n', ',ls', [[<Cmd>lua vim.lsp.buf.signature_help({border = 'rounded'})<CR>]], {noremap = true, silent = true})
+          vim.api.nvim_buf_set_keymap(bufnr, 'n', ',ls', [[<Cmd>lua vim.lsp.buf.signature_help({border = 'rounded'})<CR>]], {noremap = true, silent = false})
         else
           vim.api.nvim_buf_set_keymap(bufnr, 'n', ',ls', [[<Nop>]], {})
           lsp_messages = lsp_messages .. 'no signatureHelp' .. lsp_msg_sep
         end
         if client.resolved_capabilities.type_definition then
-          vim.api.nvim_buf_set_keymap(bufnr, 'n', ',ltd', [[<Cmd>lua require('fzf-lua').lsp_typedefs()<CR>]], {noremap = true, silent = true})
+          vim.api.nvim_buf_set_keymap(bufnr, 'n', ',ltd', [[<Cmd>lua require('telescope.builtin').lsp_type_definitions(require('telescope.themes').get_cursor({}))<CR>]], {noremap = true, silent = false})
         else
           vim.api.nvim_buf_set_keymap(bufnr, 'n', ',ltd', [[<Nop>]], {})
           lsp_messages = lsp_messages .. 'no typeDefinition' .. lsp_msg_sep
