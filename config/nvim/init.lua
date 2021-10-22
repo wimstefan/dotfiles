@@ -494,10 +494,6 @@ use {
   'hrsh7th/nvim-cmp',
   requires = {
     {
-      'hrsh7th/cmp-nvim-lua',
-      after = 'nvim-cmp'
-    },
-    {
       'hrsh7th/cmp-nvim-lsp',
       after = 'nvim-cmp',
     },
@@ -521,10 +517,6 @@ use {
       after = 'nvim-cmp'
     },
     {
-      'hrsh7th/cmp-calc',
-      after = 'nvim-cmp'
-    },
-    {
       'hrsh7th/cmp-path',
       after = 'nvim-cmp'
     },
@@ -542,14 +534,15 @@ use {
       documentation = {
         border = 'rounded'
       },
+      experimental = {
+        ghost_text = true,
+      },
       formatting = {
         format = function(entry, vim_item)
           vim_item.menu = ({
             buffer = '[Buffer]',
-            calc = '[Calc]',
             vsnip = '[Snippet]',
             nvim_lsp = '[LSP]',
-            nvim_lua = '[Lua]',
             path = '[Filesystem]',
             spell = '[Spelling]',
           })[entry.source.name]
@@ -590,9 +583,11 @@ use {
           vim.fn["vsnip#anonymous"](args.body)
         end
       },
-      sources = {
-        {name = 'nvim_lua'},
+      sources = cmp.config.sources({
         {name = 'nvim_lsp'},
+        {name = 'vsnip'},
+        {name = 'spell'}
+      }, {
         {name = 'buffer',
           opts = {
             get_bufnrs = function()
@@ -604,11 +599,8 @@ use {
             end
           }
         },
-        {name = 'vsnip'},
-        {name = 'spell'},
-        {name = 'path'},
-        {name = 'calc'},
-      }
+        {name = 'path'}
+      })
     }
   end,
 }
