@@ -625,9 +625,9 @@ use {
       'nvim-lua/lsp-status.nvim',
       'folke/lua-dev.nvim',
       {
-        'simrat39/symbols-outline.nvim',
+        'https://gitlab.com/yorickpeterse/nvim-dd',
         config = function()
-          vim.api.nvim_set_keymap('n', ',ts', '<Cmd>SymbolsOutline<CR>', {noremap = true, silent = true})
+          require('dd').setup()
         end
       }
     },
@@ -650,8 +650,11 @@ use {
       vim.diagnostic.config {
         signs = true,
         underline = true,
-        update_in_insert = true,
-        virtual_text = {prefix = '❰'}
+        update_in_insert = false,
+        virtual_text = {
+          prefix = '❰',
+          source = 'if_many'
+        }
       }
 
       -- symbols for autocomplete
@@ -774,8 +777,7 @@ use {
         vim.notify(lsp_messages, vim.log.levels.INFO, {title = '[LSP]'})
       end
 
-      local capabilities = vim.lsp.protocol.make_client_capabilities()
-      capabilities = lsp_cmp.update_capabilities(capabilities)
+      local capabilities = lsp_cmp.update_capabilities(vim.lsp.protocol.make_client_capabilities())
 
       -- LSP servers
       local servers = {
@@ -837,7 +839,8 @@ use {
               diagnostics = {
                 enable = true,
                 globals = {
-                  'vim'
+                  'vim',
+                  'packer_plugins'
                 },
               },
               workspace = {
