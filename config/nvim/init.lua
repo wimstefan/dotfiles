@@ -180,20 +180,6 @@ vim.api.nvim_set_keymap('n', '<F10>', '<Cmd>lua ToggleDetails()<CR>', { noremap 
 -- }}}1 --------------------- MAPPINGS -----------------------------------------
 -- {{{1 --------------------- AUTOCMDS -----------------------------------------
 vim.api.nvim_exec([[
-  augroup help
-    autocmd!
-    autocmd WinNew * let w:new = 1
-    autocmd FileType help,man if exists('w:new') | unlet w:new | wincmd L | vertical resize 84 | endif
-  augroup END
-]], false)
-vim.api.nvim_exec([[
-  augroup Terminal
-    autocmd!
-    autocmd TermOpen * startinsert
-    autocmd TermOpen * set nonumber norelativenumber nolist
-  augroup END
-  ]], false)
-vim.api.nvim_exec([[
 augroup RC
   autocmd!
 
@@ -267,6 +253,20 @@ augroup RC
   " Enable yank highlighting
   autocmd TextYankPost * silent! lua vim.highlight.on_yank {higroup='WildMenu', timeout=4444}
 
+augroup END
+augroup Help
+  autocmd!
+  autocmd WinNew * let w:new = 1
+  autocmd FileType help,man if exists('w:new') | unlet w:new | wincmd L | vertical resize 84 | endif
+augroup END
+augroup Terminal
+  autocmd!
+  autocmd TermOpen * startinsert
+  autocmd TermOpen * set nonumber norelativenumber nolist
+augroup END
+augroup Telescope
+  autocmd!
+  autocmd User TelescopePreviewerLoaded setlocal wrap
 augroup END
 ]], false)
 -- }}}1 --------------------- AUTOCMDS -----------------------------------------
