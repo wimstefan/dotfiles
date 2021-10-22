@@ -1246,7 +1246,7 @@ use {
 -- }}}
 -- {{{3 lualine.nvim
   use {
-    'shadmansaleh/lualine.nvim',
+    'nvim-lualine/lualine.nvim',
     event = {'BufEnter', 'ColorScheme', 'WinEnter'},
     config = function()
       if vim.fn.filereadable(vim.fn.expand('$HOME/.config/colours/nvim_theme.lua')) == 1 then
@@ -1332,6 +1332,7 @@ use {
             function() return require('lsp-status').status() end,
             {
               'diagnostics',
+              always_visible = false,
               sources = {'nvim_lsp'},
               symbols = {
                 error = vim.trim(vim.fn.sign_getdefined('DiagnosticSignError')[1].text) .. ' ',
