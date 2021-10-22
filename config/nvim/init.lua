@@ -498,6 +498,10 @@ use {
   'hrsh7th/nvim-cmp',
   requires = {
     {
+      'hrsh7th/cmp-nvim-lua',
+      after = 'nvim-cmp',
+    },
+    {
       'hrsh7th/cmp-nvim-lsp',
       after = 'nvim-cmp',
     },
@@ -540,6 +544,7 @@ use {
       },
       experimental = {
         ghost_text = true,
+        native_menu = false
       },
       formatting = {
         format = function(entry, vim_item)
@@ -547,6 +552,7 @@ use {
             buffer = '[Buffer]',
             vsnip = '[Snippet]',
             nvim_lsp = '[LSP]',
+            nvim_lua = '[LUA]',
             path = '[Filesystem]',
             spell = '[Spelling]',
           })[entry.source.name]
@@ -588,6 +594,7 @@ use {
         end
       },
       sources = cmp.config.sources({
+        {name = 'nvim_lua'},
         {name = 'nvim_lsp'},
         {name = 'vsnip'},
         {name = 'spell'}
