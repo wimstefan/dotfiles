@@ -349,6 +349,10 @@ packer.startup(function()
         after = 'nvim-treesitter'
       },
       {
+        'JoosepAlviste/nvim-ts-context-commentstring',
+        after = 'nvim-treesitter'
+      },
+      {
         'nvim-treesitter/playground',
         config = function ()
           vim.api.nvim_set_keymap('n', '<F12>', [[<Cmd>TSHighlightCapturesUnderCursor<CR>]], {noremap = true, silent = false})
@@ -361,6 +365,9 @@ packer.startup(function()
       require('nvim-treesitter.configs').setup {
         ensure_installed = 'maintained',
         autotag = {
+          enable = true
+        },
+        context_commentstring = {
           enable = true
         },
         highlight = {
