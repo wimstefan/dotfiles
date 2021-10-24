@@ -9,8 +9,6 @@ vim.g.mapleader = ' '
 local indent = 2
 
 vim.opt.termguicolors = true
-vim.opt.cursorcolumn = true
-vim.opt.cursorline = true
 vim.opt.signcolumn = 'auto'
 vim.opt.relativenumber = true
 vim.opt.showtabline = 2
@@ -34,7 +32,6 @@ vim.opt.fillchars = {
   msgsep = '🮑'
 }
 vim.opt.mouse = 'a'
-vim.opt.guifont = 'monospace:h11'
 
 vim.opt.shiftwidth = indent
 vim.opt.shiftround = true
@@ -99,7 +96,7 @@ if fm_opts == '' or fm_opts == 'manual' then
   vim.opt.foldmethod = 'expr'
   vim.opt.foldexpr = 'nvim_treesitter#foldexpr()'
 else
-  vim.opt.foldmethod = vim.opt.foldmethod
+  vim.opt.foldmethod = fm_opts
 end
 
 vim.g.netrw_winsize = 20
