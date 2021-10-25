@@ -48,11 +48,6 @@ vim.opt.gdefault = true
 vim.opt.inccommand = 'split'
 vim.opt.selection = 'exclusive'
 vim.opt.pastetoggle = '<F3>'
-vim.opt.completeopt = {
-  'menuone',
-  'noinsert',
-  'noselect'
-}
 vim.opt.diffopt:append {
   'vertical',
   'indent-heuristic',
