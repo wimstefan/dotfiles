@@ -505,13 +505,13 @@ use {
       after = 'nvim-cmp',
     },
     {
-      'hrsh7th/cmp-vsnip',
+      'dcampos/cmp-snippy',
       after = 'nvim-cmp',
       requires = {
-        'hrsh7th/vim-vsnip',
+        'dcampos/nvim-snippy',
         {
-          'rafamadriz/friendly-snippets',
-          after = 'cmp-vsnip'
+          'honza/vim-snippets',
+          after = 'cmp-snippy'
         }
       }
     },
@@ -533,11 +533,11 @@ use {
       local line, col = unpack(vim.api.nvim_win_get_cursor(0))
       return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match('%s') == nil
     end
-    local feedkey = function(key, mode)
-      vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes(key, true, true, true), mode, true)
-    end
+
     local cmp = require('cmp')
-    cmp.setup {
+    local snippy = require('snippy')
+
+    cmp.setup({
       documentation = {
         border = 'rounded'
       },
@@ -549,7 +549,7 @@ use {
         format = function(entry, vim_item)
           vim_item.menu = ({
             buffer = '[Buffer]',
-            vsnip = '[Snippet]',
+            snippy = '[Snippet]',
             nvim_lsp = '[LSP]',
             nvim_lua = '[LUA]',
             path = '[Filesystem]',
@@ -559,59 +559,64 @@ use {
           return vim_item
         end
       },
+      snippet = {
+        expand = function(args)
+          snippy.expand_snippet(args.body)
+        end
+      },
       mapping = {
         ['<Tab>'] = cmp.mapping(function(fallback)
           if cmp.visible() then
             cmp.select_next_item()
-          elseif vim.fn['vsnip#available']() == 1 then
-            feedkey('<Plug>(vsnip-expand-or-jump)', '')
+          elseif snippy.can_expand_or_advance() then
+            snippy.expand_or_advance()
           elseif has_words_before() then
             cmp.complete()
           else
             fallback()
           end
         end, { 'i', 's' }),
-        ['<S-Tab>'] = cmp.mapping(function()
+        ['<S-Tab>'] = cmp.mapping(function(fallback)
           if cmp.visible() then
             cmp.select_prev_item()
-          elseif vim.fn['vsnip#jumpable'](-1) == 1 then
-            feedkey('<Plug>(vsnip-jump-prev)', '')
+          elseif snippy.can_jump(-1) then
+            snippy.previous()
+          else
+            fallback()
           end
         end, { 'i', 's' }),
-        ['<C-d>'] = cmp.mapping.scroll_docs(-4),
-        ['<C-f>'] = cmp.mapping.scroll_docs(4),
-        ['<C-Space>'] = cmp.mapping.complete(),
-        ['<C-e>'] = cmp.mapping.close(),
-        ['<CR>'] = cmp.mapping.confirm({
-          behavior = cmp.ConfirmBehavior.Replace,
-          select = true,
+        ['<C-d>'] = cmp.mapping(cmp.mapping.scroll_docs(-4), { 'i', 'c' }),
+        ['<C-f>'] = cmp.mapping(cmp.mapping.scroll_docs(4), { 'i', 'c' }),
+        ['<C-Space>'] = cmp.mapping(cmp.mapping.complete(), { 'i', 'c' }),
+        ['<C-y>'] = cmp.config.disable,
+        ['<C-e>'] = cmp.mapping({
+          i = cmp.mapping.abort(),
+          c = cmp.mapping.close(),
         }),
+        ['<CR>'] = cmp.mapping.confirm({ select = true }),
       },
-      snippet = {
-        expand = function(args)
-          vim.fn["vsnip#anonymous"](args.body)
-        end
-      },
-      sources = cmp.config.sources({
-        {name = 'nvim_lua'},
-        {name = 'nvim_lsp'},
-        {name = 'vsnip'},
-        {name = 'spell'}
-      }, {
-        {name = 'buffer',
-          opts = {
-            get_bufnrs = function()
-              local bufs = {}
-              for _, win in ipairs(vim.api.nvim_list_wins()) do
-                bufs[vim.api.nvim_win_get_buf(win)] = true
+      sources = cmp.config.sources(
+        {
+          {name = 'nvim_lua'},
+          {name = 'nvim_lsp'},
+          {name = 'snippy'}
+        }, {
+          {name = 'buffer',
+            opts = {
+              get_bufnrs = function()
+                local bufs = {}
+                for _, win in ipairs(vim.api.nvim_list_wins()) do
+                  bufs[vim.api.nvim_win_get_buf(win)] = true
+                end
+                return vim.tbl_keys(bufs)
               end
-              return vim.tbl_keys(bufs)
-            end
-          }
-        },
-        {name = 'path'}
-      })
-    }
+            }
+          },
+          {name = 'path'},
+          {name = 'spell'}
+        }
+      )
+    })
   end,
 }
 -- }}}
