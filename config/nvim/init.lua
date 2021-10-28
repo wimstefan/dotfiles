@@ -1251,8 +1251,30 @@ use {
   use {
     'mcchrish/zenbones.nvim',
     setup = function()
-      vim.g.zenbones_lightness = 'bright'
-      vim.g.zenflesh_darkness = 'warm'
+      vim.g.zenbones = {
+        solid_float_border = true,
+        lightness = 'bright',
+        darken_comments = 30
+      }
+      vim.g.zenwritten = {
+        solid_float_border = true,
+        lightness = 'bright',
+        darkness = 'stark',
+        darken_comments = 30,
+        lighten_comments = 30
+      }
+      vim.g.neobones = {
+        solid_float_border = true,
+        lightness = 'bright',
+        darkness = 'stark',
+        darken_comments = 30,
+        lighten_comments = 30
+      }
+      vim.g.nordbones = {
+        solid_float_border = true,
+        darkness = 'warm',
+        darken_comments = 30
+      }
     end
   }
 -- }}}
