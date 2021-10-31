@@ -524,6 +524,10 @@ use {
       after = 'nvim-cmp'
     },
     {
+      'ray-x/cmp-treesitter',
+      after = 'nvim-cmp'
+    },
+    {
       'hrsh7th/cmp-path',
       after = 'nvim-cmp'
     },
@@ -554,6 +558,7 @@ use {
             nvim_lua = '[LUA]',
             path = '[Filesystem]',
             spell = '[Spelling]',
+            treesitter = '[TS]',
           })[entry.source.name]
           vim_item.kind = vim.lsp.protocol.CompletionItemKind[vim_item.kind] .. ' ' .. vim_item.kind
           return vim_item
@@ -599,7 +604,8 @@ use {
         {
           {name = 'nvim_lua'},
           {name = 'nvim_lsp'},
-          {name = 'snippy'}
+          {name = 'treesitter'},
+          {name = 'snippy', keyword_length = 2}
         }, {
           {name = 'buffer',
             opts = {
