@@ -1403,7 +1403,10 @@ use {
               diff_color = {added = 'GitSignsAdd', modified = 'GitSignsChange', removed = 'GitSignsDelete'},
               symbols = {added = '  ', modified = '  ', removed = '  '},
             },
-            'branch'
+            {
+              'branch',
+              icon = '⭠'
+            }
           },
           lualine_z = {'filetype'},
         },
