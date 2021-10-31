@@ -662,11 +662,20 @@ use {
         Error = ' ',
         Warn = ' ',
         Hint = ' ',
-        Info = ' ',
+        Info = '𥉉',
       }
       for type, icon in pairs(signs) do
-        local hl = 'DiagnosticSign' .. type
-        vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = '' })
+        local ds = 'DiagnosticSign' .. type
+        vim.fn.sign_define(ds, {text = icon, texthl = ds})
+      end
+      for type, icon in pairs(signs) do
+        if type == 'Warn' then
+          type = 'Warning'
+        elseif type == 'Info' then
+          type = 'Information'
+        end
+        local lds = 'LspDiagnosticsSign' .. type
+        vim.fn.sign_define(lds, {text = icon, texthl = lds})
       end
       vim.diagnostic.config {
         signs = true,
@@ -861,7 +870,6 @@ use {
                 enable = true,
                 globals = {
                   'vim',
-                  'packer_plugins'
                 },
               },
               workspace = {
