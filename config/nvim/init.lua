@@ -99,6 +99,7 @@ vim.g.netrw_banner =  0
 vim.g.netrw_liststyle =  3
 vim.g.netrw_preview =  0
 vim.g.netrw_alto =  0
+
 -- disable unused built-in plugins
 vim.g.loaded_2html_plugin = 1
 vim.g.loaded_matchit      = 1
@@ -448,6 +449,7 @@ packer.startup(function()
       vim.api.nvim_set_keymap('n', '<Leader>c', [[<Cmd>lua require('telescope.builtin').colorscheme({enable_preview = true})<CR>]], {noremap = true, silent = true})
       vim.api.nvim_set_keymap('n', '<Leader>f', [[<Cmd>lua require('telescope.builtin').find_files({follow = true})<CR>]], {noremap = true, silent = true})
       vim.api.nvim_set_keymap('n', '<Leader>Tg', [[<Cmd>lua require('telescope.builtin').live_grep()<CR>]], {noremap = true, silent = true})
+      vim.api.nvim_set_keymap('n', '<Leader>TG', [[<Cmd>lua require('telescope.builtin').live_grep({grep_open_files=true})<CR>]], {noremap = true, silent = true})
       vim.api.nvim_set_keymap('n', '<Leader>h', [[<Cmd>lua require('telescope.builtin').help_tags()<CR>]], {noremap = true, silent = true})
       vim.api.nvim_set_keymap('n', '<Leader>M', [[<Cmd>lua require('telescope.builtin').man_pages()<CR>]], {noremap = true, silent = true})
       vim.api.nvim_set_keymap('n', '<Leader>m', [[<Cmd>lua require('telescope.builtin').marks()<CR>]], {noremap = true, silent = true})
