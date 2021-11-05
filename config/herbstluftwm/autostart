@@ -102,7 +102,8 @@ hc attr theme.active.color '#8894aa'
 hc attr theme.normal.color '#2e3440'
 hc attr theme.urgent.color '#d05858'
 
-hc set_layout vertical
+hc attr settings.default_frame_layout horizontal
+hc set_layout horizontal
 
 # hide frame border
 hc chain , set frame_border_width 0 , set frame_bg_transparent on , set frame_transparent_width 0
@@ -118,6 +119,7 @@ hc set smart_window_surroundings 1
 hc set gapless_grid 1
 hc set window_gap 10
 hc set focus_follows_mouse 1
+hc set focus_stealing_prevention 0
 hc set mouse_recenter_gap 0
 
 hc pad 0 $((POLYBAR_HEIGHT+5)) 0 0 0
@@ -142,6 +144,7 @@ hc rule title=Keybindings floating=on
 hc rule title=Ranger floating=on
 hc rule title=Scratchpad floating=on
 hc rule class~'.*[Tt]erm' title=calendar manage=off
+hc rule class~'[Gg]color2' floating=on
 hc rule class~'[Ll]xappearance' floating=on
 hc rule class=scribus tag=7
 hc rule class=Thunderbird tag=7
@@ -164,6 +167,6 @@ picom &
 pkill dunst
 dunst &
 feh --bg-fill ${HOME}/system/wallpapers/default.jpg &
-$HOME/.config/polybar/launch.sh
+${HOME}/.config/polybar/launch.sh
 
 hc apply_rules --all
