@@ -375,7 +375,7 @@ if [[ "$(command -v nvim)" ]]; then
   export VISUAL='nvim'
   export MANPAGER='nvim +Man!'
   export MANWIDTH=999
-  alias -g V="| nvimpager"
+  alias -g V="| nview -c 'set ft=man nonumber nolist showtabline=0 foldcolumn=0'"
   alias v='nvim -R'
   alias nview='nvim -R'
   alias nvimdiff='nvim -d'
@@ -392,9 +392,7 @@ export HISTSIZE="5000"
 export SAVEHIST="5000"
 export MAKEFLAGS="-j $(nproc)"
 export CVS_RSH="ssh"
-export FZF_DEFAULT_COMMAND='fd --type f'
 export FZF_DEFAULT_OPTS='-x -m --cycle --border --layout=reverse --inline-info --height 90% --padding 2% --preview "bat {}" --preview-window right:70%:hidden:wrap --bind "?:toggle-preview" --color=bg+:-1,fg+:-1,hl:36,hl+:36,info:75'
-export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 export FZF_CTRL_T_OPTS='--preview "bat {}" --preview-window right:70%:hidden:wrap --bind "?:toggle-preview"'
 export HIGHLIGHT_STYLE="github"
 export XAUTHORITY="$HOME/.Xauthority"
