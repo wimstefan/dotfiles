@@ -364,7 +364,8 @@ packer.startup(function()
           enable = true
         },
         context_commentstring = {
-          enable = true
+          enable = true,
+          enable_autocmd = false
         },
         highlight = {
           enable = true,
@@ -1023,9 +1024,24 @@ use {
 -- {{{2 Comment.nvim
   use {
     'numToStr/Comment.nvim',
+    after = 'nvim-treesitter',
     config = function()
       vim.api.nvim_set_keymap('x', 'gci', ':g/./lua require\'Comment\'.toggle()<CR><cmd>nohls<CR>', {noremap = true, silent = true})
-      require('Comment').setup()
+      require('Comment').setup({
+        pre_hook = function(ctx)
+          local U = require 'Comment.utils'
+          local location = nil
+          if ctx.ctype == U.ctype.block then
+            location = require('ts_context_commentstring.utils').get_cursor_location()
+          elseif ctx.cmotion == U.cmotion.v or ctx.cmotion == U.cmotion.V then
+            location = require('ts_context_commentstring.utils').get_visual_start_location()
+          end
+          return require('ts_context_commentstring.internal').calculate_commentstring {
+            key = ctx.ctype == U.ctype.line and '__default' or '__multiline',
+            location = location,
+          }
+        end
+      })
     end
   }
 -- }}}
