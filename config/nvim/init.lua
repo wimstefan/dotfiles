@@ -557,10 +557,10 @@ use {
         format = function(entry, vim_item)
           vim_item.menu = ({
             buffer = '[Buffer]',
-            snippy = '[Snippet]',
             nvim_lsp = '[LSP]',
             nvim_lua = '[LUA]',
             path = '[Filesystem]',
+            snippy = '[Snippet]',
             spell = '[Spelling]',
             treesitter = '[TS]',
           })[entry.source.name]
@@ -593,35 +593,21 @@ use {
           else
             fallback()
           end
-        end, { 'i', 's' }),
-        ['<C-d>'] = cmp.mapping(cmp.mapping.scroll_docs(-4), { 'i', 'c' }),
-        ['<C-f>'] = cmp.mapping(cmp.mapping.scroll_docs(4), { 'i', 'c' }),
-        ['<C-Space>'] = cmp.mapping(cmp.mapping.complete(), { 'i', 'c' }),
-        ['<C-y>'] = cmp.config.disable,
-        ['<C-e>'] = cmp.mapping({
-          i = cmp.mapping.abort(),
-          c = cmp.mapping.close(),
-        }),
-        ['<CR>'] = cmp.mapping.confirm({ select = true }),
+        end, { 'i', 's' })
       },
       sources = cmp.config.sources(
         {
           {name = 'nvim_lua'},
           {name = 'nvim_lsp'},
-          {name = 'treesitter'},
-          {name = 'snippy', keyword_length = 2}
-        }, {
+          {name = 'snippy'},
           {name = 'buffer',
             opts = {
               get_bufnrs = function()
-                local bufs = {}
-                for _, win in ipairs(vim.api.nvim_list_wins()) do
-                  bufs[vim.api.nvim_win_get_buf(win)] = true
-                end
-                return vim.tbl_keys(bufs)
+                return vim.api.nvim_list_bufs()
               end
             }
           },
+          {name = 'treesitter'},
           {name = 'path'},
           {name = 'spell'}
         }
