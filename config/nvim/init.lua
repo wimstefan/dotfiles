@@ -336,12 +336,14 @@ packer.startup(function()
     requires = {
       {
         'nvim-treesitter/nvim-treesitter-textobjects',
-        event = 'InsertEnter',
+        after = 'nvim-treesitter'
+      },
+      {
+        'nvim-treesitter/nvim-treesitter-refactor',
         after = 'nvim-treesitter'
       },
       {
         'windwp/nvim-ts-autotag',
-        event = 'InsertEnter',
         after = 'nvim-treesitter'
       },
       {
@@ -388,6 +390,26 @@ packer.startup(function()
         },
         playground = {
           enable = true
+        },
+        refactor = {
+          highlight_current_scope = { enable = false },
+          highlight_definitions = { enable = true },
+          navigation = {
+            enable = true,
+            keymaps = {
+              goto_definition = "gnd",
+              list_definitions = "gnD",
+              list_definitions_toc = "gO",
+              goto_next_usage = "<a-*>",
+              goto_previous_usage = "<a-#>",
+            },
+          },
+          smart_rename = {
+            enable = true,
+            keymaps = {
+              smart_rename = "grr",
+            },
+          },
         },
         textobjects = {
           move = {
