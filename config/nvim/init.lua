@@ -336,18 +336,22 @@ packer.startup(function()
     requires = {
       {
         'nvim-treesitter/nvim-treesitter-textobjects',
+        event = 'BufRead',
         after = 'nvim-treesitter'
       },
       {
         'nvim-treesitter/nvim-treesitter-refactor',
-        after = 'nvim-treesitter'
+        event = 'BufRead',
+        after = 'nvim-treesitter-textobjects'
       },
       {
         'windwp/nvim-ts-autotag',
+        event = 'BufRead',
         after = 'nvim-treesitter'
       },
       {
         'JoosepAlviste/nvim-ts-context-commentstring',
+        event = 'BufRead',
         after = 'nvim-treesitter'
       },
       {
