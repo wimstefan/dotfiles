@@ -1250,49 +1250,6 @@ use {
     end
   }
 -- }}}
--- {{{3 material.nvim
-  use {
-    'marko-cerovac/material.nvim',
-    config = function()
-      require('material').setup({
-        contrast = false,
-        borders = true,
-        popup_menu = 'colorful',
-        italics = {
-          comments = true,
-          keywords = true,
-          functions = false,
-          variables = false
-        },
-        contrast_windows = {},
-        text_contrast = {
-          lighter = true,
-          darker = false
-        },
-        disable = {
-          background = true,
-          term_colors = false,
-          eob_lines = true
-        },
-        custom_highlights = {}
-      })
-      vim.api.nvim_set_keymap('n', '<Leader>cmm', [[<Cmd>lua require('material.functions').toggle_style()<CR>]], {noremap = true, silent = true})
-      vim.api.nvim_set_keymap('n', '<Leader>cml', [[<Cmd>lua require('material.functions').change_style('lighter')<CR>]], {noremap = true, silent = true})
-      vim.api.nvim_set_keymap('n', '<Leader>cmd', [[<Cmd>lua require('material.functions').change_style('oceanic')<CR>]], {noremap = true, silent = true})
-    end
-  }
--- }}}
--- {{{3 nordbuddy
-  use {
-    'maaslalani/nordbuddy',
-    setup = function()
-      vim.g.nord_underline_option = 'undercurl'
-      vim.g.nord_italic = true
-      vim.g.nord_italic_comments = true
-      vim.g.nord_minimal_mode = true
-    end
-  }
--- }}}
 -- {{{3 zenbones.nvim
   use {
     'mcchrish/zenbones.nvim',
@@ -1325,13 +1282,13 @@ use {
         darken_comments = 30,
         transparent_background = true
       }
+      vim.g.tokyobones = {
+        solid_float_border = true,
+        darkness = 'warm',
+        darken_comments = 30,
+        transparent_background = true
+      }
     end
-  }
--- }}}
--- {{{3 github-nvim-theme
-  use {
-    'projekt0n/github-nvim-theme',
-    after = 'lualine.nvim'
   }
 -- }}}
 -- {{{3 lualine.nvim
@@ -1366,7 +1323,7 @@ use {
         return '[SP]'
       end
       local get_path = function()
-        return '%F'
+        return '[' .. vim.fn.expand('%:p:h') .. ']'
       end
       local diff_source = function()
         local gitsigns = vim.b.gitsigns_status_dict
@@ -1374,9 +1331,12 @@ use {
           return {added = gitsigns.added, modified = gitsigns.changed, removed = gitsigns.removed}
         end
       end
+      local function window()
+        return vim.api.nvim_win_get_number(0)
+      end
       local minimal_extension = {
         sections = {
-          lualine_a = {get_path},
+          lualine_a = {'filename'},
           lualine_b = {},
           lualine_c = {},
           lualine_x = {},
@@ -1396,7 +1356,10 @@ use {
           lualine_a = {'mode'},
           lualine_b = {'location', 'progress'},
           lualine_c = {
-            {get_path},
+            {
+              'filename',
+              file_status = false
+            },
             {
               get_readonly,
               padding = 0,
@@ -1447,12 +1410,25 @@ use {
           lualine_z = {'filetype'},
         },
         inactive_sections = {
-          lualine_a = {get_path},
+          lualine_a = {'filename'},
           lualine_b = {},
           lualine_c = {},
           lualine_x = {},
           lualine_y = {'location'},
           lualine_z = {'filetype'},
+        },
+        tabline = {
+          lualine_a = {window},
+          lualine_c = {'buffers'},
+          lualine_b = {get_path},
+          lualine_x = {},
+          lualine_y = {},
+          lualine_z = {
+            {
+              'tabs',
+              mode = 2
+            }
+          }
         },
         extensions = {'fugitive', minimal_extension, 'nvim-tree'},
       }
