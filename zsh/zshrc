@@ -1,5 +1,5 @@
 # my zsh config
-# vim: ft=zsh fdm=marker fdl=1 tw=200
+# vim: foldmethod=marker foldlevel=1 textwidth=200
 
 # BEGIN shell config # {{{1
 # - Options {{{2
@@ -1083,7 +1083,6 @@ fi
 
 # The next line updates PATH for Netlify's Git Credential Helper.
 if [ -f '/home/swimmer/.netlify/helper/path.zsh.inc' ]; then source '/home/swimmer/.netlify/helper/path.zsh.inc'; fi
-
 
 # BEGIN_KITTY_SHELL_INTEGRATION
 if test -e "$HOME/.local/lib/kitty/shell-integration/kitty.zsh"; then source "$HOME/.local/lib/kitty/shell-integration/kitty.zsh"; fi
