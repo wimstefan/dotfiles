@@ -970,26 +970,28 @@ use {
         signs = {
           add = {
             hl = 'GitSignsAdd',
-            show_count = true,
-            numhl = 'GitSignsAddNr'
+            numhl = 'GitSignsAddNr',
+            show_count = true
           },
           change = {
             hl = 'GitSignsChange',
-            numhl = 'GitSignsChangeNr'},
+            numhl = 'GitSignsChangeNr',
+            show_count = true
+          },
           delete = {
             hl = 'GitSignsDelete',
-            show_count = true,
-            numhl = 'GitSignsDeleteNr'
+            numhl = 'GitSignsDeleteNr',
+            show_count = true
           },
           topdelete = {
             hl = 'GitSignsDelete',
-            show_count = true,
-            numhl = 'GitSignsDeleteNr'
+            numhl = 'GitSignsDeleteNr',
+            show_count = true
           },
           changedelete = {
             hl = 'GitSignsChange',
-            show_count = true,
-            numhl = 'GitSignsChangeNr'
+            numhl = 'GitSignsChangeNr',
+            show_count = true
           }
         },
         count_chars = {
@@ -1017,7 +1019,7 @@ use {
           ['n ,st'] = '<Cmd>lua require"gitsigns".toggle_signs()<CR>',
           ['n ,sh'] = '<Cmd>lua require"gitsigns".toggle_linehl()<CR>',
           ['n ,sp'] = '<Cmd>lua require"gitsigns".preview_hunk()<CR>',
-          ['n ,sb'] = '<Cmd>lua require"gitsigns".blame_line({true})<CR>',
+          ['n ,sb'] = '<Cmd>lua require"gitsigns".blame_line({full=true})<CR>',
         },
         preview_config = {
           border = 'rounded',
@@ -1029,8 +1031,7 @@ use {
 -- {{{2 vim-sandwich
   use {
     'machakann/vim-sandwich',
-    after = 'nvim-treesitter',
-    keys = 's'
+    after = 'nvim-treesitter'
   }
 -- }}}
 -- {{{2 Comment.nvim
