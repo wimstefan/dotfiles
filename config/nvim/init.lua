@@ -1254,40 +1254,17 @@ use {
   use {
     'mcchrish/zenbones.nvim',
     setup = function()
-      vim.g.zenbones = {
-        solid_float_border = true,
-        lightness = 'bright',
-        darken_comments = 30,
-        transparent_background = true
-      }
-      vim.g.zenwritten = {
-        solid_float_border = true,
-        lightness = 'bright',
-        darkness = 'stark',
-        darken_comments = 30,
-        lighten_comments = 30,
-        transparent_background = true
-      }
-      vim.g.neobones = {
-        solid_float_border = true,
-        lightness = 'bright',
-        darkness = 'stark',
-        darken_comments = 30,
-        lighten_comments = 30,
-        transparent_background = true
-      }
-      vim.g.nordbones = {
-        solid_float_border = true,
-        darkness = 'warm',
-        darken_comments = 30,
-        transparent_background = true
-      }
-      vim.g.tokyobones = {
-        solid_float_border = true,
-        darkness = 'warm',
-        darken_comments = 30,
-        transparent_background = true
-      }
+      local flavours = {'zenbones', 'zenwritten', 'neobones', 'nordbones', 'seoulbones', 'tokyobones'}
+      for _, flavour in ipairs(flavours) do
+        vim.g[flavour] = {
+          solid_float_border = true,
+          lightness = 'bright',
+          darkness = 'warm',
+          darken_comments = 30,
+          lighten_comments = 30,
+          transparent_background = true
+        }
+      end
     end
   }
 -- }}}
