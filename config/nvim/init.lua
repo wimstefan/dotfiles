@@ -651,22 +651,12 @@ use {
         'kosayoda/nvim-lightbulb',
         config = function()
           vim.fn.sign_define('LightBulbSign', {text = ' ', texthl = 'WarningMsg', linehl='', numhl=''})
-          vim.cmd [[autocmd CursorHold,CursorHoldI * lua require'nvim-lightbulb'.update_lightbulb()]]
-          require('nvim-lightbulb').update_lightbulb {
-            sign = {enabled = false},
-            float = {enabled = false},
-            virtual_text = {enabled = true}
-          }
+          vim.cmd [[autocmd CursorHold,CursorHoldI * lua require('nvim-lightbulb').update_lightbulb()]]
+          require('nvim-lightbulb').update_lightbulb()
         end
       },
       'nvim-lua/lsp-status.nvim',
       'folke/lua-dev.nvim',
-      {
-        'https://gitlab.com/yorickpeterse/nvim-dd',
-        config = function()
-          require('dd').setup()
-        end
-      }
     },
     config = function()
       local lsp_cmp = require('cmp_nvim_lsp')
@@ -674,24 +664,26 @@ use {
       local lsp_status = require('lsp-status')
 
       -- diagnostic handling
-      local signs = {
-        Error = ' ',
-        Warn = ' ',
-        Hint = ' ',
-        Info = '𥉉',
-      }
-      for type, icon in pairs(signs) do
-        local ds = 'DiagnosticSign' .. type
-        vim.fn.sign_define(ds, {text = icon, texthl = ds})
-      end
-      for type, icon in pairs(signs) do
-        if type == 'Warn' then
-          type = 'Warning'
-        elseif type == 'Info' then
-          type = 'Information'
-        end
-        local lds = 'LspDiagnosticsSign' .. type
-        vim.fn.sign_define(lds, {text = icon, texthl = lds})
+      local diagnostic_signs = {' ', ' ', ' ', '𥉉'}
+      local diagnostic_severity_fullnames = { 'Error', 'Warning', 'Hint', 'Information' }
+      local diagnostic_severity_shortnames = { 'Error', 'Warn', 'Hint', 'Info' }
+      for index, icon in ipairs(diagnostic_signs) do
+        local fullname = diagnostic_severity_fullnames[index]
+        local shortname = diagnostic_severity_shortnames[index]
+
+        vim.fn.sign_define('DiagnosticSign' .. shortname, {
+          text = icon,
+          texthl = 'Diagnostic' .. shortname,
+          linehl = '',
+          numhl = '',
+        })
+
+        vim.fn.sign_define('LspDiagnosticsSign' .. fullname, {
+          text = icon,
+          texthl = 'LspDiagnosticsSign' .. fullname,
+          linehl = '',
+          numhl = '',
+        })
       end
       vim.diagnostic.config {
         signs = true,
@@ -826,38 +818,32 @@ use {
       local capabilities = lsp_cmp.update_capabilities(vim.lsp.protocol.make_client_capabilities())
 
       -- LSP servers
-      local servers = {
-        bashls = {
-          filetypes = {
-            'sh',
-            'bash',
-            'zsh'
-          }
-        },
-        cssls = {},
-        html = {
-          filetypes = {
-            'html',
-            'html-eex',
-            'liquid',
-            'markdown',
-          }
-        },
-        jsonls = {},
-        vimls = {}
+      local servers = {'bashls', 'cssls', 'html', 'jsonls', 'vimls'}
+      lsp_config.bashls.setup {
+        filetypes = {
+          'sh',
+          'bash',
+          'zsh'
+        }
       }
-      for server, config in pairs(servers) do
+      lsp_config.html.setup {
+        filetypes = {
+          'html',
+          'html-eex',
+          'liquid',
+          'markdown',
+        }
+      }
+      for _, server in ipairs(servers) do
         lsp_config[server].setup(vim.tbl_deep_extend('force', {
           capabilities = capabilities,
           on_attach = on_attach,
           flags = {
             debounce_text_changes = 150,
-          },
-          init_options = config
+          }
         }, {}))
       end
 
-      -- Lua LSP server & lua-dev configuration
       local sumneko_root_path = vim.fn.stdpath('data')..'/lspconfig/sumneko_lua'
       local sumneko_binary = sumneko_root_path..'/bin/Linux/lua-language-server'
       local runtime_path = vim.split(package.path, ';')
