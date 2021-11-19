@@ -909,7 +909,7 @@ use {
     'folke/which-key.nvim',
     config = function()
       require('which-key').setup {
-        window = { border = 'rounded' }
+        window = {border = 'rounded'}
       }
     end
   }
@@ -949,6 +949,12 @@ use {
 -- {{{2 vim-repeat
   use {
     'tpope/vim-repeat',
+    event = 'BufRead'
+  }
+-- }}}
+-- {{{2 vim-surround
+  use {
+    'tpope/vim-surround',
     event = 'BufRead'
   }
 -- }}}
@@ -1028,12 +1034,6 @@ use {
     end
   }
 -- }}}
--- {{{2 vim-sandwich
-  use {
-    'machakann/vim-sandwich',
-    after = 'nvim-treesitter'
-  }
--- }}}
 -- {{{2 Comment.nvim
   use {
     'numToStr/Comment.nvim',
@@ -1068,6 +1068,12 @@ use {
       vim.g.matchup_matchparen_offscreen = {method = 'popup', fullwidth = true}
       vim.g.matchup_surround_enabled = false
     end
+  }
+-- }}}
+-- {{{3 lightspeed.nvim
+  use {
+    'ggandor/lightspeed.nvim',
+    event = 'BufRead'
   }
 -- }}}
 -- {{{2 vim-qf
