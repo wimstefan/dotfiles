@@ -818,30 +818,44 @@ use {
       local capabilities = lsp_cmp.update_capabilities(vim.lsp.protocol.make_client_capabilities())
 
       -- LSP servers
-      local servers = {'bashls', 'cssls', 'html', 'jsonls', 'vimls'}
-      lsp_config.bashls.setup {
-        filetypes = {
-          'sh',
-          'bash',
-          'zsh'
-        }
-      }
-      lsp_config.html.setup {
-        filetypes = {
-          'html',
-          'html-eex',
-          'liquid',
-          'markdown',
-        }
-      }
-      for _, server in ipairs(servers) do
-        lsp_config[server].setup(vim.tbl_deep_extend('force', {
-          capabilities = capabilities,
-          on_attach = on_attach,
-          flags = {
-            debounce_text_changes = 150,
+      local servers = {
+        bashls = {
+          filetypes = {
+            'sh',
+            'bash',
+            'zsh'
           }
-        }, {}))
+        },
+        cssls = {},
+        html = {
+          filetypes = {
+            'html',
+            'html-eex',
+            'liquid',
+          }
+        },
+        jsonls = {},
+        vimls = {},
+        zeta_note = {
+          cmd = {'/usr/local/bin/zeta-note'},
+          root_dir = function()
+            return vim.loop.cwd()
+          end,
+        },
+      }
+      for name, opts in pairs(servers) do
+        if type(opts) == 'function' then
+          opts()
+        else
+          local client = lsp_config[name]
+          client.setup(vim.tbl_extend('force', {
+            flags = {
+              debounce_text_changes = 150
+            },
+            on_attach = on_attach,
+            capabilities = capabilities,
+          }, opts))
+        end
       end
 
       local sumneko_root_path = vim.fn.stdpath('data')..'/lspconfig/sumneko_lua'
@@ -857,29 +871,29 @@ use {
         },
         lspconfig = {
           capabilities = capabilities,
-          cmd = { sumneko_binary, '-E', sumneko_root_path .. '/main.lua' },
+          cmd = {sumneko_binary, '-E', sumneko_root_path .. '/main.lua'},
           flags = {
-            debounce_text_changes = 150,
+            debounce_text_changes = 150
           },
           on_attach = on_attach,
           settings = {
             Lua = {
               runtime = {
                 version = 'LuaJIT',
-                path = runtime_path,
+                path = runtime_path
               },
               diagnostics = {
                 enable = true,
                 globals = {
-                  'vim',
+                  'vim'
                 },
               },
               workspace = {
                 library = vim.api.nvim_get_runtime_file('', true),
-                preloadFileSize = 400,
+                preloadFileSize = 400
               },
               telemetry = {
-                enable = false,
+                enable = false
               },
             },
           }
