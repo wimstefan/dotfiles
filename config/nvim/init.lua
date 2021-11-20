@@ -1095,12 +1095,6 @@ use {
     end
   }
 -- }}}
--- {{{2 vim-qlist
-  use {
-    'romainl/vim-qlist',
-    event = {'BufRead', 'QuickFixCmdPre', 'QuickFixCmdPost'}
-  }
--- }}}
 -- {{{2 nvim-bqf
   use {
     'kevinhwang91/nvim-bqf',
