@@ -746,6 +746,21 @@ use {
         indicator_info = ' ' .. vim.trim(vim.fn.sign_getdefined('DiagnosticSignInfo')[1].text) .. '  ',
         indicator_hint = ' ' .. vim.trim(vim.fn.sign_getdefined('DiagnosticSignHint')[1].text) .. '  ',
         indicator_ok = 'OK',
+        select_symbol = function(cursor_pos, symbol)
+          if symbol.valueRange then
+            local value_range = {
+              ["start"] = {
+                character = 0,
+                line = vim.fn.byte2line(symbol.valueRange[1])
+              },
+              ["end"] = {
+                character = 0,
+                line = vim.fn.byte2line(symbol.valueRange[2])
+              }
+            }
+            return lsp_status.util.in_range(cursor_pos, value_range)
+          end
+        end,
         status_symbol = '[LSP]',
       })
       lsp_status.register_progress()
@@ -825,11 +840,17 @@ use {
           vim.api.nvim_buf_set_keymap(bufnr, 'n', ',ltd', [[<Nop>]], {})
           lsp_messages = lsp_messages .. 'no typeDefinition' .. lsp_msg_sep
         end
-        vim.notify(lsp_messages, vim.log.levels.INFO, {title = '[LSP]'})
 
         -- autocmds
-        vim.cmd [[autocmd CursorHold,CursorHoldI * lua vim.diagnostic.open_float(0, {scope = 'line'})]]
+        if client.supports_method('textDocument/codeLens') then
+          vim.cmd [[autocmd BufEnter,CursorHold,InsertLeave * lua vim.lsp.codelens.refresh()]]
+        else
+          lsp_messages = lsp_messages .. 'no codeLens' .. lsp_msg_sep
+        end
+        vim.cmd [[autocmd CursorHold,CursorHoldI <buffer> lua vim.diagnostic.open_float(0, {scope = 'line'})]]
 
+        -- messages
+        vim.notify(lsp_messages, vim.log.levels.INFO, {title = '[LSP]'})
       end
 
       local capabilities = lsp_cmp.update_capabilities(vim.lsp.protocol.make_client_capabilities())
