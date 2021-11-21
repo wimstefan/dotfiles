@@ -413,6 +413,15 @@ packer.startup(function()
           },
         },
         textobjects = {
+          lookahead = true,
+          lsp_interop = {
+            enable = true,
+            border = my_border,
+            peek_definition_code = {
+              ['df'] = '@function.outer',
+              ['dF'] = '@class.outer',
+            },
+          },
           move = {
             enable = true,
             set_jumps = true,
