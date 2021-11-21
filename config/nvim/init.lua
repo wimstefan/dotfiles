@@ -9,7 +9,7 @@ vim.g.mapleader = ' '
 local indent = 2
 
 vim.opt.termguicolors = true
-vim.opt.signcolumn = 'auto'
+vim.opt.signcolumn = 'yes'
 vim.opt.relativenumber = true
 vim.opt.showtabline = 2
 vim.opt.linebreak = true
@@ -32,6 +32,7 @@ vim.opt.fillchars = {
   msgsep = '🮑'
 }
 vim.opt.mouse = 'a'
+vim.opt.clipboard:append('unnamedplus')
 
 vim.opt.shiftwidth = indent
 vim.opt.shiftround = true
@@ -48,11 +49,11 @@ vim.opt.gdefault = true
 vim.opt.inccommand = 'split'
 vim.opt.selection = 'exclusive'
 vim.opt.pastetoggle = '<F3>'
-vim.opt.diffopt:append {
+vim.opt.diffopt:append({
   'vertical',
   'indent-heuristic',
   'algorithm:histogram'
-}
+})
 vim.opt.spellfile = vim.fn.stdpath('config') .. '/spell/myspell.utf-8.add'
 vim.opt.spelllang = {
   'en',
