@@ -939,6 +939,7 @@ use {
 -- {{{2 which-key.nvim
   use {
     'folke/which-key.nvim',
+    event = 'BufRead',
     config = function()
       require('which-key').setup({
         window = {border = popup_border}
@@ -1142,6 +1143,7 @@ use {
 -- {{{2 nvim-hlslens
   use {
     'kevinhwang91/nvim-hlslens',
+    event = 'BufRead',
     config = function()
       require('hlslens').setup()
       vim.api.nvim_set_keymap('n', 'n', [[<Cmd>execute('norm! ' . v:count1 . 'n')<CR><Cmd>lua require('hlslens').start()<CR>]], {noremap = true, silent = true})
@@ -1204,6 +1206,7 @@ use {
 -- {{{2 paperplanes.nvim
 use {
   'rktjmp/paperplanes.nvim',
+  event = 'BufRead',
   config = function()
     require('paperplanes').setup({
       register = 'p',
@@ -1253,7 +1256,8 @@ use {
 -- {{{2 Visuals
 -- {{{3 nvim-colorizer.lua
   use {
-    'norcalli/nvim-colorizer.lua',
+    'DarwinSenior/nvim-colorizer.lua',
+    event = 'BufReadPre',
     config = function()
       require('colorizer').setup({
         '*';
@@ -1269,10 +1273,16 @@ use {
   }
 -- }}}
 -- {{{3 nvim-web-devicons
-  use {'kyazdani42/nvim-web-devicons'}
+  use {
+    'kyazdani42/nvim-web-devicons',
+    event = {'BufEnter', 'ColorScheme', 'WinEnter'}
+  }
 -- }}}
 -- {{{3 lush.nvim
-  use {'rktjmp/lush.nvim'}
+  use {
+    'rktjmp/lush.nvim',
+    event = {'BufEnter', 'ColorScheme', 'WinEnter'}
+  }
 -- }}}
 -- {{{3 artesanal
   use {
