@@ -60,9 +60,9 @@ vim.opt.spelllang = {
   'es',
   'nl'
 }
-vim.opt.nrformats:append {
+vim.opt.nrformats:append({
   'alpha'
-}
+})
 if vim.fn.executable('ugrep') == 1 then
   vim.opt.grepprg = 'ugrep -RInk -j -u --tabs=1'
   vim.opt.grepformat = '%f:%l:%c:%m,%f+%l+%c+%m,%-G%f\\|%l\\|%c\\|%m'
@@ -364,7 +364,7 @@ packer.startup(function()
       }
     },
     config = function()
-      require('nvim-treesitter.configs').setup {
+      require('nvim-treesitter.configs').setup({
         ensure_installed = 'maintained',
         autotag = {
           enable = true
@@ -456,7 +456,7 @@ packer.startup(function()
             },
           },
         },
-      }
+      })
     end
   }
 -- }}}
@@ -490,7 +490,7 @@ packer.startup(function()
       vim.api.nvim_set_keymap('n', '<Leader>To', [[<Cmd>lua require('telescope.builtin').oldfiles(require('telescope.themes').get_dropdown({previewer = false}))<CR>]], {noremap = true, silent = true})
       vim.api.nvim_set_keymap('n', '<Leader>Ts', [[<Cmd>lua require('telescope.builtin').spell_suggest(require('telescope.themes').get_cursor({}))<CR>]], {noremap = true, silent = true})
       vim.api.nvim_set_keymap('n', '<Leader>Tw', [[<Cmd>lua require('telescope.builtin').grep_string()<CR>]], {noremap = true, silent = true})
-      require('telescope').setup {
+      require('telescope').setup({
         defaults = {
           dynamic_preview_title = true,
           file_ignore_patterns = {'db', 'gif', 'jpeg', 'jpg', 'ods', 'odt', 'pdf', 'png', 'svg', 'xcf', 'xls'},
@@ -517,7 +517,7 @@ packer.startup(function()
             case_mode = "smart_case"
           }
         }
-      }
+      })
       require('telescope').load_extension('fzf')
     end
   }
@@ -685,7 +685,7 @@ use {
           numhl = '',
         })
       end
-      vim.diagnostic.config {
+      vim.diagnostic.config({
         signs = true,
         underline = true,
         update_in_insert = false,
@@ -693,7 +693,7 @@ use {
           prefix = '❰',
           source = 'if_many'
         }
-      }
+      })
 
       -- symbols for autocomplete
       vim.lsp.protocol.CompletionItemKind = {
@@ -725,7 +725,7 @@ use {
       }
 
       -- lsp-status config
-      lsp_status.config {
+      lsp_status.config({
         current_function = true,
         diagnostics = false,
         indicator_errors = ' ' .. vim.trim(vim.fn.sign_getdefined('DiagnosticSignError')[1].text) .. '  ',
@@ -734,7 +734,7 @@ use {
         indicator_hint = ' ' .. vim.trim(vim.fn.sign_getdefined('DiagnosticSignHint')[1].text) .. '  ',
         indicator_ok = 'OK',
         status_symbol = '[LSP]',
-      }
+      })
       lsp_status.register_progress()
 
       -- LSP handlers
@@ -908,9 +908,9 @@ use {
   use {
     'folke/which-key.nvim',
     config = function()
-      require('which-key').setup {
+      require('which-key').setup({
         window = {border = 'rounded'}
-      }
+      })
     end
   }
 -- }}}
@@ -972,7 +972,7 @@ use {
     },
     event = 'BufRead',
     config = function()
-      require('gitsigns').setup {
+      require('gitsigns').setup({
         signs = {
           add = {
             hl = 'GitSignsAdd',
@@ -1030,7 +1030,7 @@ use {
         preview_config = {
           border = 'rounded',
         }
-      }
+      })
     end
   }
 -- }}}
@@ -1101,9 +1101,9 @@ use {
     event = {'QuickFixCmdPre', 'QuickFixCmdPost'},
     after = 'vim-qf',
     config = function()
-      require('bqf').setup {
+      require('bqf').setup({
         auto_enable = true
-      }
+      })
     end
   }
 -- }}}
@@ -1223,7 +1223,7 @@ use {
   use {
     'norcalli/nvim-colorizer.lua',
     config = function()
-      require('colorizer').setup {
+      require('colorizer').setup({
         '*';
         css = {
           css = true;
@@ -1232,7 +1232,7 @@ use {
         html = {
           names = false;
         }
-      }
+      })
     end
   }
 -- }}}
@@ -1324,7 +1324,7 @@ use {
         filetypes = {'help', 'packer', 'qf'}
       }
 
-      require('lualine').setup {
+      require('lualine').setup({
         options = {
           icons_enabled = true,
           section_separators = '',
@@ -1409,7 +1409,7 @@ use {
           }
         },
         extensions = {'fugitive', minimal_extension, 'nvim-tree'},
-      }
+      })
     end
   }
 -- }}}
