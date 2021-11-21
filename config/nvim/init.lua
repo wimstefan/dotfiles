@@ -694,13 +694,17 @@ use {
         })
       end
       vim.diagnostic.config({
-        signs = true,
-        underline = true,
-        update_in_insert = false,
-        virtual_text = {
-          prefix = '❰',
-          source = 'if_many'
-        }
+        float = {
+          header = '',
+          border = my_border,
+          source = 'if_many',
+          focusable = false
+        },
+        -- virtual_text = {
+        --   prefix = '❰',
+        --   source = 'if_many'
+        -- },
+        virtual_text = false
       })
 
       -- symbols for autocomplete
@@ -821,6 +825,10 @@ use {
           lsp_messages = lsp_messages .. 'no typeDefinition' .. lsp_msg_sep
         end
         vim.notify(lsp_messages, vim.log.levels.INFO, {title = '[LSP]'})
+
+        -- autocmds
+        vim.cmd [[autocmd CursorHold,CursorHoldI * lua vim.diagnostic.open_float(0, {scope = 'line'})]]
+
       end
 
       local capabilities = lsp_cmp.update_capabilities(vim.lsp.protocol.make_client_capabilities())
@@ -844,12 +852,6 @@ use {
         },
         jsonls = {},
         vimls = {},
-        zeta_note = {
-          cmd = {'/usr/local/bin/zeta-note'},
-          root_dir = function()
-            return vim.loop.cwd()
-          end,
-        },
       }
       for name, opts in pairs(servers) do
         if type(opts) == 'function' then
