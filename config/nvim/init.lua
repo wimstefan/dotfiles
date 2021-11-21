@@ -106,7 +106,7 @@ vim.g.loaded_matchit      = 1
 vim.g.loaded_matchparen   = 1
 vim.g.loaded_spec         = 1
 
-_G.my_border = 'rounded'
+_G.popup_border = 'rounded'
 
 -- }}}1 --------------------- OPTIONS ------------------------------------------
 -- {{{1 --------------------- MAPPINGS -----------------------------------------
@@ -416,7 +416,7 @@ packer.startup(function()
           lookahead = true,
           lsp_interop = {
             enable = true,
-            border = my_border,
+            border = popup_border,
             peek_definition_code = {
               ['df'] = '@function.outer',
               ['dF'] = '@class.outer',
@@ -581,7 +581,7 @@ use {
 
     cmp.setup({
       documentation = {
-        border = my_border
+        border = popup_border
       },
       experimental = {
         ghost_text = true,
@@ -696,7 +696,7 @@ use {
       vim.diagnostic.config({
         float = {
           header = '',
-          border = my_border,
+          border = popup_border,
           source = 'if_many',
           focusable = false
         },
@@ -751,10 +751,10 @@ use {
 
       -- LSP handlers
       vim.lsp.handlers['textDocument/signatureHelp'] = vim.lsp.with(vim.lsp.handlers.signature_help, {
-        border = my_border
+        border = popup_border
       })
       vim.lsp.handlers['textDocument/hover'] = vim.lsp.with(vim.lsp.handlers.hover, {
-        border = my_border
+        border = popup_border
       })
 
       -- LSP functions
@@ -773,14 +773,14 @@ use {
             vim.api.nvim_command('lua vim.lsp.buf.hover()')
           end
         end
-        vim.api.nvim_buf_set_keymap(bufnr, 'n', 'K', [[<Cmd>lua show_documentation({border = my_border})<CR>]], {noremap = true, silent = true})
+        vim.api.nvim_buf_set_keymap(bufnr, 'n', 'K', [[<Cmd>lua show_documentation({border = popup_border})<CR>]], {noremap = true, silent = true})
         vim.api.nvim_buf_set_keymap(bufnr, 'n', ',lR', [[<Cmd>lua require('telescope.builtin').lsp_definitions()<CR>]], {noremap = true, silent = false})
         vim.api.nvim_buf_set_keymap(bufnr, 'n', ',lr', [[<Cmd>lua require('telescope.builtin').lsp_references()<CR>]], {noremap = true, silent = false})
         vim.api.nvim_buf_set_keymap(bufnr, 'n', ',ly', [[<Cmd>lua require('telescope.builtin').lsp_document_symbols()<CR>]], {noremap = true, silent = true})
         vim.api.nvim_buf_set_keymap(bufnr, 'n', ',lY', [[<Cmd>lua require('telescope.builtin').lsp_workspace_symbols()<CR>]], {noremap = true, silent = true})
         vim.api.nvim_buf_set_keymap(bufnr, 'n', ',ld', [[<Cmd>lua require('telescope.builtin').lsp_document_diagnostics()<CR>]], {noremap = true, silent = false})
         vim.api.nvim_buf_set_keymap(bufnr, 'n', ',lD', [[<Cmd>lua require('telescope.builtin').lsp_workspace_diagnostics()<CR>]], {noremap = true, silent = true})
-        vim.api.nvim_buf_set_keymap(bufnr, 'n', ',le', [[<Cmd>lua vim.diagnostic.open_float(0, {scope = 'line', border = my_border})<CR>]], {noremap = true, silent = false})
+        vim.api.nvim_buf_set_keymap(bufnr, 'n', ',le', [[<Cmd>lua vim.diagnostic.open_float(0, {scope = 'line', border = popup_border})<CR>]], {noremap = true, silent = false})
         vim.api.nvim_buf_set_keymap(bufnr, 'n', '[d', [[<Cmd>lua vim.diagnostic.goto_prev()<CR>]], {noremap = true, silent = true})
         vim.api.nvim_buf_set_keymap(bufnr, 'n', ']d', [[<Cmd>lua vim.diagnostic.goto_next()<CR>]], {noremap = true, silent = true})
         vim.api.nvim_buf_set_keymap(bufnr, 'n', ',lrn', [[<Cmd>lua vim.lsp.buf.rename()<CR>]], {noremap = true, silent = false})
@@ -812,8 +812,8 @@ use {
           lsp_messages = lsp_messages .. 'no implementation' .. lsp_msg_sep
         end
         if client.resolved_capabilities.signature_help then
-          vim.api.nvim_buf_set_keymap(bufnr, 'i', '<C-s>', [[<Cmd>lua vim.lsp.buf.signature_help({border = my_border})<CR>]], {noremap = true, silent = true})
-          vim.api.nvim_buf_set_keymap(bufnr, 'n', ',ls', [[<Cmd>lua vim.lsp.buf.signature_help({border = my_border})<CR>]], {noremap = true, silent = false})
+          vim.api.nvim_buf_set_keymap(bufnr, 'i', '<C-s>', [[<Cmd>lua vim.lsp.buf.signature_help({border = popup_border})<CR>]], {noremap = true, silent = true})
+          vim.api.nvim_buf_set_keymap(bufnr, 'n', ',ls', [[<Cmd>lua vim.lsp.buf.signature_help({border = popup_border})<CR>]], {noremap = true, silent = false})
         else
           vim.api.nvim_buf_set_keymap(bufnr, 'n', ',ls', [[<Nop>]], {})
           lsp_messages = lsp_messages .. 'no signatureHelp' .. lsp_msg_sep
@@ -919,7 +919,7 @@ use {
     'folke/which-key.nvim',
     config = function()
       require('which-key').setup({
-        window = {border = my_border}
+        window = {border = popup_border}
       })
     end
   }
@@ -1038,7 +1038,7 @@ use {
           ['n ,sb'] = '<Cmd>lua require"gitsigns".blame_line({full=true})<CR>',
         },
         preview_config = {
-          border = my_border,
+          border = popup_border,
         }
       })
     end
