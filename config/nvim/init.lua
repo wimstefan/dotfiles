@@ -32,7 +32,6 @@ vim.opt.fillchars = {
   msgsep = '🮑'
 }
 vim.opt.mouse = 'a'
-vim.opt.clipboard:append('unnamedplus')
 
 vim.opt.shiftwidth = indent
 vim.opt.shiftround = true
@@ -65,7 +64,7 @@ vim.opt.nrformats:append({
   'alpha'
 })
 if vim.fn.executable('ugrep') == 1 then
-  vim.opt.grepprg = 'ugrep -RInk -j -u --tabs=1'
+  vim.opt.grepprg = 'ugrep -RInk -j -u --tabs=1 -z'
   vim.opt.grepformat = '%f:%l:%c:%m,%f+%l+%c+%m,%-G%f\\|%l\\|%c\\|%m'
 elseif vim.fn.executable('git') == 1 then
   vim.opt.grepprg = 'git'
