@@ -434,17 +434,17 @@ packer.startup(function()
           navigation = {
             enable = true,
             keymaps = {
-              goto_definition = "gnd",
-              list_definitions = "gnD",
-              list_definitions_toc = "gO",
-              goto_next_usage = "<a-*>",
-              goto_previous_usage = "<a-#>",
+              goto_definition = 'gnd',
+              list_definitions = 'gnD',
+              list_definitions_toc = 'gO',
+              goto_next_usage = '<a-*>',
+              goto_previous_usage = '<a-#>',
             },
           },
           smart_rename = {
             enable = true,
             keymaps = {
-              smart_rename = "grr",
+              smart_rename = 'grr',
             },
           },
         },
@@ -558,7 +558,7 @@ packer.startup(function()
             fuzzy = true,
             override_generic_sorter = true,
             override_file_sorter = true,
-            case_mode = "smart_case"
+            case_mode = 'smart_case'
           }
         }
       })
@@ -755,11 +755,11 @@ use {
         select_symbol = function(cursor_pos, symbol)
           if symbol.valueRange then
             local value_range = {
-              ["start"] = {
+              ['start'] = {
                 character = 0,
                 line = vim.fn.byte2line(symbol.valueRange[1])
               },
-              ["end"] = {
+              ['end'] = {
                 character = 0,
                 line = vim.fn.byte2line(symbol.valueRange[2])
               }
