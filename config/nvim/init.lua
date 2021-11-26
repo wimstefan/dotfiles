@@ -106,7 +106,43 @@ vim.g.loaded_matchit      = 1
 vim.g.loaded_matchparen   = 1
 vim.g.loaded_spec         = 1
 
-_G.popup_border = 'rounded'
+-- Visual configuration options
+-- symbols --
+_G.my_symbols= {
+  Array = '[]',
+  Boolean = '易',
+  Class = ' ',
+  Color = ' ',
+  Constant = ' ',
+  Constructor = ' ',
+  EnumMember = ' ',
+  Enum = ' ',
+  Event = ' ',
+  Field = ' ',
+  File = ' ',
+  Folder = ' ',
+  Function = ' ',
+  Interface = ' ',
+  Keyword = ' ',
+  Namespace = ' ',
+  Method = ' ',
+  Module = ' ',
+  Number = '濫',
+  Object = '謹',
+  Operator = ' ',
+  Package = ' ',
+  Property = ' ',
+  Reference = ' ',
+  Snippet = ' ',
+  Struct = ' ',
+  Text = ' ',
+  TypeParameter = ' ',
+  Unit = ' ',
+  Value = ' ',
+  Variable = ' ',
+}
+-- borders --
+_G.my_borders = 'rounded'
 
 -- }}}1 --------------------- OPTIONS ------------------------------------------
 -- {{{1 --------------------- MAPPINGS -----------------------------------------
@@ -416,7 +452,7 @@ packer.startup(function()
           lookahead = true,
           lsp_interop = {
             enable = true,
-            border = popup_border,
+            border = my_borders,
             peek_definition_code = {
               ['df'] = '@function.outer',
               ['dF'] = '@class.outer',
@@ -581,7 +617,7 @@ use {
 
     cmp.setup({
       documentation = {
-        border = popup_border
+        border = my_borders
       },
       experimental = {
         ghost_text = true,
@@ -598,7 +634,7 @@ use {
             spell = '[Spelling]',
             treesitter = '[TS]',
           })[entry.source.name]
-          vim_item.kind = vim.lsp.protocol.CompletionItemKind[vim_item.kind] .. ' ' .. vim_item.kind
+          vim_item.kind = my_symbols[vim_item.kind] .. ' ' .. vim_item.kind
           return vim_item
         end
       },
@@ -696,7 +732,7 @@ use {
       vim.diagnostic.config({
         float = {
           header = '',
-          border = popup_border,
+          border = my_borders,
           source = 'if_many',
           focusable = false
         },
@@ -706,35 +742,6 @@ use {
         -- },
         virtual_text = false
       })
-
-      -- symbols for autocomplete
-      vim.lsp.protocol.CompletionItemKind = {
-        Class = ' ',
-        Color = ' ',
-        Constant = ' ',
-        Constructor = ' ',
-        EnumMember = ' ',
-        Enum = ' ',
-        Event = ' ',
-        Field = ' ',
-        File = ' ',
-        Folder = ' ',
-        Function = ' ',
-        Interface = ' ',
-        Keyword = ' ',
-        Method = ' ',
-        Module = ' ',
-        Operator = ' ',
-        Property = ' ',
-        Reference = ' ',
-        Snippet = ' ',
-        Struct = ' ',
-        Text = ' ',
-        TypeParameter = ' ',
-        Unit = ' ',
-        Value = ' ',
-        Variable = ' ',
-      }
 
       -- lsp-status config
       lsp_status.config({
@@ -766,10 +773,10 @@ use {
 
       -- LSP handlers
       vim.lsp.handlers['textDocument/signatureHelp'] = vim.lsp.with(vim.lsp.handlers.signature_help, {
-        border = popup_border
+        border = my_borders
       })
       vim.lsp.handlers['textDocument/hover'] = vim.lsp.with(vim.lsp.handlers.hover, {
-        border = popup_border
+        border = my_borders
       })
 
       -- LSP functions
@@ -941,7 +948,7 @@ use {
     event = 'BufRead',
     config = function()
       require('which-key').setup({
-        window = {border = popup_border}
+        window = {border = my_borders}
       })
     end
   }
@@ -1060,7 +1067,7 @@ use {
           ['n ,sb'] = '<Cmd>lua require"gitsigns".blame_line({full=true})<CR>',
         },
         preview_config = {
-          border = popup_border,
+          border = my_borders,
         }
       })
     end
