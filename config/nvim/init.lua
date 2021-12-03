@@ -9,7 +9,7 @@ vim.g.mapleader = ' '
 local indent = 2
 
 vim.opt.termguicolors = true
-vim.opt.signcolumn = 'yes'
+vim.opt.signcolumn = 'auto:4'
 vim.opt.relativenumber = true
 vim.opt.showtabline = 2
 vim.opt.linebreak = true
@@ -43,7 +43,6 @@ vim.opt.breakindent = true
 vim.opt.smartindent = true
 vim.opt.smartcase = true
 vim.opt.ignorecase = true
-vim.opt.joinspaces = true
 vim.opt.gdefault = true
 vim.opt.inccommand = 'split'
 vim.opt.selection = 'exclusive'
