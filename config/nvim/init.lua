@@ -145,7 +145,7 @@ _G.my_borders = 'rounded'
 
 -- }}}1 --------------------- OPTIONS ------------------------------------------
 -- {{{1 --------------------- MAPPINGS -----------------------------------------
-vim.api.nvim_set_keymap('', 'cd', '<Cmd>cd %:h | pwd<CR>', {noremap = true, silent = true})
+vim.api.nvim_set_keymap('',  'cd', '<Cmd>cd %:h | pwd<CR>', {noremap = true, silent = true})
 vim.api.nvim_set_keymap('n', '<Leader>g', ':grep ', {noremap = true, silent = false})
 vim.api.nvim_set_keymap('n', '<Leader>l', ':set hlsearch!<CR>', {noremap = true, silent = true})
 -- {{{2 editing
@@ -264,7 +264,7 @@ augroup RC
 
   " Enable spelling for text files
   " autocmd BuFNewFile,BufRead {*.txt,*.md,*.adoc,*.asciidoc,*.rst} if &filetype !~ 'man\|help\|*doc' | setlocal spell | endif
-  autocmd FileType {text,markdown,asciidoc*,rst} if &filetype !~ 'man\|help' | setlocal spell | endif
+  autocmd FileType {txt,markdown,asciidoc*,rst} if &filetype !~ 'man\|help' | setlocal spell | endif
 
   " Disable numbers & spell inside manpages
   autocmd FileType {man,help,*doc} setlocal nonumber norelativenumber nospell nolist nocursorcolumn
