@@ -299,10 +299,6 @@ augroup Terminal
   autocmd TermOpen * startinsert
   autocmd TermOpen * set nonumber norelativenumber nolist
 augroup END
-augroup Telescope
-  autocmd!
-  autocmd User TelescopePreviewerLoaded setlocal wrap
-augroup END
 ]], false)
 -- }}}1 --------------------- AUTOCMDS -----------------------------------------
 -- {{{1 --------------------- FUNCTIONS ----------------------------------------
@@ -549,10 +545,12 @@ packer.startup(function()
           layout_strategy = 'flex',
           mappings = {
             i = {
-              ['<C-n>'] = require('telescope.actions').cycle_previewers_next,
-              ['<C-p>'] = require('telescope.actions').cycle_previewers_prev,
-              ['<C-q>'] = require('telescope.actions').smart_send_to_qflist +require('telescope.actions').open_qflist,
-              ['<M-q>'] = require('telescope.actions').smart_add_to_qflist +require('telescope.actions').open_qflist,
+              ['<C-q>'] = require('telescope.actions').smart_send_to_qflist + require('telescope.actions').open_qflist,
+              ['<M-q>'] = require('telescope.actions').smart_add_to_qflist + require('telescope.actions').open_qflist,
+            },
+            n = {
+              ['<C-q>'] = require('telescope.actions').smart_send_to_qflist + require('telescope.actions').open_qflist,
+              ['<M-q>'] = require('telescope.actions').smart_add_to_qflist + require('telescope.actions').open_qflist,
             },
           },
         },
