@@ -195,6 +195,8 @@ ToggleDetails = function()
     vim.opt.foldenable = false
     vim.opt.number = false
     vim.opt.relativenumber = false
+    vim.opt.colorcolumn = ''
+    vim.api.nvim_command[[IndentBlanklineToggle]]
     vim.notify('Details disabled', vim.log.levels.INFO, {title = '[UI]'})
   else
     vim.opt.mouse = 'a'
@@ -204,6 +206,8 @@ ToggleDetails = function()
     vim.opt.foldenable = true
     vim.opt.number = true
     vim.opt.relativenumber = true
+    vim.opt.colorcolumn = '80'
+    vim.api.nvim_command[[IndentBlanklineToggle]]
     vim.notify('Details enabled', vim.log.levels.INFO, {title = '[UI]'})
   end
 end
@@ -1003,76 +1007,6 @@ use {
     event = 'BufRead'
   }
 -- }}}
--- {{{2 gitsigns.nvim
-  use {
-    'lewis6991/gitsigns.nvim',
-    requires = {
-      'nvim-lua/plenary.nvim'
-    },
-    event = 'BufRead',
-    config = function()
-      require('gitsigns').setup({
-        signs = {
-          add = {
-            hl = 'GitSignsAdd',
-            numhl = 'GitSignsAddNr',
-            show_count = true
-          },
-          change = {
-            hl = 'GitSignsChange',
-            numhl = 'GitSignsChangeNr',
-            show_count = true
-          },
-          delete = {
-            hl = 'GitSignsDelete',
-            numhl = 'GitSignsDeleteNr',
-            show_count = true
-          },
-          topdelete = {
-            hl = 'GitSignsDelete',
-            numhl = 'GitSignsDeleteNr',
-            show_count = true
-          },
-          changedelete = {
-            hl = 'GitSignsChange',
-            numhl = 'GitSignsChangeNr',
-            show_count = true
-          }
-        },
-        count_chars = {
-          [1] = '₁',
-          [2] = '₂',
-          [3] = '₃',
-          [4] = '₄',
-          [5] = '₅',
-          [6] = '₆',
-          [7] = '₇',
-          [8] = '₈',
-          [9] = '₉',
-          ['+'] = '₊'
-        },
-        current_line_blame = false,
-        current_line_blame_opts = {
-          virt_text_pos = 'right_align'
-        },
-        numhl = true,
-        keymaps = {
-          noremap = true,
-          buffer = true,
-          ['n ]c'] = { expr = true, "&diff ? ']c' : '<Cmd>lua require\"gitsigns\".next_hunk()<CR>'"},
-          ['n [c'] = { expr = true, "&diff ? '[c' : '<Cmd>lua require\"gitsigns\".prev_hunk()<CR>'"},
-          ['n ,st'] = '<Cmd>lua require"gitsigns".toggle_signs()<CR>',
-          ['n ,sh'] = '<Cmd>lua require"gitsigns".toggle_linehl()<CR>',
-          ['n ,sp'] = '<Cmd>lua require"gitsigns".preview_hunk()<CR>',
-          ['n ,sb'] = '<Cmd>lua require"gitsigns".blame_line({full=true})<CR>',
-        },
-        preview_config = {
-          border = my_borders,
-        }
-      })
-    end
-  }
--- }}}
 -- {{{2 Comment.nvim
   use {
     'numToStr/Comment.nvim',
@@ -1456,7 +1390,127 @@ use {
             }
           }
         },
-        extensions = {'fugitive', minimal_extension, 'nvim-tree'},
+        extensions = {'fugitive', minimal_extension, 'symbols-outline'},
+      })
+    end
+  }
+-- }}}
+-- {{{3 gitsigns.nvim
+  use {
+    'lewis6991/gitsigns.nvim',
+    requires = {
+      'nvim-lua/plenary.nvim'
+    },
+    event = 'BufRead',
+    config = function()
+      require('gitsigns').setup({
+        signs = {
+          add = {
+            hl = 'GitSignsAdd',
+            numhl = 'GitSignsAddNr',
+            show_count = true
+          },
+          change = {
+            hl = 'GitSignsChange',
+            numhl = 'GitSignsChangeNr',
+            show_count = true
+          },
+          delete = {
+            hl = 'GitSignsDelete',
+            numhl = 'GitSignsDeleteNr',
+            show_count = true
+          },
+          topdelete = {
+            hl = 'GitSignsDelete',
+            numhl = 'GitSignsDeleteNr',
+            show_count = true
+          },
+          changedelete = {
+            hl = 'GitSignsChange',
+            numhl = 'GitSignsChangeNr',
+            show_count = true
+          }
+        },
+        count_chars = {
+          [1] = '₁',
+          [2] = '₂',
+          [3] = '₃',
+          [4] = '₄',
+          [5] = '₅',
+          [6] = '₆',
+          [7] = '₇',
+          [8] = '₈',
+          [9] = '₉',
+          ['+'] = '₊'
+        },
+        current_line_blame = false,
+        current_line_blame_opts = {
+          virt_text_pos = 'right_align'
+        },
+        numhl = true,
+        keymaps = {
+          noremap = true,
+          buffer = true,
+          ['n ]c'] = { expr = true, "&diff ? ']c' : '<Cmd>lua require\"gitsigns\".next_hunk()<CR>'"},
+          ['n [c'] = { expr = true, "&diff ? '[c' : '<Cmd>lua require\"gitsigns\".prev_hunk()<CR>'"},
+          ['n ,st'] = '<Cmd>lua require"gitsigns".toggle_signs()<CR>',
+          ['n ,sh'] = '<Cmd>lua require"gitsigns".toggle_linehl()<CR>',
+          ['n ,sp'] = '<Cmd>lua require"gitsigns".preview_hunk()<CR>',
+          ['n ,sb'] = '<Cmd>lua require"gitsigns".blame_line({full=true})<CR>',
+        },
+        preview_config = {
+          border = my_borders,
+        }
+      })
+    end
+  }
+-- }}}
+-- {{{3 indent-blankline.nvim
+  use {
+    'lukas-reineke/indent-blankline.nvim',
+    after = 'lualine.nvim',
+    config = function()
+      require('indent_blankline').setup({
+        char = '▏',
+        filetype_exclude = {
+          'help',
+          'man',
+          'diagnosticpopup',
+          'lspinfo',
+          'packer',
+          'TelescopePrompt',
+          'TelescopeResults',
+          '',
+        },
+        use_treesitter = true,
+        show_current_context = true,
+        show_current_context_start = true,
+        show_current_context_start_on_current_line = true,
+        context_patterns = {
+            'class',
+            'function',
+            'method',
+            '^if',
+            '^while',
+            '^for',
+            '^object',
+            '^table',
+            'block',
+            'arguments',
+        },
+      })
+      vim.api.nvim_set_keymap('n', ',ti', '<Cmd>IndentBlanklineToggle<CR>', {noremap = true, silent = true})
+    end
+  }
+-- }}}
+-- {{{3 virt-column.nvim
+  use {
+    'lukas-reineke/virt-column.nvim',
+    after = 'lualine.nvim',
+    config = function()
+      vim.opt.colorcolumn = '80'
+      require('virt-column').setup({
+        char = '🮍',
       })
     end
   }
