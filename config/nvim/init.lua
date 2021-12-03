@@ -1040,16 +1040,10 @@ use {
     end
   }
 -- }}}
--- {{{3 lightspeed.nvim
-  use {
-    'ggandor/lightspeed.nvim',
-    event = 'BufRead'
-  }
--- }}}
 -- {{{2 vim-qf
   use {
     'romainl/vim-qf',
-    event = {'BufRead', 'QuickFixCmdPre', 'QuickFixCmdPost'},
+    ft = 'qf',
     config = function()
       vim.g.qf_mapping_ack_style = true
       vim.g.qf_auto_open_quickfix = true
@@ -1068,7 +1062,7 @@ use {
 -- {{{2 nvim-bqf
   use {
     'kevinhwang91/nvim-bqf',
-    event = {'QuickFixCmdPre', 'QuickFixCmdPost'},
+    ft = 'qf',
     after = 'vim-qf',
     config = function()
       require('bqf').setup({
