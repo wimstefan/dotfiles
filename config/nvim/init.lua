@@ -147,7 +147,7 @@ _G.my_borders = 'rounded'
 -- {{{1 --------------------- MAPPINGS -----------------------------------------
 vim.api.nvim_set_keymap('',  'cd', '<Cmd>cd %:h | pwd<CR>', {noremap = true, silent = true})
 vim.api.nvim_set_keymap('n', '<Leader>g', ':grep ', {noremap = true, silent = false})
-vim.api.nvim_set_keymap('n', '<Leader>l', ':set hlsearch!<CR>', {noremap = true, silent = true})
+vim.api.nvim_set_keymap('n', '<Leader>l', '<Cmd>nohlsearch|hi clear ColorColumn<CR>', {noremap = true, silent = true})
 -- {{{2 editing
 vim.api.nvim_set_keymap('n', '<Leader>ev', '<Cmd>edit $MYVIMRC<CR>', {noremap = true, silent = true})
 vim.api.nvim_set_keymap('n', '<Leader>sv', '<Cmd>luafile $MYVIMRC<CR>', {noremap = true, silent = true})
