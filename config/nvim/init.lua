@@ -694,14 +694,21 @@ use {
     requires = {
       {
         'kosayoda/nvim-lightbulb',
+        after = 'nvim-lspconfig',
         config = function()
           vim.fn.sign_define('LightBulbSign', {text = ' ', texthl = 'WarningMsg', linehl='', numhl=''})
           vim.cmd [[autocmd CursorHold,CursorHoldI * lua require('nvim-lightbulb').update_lightbulb()]]
           require('nvim-lightbulb').update_lightbulb()
         end
       },
-      'nvim-lua/lsp-status.nvim',
-      'folke/lua-dev.nvim',
+      {
+        'nvim-lua/lsp-status.nvim',
+        after = 'nvim-lspconfig'
+      },
+      {
+        'folke/lua-dev.nvim',
+        after = 'nvim-lspconfig'
+      }
     },
     config = function()
       local lsp_cmp = require('cmp_nvim_lsp')
@@ -731,27 +738,21 @@ use {
         })
       end
       vim.diagnostic.config({
-        float = {
-          header = '',
-          border = my_borders,
-          source = 'if_many',
+        virtual_text = {
+          prefix = '❰',
+          source = 'always',
           focusable = false
-        },
-        -- virtual_text = {
-        --   prefix = '❰',
-        --   source = 'if_many'
-        -- },
-        virtual_text = false
+        }
       })
 
       -- lsp-status config
       lsp_status.config({
         current_function = true,
         diagnostics = false,
-        indicator_errors = ' ' .. vim.trim(vim.fn.sign_getdefined('DiagnosticSignError')[1].text) .. '  ',
-        indicator_warnings = ' ' .. vim.trim(vim.fn.sign_getdefined('DiagnosticSignWarn')[1].text) .. '  ',
-        indicator_info = ' ' .. vim.trim(vim.fn.sign_getdefined('DiagnosticSignInfo')[1].text) .. '  ',
-        indicator_hint = ' ' .. vim.trim(vim.fn.sign_getdefined('DiagnosticSignHint')[1].text) .. '  ',
+        indicator_errors = ' ' .. vim.trim(vim.fn.sign_getdefined('DiagnosticSignError')[1].text),
+        indicator_warnings = ' ' .. vim.trim(vim.fn.sign_getdefined('DiagnosticSignWarn')[1].text),
+        indicator_info = ' ' .. vim.trim(vim.fn.sign_getdefined('DiagnosticSignInfo')[1].text),
+        indicator_hint = ' ' .. vim.trim(vim.fn.sign_getdefined('DiagnosticSignHint')[1].text),
         indicator_ok = 'OK',
         select_symbol = function(cursor_pos, symbol)
           if symbol.valueRange then
@@ -796,16 +797,16 @@ use {
             vim.api.nvim_command('lua vim.lsp.buf.hover()')
           end
         end
-        vim.api.nvim_buf_set_keymap(bufnr, 'n', 'K', [[<Cmd>lua show_documentation({border = popup_border})<CR>]], {noremap = true, silent = true})
+        vim.api.nvim_buf_set_keymap(bufnr, 'n', 'K', [[<Cmd>lua show_documentation({border = my_borders})<CR>]], {noremap = true, silent = true})
         vim.api.nvim_buf_set_keymap(bufnr, 'n', ',lR', [[<Cmd>lua require('telescope.builtin').lsp_definitions()<CR>]], {noremap = true, silent = false})
         vim.api.nvim_buf_set_keymap(bufnr, 'n', ',lr', [[<Cmd>lua require('telescope.builtin').lsp_references()<CR>]], {noremap = true, silent = false})
         vim.api.nvim_buf_set_keymap(bufnr, 'n', ',ly', [[<Cmd>lua require('telescope.builtin').lsp_document_symbols()<CR>]], {noremap = true, silent = true})
         vim.api.nvim_buf_set_keymap(bufnr, 'n', ',lY', [[<Cmd>lua require('telescope.builtin').lsp_workspace_symbols()<CR>]], {noremap = true, silent = true})
         vim.api.nvim_buf_set_keymap(bufnr, 'n', ',ld', [[<Cmd>lua require('telescope.builtin').lsp_document_diagnostics()<CR>]], {noremap = true, silent = false})
         vim.api.nvim_buf_set_keymap(bufnr, 'n', ',lD', [[<Cmd>lua require('telescope.builtin').lsp_workspace_diagnostics()<CR>]], {noremap = true, silent = true})
-        vim.api.nvim_buf_set_keymap(bufnr, 'n', ',le', [[<Cmd>lua vim.diagnostic.open_float(0, {scope = 'line', border = popup_border})<CR>]], {noremap = true, silent = false})
-        vim.api.nvim_buf_set_keymap(bufnr, 'n', '[d', [[<Cmd>lua vim.diagnostic.goto_prev()<CR>]], {noremap = true, silent = true})
-        vim.api.nvim_buf_set_keymap(bufnr, 'n', ']d', [[<Cmd>lua vim.diagnostic.goto_next()<CR>]], {noremap = true, silent = true})
+        vim.api.nvim_buf_set_keymap(bufnr, 'n', ',le', [[<Cmd>lua vim.diagnostic.open_float(0, {scope = 'line', border = my_borders})<CR>]], {noremap = true, silent = false})
+        vim.api.nvim_buf_set_keymap(bufnr, 'n', '[d', [[<Cmd>lua vim.diagnostic.goto_prev({float = false})<CR>]], {noremap = true, silent = true})
+        vim.api.nvim_buf_set_keymap(bufnr, 'n', ']d', [[<Cmd>lua vim.diagnostic.goto_next({float = false})<CR>]], {noremap = true, silent = true})
         vim.api.nvim_buf_set_keymap(bufnr, 'n', ',lrn', [[<Cmd>lua vim.lsp.buf.rename()<CR>]], {noremap = true, silent = false})
         if client.supports_method('textDocument/codeAction') then
           vim.api.nvim_buf_set_keymap(bufnr, 'n', ',lca', [[<Cmd>lua require('telescope.builtin').lsp_code_actions(require('telescope.themes').get_cursor({}))<CR>]], {noremap = true, silent = false})
@@ -835,8 +836,8 @@ use {
           lsp_messages = lsp_messages .. 'no implementation' .. lsp_msg_sep
         end
         if client.resolved_capabilities.signature_help then
-          vim.api.nvim_buf_set_keymap(bufnr, 'i', '<C-s>', [[<Cmd>lua vim.lsp.buf.signature_help({border = popup_border})<CR>]], {noremap = true, silent = true})
-          vim.api.nvim_buf_set_keymap(bufnr, 'n', ',ls', [[<Cmd>lua vim.lsp.buf.signature_help({border = popup_border})<CR>]], {noremap = true, silent = false})
+          vim.api.nvim_buf_set_keymap(bufnr, 'i', '<C-s>', [[<Cmd>lua vim.lsp.buf.signature_help({border = my_borders})<CR>]], {noremap = true, silent = true})
+          vim.api.nvim_buf_set_keymap(bufnr, 'n', ',ls', [[<Cmd>lua vim.lsp.buf.signature_help({border = my_borders})<CR>]], {noremap = true, silent = false})
         else
           vim.api.nvim_buf_set_keymap(bufnr, 'n', ',ls', [[<Nop>]], {})
           lsp_messages = lsp_messages .. 'no signatureHelp' .. lsp_msg_sep
@@ -850,11 +851,11 @@ use {
 
         -- autocmds
         if client.supports_method('textDocument/codeLens') then
+          vim.api.nvim_buf_set_keymap(bufnr, 'n', ',ll', [[<Cmd>lua vim.lsp.buf.codelens.run({border = my_borders})<CR>]], {noremap = true, silent = false})
           vim.cmd [[autocmd BufEnter,CursorHold,InsertLeave * lua vim.lsp.codelens.refresh()]]
         else
           lsp_messages = lsp_messages .. 'no codeLens' .. lsp_msg_sep
         end
-        vim.cmd [[autocmd CursorHold,CursorHoldI <buffer> lua vim.diagnostic.open_float(0, {scope = 'line'})]]
 
         -- messages
         vim.notify(lsp_messages, vim.log.levels.INFO, {title = '[LSP]'})
@@ -897,8 +898,7 @@ use {
         end
       end
 
-      local sumneko_root_path = vim.fn.stdpath('data')..'/lspconfig/sumneko_lua'
-      local sumneko_binary = sumneko_root_path..'/bin/Linux/lua-language-server'
+      local sumneko_binary = vim.fn.stdpath('data')..'/lspconfig/sumneko_lua/bin/Linux/lua-language-server'
       local runtime_path = vim.split(package.path, ';')
       table.insert(runtime_path, 'lua/?.lua')
       table.insert(runtime_path, 'lua/?/init.lua')
@@ -910,7 +910,7 @@ use {
         },
         lspconfig = {
           capabilities = capabilities,
-          cmd = {sumneko_binary, '-E', sumneko_root_path .. '/main.lua'},
+          cmd = {sumneko_binary},
           flags = {
             debounce_text_changes = 150
           },
@@ -924,7 +924,13 @@ use {
               diagnostics = {
                 enable = true,
                 globals = {
-                  'vim'
+                  'vim',
+                  'describe',
+                  'it',
+                  'before_each',
+                  'after_each',
+                  'setup',
+                  'teardown'
                 },
               },
               workspace = {
