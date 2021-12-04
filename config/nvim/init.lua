@@ -1245,6 +1245,7 @@ use {
 -- {{{3 lualine.nvim
   use {
     'nvim-lualine/lualine.nvim',
+    after = 'nvim-lspconfig',
     event = {'BufEnter', 'ColorScheme', 'WinEnter'},
     config = function()
       if vim.fn.filereadable(vim.fn.expand('$HOME/.config/colours/nvim_theme.lua')) == 1 then
@@ -1442,12 +1443,12 @@ use {
         keymaps = {
           noremap = true,
           buffer = true,
-          ['n ]c'] = { expr = true, "&diff ? ']c' : '<Cmd>lua require\"gitsigns\".next_hunk()<CR>'"},
-          ['n [c'] = { expr = true, "&diff ? '[c' : '<Cmd>lua require\"gitsigns\".prev_hunk()<CR>'"},
-          ['n ,st'] = '<Cmd>lua require"gitsigns".toggle_signs()<CR>',
-          ['n ,sh'] = '<Cmd>lua require"gitsigns".toggle_linehl()<CR>',
-          ['n ,sp'] = '<Cmd>lua require"gitsigns".preview_hunk()<CR>',
-          ['n ,sb'] = '<Cmd>lua require"gitsigns".blame_line({full=true})<CR>',
+          ['n ]c'] = { expr = true, "&diff ? ']c' : '<Cmd>Gitsigns next_hunk()<CR>'"},
+          ['n [c'] = { expr = true, "&diff ? '[c' : '<Cmd>Gitsigns prev_hunk()<CR>'"},
+          ['n ,st'] = '<Cmd>Gitsigns toggle_signs()<CR>',
+          ['n ,sh'] = '<Cmd>Gitsigns toggle_linehl()<CR>',
+          ['n ,sp'] = '<Cmd>Gitsigns preview_hunk()<CR>',
+          ['n ,sb'] = '<Cmd>Gitsigns blame_line({full=true})<CR>',
         },
         preview_config = {
           border = my_borders,
