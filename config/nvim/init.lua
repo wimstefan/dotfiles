@@ -1049,7 +1049,7 @@ use {
 -- {{{2 vim-qf
   use {
     'romainl/vim-qf',
-    ft = 'qf',
+    event = {'BufRead', 'QuickFixCmdPre', 'QuickFixCmdPost'},
     config = function()
       vim.g.qf_mapping_ack_style = true
       vim.g.qf_auto_open_quickfix = true
@@ -1068,7 +1068,7 @@ use {
 -- {{{2 nvim-bqf
   use {
     'kevinhwang91/nvim-bqf',
-    ft = 'qf',
+    event = {'BufRead', 'QuickFixCmdPre', 'QuickFixCmdPost'},
     after = 'vim-qf',
     config = function()
       require('bqf').setup({
