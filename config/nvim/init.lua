@@ -9,7 +9,7 @@ vim.g.mapleader = ' '
 local indent = 2
 
 vim.opt.termguicolors = true
-vim.opt.signcolumn = 'auto:4'
+vim.opt.signcolumn = 'number'
 vim.opt.relativenumber = true
 vim.opt.showtabline = 2
 vim.opt.linebreak = true
@@ -25,7 +25,7 @@ vim.opt.listchars = {
   precedes = '<'
 }
 vim.opt.fillchars = {
-  vert = '█',
+  vert = '▌',
   foldclose = '▾',
   foldopen = '▴',
   foldsep = '🮍',
@@ -83,7 +83,7 @@ vim.opt.undofile = true
 vim.opt.hidden = true
 vim.opt.modelineexpr = true
 
-vim.opt.foldcolumn = 'auto:8'
+vim.opt.foldcolumn = 'auto:4'
 vim.opt.foldlevel = 99
 local fm_opts = vim.opt.foldmethod:get()
 if fm_opts == '' or fm_opts == 'manual' then
@@ -108,8 +108,8 @@ vim.g.loaded_spec         = 1
 -- Visual configuration options
 -- symbols --
 _G.my_symbols= {
-  Array = '[]',
-  Boolean = '易',
+  Array = '謹',
+  Boolean = '凌',
   Class = ' ',
   Color = ' ',
   Constant = ' ',
