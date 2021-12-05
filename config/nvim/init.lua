@@ -263,7 +263,6 @@ augroup RC
   autocmd BufNewFile,BufRead *cddb* set encoding=utf-8 fileencoding=utf-8 ff=unix
 
   " Enable spelling for text files
-  " autocmd BuFNewFile,BufRead {*.txt,*.md,*.adoc,*.asciidoc,*.rst} if &filetype !~ 'man\|help\|*doc' | setlocal spell | endif
   autocmd FileType {txt,markdown,asciidoc*,rst} if &filetype !~ 'man\|help' | setlocal spell | endif
 
   " Disable numbers & spell inside manpages
@@ -278,7 +277,7 @@ augroup RC
   " Some buffers can be closed with 'q'
   autocmd FileType help,startuptime,qf,lspinfo nnoremap <buffer><silent> q :close<CR>
   autocmd FileType man nnoremap <buffer><silent> q :quit<CR>
-  
+
   " Disable folding in previews
   autocmd BufWinEnter * if &previewwindow | setlocal nofoldenable | endif
 
@@ -291,8 +290,7 @@ augroup RC
 augroup END
 augroup Help
   autocmd!
-  autocmd WinNew * let w:new = 1
-  autocmd FileType help,man if exists('w:new') | unlet w:new | wincmd L | vertical resize 84 | endif
+  autocmd BufWinEnter * if &filetype =~ 'help\|man' | wincmd L | vertical resize 84 | endif
 augroup END
 augroup Terminal
   autocmd!
