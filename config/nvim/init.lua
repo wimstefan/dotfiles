@@ -330,7 +330,7 @@ packer.startup(function()
       error_sym = '✘',
       done_sym = '✔',
       removed_sym = '-',
-      moved_sym = '->',
+      moved_sym = '➜',
     }
   })
 -- {{{2 packer.nvim
