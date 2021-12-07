@@ -170,3 +170,5 @@ feh --bg-fill ${HOME}/system/wallpapers/default.jpg &
 ${HOME}/.config/polybar/launch.sh
 
 hc apply_rules --all
+
+# vim: filetype=bash

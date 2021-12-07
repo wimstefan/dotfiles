@@ -64,3 +64,5 @@ super + v
 ## Screenshot
 @Print
   scrot -s "$HOME/tmp/screenshots/scrot-%F-%R.png"
+
+# vim: filetype=config
