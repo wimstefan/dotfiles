@@ -195,7 +195,6 @@ ToggleDetails = function()
     vim.opt.number = false
     vim.opt.relativenumber = false
     vim.opt.colorcolumn = ''
-    vim.api.nvim_command[[IndentBlanklineToggle]]
     vim.notify('Details disabled', vim.log.levels.INFO, {title = '[UI]'})
   else
     vim.opt.mouse = 'a'
@@ -206,7 +205,6 @@ ToggleDetails = function()
     vim.opt.number = true
     vim.opt.relativenumber = true
     vim.opt.colorcolumn = '80'
-    vim.api.nvim_command[[IndentBlanklineToggle]]
     vim.notify('Details enabled', vim.log.levels.INFO, {title = '[UI]'})
   end
 end
@@ -290,7 +288,7 @@ augroup RC
 augroup END
 augroup Help
   autocmd!
-  autocmd BufWinEnter * if &filetype =~ 'help\|man' | wincmd L | vertical resize 84 | endif
+  autocmd BufWinEnter * if &filetype =~ 'help\|man' | wincmd L | vertical resize 88 | endif
 augroup END
 augroup Terminal
   autocmd!
@@ -325,7 +323,7 @@ local use = packer.use
 packer.startup(function()
   packer.init({
     display = {
-      open_cmd = '84vnew [packer]',
+      open_cmd = '88vnew [packer]',
       working_sym = '北',
       error_sym = '✘',
       done_sym = '✔',
@@ -1478,6 +1476,7 @@ use {
           'TelescopeResults',
           '',
         },
+        disable_with_nolist = true,
         use_treesitter = true,
         show_current_context = true,
         show_current_context_start = true,
