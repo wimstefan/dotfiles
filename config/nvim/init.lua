@@ -225,16 +225,19 @@ augroup RC
   " Commentstrings
   autocmd FileType pfmain set commentstring=#\%s
   autocmd FileType toml set commentstring=#\%s
+  autocmd FileType vifm set commentstring=\"\ %s
   autocmd FileType xdefaults set commentstring=!\%s
+  autocmd BufNewFile,BufRead *.ptl set filetype=julia commentstring=#\ %s
+  autocmd FileType json syntax match Comment +\/\/.\+$+
 
   " mail specific configuration
   autocmd BufRead /tmp/mutt* setlocal filetype=mail
 
+  " tridactyl editing
+  autocmd BufRead /tmp/*tangoartisan.com* setlocal filetype=html
+
   " Syntax for tmux
   autocmd BufNewFile,BufRead *tmux*conf* set filetype=tmux
-
-  " Syntax for Iosevka files
-  autocmd BufNewFile,BufRead *.ptl set filetype=julia commentstring=#\ %s
 
   " Syntax for htp files
   autocmd BufNewFile,BufRead {*.htp,*.htt} set filetype=xhtml
@@ -263,14 +266,8 @@ augroup RC
   " Enable spelling for text files
   autocmd FileType {txt,markdown,asciidoc*,rst} if &filetype !~ 'man\|help' | setlocal spell | endif
 
-  " Disable numbers & spell inside manpages
-  autocmd FileType {man,help,*doc} setlocal nonumber norelativenumber nospell nolist nocursorcolumn
-
   " Enable hyphen in css/html completion and disable uppercase tag completion
   " autocmd FileType css,html setlocal iskeyword+=- noignorecase
-
-  " Correct comment highlighting for json config
-  autocmd FileType json syntax match Comment +\/\/.\+$+
 
   " Some buffers can be closed with 'q'
   autocmd FileType help,startuptime,qf,lspinfo nnoremap <buffer><silent> q :close<CR>
@@ -289,6 +286,10 @@ augroup END
 augroup Help
   autocmd!
   autocmd BufWinEnter * if &filetype =~ 'help\|man' | wincmd L | vertical resize 88 | endif
+
+  " Disable numbers & spell inside manpages
+  autocmd FileType {man,help,*doc} setlocal nonumber norelativenumber nospell nolist nocursorcolumn
+
 augroup END
 augroup Terminal
   autocmd!
