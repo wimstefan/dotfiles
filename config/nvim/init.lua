@@ -1094,16 +1094,17 @@ use {
     cmd = 'SimpleAlign'
   }
 -- }}}
--- {{{2 rnvimr
+-- {{{2 fm-nvim
   use {
-    'kevinhwang91/rnvimr',
-    cmd = {'RnvimrToggle', 'RnvimrResize'},
-    setup = function()
-      vim.api.nvim_set_keymap('n', '<Leader>x', '<Cmd>RnvimrToggle<CR>', {})
-    end,
+    'is0n/fm-nvim',
+    event = 'BufRead',
     config = function()
-      vim.g.rnvimr_enable_ex = 1
-      vim.g.rnvimr_enable_picker = 1
+      vim.api.nvim_set_keymap('n', '<Leader>z', '<Cmd>Fzf<CR>', {})
+      vim.api.nvim_set_keymap('n', '<Leader>x', '<Cmd>Ranger<CR>', {})
+      require('fm-nvim').setup({
+        border = my_borders,
+        border_hl = 'Normal'
+      })
     end
   }
 -- }}}
