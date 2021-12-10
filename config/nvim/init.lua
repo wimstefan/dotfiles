@@ -1347,7 +1347,7 @@ use {
             {
               'diagnostics',
               always_visible = false,
-              sources = {'nvim_lsp'},
+              sources = {'nvim_diagnostic'},
               symbols = {
                 error = vim.trim(vim.fn.sign_getdefined('DiagnosticSignError')[1].text) .. ' ',
                 warn = vim.trim(vim.fn.sign_getdefined('DiagnosticSignWarn')[1].text) .. ' ',
