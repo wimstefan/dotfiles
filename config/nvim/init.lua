@@ -38,7 +38,6 @@ vim.opt.shiftround = true
 vim.opt.softtabstop = indent
 vim.opt.tabstop = indent
 vim.opt.expandtab = true
-vim.opt.smarttab = true
 vim.opt.breakindent = true
 vim.opt.smartindent = true
 vim.opt.smartcase = true
@@ -71,16 +70,13 @@ elseif vim.fn.executable('ack') == 1 then
   vim.opt.grepprg = 'ack --nogroup --column --smart-case --nocolor --follow $*'
 end
 
-vim.opt.lazyredraw = false
 vim.opt.timeoutlen = 500
 vim.opt.updatetime = 300
 vim.opt.autowrite = true
 vim.opt.backup = false
 vim.opt.backupcopy = 'auto'
 vim.opt.writebackup = true
-vim.opt.swapfile = true
 vim.opt.undofile = true
-vim.opt.hidden = true
 vim.opt.modelineexpr = true
 
 vim.opt.foldcolumn = 'auto:4'
