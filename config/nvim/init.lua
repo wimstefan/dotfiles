@@ -546,6 +546,15 @@ packer.startup(function()
               ['<M-q>'] = require('telescope.actions').smart_add_to_qflist + require('telescope.actions').open_qflist,
             },
           },
+          vimgrep_arguments = {
+            'ugrep',
+            '--color=never',
+            '--with-filename',
+            '--line-number',
+            '--column-number',
+            '--smart-case',
+            '--hidden'
+          }
         },
         extensions = {
           fzf = {
