@@ -615,6 +615,10 @@ use {
       'hrsh7th/cmp-path',
       after = 'nvim-cmp'
     },
+    {
+      'dmitmel/cmp-digraphs',
+      after = 'nvim-cmp'
+    },
   },
   config = function()
     local has_words_before = function()
@@ -626,6 +630,10 @@ use {
     local snippy = require('snippy')
 
     cmp.setup({
+      completion = {
+        border = my_borders,
+        scrollbar = '🮑'
+      },
       documentation = {
         border = my_borders
       },
@@ -638,11 +646,12 @@ use {
           vim_item.menu = ({
             buffer = '[Buffer]',
             nvim_lsp = '[LSP]',
-            nvim_lua = '[LUA]',
+            nvim_lua = '[API]',
             path = '[Filesystem]',
             snippy = '[Snippet]',
             spell = '[Spelling]',
             treesitter = '[TS]',
+            digraphs = '[DG]',
           })[entry.source.name]
           vim_item.kind = my_symbols[vim_item.kind] .. ' ' .. vim_item.kind
           return vim_item
@@ -679,6 +688,8 @@ use {
         {
           {name = 'nvim_lua'},
           {name = 'nvim_lsp'},
+          {name = 'path'},
+          {name = 'treesitter'},
           {name = 'snippy'},
           {name = 'buffer',
             option = {
@@ -687,9 +698,8 @@ use {
               end
             }
           },
-          {name = 'treesitter'},
-          {name = 'path'},
-          {name = 'spell'}
+          {name = 'spell'},
+          {name = 'digraphs'}
         }
       )
     })
