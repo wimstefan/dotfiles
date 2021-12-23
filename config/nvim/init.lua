@@ -321,44 +321,23 @@ packer.startup(function()
   use {'nathom/filetype.nvim'}
 -- }}}
 -- {{{2 startuptime
-  use {
-    'dstein64/vim-startuptime',
-    cmd = 'StartupTime'
-  }
+  use {'dstein64/vim-startuptime'}
 -- }}}
 -- {{{2 Treesitter
   use {
     'nvim-treesitter/nvim-treesitter',
-    event = 'BufRead',
     run = ':TSUpdate',
     requires = {
-      {
-        'nvim-treesitter/nvim-treesitter-textobjects',
-        event = 'BufRead',
-        after = 'nvim-treesitter'
-      },
-      {
-        'nvim-treesitter/nvim-treesitter-refactor',
-        event = 'BufRead',
-        after = 'nvim-treesitter-textobjects'
-      },
-      {
-        'windwp/nvim-ts-autotag',
-        event = 'BufRead',
-        after = 'nvim-treesitter'
-      },
-      {
-        'JoosepAlviste/nvim-ts-context-commentstring',
-        event = 'BufRead',
-        after = 'nvim-treesitter'
-      },
+      'nvim-treesitter/nvim-treesitter-textobjects',
+      'nvim-treesitter/nvim-treesitter-refactor',
+      'windwp/nvim-ts-autotag',
+      'JoosepAlviste/nvim-ts-context-commentstring',
       {
         'nvim-treesitter/playground',
         config = function ()
           vim.api.nvim_set_keymap('n', '<F12>', [[<Cmd>TSHighlightCapturesUnderCursor<CR>]], {noremap = true, silent = false})
           vim.api.nvim_set_keymap('n', ',tsp', [[<Cmd>TSPlaygroundToggle<CR>]], {noremap = true, silent = true})
-        end,
-        after = 'nvim-treesitter'
+        end
       }
     },
     config = function()
@@ -385,9 +364,6 @@ packer.startup(function()
         },
         indent = {
           enable = false
-        },
-        matchup = {
-          enable = true
         },
         playground = {
           enable = true
@@ -557,45 +533,20 @@ packer.startup(function()
 use {
   'hrsh7th/nvim-cmp',
   requires = {
-    {
-      'hrsh7th/cmp-nvim-lua',
-      after = 'nvim-cmp',
-    },
-    {
-      'hrsh7th/cmp-nvim-lsp',
-      after = 'nvim-cmp',
-    },
+    'hrsh7th/cmp-nvim-lua',
+    'hrsh7th/cmp-nvim-lsp',
     {
       'dcampos/cmp-snippy',
-      after = 'nvim-cmp',
       requires = {
         'dcampos/nvim-snippy',
-        {
-          'honza/vim-snippets',
-          after = 'cmp-snippy'
-        }
+        'honza/vim-snippets'
       }
     },
-    {
-      'f3fora/cmp-spell',
-      after = 'nvim-cmp'
-    },
-    {
-      'hrsh7th/cmp-buffer',
-      after = 'nvim-cmp'
-    },
-    {
-      'ray-x/cmp-treesitter',
-      after = 'nvim-cmp'
-    },
-    {
-      'hrsh7th/cmp-path',
-      after = 'nvim-cmp'
-    },
-    {
-      'dmitmel/cmp-digraphs',
-      after = 'nvim-cmp'
-    },
+    'f3fora/cmp-spell',
+    'hrsh7th/cmp-buffer',
+    'ray-x/cmp-treesitter',
+    'hrsh7th/cmp-path',
+    'dmitmel/cmp-digraphs'
   },
   config = function()
     local has_words_before = function()
@@ -686,25 +637,17 @@ use {
 -- {{{2 LSP
   use {
     'neovim/nvim-lspconfig',
-    after = 'cmp-nvim-lsp',
     requires = {
       {
         'kosayoda/nvim-lightbulb',
-        after = 'nvim-lspconfig',
         config = function()
           vim.fn.sign_define('LightBulbSign', {text = ' ', texthl = 'WarningMsg', linehl='', numhl=''})
           vim.cmd [[autocmd CursorHold,CursorHoldI * lua require('nvim-lightbulb').update_lightbulb()]]
           require('nvim-lightbulb').update_lightbulb()
         end
       },
-      {
-        'nvim-lua/lsp-status.nvim',
-        after = 'nvim-lspconfig'
-      },
-      {
-        'folke/lua-dev.nvim',
-        after = 'nvim-lspconfig'
-      }
+      'nvim-lua/lsp-status.nvim',
+      'folke/lua-dev.nvim',
     },
     config = function()
       local lsp_cmp = require('cmp_nvim_lsp')
@@ -950,7 +893,6 @@ use {
 -- {{{2 which-key.nvim
   use {
     'folke/which-key.nvim',
-    event = 'BufRead',
     config = function()
       require('which-key').setup({
         plugins = {
@@ -969,7 +911,6 @@ use {
 -- {{{2 vim-abolish
   use {
     'tpope/vim-abolish',
-    cmd = {'Abolish', 'S'},
     config = function()
       vim.g.abolish_save_file = vim.fn.stdpath('config') .. '/after/plugin/abolish.vim'
     end
@@ -978,8 +919,6 @@ use {
 -- {{{2 vim-fugitive
   use {
     'tpope/vim-fugitive',
-    cmd = {'G', 'Git'},
-    keys = {'<Leader>gc', '<Leader>gd', '<Leader>gl', '<Leader>gp', '<Leader>gs'},
     config = function()
       vim.api.nvim_set_keymap('n', '<Leader>gc', '<Cmd>Git commit -v %<CR>', {noremap = true, silent = true})
       vim.api.nvim_set_keymap('n', '<Leader>gd', '<Cmd>Gdiffsplit<CR>', {noremap = true, silent = true})
@@ -992,36 +931,25 @@ use {
 -- {{{2 vim-obsession
   use {
     'tpope/vim-obsession',
-    cmd = 'Obsession',
-    setup = function()
+    config = function()
       vim.api.nvim_set_keymap('n', ',to', '<Cmd>Obsession<CR>', {noremap = true, silent = true})
     end
   }
 -- }}}
 -- {{{2 vim-repeat
-  use {
-    'tpope/vim-repeat',
-    event = 'BufRead'
-  }
+  use {'tpope/vim-repeat'}
 -- }}}
 -- {{{2 vim-surround
-  use {
-    'tpope/vim-surround',
-    event = 'BufRead'
-  }
+  use {'tpope/vim-surround'}
 -- }}}
 -- {{{2 vim-unimpaired
-  use {
-    'tpope/vim-unimpaired',
-    event = 'BufRead'
-  }
+  use {'tpope/vim-unimpaired'}
 -- }}}
 -- {{{2 Comment.nvim
   use {
     'numToStr/Comment.nvim',
-    after = 'nvim-treesitter',
     config = function()
-      vim.api.nvim_set_keymap('x', 'gci', ':g/./lua require\'Comment\'.toggle()<CR><cmd>nohls<CR>', {noremap = true, silent = true})
+      vim.api.nvim_set_keymap('x', 'gci', ':g/./lua require\'Comment.api\'.toggle_current_linewise()<CR><cmd>nohls<CR>', {noremap = true, silent = true})
       require('Comment').setup({
         pre_hook = function(ctx)
           local U = require 'Comment.utils'
@@ -1043,12 +971,9 @@ use {
 -- {{{2 vim-qf
   use {
     'romainl/vim-qf',
-    event = {'BufRead', 'QuickFixCmdPre', 'QuickFixCmdPost'},
     config = function()
       vim.g.qf_mapping_ack_style = true
       vim.g.qf_auto_open_quickfix = true
-    end,
-    setup = function()
       vim.api.nvim_set_keymap('n', '<C-q>', '<Plug>(qf_qf_switch)', {})
       vim.api.nvim_set_keymap('n', '<C-c>', '<Plug>(qf_qf_toggle)', {})
       vim.api.nvim_set_keymap('n', '<F6>', '<Plug>(qf_loc_toggle)', {})
@@ -1062,8 +987,6 @@ use {
 -- {{{2 nvim-bqf
   use {
     'kevinhwang91/nvim-bqf',
-    event = {'BufRead', 'QuickFixCmdPre', 'QuickFixCmdPost'},
-    after = 'vim-qf',
     config = function()
       require('bqf').setup({
         auto_enable = true
@@ -1074,7 +997,6 @@ use {
 -- {{{2 nvim-hlslens
   use {
     'kevinhwang91/nvim-hlslens',
-    event = 'BufRead',
     config = function()
       require('hlslens').setup()
       vim.api.nvim_set_keymap('n', 'n', [[<Cmd>execute('norm! ' . v:count1 . 'n')<CR><Cmd>lua require('hlslens').start()<CR>]], {noremap = true, silent = true})
@@ -1087,18 +1009,14 @@ use {
   }
 -- }}}
 -- {{{2 vim-simple-align
-  use {
-    'kg8m/vim-simple-align',
-    cmd = 'SimpleAlign'
-  }
+  use {'kg8m/vim-simple-align'}
 -- }}}
 -- {{{2 fm-nvim
   use {
     'is0n/fm-nvim',
-    event = 'BufRead',
     config = function()
       vim.api.nvim_set_keymap('n', '<Leader>z', '<Cmd>Fzf<CR>', {})
-      vim.api.nvim_set_keymap('n', '<Leader>x', '<Cmd>Ranger<CR>', {})
+      vim.api.nvim_set_keymap('n', '<Leader>x', '<Cmd>Vifm<CR>', {})
       require('fm-nvim').setup({
         border = my_borders,
         border_hl = 'Normal'
@@ -1111,8 +1029,6 @@ use {
     'windwp/nvim-spectre',
     config = function()
       require('spectre').setup()
-    end,
-    setup = function()
       vim.api.nvim_set_keymap('n', '<Leader>S', [[<Cmd>lua require('spectre').open()<CR>]], {noremap = true, silent = true})
     end
   }
@@ -1120,8 +1036,7 @@ use {
 -- {{{2 undotree
   use {
     'mbbill/undotree',
-    cmd = 'UndotreeToggle',
-    setup = function()
+    config = function()
       vim.g.undotree_WindowLayout= 2
       vim.g.undotree_SetFocusWhenToggle= 1
       vim.g.undotree_ShortIndicators= 1
@@ -1130,15 +1045,11 @@ use {
   }
 -- }}}
 -- {{{2 vim-dirdiff
-  use {
-    'will133/vim-dirdiff',
-    cmd = 'DirDiff'
-  }
+  use {'will133/vim-dirdiff'}
 -- }}}
 -- {{{2 paperplanes.nvim
 use {
   'rktjmp/paperplanes.nvim',
-  event = 'BufRead',
   config = function()
     require('paperplanes').setup({
       register = 'p',
@@ -1148,10 +1059,7 @@ use {
 }
 -- }}}
 -- {{{2 vim-renamer
-  use {
-    'qpkorr/vim-renamer',
-    cmd = {'Ren', 'Renamer'}
-  }
+  use {'qpkorr/vim-renamer'}
 -- }}}
 -- {{{2 vim-gnupg
   use {'jamessan/vim-gnupg'}
@@ -1160,7 +1068,7 @@ use {
   use {
     'habamax/vim-asciidoctor',
     ft = {'asciidoc', 'asciidoctor'},
-    setup = function()
+    config = function()
       vim.g.asciidoctor_folding = 1
       vim.g.asciidoctor_foldnested = 0
       vim.g.asciidoctor_foldtitle_as_h1 = 1
@@ -1178,8 +1086,6 @@ use {
     'chrisbra/unicode.vim',
     config = function()
       vim.g.Unicode_data_directory = vim.fn.stdpath('data') .. '/site/pack/packer/opt/unicode.vim/autoload/unicode/'
-    end,
-    setup = function()
       vim.api.nvim_set_keymap('n', '<Leader>ut', '<Cmd>UnicodeTable<CR>', {noremap = true, silent = true})
       vim.api.nvim_set_keymap('n', 'ga', '<Cmd>UnicodeName<CR>', {noremap = true, silent = true})
     end
@@ -1189,7 +1095,6 @@ use {
 -- {{{3 nvim-colorizer.lua
   use {
     'DarwinSenior/nvim-colorizer.lua',
-    event = 'BufReadPre',
     config = function()
       require('colorizer').setup({
         '*';
@@ -1205,21 +1110,15 @@ use {
   }
 -- }}}
 -- {{{3 nvim-web-devicons
-  use {
-    'kyazdani42/nvim-web-devicons',
-    event = {'BufEnter', 'ColorScheme', 'WinEnter'}
-  }
+  use {'kyazdani42/nvim-web-devicons'}
 -- }}}
 -- {{{3 lush.nvim
-  use {
-    'rktjmp/lush.nvim',
-    event = {'BufEnter', 'ColorScheme', 'WinEnter'}
-  }
+  use { 'rktjmp/lush.nvim'}
 -- }}}
 -- {{{3 artesanal
   use {
     'wimstefan/vim-artesanal',
-    setup = function()
+    config = function()
       vim.g.artesanal_dimmed = false
       vim.g.artesanal_transparent = true
     end
@@ -1228,7 +1127,7 @@ use {
 -- {{{3 nightfox.nvim
   use {
     'EdenEast/nightfox.nvim',
-    setup = function()
+    config = function()
       require('nightfox').setup({
         transparent = true,
         alt_nc = true,
@@ -1252,7 +1151,7 @@ use {
 -- {{{3 zenbones.nvim
   use {
     'mcchrish/zenbones.nvim',
-    setup = function()
+    config = function()
       local flavours = {'zenbones', 'zenwritten', 'neobones', 'nordbones', 'seoulbones', 'tokyobones'}
       for _, flavour in ipairs(flavours) do
         vim.g[flavour] = {
@@ -1270,8 +1169,6 @@ use {
 -- {{{3 lualine.nvim
   use {
     'nvim-lualine/lualine.nvim',
-    after = 'nvim-lspconfig',
-    event = {'BufEnter', 'ColorScheme', 'WinEnter'},
     config = function()
       if vim.fn.filereadable(vim.fn.expand('$HOME/.config/colours/nvim_theme.lua')) == 1 then
         vim.api.nvim_command[[luafile $HOME/.config/colours/nvim_theme.lua]]
@@ -1418,7 +1315,6 @@ use {
     requires = {
       'nvim-lua/plenary.nvim'
     },
-    event = 'BufRead',
     config = function()
       require('gitsigns').setup({
         signs = {
@@ -1484,7 +1380,6 @@ use {
 -- {{{3 indent-blankline.nvim
   use {
     'lukas-reineke/indent-blankline.nvim',
-    after = 'lualine.nvim',
     config = function()
       require('indent_blankline').setup({
         char = '▏',
@@ -1523,7 +1418,6 @@ use {
 -- {{{3 virt-column.nvim
   use {
     'lukas-reineke/virt-column.nvim',
-    after = 'lualine.nvim',
     config = function()
       vim.opt.colorcolumn = '80'
       require('virt-column').setup({
