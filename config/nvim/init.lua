@@ -262,7 +262,7 @@ augroup RC
   " autocmd FileType css,html setlocal iskeyword+=- noignorecase
 
   " Some buffers can be closed with 'q'
-  autocmd FileType help,startuptime,qf,lspinfo nnoremap <buffer><silent> q :close<CR>
+  autocmd FileType help,startuptime,qf,lspinfo,checkhealth nnoremap <buffer><silent> q :close<CR>
   autocmd FileType man nnoremap <buffer><silent> q :quit<CR>
 
   " Disable folding in previews
