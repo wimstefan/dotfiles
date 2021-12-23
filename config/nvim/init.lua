@@ -10,6 +10,7 @@ local indent = 2
 
 vim.opt.termguicolors = true
 vim.opt.signcolumn = 'number'
+vim.opt.number = true
 vim.opt.relativenumber = true
 vim.opt.showtabline = 2
 vim.opt.linebreak = true
@@ -17,6 +18,7 @@ vim.opt.showbreak = '  » '
 vim.opt.conceallevel = 2
 vim.opt.splitbelow = true
 vim.opt.splitright = true
+vim.opt.list = true
 vim.opt.listchars = {
   tab = '› ',
   trail = '·',
@@ -79,7 +81,7 @@ vim.opt.writebackup = true
 vim.opt.undofile = true
 vim.opt.modelineexpr = true
 
-vim.opt.foldcolumn = 'auto:4'
+vim.opt.foldcolumn = 'auto:8'
 vim.opt.foldlevel = 99
 local fm_opts = vim.opt.foldmethod:get()
 if fm_opts == '' or fm_opts == 'manual' then
@@ -94,12 +96,6 @@ vim.g.netrw_banner =  0
 vim.g.netrw_liststyle =  3
 vim.g.netrw_preview =  0
 vim.g.netrw_alto =  0
-
--- disable unused built-in plugins
-vim.g.loaded_2html_plugin = 1
-vim.g.loaded_matchit      = 1
-vim.g.loaded_matchparen   = 1
-vim.g.loaded_spec         = 1
 
 -- Visual configuration options
 -- symbols --
