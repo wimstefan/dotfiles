@@ -1395,16 +1395,17 @@ use {
         show_current_context_start = true,
         show_current_context_start_on_current_line = true,
         context_patterns = {
-            'class',
-            'function',
-            'method',
-            '^if',
-            '^while',
-            '^for',
-            '^object',
-            '^table',
-            'block',
-            'arguments',
+          'class',
+          'function',
+          'method',
+          '^if',
+          '^while',
+          '^for',
+          '^object',
+          '^table',
+          'block',
+          'arguments',
+          'element'
         },
       })
       vim.api.nvim_set_keymap('n', ',ti', '<Cmd>IndentBlanklineToggle<CR>', {noremap = true, silent = true})
