@@ -388,7 +388,7 @@ export HISTSIZE="5000"
 export SAVEHIST="5000"
 export MAKEFLAGS="-j $(nproc)"
 export CVS_RSH="ssh"
-export FZF_DEFAULT_OPTS='-x -m --cycle --border --layout=reverse --inline-info --height 90% --padding 2% --preview "bat {}" --preview-window right:70%:hidden:wrap --bind "?:toggle-preview" --color=bg+:-1,fg+:-1,hl:36,hl+:36,info:75'
+export FZF_DEFAULT_OPTS='-m --cycle --border --layout=reverse --inline-info --height 90% --padding 2% --preview "bat {}" --preview-window right:70%:hidden:wrap --bind "?:toggle-preview" --color=bg+:-1,fg+:-1,hl:36,hl+:36,info:75'
 export FZF_CTRL_T_OPTS='--preview "bat {}" --preview-window right:70%:hidden:wrap --bind "?:toggle-preview"'
 export HIGHLIGHT_STYLE="github"
 export XAUTHORITY="$HOME/.Xauthority"
@@ -430,10 +430,27 @@ alias gcal="gcal -s1"
 alias glances="PYTHONIOENCODING=utf8 glances"
 alias mtr="mtr --curses"
 alias eix="eix --force-color"
-alias ag="ug"
-alias rg="ug"
 alias history="history -i -44"
 alias time="/usr/bin/time"
+alias vifm="vifmrun"
+## ugrep
+alias ag='ug'
+alias rg='ug'
+alias uq='ug -Q'
+alias ux='ug -UX'
+alias uz='ug -z'
+alias ugit='ug -R --ignore-files'
+alias grep='ugrep -G'
+alias egrep='ugrep -E'
+alias fgrep='ugrep -F'
+alias pgrep='ugrep -P'
+alias xgrep='ugrep -W'
+alias zgrep='ugrep -zG'
+alias zegrep='ugrep -zE'
+alias zfgrep='ugrep -zF'
+alias zpgrep='ugrep -zP'
+alias zxgrep='ugrep -zW'
+alias xdump='ugrep -X ""'
 # shortcuts
 alias xreload="xrdb $HOME/.Xresources"
 alias reload="source $HOME/.zshrc"
@@ -572,7 +589,7 @@ if [[ $USER != root ]]; then
 
   # }}}3
   # - Exports {{{3
-  path=($HOME/bin $HOME/.local/bin $HOME/.cargo/bin $HOME/.gem/ruby/bin $HOME/go/bin $path)
+  path=($HOME/.local/bin $HOME/.cargo/bin $HOME/.gem/ruby/bin $HOME/go/bin $path)
   manpath=($HOME/man $manpath)
   export MPD_HOST="localhost"
   export MPD_PORT="6600"
@@ -733,12 +750,6 @@ if [[ $USER != root ]]; then
     echo "€ `wcalc "((($1*75) + ($2*60)) / 60) * 44" | sed 's/ = //'`"
   }
 
-  function git-download-dir()
-  {
-    i="$1"
-    svn export --force ${i/tree\/main/trunk}
-  }
-
   function ta-locate()
   {
     artist="$1"
@@ -817,7 +828,7 @@ if [[ $USER != root ]]; then
         rsync -az   --delete --exclude '.thumbs' /home/swimmer/system/wallpapers/ $host\:system/wallpapers/
         rsync -azK  --delete /usr/local/share/cursors/ $host:/usr/local/share/cursors/
         rsync -az   --delete /usr/local/share/icons/ $host:/usr/local/share/icons/
-        rsync -azK  --delete /usr/local/share/themes/ $host:/usr/local/share/themes/
+        rsync -azkL --delete /usr/local/share/themes/ $host:/usr/local/share/themes/
         rsync -azK  --delete /usr/local/share/rofi/themes/ $host:/usr/local/share/rofi/themes/
         rsync -azkL --delete /usr/share/fonts/owned/ $host:/usr/share/fonts/owned/
         rsync -az   --delete /home/swimmer/.config/libreoffice/4/user/template/ $host:.config/libreoffice/4/user/template/
@@ -832,6 +843,7 @@ if [[ $USER != root ]]; then
         rsync -az   --delete /home/swimmer/.config/picom/ $host:.config/picom/
         rsync -az   --delete /home/swimmer/.config/polybar/ $host:.config/polybar/
         rsync -az   --delete /home/swimmer/.config/sxhkd/ $host:.config/sxhkd/
+        rsync -az   --delete /home/swimmer/.local/share/kitty/themes/ $host:.local/share/kitty/themes/
         rsync -az            /home/swimmer/.config/emoji-list.txt $host:.config/
         rsync -az            /usr/local/bin/bg-toggle $host:/usr/local/bin/
       }
@@ -1057,8 +1069,7 @@ fi
 # }}}2
 # }}}2
 # END user config # }}}1
-
-# - External modules # {{{6
+# - External modules # {{{2
 [ -f $HOME/.zsh/external/fzf-extras.git/fzf-extras.sh ] && source $HOME/.zsh/external/fzf-extras.git/fzf-extras.sh
 [ -f $HOME/.zsh/external/fzf-extras.git/fzf-extras.zsh ] && source $HOME/.zsh/external/fzf-extras.git/fzf-extras.zsh
 [ -f $HOME/.zsh/external/fzf-marks.git/fzf-marks.plugin.zsh ] && source $HOME/.zsh/external/fzf-marks.git/fzf-marks.plugin.zsh
@@ -1073,7 +1084,7 @@ if [[ -f $HOME/.zsh/external/zsh-syntax-highlighting.git/zsh-syntax-highlighting
   source $HOME/.zsh/external/zsh-syntax-highlighting.git/zsh-syntax-highlighting.zsh
   export ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets )
 fi
-# }}}6
+# }}}2
 
 # Kitty configuration
 ## Shell integration
@@ -1083,10 +1094,3 @@ if [[ -d $KITTY_INSTALLATION_DIR ]]; then
 fi
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-
-# The next line updates PATH for Netlify's Git Credential Helper.
-if [ -f '/home/swimmer/.netlify/helper/path.zsh.inc' ]; then source '/home/swimmer/.netlify/helper/path.zsh.inc'; fi
-
-# BEGIN_KITTY_SHELL_INTEGRATION
-if test -e "$HOME/.local/lib/kitty/shell-integration/kitty.zsh"; then source "$HOME/.local/lib/kitty/shell-integration/kitty.zsh"; fi
-# END_KITTY_SHELL_INTEGRATION
