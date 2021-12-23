@@ -203,23 +203,14 @@ vim.api.nvim_set_keymap('n', '<F10>', '<Cmd>lua ToggleDetails()<CR>', { noremap 
 -- }}}1 --------------------- MAPPINGS -----------------------------------------
 -- {{{1 --------------------- AUTOCMDS -----------------------------------------
 vim.api.nvim_exec([[
-augroup RC
+augroup General
   autocmd!
-  " Reload $MYVIMRC after changes
-  autocmd BufWritePost init.lua source $MYVIMRC
-  " Automatically chmod +x Shell and Perl scripts
-  autocmd BufWritePost {*.sh,*.pl,*.py} silent !chmod +x %
-  " Commentstrings
-  autocmd FileType pfmain set commentstring=#\%s
-  autocmd FileType toml set commentstring=#\%s
-  autocmd FileType vifm set commentstring=\"\ %s
-  autocmd FileType xdefaults set commentstring=!\%s
-  autocmd BufNewFile,BufRead *.ptl set filetype=julia commentstring=#\ %s
-  autocmd FileType json syntax match Comment +\/\/.\+$+
   " mail specific configuration
   autocmd BufRead /tmp/mutt* setlocal filetype=mail
   " tridactyl editing
   autocmd BufRead /tmp/*tangoartisan.com* setlocal filetype=html
+  " Automatically chmod +x Shell and Perl scripts
+  autocmd BufWritePost {*.sh,*.pl,*.py} silent !chmod +x %
   " Syntax for tmux
   autocmd BufNewFile,BufRead *tmux*conf* set filetype=tmux
   " Syntax for htp files
@@ -252,12 +243,26 @@ augroup RC
   " Clean ColorColumn
   autocmd ColorScheme * highlight clear ColorColumn
 augroup END
+augroup Commentstrings
+  autocmd!
+  autocmd FileType pfmain set commentstring=#\%s
+  autocmd FileType toml set commentstring=#\%s
+  autocmd FileType vifm set commentstring=\"\ %s
+  autocmd FileType xdefaults set commentstring=!\%s
+  autocmd BufNewFile,BufRead *.ptl set filetype=julia commentstring=#\ %s
+  autocmd FileType json syntax match Comment +\/\/.\+$+
+augroup END
 augroup Help
   autocmd!
   autocmd BufWinEnter * if &filetype =~ 'help\|man' | wincmd L | vertical resize 88 | endif
   " Disable numbers & spell inside manpages
   autocmd FileType {man,help,*doc} setlocal nonumber norelativenumber nospell nolist nocursorcolumn
 augroup END
+augroup Packer
+  autocmd!
+  autocmd FileType packer set previewheight=30
+  autocmd BufWritePost init.lua if expand('%:p') !~ 'fugitive' | source <afile> | PackerSync
+augroup end
 augroup Terminal
   autocmd!
   autocmd TermOpen * startinsert
@@ -275,14 +280,6 @@ local install_path = vim.fn.stdpath('data') .. '/site/pack/packer/start/packer.n
 if vim.fn.empty(vim.fn.glob(install_path)) > 0 then
   vim.fn.system({'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim', install_path})
 end
-
-vim.api.nvim_exec([[
-  augroup packer_user_config
-    autocmd!
-    autocmd FileType packer set previewheight=36
-    autocmd BufWritePost init.lua source <afile> | PackerSync
-  augroup end
-]], false)
 
 local packer = require('packer')
 local use = packer.use
