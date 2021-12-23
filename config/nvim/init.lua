@@ -207,13 +207,10 @@ vim.api.nvim_set_keymap('n', '<F10>', '<Cmd>lua ToggleDetails()<CR>', { noremap 
 vim.api.nvim_exec([[
 augroup RC
   autocmd!
-
   " Reload $MYVIMRC after changes
   autocmd BufWritePost init.lua source $MYVIMRC
-
   " Automatically chmod +x Shell and Perl scripts
   autocmd BufWritePost {*.sh,*.pl,*.py} silent !chmod +x %
-
   " Commentstrings
   autocmd FileType pfmain set commentstring=#\%s
   autocmd FileType toml set commentstring=#\%s
@@ -221,70 +218,47 @@ augroup RC
   autocmd FileType xdefaults set commentstring=!\%s
   autocmd BufNewFile,BufRead *.ptl set filetype=julia commentstring=#\ %s
   autocmd FileType json syntax match Comment +\/\/.\+$+
-
   " mail specific configuration
   autocmd BufRead /tmp/mutt* setlocal filetype=mail
-
   " tridactyl editing
   autocmd BufRead /tmp/*tangoartisan.com* setlocal filetype=html
-
   " Syntax for tmux
   autocmd BufNewFile,BufRead *tmux*conf* set filetype=tmux
-
   " Syntax for htp files
   autocmd BufNewFile,BufRead {*.htp,*.htt} set filetype=xhtml
-
   " Syntax for xmp files
   autocmd BufNewFile,BufRead {*.xmp} set filetype=xml
-
   " Syntax for fvwm files
   autocmd BufNewFile,BufRead */.fvwm*/* set filetype=fvwm syntax=fvwm
-
   " Syntax for Xorg log files
   autocmd BufNewFile,BufRead *Xorg*log* set filetype=msmessages
-
   " Syntax for rofi themes
   autocmd BufNewFile,BufRead {*.rasi} set filetype=css
-
   " Change fileformat on playlist files (created by moc)
   autocmd BufNewFile,BufRead *.m3u set encoding=utf-8 fileencoding=utf-8 ff=unix
-
   " run xrdb whenever Xdefaults or Xresources are updated
   autocmd BufWritePost X{resources,defaults} silent !xrdb %
-
   " Encoding for cddb files
   autocmd BufNewFile,BufRead *cddb* set encoding=utf-8 fileencoding=utf-8 ff=unix
-
   " Enable spelling for text files
   autocmd FileType {txt,markdown,asciidoc*,rst} if &filetype !~ 'man\|help' | setlocal spell | endif
-
-  " Enable hyphen in css/html completion and disable uppercase tag completion
-  " autocmd FileType css,html setlocal iskeyword+=- noignorecase
-
   " Some buffers can be closed with 'q'
   autocmd FileType help,startuptime,qf,lspinfo,checkhealth nnoremap <buffer><silent> q :close<CR>
   autocmd FileType man nnoremap <buffer><silent> q :quit<CR>
-
   " Disable folding in previews
   autocmd BufWinEnter * if &previewwindow | setlocal nofoldenable | endif
-
   " Remember last cursor position
   autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") && &ft !~# 'commit' | execute "normal! g`\"" | endif
-
   " Enable yank highlighting
   autocmd TextYankPost * silent! lua vim.highlight.on_yank {higroup='WildMenu', timeout=4444}
-
   " Clean ColorColumn
   autocmd ColorScheme * highlight clear ColorColumn
-
 augroup END
 augroup Help
   autocmd!
   autocmd BufWinEnter * if &filetype =~ 'help\|man' | wincmd L | vertical resize 88 | endif
-
   " Disable numbers & spell inside manpages
   autocmd FileType {man,help,*doc} setlocal nonumber norelativenumber nospell nolist nocursorcolumn
-
 augroup END
 augroup Terminal
   autocmd!
