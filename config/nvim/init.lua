@@ -530,6 +530,7 @@ packer.startup(function()
       vim.api.nvim_set_keymap('n', '<Leader>To', [[<Cmd>lua require('telescope.builtin').oldfiles(require('telescope.themes').get_dropdown({previewer = false}))<CR>]], {noremap = true, silent = true})
       vim.api.nvim_set_keymap('n', '<Leader>Ts', [[<Cmd>lua require('telescope.builtin').spell_suggest(require('telescope.themes').get_cursor({}))<CR>]], {noremap = true, silent = true})
       vim.api.nvim_set_keymap('n', '<Leader>Tw', [[<Cmd>lua require('telescope.builtin').grep_string()<CR>]], {noremap = true, silent = true})
+      vim.api.nvim_set_keymap('n', '<Leader>Tz', [[<Cmd>lua require('telescope.builtin').current_buffer_fuzzy_find()<CR>]], {noremap = true, silent = true})
       require('telescope').setup({
         defaults = {
           prompt_prefix = ' » ',
@@ -558,6 +559,7 @@ packer.startup(function()
             '--line-number',
             '--column-number',
             '--smart-case',
+            '--recursive',
             '--hidden'
           }
         },
