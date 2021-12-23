@@ -271,18 +271,16 @@ function _G.inspect(...)
 end
 -- }}}1 --------------------- FUNCTIONS ----------------------------------------
 -- {{{1 --------------------- PLUGINS ------------------------------------------
-local install_path = vim.fn.stdpath('data') .. '/site/pack/packer/opt/packer.nvim'
+local install_path = vim.fn.stdpath('data') .. '/site/pack/packer/start/packer.nvim'
 if vim.fn.empty(vim.fn.glob(install_path)) > 0 then
   vim.fn.system({'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim', install_path})
 end
 
-vim.api.nvim_command[[packadd packer.nvim]]
 vim.api.nvim_exec([[
-  augroup Packer
+  augroup packer_user_config
     autocmd!
     autocmd FileType packer set previewheight=36
-    autocmd BufWritePost init.lua PackerCompile
-    autocmd User PackerComplete source $MYVIMRC
+    autocmd BufWritePost init.lua source <afile> | PackerSync
   augroup end
 ]], false)
 
@@ -297,13 +295,13 @@ packer.startup(function()
       done_sym = '✔',
       removed_sym = '-',
       moved_sym = '➜',
+      prompt_border = my_borders
     }
   })
 -- {{{2 packer.nvim
   use {
     'wbthomason/packer.nvim',
-    opt = true,
-    setup = function()
+    config = function()
       vim.api.nvim_set_keymap('n', ',pc', '<Cmd>PackerClean<CR>', {noremap = true, silent = true})
       vim.api.nvim_set_keymap('n', ',pi', '<Cmd>PackerInstall<CR>', {noremap = true, silent = true})
       vim.api.nvim_set_keymap('n', ',pq', '<Cmd>PackerStatus<CR>', {noremap = true, silent = true})
