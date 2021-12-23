@@ -821,9 +821,9 @@ use {
         vim.api.nvim_buf_set_keymap(bufnr, 'n', ',lr', [[<Cmd>lua require('telescope.builtin').lsp_references()<CR>]], {noremap = true, silent = false})
         vim.api.nvim_buf_set_keymap(bufnr, 'n', ',ly', [[<Cmd>lua require('telescope.builtin').lsp_document_symbols()<CR>]], {noremap = true, silent = true})
         vim.api.nvim_buf_set_keymap(bufnr, 'n', ',lY', [[<Cmd>lua require('telescope.builtin').lsp_workspace_symbols()<CR>]], {noremap = true, silent = true})
-        vim.api.nvim_buf_set_keymap(bufnr, 'n', ',ld', [[<Cmd>lua require('telescope.builtin').lsp_document_diagnostics()<CR>]], {noremap = true, silent = false})
-        vim.api.nvim_buf_set_keymap(bufnr, 'n', ',lD', [[<Cmd>lua require('telescope.builtin').lsp_workspace_diagnostics()<CR>]], {noremap = true, silent = true})
-        vim.api.nvim_buf_set_keymap(bufnr, 'n', ',le', [[<Cmd>lua vim.diagnostic.open_float(0, {scope = 'line', border = my_borders})<CR>]], {noremap = true, silent = false})
+        vim.api.nvim_buf_set_keymap(bufnr, 'n', ',ld', [[<Cmd>lua require('telescope.builtin').diagnostics({bufnr = 0})<CR>]], {noremap = true, silent = false})
+        vim.api.nvim_buf_set_keymap(bufnr, 'n', ',lD', [[<Cmd>lua require('telescope.builtin').diagnostics()<CR>]], {noremap = true, silent = true})
+        vim.api.nvim_buf_set_keymap(bufnr, 'n', ',le', [[<Cmd>lua vim.diagnostic.open_float({scope = 'line', border = my_borders})<CR>]], {noremap = true, silent = false})
         vim.api.nvim_buf_set_keymap(bufnr, 'n', '[d', [[<Cmd>lua vim.diagnostic.goto_prev({float = false})<CR>]], {noremap = true, silent = true})
         vim.api.nvim_buf_set_keymap(bufnr, 'n', ']d', [[<Cmd>lua vim.diagnostic.goto_next({float = false})<CR>]], {noremap = true, silent = true})
         vim.api.nvim_buf_set_keymap(bufnr, 'n', ',lrn', [[<Cmd>lua vim.lsp.buf.rename()<CR>]], {noremap = true, silent = false})
@@ -897,6 +897,7 @@ use {
             'html',
             'html-eex',
             'liquid',
+            'markdown'
           }
         },
         jsonls = {},
@@ -944,12 +945,13 @@ use {
                 enable = true,
                 globals = {
                   'vim',
-                  'describe',
-                  'it',
-                  'before_each',
-                  'after_each',
-                  'setup',
-                  'teardown'
+                  'awesome',
+                  'client',
+                  'clientbuttons',
+                  'clientkeys',
+                  'screen',
+                  'tag',
+                  'widget'
                 },
               },
               workspace = {
