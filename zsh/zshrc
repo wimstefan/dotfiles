@@ -1,5 +1,5 @@
 # my zsh config
-# vim: foldmethod=marker foldlevel=1 textwidth=200
+# vim: foldmethod=marker foldlevel=1 textwidth=200 filetype=sh
 
 # BEGIN shell config # {{{1
 # - Options {{{2
@@ -1088,9 +1088,10 @@ fi
 
 # Kitty configuration
 ## Shell integration
-if [[ -d $KITTY_INSTALLATION_DIR ]]; then
+if test -n "$KITTY_INSTALLATION_DIR"; then
   export KITTY_SHELL_INTEGRATION="enabled"
-  source $KITTY_INSTALLATION_DIR/shell-integration/zsh/kitty.zsh
+  autoload -Uz -- "$KITTY_INSTALLATION_DIR"/shell-integration/zsh/kitty-integration
+  kitty-integration
 fi
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
