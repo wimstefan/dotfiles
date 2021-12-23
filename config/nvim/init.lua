@@ -976,7 +976,15 @@ use {
     event = 'BufRead',
     config = function()
       require('which-key').setup({
-        window = {border = my_borders}
+        plugins = {
+          spelling = {
+            enabled = true,
+            suggestions = 40
+          }
+        },
+        window = {
+          border = my_borders
+        },
       })
     end
   }
@@ -1052,18 +1060,6 @@ use {
           }
         end
       })
-    end
-  }
--- }}}
--- {{{2 vim-matchup
-  use {
-    'andymass/vim-matchup',
-    event = 'VimEnter',
-    after = 'nvim-treesitter',
-    setup = function()
-      vim.g.matchup_matchparen_deferred = true
-      vim.g.matchup_matchparen_offscreen = {method = 'popup', fullwidth = true}
-      vim.g.matchup_surround_enabled = false
     end
   }
 -- }}}
