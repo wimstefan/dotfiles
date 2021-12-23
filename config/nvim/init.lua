@@ -1248,6 +1248,30 @@ use {
     end
   }
 -- }}}
+-- {{{3 nightfox.nvim
+  use {
+    'EdenEast/nightfox.nvim',
+    setup = function()
+      require('nightfox').setup({
+        transparent = true,
+        alt_nc = true,
+        terminal_colors = true,
+        styles = {
+          comments = "italic",
+          functions = "italic",
+          keywords = "bold",
+          strings = "NONE",
+          variables = "NONE",
+        },
+        inverse = {
+          match_paren = true,
+          visual = false,
+          search = true,
+        }
+      })
+    end
+  }
+-- }}}
 -- {{{3 zenbones.nvim
   use {
     'mcchrish/zenbones.nvim',
