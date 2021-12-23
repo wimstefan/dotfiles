@@ -274,6 +274,9 @@ augroup RC
   " Enable yank highlighting
   autocmd TextYankPost * silent! lua vim.highlight.on_yank {higroup='WildMenu', timeout=4444}
 
+  " Clean ColorColumn
+  autocmd ColorScheme * highlight clear ColorColumn
+
 augroup END
 augroup Help
   autocmd!
