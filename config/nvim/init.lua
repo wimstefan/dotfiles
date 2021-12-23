@@ -9,7 +9,6 @@ vim.g.mapleader = ' '
 local indent = 2
 
 vim.opt.termguicolors = true
-vim.opt.signcolumn = 'number'
 vim.opt.number = true
 vim.opt.relativenumber = true
 vim.opt.showtabline = 2
@@ -81,7 +80,6 @@ vim.opt.writebackup = true
 vim.opt.undofile = true
 vim.opt.modelineexpr = true
 
-vim.opt.foldcolumn = 'auto:8'
 vim.opt.foldlevel = 99
 local fm_opts = vim.opt.foldmethod:get()
 if fm_opts == '' or fm_opts == 'manual' then
