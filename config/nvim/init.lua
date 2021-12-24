@@ -158,8 +158,6 @@ vim.api.nvim_set_keymap('n', '<Leader>bd', '<Cmd>bdelete<CR>', {noremap = true, 
 vim.api.nvim_set_keymap('n', '<Leader>td', '<Cmd>tabclose<CR>', {noremap = true, silent = true})
 -- }}}
 -- {{{2 terminals
-vim.api.nvim_set_keymap('n', '<Leader>t', [[<Cmd> split term://$SHELL<CR>]], {noremap = true, silent = true})
-vim.api.nvim_set_keymap('n', '<Leader>vt', [[<Cmd> vnew term://$SHELL<CR>]], {noremap = true, silent = true})
 vim.api.nvim_set_keymap('t', '<Esc>', [[<C-\><C-N>]], {noremap = true, silent = true})
 vim.api.nvim_set_keymap('t', '<A-h>', [[<C-\><C-N><C-w>h]], {noremap = true, silent = true})
 vim.api.nvim_set_keymap('t', '<A-j>', [[<C-\><C-N><C-w>j]], {noremap = true, silent = true})
@@ -263,11 +261,6 @@ augroup Packer
   autocmd FileType packer set previewheight=30
   autocmd BufWritePost init.lua if expand('%:p') !~ 'fugitive' | source <afile> | PackerSync
 augroup end
-augroup Terminal
-  autocmd!
-  autocmd TermOpen * startinsert
-  autocmd TermOpen * set nonumber norelativenumber nolist
-augroup END
 ]], false)
 -- }}}1 --------------------- AUTOCMDS -----------------------------------------
 -- {{{1 --------------------- FUNCTIONS ----------------------------------------
@@ -1017,6 +1010,30 @@ use {
     end
   }
 -- }}}
+-- {{{2 toggleterm.nvim
+  use {
+    'akinsho/toggleterm.nvim',
+    config = function()
+      require('toggleterm').setup({
+        size = function(term)
+          if term.direction == "horizontal" then
+            return 30
+          elseif term.direction == "vertical" then
+            return vim.o.columns * 0.4
+          end
+        end,
+        open_mapping = [[<C-\>]],
+        direction = 'vertical',
+        float_opts = {
+          border = my_borders
+        }
+      })
+      vim.api.nvim_set_keymap('n', '<Leader>tf', [[<Cmd>ToggleTerm direction=float<CR>]], {noremap = true, silent = true})
+      vim.api.nvim_set_keymap('n', '<Leader>th', [[<Cmd>ToggleTerm direction=horizontal<CR>]], {noremap = true, silent = true})
+      vim.api.nvim_set_keymap('n', '<Leader>tv', [[<Cmd>ToggleTerm direction=vertical<CR>]], {noremap = true, silent = true})
+    end
+  }
+-- }}}
 -- {{{2 nvim-spectre
   use {
     'windwp/nvim-spectre',
@@ -1078,7 +1095,6 @@ use {
   use {
     'chrisbra/unicode.vim',
     config = function()
-      vim.g.Unicode_data_directory = vim.fn.stdpath('data') .. '/site/pack/packer/opt/unicode.vim/autoload/unicode/'
       vim.api.nvim_set_keymap('n', '<Leader>ut', '<Cmd>UnicodeTable<CR>', {noremap = true, silent = true})
       vim.api.nvim_set_keymap('n', 'ga', '<Cmd>UnicodeName<CR>', {noremap = true, silent = true})
     end
@@ -1271,7 +1287,7 @@ use {
             },
             {
               'branch',
-              icon = '⭠'
+              icon = ''
             }
           },
           lualine_z = {'filetype'},
@@ -1297,7 +1313,7 @@ use {
             }
           }
         },
-        extensions = {'fugitive', minimal_extension, 'symbols-outline'},
+        extensions = {'fugitive', minimal_extension, 'toggleterm'},
       })
     end
   }
