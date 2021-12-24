@@ -259,7 +259,8 @@ augroup END
 augroup Packer
   autocmd!
   autocmd FileType packer set previewheight=30
-  autocmd BufWritePost init.lua if expand('%:p') !~ 'fugitive' | source <afile> | PackerSync
+  autocmd FileType git setlocal nolist nonumber norelativenumber
+  autocmd BufWritePost init.lua if expand('%') !~ 'fugitive\|scp' | source <afile> | PackerSync
 augroup end
 ]], false)
 -- }}}1 --------------------- AUTOCMDS -----------------------------------------
