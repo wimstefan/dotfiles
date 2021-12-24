@@ -1355,20 +1355,20 @@ use {
           }
         },
         count_chars = {
-          [1] = '₁',
-          [2] = '₂',
-          [3] = '₃',
-          [4] = '₄',
-          [5] = '₅',
-          [6] = '₆',
-          [7] = '₇',
-          [8] = '₈',
-          [9] = '₉',
-          ['+'] = '₊'
+          [1] = '¹',
+          [2] = '²',
+          [3] = '³',
+          [4] = '⁴',
+          [5] = '⁵',
+          [6] = '⁶',
+          [7] = '⁷',
+          [8] = '⁸',
+          [9] = '⁹',
+          ['+'] = '⁺'
         },
         current_line_blame = false,
         current_line_blame_opts = {
-          virt_text_pos = 'right_align'
+          virt_text_pos = 'overlay'
         },
         numhl = true,
         keymaps = {
