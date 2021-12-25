@@ -962,11 +962,11 @@ use {
       vim.g.qf_mapping_ack_style = true
       vim.api.nvim_set_keymap('n', '<C-q>', '<Plug>(qf_qf_switch)', {})
       vim.api.nvim_set_keymap('n', '<C-c>', '<Plug>(qf_qf_toggle)', {})
-      vim.api.nvim_set_keymap('n', '<C-c>', '<Plug>(qf_loc_toggle)', {})
       vim.api.nvim_set_keymap('n', '<Home>', '<Plug>(qf_qf_previous)', {})
       vim.api.nvim_set_keymap('n', '<End>', '<Plug>(qf_qf_next)', {})
-      vim.api.nvim_set_keymap('n', '<Home>', '<Plug>(qf_loc_previous)', {})
-      vim.api.nvim_set_keymap('n', '<End>', '<Plug>(qf_loc_next)', {})
+      vim.api.nvim_set_keymap('n', '<A-c>', '<Plug>(qf_loc_toggle)', {})
+      vim.api.nvim_set_keymap('n', '<C-Home>', '<Plug>(qf_loc_previous)', {})
+      vim.api.nvim_set_keymap('n', '<C-End>', '<Plug>(qf_loc_next)', {})
     end
   }
 -- }}}
@@ -977,20 +977,6 @@ use {
       require('bqf').setup({
         auto_enable = true
       })
-    end
-  }
--- }}}
--- {{{2 nvim-hlslens
-  use {
-    'kevinhwang91/nvim-hlslens',
-    config = function()
-      require('hlslens').setup()
-      vim.api.nvim_set_keymap('n', 'n', [[<Cmd>execute('norm! ' . v:count1 . 'n')<CR><Cmd>lua require('hlslens').start()<CR>]], {noremap = true, silent = true})
-      vim.api.nvim_set_keymap('n', 'N', [[<Cmd>execute('norm! ' . v:count1 . 'N')<CR><Cmd>lua require('hlslens').start()<CR>]], {noremap = true, silent = true})
-      vim.api.nvim_set_keymap('n', '*', [[*<Cmd>lua require('hlslens').start()<CR>]], {noremap = true, silent = true})
-      vim.api.nvim_set_keymap('n', 'g*', [[g*<Cmd>lua require('hlslens').start()<CR>]], {noremap = true, silent = true})
-      vim.api.nvim_set_keymap('n', '#', [[#<Cmd>lua require('hlslens').start()<CR>]], {noremap = true, silent = true})
-      vim.api.nvim_set_keymap('n', 'g#', [[g#<Cmd>lua require('hlslens').start()<CR>]], {noremap = true, silent = true})
     end
   }
 -- }}}
@@ -1023,6 +1009,7 @@ use {
           end
         end,
         open_mapping = [[<C-\>]],
+        shade_terminals = false,
         direction = 'vertical',
         float_opts = {
           border = my_borders
