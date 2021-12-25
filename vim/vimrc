@@ -24,26 +24,19 @@ function! PackagerInit() abort
   call packager#add('mhinz/vim-grepper')
   call packager#add('romainl/vim-qf')
   call packager#add('romainl/vim-qlist')
-  call packager#add('neoclide/coc.nvim', {'branch': 'release'})
-  " call packager#add('lifepillar/vim-mucomplete')
+  call packager#add('lifepillar/vim-mucomplete')
   call packager#add('mbbill/undotree', {'type': 'opt'})
   call packager#add('fcpg/vim-spotlightify')
   call packager#add('markonm/traces.vim')
-  call packager#add('andymass/vim-matchup')
   call packager#add('qpkorr/vim-renamer')
   call packager#add('will133/vim-dirdiff')
   call packager#add('rkitover/vimpager')
   call packager#add('godlygeek/tabular')
   call packager#add('jamessan/vim-gnupg')
-  call packager#add('habamax/vim-asciidoctor')
-  call packager#add('MTDL9/vim-log-highlighting')
   call packager#add('vim-scripts/SyntaxAttr.vim')
   call packager#add('chrisbra/unicode.vim')
-  call packager#add('gu-fan/colorv.vim', {'type': 'opt'})
   call packager#add('lifepillar/vim-colortemplate')
   call packager#add('wimstefan/vim-artesanal')
-  call packager#add('romainl/Apprentice')
-  call packager#add('rakr/vim-one')
   call packager#add('sainnhe/edge')
 endfunction
 " Plugin install }}}
@@ -94,6 +87,9 @@ endfunction
   nnoremap          <Leader>fL           :Lines<CR>
   nnoremap          <Leader>ft           :BTags<CR>
   nnoremap          <Leader>fT           :Tags<CR>
+  nnoremap          <Leader>fgs          :GFiles?<CR>
+  nnoremap          <Leader>fgc          :BCommits<CR>
+  nnoremap          <Leader>fgC          :Commits<CR>
   imap              <C-x><C-j>           <plug>(fzf-complete-file-ag)
   imap              <C-x><C-l>           <plug>(fzf-complete-line)
 
@@ -103,7 +99,6 @@ endfunction
                                         \ 'ctrl-t': 'tab split',
                                         \ 'ctrl-x': 'split',
                                         \ 'ctrl-v': 'vsplit' }
-  " let g:fzf_layout                     = { 'up': '40%' }
   let g:fzf_layout                     = { 'window': { 'width': 0.9, 'height': 0.8, 'relative': v:true, 'yoffset': 1.0 } }
 " }}}
 " {{{3 vim-peekaboo config 
@@ -170,89 +165,6 @@ endfunction
   nmap              <C-Home>             <Plug>(qf_loc_previous)
   nmap              <C-End>              <Plug>(qf_loc_next)
 " }}}
-" {{{3 coc.nvim config 
-  let g:coc_global_extensions = [
-    \ 'coc-lists',
-    \ 'coc-syntax',
-    \ 'coc-calc',
-    \ 'coc-fzf-preview',
-    \ 'coc-highlight',
-    \ 'coc-stylelintplus',
-    \ 'coc-vimlsp',
-    \ 'coc-html',
-    \ 'coc-css',
-    \ 'coc-cssmodules',
-    \ 'coc-json'
-  \ ]
-
-  " Press Tab and Shift+Tab and navigate around completion selections
-  function! s:check_back_space() abort
-    let col = col('.') -1
-    return !col || getline('.')[col - 1] =~ '\s'
-  endfunction
-  inoremap <silent><expr> <Tab>
-    \ pumvisible() ? "\<C-n>" :
-    \ <SID>check_back_space() ? "\<Tab>" :
-    \ coc#refresh()
-  inoremap <silent><expr> <S-Tab>
-    \ pumvisible() ? "\<C-p>" :
-    \ <SID>check_back_space() ? "\<S-Tab>" :
-    \ coc#refresh()
-
-  nmap              <Leader>cc           :CocConfig<CR>
-  nmap              <Leader>cd           :CocDiagnostics<CR>
-  nmap              <Leader>ci           :CocInfo<CR>
-  nmap              <Leader>crn           <Plug>(coc-rename)
-  nnoremap          <Leader>cl           :CocList <C-D>
-  nnoremap <silent> <Leader>clc          :<C-u>CocList commands<CR>
-  nnoremap <silent> <Leader>cld          :<C-u>CocList diagnostics<CR>
-  nnoremap <silent> <Leader>cle          :<C-u>CocList extensions<CR>
-  nnoremap <silent> <Leader>clg          :<C-u>CocList --interactive --auto-preview grep<CR>
-  nnoremap <silent> <Leader>clo          :<C-u>CocList outline<CR>
-  nnoremap <silent> <Leader>clr          :<C-u>CocListResume<CR>
-  nmap              <Leader>cu           :CocUpdate<CR>
-
-  " fzf-preview bindings
-  nmap              <Leader>p             [fzf-p]
-  xmap              <Leader>p             [fzf-p]
-  nnoremap <silent> [fzf-p]p             :<C-u>CocCommand fzf-preview.FromResources project_mru git<CR>
-  nnoremap <silent> [fzf-p]gs            :<C-u>CocCommand fzf-preview.GitStatus<CR>
-  nnoremap <silent> [fzf-p]ga            :<C-u>CocCommand fzf-preview.GitActions<CR>
-  nnoremap <silent> [fzf-p]b             :<C-u>CocCommand fzf-preview.Buffers<CR>
-  nnoremap <silent> [fzf-p]B             :<C-u>CocCommand fzf-preview.AllBuffers<CR>
-  nnoremap <silent> [fzf-p]o             :<C-u>CocCommand fzf-preview.FromResources buffer project_mru<CR>
-  nnoremap <silent> [fzf-p]<C-o>         :<C-u>CocCommand fzf-preview.Jumps<CR>
-  nnoremap <silent> [fzf-p]g;            :<C-u>CocCommand fzf-preview.Changes<CR>
-  nnoremap <silent> [fzf-p]/             :<C-u>CocCommand fzf-preview.Lines --add-fzf-arg=--no-sort --add-fzf-arg=--query="'"<CR>
-  nnoremap <silent> [fzf-p]*             :<C-u>CocCommand fzf-preview.Lines --add-fzf-arg=--no-sort --add-fzf-arg=--query="'<C-r>=expand('<cword>')<CR>"<CR>
-  nnoremap          [fzf-p]gr            :<C-u>CocCommand fzf-preview.ProjectGrep<Space>
-  xnoremap          [fzf-p]gr            "sy:CocCommand   fzf-preview.ProjectGrep<Space>-F<Space>"<C-r>=substitute(substitute(@s, '\n', '', 'g'), '/', '\\/', 'g')<CR>"
-  nnoremap <silent> [fzf-p]l             :<C-u>CocCommand fzf-preview.LocationList<CR>
-  nnoremap <silent> [fzf-p]q             :<C-u>CocCommand fzf-preview.QuickFix<CR>
-  nnoremap <silent> [fzf-p]t             :<C-u>CocCommand fzf-preview.BufferTags<CR>
-
-  " Use `[g` and `]g` to navigate diagnostics
-  nmap     <silent> [g                    <Plug>(coc-diagnostic-prev)
-  nmap     <silent> ]g                    <Plug>(coc-diagnostic-next)
-
-  " Remap keys for gotos
-  nmap     <silent> gd                    <Plug>(coc-definition)
-  nmap     <silent> gy                    <Plug>(coc-type-definition)
-  nmap     <silent> gi                    <Plug>(coc-implementation)
-  nmap     <silent> gr                    <Plug>(coc-references)
-
-  " Use K to show documentation in preview window
-  nnoremap <silent> K :call <SID>show_documentation()<CR>
-  function! s:show_documentation()
-    if (index(['vim','help'], &filetype) >= 0)
-      execute 'h '.expand('<cword>')
-    else
-      call CocAction('doHover')
-    endif
-  endfunction
-
-  autocmd CursorHold * silent call CocActionAsync('highlight')
-"}}}
 " {{{3 undotree config 
   let g:undotree_WindowLayout          = 2
   let g:undotree_SetFocusWhenToggle    = 1
@@ -262,17 +174,8 @@ endfunction
 " {{{3 traces.vim config 
   let g:traces_abolish_integration     = 1
 " }}}
-" {{{3 vim-matchup config 
-  let g:matchup_matchparen_offscreen   = {'method': 'popup'}
-" }}}
 " {{{3 vim-dirdiff config 
   let g:DirDiffExcludes                = ".git,.svn,CVS,*.class,*.exe,.*.swp,*.pyc,*.so,*.png,*.jp*g,*.svg,*.tiff"
-" }}}
-" {{{3 VOoM config 
-  let g:voom_tree_width                = 40
-  let g:voom_default_mode              = 'fmr3'
-  let g:voom_ft_modes                  = {'adoc': 'asciidoc', 'asciidoc': 'asciidoc', 'asciidoctor': 'asciidoc', 'markdown': 'markdown', 'md': 'markdown', 'rst': 'rest', 'tex': 'latex'}
-  nnoremap          ,tv                  :VoomToggle<CR>
 " }}}
 " {{{3 vimpager config 
   if exists('g:vimpager.enabled')
@@ -286,11 +189,6 @@ endfunction
   nnoremap          <Leader><Tab>        :Tabularize<Space>
   vnoremap          <Leader><Tab>        :Tabularize<Space>
 " }}}
-" {{{3 asciidoctor config 
-  let g:asciidoctor_folding            = 1
-  let g:asciidoctor_syntax_indented    = 1
-  let g:asciidoctor_syntax_conceal     = 1
-" }}}
 " {{{3 SyntaxAttr.vim config 
   nnoremap          <F12>                :call SyntaxAttr()<CR>
 " }}}
@@ -299,9 +197,6 @@ endfunction
   nnoremap          <Leader>ut           :UnicodeTable<CR>
   nnoremap          ga                   :UnicodeName<CR>
 " }}}
-" {{{3 colorv config 
-  nnoremap <silent> ,tcp                 :packadd colorv.vim<BAR>ColorVPreview<CR>
-" }}}
 " {{{3 vim-colortemplate config 
   let g:colortemplate_no_stat          =  0
   let g:colortemplate_no_warnings      =  0
@@ -309,9 +204,6 @@ endfunction
 " {{{3 vim-artesanal config 
   let g:artesanal_dimmed               = 0
   let g:artesanal_transparent          = 1
-" }}}
-" vim-one config {{{3 
-  let g:one_allow_italics              = 1
 " }}}
 " edge config {{{3 
   let g:edge_style                     = 'neon'
@@ -337,7 +229,6 @@ nnoremap ,ps :PackagerStatus<CR>
 nnoremap ,pu :PackagerUpdate<CR>
 " Plugin commands }}}
 " Plugins }}}
-
 " {{{1 General Settings 
 filetype indent plugin on
 syntax   on
@@ -457,10 +348,11 @@ set gdefault                           " always use global substitutions
 " Help settings
 set keywordprg=:help
 nnoremap          <Leader>M            :Man<Space>
-augroup help
+augroup Help
   autocmd!
-  autocmd WinNew * let w:new = 1
-  autocmd FileType help,man if exists('w:new') | unlet w:new | wincmd L | vertical resize 84 | endif
+  autocmd BufWinEnter * if &filetype =~ 'help' | wincmd L | vertical resize 88 | endif
+  autocmd BufWinEnter * if &filetype =~ 'man' | wincmd L | wincmd = | endif
+  autocmd FileType {man,help,*doc} setlocal nonumber norelativenumber nospell nolist nocursorcolumn
 augroup END
 
 " Clipboard settings
@@ -528,7 +420,6 @@ let g:netrw_alto                       =  0
 nnoremap <silent> <Leader>x              :Lexplore<CR>
 
 " General Settings }}}
-
 " {{{1 Visual 
 let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
 let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
@@ -718,7 +609,6 @@ endfunction
 set tabline=%!MyTabline()
 " Tabline }}}
 " Visual }}}
-
 " {{{1 Formatting 
 set comments=b:#,fb:-,fb:*,fb:o,:%,n:>|
 set formatoptions=tcrqwnbj
@@ -726,9 +616,7 @@ set nrformats+=alpha
 nnoremap Q gwap
 vnoremap Q gw
 " Formatting }}}
-
 " {{{1 Key mappings & abbreviations 
-
 " open/source $MYVIMRC
 nnoremap          <Leader>ev             :edit    $MYVIMRC<CR>
 nnoremap          <Leader>sv             :source  $MYVIMRC<CR>
@@ -845,103 +733,69 @@ set pastetoggle=<F3>
 " Abbreviations
 source ~/.vim/abbreviations.vim
 " Keymappings & abbreviations }}}
-
 " {{{1 Auto commands 
-augroup Vimrc
+augroup General
   autocmd!
-
   " Automatically chmod +x Shell and Perl scripts
   autocmd BufWritePost {*.sh,*.pl,*.py} silent !chmod +x %
-
   " Commentstrings
   autocmd FileType xdefaults setlocal commentstring=!\%s
-
   " mail specific configuration
   autocmd BufRead /tmp/mutt* silent! %s/^\([>|]\s\?\)\+/\=substitute(submatch(0), '\s', '', 'g').' '
   autocmd BufRead /tmp/mutt* set nonumber nohls nolist filetype=mail formatoptions=tcroqwln21
   autocmd BufRead /tmp/mutt* setlocal spell
   autocmd FileType mail setlocal commentstring=>\%s
   autocmd FileType mail setlocal wildignore-=*.tar.*,*.png,*.jpg,*.gif
-
   " Syntax for tmux
   autocmd BufNewFile,BufRead *tmux*conf* set filetype=tmux
-
-  " Syntax for conkyrc
-  autocmd BufNewFile,BufRead *conkyrc* set filetype=conkyrc
-
-  " Syntax for htp files
-  autocmd BufNewFile,BufRead {*.htp,*.htt} set filetype=xhtml
-
   " Syntax for xmp files
   autocmd BufNewFile,BufRead {*.xmp} set filetype=xml
-
-  " Syntax for fvwm files
-  autocmd BufNewFile,BufRead */.fvwm*/* set filetype=fvwm syntax=fvwm
-
   " Syntax for Xorg log files
   autocmd BufNewFile,BufRead *Xorg*log* set filetype=msmessages
-
   " Syntax for rofi themes
   autocmd BufNewFile,BufRead {*.rasi} set filetype=css
-
   " Change fileformat on playlist files (created by moc)
   autocmd BufNewFile,BufRead *.m3u set encoding=utf-8 fileencoding=utf-8 ff=unix
-
   " run xrdb whenever Xdefaults or Xresources are updated
   autocmd BufWritePost X{resources,defaults} silent !xrdb %
-
   " Encoding for cddb files
   autocmd BufNewFile,BufRead *cddb* set encoding=utf-8 fileencoding=utf-8 ff=unix
-
   " Enable spelling for text files
   autocmd BuFNewFile,BufRead {*.txt,*.md,*.adoc,*.asciidoc,*.rst} if &filetype !~ 'man\|help\|*doc' | setlocal spell | endif
-
-  " Disable numbers & spell inside manpages
-  autocmd FileType {man,help,*doc} setlocal nonumber norelativenumber nospell nolist nocursorcolumn
-
   " Enable hyphen in css/html completion and disable uppercase tag completion
   autocmd FileType css,html setlocal iskeyword+=- noignorecase
-
   " Correct comment highlighting for json config
   autocmd FileType json syntax match Comment +\/\/.\+$+
-
   " Use preview window for vim-packager
   if has('patch-8.1.1714') && !has('nvim')
     autocmd FileType packager set previewpopup= previewheight=40
   else
     autocmd FileType packager set previewheight=40
   endif
-
+  " Some buffers can be closed with 'q'
+  autocmd FileType help,man,qf nnoremap <buffer><silent>q :bdelete<CR>
   " Disable folding in previews
   autocmd BufWinEnter * if &previewwindow | setlocal nofoldenable | endif
-
   " When editing a file, always jump to the last known cursor position.
   autocmd BufReadPost *
     \ if line("'\"") >= 1 && line("'\"") <= line("$") && &ft !~# 'commit'
     \ |   exe "normal! g`\""
     \ | endif
-
   " Resize windows automagically
   autocmd VimResized * :wincmd =
-
   " Automatically reload vimrc when it's saved
-  autocmd BufWritePost vimrc,.vimrc nested source $MYVIMRC
-
+  autocmd BufWritePost vimrc,.vimrc nested source <afile>
 augroup END
 
 augroup Visuals
   autocmd!
-
   " Reload user defined highlights after changing colorschemes
   autocmd VimEnter,BufEnter,WinEnter,BufLeave,WinLeave,ColorScheme * call MyHighlights()
-
   " Reload statusline after changing windows/buffer/tab
   autocmd BufEnter * setlocal statusline=%!MyStatusline()
   autocmd BufEnter * setlocal tabline=%!MyTabline()
-
 augroup END
 " Auto commands }}}
-
 " {{{1 Functions 
 " https://github.com/ahmedelgabri/dotfiles/blob/master/config/.vim/autoload/utils.vim#L212
 function! GetColorPair(synID, what, mode) abort
