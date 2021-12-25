@@ -960,14 +960,13 @@ use {
     'romainl/vim-qf',
     config = function()
       vim.g.qf_mapping_ack_style = true
-      vim.g.qf_auto_open_quickfix = true
       vim.api.nvim_set_keymap('n', '<C-q>', '<Plug>(qf_qf_switch)', {})
       vim.api.nvim_set_keymap('n', '<C-c>', '<Plug>(qf_qf_toggle)', {})
-      vim.api.nvim_set_keymap('n', '<F6>', '<Plug>(qf_loc_toggle)', {})
+      vim.api.nvim_set_keymap('n', '<C-c>', '<Plug>(qf_loc_toggle)', {})
       vim.api.nvim_set_keymap('n', '<Home>', '<Plug>(qf_qf_previous)', {})
       vim.api.nvim_set_keymap('n', '<End>', '<Plug>(qf_qf_next)', {})
-      vim.api.nvim_set_keymap('n', '<C-Home>', '<Plug>(qf_loc_previous)', {})
-      vim.api.nvim_set_keymap('n', '<C-End>', '<Plug>(qf_loc_next)', {})
+      vim.api.nvim_set_keymap('n', '<Home>', '<Plug>(qf_loc_previous)', {})
+      vim.api.nvim_set_keymap('n', '<End>', '<Plug>(qf_loc_next)', {})
     end
   }
 -- }}}
