@@ -436,11 +436,11 @@ packer.startup(function()
         local lang = parsers.get_buf_lang()
         if parsers.get_parser_configs()[lang] and not parsers.has_parser(lang) then
           vim.schedule_wrap(function()
-          vim.cmd("TSInstall "..lang)
+          vim.cmd('TSInstall '..lang)
           end)()
         end
       end
-      vim.cmd[[autocmd FileType * :lua ensure_treesitter_language_installed()]]
+      vim.cmd [[autocmd FileType * lua ensure_treesitter_language_installed()]]
     end
   }
 -- }}}
