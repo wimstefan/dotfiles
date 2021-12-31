@@ -236,8 +236,7 @@ augroup General
   " Enable spelling for text files
   autocmd FileType {txt,markdown,asciidoc*,rst} if &filetype !~ 'man\|help' | setlocal spell | endif
   " Some buffers can be closed with 'q'
-  autocmd FileType help,startuptime,qf,lspinfo,checkhealth nnoremap <buffer><silent> q :close<CR>
-  autocmd FileType man nnoremap <buffer><silent> q :quit<CR>
+  autocmd FileType help,man,startuptime,qf,lspinfo,checkhealth nnoremap <buffer><silent>q :bdelete<CR>
   " Disable folding in previews
   autocmd BufWinEnter * if &previewwindow | setlocal nofoldenable | endif
   " Remember last cursor position
@@ -258,8 +257,8 @@ augroup Commentstrings
 augroup END
 augroup Help
   autocmd!
-  autocmd BufWinEnter * if &filetype =~ 'help\|man' | wincmd L | vertical resize 88 | endif
-  " Disable numbers & spell inside manpages
+  autocmd BufWinEnter * if &filetype =~ 'help' | wincmd L | vertical resize 84 | endif
+  autocmd BufWinEnter * if &filetype =~ 'man' | wincmd L | wincmd = | endif
   autocmd FileType {man,help,*doc} setlocal nonumber norelativenumber nospell nolist nocursorcolumn
 augroup END
 augroup Packer
