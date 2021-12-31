@@ -265,7 +265,7 @@ augroup Packer
   autocmd!
   autocmd FileType packer set previewheight=30
   autocmd FileType git setlocal nolist nonumber norelativenumber
-  autocmd BufWritePost init.lua if expand('%') !~ 'fugitive\|scp' | source <afile> | PackerSync
+  autocmd BufWritePost init.lua if expand('%') !~ 'fugitive\|scp' | source <afile> | PackerSync | endif
 augroup end
 ]], false)
 -- }}}1 --------------------- AUTOCMDS -----------------------------------------
@@ -285,7 +285,7 @@ local use = packer.use
 packer.startup(function()
   packer.init({
     display = {
-      open_cmd = '88vnew [packer]',
+      open_cmd = '84vnew [packer]',
       working_sym = '北',
       error_sym = '✘',
       done_sym = '✔',
