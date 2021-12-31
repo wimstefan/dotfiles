@@ -1058,7 +1058,7 @@ use {
   config = function()
     require('paperplanes').setup({
       register = 'p',
-      provider = '0x0.st'
+      provider = 'paste.rs'
     })
   end
 }
