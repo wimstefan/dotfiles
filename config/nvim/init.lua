@@ -137,7 +137,11 @@ _G.my_borders = 'rounded'
 -- {{{1 --------------------- MAPPINGS -----------------------------------------
 vim.api.nvim_set_keymap('',  'cd', '<Cmd>cd %:h | pwd<CR>', {noremap = true, silent = true})
 vim.api.nvim_set_keymap('n', '<Leader>g', ':grep ', {noremap = true, silent = false})
-vim.api.nvim_set_keymap('n', '<Leader>l', '<Cmd>nohlsearch|hi clear ColorColumn<CR>', {noremap = true, silent = true})
+vim.api.nvim_set_keymap('n', '<Leader>l', '<Cmd>nohlsearch | hi clear ColorColumn<CR>', {noremap = true, silent = true})
+-- {{{2 navigation
+vim.api.nvim_set_keymap('n', 'k', "v:count == 0 ? 'gk' : 'k'", {noremap = true, expr = true, silent = true})
+vim.api.nvim_set_keymap('n', 'j', "v:count == 0 ? 'gj' : 'j'", {noremap = true, expr = true, silent = true})
+-- }}}
 -- {{{2 editing
 vim.api.nvim_set_keymap('n', '<Leader>ev', '<Cmd>edit $MYVIMRC<CR>', {noremap = true, silent = true})
 vim.api.nvim_set_keymap('n', '<Leader>sv', '<Cmd>luafile $MYVIMRC<CR>', {noremap = true, silent = true})
@@ -180,6 +184,7 @@ ToggleDetails = function()
     vim.opt.cursorline = false
     vim.opt.signcolumn = 'no'
     vim.opt.foldenable = false
+    vim.opt.list = false
     vim.opt.number = false
     vim.opt.relativenumber = false
     vim.opt.colorcolumn = ''
@@ -190,6 +195,7 @@ ToggleDetails = function()
     vim.opt.cursorline = true
     vim.opt.signcolumn = 'yes'
     vim.opt.foldenable = true
+    vim.opt.list = true
     vim.opt.number = true
     vim.opt.relativenumber = true
     vim.opt.colorcolumn = '80'
