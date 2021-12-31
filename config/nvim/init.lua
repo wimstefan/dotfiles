@@ -633,6 +633,17 @@ use {
       },
       'nvim-lua/lsp-status.nvim',
       'folke/lua-dev.nvim',
+      'ii14/lsp-command',
+      {
+        'mickael-menu/zk-nvim',
+        config = function()
+          require('zk').setup()
+          require('telescope').load_extension('zk')
+          -- vim.api.nvim_set_keymap('n', '<Leader>nn', [[<Cmd>ZkNew<CR>]], {noremap = true, silent = false})
+          vim.api.nvim_set_keymap('n', '<Leader>nl', [[<Cmd>ZkList<CR>]], {noremap = true, silent = true})
+          vim.api.nvim_set_keymap('n', '<Leader>nt', [[<Cmd>ZkTagList<CR>]], {noremap = true, silent = true})
+        end
+      }
     },
     config = function()
       local lsp_cmp = require('cmp_nvim_lsp')
@@ -801,8 +812,7 @@ use {
           filetypes = {
             'html',
             'html-eex',
-            'liquid',
-            'markdown'
+            'liquid'
           }
         },
         jsonls = {},
