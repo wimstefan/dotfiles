@@ -521,9 +521,9 @@ use {
     'hrsh7th/cmp-nvim-lua',
     'hrsh7th/cmp-nvim-lsp',
     {
-      'dcampos/cmp-snippy',
+      'saadparwaiz1/cmp_luasnip',
       requires = {
-        'dcampos/nvim-snippy',
+        'L3MON4D3/LuaSnip',
         'honza/vim-snippets'
       }
     },
@@ -540,7 +540,9 @@ use {
     end
 
     local cmp = require('cmp')
-    local snippy = require('snippy')
+    local luasnip = require('luasnip')
+    luasnip.filetype_extend('all', {'_'})
+    require('luasnip.loaders.from_snipmate').lazy_load()
 
     cmp.setup({
       completion = {
@@ -561,7 +563,7 @@ use {
             nvim_lsp = '[LSP]',
             nvim_lua = '[API]',
             path = '[Filesystem]',
-            snippy = '[Snippet]',
+            luasnip = '[Snippet]',
             spell = '[Spelling]',
             treesitter = '[TS]',
             digraphs = '[DG]',
@@ -572,15 +574,15 @@ use {
       },
       snippet = {
         expand = function(args)
-          snippy.expand_snippet(args.body)
+          luasnip.lsp_expand(args.body)
         end
       },
       mapping = {
         ['<Tab>'] = cmp.mapping(function(fallback)
           if cmp.visible() then
             cmp.select_next_item()
-          elseif snippy.can_expand_or_advance() then
-            snippy.expand_or_advance()
+          elseif luasnip.expand_or_jumpable() then
+            luasnip.expand_or_jump()
           elseif has_words_before() then
             cmp.complete()
           else
@@ -590,8 +592,8 @@ use {
         ['<S-Tab>'] = cmp.mapping(function(fallback)
           if cmp.visible() then
             cmp.select_prev_item()
-          elseif snippy.can_jump(-1) then
-            snippy.previous()
+          elseif luasnip.jumpable(-1) then
+            luasnip.jump(-1)
           else
             fallback()
           end
@@ -603,7 +605,7 @@ use {
           {name = 'nvim_lsp'},
           {name = 'path'},
           {name = 'treesitter'},
-          {name = 'snippy'},
+          {name = 'luasnip'},
           {name = 'buffer',
             option = {
               get_bufnrs = function()
