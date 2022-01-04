@@ -1,6 +1,6 @@
 --------------------- MY PERSONAL NEOVIM CONFIGURATION -------------------------
 -- {{{1 --------------------- First things first. ------------------------------
-require('impatient').enable_profile()
+require('impatient')
 -- }}}
 -- {{{1 --------------------- OPTIONS ------------------------------------------
 -- define leader keys
@@ -265,7 +265,7 @@ augroup Packer
   autocmd!
   autocmd FileType packer set previewheight=30
   autocmd FileType git setlocal nolist nonumber norelativenumber
-  autocmd BufWritePost init.lua if expand('%') !~ 'fugitive\|scp' | source <afile> | PackerSync | endif
+  autocmd BufWritePost init.lua if expand('%') !~ 'fugitive\|scp' | source <afile> | PackerCompile | endif
 augroup end
 ]], false)
 -- }}}1 --------------------- AUTOCMDS -----------------------------------------
@@ -284,6 +284,7 @@ local packer = require('packer')
 local use = packer.use
 packer.startup(function()
   packer.init({
+    compile_path = vim.fn.stdpath('config')..'/lua/packer_compiled.lua',
     display = {
       open_cmd = '84vnew [packer]',
       working_sym = '北',
@@ -1457,5 +1458,6 @@ use {
 -- }}}
 -- }}}
 end)
+require('packer_compiled')
 -- }}}1 --------------------- PLUGINS ------------------------------------------
 -- vim: foldmethod=marker foldlevel=0
