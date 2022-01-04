@@ -637,17 +637,38 @@ use {
       'folke/lua-dev.nvim',
       'ii14/lsp-command',
       {
+        'stevearc/aerial.nvim',
+        config = function()
+          require('aerial').setup({
+            link_folds_to_tree = true,
+            link_tree_to_folds = true,
+            manage_folds = true,
+            on_attach = function(bufnr)
+              vim.api.nvim_buf_set_keymap(bufnr, 'n', '<Leader>a', '<Cmd>AerialToggle!<CR>', {})
+              vim.api.nvim_buf_set_keymap(bufnr, 'n', '{', '<Cmd>AerialPrev<CR>', {})
+              vim.api.nvim_buf_set_keymap(bufnr, 'n', '}', '<Cmd>AerialNext<CR>', {})
+              vim.api.nvim_buf_set_keymap(bufnr, 'n', '{{', '<Cmd>AerialPrevUp<CR>', {})
+              vim.api.nvim_buf_set_keymap(bufnr, 'n', '}}', '<Cmd>AerialNextUp<CR>', {})
+            end
+          })
+          require('telescope').load_extension('aerial')
+        end
+      },
+      {
         'mickael-menu/zk-nvim',
         config = function()
-          require('zk').setup()
+          require('zk').setup({
+            picker = 'telescope'
+          })
           require('telescope').load_extension('zk')
-          -- vim.api.nvim_set_keymap('n', '<Leader>nn', [[<Cmd>ZkNew<CR>]], {noremap = true, silent = false})
-          vim.api.nvim_set_keymap('n', '<Leader>nl', [[<Cmd>ZkList<CR>]], {noremap = true, silent = true})
-          vim.api.nvim_set_keymap('n', '<Leader>nt', [[<Cmd>ZkTagList<CR>]], {noremap = true, silent = true})
+          vim.api.nvim_set_keymap('n', '<Leader>nn', [[<Cmd>ZkNew<CR>]], {noremap = true, silent = false})
+          vim.api.nvim_set_keymap('n', '<Leader>nl', [[<Cmd>ZkNotes<CR>]], {noremap = true, silent = true})
+          vim.api.nvim_set_keymap('n', '<Leader>nt', [[<Cmd>ZkTags<CR>]], {noremap = true, silent = true})
         end
       }
     },
     config = function()
+      local lsp_aerial = require('aerial')
       local lsp_cmp = require('cmp_nvim_lsp')
       local lsp_config = require('lspconfig')
       local lsp_status = require('lsp-status')
@@ -720,6 +741,7 @@ use {
 
       -- LSP functions
       local on_attach = function(client,bufnr)
+        lsp_aerial.on_attach(client, bufnr)
         local lsp_messages = {}
         local lsp_msg_sep = ' ∷ '
         lsp_messages = lsp_msg_sep .. 'LSP attached' .. lsp_msg_sep
@@ -835,7 +857,7 @@ use {
         end
       end
 
-      local sumneko_binary = vim.fn.stdpath('data')..'/lspconfig/sumneko_lua/bin/Linux/lua-language-server'
+      local sumneko_binary = vim.fn.stdpath('data')..'/lspconfig/lua-language-server/bin/lua-language-server'
       local runtime_path = vim.split(package.path, ';')
       table.insert(runtime_path, 'lua/?.lua')
       table.insert(runtime_path, 'lua/?/init.lua')
