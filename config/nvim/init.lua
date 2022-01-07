@@ -72,7 +72,7 @@ elseif vim.fn.executable('ack') == 1 then
 end
 
 vim.opt.timeoutlen = 500
-vim.opt.updatetime = 300
+vim.opt.updatetime = 100
 vim.opt.autowrite = true
 vim.opt.backup = false
 vim.opt.backupcopy = 'auto'
@@ -94,6 +94,9 @@ vim.g.netrw_banner =  0
 vim.g.netrw_liststyle =  3
 vim.g.netrw_preview =  0
 vim.g.netrw_alto =  0
+
+vim.g.do_filetype_lua = 1
+vim.g.did_load_filetypes = 0
 
 -- Visual configuration options
 -- symbols --
@@ -310,8 +313,8 @@ packer.startup(function()
 -- {{{2 impatient.nvim
   use {'lewis6991/impatient.nvim'}
 -- }}}
--- {{{2 filetype.nvim
-  use {'nathom/filetype.nvim'}
+-- {{{2
+  use {'antoinemadec/FixCursorHold.nvim'}
 -- }}}
 -- {{{2 startuptime
   use {'dstein64/vim-startuptime'}
