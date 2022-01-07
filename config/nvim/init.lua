@@ -644,9 +644,6 @@ use {
         'stevearc/aerial.nvim',
         config = function()
           require('aerial').setup({
-            link_folds_to_tree = true,
-            link_tree_to_folds = true,
-            manage_folds = true,
             on_attach = function(bufnr)
               vim.api.nvim_buf_set_keymap(bufnr, 'n', '<Leader>a', '<Cmd>AerialToggle!<CR>', {})
               vim.api.nvim_buf_set_keymap(bufnr, 'n', '{', '<Cmd>AerialPrev<CR>', {})
@@ -852,9 +849,6 @@ use {
         else
           local client = lsp_config[name]
           client.setup(vim.tbl_extend('force', {
-            flags = {
-              debounce_text_changes = 150
-            },
             on_attach = on_attach,
             capabilities = capabilities,
           }, opts))
@@ -874,9 +868,6 @@ use {
         lspconfig = {
           capabilities = capabilities,
           cmd = {sumneko_binary},
-          flags = {
-            debounce_text_changes = 150
-          },
           on_attach = on_attach,
           settings = {
             Lua = {
