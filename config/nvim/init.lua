@@ -675,9 +675,9 @@ use {
       local lsp_status = require('lsp-status')
 
       -- diagnostic handling
-      local diagnostic_signs = {' ', ' ', ' ', '𥉉'}
-      local diagnostic_severity_fullnames = { 'Error', 'Warning', 'Hint', 'Information' }
-      local diagnostic_severity_shortnames = { 'Error', 'Warn', 'Hint', 'Info' }
+      local diagnostic_signs = {' ', ' ', '𥉉', ' '}
+      local diagnostic_severity_fullnames = {'Error', 'Warning', 'Information', 'Hint'}
+      local diagnostic_severity_shortnames = {'Error', 'Warn', 'Info', 'Hint'}
       for index, icon in ipairs(diagnostic_signs) do
         local fullname = diagnostic_severity_fullnames[index]
         local shortname = diagnostic_severity_shortnames[index]
@@ -697,10 +697,17 @@ use {
         })
       end
       vim.diagnostic.config({
+        float = {
+          border = my_borders,
+          header = '',
+          focusable = false,
+          scope = 'cursor',
+          source = 'always'
+        },
         virtual_text = {
+          focusable = false,
           prefix = '❰',
-          source = 'always',
-          focusable = false
+          source = 'always'
         }
       })
 
