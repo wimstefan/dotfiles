@@ -1345,7 +1345,7 @@ use {
             },
             {
               'branch',
-              icon = ''
+              icon = ''
             }
           },
           lualine_z = {'filetype'},
@@ -1493,6 +1493,9 @@ use {
       })
     end
   }
+-- }}}
+-- {{{3 dressing.nvim
+  use {'stevearc/dressing.nvim'}
 -- }}}
 -- }}}
 end)
