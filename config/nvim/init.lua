@@ -727,13 +727,13 @@ use {
 
       -- lsp-status config
       lsp_status.config({
-        current_function = true,
+        current_function = false,
         diagnostics = false,
         indicator_errors = ' ' .. vim.trim(vim.fn.sign_getdefined('DiagnosticSignError')[1].text),
         indicator_warnings = ' ' .. vim.trim(vim.fn.sign_getdefined('DiagnosticSignWarn')[1].text),
         indicator_info = ' ' .. vim.trim(vim.fn.sign_getdefined('DiagnosticSignInfo')[1].text),
         indicator_hint = ' ' .. vim.trim(vim.fn.sign_getdefined('DiagnosticSignHint')[1].text),
-        indicator_ok = 'OK',
+        indicator_ok = '',
         select_symbol = function(cursor_pos, symbol)
           if symbol.valueRange then
             local value_range = {
@@ -749,7 +749,7 @@ use {
             return lsp_status.util.in_range(cursor_pos, value_range)
           end
         end,
-        status_symbol = '[LSP]',
+        status_symbol = '',
       })
       lsp_status.register_progress()
 
@@ -1322,6 +1322,7 @@ use {
             },
           },
           lualine_x = {
+            'aerial',
             function() return require('lsp-status').status() end,
             {
               'diagnostics',
