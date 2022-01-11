@@ -674,18 +674,6 @@ use {
           require('telescope').load_extension('aerial')
         end
       },
-      {
-        'mickael-menu/zk-nvim',
-        config = function()
-          require('zk').setup({
-            picker = 'telescope'
-          })
-          require('telescope').load_extension('zk')
-          vim.keymap.set('n', '<Leader>nn', [[<Cmd>ZkNew<CR>]])
-          vim.keymap.set('n', '<Leader>nl', [[<Cmd>ZkNotes<CR>]])
-          vim.keymap.set('n', '<Leader>nt', [[<Cmd>ZkTags<CR>]])
-        end
-      }
     },
     config = function()
       local lsp_aerial = require('aerial')
@@ -769,10 +757,10 @@ use {
       -- LSP functions
       local on_attach = function(client,bufnr)
         lsp_aerial.on_attach(client, bufnr)
+        lsp_status.on_attach(client)
         local lsp_messages = {}
         local lsp_msg_sep = ' ∷ '
         lsp_messages = lsp_msg_sep .. 'LSP attached' .. lsp_msg_sep
-        lsp_status.on_attach(client)
         -- options
         vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
         -- keybindings
@@ -1023,6 +1011,35 @@ use {
       require('bqf').setup({
         auto_enable = true
       })
+    end
+  }
+-- }}}
+-- {{{2 zk-nvim
+  use {
+    'mickael-menu/zk-nvim',
+    config = function()
+      local zk = require('zk')
+      local commands = require('zk.commands')
+      local function make_edit_fn(defaults, picker_options)
+        return function(options)
+          options = vim.tbl_extend('force', defaults, options or {})
+          zk.edit(options, picker_options)
+        end
+      end
+
+      require('telescope').load_extension('zk')
+      zk.setup({
+        picker = 'telescope'
+      })
+
+      commands.add('ZkRecents', make_edit_fn({ createdAfter = '1 week ago' }, { title = 'Zk Recents' }))
+
+      vim.keymap.set('n', '<Leader>zf', [[<Cmd>ZkNotes {match = vim.fn.input('Search: ')}<CR>]])
+      vim.keymap.set('v', '<Leader>zf', [[:'<,'>ZkMatch<CR>]])
+      vim.keymap.set('n', '<Leader>zn', [[<Cmd>ZkNew {title = vim.fn.input('Title: ')}<CR>]])
+      vim.keymap.set('n', '<Leader>zl', [[<Cmd>ZkNotes<CR>]])
+      vim.keymap.set('n', '<Leader>zr', [[<Cmd>ZkRecents<CR>]])
+      vim.keymap.set('n', '<Leader>zt', [[<Cmd>ZkTags<CR>]])
     end
   }
 -- }}}
