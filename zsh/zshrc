@@ -405,7 +405,7 @@ alias -g L="| less"
 alias -g W="| wc -l"
 alias -g Z="| fzf"
 # commands
-alias ls="ls --color=auto -v"
+alias ls="ls --hyperlink=auto --color=auto -v"
 alias lx="ls -lXB"
 alias lk="ls -lSr"
 alias ll="ls -l"
@@ -434,8 +434,6 @@ alias history="history -i -44"
 alias time="/usr/bin/time"
 alias vifm="vifmrun"
 ## ugrep
-alias ag='ug'
-alias rg='ug'
 alias uq='ug -Q'
 alias ux='ug -UX'
 alias uz='ug -z'
@@ -865,6 +863,8 @@ if [[ $USER != root ]]; then
         rsync -az            /home/swimmer/.config/mc/mc.ext $host:.config/mc/
         rsync -az   --delete /home/swimmer/.local/share/mc/skins/ $host:.local/share/mc/skins/
         rsync -az   --exclude="bookmarks" --exclude="history" --exclude="__pycache__" /home/swimmer/.config/ranger/ $host:.config/ranger/
+        rsync -az   --delete /home/swimmer/.config/vifm/vifmrc $host:.config/vifm/vifmrc
+        rsync -az   --delete /home/swimmer/.config/vifm/colors/ $host:.config/vifm/colors/
         echo "Syncing cli browsers on $host ..."
         rsync -az            /home/swimmer/.w3m/config $host:.w3m/config
         rsync -az            /home/swimmer/.elinks/elinks.conf $host:.elinks/elinks.conf
@@ -1083,14 +1083,30 @@ if [[ -f $HOME/.zsh/external/zsh-syntax-highlighting.git/zsh-syntax-highlighting
   source $HOME/.zsh/external/zsh-syntax-highlighting.git/zsh-syntax-highlighting.zsh
   export ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets )
 fi
-# }}}2
-
+if [[ -f $HOME/.zsh/external/z.git/z.sh ]]; then
+  source $HOME/.zsh/external/z.git/z.sh
+  export _Z_DATA="$HOME/.config/z/z.data"
+  unalias z
+  z() {
+    if [[ -z "$*" ]]; then
+      cd "$(_z -l 2>&1 | fzf +s --tac | sed 's/^[0-9,.]* *//')"
+    else
+      _last_z_args="$@"
+      _z "$@"
+    fi
+  }
+  zz() {
+    cd "$(_z -l 2>&1 | sed 's/^[0-9,.]* *//' | fzf -q "$_last_z_args")"
+  }
+fi
 # Kitty configuration
 ## Shell integration
 if [[ -n $KITTY_INSTALLATION_DIR ]]; then
+  export KITTY_SHELL_INTEGRATION="enabled"
   autoload -Uz -- "$KITTY_INSTALLATION_DIR"/shell-integration/zsh/kitty-integration
   kitty-integration
   unfunction kitty-integration
 fi
+# }}}2
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
