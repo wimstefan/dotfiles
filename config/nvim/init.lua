@@ -63,7 +63,7 @@ vim.opt.nrformats:append({
   'alpha'
 })
 if vim.fn.executable('ugrep') == 1 then
-  vim.opt.grepprg = 'ugrep -RInk -j -u --tabs=1 -z --hidden --ignore-files'
+  vim.opt.grepprg = 'ugrep -RIjnkz --hidden --ignore-files'
   vim.opt.grepformat = '%f:%l:%c:%m,%f+%l+%c+%m,%-G%f\\|%l\\|%c\\|%m'
 elseif vim.fn.executable('git') == 1 then
   vim.opt.grepprg = 'git'
@@ -471,8 +471,8 @@ packer.startup(function()
       vim.keymap.set('n', '<Leader>b', [[<Cmd>lua require('telescope.builtin').buffers()<CR>]])
       vim.keymap.set('n', '<Leader>c', [[<Cmd>lua require('telescope.builtin').colorscheme({enable_preview = true})<CR>]])
       vim.keymap.set('n', '<Leader>f', [[<Cmd>lua require('telescope.builtin').find_files({follow = true})<CR>]])
-      vim.keymap.set('n', '<Leader>Tg', [[<Cmd>lua require('telescope.builtin').live_grep()<CR>]])
-      vim.keymap.set('n', '<Leader>TG', [[<Cmd>lua require('telescope.builtin').live_grep({grep_open_files=true})<CR>]])
+      vim.keymap.set('n', '<Leader>Tg', [[<Cmd>lua require('telescope.builtin').live_grep({grep_open_files=true})<CR>]])
+      vim.keymap.set('n', '<Leader>TG', [[<Cmd>lua require('telescope.builtin').live_grep()<CR>]])
       vim.keymap.set('n', '<Leader>h', [[<Cmd>lua require('telescope.builtin').help_tags()<CR>]])
       vim.keymap.set('n', '<Leader>M', [[<Cmd>lua require('telescope.builtin').man_pages()<CR>]])
       vim.keymap.set('n', '<Leader>m', [[<Cmd>lua require('telescope.builtin').marks()<CR>]])
@@ -512,6 +512,13 @@ packer.startup(function()
           preview = {
             msg_bg_fillchar = " ",
           },
+          vimgrep_arguments = {
+            'ugrep',
+            '-RIjnkz',
+            '--color=never',
+            '--hidden',
+            '--ignore-files'
+          }
         },
         extensions = {
           fzf = {
