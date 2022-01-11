@@ -1131,17 +1131,6 @@ use {
 -- {{{2 vim-gnupg
   use {'jamessan/vim-gnupg'}
 -- }}}
--- {{{2 vim-asciidoctor
-  use {
-    'habamax/vim-asciidoctor',
-    ft = {'asciidoc', 'asciidoctor'},
-    config = function()
-      vim.g.asciidoctor_folding = 1
-      vim.g.asciidoctor_foldnested = 0
-      vim.g.asciidoctor_foldtitle_as_h1 = 1
-    end
-  }
--- }}}
 -- {{{2 vim-log-highlighting
   use {
     'MTDL9/vim-log-highlighting',
