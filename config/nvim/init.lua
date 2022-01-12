@@ -96,12 +96,9 @@ vim.g.netrw_liststyle =  3
 vim.g.netrw_preview =  0
 vim.g.netrw_alto =  0
 
-vim.g.do_filetype_lua = 1
-vim.g.did_load_filetypes = 0
-
 -- Visual configuration options
 -- symbols --
-_G.my_symbols= {
+_G.my_symbols = {
   Array = '謹',
   Boolean = '凌',
   Class = ' ',
@@ -320,6 +317,9 @@ packer.startup(function()
 -- }}}
 -- {{{2 impatient.nvim
   use {'lewis6991/impatient.nvim'}
+-- }}}
+-- {{{2 filetype.nvim
+  use {'nathom/filetype.nvim'}
 -- }}}
 -- {{{2 FixCursorHold.nvim
   use {'antoinemadec/FixCursorHold.nvim'}
