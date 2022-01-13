@@ -218,23 +218,19 @@ vim.api.nvim_exec([[
 augroup General
   autocmd!
   " mail specific configuration
-  autocmd BufRead /tmp/mutt* setlocal filetype=mail
+  autocmd BufRead * if expand('%') =~ '/tmp/mutt*' | setfiletype mail | endif
   " tridactyl editing
-  autocmd BufRead /tmp/*tangoartisan.com* setlocal filetype=html
-  " Automatically chmod +x Shell and Perl scripts
-  autocmd BufWritePost {*.sh,*.pl,*.py} silent !chmod +x %
+  autocmd BufRead * if expand('%') =~ 'tangoartisan' | setfiletype html | endif
   " Syntax for tmux
   autocmd BufNewFile,BufRead *tmux*conf* set filetype=tmux
   " Syntax for htp files
   autocmd BufNewFile,BufRead {*.htp,*.htt} set filetype=xhtml
   " Syntax for xmp files
   autocmd BufNewFile,BufRead {*.xmp} set filetype=xml
-  " Syntax for fvwm files
-  autocmd BufNewFile,BufRead */.fvwm*/* set filetype=fvwm syntax=fvwm
   " Syntax for Xorg log files
   autocmd BufNewFile,BufRead *Xorg*log* set filetype=msmessages
-  " Syntax for rofi themes
-  autocmd BufNewFile,BufRead {*.rasi} set filetype=css
+  " Automatically chmod +x Shell and Perl scripts
+  autocmd BufWritePost {*.sh,*.pl,*.py} silent !chmod +x %
   " Change fileformat on playlist files (created by moc)
   autocmd BufNewFile,BufRead *.m3u set encoding=utf-8 fileencoding=utf-8 ff=unix
   " run xrdb whenever Xdefaults or Xresources are updated
@@ -272,8 +268,8 @@ augroup END
 augroup Packer
   autocmd!
   autocmd FileType packer set previewheight=30
-  autocmd FileType git setlocal nolist nonumber norelativenumber
-  autocmd BufWritePost init.lua if expand('%') !~ 'fugitive\|scp' | source <afile> | PackerCompile | endif
+  autocmd FileType git set nolist nonumber norelativenumber
+  autocmd BufWritePost init.lua if expand('%') !~ 'fugitive\|scp' | source <afile> | call v:lua.require('packer').sync() | endif
 augroup end
 ]], false)
 -- }}}1 --------------------- AUTOCMDS -----------------------------------------
