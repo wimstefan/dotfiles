@@ -351,7 +351,7 @@ packer.startup(function()
         },
         highlight = {
           enable = true,
-          use_languagetree = true
+          additional_vim_regex_highlighting = { 'markdown' }
         },
         incremental_selection = {
           enable = true,
