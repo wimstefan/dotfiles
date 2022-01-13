@@ -1048,7 +1048,7 @@ use {
         end,
         open_mapping = [[<C-\>]],
         shade_terminals = false,
-        direction = 'vertical',
+        direction = 'float',
         float_opts = {
           border = my_borders
         }
@@ -1222,13 +1222,32 @@ use {
       local get_path = function()
         return '[' .. vim.fn.expand('%:p:h') .. ']'
       end
+      local lsp_status = function()
+        local msg = ''
+        for _, client in ipairs(vim.lsp.get_active_clients()) do
+          msg = '[LSP] ‹' .. client.name .. '›'
+          for _, progress in pairs(client.messages.progress) do
+            if not progress.done then
+              msg = progress.title
+              if progress.message then
+                msg = msg .. ' ' .. progress.message
+              end
+              if progress.percentage then
+                msg = progress.percentage .. '%%'
+              end
+              return msg
+            end
+          end
+        end
+        return msg
+      end
       local diff_source = function()
         local gitsigns = vim.b.gitsigns_status_dict
         if gitsigns then
           return {added = gitsigns.added, modified = gitsigns.changed, removed = gitsigns.removed}
         end
       end
-      local function window()
+      local window = function()
         return vim.api.nvim_win_get_number(0)
       end
       local minimal_extension = {
@@ -1246,8 +1265,8 @@ use {
       require('lualine').setup({
         options = {
           icons_enabled = true,
-          section_separators = '',
-          component_separators = '',
+          section_separators = {left = '', right = ''},
+          component_separators = {left = '', right = ''},
         },
         sections = {
           lualine_a = {'mode'},
@@ -1280,16 +1299,16 @@ use {
           },
           lualine_x = {
             'aerial',
-            function() return require('lsp-status').status() end,
+            lsp_status,
             {
               'diagnostics',
               always_visible = false,
               sources = {'nvim_diagnostic'},
               symbols = {
-                error = vim.trim(vim.fn.sign_getdefined('DiagnosticSignError')[1].text) .. ' ',
-                warn = vim.trim(vim.fn.sign_getdefined('DiagnosticSignWarn')[1].text) .. ' ',
-                info = vim.trim(vim.fn.sign_getdefined('DiagnosticSignInfo')[1].text) .. ' ',
-                hint = vim.trim(vim.fn.sign_getdefined('DiagnosticSignHint')[1].text) .. ' '
+                error = vim.fn.sign_getdefined('DiagnosticSignError')[1].text,
+                warn = vim.fn.sign_getdefined('DiagnosticSignWarn')[1].text,
+                info = vim.fn.sign_getdefined('DiagnosticSignInfo')[1].text,
+                hint = vim.fn.sign_getdefined('DiagnosticSignHint')[1].text
               }
             },
           },
