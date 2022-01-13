@@ -661,7 +661,6 @@ use {
           require('nvim-lightbulb').update_lightbulb()
         end
       },
-      'nvim-lua/lsp-status.nvim',
       'folke/lua-dev.nvim',
       'ii14/lsp-command',
       {
@@ -684,7 +683,6 @@ use {
       local lsp_aerial = require('aerial')
       local lsp_cmp = require('cmp_nvim_lsp')
       local lsp_config = require('lspconfig')
-      local lsp_status = require('lsp-status')
 
       -- diagnostic handling
       local diagnostic_signs = {' ', ' ', '𥉉', ' '}
@@ -723,34 +721,6 @@ use {
         }
       })
 
-      -- lsp-status config
-      lsp_status.config({
-        current_function = false,
-        diagnostics = false,
-        indicator_errors = ' ' .. vim.trim(vim.fn.sign_getdefined('DiagnosticSignError')[1].text),
-        indicator_warnings = ' ' .. vim.trim(vim.fn.sign_getdefined('DiagnosticSignWarn')[1].text),
-        indicator_info = ' ' .. vim.trim(vim.fn.sign_getdefined('DiagnosticSignInfo')[1].text),
-        indicator_hint = ' ' .. vim.trim(vim.fn.sign_getdefined('DiagnosticSignHint')[1].text),
-        indicator_ok = '',
-        select_symbol = function(cursor_pos, symbol)
-          if symbol.valueRange then
-            local value_range = {
-              ['start'] = {
-                character = 0,
-                line = vim.fn.byte2line(symbol.valueRange[1])
-              },
-              ['end'] = {
-                character = 0,
-                line = vim.fn.byte2line(symbol.valueRange[2])
-              }
-            }
-            return lsp_status.util.in_range(cursor_pos, value_range)
-          end
-        end,
-        status_symbol = '',
-      })
-      lsp_status.register_progress()
-
       -- LSP handlers
       vim.lsp.handlers['textDocument/signatureHelp'] = vim.lsp.with(vim.lsp.handlers.signature_help, {
         border = my_borders
@@ -762,7 +732,6 @@ use {
       -- LSP functions
       local on_attach = function(client,bufnr)
         lsp_aerial.on_attach(client, bufnr)
-        lsp_status.on_attach(client)
         local lsp_messages = {}
         local lsp_msg_sep = ' ∷ '
         lsp_messages = lsp_msg_sep .. 'LSP attached' .. lsp_msg_sep
@@ -833,7 +802,8 @@ use {
         vim.notify(lsp_messages, vim.log.levels.INFO, {title = '[LSP]'})
       end
 
-      local capabilities = lsp_cmp.update_capabilities(vim.lsp.protocol.make_client_capabilities())
+      local capabilities = vim.lsp.protocol.make_client_capabilities()
+      capabilities = lsp_cmp.update_capabilities(capabilities)
 
       -- LSP servers
       local servers = {
