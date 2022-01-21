@@ -549,7 +549,6 @@ use {
     },
     'f3fora/cmp-spell',
     'ray-x/cmp-treesitter',
-    'dmitmel/cmp-digraphs'
   },
   config = function()
     local has_words_before = function()
@@ -584,7 +583,6 @@ use {
             luasnip = '[Snippet]',
             spell = '[Spelling]',
             treesitter = '[TS]',
-            digraphs = '[DG]',
           })[entry.source.name]
           vim_item.kind = my_symbols[vim_item.kind] .. ' ' .. vim_item.kind
           return vim_item
@@ -632,7 +630,6 @@ use {
             }
           },
           {name = 'spell'},
-          {name = 'digraphs'}
         }
       )
     })
