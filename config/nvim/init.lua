@@ -288,11 +288,11 @@ packer.startup(function()
     compile_path = vim.fn.stdpath('config')..'/lua/packer_compiled.lua',
     display = {
       open_cmd = '84vnew [packer]',
-      working_sym = '北',
-      error_sym = '✘',
-      done_sym = '✔',
-      removed_sym = '-',
-      moved_sym = '➜',
+      working_sym = '北 ',
+      error_sym = '✗  ',
+      done_sym = '✓ ',
+      removed_sym = '– ',
+      moved_sym = '➜ ',
       prompt_border = my_borders
     }
   })
