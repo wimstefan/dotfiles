@@ -227,8 +227,6 @@ augroup General
   autocmd BufNewFile,BufRead {*.htp,*.htt} set filetype=xhtml
   " Syntax for xmp files
   autocmd BufNewFile,BufRead {*.xmp} set filetype=xml
-  " Syntax for Xorg log files
-  autocmd BufNewFile,BufRead *Xorg*log* set filetype=msmessages
   " Automatically chmod +x Shell and Perl scripts
   autocmd BufWritePost {*.sh,*.pl,*.py} silent !chmod +x %
   " Change fileformat on playlist files (created by moc)
@@ -256,7 +254,6 @@ augroup Commentstrings
   autocmd FileType toml set commentstring=#\%s
   autocmd FileType vifm set commentstring=\"\ %s
   autocmd FileType xdefaults set commentstring=!\%s
-  autocmd BufNewFile,BufRead *.ptl set filetype=julia commentstring=#\ %s
   autocmd FileType json syntax match Comment +\/\/.\+$+
 augroup END
 augroup Help
