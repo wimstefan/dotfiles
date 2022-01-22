@@ -571,6 +571,7 @@ use {
         native_menu = false
       },
       formatting = {
+        fields = {'kind', 'abbr', 'menu'},
         format = function(entry, vim_item)
           vim_item.menu = ({
             buffer = '[Buffer]',
@@ -581,7 +582,7 @@ use {
             spell = '[Spelling]',
             treesitter = '[TS]',
           })[entry.source.name]
-          vim_item.kind = my_symbols[vim_item.kind] .. ' ' .. vim_item.kind
+          vim_item.kind = my_symbols[vim_item.kind]
           return vim_item
         end
       },
@@ -591,6 +592,14 @@ use {
         end
       },
       mapping = {
+        ['<C-b>'] = cmp.mapping(cmp.mapping.scroll_docs(-4), { 'i', 'c' }),
+        ['<C-f>'] = cmp.mapping(cmp.mapping.scroll_docs(4), { 'i', 'c' }),
+        ['<C-Space>'] = cmp.mapping(cmp.mapping.complete(), { 'i', 'c' }),
+        ['<C-y>'] = cmp.mapping.confirm({ select = false }),
+        ['<C-e>'] = cmp.mapping({
+          i = cmp.mapping.abort(),
+          c = cmp.mapping.close(),
+        }),
         ['<Tab>'] = cmp.mapping(function(fallback)
           if cmp.visible() then
             cmp.select_next_item()
