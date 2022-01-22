@@ -1401,15 +1401,16 @@ use {
           virt_text_pos = 'overlay'
         },
         numhl = true,
-        keymaps = {
-          noremap = true,
-          ['n ]c'] = {expr = true, "&diff ? ']c' : '<Cmd>Gitsigns next_hunk<CR>'"},
-          ['n [c'] = {expr = true, "&diff ? '[c' : '<Cmd>Gitsigns prev_hunk<CR>'"},
-          ['n ,st'] = '<Cmd>Gitsigns toggle_signs<CR>',
-          ['n ,sh'] = '<Cmd>Gitsigns toggle_linehl<CR>',
-          ['n ,sp'] = '<Cmd>Gitsigns preview_hunk<CR>',
-          ['n ,sb'] = '<Cmd>lua require"gitsigns".blame_line({full=true})<CR>',
-        },
+        on_attach = function(bufnr)
+          local gs = package.loaded.gitsigns
+          vim.keymap.set('n', ']c', "&diff ? ']c' : '<cmd>Gitsigns next_hunk<CR>'", {expr = true})
+          vim.keymap.set('n', '[c', "&diff ? '[c' : '<cmd>Gitsigns prev_hunk<CR>'", {expr = true})
+          vim.keymap.set('n', ',sp', gs.preview_hunk, {buffer = bufnr})
+          vim.keymap.set('n', ',sb', function() gs.blame_line{full=true} end, {buffer = bufnr})
+          vim.keymap.set('n', ',sd', gs.diffthis, {buffer = bufnr})
+          vim.keymap.set('n', ',sD', function() gs.diffthis('~') end, {buffer = bufnr})
+          vim.keymap.set('n', ',sx', gs.toggle_deleted, {buffer = bufnr})
+        end,
         preview_config = {
           border = my_borders,
         }
