@@ -240,7 +240,7 @@ augroup General
   " Enable spelling for text files
   autocmd FileType {txt,markdown,asciidoc*,rst} if &filetype !~ 'man\|help' | setlocal spell | endif
   " Some buffers can be closed with 'q'
-  autocmd FileType help,man,startuptime,qf,lspinfo,checkhealth nnoremap <buffer><silent>q :bdelete<CR>
+  autocmd FileType help,man,startuptime,qf,lspinfo,null-ls-info,checkhealth nnoremap <buffer><silent>q :bdelete<CR>
   " Disable folding in previews
   autocmd BufWinEnter * if &previewwindow | setlocal nofoldenable | endif
   " Remember last cursor position
@@ -650,6 +650,9 @@ use {
   use {
     'neovim/nvim-lspconfig',
     requires = {
+      'ii14/lsp-command',
+      'folke/lua-dev.nvim',
+      'jose-elias-alvarez/null-ls.nvim',
       {
         'kosayoda/nvim-lightbulb',
         config = function()
@@ -658,8 +661,6 @@ use {
           require('nvim-lightbulb').update_lightbulb()
         end
       },
-      'folke/lua-dev.nvim',
-      'ii14/lsp-command',
       {
         'stevearc/aerial.nvim',
         config = function()
@@ -758,12 +759,12 @@ use {
           lsp_messages = lsp_messages .. 'no declaration' .. lsp_msg_sep
         end
         if client.resolved_capabilities.document_formatting then
-          vim.keymap.set('n', ',lf', ':lua vim.lsp.buf.formatting()<CR>', {buffer = bufnr})
+          vim.keymap.set('n', ',lf', ':lua vim.lsp.buf.formatting()<CR>', {buffer = bufnr, silent = true})
         else
           lsp_messages = lsp_messages .. 'no format' .. lsp_msg_sep
         end
         if client.resolved_capabilities.document_range_formatting then
-          vim.keymap.set('v', ',lf', ':lua vim.lsp.buf.range_formatting()<CR>', {buffer = bufnr})
+          vim.keymap.set('v', ',lf', ':lua vim.lsp.buf.range_formatting()<CR>', {buffer = bufnr, silent = true})
         else
           lsp_messages = lsp_messages .. 'no rangeFormat' .. lsp_msg_sep
         end
@@ -834,6 +835,26 @@ use {
         end
       end
 
+      -- null-ls
+      local null_act = require('null-ls').builtins.code_actions
+      local null_fmt = require('null-ls').builtins.formatting
+      require('null-ls').setup({
+        debug = true,
+        sources = {
+          null_act.gitsigns,
+          null_fmt.trim_whitespace,
+          null_fmt.prettier.with({
+            extra_args = {'--single-quote'}
+          }),
+          null_fmt.stylua.with({
+            extra_args = {'--indent_type', 'Spaces', '--indent_width', '2', '--quote_style', 'AutoPreferSingle'}
+          }),
+        },
+        on_attach = on_attach,
+        capabilities = capabilities
+      })
+
+      -- lua
       local sumneko_binary = vim.fn.stdpath('data')..'/lspconfig/lua-language-server/bin/lua-language-server'
       local runtime_path = vim.split(package.path, ';')
       table.insert(runtime_path, 'lua/?.lua')
@@ -869,7 +890,7 @@ use {
               },
               workspace = {
                 library = vim.api.nvim_get_runtime_file('', true),
-                preloadFileSize = 400
+                preloadFileSize = 500
               },
               telemetry = {
                 enable = false
@@ -1221,8 +1242,9 @@ use {
       end
       local lsp_status = function()
         local msg = ''
+        msg = '[LSP]'
         for _, client in ipairs(vim.lsp.get_active_clients()) do
-          msg = '[LSP] ‹' .. client.name .. '›'
+          msg = msg .. ' ‹' .. client.name .. '›'
           for _, progress in pairs(client.messages.progress) do
             if not progress.done then
               msg = progress.title
@@ -1230,7 +1252,7 @@ use {
                 msg = msg .. ' ' .. progress.message
               end
               if progress.percentage then
-                msg = progress.percentage .. '%%'
+                msg = string.format('%s%2d%s','⸢', progress.percentage, '%%⸥')
               end
               return msg
             end
