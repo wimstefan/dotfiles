@@ -156,7 +156,7 @@ font:
     #style: Bold Italic
 
   # Point size
-  size: 11.0
+  size: 11.5
 
   # Offset is the extra space around each character. `offset.y` can be thought
   # of as modifying the line spacing, and `offset.x` as modifying the letter
@@ -273,53 +273,59 @@ color_schemes:
       magenta: '#d38aea'
       cyan:    '#5dbbc1'
       white:   '#c5cdd9'
-  ### One ###
-  one_light: &one_light
+  ### NightFox ###
+  nightfox_light: &nightfox_light
     primary:
-      background: '#fafafa'
-      foreground: '#383a42'
+      background: '#eaeaea'
+      foreground: '#1d344f'
     normal:
-      black:   '#383a42'
-      red:     '#e45649'
-      green:   '#50a14f'
-      yellow:  '#c18401'
-      blue:    '#0184bc'
-      magenta: '#a626a4'
-      cyan:    '#0997b3'
-      white:   '#fafafa'
+      black:   '#1d344f'
+      red:     '#b95d76'
+      green:   '#618774'
+      yellow:  '#ba793e'
+      blue:    '#6080b0'
+      magenta: '#8e6f98'
+      cyan:    '#6ca7bd'
+      white:   '#cdd1d5'
     bright:
-      black:   '#383a42'
-      red:     '#e45649'
-      green:   '#50a14f'
-      yellow:  '#c18401'
-      blue:    '#0184bc'
-      magenta: '#a626a4'
-      cyan:    '#0997b3'
-      white:   '#fafafa'
-  one_dark: &one_dark
+      black:   '#24476f'
+      red:     '#c76882'
+      green:   '#629f81'
+      yellow:  '#ca884a'
+      blue:    '#678abf'
+      magenta: '#9f75ac'
+      cyan:    '#74b2c9'
+      white:   '#cfd6dd'
+    indexed_colors:
+      - { index: 16, color: '#e3786c' }
+      - { index: 17, color: '#d685af' }
+  nightfox_dark: &nightfox_dark
     primary:
-      background: '#282c34'
-      foreground: '#dcdfe4'
+      background: '#2e3440'
+      foreground: '#b9bfca'
     normal:
-      black:   '#282c34'
-      red:     '#e06c75'
-      green:   '#98c379'
-      yellow:  '#e5c07b'
-      blue:    '#61afef'
-      magenta: '#c678dd'
-      cyan:    '#56b6c2'
-      white:   '#dcdfe4'
+      black:   '#3b4252'
+      red:     '#bf616a'
+      green:   '#a3be8c'
+      yellow:  '#ebcb8b'
+      blue:    '#81a1c1'
+      magenta: '#b48ead'
+      cyan:    '#88c0d0'
+      white:   '#e5e9f0'
     bright:
-      black:   '#778196'
-      red:     '#e06c75'
-      green:   '#98c379'
-      yellow:  '#e5c07b'
-      blue:    '#61afef'
-      magenta: '#c678dd'
-      cyan:    '#56b6c2'
-      white:   '#dcdfe4'
+      black:   '#465780'
+      red:     '#d06f79'
+      green:   '#b1d196'
+      yellow:  '#f0d399'
+      blue:    '#8cafd2'
+      magenta: '#c895bf'
+      cyan:    '#93ccdc'
+      white:   '#e7ecf4'
+    indexed_colors:
+      - { index: 16, color: '#c9826b' }
+      - { index: 17, color: '#bf88bc' }
 
-colors: *artesanal_light
+colors: *nightfox_dark
 
     # Bright and dim foreground colors
     #
