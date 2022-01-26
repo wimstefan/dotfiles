@@ -59,6 +59,7 @@ vim.opt.spelllang = {
   'es',
   'nl'
 }
+vim.opt.spelloptions = 'camel'
 vim.opt.nrformats:append({
   'alpha'
 })
@@ -581,7 +582,6 @@ use {
         'honza/vim-snippets'
       }
     },
-    'f3fora/cmp-spell',
     'ray-x/cmp-treesitter',
   },
   config = function()
@@ -616,7 +616,6 @@ use {
             nvim_lua = '[API]',
             path = '[Filesystem]',
             luasnip = '[Snippet]',
-            spell = '[Spelling]',
             treesitter = '[TS]',
           })[entry.source.name]
           vim_item.kind = my_symbols[vim_item.kind]
@@ -672,7 +671,6 @@ use {
               end
             }
           },
-          {name = 'spell'},
         }
       )
     })
@@ -842,18 +840,16 @@ use {
       end
 
       -- null-ls
-      local null_act = require('null-ls').builtins.code_actions
-      local null_fmt = require('null-ls').builtins.formatting
       require('null-ls').setup({
         debug = true,
         sources = {
-          null_act.gitsigns,
-          null_fmt.trim_whitespace,
-          null_fmt.prettier.with({
+          require('null-ls').builtins.completion.spell,
+          require('null-ls').builtins.formatting.trim_whitespace,
+          require('null-ls').builtins.formatting.prettier.with({
             extra_args = {'--single-quote'}
           }),
-          null_fmt.stylua.with({
-            extra_args = {'--indent_type', 'Spaces', '--indent_width', '2', '--quote_style', 'AutoPreferSingle'}
+          require('null-ls').builtins.formatting.stylua.with({
+            extra_args = {'--indent_type', 'Spaces', '--indent_width', '2', '--quote_style', 'ForceSingle'}
           }),
         },
         on_attach = on_attach,
