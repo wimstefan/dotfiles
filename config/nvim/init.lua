@@ -134,6 +134,43 @@ _G.my_symbols = {
 -- borders --
 _G.my_borders = 'rounded'
 
+-- diagnostic handling
+local diagnostic_signs = {' ', ' ', '𥉉', ' '}
+local diagnostic_severity_fullnames = {'Error', 'Warning', 'Information', 'Hint'}
+local diagnostic_severity_shortnames = {'Error', 'Warn', 'Info', 'Hint'}
+for index, icon in ipairs(diagnostic_signs) do
+  local fullname = diagnostic_severity_fullnames[index]
+  local shortname = diagnostic_severity_shortnames[index]
+
+  vim.fn.sign_define('DiagnosticSign' .. shortname, {
+    text = icon,
+    texthl = 'Diagnostic' .. shortname,
+    linehl = '',
+    numhl = '',
+  })
+
+  vim.fn.sign_define('LspDiagnosticsSign' .. fullname, {
+    text = icon,
+    texthl = 'LspDiagnosticsSign' .. fullname,
+    linehl = '',
+    numhl = '',
+  })
+end
+vim.diagnostic.config({
+  float = {
+    border = my_borders,
+    header = '',
+    focusable = false,
+    scope = 'cursor',
+    source = 'always'
+  },
+  virtual_text = {
+    focusable = false,
+    prefix = '❰',
+    source = 'always'
+  }
+})
+
 -- }}}1 --------------------- OPTIONS ------------------------------------------
 -- {{{1 --------------------- MAPPINGS -----------------------------------------
 vim.keymap.set('',  'cd', '<Cmd>cd %:h | pwd<CR>')
@@ -687,43 +724,6 @@ use {
       local lsp_aerial = require('aerial')
       local lsp_cmp = require('cmp_nvim_lsp')
       local lsp_config = require('lspconfig')
-
-      -- diagnostic handling
-      local diagnostic_signs = {' ', ' ', '𥉉', ' '}
-      local diagnostic_severity_fullnames = {'Error', 'Warning', 'Information', 'Hint'}
-      local diagnostic_severity_shortnames = {'Error', 'Warn', 'Info', 'Hint'}
-      for index, icon in ipairs(diagnostic_signs) do
-        local fullname = diagnostic_severity_fullnames[index]
-        local shortname = diagnostic_severity_shortnames[index]
-
-        vim.fn.sign_define('DiagnosticSign' .. shortname, {
-          text = icon,
-          texthl = 'Diagnostic' .. shortname,
-          linehl = '',
-          numhl = '',
-        })
-
-        vim.fn.sign_define('LspDiagnosticsSign' .. fullname, {
-          text = icon,
-          texthl = 'LspDiagnosticsSign' .. fullname,
-          linehl = '',
-          numhl = '',
-        })
-      end
-      vim.diagnostic.config({
-        float = {
-          border = my_borders,
-          header = '',
-          focusable = false,
-          scope = 'cursor',
-          source = 'always'
-        },
-        virtual_text = {
-          focusable = false,
-          prefix = '❰',
-          source = 'always'
-        }
-      })
 
       -- LSP handlers
       vim.lsp.handlers['textDocument/signatureHelp'] = vim.lsp.with(vim.lsp.handlers.signature_help, {
