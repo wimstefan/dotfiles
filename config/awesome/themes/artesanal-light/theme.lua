@@ -16,7 +16,8 @@ theme.wallpaper       =  wallpaper_dir .. 'default.jpg'
 theme.border_width    =  dpi(4)
 theme.useless_gap     =  dpi(8)
 theme.wibar_position  =  'top'
-theme.wibar_height    =  dpi(18)
+theme.wibar_height    =  dpi(20)
+theme.taglist_spacing =  dpi(6)
 --}}}
 
 -- Theme shapes {{{
@@ -33,12 +34,12 @@ theme.tooltip_shape = gears.shape.infobubble
 --}}}
 
 -- Theme fonts {{{
-theme.font                     = 'Iosevka Artesanal Tailed Medium 10.5'
-theme.mono_font                = 'Iosevka Artesanal Tailed Bold 10.5'
-theme.taglist_font             = 'Iosevka Artesanal Tailed Heavy 11.5'
-theme.tasklist_font            = 'Iosevka Artesanal Tailed 9'
-theme.clock_font               = 'Iosevka Artesanal Tailed ExtraBold 11'
-theme.icon_font                = 'Webhostinghub-Glyphs 8'
+theme.font                     = 'monospace Medium 10.5'
+theme.mono_font                = 'monospace Bold 10.5'
+theme.taglist_font             = 'monospace Heavy 11.5'
+theme.tasklist_font            = 'monospace 9'
+theme.clock_font               = 'monospace ExtraBold 11'
+theme.icon_font                = 'monospace ExtraBold 12'
 --}}}
 
 -- Theme colours {{{
@@ -113,7 +114,7 @@ theme.menu_submenu_icon  =  recolor(theme.menu_submenu_icon, theme.decoration_ti
 --}}}
 
 -- Notification settings {{{
-theme.notification_font          =  'Iosevka Artesanal Tailed Medium 10'
+theme.notification_font          =  'monospace Medium 10'
 theme.notification_border_color  =  theme.border_focus
 theme.notification_fg            =  theme.symbol_tint
 -- }}}
@@ -121,10 +122,10 @@ theme.notification_fg            =  theme.symbol_tint
 -- Tooltip settings {{{
 theme.tooltip_align         =  'top'
 theme.tooltip_border_color  =  theme.border_color
-theme.tooltip_border_width  =  theme.border_width * 1.4
+theme.tooltip_border_width  =  theme.border_width * 0.6
 theme.tooltip_fg            =  theme.symbol_tint
-theme.tooltip_font          = 'Iosevka Artesanal Tailed 10'
-theme.tooltip_gaps          =  dpi(24)
+theme.tooltip_font          = 'monospace 10'
+theme.tooltip_gaps          =  dpi(44)
 -- }}}
 
 -- Hotkeys settings {{{
@@ -134,13 +135,13 @@ theme.hotkeys_modifiers_fg      =  theme.blue2
 theme.hotkeys_border_color      =  theme.border_focus
 theme.hotkeys_border_width      =  theme.border_width * 1.8
 theme.hotkeys_group_margin      =  dpi(24)
-theme.hotkeys_font              =  'Iosevka Artesanal Tailed Bold 9.5'
-theme.hotkeys_description_font  =  'Iosevka Artesanal Tailed 9.5'
+theme.hotkeys_font              =  'monospace Bold 9.5'
+theme.hotkeys_description_font  =  'monospace 9.5'
 -- }}}
 
 -- Theme icons {{{
 theme.awesome_icon           =  theme_assets.awesome_icon( theme.menu_height, theme.taglist_bg_focus, theme.taglist_fg_focus )
-theme.icon_theme             =  home_dir .. '/.icons/oomox-artesanal-light-blue'
+theme.icon_theme             =  'HighContrast'
 theme.tasklist_disable_icon  =  false
 
 theme.layout_fairh       =  icon_dir .. 'multicolor-icons/fairh.png'
