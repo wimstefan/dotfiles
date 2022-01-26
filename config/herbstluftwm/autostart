@@ -14,36 +14,39 @@ hc keyunbind --all
 Mod=Mod4   # Use the super key as the main modifier
 Alt=Mod1   # Use alt as the secondary modifier
 
-hc keybind $Alt-Control-q       quit
-hc keybind $Alt-Control-r       reload
-hc keybind $Mod-Return          spawn "${TERMINAL:-uxterm}"
+hc keybind $Mod-Shift-q quit
+hc keybind $Mod-Shift-r reload
+hc keybind $Mod-Shift-c close
+hc keybind $Mod-Return spawn "${TERMINAL:-uxterm}"
 
 # basic movement in tiling and floating mode
 # focusing clients
-hc keybind $Mod-$Alt-h          focus left
-hc keybind $Mod-$Alt-j          focus down
-hc keybind $Mod-$Alt-k          focus up
-hc keybind $Mod-$Alt-l          focus right
+hc keybind $Mod-$Alt-h focus left
+hc keybind $Mod-$Alt-j focus down
+hc keybind $Mod-$Alt-k focus up
+hc keybind $Mod-$Alt-l focus right
 
 # moving clients in tiling and floating mode
-hc keybind $Mod-Shift-h         shift left
-hc keybind $Mod-Shift-j         shift down
-hc keybind $Mod-Shift-k         shift up
-hc keybind $Mod-Shift-l         shift right
+hc keybind $Mod-Shift-h shift left
+hc keybind $Mod-Shift-j shift down
+hc keybind $Mod-Shift-k shift up
+hc keybind $Mod-Shift-l shift right
 
 # splitting frames
 # create an empty frame at the specified direction
-hc keybind $Mod-Control-u       split bottom  0.5
-hc keybind $Mod-Control-o       split right   0.5
+hc keybind $Mod-Control-u split bottom 0.5
+hc keybind $Mod-Control-o split right 0.5
 # let the current frame explode into subframes
-hc keybind $Mod-Control-space   split explode
+hc keybind $Mod-Control-space split explode
+# remove frame
+hc keybind $Mod-Control-r remove
 
 # resizing frames and floating clients
-resizestep=0.001
-hc keybind $Mod-Control-h       resize left +$resizestep
-hc keybind $Mod-Control-j       resize down +$resizestep
-hc keybind $Mod-Control-k       resize up +$resizestep
-hc keybind $Mod-Control-l       resize right +$resizestep
+resizestep=0.02
+hc keybind $Mod-Control-h resize left +$resizestep
+hc keybind $Mod-Control-j resize down +$resizestep
+hc keybind $Mod-Control-k resize up +$resizestep
+hc keybind $Mod-Control-l resize right +$resizestep
 
 # tags
 tag_names=( {1..9} )
@@ -60,20 +63,17 @@ for i in "${!tag_names[@]}" ; do
 done
 
 # cycle through tags
-hc keybind $Mod-period          use_index +1 --skip-visible
-hc keybind $Mod-comma           use_index -1 --skip-visible
-hc keybind $Mod-Escape          substitute PRE tags.focus.index chain + use_index "$i" + or , compare tags.focus.index != PRE , use_previous
+hc keybind $Mod-period use_index +1 --skip-visible
+hc keybind $Mod-comma use_index -1 --skip-visible
+hc keybind $Mod-Escape use_previous
 
 # layouting
-hc keybind $Mod-$Alt-c          close
-hc keybind $Mod-$Alt-r          remove
-hc keybind $Mod-$Alt-s          floating toggle
-# hc keybind $Mod-$Alt-f          fullscreen toggle
-hc keybind $Mod-$Alt-f          spawn ${HOME}/.config/herbstluftwm/scripts/maximize.sh
-hc keybind $Mod-Shift-m         set_attr clients.focus.minimized true
-hc keybind $Mod-Control-m       jumpto last-minimized
-hc keybind $Mod-$Alt-p          pseudotile toggle
-hc keybind $Mod-Shift-f         set_attr clients.focus.floating toggle
+hc keybind $Mod-$Alt-p pseudotile toggle
+hc keybind $Mod-$Alt-s floating toggle
+hc keybind $Mod-Shift-f set_attr clients.focus.floating toggle
+hc keybind $Mod-$Alt-f spawn ${HOME}/.config/herbstluftwm/scripts/maximize.sh
+hc keybind $Mod-Shift-m set_attr clients.focus.minimized true
+hc keybind $Mod-Control-m jumpto last-minimized
 
 # The following cycles through the available layouts within a frame, but skips
 # layouts, if the layout change wouldn't affect the actual window positions.
@@ -90,9 +90,9 @@ hc mousebind $Mod-Button2 zoom
 hc mousebind $Mod-Button3 resize
 
 # focus
-hc keybind $Mod-Tab             cycle_all +1
-hc keybind $Mod-Shift-Tab       cycle_all -1
-hc keybind $Mod-$Alt-i          jumpto urgent
+hc keybind $Mod-Tab cycle_all +1
+hc keybind $Mod-Shift-Tab cycle_all -1
+hc keybind $Mod-$Alt-u jumpto urgent
 
 # theme
 hc attr theme.tiling.reset 1
@@ -102,23 +102,22 @@ hc attr theme.active.color '#8894aa'
 hc attr theme.normal.color '#2e3440'
 hc attr theme.urgent.color '#d05858'
 
-hc attr settings.default_frame_layout horizontal
-hc set_layout horizontal
-
-# hide frame border
-hc chain , set frame_border_width 0 , set frame_bg_transparent on , set frame_transparent_width 0
+hc chain , set frame_border_width 8 , set frame_bg_transparent 1 , set frame_transparent_width 8
 hc set always_show_frame 0
 hc set frame_border_active_color '#8894aa'
-hc set frame_active_opacity 0
+hc set frame_active_opacity 1
 hc set frame_border_normal_color '#2e3440'
-hc set frame_normal_opacity 0
-hc set frame_gap 4
-hc set frame_padding 0
+hc set frame_normal_opacity 1
+hc set frame_gap 14
+hc set frame_padding 14
 hc set smart_frame_surroundings 1
+hc attr settings.default_frame_layout horizontal
+
+hc set_layout horizontal
 hc set smart_window_surroundings 1
 hc set gapless_grid 1
 hc set window_gap 10
-hc set focus_follows_mouse 1
+
 hc set focus_stealing_prevention 0
 hc set mouse_recenter_gap 0
 
@@ -131,6 +130,7 @@ hc rule floatplacement=smart
 hc rule windowtype~'_NET_WM_WINDOW_TYPE_(DIALOG|UTILITY|SPLASH)' floating=on
 hc rule windowtype='_NET_WM_WINDOW_TYPE_DIALOG' focus=on
 hc rule windowtype~'_NET_WM_WINDOW_TYPE_(NOTIFICATION|DOCK|DESKTOP)' manage=off
+hc rule fixedsize floating=on
 hc rule instance=sys tag=1
 hc rule instance=work tag=2
 hc rule instance=com tag=3 floating=on
@@ -148,7 +148,7 @@ hc rule class~'[Gg]color2' floating=on
 hc rule class~'[Ll]xappearance' floating=on
 hc rule class=scribus tag=7
 hc rule class=Thunderbird tag=7
-hc rule class=Thunderbird title='Edit Item' floating=on tag=7 
+hc rule class=Thunderbird title='Edit Item' floating=on tag=7
 hc rule class=Darktable tag=8
 hc rule class=Gimp tag=8
 hc rule class=Inkscape tag=8
@@ -171,4 +171,3 @@ ${HOME}/.config/polybar/launch.sh
 
 hc apply_rules --all
 
-# vim: filetype=bash
