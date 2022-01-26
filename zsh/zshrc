@@ -558,6 +558,8 @@ add-zsh-hook -Uz preexec terminal_title_preexec
 
 function npm-update()
 {
+  echo "Installed packages:"
+  npm -g list
   for i in $(npm -g outdated | rg -v Package | awk '{print $1}'); echo $i && npm -g update $i
 }
 
