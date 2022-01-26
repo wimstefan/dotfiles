@@ -1218,6 +1218,12 @@ use {
       else
         vim.api.nvim_command[[colorscheme desert]]
       end
+      local check_width = function()
+        return vim.fn.winwidth(0) > 100
+      end
+      local check_width_wide = function()
+        return vim.fn.winwidth(0) > 140
+      end
       local get_modified = function()
         return '%m' or ''
       end
@@ -1244,9 +1250,9 @@ use {
       end
       local lsp_status = function()
         local msg = ''
-        msg = '[LSP]'
+        msg = '[LSP] '
         for _, client in ipairs(vim.lsp.get_active_clients()) do
-          msg = msg .. ' ‹' .. client.name .. '›'
+          msg = msg .. '‹' .. client.name .. '›'
           for _, progress in pairs(client.messages.progress) do
             if not progress.done then
               msg = progress.title
@@ -1319,8 +1325,14 @@ use {
             },
           },
           lualine_x = {
-            'aerial',
-            lsp_status,
+            {
+              'aerial',
+              cond = check_width_wide
+            },
+            {
+              lsp_status,
+              cond = check_width
+            },
             {
               'diagnostics',
               always_visible = false,
