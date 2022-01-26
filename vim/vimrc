@@ -37,7 +37,6 @@ function! PackagerInit() abort
   call packager#add('chrisbra/unicode.vim')
   call packager#add('lifepillar/vim-colortemplate')
   call packager#add('wimstefan/vim-artesanal')
-  call packager#add('sainnhe/edge')
 endfunction
 " Plugin install }}}
 " {{{2 Plugin settings
@@ -204,18 +203,6 @@ endfunction
 " {{{3 vim-artesanal config 
   let g:artesanal_dimmed               = 0
   let g:artesanal_transparent          = 1
-" }}}
-" edge config {{{3 
-  let g:edge_style                     = 'neon'
-  let g:edge_transparent_background    = 1
-  let g:edge_enable_italic             = 1
-  let g:edge_diagnostic_line_highlight = 1
-  let g:edge_diagnostic_text_highlight = 1
-  let g:edge_diagnostic_virtual_text   = 'colored'
-  let g:edge_current_word              = 'bold'
-  let g:edge_show_eob                  = 0
-  let g:edge_better_performance        = 1
-  packadd! edge                        " workaround to load edge correctly - see https://github.com/sainnhe/edge/issues/16
 " }}}
 " Plugin settings }}}
 " {{{2 Plugin commands
