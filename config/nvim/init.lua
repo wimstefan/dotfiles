@@ -317,7 +317,7 @@ end
 -- {{{1 --------------------- PLUGINS ------------------------------------------
 local install_path = vim.fn.stdpath('data') .. '/site/pack/packer/start/packer.nvim'
 if vim.fn.empty(vim.fn.glob(install_path)) > 0 then
-  vim.fn.system({'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim', install_path})
+  vim.fn.system({'git', 'clone', '--depth', '1', 'https://github.com/shadmansaleh/packer.nvim', install_path})
 end
 
 local packer = require('packer')
@@ -337,7 +337,7 @@ packer.startup(function()
   })
 -- {{{2 packer.nvim
   use {
-    'wbthomason/packer.nvim',
+    'shadmansaleh/packer.nvim',
     config = function()
       vim.keymap.set('n', ',pc', '<Cmd>PackerClean<CR>')
       vim.keymap.set('n', ',pi', '<Cmd>PackerInstall<CR>')
