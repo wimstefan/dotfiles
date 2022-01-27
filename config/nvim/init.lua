@@ -353,6 +353,28 @@ packer.startup(function()
 -- {{{2 filetype.nvim
   use {'nathom/filetype.nvim'}
 -- }}}
+-- {{{2 nvim-notify
+  use {
+    'rcarriga/nvim-notify',
+    config = function()
+      require('notify').setup({
+        timeout = 300,
+        background_colour = function()
+            local group_bg = vim.fn.synIDattr(vim.fn.synIDtrans(vim.fn.hlID('Normal')), 'bg#')
+            if group_bg == '' or group_bg == 'none' then
+              group_bg = vim.fn.synIDattr(vim.fn.synIDtrans(vim.fn.hlID('Float')), 'bg#')
+              if group_bg == '' or group_bg == 'none' then
+                return '#000000'
+              end
+            end
+            return group_bg
+          end,
+      })
+      vim.notify = require('notify')
+      vim.keymap.set('n', '<Leader>Tn', [[<Cmd>lua require('telescope').extensions.notify.notify()<CR>]])
+    end
+  }
+-- }}}
 -- {{{2 FixCursorHold.nvim
   use {'antoinemadec/FixCursorHold.nvim'}
 -- }}}
@@ -925,14 +947,6 @@ use {
     end
   }
 -- }}}
--- {{{2 vim-abolish
-  use {
-    'tpope/vim-abolish',
-    config = function()
-      vim.g.abolish_save_file = vim.fn.stdpath('config') .. '/after/plugin/abolish.vim'
-    end
-  }
--- }}}
 -- {{{2 vim-fugitive
   use {
     'tpope/vim-fugitive',
@@ -961,6 +975,17 @@ use {
 -- }}}
 -- {{{2 vim-unimpaired
   use {'tpope/vim-unimpaired'}
+-- }}}
+-- {{{2 lightspeed.nvim
+  use {'ggandor/lightspeed.nvim'}
+-- }}}
+-- {{{2 spellsitter.nvim
+  use {
+    'lewis6991/spellsitter.nvim',
+    config = function()
+      require('spellsitter').setup()
+    end
+  }
 -- }}}
 -- {{{2 Comment.nvim
   use {
@@ -1005,8 +1030,18 @@ use {
     'kevinhwang91/nvim-bqf',
     config = function()
       require('bqf').setup({
-        auto_enable = true
+        auto_enable = true,
+        auto_resize_height = true
       })
+    end
+  }
+-- }}}
+-- {{{2 nvim-hlslens
+  use {
+    'kevinhwang91/nvim-hlslens',
+    config = function()
+      require('hlslens').setup()
+      vim.opt.shortmess:append('S')
     end
   }
 -- }}}
@@ -1036,6 +1071,53 @@ use {
       vim.keymap.set('n', '<Leader>zl', [[<Cmd>ZkNotes<CR>]])
       vim.keymap.set('n', '<Leader>zr', [[<Cmd>ZkRecents<CR>]])
       vim.keymap.set('n', '<Leader>zt', [[<Cmd>ZkTags<CR>]])
+    end
+  }
+-- }}}
+-- {{{ telekasten.nvim
+  use {
+    'renerocksai/telekasten.nvim',
+    requires = 'renerocksai/calendar-vim',
+    config = function()
+      local home = vim.fn.expand('~/private/notes')
+      require('telekasten').setup({
+        home = home,
+        take_over_my_home = true,
+        auto_set_filetype = true,
+        dailies      = home .. '/' .. 'daily',
+        weeklies     = home .. '/' .. 'weekly',
+        templates    = home .. '/' .. '.templates',
+        image_subdir = '.images',
+        extension    = '.md',
+        follow_creates_nonexisting = true,
+        dailies_create_nonexisting = false,
+        weeklies_create_nonexisting = false,
+        template_new_note = home .. '/' .. '.templates/default.md',
+        template_new_daily = home .. '/' .. '.templates/daily.md',
+        template_new_weekly= home .. '/' .. '.templates/weekly.md',
+        image_link_style = 'markdown',
+        plug_into_calendar = true,
+        calendar_opts = {
+          weeknm = 4,
+          calendar_monday = 1,
+          calendar_mark = 'left-fit',
+        },
+        close_after_yanking = false,
+        insert_after_inserting = true,
+        tag_notation = '#tag',
+        command_palette_theme = 'dropdown',
+        show_tags_theme = 'dropdown',
+        subdirs_in_links = true,
+        template_handling = 'smart',
+        new_note_location = 'smart',
+      })
+      vim.keymap.set('n', '<Leader>k', [[<Cmd> lua require('telekasten').panel()<CR>]])
+      vim.keymap.set('n', '<Leader>kc', [[<Cmd> lua require('telekasten').show_calendar()<CR>]])
+      vim.keymap.set('n', '<Leader>kf', [[<Cmd> lua require('telekasten').find_notes()<CR>]])
+      vim.keymap.set('n', '<Leader>kn', [[<Cmd> lua require('telekasten').new_templated_note()<CR>]])
+      vim.keymap.set({'n', 'v'}, '<Leader>ko', [[<Cmd> lua require('telekasten').toggle_todo()<CR>]])
+      vim.keymap.set('n', '<Leader>ks', [[<Cmd> lua require('telekasten').search_notes()<CR>]])
+      vim.keymap.set('n', '<Leader>kt', [[<Cmd> lua require('telekasten').show_tags()<CR>]])
     end
   }
 -- }}}
@@ -1084,7 +1166,29 @@ use {
   use {
     'windwp/nvim-spectre',
     config = function()
-      require('spectre').setup()
+      require('spectre').setup({
+        find_engine = {
+          ['rg'] = {
+            cmd = 'ugrep',
+            args = {
+              '-RIjnkz',
+              '--color=never',
+            } ,
+            options = {
+              ['ignore-case'] = {
+                value= '--ignore-case',
+                icon='[I]',
+                desc='ignore case'
+              },
+              ['hidden'] = {
+                value='--hidden',
+                desc='hidden file',
+                icon='[H]'
+              },
+            }
+          }
+        }
+      })
       vim.keymap.set('n', '<Leader>S', [[<Cmd>lua require('spectre').open()<CR>]])
     end
   }
