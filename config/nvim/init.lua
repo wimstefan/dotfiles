@@ -99,7 +99,7 @@ vim.g.netrw_alto =  0
 
 -- Visual configuration options
 -- symbols --
-_G.my_symbols = {
+My_Symbols = {
   Array = '謹',
   Boolean = '凌',
   Class = ' ',
@@ -133,7 +133,7 @@ _G.my_symbols = {
   Variable = ' ',
 }
 -- borders --
-_G.my_borders = 'rounded'
+My_Borders = 'rounded'
 
 -- diagnostic handling
 local diagnostic_signs = {' ', ' ', '𥉉', ' '}
@@ -159,7 +159,7 @@ for index, icon in ipairs(diagnostic_signs) do
 end
 vim.diagnostic.config({
   float = {
-    border = my_borders,
+    border = My_Borders,
     header = '',
     focusable = false,
     scope = 'cursor',
@@ -309,8 +309,9 @@ augroup end
 ]], false)
 -- }}}1 --------------------- AUTOCMDS -----------------------------------------
 -- {{{1 --------------------- FUNCTIONS ----------------------------------------
-function _G.inspect(...)
-  vim.notify(vim.inspect(...))
+function Dump(...)
+  local objects = vim.tbl_map(vim.inspect, { ... })
+  print(unpack(objects))
 end
 -- }}}1 --------------------- FUNCTIONS ----------------------------------------
 -- {{{1 --------------------- PLUGINS ------------------------------------------
@@ -331,7 +332,7 @@ packer.startup(function()
       done_sym = '✓ ',
       removed_sym = '– ',
       moved_sym = '➜ ',
-      prompt_border = my_borders
+      prompt_border = My_Borders
     }
   })
 -- {{{2 packer.nvim
@@ -427,7 +428,7 @@ packer.startup(function()
           lookahead = true,
           lsp_interop = {
             enable = true,
-            border = my_borders,
+            border = My_Borders,
             peek_definition_code = {
               ['df'] = '@function.outer',
               ['dF'] = '@class.outer',
@@ -597,11 +598,11 @@ use {
 
     cmp.setup({
       completion = {
-        border = my_borders,
+        border = My_Borders,
         scrollbar = '🮑'
       },
       documentation = {
-        border = my_borders
+        border = My_Borders
       },
       experimental = {
         ghost_text = true,
@@ -618,7 +619,7 @@ use {
             luasnip = '[Snippet]',
             treesitter = '[TS]',
           })[entry.source.name]
-          vim_item.kind = my_symbols[vim_item.kind]
+          vim_item.kind = My_Symbols[vim_item.kind]
           return vim_item
         end
       },
@@ -725,10 +726,10 @@ use {
 
       -- LSP handlers
       vim.lsp.handlers['textDocument/signatureHelp'] = vim.lsp.with(vim.lsp.handlers.signature_help, {
-        border = my_borders
+        border = My_Borders
       })
       vim.lsp.handlers['textDocument/hover'] = vim.lsp.with(vim.lsp.handlers.hover, {
-        border = my_borders
+        border = My_Borders
       })
 
       -- LSP functions
@@ -746,7 +747,7 @@ use {
         vim.keymap.set('n', ',lY', [[<Cmd>lua require('telescope.builtin').lsp_workspace_symbols()<CR>]], {buffer = bufnr})
         vim.keymap.set('n', ',ld', [[<Cmd>lua require('telescope.builtin').diagnostics({bufnr = 0})<CR>]], {buffer = bufnr})
         vim.keymap.set('n', ',lD', [[<Cmd>lua require('telescope.builtin').diagnostics()<CR>]], {buffer = bufnr})
-        vim.keymap.set('n', ',le', [[<Cmd>lua vim.diagnostic.open_float({scope = 'line', border = my_borders})<CR>]], {buffer = bufnr})
+        vim.keymap.set('n', ',le', [[<Cmd>lua vim.diagnostic.open_float({scope = 'line', border = My_Borders})<CR>]], {buffer = bufnr})
         vim.keymap.set('n', '[d', [[<Cmd>lua vim.diagnostic.goto_prev({float = false})<CR>]], {buffer = bufnr})
         vim.keymap.set('n', ']d', [[<Cmd>lua vim.diagnostic.goto_next({float = false})<CR>]], {buffer = bufnr})
         vim.keymap.set('n', ',lrn', [[<Cmd>lua vim.lsp.buf.rename()<CR>]], {buffer = bufnr})
@@ -779,8 +780,8 @@ use {
           lsp_messages = lsp_messages .. 'no implementation' .. lsp_msg_sep
         end
         if client.resolved_capabilities.signature_help then
-          vim.keymap.set('i', '<C-s>', [[<Cmd>lua vim.lsp.buf.signature_help({border = my_borders})<CR>]], {buffer = bufnr})
-          vim.keymap.set('n', ',ls', [[<Cmd>lua vim.lsp.buf.signature_help({border = my_borders})<CR>]], {buffer = bufnr})
+          vim.keymap.set('i', '<C-s>', [[<Cmd>lua vim.lsp.buf.signature_help({border = My_Borders})<CR>]], {buffer = bufnr})
+          vim.keymap.set('n', ',ls', [[<Cmd>lua vim.lsp.buf.signature_help({border = My_Borders})<CR>]], {buffer = bufnr})
         else
           vim.keymap.set('n', ',ls', [[<Nop>]], {buffer = bufnr})
           lsp_messages = lsp_messages .. 'no signatureHelp' .. lsp_msg_sep
@@ -794,7 +795,7 @@ use {
 
         -- autocmds
         if client.supports_method('textDocument/codeLens') then
-          vim.keymap.set('n', ',ll', [[<Cmd>lua vim.lsp.buf.codelens.run({border = my_borders})<CR>]], {buffer = bufnr})
+          vim.keymap.set('n', ',ll', [[<Cmd>lua vim.lsp.buf.codelens.run({border = My_Borders})<CR>]], {buffer = bufnr})
           vim.cmd [[autocmd BufEnter,CursorHold,InsertLeave * lua vim.lsp.codelens.refresh()]]
         else
           lsp_messages = lsp_messages .. 'no codeLens' .. lsp_msg_sep
@@ -918,7 +919,7 @@ use {
           }
         },
         window = {
-          border = my_borders
+          border = My_Borders
         },
       })
     end
@@ -1048,7 +1049,7 @@ use {
       vim.keymap.set('n', '<Leader>z', '<Cmd>Fzf<CR>', {})
       vim.keymap.set('n', '<Leader>x', '<Cmd>Vifm<CR>', {})
       require('fm-nvim').setup({
-        border = my_borders,
+        border = My_Borders,
         border_hl = 'Normal'
       })
     end
@@ -1070,7 +1071,7 @@ use {
         shade_terminals = false,
         direction = 'float',
         float_opts = {
-          border = my_borders
+          border = My_Borders
         }
       })
       vim.keymap.set('n', '<Leader>tf', [[<Cmd>ToggleTerm direction=float<CR>]])
@@ -1448,7 +1449,7 @@ use {
           vim.keymap.set('n', ',sx', gs.toggle_deleted, {buffer = bufnr})
         end,
         preview_config = {
-          border = my_borders,
+          border = My_Borders,
         }
       })
     end
