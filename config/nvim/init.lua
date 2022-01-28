@@ -908,16 +908,7 @@ use {
               },
               diagnostics = {
                 enable = true,
-                globals = {
-                  'vim',
-                  'awesome',
-                  'client',
-                  'clientbuttons',
-                  'clientkeys',
-                  'screen',
-                  'tag',
-                  'widget'
-                },
+                globals = {'vim'},
               },
               workspace = {
                 library = vim.api.nvim_get_runtime_file('', true),
