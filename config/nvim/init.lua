@@ -300,6 +300,10 @@ augroup Help
   autocmd BufWinEnter * if &filetype =~ 'man' | wincmd L | wincmd = | endif
   autocmd FileType {man,help,*doc} setlocal nonumber norelativenumber nospell nolist nocursorcolumn
 augroup END
+augroup Colors
+  autocmd!
+  autocmd ColorScheme * call v:lua.NotifyColors()
+augroup END
 augroup Packer
   autocmd!
   autocmd FileType packer set previewheight=30
@@ -312,6 +316,30 @@ augroup end
 function Dump(...)
   local objects = vim.tbl_map(vim.inspect, { ... })
   print(unpack(objects))
+end
+function NotifyColors()
+  vim.cmd([[
+    highlight link NotifyERRORBorder DiagnosticVirtualTextError
+    highlight link NotifyWARNBorder DiagnosticVirtualTextWarn
+    highlight link NotifyINFOBorder DiagnosticVirtualTextInfo
+    highlight link NotifyDEBUGBorder PmenuSel
+    highlight link NotifyTRACEBorder DiagnosticVirtualTextHint
+    highlight link NotifyERRORIcon DiagnosticSignError
+    highlight link NotifyWARNIcon DiagnosticSignWarn
+    highlight link NotifyINFOIcon DiagnosticSignInfo
+    highlight link NotifyDEBUGIcon ModeMsg
+    highlight link NotifyTRACEIcon DiagnosticSignHint
+    highlight link NotifyERRORTitle DiagnosticError
+    highlight link NotifyWARNTitle DiagnosticWarn
+    highlight link NotifyINFOTitle DiagnosticInfo
+    highlight link NotifyDEBUGTitle ModeMsg
+    highlight link NotifyTRACETitle DiagnosticHint
+    highlight link NotifyERRORBody Normal
+    highlight link NotifyWARNBody Normal
+    highlight link NotifyINFOBody Normal
+    highlight link NotifyDEBUGBody Normal
+    highlight link NotifyTRACEBody Normal
+  ]])
 end
 -- }}}1 --------------------- FUNCTIONS ----------------------------------------
 -- {{{1 --------------------- PLUGINS ------------------------------------------
@@ -352,28 +380,6 @@ packer.startup(function()
 -- }}}
 -- {{{2 filetype.nvim
   use {'nathom/filetype.nvim'}
--- }}}
--- {{{2 nvim-notify
-  use {
-    'rcarriga/nvim-notify',
-    config = function()
-      require('notify').setup({
-        timeout = 300,
-        background_colour = function()
-            local group_bg = vim.fn.synIDattr(vim.fn.synIDtrans(vim.fn.hlID('Normal')), 'bg#')
-            if group_bg == '' or group_bg == 'none' then
-              group_bg = vim.fn.synIDattr(vim.fn.synIDtrans(vim.fn.hlID('Float')), 'bg#')
-              if group_bg == '' or group_bg == 'none' then
-                return '#000000'
-              end
-            end
-            return group_bg
-          end,
-      })
-      vim.notify = require('notify')
-      vim.keymap.set('n', '<Leader>Tn', [[<Cmd>lua require('telescope').extensions.notify.notify()<CR>]])
-    end
-  }
 -- }}}
 -- {{{2 FixCursorHold.nvim
   use {'antoinemadec/FixCursorHold.nvim'}
@@ -1559,6 +1565,35 @@ use {
       require('virt-column').setup({
         char = '🮍',
       })
+    end
+  }
+-- }}}
+-- {{{3 nvim-notify
+  use {
+    'rcarriga/nvim-notify',
+    config = function()
+      require('notify').setup({
+        timeout = 100,
+        background_colour = function()
+            local group_bg = vim.fn.synIDattr(vim.fn.synIDtrans(vim.fn.hlID('Normal')), 'bg#')
+            if group_bg == '' or group_bg == 'none' then
+              group_bg = vim.fn.synIDattr(vim.fn.synIDtrans(vim.fn.hlID('Float')), 'bg#')
+              if group_bg == '' or group_bg == 'none' then
+                return '#000000'
+              end
+            end
+            return group_bg
+          end,
+        icons = {
+          ERROR = ' ',
+          WARN = ' ',
+          INFO = ' ',
+          DEBUG = ' ',
+          TRACE = '變 '
+        }
+      })
+      vim.notify = require('notify')
+      vim.keymap.set('n', '<Leader>Tn', [[<Cmd>lua require('telescope').extensions.notify.notify()<CR>]])
     end
   }
 -- }}}
