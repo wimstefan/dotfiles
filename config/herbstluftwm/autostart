@@ -10,9 +10,8 @@ hc emit_hook reload
 hc keyunbind --all
 
 # keybindings
-# if you have a super key you will be much happier with Mod set to Mod4
-Mod=Mod4   # Use the super key as the main modifier
-Alt=Mod1   # Use alt as the secondary modifier
+Mod=Mod4
+Alt=Mod1
 
 hc keybind $Mod-Shift-q quit
 hc keybind $Mod-Shift-r reload
@@ -33,10 +32,9 @@ hc keybind $Mod-Shift-k shift up
 hc keybind $Mod-Shift-l shift right
 
 # splitting frames
-# create an empty frame at the specified direction
+hc keybind $Mod-Control-a split auto
 hc keybind $Mod-Control-u split bottom 0.5
 hc keybind $Mod-Control-o split right 0.5
-# let the current frame explode into subframes
 hc keybind $Mod-Control-space split explode
 # remove frame
 hc keybind $Mod-Control-r remove
@@ -95,31 +93,51 @@ hc keybind $Mod-Shift-Tab cycle_all -1
 hc keybind $Mod-$Alt-u jumpto urgent
 
 # theme
-hc attr theme.tiling.reset 1
-hc attr theme.floating.reset 1
-hc attr theme.border_width 4
-hc attr theme.active.color '#8894aa'
-hc attr theme.normal.color '#2e3440'
-hc attr theme.urgent.color '#d05858'
-
-hc chain , set frame_border_width 8 , set frame_bg_transparent 1 , set frame_transparent_width 8
-hc set always_show_frame 0
-hc set frame_border_active_color '#8894aa'
-hc set frame_active_opacity 1
-hc set frame_border_normal_color '#2e3440'
-hc set frame_normal_opacity 1
-hc set frame_gap 14
-hc set frame_padding 14
-hc set smart_frame_surroundings 1
-hc attr settings.default_frame_layout horizontal
+width=2
+gap=14
+padding=2
+color_base=$(xrdb -query | grep 'foreground' | awk '{print $2}')
+if [ $(cat $HOME/.config/colours/background) = 'dark' ]; then
+  op='ee'
+  tr='11'
+else
+  op='aa'
+  tr='33'
+fi
+color_active="$color_base$op"
+color_normal="$color_base$tr"
+color_red=$(xrdb -query | grep 'color1:' | awk '{print $2}')
+color_green=$(xrdb -query | grep 'color2:' | awk '{print $2}')
+color_blue=$(xrdb -query | grep 'color4:' | awk '{print $2}')
+color_cyan=$(xrdb -query | grep 'color6:' | awk '{print $2}')
 
 hc set_layout horizontal
-hc set smart_window_surroundings 1
-hc set gapless_grid 1
-hc set window_gap 10
 
-hc set focus_stealing_prevention 0
-hc set mouse_recenter_gap 0
+hc attr theme.tiling.reset 1
+hc attr theme.floating.reset 1
+hc attr theme.border_width "$width"
+hc attr theme.active.color "$color_green$op"
+hc attr theme.normal.color "$color_normal"
+hc attr theme.urgent.color "$color_red"
+
+hc attr settings.focus_stealing_prevention true
+
+hc attr settings.default_frame_layout horizontal
+hc attr settings.smart_frame_surroundings true
+hc attr settings.always_show_frame false
+hc attr settings.frame_border_width "$gap"
+hc attr settings.frame_transparent_width 0
+hc attr settings.frame_bg_transparent true
+hc attr settings.frame_gap "$gap"
+hc attr settings.frame_padding 0
+hc attr settings.frame_border_active_color "$color_green$op"
+hc attr settings.frame_active_opacity 0
+hc attr settings.frame_border_normal_color "$color_normal"
+hc attr settings.frame_normal_opacity 50
+
+hc attr settings.smart_window_surroundings true
+hc attr settings.gapless_grid true
+hc attr settings.window_gap "$gap"
 
 hc pad 0 $((POLYBAR_HEIGHT+5)) 0 0 0
 
