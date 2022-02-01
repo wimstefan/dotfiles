@@ -581,11 +581,13 @@ packer.startup(function()
           },
           mappings = {
             i = {
+              ['<C-h>'] = 'which_key',
               ['<C-p>'] = require('telescope.actions.layout').toggle_preview,
               ['<C-q>'] = require('telescope.actions').smart_send_to_qflist + require('telescope.actions').open_qflist,
               ['<M-q>'] = require('telescope.actions').smart_add_to_qflist + require('telescope.actions').open_qflist,
             },
             n = {
+              ['<C-h>'] = 'which_key',
               ['<C-p>'] = require('telescope.actions.layout').toggle_preview,
               ['<C-q>'] = require('telescope.actions').smart_send_to_qflist + require('telescope.actions').open_qflist,
               ['<M-q>'] = require('telescope.actions').smart_add_to_qflist + require('telescope.actions').open_qflist,
