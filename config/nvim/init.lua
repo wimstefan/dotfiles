@@ -527,38 +527,58 @@ packer.startup(function()
       }
     },
     config = function()
-      vim.keymap.set('n', '<Leader>T', [[<Cmd>lua require('telescope.builtin').builtin(require('telescope.themes').get_dropdown({previewer = false}))<CR>]])
-      vim.keymap.set('n', '<Leader>b', [[<Cmd>lua require('telescope.builtin').buffers()<CR>]])
-      vim.keymap.set('n', '<Leader>c', [[<Cmd>lua require('telescope.builtin').colorscheme({enable_preview = true})<CR>]])
-      vim.keymap.set('n', '<Leader>f', [[<Cmd>lua require('telescope.builtin').find_files({follow = true})<CR>]])
-      vim.keymap.set('n', '<Leader>Tg', [[<Cmd>lua require('telescope.builtin').live_grep({grep_open_files=true})<CR>]])
-      vim.keymap.set('n', '<Leader>TG', [[<Cmd>lua require('telescope.builtin').live_grep()<CR>]])
-      vim.keymap.set('n', '<Leader>h', [[<Cmd>lua require('telescope.builtin').help_tags()<CR>]])
-      vim.keymap.set('n', '<Leader>M', [[<Cmd>lua require('telescope.builtin').man_pages()<CR>]])
-      vim.keymap.set('n', '<Leader>m', [[<Cmd>lua require('telescope.builtin').marks()<CR>]])
-      vim.keymap.set('n', '<Leader>r', [[<Cmd>lua require('telescope.builtin').registers()<CR>]])
-      vim.keymap.set('n', '<Leader>Tgb', [[<Cmd>lua require('telescope.builtin').git_bcommits()<CR>]])
-      vim.keymap.set('n', '<Leader>Tgc', [[<Cmd>lua require('telescope.builtin').git_commits()<CR>]])
-      vim.keymap.set('n', '<Leader>Tgf', [[<Cmd>lua require('telescope.builtin').git_files()<CR>]])
-      vim.keymap.set('n', '<Leader>Tgs', [[<Cmd>lua require('telescope.builtin').git_status()<CR>]])
-      vim.keymap.set('n', '<Leader>Tc', [[<Cmd>lua require('telescope.builtin').command_history()<CR>]])
-      vim.keymap.set('n', '<Leader>Tf', [[<Cmd>lua require('telescope.builtin').filetypes(require('telescope.themes').get_dropdown({}))<CR>]])
-      vim.keymap.set('n', '<Leader>Tm', [[<Cmd>lua require('telescope.builtin').keymaps()<CR>]])
-      vim.keymap.set('n', '<Leader>To', [[<Cmd>lua require('telescope.builtin').oldfiles(require('telescope.themes').get_dropdown({previewer = false}))<CR>]])
-      vim.keymap.set('n', '<Leader>Ts', [[<Cmd>lua require('telescope.builtin').spell_suggest(require('telescope.themes').get_cursor({}))<CR>]])
-      vim.keymap.set('n', '<Leader>Tw', [[<Cmd>lua require('telescope.builtin').grep_string()<CR>]])
-      vim.keymap.set('n', '<Leader>Tz', [[<Cmd>lua require('telescope.builtin').current_buffer_fuzzy_find()<CR>]])
+      vim.keymap.set('n', '<Leader>T', [[<Cmd>Telescope<CR>]])
+      vim.keymap.set('n', '<Leader>b', [[<Cmd>Telescope buffers<CR>]])
+      vim.keymap.set('n', '<Leader>c', [[<Cmd>Telescope colorscheme<CR>]])
+      vim.keymap.set('n', '<Leader>f', [[<Cmd>Telescope find_files<CR>]])
+      vim.keymap.set('n', '<Leader>Tg', [[<Cmd>Telescope live_grep grep_open_files=true<CR>]])
+      vim.keymap.set('n', '<Leader>TG', [[<Cmd>Telescope live_grep<CR>]])
+      vim.keymap.set('n', '<Leader>h', [[<Cmd>Telescope help_tags<CR>]])
+      vim.keymap.set('n', '<Leader>M', [[<Cmd>Telescope man_pages<CR>]])
+      vim.keymap.set('n', '<Leader>m', [[<Cmd>Telescope marks<CR>]])
+      vim.keymap.set('n', '<Leader>r', [[<Cmd>Telescope registers<CR>]])
+      vim.keymap.set('n', '<Leader>Tgb', [[<Cmd>Telescope git_bcommits<CR>]])
+      vim.keymap.set('n', '<Leader>Tgc', [[<Cmd>Telescope git_commits<CR>]])
+      vim.keymap.set('n', '<Leader>Tgf', [[<Cmd>Telescope git_files<CR>]])
+      vim.keymap.set('n', '<Leader>Tgs', [[<Cmd>Telescope git_status<CR>]])
+      vim.keymap.set('n', '<Leader>Tc', [[<Cmd>Telescope command_history<CR>]])
+      vim.keymap.set('n', '<Leader>Tf', [[<Cmd>Telescope filetypes<CR>]])
+      vim.keymap.set('n', '<Leader>Tm', [[<Cmd>Telescope keymaps<CR>]])
+      vim.keymap.set('n', '<Leader>To', [[<Cmd>Telescope oldfiles<CR>]])
+      vim.keymap.set('n', '<Leader>Ts', [[<Cmd>Telescope spell_suggest<CR>]])
+      vim.keymap.set('n', '<Leader>Tw', [[<Cmd>Telescope grep_string<CR>]])
+      vim.keymap.set('n', '<Leader>Tz', [[<Cmd>Telescope current_buffer_fuzzy_find<CR>]])
       require('telescope').setup({
         defaults = {
           prompt_prefix = ' » ',
           dynamic_preview_title = true,
-          file_ignore_patterns = {'db', 'gif', 'jpeg', 'jpg', 'ods', 'odt', 'pdf', 'png', 'svg', 'xcf', 'xls'},
+          file_ignore_patterns = {'^.git/', 'db', 'gif', 'jpeg', 'jpg', 'ods', 'odt', 'pdf', 'png', 'svg', 'xcf', 'xls'},
+          layout_strategy = 'bottom_pane',
+          sorting_strategy = 'ascending',
           layout_config = {
+            prompt_position = 'top',
+            bottom_pane = {
+              height = 0.44,
+              preview_width = 0.66
+            },
+            center = {
+              mirror = true
+            },
             horizontal = {
-              preview_width = 0.6
-            }
+              anchor = 'NE',
+              height = 0.99,
+              width = 0.66,
+              preview_width = 0.55
+            },
+            vertical = {
+              anchor = 'NE',
+              width = 0.4,
+              height = 0.99,
+              preview_cutoff = 4,
+              preview_height = 0.66,
+              mirror = true
+            },
           },
-          layout_strategy = 'flex',
           mappings = {
             i = {
               ['<C-p>'] = require('telescope.actions.layout').toggle_preview,
@@ -580,6 +600,46 @@ packer.startup(function()
             '--color=never',
             '--hidden',
             '--ignore-files'
+          }
+        },
+        pickers = {
+          builtin = {
+            theme = 'dropdown',
+            previewer = false
+          },
+          colorscheme = {
+            enable_preview = true
+          },
+          find_files = {
+            follow = true
+          },
+          filetypes = {
+            theme = 'dropdown'
+          },
+          live_grep = {
+            layout_strategy = 'flex'
+          },
+          lsp_code_actions = {
+            theme = 'cursor'
+          },
+          lsp_declarations = {
+            theme = 'cursor'
+          },
+          lsp_definitions = {
+            theme = 'cursor'
+          },
+          lsp_implementations = {
+            theme = 'cursor'
+          },
+          oldfiles = {
+            theme = 'dropdown',
+            previewer = false
+          },
+          spell_suggest = {
+            theme = 'cursor',
+            layout_config = {
+              height = 14
+            }
           }
         },
         extensions = {
@@ -769,24 +829,24 @@ use {
         -- options
         vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
         -- keybindings
-        vim.keymap.set('n', ',lR', [[<Cmd>lua require('telescope.builtin').lsp_definitions()<CR>]], {buffer = bufnr})
-        vim.keymap.set('n', ',lr', [[<Cmd>lua require('telescope.builtin').lsp_references()<CR>]], {buffer = bufnr})
-        vim.keymap.set('n', ',ly', [[<Cmd>lua require('telescope.builtin').lsp_document_symbols()<CR>]], {buffer = bufnr})
-        vim.keymap.set('n', ',lY', [[<Cmd>lua require('telescope.builtin').lsp_workspace_symbols()<CR>]], {buffer = bufnr})
-        vim.keymap.set('n', ',ld', [[<Cmd>lua require('telescope.builtin').diagnostics({bufnr = 0})<CR>]], {buffer = bufnr})
-        vim.keymap.set('n', ',lD', [[<Cmd>lua require('telescope.builtin').diagnostics()<CR>]], {buffer = bufnr})
+        vim.keymap.set('n', ',lR', [[<Cmd>Telescope lsp_definitions<CR>]], {buffer = bufnr})
+        vim.keymap.set('n', ',lr', [[<Cmd>Telescope lsp_references<CR>]], {buffer = bufnr})
+        vim.keymap.set('n', ',ly', [[<Cmd>Telescope lsp_document_symbols<CR>]], {buffer = bufnr})
+        vim.keymap.set('n', ',lY', [[<Cmd>Telescope lsp_workspace_symbols<CR>]], {buffer = bufnr})
+        vim.keymap.set('n', ',ld', [[<Cmd>Telescope diagnostics bufnr=0<CR>]], {buffer = bufnr})
+        vim.keymap.set('n', ',lD', [[<Cmd>Telescope diagnostics<CR>]], {buffer = bufnr})
         vim.keymap.set('n', ',le', [[<Cmd>lua vim.diagnostic.open_float({scope = 'line', border = My_Borders})<CR>]], {buffer = bufnr})
         vim.keymap.set('n', '[d', [[<Cmd>lua vim.diagnostic.goto_prev({float = false})<CR>]], {buffer = bufnr})
         vim.keymap.set('n', ']d', [[<Cmd>lua vim.diagnostic.goto_next({float = false})<CR>]], {buffer = bufnr})
         vim.keymap.set('n', ',lrn', [[<Cmd>lua vim.lsp.buf.rename()<CR>]], {buffer = bufnr})
         vim.keymap.set('n', ',lh', [[<Cmd>lua vim.lsp.buf.hover()<CR>]], {buffer = bufnr})
         if client.supports_method('textDocument/codeAction') then
-          vim.keymap.set('n', ',lca', [[<Cmd>lua require('telescope.builtin').lsp_code_actions(require('telescope.themes').get_cursor({}))<CR>]], {buffer = bufnr})
+          vim.keymap.set('n', ',lca', [[<Cmd>Telescope lsp_code_actions<CR>]], {buffer = bufnr})
         else
           lsp_messages = lsp_messages .. 'no codeAction' .. lsp_msg_sep
         end
         if client.resolved_capabilities.declaration then
-          vim.keymap.set('n', ',lc', [[<Cmd>lua require('telescope.builtin').lsp_declarations(require('telescope.themes').get_cursor({}))<CR>]], {buffer = bufnr})
+          vim.keymap.set('n', ',lc', [[<Cmd>Telescope lsp_declaratlsp_declarations {buffer = bufnr})
         else
           vim.keymap.set('n', ',lc', [[<Nop>]], {buffer = bufnr})
           lsp_messages = lsp_messages .. 'no declaration' .. lsp_msg_sep
@@ -802,7 +862,7 @@ use {
           lsp_messages = lsp_messages .. 'no rangeFormat' .. lsp_msg_sep
         end
         if client.resolved_capabilities.implementation then
-          vim.keymap.set('n', ',li', [[<Cmd>lua require('telescope.builtin').lsp_implementations(require('telescope.themes').get_cursor({}))<CR>]], {buffer = bufnr})
+          vim.keymap.set('n', ',li', [[<Cmd>Telescope lsp_implementations<CR>]], {buffer = bufnr})
         else
           vim.keymap.set('n', ',li', [[<Nop>]], {buffer = bufnr})
           lsp_messages = lsp_messages .. 'no implementation' .. lsp_msg_sep
@@ -815,7 +875,7 @@ use {
           lsp_messages = lsp_messages .. 'no signatureHelp' .. lsp_msg_sep
         end
         if client.resolved_capabilities.type_definition then
-          vim.keymap.set('n', ',ltd', [[<Cmd>lua require('telescope.builtin').lsp_type_definitions(require('telescope.themes').get_cursor({}))<CR>]], {buffer = bufnr})
+          vim.keymap.set('n', ',ltd', [[<Cmd>Telescope lsp_type_definitions<CR>]], {buffer = bufnr})
         else
           vim.keymap.set('n', ',ltd', [[<Nop>]], {buffer = bufnr})
           lsp_messages = lsp_messages .. 'no typeDefinition' .. lsp_msg_sep
