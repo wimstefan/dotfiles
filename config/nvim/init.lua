@@ -870,6 +870,8 @@ use {
         'stevearc/aerial.nvim',
         config = function()
           require('aerial').setup({
+            placement_editor_edge = true,
+            symbols = My_Symbols,
             on_attach = function(bufnr)
               vim.keymap.set('n', '<Leader>a', '<Cmd>AerialToggle!<CR>', {buffer = bufnr})
               vim.keymap.set('n', '{', '<Cmd>AerialPrev<CR>', {buffer = bufnr})
@@ -1314,16 +1316,20 @@ use {
   use {
     'DarwinSenior/nvim-colorizer.lua',
     config = function()
-      require('colorizer').setup({
-        '*';
-        css = {
-          css = true;
-          css_fn = true;
-        };
-        html = {
-          names = false;
+      require('colorizer').setup(
+        { '*' },
+        {
+          RGB = true,
+          RRGGBB = true,
+          RRGGBBAA = true,
+          rgb_fn = true,
+          hsl_fn = true,
+          css = true,
+          css_fn = true,
+          names = false,
+          mode = 'background',
         }
-      })
+      )
     end
   }
 -- }}}
@@ -1529,7 +1535,7 @@ use {
             },
             {
               'branch',
-              icon = ''
+              icon = '⭠'
             }
           },
           lualine_z = {'filetype'},
@@ -1684,7 +1690,8 @@ use {
     'rcarriga/nvim-notify',
     config = function()
       require('notify').setup({
-        timeout = 100,
+        stages = 'static',
+        timeout = 2000,
         background_colour = function()
             local group_bg = vim.fn.synIDattr(vim.fn.synIDtrans(vim.fn.hlID('Normal')), 'bg#')
             if group_bg == '' or group_bg == 'none' then
