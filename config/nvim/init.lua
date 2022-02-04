@@ -214,42 +214,6 @@ vim.keymap.set('n', '<Leader>st', [[G?--<CR>jVGd :r ~/.mutt/short-signature-tang
 vim.keymap.set('n', '<Leader>ss', [[G?--<CR>jVGd :r ~/.mutt/short-signature<CR>]])
 vim.keymap.set('n', '<Leader>sl', [[G?--<CR>jVGd :r ~/.mutt/signature<CR>]])
 -- }}}
--- {{{2 show manpage of current word
-ShowMan = function()
-  local cword = vim.fn.expand('<cword>')
-  vim.cmd('Man ' .. cword)
-end
-vim.keymap.set('n', 'M', '<Cmd>lua ShowMan()<CR>')
--- }}}
--- {{{2 toggle to disable detailed information for easier paste
-ToggleDetails = function()
-  local mouse_opts = vim.opt.mouse:get()
-  if mouse_opts.a then
-    vim.opt.mouse = 'v'
-    vim.opt.cursorcolumn = false
-    vim.opt.cursorline = false
-    vim.opt.signcolumn = 'no'
-    vim.opt.foldenable = false
-    vim.opt.list = false
-    vim.opt.number = false
-    vim.opt.relativenumber = false
-    vim.opt.colorcolumn = ''
-    vim.notify('Details disabled', vim.log.levels.INFO, {title = '[UI]'})
-  else
-    vim.opt.mouse = 'a'
-    vim.opt.cursorcolumn = true
-    vim.opt.cursorline = true
-    vim.opt.signcolumn = 'yes'
-    vim.opt.foldenable = true
-    vim.opt.list = true
-    vim.opt.number = true
-    vim.opt.relativenumber = true
-    vim.opt.colorcolumn = '80'
-    vim.notify('Details enabled', vim.log.levels.INFO, {title = '[UI]'})
-  end
-end
-vim.keymap.set('n', '<F10>', '<Cmd>lua ToggleDetails()<CR>')
--- }}}
 -- }}}1 --------------------- MAPPINGS -----------------------------------------
 -- {{{1 --------------------- AUTOCMDS -----------------------------------------
 vim.cmd([[
@@ -340,6 +304,119 @@ function NotifyColors()
     highlight link NotifyTRACEBody Normal
   ]])
 end
+-- {{{2 toggle detailed information for easier paste
+function ToggleDetails()
+  local mouse_opts = vim.opt.mouse:get()
+  if mouse_opts.a then
+    vim.opt.mouse = 'v'
+    vim.opt.cursorcolumn = false
+    vim.opt.cursorline = false
+    vim.opt.signcolumn = 'no'
+    vim.opt.foldenable = false
+    vim.opt.list = false
+    vim.opt.number = false
+    vim.opt.relativenumber = false
+    vim.opt.colorcolumn = ''
+    vim.notify('Details disabled', vim.log.levels.INFO, {title = '[UI]'})
+  else
+    vim.opt.mouse = 'a'
+    vim.opt.cursorcolumn = true
+    vim.opt.cursorline = true
+    vim.opt.signcolumn = 'yes'
+    vim.opt.foldenable = true
+    vim.opt.list = true
+    vim.opt.number = true
+    vim.opt.relativenumber = true
+    vim.opt.colorcolumn = '80'
+    vim.notify('Details enabled', vim.log.levels.INFO, {title = '[UI]'})
+  end
+end
+vim.keymap.set('n', '<F10>', '<Cmd>lua ToggleDetails()<CR>')
+-- }}}
+-- {{{2 quickfix/location toggle made by iBaghwan
+function TableLength(T)
+  local count = 0
+  for _ in pairs(T) do count = count + 1 end
+  return count
+end
+-- 'q': find the quickfix window
+-- 'l': find all loclist windows
+function FindQF(type)
+  local wininfo = vim.fn.getwininfo()
+  local win_tbl = {}
+  for _, win in pairs(wininfo) do
+      local found = false
+      if type == 'l' and win['loclist'] == 1 then
+        found = true
+      end
+      -- loclist window has 'quickfix' set, eliminate those
+      if type == 'q' and win['quickfix'] == 1 and win['loclist'] == 0  then
+        found = true
+      end
+      if found then
+        table.insert(win_tbl, { winid = win['winid'], bufnr = win['bufnr'] })
+      end
+  end
+  return win_tbl
+end
+-- open quickfix if not empty
+function OpenQF()
+  local qf_name = 'quickfix'
+  local qf_empty = function() return vim.tbl_isempty(vim.fn.getqflist()) end
+  if not qf_empty() then
+    vim.cmd([[copen]])
+    vim.cmd([[wincmd J]])
+  else
+    print(string.format("%s is empty.", qf_name))
+  end
+end
+-- enum all non-qf windows and open
+-- loclist on all windows where not empty
+function OpenLoclistAll()
+  local wininfo = vim.fn.getwininfo()
+  local qf_name = 'loclist'
+  local qf_empty = function(winnr) return vim.tbl_isempty(vim.fn.getloclist(winnr)) end
+  for _, win in pairs(wininfo) do
+      if win['quickfix'] == 0 then
+        if not qf_empty(win['winnr']) then
+          -- switch active window before ':lopen'
+          vim.api.nvim_set_current_win(win['winid'])
+          vim.cmd([[lopen]])
+        else
+          print(string.format("%s is empty.", qf_name))
+        end
+      end
+  end
+end
+-- toggle quickfix/loclist on/off
+-- type='*': qf toggle and send to bottom
+-- type='l': loclist toggle (all windows)
+function ToggleQF(type)
+  local windows = FindQF(type)
+  if TableLength(windows) > 0 then
+    -- hide all visible windows
+    for _, win in pairs(windows) do
+      vim.api.nvim_win_hide(win.winid)
+    end
+  else
+    -- no windows are visible, attempt to open
+    if type == 'l' then
+      OpenLoclistAll()
+    else
+      OpenQF()
+    end
+  end
+end
+vim.keymap.set('n', '<C-c>', [[<Cmd>lua ToggleQF('q')<CR>]])
+vim.keymap.set('n', '<A-c>', [[<Cmd>lua ToggleQF('l')<CR>]])
+-- }}}
+-- {{{2 show manpage of current word
+function ShowMan()
+  local cword = vim.fn.expand('<cword>')
+  vim.cmd([[Man ]] .. cword)
+end
+vim.keymap.set('n', 'M', '<Cmd>lua ShowMan()<CR>')
+-- }}}
 -- }}}1 --------------------- FUNCTIONS ----------------------------------------
 -- {{{1 --------------------- PLUGINS ------------------------------------------
 local install_path = vim.fn.stdpath('data') .. '/site/pack/packer/start/packer.nvim'
@@ -1065,21 +1142,6 @@ use {
           }
         end
       })
-    end
-  }
--- }}}
--- {{{2 vim-qf
-  use {
-    'romainl/vim-qf',
-    config = function()
-      vim.g.qf_mapping_ack_style = true
-      vim.keymap.set('n', '<C-q>', '<Plug>(qf_qf_switch)', {})
-      vim.keymap.set('n', '<C-c>', '<Plug>(qf_qf_toggle)', {})
-      vim.keymap.set('n', '<Home>', '<Plug>(qf_qf_previous)', {})
-      vim.keymap.set('n', '<End>', '<Plug>(qf_qf_next)', {})
-      vim.keymap.set('n', '<A-c>', '<Plug>(qf_loc_toggle)', {})
-      vim.keymap.set('n', '<C-Home>', '<Plug>(qf_loc_previous)', {})
-      vim.keymap.set('n', '<C-End>', '<Plug>(qf_loc_next)', {})
     end
   }
 -- }}}
