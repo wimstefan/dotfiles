@@ -626,17 +626,14 @@ packer.startup(function()
       vim.keymap.set('n', '<Leader>Tz', [[<Cmd>Telescope current_buffer_fuzzy_find<CR>]])
       require('telescope').setup({
         defaults = {
-          prompt_prefix = ' » ',
+          prompt_prefix = '∷ ',
+          selection_caret = '» ',
           dynamic_preview_title = true,
           file_ignore_patterns = {'^.git/', 'db', 'gif', 'jpeg', 'jpg', 'ods', 'odt', 'pdf', 'png', 'svg', 'xcf', 'xls'},
           layout_strategy = 'bottom_pane',
           sorting_strategy = 'ascending',
           layout_config = {
             prompt_position = 'top',
-            bottom_pane = {
-              height = 0.44,
-              preview_width = 0.66
-            },
             center = {
               mirror = true
             },
@@ -648,7 +645,7 @@ packer.startup(function()
             },
             vertical = {
               anchor = 'NE',
-              width = 0.4,
+              width = 0.66,
               height = 0.99,
               preview_cutoff = 4,
               preview_height = 0.66,
@@ -658,13 +655,13 @@ packer.startup(function()
           mappings = {
             i = {
               ['<C-h>'] = 'which_key',
-              ['<C-p>'] = require('telescope.actions.layout').toggle_preview,
+              ['<C-w>'] = require('telescope.actions.layout').toggle_preview,
               ['<C-q>'] = require('telescope.actions').smart_send_to_qflist + require('telescope.actions').open_qflist,
               ['<M-q>'] = require('telescope.actions').smart_add_to_qflist + require('telescope.actions').open_qflist,
             },
             n = {
               ['<C-h>'] = 'which_key',
-              ['<C-p>'] = require('telescope.actions.layout').toggle_preview,
+              ['<C-w>'] = require('telescope.actions.layout').toggle_preview,
               ['<C-q>'] = require('telescope.actions').smart_send_to_qflist + require('telescope.actions').open_qflist,
               ['<M-q>'] = require('telescope.actions').smart_add_to_qflist + require('telescope.actions').open_qflist,
             },
@@ -694,8 +691,8 @@ packer.startup(function()
           filetypes = {
             theme = 'dropdown'
           },
-          live_grep = {
-            layout_strategy = 'flex'
+          git_branches = {
+            layout_strategy = 'vertical'
           },
           lsp_code_actions = {
             theme = 'cursor'
