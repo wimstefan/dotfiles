@@ -252,7 +252,7 @@ vim.keymap.set('n', '<F10>', '<Cmd>lua ToggleDetails()<CR>')
 -- }}}
 -- }}}1 --------------------- MAPPINGS -----------------------------------------
 -- {{{1 --------------------- AUTOCMDS -----------------------------------------
-vim.api.nvim_exec([[
+vim.cmd([[
 augroup General
   autocmd!
   " tridactyl editing
@@ -309,7 +309,7 @@ augroup Packer
   autocmd FileType git set nolist nonumber norelativenumber
   autocmd BufWritePost init.lua if expand('%') !~ 'fugitive\|scp' | source <afile> | call v:lua.require('packer').sync() | endif
 augroup end
-]], false)
+]])
 -- }}}1 --------------------- AUTOCMDS -----------------------------------------
 -- {{{1 --------------------- FUNCTIONS ----------------------------------------
 function Dump(...)
@@ -507,11 +507,11 @@ packer.startup(function()
         local lang = parsers.get_buf_lang()
         if parsers.get_parser_configs()[lang] and not parsers.has_parser(lang) then
           vim.schedule_wrap(function()
-          vim.cmd('TSInstall '..lang)
+          vim.cmd([[TSInstall ]] .. lang)
           end)()
         end
       end
-      vim.cmd [[autocmd FileType * lua ensure_treesitter_language_installed()]]
+      vim.cmd([[autocmd FileType * lua ensure_treesitter_language_installed()]])
     end
   }
 -- }}}
@@ -788,7 +788,7 @@ use {
         'kosayoda/nvim-lightbulb',
         config = function()
           vim.fn.sign_define('LightBulbSign', {text = ' ', texthl = 'WarningMsg', linehl='', numhl=''})
-          vim.cmd [[autocmd CursorHold,CursorHoldI * lua require('nvim-lightbulb').update_lightbulb()]]
+          vim.cmd([[autocmd CursorHold,CursorHoldI * lua require('nvim-lightbulb').update_lightbulb()]])
           require('nvim-lightbulb').update_lightbulb()
         end
       },
@@ -885,7 +885,7 @@ use {
         -- autocmds
         if client.supports_method('textDocument/codeLens') then
           vim.keymap.set('n', ',ll', [[<Cmd>lua vim.lsp.buf.codelens.run({border = My_Borders})<CR>]], {buffer = bufnr})
-          vim.cmd [[autocmd BufEnter,CursorHold,InsertLeave * lua vim.lsp.codelens.refresh()]]
+          vim.cmd([[autocmd BufEnter,CursorHold,InsertLeave * lua vim.lsp.codelens.refresh()]])
         else
           lsp_messages = lsp_messages .. 'no codeLens' .. lsp_msg_sep
         end
