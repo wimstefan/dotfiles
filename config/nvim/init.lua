@@ -255,16 +255,14 @@ vim.keymap.set('n', '<F10>', '<Cmd>lua ToggleDetails()<CR>')
 vim.api.nvim_exec([[
 augroup General
   autocmd!
-  " mail specific configuration
-  autocmd BufRead * if expand('%') =~ '/tmp/mutt*' | setfiletype mail | endif
   " tridactyl editing
   autocmd BufRead * if expand('%') =~ 'tangoartisan' | setfiletype html | endif
-  " Syntax for tmux
-  autocmd BufNewFile,BufRead *tmux*conf* set filetype=tmux
   " Syntax for htp files
   autocmd BufNewFile,BufRead {*.htp,*.htt} set filetype=xhtml
   " Syntax for xmp files
   autocmd BufNewFile,BufRead {*.xmp} set filetype=xml
+  " Syntax for rofi files
+  autocmd BufNewFile,BufRead {*.rasi} set filetype=config
   " Automatically chmod +x Shell and Perl scripts
   autocmd BufWritePost {*.sh,*.pl,*.py} silent !chmod +x %
   " Change fileformat on playlist files (created by moc)
@@ -283,8 +281,6 @@ augroup General
   autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") && &ft !~# 'commit' | execute "normal! g`\"" | endif
   " Enable yank highlighting
   autocmd TextYankPost * silent! lua vim.highlight.on_yank {higroup='WildMenu', timeout=4444}
-  " Clean ColorColumn
-  autocmd ColorScheme * highlight clear ColorColumn
 augroup END
 augroup Commentstrings
   autocmd!
@@ -302,7 +298,10 @@ augroup Help
 augroup END
 augroup Colors
   autocmd!
-  autocmd ColorScheme * call v:lua.NotifyColors()
+  " Clean ColorColumn
+  autocmd ColorScheme * highlight clear ColorColumn
+  " Apply nvim-notify colours
+  autocmd ColorScheme,BufRead,BufWinEnter * ++once call v:lua.NotifyColors()
 augroup END
 augroup Packer
   autocmd!
