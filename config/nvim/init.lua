@@ -433,9 +433,9 @@ packer.startup(function()
       open_cmd = '84vnew [packer]',
       working_sym = '北 ',
       error_sym = '✗  ',
-      done_sym = '✓ ',
-      removed_sym = '– ',
-      moved_sym = '➜ ',
+      done_sym = '✓  ',
+      removed_sym = ' ',
+      moved_sym = '➜  ',
       prompt_border = My_Borders
     }
   })
