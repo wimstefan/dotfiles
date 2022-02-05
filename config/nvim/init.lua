@@ -265,7 +265,7 @@ augroup Colors
   " Clean ColorColumn
   autocmd ColorScheme * highlight clear ColorColumn
   " Apply nvim-notify colours
-  autocmd ColorScheme,BufRead,BufWinEnter * ++once call v:lua.NotifyColors()
+  autocmd VimEnter,ColorScheme,BufRead,BufWinEnter * ++once call v:lua.NotifyColors()
 augroup END
 augroup Packer
   autocmd!
@@ -1686,6 +1686,10 @@ use {
   use {
     'rcarriga/nvim-notify',
     config = function()
+      local highlights = require('notify.config.highlights')
+      function highlights.setup()
+        NotifyColors()
+      end
       require('notify').setup({
         stages = 'static',
         timeout = 2000,
