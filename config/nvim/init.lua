@@ -604,6 +604,7 @@ packer.startup(function()
       vim.keymap.set('n', '<Leader>b', [[<Cmd>Telescope buffers<CR>]])
       vim.keymap.set('n', '<Leader>c', [[<Cmd>Telescope colorscheme<CR>]])
       vim.keymap.set('n', '<Leader>f', [[<Cmd>Telescope find_files<CR>]])
+      vim.keymap.set('n', '<Leader>o', [[<Cmd>Telescope oldfiles<CR>]])
       vim.keymap.set('n', '<Leader>Tg', [[<Cmd>Telescope live_grep grep_open_files=true<CR>]])
       vim.keymap.set('n', '<Leader>TG', [[<Cmd>Telescope live_grep<CR>]])
       vim.keymap.set('n', '<Leader>h', [[<Cmd>Telescope help_tags<CR>]])
@@ -617,7 +618,6 @@ packer.startup(function()
       vim.keymap.set('n', '<Leader>Tc', [[<Cmd>Telescope command_history<CR>]])
       vim.keymap.set('n', '<Leader>Tf', [[<Cmd>Telescope filetypes<CR>]])
       vim.keymap.set('n', '<Leader>Tm', [[<Cmd>Telescope keymaps<CR>]])
-      vim.keymap.set('n', '<Leader>To', [[<Cmd>Telescope oldfiles<CR>]])
       vim.keymap.set('n', '<Leader>Ts', [[<Cmd>Telescope spell_suggest<CR>]])
       vim.keymap.set('n', '<Leader>Tw', [[<Cmd>Telescope grep_string<CR>]])
       vim.keymap.set('n', '<Leader>Tz', [[<Cmd>Telescope current_buffer_fuzzy_find<CR>]])
@@ -680,7 +680,11 @@ packer.startup(function()
             previewer = false
           },
           colorscheme = {
+            theme = 'dropdown',
             enable_preview = true
+          },
+          diagnostics = {
+            layout_strategy = 'vertical'
           },
           find_files = {
             follow = true
@@ -695,13 +699,13 @@ packer.startup(function()
             theme = 'cursor'
           },
           lsp_declarations = {
-            theme = 'cursor'
+            layout_strategy = 'vertical'
           },
           lsp_definitions = {
-            theme = 'cursor'
+            layout_strategy = 'vertical'
           },
           lsp_implementations = {
-            theme = 'cursor'
+            layout_strategy = 'vertical'
           },
           oldfiles = {
             theme = 'dropdown',
