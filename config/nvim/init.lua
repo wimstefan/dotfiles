@@ -434,8 +434,8 @@ packer.startup(function()
       working_sym = '北 ',
       error_sym = '✗  ',
       done_sym = '✓  ',
-      removed_sym = ' ',
-      moved_sym = '➜  ',
+      removed_sym = '  ',
+      moved_sym = '-> ',
       prompt_border = My_Borders
     }
   })
