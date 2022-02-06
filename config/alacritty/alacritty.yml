@@ -30,8 +30,8 @@ window:
   # must be at least `2`, while using a value of `0` for columns and lines will
   # fall back to the window manager's recommended size.
   dimensions:
-   columns: 180
-   lines: 62
+   columns: 170
+   lines: 50
 
   # Window position (changes require restart)
   #
@@ -177,6 +177,13 @@ font:
   # Thin strokes are suitable for retina displays, but for non-retina screens
   # it is recommended to set `use_thin_strokes` to `false`.
   #use_thin_strokes: true
+
+  # Use built-in font for box drawing characters.
+  #
+  # If `true`, Alacritty will use a custom built-in font for box drawing
+  # characters (Unicode points 2500 - 259f).
+  #
+  builtin_box_drawing: false
 
 # If `true`, bold text is drawn using the bright color variants.
 draw_bold_text_with_bright_colors: true
@@ -667,9 +674,9 @@ mouse:
 #
 # - `mods` (see key bindings)
 mouse_bindings:
-  - { mouse: Right,             action: ExpandSelection }
-  - { mouse: Right,  mods: Control, action: ExpandSelection }
-  - { mouse: Middle, mode: ~Vi, action: PasteSelection  }
+ - { mouse: Right,                 action: ExpandSelection }
+ - { mouse: Right,  mods: Control, action: ExpandSelection }
+ - { mouse: Middle, mode: ~Vi,     action: PasteSelection  }
 
 # Key bindings
 #
@@ -1008,3 +1015,6 @@ mouse_bindings:
 
   # Print all received window events.
   #print_events: false
+
+  # Highlight window damage information.
+  # highlight_damage: false
