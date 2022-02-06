@@ -589,7 +589,7 @@ if [[ $USER != root ]]; then
   # }}}3
   # - Exports {{{3
   path=($HOME/.local/bin $HOME/.cargo/bin $HOME/.gem/ruby/bin $HOME/go/bin $path)
-  manpath=($HOME/man $manpath)
+  manpath=($HOME/.local/share/man $manpath)
   export MPD_HOST="localhost"
   export MPD_PORT="6600"
   export GPG_TTY=`tty`
@@ -778,7 +778,6 @@ if [[ $USER != root ]]; then
     alias lp4="lp -o media=A4 -o number-up=4 -o page-border=single"
     alias slrn="slrn --kill-log ~/News/Killed"
     alias gnews="slrn -h news.gmane.org -f ~/.newsrc.news.gmane.org"
-    alias gnuvd="PAGER=dog gnuvd"
     alias exif="exiftool -@ $HOME/system/fotografie/tags -s2"
     alias restart="rc-config restart"
 
@@ -836,7 +835,6 @@ if [[ $USER != root ]]; then
         rsync -az            /home/swimmer/.config/fontconfig/fonts.conf $host:.config/fontconfig/
         rsync -az            /home/swimmer/.config/Trolltech.conf $host:.config/
         rsync -az            /home/swimmer/.config/colours/ $host:.config/colours/
-        rsync -az   --delete /home/swimmer/.config/bspwm/ $host:.config/bspwm/
         rsync -az   --delete /home/swimmer/.config/dunst/ $host:.config/dunst/
         rsync -az   --delete /home/swimmer/.config/herbstluftwm/ $host:.config/herbstluftwm/
         rsync -az   --delete /home/swimmer/.config/picom/ $host:.config/picom/
