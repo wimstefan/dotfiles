@@ -265,7 +265,7 @@ augroup Colors
   " Clean ColorColumn
   autocmd ColorScheme * highlight clear ColorColumn
   " Apply nvim-notify colours
-  autocmd VimEnter,ColorScheme,BufRead,BufWinEnter * ++once call v:lua.NotifyColors()
+  autocmd ColorScheme,VimEnter,WinEnter,BufEnter * ++once call v:lua.NotifyColors()
 augroup END
 augroup Packer
   autocmd!
@@ -664,7 +664,7 @@ packer.startup(function()
             },
           },
           preview = {
-            msg_bg_fillchar = " ",
+            msg_bg_fillchar = ' ',
           },
           vimgrep_arguments = {
             'ugrep',
@@ -1366,11 +1366,11 @@ use {
         alt_nc = true,
         terminal_colors = true,
         styles = {
-          comments = "italic",
-          functions = "italic",
-          keywords = "bold",
-          strings = "NONE",
-          variables = "NONE",
+          comments = 'italic',
+          functions = 'italic',
+          keywords = 'bold',
+          strings = 'NONE',
+          variables = 'NONE',
         },
         inverse = {
           match_paren = true,
