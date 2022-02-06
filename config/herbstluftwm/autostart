@@ -120,6 +120,7 @@ hc attr theme.active.color "$color_green$op"
 hc attr theme.normal.color "$color_normal"
 hc attr theme.urgent.color "$color_red"
 
+hc attr settings.focus_follows_mouse true
 hc attr settings.focus_stealing_prevention true
 
 hc attr settings.default_frame_layout horizontal
