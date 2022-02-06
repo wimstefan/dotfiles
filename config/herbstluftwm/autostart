@@ -162,6 +162,7 @@ hc rule title=Explore floating=on
 hc rule title=Keybindings floating=on
 hc rule title=Ranger floating=on
 hc rule title=Scratchpad floating=on
+hc rule title=Sysinfo floating=on
 hc rule class~'.*[Tt]erm' title=calendar manage=off
 hc rule class~'[Gg]color2' floating=on
 hc rule class~'[Ll]xappearance' floating=on
