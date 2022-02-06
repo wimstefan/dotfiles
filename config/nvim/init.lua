@@ -1235,6 +1235,14 @@ use {
     end
   }
 -- }}}
+-- {{{2 vim-oscyank
+  use {
+    'ojroques/vim-oscyank',
+    config = function()
+      vim.cmd([[autocmd TextYankPost * if v:event.operator is 'y' && v:event.regname is '' | execute 'OSCYankReg "' | endif]])
+    end
+  }
+-- }}}
 -- {{{2 nvim-spectre
   use {
     'windwp/nvim-spectre',
