@@ -642,7 +642,7 @@ packer.startup(function()
             },
             vertical = {
               anchor = 'NE',
-              width = 0.66,
+              width = 0.50,
               height = 0.99,
               preview_cutoff = 4,
               preview_height = 0.66,
@@ -664,7 +664,7 @@ packer.startup(function()
             },
           },
           preview = {
-            msg_bg_fillchar = ' ',
+            msg_bg_fillchar = '░',
           },
           vimgrep_arguments = {
             'ugrep',
