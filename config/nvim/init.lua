@@ -1562,7 +1562,7 @@ use {
             }
           }
         },
-        extensions = {'fugitive', minimal_extension, 'toggleterm'},
+        extensions = {'aerial', 'fugitive', minimal_extension, 'toggleterm'},
       })
     end
   }
