@@ -459,7 +459,6 @@ if [ -x /usr/local/bin/fzf ]; then
 fi
 # urls
 alias packages="w3m https://packages.gentoo.org/"
-#alias packages="w3m http://gpo.zugaina.org/Newest"
 alias 24bugs="w3m 'https://bugs.gentoo.org/buglist.cgi?query_format=advanced&chfieldfrom=-1D&chfieldto=Now&chfield=[Bug+creation]&order=bugs.bug_id'"
 # }}}3
 # - Functions {{{3
@@ -613,20 +612,13 @@ if [[ $USER != root ]]; then
 
   # }}}3
   # - Aliases {{{3
-  alias vless="vimpager"
-  # shortcuts
   alias ta="tmux attach -d -t"
-  alias fbmplayer="mplayer -vo fbdev -fs"
   ## read private aliases
   if [[ -s $HOME/.zsh/zsh_aliases ]]; then
     source $HOME/.zsh/zsh_aliases
   fi
   # }}}3
   # - Functions # {{{3
-  function clean-chrome() {
-    for i in {google-,}chrome{,-unstable,-beta}; pkill -9 $i
-  }
-
   function sync-music()
   {
     if [[ $# -le 0 ]]; then
@@ -648,7 +640,6 @@ if [[ $USER != root ]]; then
       rsync -avz --delete /music/playlists/ $mhost:/music/playlists/
     fi
   }
-
   function sync-music-pretend()
   {
     if [[ $# -le 0 ]]; then
@@ -670,92 +661,24 @@ if [[ $USER != root ]]; then
       rsync -avzn --delete /music/playlists/ $mhost:/music/playlists/
     fi
   }
-
-  function sync-ipod()
-  {
-    # rsync -ruLtvz --delete --ignore-existing /music/Non-Tango/ /media/ipod/music/Non-Tango/
-    rsync -ruLtvz --delete --ignore-existing /music/Tango/ /media/ipod/music/Tango/
-    rsync -ruLtvz --delete --ignore-existing /music/playlists/ /media/ipod/playlists/
-  }
-
   function flac2ogg()
   {
     find . -name "*flac" -exec oggenc -q 10 {} \;
   }
-
   function m4a2ogg()
   {
     for f in *.m4a; do ffmpeg -i "$f" -acodec libvorbis -aq 10 "${f%.m4a}.ogg"; done
   }
-
   function etail()
   {
     tail -n$1 /var/log/emerge.log | awk -F: '{print strftime("%a %F %T", $1),$2}'
   }
-
-  function fac-ec()
-  {
-    #### 200?-2007 ###
-    #echo "$1 practicas + $2 themas + $3 lessen (`wcalc "(($1*45) + ($2*75) + ($3*60)) / 60"` werkuren á 33 Euro)"
-    #echo "`wcalc "((($1*45) + ($2*75) + ($3*60)) / 60) * 33"` Euro"
-    #### 2007-2009 ###
-    ## met prácticas
-    #echo "$1 practicas + $2 themas + $3 lessen (`wcalc "(($1*45) + ($2*75) + ($3*60)) / 60"` werkuren á 35 Euro)"
-    #echo "`wcalc "((($1*45) + ($2*75) + ($3*60)) / 60) * 35"` Euro"
-    ## zonder prácticas
-    #echo "$1 themas + $2 lessen (`wcalc "(($1*75) + ($2*60)) / 60" | sed 's/ = //'` werkuren á € 35.00)"
-    #echo "€ `wcalc "((($1*75) + ($2*60)) / 60) * 35" | sed 's/ = //'`"
-    #### 2010-2011 ###
-    #echo "$1 themas + $2 lessen (`wcalc "(($1*75) + ($2*60)) / 60" | sed 's/ = //'` werkuren á € 37.00)"
-    #echo "€ `wcalc "((($1*75) + ($2*60)) / 60) * 37" | sed 's/ = //'`"
-    #### 2012-2013 ###
-    ## met prácticas & 21% BTW
-    #echo "$1 prácticas + $2 themas + $3 lessen (`wcalc "(($1*45) + ($2*75) + ($3*60)) / 60" | sed 's/ = //'` werkuren á € 39.66)"
-    #echo "€ `wcalc "((($1*45) + ($2*75) + ($3*60)) / 60) * 39.66" | sed 's/ = //'`"
-    #### 2013-2015 ###
-    ## zonder prácticas & 21% BTW
-    #echo "$1 themas + $2 lessen (`wcalc "(($1*75) + ($2*60)) / 60" | sed 's/ = //'` werkuren á € 39.66)"
-    #echo "€ `wcalc "((($1*75) + ($2*60)) / 60) * 39.66" | sed 's/ = //'`"
-    ## met lessen á 1 uur & prácticas á 0.5 uur & 21% BTW
-    #echo "$1 lessen + $2 prácticas (`wcalc "(($1*60) + ($2*30)) / 60" | sed 's/ = //'` werkuren á € 39.66)"
-    #echo "€ `wcalc "((($1*60) + ($2*30)) / 60) * 39.66" | sed 's/ = //'`"
-    ## met lessen á 1 uur & prácticas á 0.5 uur & 21% BTW afgerond
-    # echo "$1 lessen + $2 prácticas (`wcalc "(($1*60) + ($2*30)) / 60" | sed 's/ = //'` werkuren á € 40.00)"
-    # echo "€ `wcalc "((($1*60) + ($2*30)) / 60) * 40.00" | sed 's/ = //'`"
-    #### 2015-2016 ####
-    # echo "$1 lessen + $2 prácticas (`wcalc "(($1*75) + ($2*60)) / 60" | sed 's/ = //'` werkuren á € 40.00)"
-    # echo "€ `wcalc "((($1*75) + ($2*60)) / 60) * 40.00" | sed 's/ = //'`"
-    #### voorjaar 2016 ####
-    # echo "$1 lessen + $2 prácticas (`wcalc "(($1*75) + ($2*60)) / 60" | sed 's/ = //'` werkuren á € 44.00)"
-    # echo "€ `wcalc "((($1*75) + ($2*60)) / 60) * 44.00" | sed 's/ = //'`"
-    #### najaar 2016 ####
-    echo "$1 lessen (`wcalc "($1*75) / 60" | sed 's/ = //'` werkuren á € 44.00)"
-    echo "€ `wcalc "(($1*75) / 60) * 44.00" | sed 's/ = //'`"
-  }
-
-  function fac-tt()
-  {
-    #### 2010-2012 ###
-    #echo "$1 lessen (75min) + $2 lessen (60min) (`wcalc "(($1*75) + ($2*60)) / 60" | sed 's/ = //'` werkuren á € 40.00)"
-    #echo "€ `wcalc "((($1*75) + ($2*60)) / 60) * 40" | sed 's/ = //'`"
-    #### 2013 zonder korting ###
-    #echo "$1 lessen (75min) + $2 lessen (60min) (`wcalc "(($1*75) + ($2*60)) / 60" | sed 's/ = //'` werkuren á € 44.00)"
-    #echo "€ `wcalc "((($1*75) + ($2*60)) / 60) * 44" | sed 's/ = //'`"
-    #### 2013 met korting ###
-    #echo "$1 lessen (75min) + $2 lessen (60min) (`wcalc "(($1*75) + ($2*60)) / 60" | sed 's/ = //'` werkuren á € 40.00)"
-    #echo "€ `wcalc "((($1*75) + ($2*60)) / 60) * 40" | sed 's/ = //'`"
-    #### 2014 zonder korting ###
-    echo "$1 lessen (75min) + $2 lessen (60min) (`wcalc "(($1*75) + ($2*60)) / 60" | sed 's/ = //'` werkuren á € 44.00)"
-    echo "€ `wcalc "((($1*75) + ($2*60)) / 60) * 44" | sed 's/ = //'`"
-  }
-
   function ta-locate()
   {
     artist="$1"
     title="$2"
     locate -d $HOME/Tango/ta-locate.db "$artist" | ug -i "$title"
   }
-
   # }}}3
   # + User config per host # {{{3
   # . swimmer # {{{4
@@ -780,29 +703,6 @@ if [[ $USER != root ]]; then
     alias gnews="slrn -h news.gmane.org -f ~/.newsrc.news.gmane.org"
     alias exif="exiftool -@ $HOME/system/fotografie/tags -s2"
     alias restart="rc-config restart"
-
-    function sync-vimrc()
-    {
-      for i in komala tj xs; do
-        if [[ $i == xs8 ]]; then
-          echo "▷ $i"
-          if ping -c1 $i > /dev/null; then
-            scp /home/swimmer/.dotfiles/vim/vimrc $i:.vimrc
-            echo "  ✓ "
-          else
-            echo "  ✗ "
-          fi
-        else
-          echo "▷ $i"
-          if ping -c1 $i > /dev/null; then
-            rsync -az /home/swimmer/.vimrc $i:
-            echo "  ✓ "
-          else
-            echo "  ✗ "
-          fi
-        fi
-      done
-    }
 
     function sync-desktop()
     {
@@ -990,7 +890,7 @@ else
   # - Aliases # {{{3
   alias mess="multitail -Z red,black,inverse -T -x '%m %u@%h %f (%t) [%l]' -m 0 -wh 12 -n 70 -f -cS syslog '/var/log/sshd' -m 0 -n 70 -f -cS syslog '/var/log/mail' -m 0 -n 70 -f -cS syslog -ev '---- MARK ----' '/var/log/messages'"
   alias fire="tail -f /var/log/shorewall.log | fwfilter"
-  alias fwlogwatch="fwlogwatch -Ddys /var/log/shorewall"
+  alias fwlogwatch="fwlogwatch -Ddys"
   alias eva="emerge -va"
   alias epre="emerge -va @preserved-rebuild"
   alias emod="emerge @module-rebuild"
@@ -1008,7 +908,6 @@ else
      env-update;
      exec zsh
   }
-
   function fc() {
     OPT=$1
     shift
@@ -1024,47 +923,29 @@ else
         ;;
     esac
   }
-
   function installs() {
       PACKAGE=$1
       emerge $PACKAGE -p --color n|grep ebuild|awk '{print $4}' >> ${HOME}/system/installs/$PACKAGE
   }
-
-  function obcli() {
-    CLIENT=$1
-    shift
-    obnam --verbose --client-name=$CLIENT -r /backups/$CLIENT "$@"
-}
-
   # }}}3
-  # + Root config per host # {{{4
-  # . swimmer # {{{5
+  # + Root config per host # {{{3
+  # . swimmer # {{{4
   if [[ $HOST == swimmer ]]; then
     echo "Loading host specific settings for $HOST ..."
-
   fi
-  # }}}5
-  # . tj # {{{5
+  # }}}4
+  # . tj # {{{4
   if [[ $HOST == tj ]]; then
     echo "Loading host specific settings for $HOST ..."
-
-    function wlan-restart() {
-      rc-config stop net.wlan0
-      rmmod -f iwl{wifi,dvm} {mac,cfg}80211
-      modprobe iwlwifi
-      rc-config start net.wlan0
-    }
-
   fi
-  # }}}5
-  # . komala # {{{5
+  # }}}4
+  # . komala # {{{4
   if [[ $HOST == komala ]]; then
     echo "Loading host specific settings for $HOST ..."
-
   fi
-  # }}}5
+  # }}}4
 fi
-# }}}4
+# }}}3
 # }}}2
 # }}}2
 # END user config # }}}1
