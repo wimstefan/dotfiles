@@ -64,7 +64,7 @@ vim.opt.nrformats:append({
   'alpha'
 })
 if vim.fn.executable('ugrep') == 1 then
-  vim.opt.grepprg = 'ugrep -RIjnkz --hidden --ignore-files'
+  vim.opt.grepprg = 'ugrep -RIjnkz --hidden --ignore-files --exclude-dir=".git"'
   vim.opt.grepformat = '%f:%l:%c:%m,%f+%l+%c+%m,%-G%f\\|%l\\|%c\\|%m'
 elseif vim.fn.executable('git') == 1 then
   vim.opt.grepprg = 'git'
@@ -671,7 +671,8 @@ packer.startup(function()
             '-RIjnkz',
             '--color=never',
             '--hidden',
-            '--ignore-files'
+            '--ignore-files',
+            '--exclude-dir=".git"'
           }
         },
         pickers = {
@@ -1254,6 +1255,8 @@ use {
             args = {
               '-RIjnkz',
               '--color=never',
+              '--ignore-files',
+              '--exclude-dir=".git"'
             } ,
             options = {
               ['ignore-case'] = {
