@@ -265,7 +265,7 @@ augroup Colors
   " Clean ColorColumn
   autocmd ColorScheme * highlight clear ColorColumn
   " Apply nvim-notify colours
-  autocmd ColorScheme,VimEnter,WinEnter,BufEnter * ++once call v:lua.NotifyColors()
+  autocmd ColorScheme,VimEnter,WinEnter,BufEnter * call v:lua.NotifyColors()
 augroup END
 augroup Packer
   autocmd!
