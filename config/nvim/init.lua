@@ -136,9 +136,9 @@ My_Symbols = {
 My_Borders = 'rounded'
 
 -- diagnostic handling
-local diagnostic_signs = {' ', ' ', '𥉉', ' '}
-local diagnostic_severity_fullnames = {'Error', 'Warning', 'Information', 'Hint'}
-local diagnostic_severity_shortnames = {'Error', 'Warn', 'Info', 'Hint'}
+local diagnostic_signs = { ' ', ' ', '𥉉', ' ' }
+local diagnostic_severity_fullnames = { 'Error', 'Warning', 'Information', 'Hint' }
+local diagnostic_severity_shortnames = { 'Error', 'Warn', 'Info', 'Hint' }
 for index, icon in ipairs(diagnostic_signs) do
   local fullname = diagnostic_severity_fullnames[index]
   local shortname = diagnostic_severity_shortnames[index]
@@ -178,8 +178,8 @@ vim.keymap.set('',  'cd', '<Cmd>cd %:h | pwd<CR>')
 vim.keymap.set('n', '<Leader>g', ':grep<Space>')
 vim.keymap.set('n', '<Leader>l', '<Cmd>nohlsearch | hi clear ColorColumn<CR>')
 -- {{{2 navigation
-vim.keymap.set('n', 'k', [[v:count == 0 ? 'gk' : 'k']], {expr = true})
-vim.keymap.set('n', 'j', [[v:count == 0 ? 'gj' : 'j']], {expr = true})
+vim.keymap.set('n', 'k', [[v:count == 0 ? 'gk' : 'k']], { expr = true })
+vim.keymap.set('n', 'j', [[v:count == 0 ? 'gj' : 'j']], { expr = true })
 -- }}}
 -- {{{2 editing
 vim.keymap.set('n', '<Leader>ev', '<Cmd>edit $MYVIMRC<CR>')
@@ -317,7 +317,7 @@ function ToggleDetails()
     vim.opt.number = false
     vim.opt.relativenumber = false
     vim.opt.colorcolumn = ''
-    vim.notify('Details disabled', vim.log.levels.INFO, {title = '[UI]'})
+    vim.notify('Details disabled', vim.log.levels.INFO, { title = '[UI]' })
   else
     vim.opt.mouse = 'a'
     vim.opt.cursorcolumn = true
@@ -328,7 +328,7 @@ function ToggleDetails()
     vim.opt.number = true
     vim.opt.relativenumber = true
     vim.opt.colorcolumn = '80'
-    vim.notify('Details enabled', vim.log.levels.INFO, {title = '[UI]'})
+    vim.notify('Details enabled', vim.log.levels.INFO, { title = '[UI]' })
   end
 end
 vim.keymap.set('n', '<F10>', '<Cmd>lua ToggleDetails()<CR>')
@@ -421,7 +421,7 @@ vim.keymap.set('n', 'M', '<Cmd>lua ShowMan()<CR>')
 -- {{{1 --------------------- PLUGINS ------------------------------------------
 local install_path = vim.fn.stdpath('data') .. '/site/pack/packer/start/packer.nvim'
 if vim.fn.empty(vim.fn.glob(install_path)) > 0 then
-  vim.fn.system({'git', 'clone', '--depth', '1', 'https://github.com/shadmansaleh/packer.nvim', install_path})
+  vim.fn.system({ 'git', 'clone', '--depth', '1', 'https://github.com/shadmansaleh/packer.nvim', install_path })
 end
 
 local packer = require('packer')
@@ -452,13 +452,13 @@ packer.startup(function()
   }
 -- }}}
 -- {{{2 impatient.nvim
-  use {'lewis6991/impatient.nvim'}
+  use { 'lewis6991/impatient.nvim' }
 -- }}}
 -- {{{2 FixCursorHold.nvim
-  use {'antoinemadec/FixCursorHold.nvim'}
+  use { 'antoinemadec/FixCursorHold.nvim' }
 -- }}}
 -- {{{2 startuptime
-  use {'dstein64/vim-startuptime'}
+  use { 'dstein64/vim-startuptime' }
 -- }}}
 -- {{{2 Treesitter
   use {
@@ -626,7 +626,7 @@ packer.startup(function()
           prompt_prefix = '∷ ',
           selection_caret = '» ',
           dynamic_preview_title = true,
-          file_ignore_patterns = {'^.git/', 'db', 'gif', 'jpeg', 'jpg', 'ods', 'odt', 'pdf', 'png', 'svg', 'xcf', 'xls'},
+          file_ignore_patterns = { '^.git/', 'db', 'gif', 'jpeg', 'jpg', 'ods', 'odt', 'pdf', 'png', 'svg', 'xcf', 'xls' },
           layout_strategy = 'bottom_pane',
           sorting_strategy = 'ascending',
           layout_config = {
@@ -758,7 +758,7 @@ use {
 
     local cmp = require('cmp')
     local luasnip = require('luasnip')
-    luasnip.filetype_extend('all', {'_'})
+    luasnip.filetype_extend('all', { '_' })
     require('luasnip.loaders.from_snipmate').lazy_load()
 
     cmp.setup({
@@ -774,7 +774,7 @@ use {
         native_menu = false
       },
       formatting = {
-        fields = {'kind', 'abbr', 'menu'},
+        fields = { 'kind', 'abbr', 'menu' },
         format = function(entry, vim_item)
           vim_item.menu = ({
             buffer = '[Buffer]',
@@ -825,12 +825,12 @@ use {
       },
       sources = cmp.config.sources(
         {
-          {name = 'nvim_lua'},
-          {name = 'nvim_lsp'},
-          {name = 'path'},
-          {name = 'treesitter'},
-          {name = 'luasnip'},
-          {name = 'buffer',
+          { name = 'nvim_lua' },
+          { name = 'nvim_lsp' },
+          { name = 'path' },
+          { name = 'treesitter' },
+          { name = 'luasnip' },
+          { name = 'buffer',
             option = {
               get_bufnrs = function()
                 return vim.api.nvim_list_bufs()
@@ -863,7 +863,7 @@ use {
       {
         'kosayoda/nvim-lightbulb',
         config = function()
-          vim.fn.sign_define('LightBulbSign', {text = ' ', texthl = 'WarningMsg', linehl='', numhl=''})
+          vim.fn.sign_define('LightBulbSign', { text = ' ', texthl = 'WarningMsg', linehl='', numhl='' })
           vim.cmd([[autocmd CursorHold,CursorHoldI * lua require('nvim-lightbulb').update_lightbulb()]])
           require('nvim-lightbulb').update_lightbulb()
         end
@@ -875,11 +875,11 @@ use {
             placement_editor_edge = true,
             symbols = My_Symbols,
             on_attach = function(bufnr)
-              vim.keymap.set('n', '<Leader>a', '<Cmd>AerialToggle!<CR>', {buffer = bufnr})
-              vim.keymap.set('n', '{', '<Cmd>AerialPrev<CR>', {buffer = bufnr})
-              vim.keymap.set('n', '}', '<Cmd>AerialNext<CR>', {buffer = bufnr})
-              vim.keymap.set('n', '{{', '<Cmd>AerialPrevUp<CR>', {buffer = bufnr})
-              vim.keymap.set('n', '}}', '<Cmd>AerialNextUp<CR>', {buffer = bufnr})
+              vim.keymap.set('n', '<Leader>a', '<Cmd>AerialToggle!<CR>', { buffer = bufnr })
+              vim.keymap.set('n', '{', '<Cmd>AerialPrev<CR>', { buffer = bufnr })
+              vim.keymap.set('n', '}', '<Cmd>AerialNext<CR>', { buffer = bufnr })
+              vim.keymap.set('n', '{{', '<Cmd>AerialPrevUp<CR>', { buffer = bufnr })
+              vim.keymap.set('n', '}}', '<Cmd>AerialNextUp<CR>', { buffer = bufnr })
             end
           })
           require('telescope').load_extension('aerial')
@@ -908,68 +908,68 @@ use {
         -- options
         vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
         -- keybindings
-        vim.keymap.set('n', ',lR', [[<Cmd>Telescope lsp_definitions<CR>]], {buffer = bufnr})
-        vim.keymap.set('n', ',lr', [[<Cmd>Telescope lsp_references<CR>]], {buffer = bufnr})
-        vim.keymap.set('n', ',ly', [[<Cmd>Telescope lsp_document_symbols<CR>]], {buffer = bufnr})
-        vim.keymap.set('n', ',lY', [[<Cmd>Telescope lsp_workspace_symbols<CR>]], {buffer = bufnr})
-        vim.keymap.set('n', ',ld', [[<Cmd>Telescope diagnostics bufnr=0<CR>]], {buffer = bufnr})
-        vim.keymap.set('n', ',lD', [[<Cmd>Telescope diagnostics<CR>]], {buffer = bufnr})
-        vim.keymap.set('n', ',le', [[<Cmd>lua vim.diagnostic.open_float({scope = 'line', border = My_Borders})<CR>]], {buffer = bufnr})
-        vim.keymap.set('n', '[d', [[<Cmd>lua vim.diagnostic.goto_prev({float = false})<CR>]], {buffer = bufnr})
-        vim.keymap.set('n', ']d', [[<Cmd>lua vim.diagnostic.goto_next({float = false})<CR>]], {buffer = bufnr})
-        vim.keymap.set('n', ',lrn', [[<Cmd>lua vim.lsp.buf.rename()<CR>]], {buffer = bufnr})
-        vim.keymap.set('n', ',lh', [[<Cmd>lua vim.lsp.buf.hover()<CR>]], {buffer = bufnr})
+        vim.keymap.set('n', ',lR', [[<Cmd>Telescope lsp_definitions<CR>]], { buffer = bufnr })
+        vim.keymap.set('n', ',lr', [[<Cmd>Telescope lsp_references<CR>]], { buffer = bufnr })
+        vim.keymap.set('n', ',ly', [[<Cmd>Telescope lsp_document_symbols<CR>]], { buffer = bufnr })
+        vim.keymap.set('n', ',lY', [[<Cmd>Telescope lsp_workspace_symbols<CR>]], { buffer = bufnr })
+        vim.keymap.set('n', ',ld', [[<Cmd>Telescope diagnostics bufnr=0<CR>]], { buffer = bufnr })
+        vim.keymap.set('n', ',lD', [[<Cmd>Telescope diagnostics<CR>]], { buffer = bufnr })
+        vim.keymap.set('n', ',le', [[<Cmd>lua vim.diagnostic.open_float({ scope = 'line', border = My_Borders })<CR>]], { buffer = bufnr })
+        vim.keymap.set('n', '[d', [[<Cmd>lua vim.diagnostic.goto_prev({ float = false })<CR>]], { buffer = bufnr })
+        vim.keymap.set('n', ']d', [[<Cmd>lua vim.diagnostic.goto_next({ float = false })<CR>]], { buffer = bufnr })
+        vim.keymap.set('n', ',lrn', [[<Cmd>lua vim.lsp.buf.rename()<CR>]], { buffer = bufnr })
+        vim.keymap.set('n', ',lh', [[<Cmd>lua vim.lsp.buf.hover()<CR>]], { buffer = bufnr })
         if client.supports_method('textDocument/codeAction') then
-          vim.keymap.set('n', ',lca', [[<Cmd>Telescope lsp_code_actions<CR>]], {buffer = bufnr})
+          vim.keymap.set('n', ',lca', [[<Cmd>Telescope lsp_code_actions<CR>]], { buffer = bufnr })
         else
           lsp_messages = lsp_messages .. 'no codeAction' .. lsp_msg_sep
         end
         if client.resolved_capabilities.declaration then
-          vim.keymap.set('n', ',lc', [[<Cmd>Telescope lsp_declaratlsp_declarations {buffer = bufnr})
+          vim.keymap.set('n', ',lc', [[<Cmd>Telescope lsp_declaratlsp_declarations { buffer = bufnr })
         else
-          vim.keymap.set('n', ',lc', [[<Nop>]], {buffer = bufnr})
+          vim.keymap.set('n', ',lc', [[<Nop>]], { buffer = bufnr })
           lsp_messages = lsp_messages .. 'no declaration' .. lsp_msg_sep
         end
         if client.resolved_capabilities.document_formatting then
-          vim.keymap.set('n', ',lf', ':lua vim.lsp.buf.formatting()<CR>', {buffer = bufnr, silent = true})
+          vim.keymap.set('n', ',lf', ':lua vim.lsp.buf.formatting()<CR>', { buffer = bufnr, silent = true })
         else
           lsp_messages = lsp_messages .. 'no format' .. lsp_msg_sep
         end
         if client.resolved_capabilities.document_range_formatting then
-          vim.keymap.set('v', ',lf', ':lua vim.lsp.buf.range_formatting()<CR>', {buffer = bufnr, silent = true})
+          vim.keymap.set('v', ',lf', ':lua vim.lsp.buf.range_formatting()<CR>', { buffer = bufnr, silent = true })
         else
           lsp_messages = lsp_messages .. 'no rangeFormat' .. lsp_msg_sep
         end
         if client.resolved_capabilities.implementation then
-          vim.keymap.set('n', ',li', [[<Cmd>Telescope lsp_implementations<CR>]], {buffer = bufnr})
+          vim.keymap.set('n', ',li', [[<Cmd>Telescope lsp_implementations<CR>]], { buffer = bufnr })
         else
-          vim.keymap.set('n', ',li', [[<Nop>]], {buffer = bufnr})
+          vim.keymap.set('n', ',li', [[<Nop>]], { buffer = bufnr })
           lsp_messages = lsp_messages .. 'no implementation' .. lsp_msg_sep
         end
         if client.resolved_capabilities.signature_help then
-          vim.keymap.set('i', '<C-s>', [[<Cmd>lua vim.lsp.buf.signature_help({border = My_Borders})<CR>]], {buffer = bufnr})
-          vim.keymap.set('n', ',ls', [[<Cmd>lua vim.lsp.buf.signature_help({border = My_Borders})<CR>]], {buffer = bufnr})
+          vim.keymap.set('i', '<C-s>', [[<Cmd>lua vim.lsp.buf.signature_help({ border = My_Borders })<CR>]], { buffer = bufnr })
+          vim.keymap.set('n', ',ls', [[<Cmd>lua vim.lsp.buf.signature_help({ border = My_Borders })<CR>]], { buffer = bufnr })
         else
-          vim.keymap.set('n', ',ls', [[<Nop>]], {buffer = bufnr})
+          vim.keymap.set('n', ',ls', [[<Nop>]], { buffer = bufnr })
           lsp_messages = lsp_messages .. 'no signatureHelp' .. lsp_msg_sep
         end
         if client.resolved_capabilities.type_definition then
-          vim.keymap.set('n', ',ltd', [[<Cmd>Telescope lsp_type_definitions<CR>]], {buffer = bufnr})
+          vim.keymap.set('n', ',ltd', [[<Cmd>Telescope lsp_type_definitions<CR>]], { buffer = bufnr })
         else
-          vim.keymap.set('n', ',ltd', [[<Nop>]], {buffer = bufnr})
+          vim.keymap.set('n', ',ltd', [[<Nop>]], { buffer = bufnr })
           lsp_messages = lsp_messages .. 'no typeDefinition' .. lsp_msg_sep
         end
 
         -- autocmds
         if client.supports_method('textDocument/codeLens') then
-          vim.keymap.set('n', ',ll', [[<Cmd>lua vim.lsp.buf.codelens.run({border = My_Borders})<CR>]], {buffer = bufnr})
+          vim.keymap.set('n', ',ll', [[<Cmd>lua vim.lsp.buf.codelens.run({ border = My_Borders })<CR>]], { buffer = bufnr })
           vim.cmd([[autocmd BufEnter,CursorHold,InsertLeave * lua vim.lsp.codelens.refresh()]])
         else
           lsp_messages = lsp_messages .. 'no codeLens' .. lsp_msg_sep
         end
 
         -- messages
-        vim.notify(lsp_messages, vim.log.levels.INFO, {title = '[LSP]'})
+        vim.notify(lsp_messages, vim.log.levels.INFO, { title = '[LSP]' })
       end
 
       local capabilities = vim.lsp.protocol.make_client_capabilities()
@@ -1009,15 +1009,16 @@ use {
 
       -- null-ls
       require('null-ls').setup({
-        debug = true,
+        debug = false,
         sources = {
           require('null-ls').builtins.completion.spell,
+          require('null-ls').builtins.diagnostics.zsh,
           require('null-ls').builtins.formatting.trim_whitespace,
           require('null-ls').builtins.formatting.prettier.with({
-            extra_args = {'--single-quote'}
+            extra_args = { '--single-quote' }
           }),
           require('null-ls').builtins.formatting.stylua.with({
-            extra_args = {'--indent_type', 'Spaces', '--indent_width', '2', '--quote_style', 'ForceSingle'}
+            extra_args = { '--indent_type', 'Spaces', '--indent_width', '2', '--quote_style', 'ForceSingle' }
           }),
         },
         on_attach = on_attach,
@@ -1037,7 +1038,7 @@ use {
         },
         lspconfig = {
           capabilities = capabilities,
-          cmd = {sumneko_binary},
+          cmd = { sumneko_binary },
           on_attach = on_attach,
           settings = {
             Lua = {
@@ -1047,7 +1048,7 @@ use {
               },
               diagnostics = {
                 enable = true,
-                globals = {'vim'},
+                globals = { 'vim' },
               },
               workspace = {
                 library = vim.api.nvim_get_runtime_file('', true),
@@ -1104,16 +1105,16 @@ use {
   }
 -- }}}
 -- {{{2 vim-repeat
-  use {'tpope/vim-repeat'}
+  use { 'tpope/vim-repeat' }
 -- }}}
 -- {{{2 vim-surround
-  use {'tpope/vim-surround'}
+  use { 'tpope/vim-surround' }
 -- }}}
 -- {{{2 vim-unimpaired
-  use {'tpope/vim-unimpaired'}
+  use { 'tpope/vim-unimpaired' }
 -- }}}
 -- {{{2 lightspeed.nvim
-  use {'ggandor/lightspeed.nvim'}
+  use { 'ggandor/lightspeed.nvim' }
 -- }}}
 -- {{{2 spellsitter.nvim
   use {
@@ -1186,9 +1187,9 @@ use {
 
       commands.add('ZkRecents', make_edit_fn({ createdAfter = '1 week ago' }, { title = 'Zk Recents' }))
 
-      vim.keymap.set('n', '<Leader>zf', [[<Cmd>ZkNotes {match = vim.fn.input('Search: ')}<CR>]])
+      vim.keymap.set('n', '<Leader>zf', [[<Cmd>ZkNotes { match = vim.fn.input('Search: ') }<CR>]])
       vim.keymap.set('v', '<Leader>zf', [[:'<,'>ZkMatch<CR>]])
-      vim.keymap.set('n', '<Leader>zn', [[<Cmd>ZkNew {title = vim.fn.input('Title: ')}<CR>]])
+      vim.keymap.set('n', '<Leader>zn', [[<Cmd>ZkNew { title = vim.fn.input('Title: ') }<CR>]])
       vim.keymap.set('n', '<Leader>zl', [[<Cmd>ZkNotes<CR>]])
       vim.keymap.set('n', '<Leader>zr', [[<Cmd>ZkRecents<CR>]])
       vim.keymap.set('n', '<Leader>zt', [[<Cmd>ZkTags<CR>]])
@@ -1196,7 +1197,7 @@ use {
   }
 -- }}}
 -- {{{2 vim-simple-align
-  use {'kg8m/vim-simple-align'}
+  use { 'kg8m/vim-simple-align' }
 -- }}}
 -- {{{2 fm-nvim
   use {
@@ -1289,7 +1290,7 @@ use {
   }
 -- }}}
 -- {{{2 vim-dirdiff
-  use {'will133/vim-dirdiff'}
+  use { 'will133/vim-dirdiff' }
 -- }}}
 -- {{{2 paperplanes.nvim
 use {
@@ -1303,10 +1304,10 @@ use {
 }
 -- }}}
 -- {{{2 vim-renamer
-  use {'qpkorr/vim-renamer'}
+  use { 'qpkorr/vim-renamer' }
 -- }}}
 -- {{{2 vim-gnupg
-  use {'jamessan/vim-gnupg'}
+  use { 'jamessan/vim-gnupg' }
 -- }}}
 -- {{{2 vim-log-highlighting
   use {
@@ -1346,10 +1347,10 @@ use {
   }
 -- }}}
 -- {{{3 nvim-web-devicons
-  use {'kyazdani42/nvim-web-devicons'}
+  use { 'kyazdani42/nvim-web-devicons' }
 -- }}}
 -- {{{3 lush.nvim
-  use { 'rktjmp/lush.nvim'}
+  use { 'rktjmp/lush.nvim' }
 -- }}}
 -- {{{3 artesanal
   use {
@@ -1388,7 +1389,7 @@ use {
   use {
     'mcchrish/zenbones.nvim',
     config = function()
-      local flavours = {'zenbones', 'zenwritten', 'neobones', 'nordbones', 'seoulbones', 'tokyobones'}
+      local flavours = { 'zenbones', 'zenwritten', 'neobones', 'nordbones', 'seoulbones', 'tokyobones' }
       for _, flavour in ipairs(flavours) do
         vim.g[flavour] = {
           solid_float_border = true,
@@ -1464,7 +1465,7 @@ use {
       local diff_source = function()
         local gitsigns = vim.b.gitsigns_status_dict
         if gitsigns then
-          return {added = gitsigns.added, modified = gitsigns.changed, removed = gitsigns.removed}
+          return { added = gitsigns.added, modified = gitsigns.changed, removed = gitsigns.removed }
         end
       end
       local window = function()
@@ -1472,25 +1473,25 @@ use {
       end
       local minimal_extension = {
         sections = {
-          lualine_a = {'filename'},
+          lualine_a = { 'filename' },
           lualine_b = {},
           lualine_c = {},
           lualine_x = {},
-          lualine_y = {'location', 'progress'},
-          lualine_z = {'filetype'},
+          lualine_y = { 'location', 'progress' },
+          lualine_z = { 'filetype' },
         },
-        filetypes = {'help', 'packer', 'qf'}
+        filetypes = { 'help', 'packer', 'qf' }
       }
 
       require('lualine').setup({
         options = {
           icons_enabled = true,
-          section_separators = {left = '', right = ''},
-          component_separators = {left = '', right = ''},
+          section_separators = { left = '', right = '' },
+          component_separators = { left = '', right = '' },
         },
         sections = {
-          lualine_a = {'mode'},
-          lualine_b = {'location', 'progress'},
+          lualine_a = { 'mode' },
+          lualine_b = { 'location', 'progress' },
           lualine_c = {
             {
               'filename',
@@ -1499,22 +1500,22 @@ use {
             {
               get_readonly,
               padding = 0,
-              color = {fg = 'grey'},
+              color = { fg = 'grey' },
             },
             {
               get_modified,
               padding = 0,
-              color = {fg = 'red'},
+              color = { fg = 'red' },
             },
             {
               get_spell,
               padding = 1,
-              color = {fg = 'brown'},
+              color = { fg = 'brown' },
             },
             {
               get_session,
               padding = 1,
-              color = {fg = 'yellow'},
+              color = { fg = 'yellow' },
             },
           },
           lualine_x = {
@@ -1529,7 +1530,7 @@ use {
             {
               'diagnostics',
               always_visible = false,
-              sources = {'nvim_diagnostic'},
+              sources = { 'nvim_diagnostic' },
               symbols = {
                 error = vim.fn.sign_getdefined('DiagnosticSignError')[1].text,
                 warn = vim.fn.sign_getdefined('DiagnosticSignWarn')[1].text,
@@ -1542,28 +1543,28 @@ use {
             {
               'diff',
               source = diff_source,
-              diff_color = {added = 'GitSignsAdd', modified = 'GitSignsChange', removed = 'GitSignsDelete'},
-              symbols = {added = '  ', modified = '  ', removed = '  '},
+              diff_color = { added = 'GitSignsAdd', modified = 'GitSignsChange', removed = 'GitSignsDelete' },
+              symbols = { added = '  ', modified = '  ', removed = '  ' },
             },
             {
               'branch',
               icon = '⭠'
             }
           },
-          lualine_z = {'filetype'},
+          lualine_z = { 'filetype' },
         },
         inactive_sections = {
-          lualine_a = {'filename'},
+          lualine_a = { 'filename' },
           lualine_b = {},
           lualine_c = {},
           lualine_x = {},
-          lualine_y = {'location'},
-          lualine_z = {'filetype'},
+          lualine_y = { 'location' },
+          lualine_z = { 'filetype' },
         },
         tabline = {
-          lualine_a = {window},
-          lualine_c = {'buffers'},
-          lualine_b = {get_path},
+          lualine_a = { window },
+          lualine_c = { 'buffers' },
+          lualine_b = { get_path },
           lualine_x = {},
           lualine_y = {},
           lualine_z = {
@@ -1573,7 +1574,7 @@ use {
             }
           }
         },
-        extensions = {'aerial', 'fugitive', minimal_extension, 'toggleterm'},
+        extensions = { 'aerial', 'fugitive', minimal_extension, 'toggleterm' },
       })
     end
   }
@@ -1632,13 +1633,13 @@ use {
         numhl = true,
         on_attach = function(bufnr)
           local gs = package.loaded.gitsigns
-          vim.keymap.set('n', ']c', "&diff ? ']c' : '<cmd>Gitsigns next_hunk<CR>'", {expr = true})
-          vim.keymap.set('n', '[c', "&diff ? '[c' : '<cmd>Gitsigns prev_hunk<CR>'", {expr = true})
-          vim.keymap.set('n', ',sp', gs.preview_hunk, {buffer = bufnr})
-          vim.keymap.set('n', ',sb', function() gs.blame_line{full=true} end, {buffer = bufnr})
-          vim.keymap.set('n', ',sd', gs.diffthis, {buffer = bufnr})
-          vim.keymap.set('n', ',sD', function() gs.diffthis('~') end, {buffer = bufnr})
-          vim.keymap.set('n', ',sx', gs.toggle_deleted, {buffer = bufnr})
+          vim.keymap.set('n', ']c', "&diff ? ']c' : '<cmd>Gitsigns next_hunk<CR>'", { expr = true })
+          vim.keymap.set('n', '[c', "&diff ? '[c' : '<cmd>Gitsigns prev_hunk<CR>'", { expr = true })
+          vim.keymap.set('n', ',sp', gs.preview_hunk, { buffer = bufnr })
+          vim.keymap.set('n', ',sb', function() gs.blame_line{ full=true} end, {buffer = bufnr })
+          vim.keymap.set('n', ',sd', gs.diffthis, { buffer = bufnr })
+          vim.keymap.set('n', ',sD', function() gs.diffthis('~') end, { buffer = bufnr })
+          vim.keymap.set('n', ',sx', gs.toggle_deleted, { buffer = bufnr })
         end,
         preview_config = {
           border = My_Borders,
@@ -1732,7 +1733,7 @@ use {
   }
 -- }}}
 -- {{{3 dressing.nvim
-  use {'stevearc/dressing.nvim'}
+  use { 'stevearc/dressing.nvim' }
 -- }}}
 -- }}}
 end)
