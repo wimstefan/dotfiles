@@ -222,13 +222,13 @@ augroup General
   " tridactyl editing
   autocmd BufRead * if expand('%') =~ 'tangoartisan' | setfiletype html | endif
   " Syntax for htp files
-  autocmd BufNewFile,BufRead {*.htp,*.htt} set filetype=xhtml
+  autocmd BufNewFile,BufRead *.htp,*.htt set filetype=xhtml
   " Syntax for xmp files
-  autocmd BufNewFile,BufRead {*.xmp} set filetype=xml
+  autocmd BufNewFile,BufRead *.xmp set filetype=xml
   " Syntax for rofi files
-  autocmd BufNewFile,BufRead {*.rasi} set filetype=config
+  autocmd BufNewFile,BufRead *.rasi set filetype=config
   " Automatically chmod +x Shell and Perl scripts
-  autocmd BufWritePost {*.sh,*.pl,*.py} silent !chmod +x %
+  autocmd BufWritePost *.sh,*.pl,*.py silent !chmod +x %
   " Change fileformat on playlist files (created by moc)
   autocmd BufNewFile,BufRead *.m3u set encoding=utf-8 fileencoding=utf-8 ff=unix
   " run xrdb whenever Xdefaults or Xresources are updated
@@ -236,7 +236,7 @@ augroup General
   " Encoding for cddb files
   autocmd BufNewFile,BufRead *cddb* set encoding=utf-8 fileencoding=utf-8 ff=unix
   " Enable spelling for text files
-  autocmd FileType {txt,markdown,asciidoc*,rst} if &filetype !~ 'man\|help' | setlocal spell | endif
+  autocmd FileType txt,markdown,asciidoc*,rst if &filetype !~ 'man\|help' | setlocal spell | endif
   " Some buffers can be closed with 'q'
   autocmd FileType help,man,startuptime,qf,lspinfo,null-ls-info,checkhealth nnoremap <buffer><silent>q :bdelete<CR>
   " Disable folding in previews
@@ -248,8 +248,7 @@ augroup General
 augroup END
 augroup Commentstrings
   autocmd!
-  autocmd FileType pfmain set commentstring=#\%s
-  autocmd FileType toml set commentstring=#\%s
+  autocmd FileType pfmain,toml set commentstring=#\%s
   autocmd FileType vifm set commentstring=\"\ %s
   autocmd FileType xdefaults set commentstring=!\%s
   autocmd FileType json syntax match Comment +\/\/.\+$+
@@ -258,7 +257,7 @@ augroup Help
   autocmd!
   autocmd BufWinEnter * if &filetype =~ 'help' | wincmd L | vertical resize 84 | endif
   autocmd BufWinEnter * if &filetype =~ 'man' | wincmd L | wincmd = | endif
-  autocmd FileType {man,help,*doc} setlocal nonumber norelativenumber nospell nolist nocursorcolumn
+  autocmd FileType man,help,*doc setlocal nonumber norelativenumber nospell nolist nocursorcolumn
 augroup END
 augroup Colors
   autocmd!
@@ -267,13 +266,15 @@ augroup Colors
   " Apply nvim-notify colours
   autocmd ColorScheme,VimEnter,WinEnter,BufEnter * call v:lua.NotifyColors()
 augroup END
+]])
+vim.cmd(string.format([[
 augroup Packer
   autocmd!
   autocmd FileType packer set previewheight=30
   autocmd FileType git set nolist nonumber norelativenumber
-  autocmd BufWritePost init.lua if expand('%') !~ 'fugitive\|scp' | source <afile> | call v:lua.require('packer').sync() | endif
+  autocmd BufWritePost init.lua if expand('%s') =~ '%s' || expand('%s') =~ '%s' && expand('%s') !~ 'fugitive\|scp' | source <afile> | call v:lua.require('packer').sync() | endif
 augroup end
-]])
+]], '%:p', vim.fn.stdpath('config'), '%:p', vim.fn.getenv('HOME')..'/.dotfiles/', '%'))
 -- }}}1 --------------------- AUTOCMDS -----------------------------------------
 -- {{{1 --------------------- FUNCTIONS ----------------------------------------
 function Dump(...)
