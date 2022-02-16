@@ -772,7 +772,6 @@ use {
       },
       experimental = {
         ghost_text = true,
-        native_menu = false
       },
       formatting = {
         fields = { 'kind', 'abbr', 'menu' },
@@ -803,6 +802,12 @@ use {
           i = cmp.mapping.abort(),
           c = cmp.mapping.close(),
         }),
+        ['<C-l>'] = cmp.mapping(function(fallback)
+          if cmp.visible() then
+            return cmp.complete_common_string()
+          end
+          fallback()
+        end, { 'i', 'c' }),
         ['<Tab>'] = cmp.mapping(function(fallback)
           if cmp.visible() then
             cmp.select_next_item()
