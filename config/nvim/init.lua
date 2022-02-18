@@ -92,10 +92,10 @@ else
 end
 
 vim.g.netrw_winsize = 20
-vim.g.netrw_banner =  0
-vim.g.netrw_liststyle =  3
-vim.g.netrw_preview =  0
-vim.g.netrw_alto =  0
+vim.g.netrw_banner = 0
+vim.g.netrw_liststyle = 3
+vim.g.netrw_preview = 0
+vim.g.netrw_alto = 0
 
 -- Visual configuration options
 -- symbols --
@@ -174,7 +174,7 @@ vim.diagnostic.config({
 
 -- }}}1 --------------------- OPTIONS ------------------------------------------
 -- {{{1 --------------------- MAPPINGS -----------------------------------------
-vim.keymap.set('',  'cd', '<Cmd>cd %:h | pwd<CR>')
+vim.keymap.set('', 'cd', '<Cmd>cd %:h | pwd<CR>')
 vim.keymap.set('n', '<Leader>g', ':grep<Space>')
 vim.keymap.set('n', '<Leader>l', '<Cmd>nohlsearch | hi clear ColorColumn<CR>')
 -- {{{2 navigation
@@ -274,13 +274,14 @@ augroup Packer
   autocmd FileType git set nolist nonumber norelativenumber
   autocmd BufWritePost init.lua if expand('%s') =~ '%s' || expand('%s') =~ '%s' && expand('%s') !~ 'fugitive\|scp' | source <afile> | call v:lua.require('packer').sync() | endif
 augroup end
-]], '%:p', vim.fn.stdpath('config'), '%:p', vim.fn.getenv('HOME')..'/.dotfiles/', '%'))
+]], '%:p', vim.fn.stdpath('config'), '%:p', vim.fn.getenv('HOME') .. '/.dotfiles/', '%'))
 -- }}}1 --------------------- AUTOCMDS -----------------------------------------
 -- {{{1 --------------------- FUNCTIONS ----------------------------------------
 function Dump(...)
   local objects = vim.tbl_map(vim.inspect, { ... })
   print(unpack(objects))
 end
+
 function NotifyColors()
   vim.cmd([[
     highlight link NotifyERRORBorder DiagnosticVirtualTextError
@@ -305,6 +306,7 @@ function NotifyColors()
     highlight link NotifyTRACEBody Normal
   ]])
 end
+
 -- {{{2 toggle detailed information for easier paste
 function ToggleDetails()
   local mouse_opts = vim.opt.mouse:get()
@@ -332,6 +334,7 @@ function ToggleDetails()
     vim.notify('Details enabled', vim.log.levels.INFO, { title = '[UI]' })
   end
 end
+
 vim.keymap.set('n', '<F10>', '<Cmd>lua ToggleDetails()<CR>')
 -- }}}
 -- {{{2 quickfix/location toggle made by iBaghwan
@@ -340,27 +343,25 @@ function TableLength(T)
   for _ in pairs(T) do count = count + 1 end
   return count
 end
--- 'q': find the quickfix window
--- 'l': find all loclist windows
+
 function FindQF(type)
   local wininfo = vim.fn.getwininfo()
   local win_tbl = {}
   for _, win in pairs(wininfo) do
-      local found = false
-      if type == 'l' and win['loclist'] == 1 then
-        found = true
-      end
-      -- loclist window has 'quickfix' set, eliminate those
-      if type == 'q' and win['quickfix'] == 1 and win['loclist'] == 0  then
-        found = true
-      end
-      if found then
-        table.insert(win_tbl, { winid = win['winid'], bufnr = win['bufnr'] })
-      end
+    local found = false
+    if type == 'l' and win['loclist'] == 1 then
+      found = true
+    end
+    if type == 'q' and win['quickfix'] == 1 and win['loclist'] == 0 then
+      found = true
+    end
+    if found then
+      table.insert(win_tbl, { winid = win['winid'], bufnr = win['bufnr'] })
+    end
   end
   return win_tbl
 end
--- open quickfix if not empty
+
 function OpenQF()
   local qf_name = 'quickfix'
   local qf_empty = function() return vim.tbl_isempty(vim.fn.getqflist()) end
@@ -371,36 +372,30 @@ function OpenQF()
     print(string.format("%s is empty.", qf_name))
   end
 end
--- enum all non-qf windows and open
--- loclist on all windows where not empty
+
 function OpenLoclistAll()
   local wininfo = vim.fn.getwininfo()
   local qf_name = 'loclist'
   local qf_empty = function(winnr) return vim.tbl_isempty(vim.fn.getloclist(winnr)) end
   for _, win in pairs(wininfo) do
-      if win['quickfix'] == 0 then
-        if not qf_empty(win['winnr']) then
-          -- switch active window before ':lopen'
-          vim.api.nvim_set_current_win(win['winid'])
-          vim.cmd([[lopen]])
-        else
-          print(string.format("%s is empty.", qf_name))
-        end
+    if win['quickfix'] == 0 then
+      if not qf_empty(win['winnr']) then
+        vim.api.nvim_set_current_win(win['winid'])
+        vim.cmd([[lopen]])
+      else
+        print(string.format("%s is empty.", qf_name))
       end
+    end
   end
 end
--- toggle quickfix/loclist on/off
--- type='*': qf toggle and send to bottom
--- type='l': loclist toggle (all windows)
+
 function ToggleQF(type)
   local windows = FindQF(type)
   if TableLength(windows) > 0 then
-    -- hide all visible windows
     for _, win in pairs(windows) do
       vim.api.nvim_win_hide(win.winid)
     end
   else
-    -- no windows are visible, attempt to open
     if type == 'l' then
       OpenLoclistAll()
     else
@@ -408,6 +403,7 @@ function ToggleQF(type)
     end
   end
 end
+
 vim.keymap.set('n', '<C-c>', [[<Cmd>lua ToggleQF('q')<CR>]])
 vim.keymap.set('n', '<A-c>', [[<Cmd>lua ToggleQF('l')<CR>]])
 -- }}}
@@ -416,6 +412,7 @@ function ShowMan()
   local cword = vim.fn.expand('<cword>')
   vim.cmd([[Man ]] .. cword)
 end
+
 vim.keymap.set('n', 'M', '<Cmd>lua ShowMan()<CR>')
 -- }}}
 -- }}}1 --------------------- FUNCTIONS ----------------------------------------
@@ -429,7 +426,7 @@ local packer = require('packer')
 local use = packer.use
 packer.startup(function()
   packer.init({
-    compile_path = vim.fn.stdpath('config')..'/lua/packer_compiled.lua',
+    compile_path = vim.fn.stdpath('config') .. '/lua/packer_compiled.lua',
     display = {
       open_cmd = '84vnew [packer]',
       working_sym = '北 ',
@@ -440,7 +437,7 @@ packer.startup(function()
       prompt_border = My_Borders
     }
   })
--- {{{2 packer.nvim
+  -- {{{2 packer.nvim
   use {
     'shadmansaleh/packer.nvim',
     config = function()
@@ -451,17 +448,17 @@ packer.startup(function()
       vim.keymap.set('n', ',pu', '<Cmd>PackerUpdate<CR>')
     end
   }
--- }}}
--- {{{2 impatient.nvim
+  -- }}}
+  -- {{{2 impatient.nvim
   use { 'lewis6991/impatient.nvim' }
--- }}}
--- {{{2 FixCursorHold.nvim
+  -- }}}
+  -- {{{2 FixCursorHold.nvim
   use { 'antoinemadec/FixCursorHold.nvim' }
--- }}}
--- {{{2 startuptime
+  -- }}}
+  -- {{{2 startuptime
   use { 'dstein64/vim-startuptime' }
--- }}}
--- {{{2 Treesitter
+  -- }}}
+  -- {{{2 Treesitter
   use {
     'nvim-treesitter/nvim-treesitter',
     run = ':TSUpdate',
@@ -472,7 +469,7 @@ packer.startup(function()
       'JoosepAlviste/nvim-ts-context-commentstring',
       {
         'nvim-treesitter/playground',
-        config = function ()
+        config = function()
           vim.keymap.set('n', '<F12>', [[<Cmd>TSHighlightCapturesUnderCursor<CR>]])
           vim.keymap.set('n', ',tsp', [[<Cmd>TSPlaygroundToggle<CR>]])
         end
@@ -577,20 +574,21 @@ packer.startup(function()
           },
         },
       })
-      local parsers = require'nvim-treesitter.parsers'
+      local parsers = require('nvim-treesitter.parsers')
       function _G.ensure_treesitter_language_installed()
         local lang = parsers.get_buf_lang()
         if parsers.get_parser_configs()[lang] and not parsers.has_parser(lang) then
           vim.schedule_wrap(function()
-          vim.cmd([[TSInstall ]] .. lang)
+            vim.cmd([[TSInstall ]] .. lang)
           end)()
         end
       end
+
       vim.cmd([[autocmd FileType * lua ensure_treesitter_language_installed()]])
     end
   }
--- }}}
--- {{{2 Telescope
+  -- }}}
+  -- {{{2 Telescope
   use {
     'nvim-telescope/telescope.nvim',
     requires = {
@@ -627,6 +625,7 @@ packer.startup(function()
           prompt_prefix = '∷ ',
           selection_caret = '» ',
           dynamic_preview_title = true,
+          wrap_results = true,
           file_ignore_patterns = { '^.git/', 'db', 'gif', 'jpeg', 'jpg', 'ods', 'odt', 'pdf', 'png', 'svg', 'xcf', 'xls' },
           layout_strategy = 'bottom_pane',
           sorting_strategy = 'ascending',
@@ -732,9 +731,9 @@ packer.startup(function()
       require('telescope').load_extension('fzf')
     end
   }
--- }}}
--- {{{2 nvim-cmp
-use {
+  -- }}}
+  -- {{{2 nvim-cmp
+  use {
   'hrsh7th/nvim-cmp',
   requires = {
     'hrsh7th/cmp-nvim-lua',
@@ -857,9 +856,9 @@ use {
       }
     })
   end,
-}
--- }}}
--- {{{2 LSP
+  }
+  -- }}}
+  -- {{{2 LSP
   use {
     'neovim/nvim-lspconfig',
     requires = {
@@ -869,7 +868,7 @@ use {
       {
         'kosayoda/nvim-lightbulb',
         config = function()
-          vim.fn.sign_define('LightBulbSign', { text = ' ', texthl = 'WarningMsg', linehl='', numhl='' })
+          vim.fn.sign_define('LightBulbSign', { text = ' ', texthl = 'WarningMsg', linehl = '', numhl = '' })
           vim.cmd([[autocmd CursorHold,CursorHoldI * lua require('nvim-lightbulb').update_lightbulb()]])
           require('nvim-lightbulb').update_lightbulb()
         end
@@ -906,7 +905,7 @@ use {
       })
 
       -- LSP functions
-      local on_attach = function(client,bufnr)
+      local on_attach = function(client, bufnr)
         lsp_aerial.on_attach(client, bufnr)
         local lsp_messages = {}
         local lsp_msg_sep = ' ∷ '
@@ -1032,7 +1031,7 @@ use {
       })
 
       -- lua
-      local sumneko_binary = vim.fn.stdpath('data')..'/lspconfig/lua-language-server/bin/lua-language-server'
+      local sumneko_binary = vim.fn.stdpath('data') .. '/lspconfig/lua-language-server/bin/lua-language-server'
       local runtime_path = vim.split(package.path, ';')
       table.insert(runtime_path, 'lua/?.lua')
       table.insert(runtime_path, 'lua/?/init.lua')
@@ -1074,8 +1073,8 @@ use {
 
     end
   }
--- }}}
--- {{{2 which-key.nvim
+  -- }}}
+  -- {{{2 which-key.nvim
   use {
     'folke/which-key.nvim',
     config = function()
@@ -1092,8 +1091,8 @@ use {
       })
     end
   }
--- }}}
--- {{{2 vim-fugitive
+  -- }}}
+  -- {{{2 vim-fugitive
   use {
     'tpope/vim-fugitive',
     config = function()
@@ -1104,41 +1103,41 @@ use {
       vim.keymap.set('n', '<Leader>gs', '<Cmd>Git<CR>')
     end
   }
--- }}}
--- {{{2 vim-obsession
+  -- }}}
+  -- {{{2 vim-obsession
   use {
     'tpope/vim-obsession',
     config = function()
       vim.keymap.set('n', ',to', '<Cmd>Obsession<CR>')
     end
   }
--- }}}
--- {{{2 vim-repeat
+  -- }}}
+  -- {{{2 vim-repeat
   use { 'tpope/vim-repeat' }
--- }}}
--- {{{2 vim-surround
+  -- }}}
+  -- {{{2 vim-surround
   use { 'tpope/vim-surround' }
--- }}}
--- {{{2 vim-unimpaired
+  -- }}}
+  -- {{{2 vim-unimpaired
   use { 'tpope/vim-unimpaired' }
--- }}}
--- {{{2 lightspeed.nvim
+  -- }}}
+  -- {{{2 lightspeed.nvim
   use {
     'ggandor/lightspeed.nvim',
     config = function()
       vim.keymap.set('n', 's', '<Plug>Lightspeed_omni_s')
     end
   }
--- }}}
--- {{{2 spellsitter.nvim
+  -- }}}
+  -- {{{2 spellsitter.nvim
   use {
     'lewis6991/spellsitter.nvim',
     config = function()
       require('spellsitter').setup()
     end
   }
--- }}}
--- {{{2 Comment.nvim
+  -- }}}
+  -- {{{2 Comment.nvim
   use {
     'numToStr/Comment.nvim',
     config = function()
@@ -1160,8 +1159,8 @@ use {
       })
     end
   }
--- }}}
--- {{{2 nvim-bqf
+  -- }}}
+  -- {{{2 nvim-bqf
   use {
     'kevinhwang91/nvim-bqf',
     config = function()
@@ -1171,8 +1170,8 @@ use {
       })
     end
   }
--- }}}
--- {{{2 nvim-hlslens
+  -- }}}
+  -- {{{2 nvim-hlslens
   use {
     'kevinhwang91/nvim-hlslens',
     config = function()
@@ -1186,8 +1185,8 @@ use {
       vim.keymap.set('n', 'g#', [[g#<Cmd>lua require('hlslens').start()<CR>]])
     end
   }
--- }}}
--- {{{2 zk-nvim
+  -- }}}
+  -- {{{2 zk-nvim
   use {
     'mickael-menu/zk-nvim',
     config = function()
@@ -1215,11 +1214,11 @@ use {
       vim.keymap.set('n', '<Leader>zt', [[<Cmd>ZkTags<CR>]])
     end
   }
--- }}}
--- {{{2 vim-simple-align
+  -- }}}
+  -- {{{2 vim-simple-align
   use { 'kg8m/vim-simple-align' }
--- }}}
--- {{{2 fm-nvim
+  -- }}}
+  -- {{{2 fm-nvim
   use {
     'is0n/fm-nvim',
     config = function()
@@ -1231,8 +1230,8 @@ use {
       })
     end
   }
--- }}}
--- {{{2 toggleterm.nvim
+  -- }}}
+  -- {{{2 toggleterm.nvim
   use {
     'akinsho/toggleterm.nvim',
     config = function()
@@ -1256,16 +1255,16 @@ use {
       vim.keymap.set('n', '<Leader>tv', [[<Cmd>ToggleTerm direction=vertical<CR>]])
     end
   }
--- }}}
--- {{{2 vim-oscyank
+  -- }}}
+  -- {{{2 vim-oscyank
   use {
     'ojroques/vim-oscyank',
     config = function()
       vim.cmd([[autocmd TextYankPost * if v:event.operator is 'y' && v:event.regname is '' | execute 'OSCYankReg "' | endif]])
     end
   }
--- }}}
--- {{{2 nvim-spectre
+  -- }}}
+  -- {{{2 nvim-spectre
   use {
     'windwp/nvim-spectre',
     config = function()
@@ -1278,17 +1277,17 @@ use {
               '--color=never',
               '--ignore-files',
               '--exclude-dir=".git"'
-            } ,
+            },
             options = {
               ['ignore-case'] = {
-                value= '--ignore-case',
-                icon='[I]',
-                desc='ignore case'
+                value = '--ignore-case',
+                icon = '[I]',
+                desc = 'ignore case'
               },
               ['hidden'] = {
-                value='--hidden',
-                desc='hidden file',
-                icon='[H]'
+                value = '--hidden',
+                desc = 'hidden file',
+                icon = '[H]'
               },
             }
           }
@@ -1297,23 +1296,23 @@ use {
       vim.keymap.set('n', '<Leader>S', [[<Cmd>lua require('spectre').open()<CR>]])
     end
   }
--- }}}
--- {{{2 undotree
+  -- }}}
+  -- {{{2 undotree
   use {
     'mbbill/undotree',
     config = function()
-      vim.g.undotree_WindowLayout= 2
-      vim.g.undotree_SetFocusWhenToggle= 1
-      vim.g.undotree_ShortIndicators= 1
+      vim.g.undotree_WindowLayout = 2
+      vim.g.undotree_SetFocusWhenToggle = 1
+      vim.g.undotree_ShortIndicators = 1
       vim.keymap.set('n', ',tu', '<Cmd>UndotreeToggle<CR>', {})
     end
   }
--- }}}
--- {{{2 vim-dirdiff
+  -- }}}
+  -- {{{2 vim-dirdiff
   use { 'will133/vim-dirdiff' }
--- }}}
--- {{{2 paperplanes.nvim
-use {
+  -- }}}
+  -- {{{2 paperplanes.nvim
+  use {
   'rktjmp/paperplanes.nvim',
   config = function()
     require('paperplanes').setup({
@@ -1321,21 +1320,21 @@ use {
       provider = 'paste.rs'
     })
   end
-}
--- }}}
--- {{{2 vim-renamer
+  }
+  -- }}}
+  -- {{{2 vim-renamer
   use { 'qpkorr/vim-renamer' }
--- }}}
--- {{{2 vim-gnupg
+  -- }}}
+  -- {{{2 vim-gnupg
   use { 'jamessan/vim-gnupg' }
--- }}}
--- {{{2 vim-log-highlighting
+  -- }}}
+  -- {{{2 vim-log-highlighting
   use {
     'MTDL9/vim-log-highlighting',
     ft = 'log'
   }
--- }}}
--- {{{2 unicode.vim
+  -- }}}
+  -- {{{2 unicode.vim
   use {
     'chrisbra/unicode.vim',
     config = function()
@@ -1343,9 +1342,9 @@ use {
       vim.keymap.set('n', 'ga', '<Cmd>UnicodeName<CR>')
     end
   }
--- }}}
--- {{{2 Visuals
--- {{{3 nvim-colorizer.lua
+  -- }}}
+  -- {{{2 Visuals
+  -- {{{3 nvim-colorizer.lua
   use {
     'DarwinSenior/nvim-colorizer.lua',
     config = function()
@@ -1365,14 +1364,14 @@ use {
       )
     end
   }
--- }}}
--- {{{3 nvim-web-devicons
+  -- }}}
+  -- {{{3 nvim-web-devicons
   use { 'kyazdani42/nvim-web-devicons' }
--- }}}
--- {{{3 lush.nvim
+  -- }}}
+  -- {{{3 lush.nvim
   use { 'rktjmp/lush.nvim' }
--- }}}
--- {{{3 artesanal
+  -- }}}
+  -- {{{3 artesanal
   use {
     'wimstefan/vim-artesanal',
     config = function()
@@ -1380,8 +1379,8 @@ use {
       vim.g.artesanal_transparent = true
     end
   }
--- }}}
--- {{{3 nightfox.nvim
+  -- }}}
+  -- {{{3 nightfox.nvim
   use {
     'EdenEast/nightfox.nvim',
     config = function()
@@ -1404,8 +1403,8 @@ use {
       })
     end
   }
--- }}}
--- {{{3 zenbones.nvim
+  -- }}}
+  -- {{{3 zenbones.nvim
   use {
     'mcchrish/zenbones.nvim',
     config = function()
@@ -1422,15 +1421,15 @@ use {
       end
     end
   }
--- }}}
--- {{{3 lualine.nvim
+  -- }}}
+  -- {{{3 lualine.nvim
   use {
     'nvim-lualine/lualine.nvim',
     config = function()
       if vim.fn.filereadable(vim.fn.expand('$HOME/.config/colours/nvim_theme.lua')) == 1 then
-        vim.api.nvim_command[[luafile $HOME/.config/colours/nvim_theme.lua]]
+        vim.api.nvim_command [[luafile $HOME/.config/colours/nvim_theme.lua]]
       else
-        vim.api.nvim_command[[colorscheme desert]]
+        vim.api.nvim_command [[colorscheme desert]]
       end
       local check_width = function()
         return vim.fn.winwidth(0) > 100
@@ -1474,7 +1473,7 @@ use {
                 msg = msg .. ' ' .. progress.message
               end
               if progress.percentage then
-                msg = string.format('%s%2d%s','⸢', progress.percentage, '%%⸥')
+                msg = string.format('%s%2d%s', '⸢', progress.percentage, '%%⸥')
               end
               return msg
             end
@@ -1598,8 +1597,8 @@ use {
       })
     end
   }
--- }}}
--- {{{3 gitsigns.nvim
+  -- }}}
+  -- {{{3 gitsigns.nvim
   use {
     'lewis6991/gitsigns.nvim',
     requires = {
@@ -1656,7 +1655,7 @@ use {
           vim.keymap.set('n', ']c', "&diff ? ']c' : '<cmd>Gitsigns next_hunk<CR>'", { expr = true })
           vim.keymap.set('n', '[c', "&diff ? '[c' : '<cmd>Gitsigns prev_hunk<CR>'", { expr = true })
           vim.keymap.set('n', ',sp', gs.preview_hunk, { buffer = bufnr })
-          vim.keymap.set('n', ',sb', function() gs.blame_line{ full=true} end, {buffer = bufnr })
+          vim.keymap.set('n', ',sb', function() gs.blame_line { full = true } end, { buffer = bufnr })
           vim.keymap.set('n', ',sd', gs.diffthis, { buffer = bufnr })
           vim.keymap.set('n', ',sD', function() gs.diffthis('~') end, { buffer = bufnr })
           vim.keymap.set('n', ',sx', gs.toggle_deleted, { buffer = bufnr })
@@ -1667,8 +1666,8 @@ use {
       })
     end
   }
--- }}}
--- {{{3 indent-blankline.nvim
+  -- }}}
+  -- {{{3 indent-blankline.nvim
   use {
     'lukas-reineke/indent-blankline.nvim',
     config = function()
@@ -1706,8 +1705,8 @@ use {
       vim.keymap.set('n', ',ti', '<Cmd>IndentBlanklineToggle<CR>')
     end
   }
--- }}}
--- {{{3 virt-column.nvim
+  -- }}}
+  -- {{{3 virt-column.nvim
   use {
     'lukas-reineke/virt-column.nvim',
     config = function()
@@ -1717,8 +1716,8 @@ use {
       })
     end
   }
--- }}}
--- {{{3 nvim-notify
+  -- }}}
+  -- {{{3 nvim-notify
   use {
     'rcarriga/nvim-notify',
     config = function()
@@ -1726,19 +1725,20 @@ use {
       function highlights.setup()
         NotifyColors()
       end
+
       require('notify').setup({
         stages = 'static',
         timeout = 2000,
         background_colour = function()
-            local group_bg = vim.fn.synIDattr(vim.fn.synIDtrans(vim.fn.hlID('Normal')), 'bg#')
+          local group_bg = vim.fn.synIDattr(vim.fn.synIDtrans(vim.fn.hlID('Normal')), 'bg#')
+          if group_bg == '' or group_bg == 'none' then
+            group_bg = vim.fn.synIDattr(vim.fn.synIDtrans(vim.fn.hlID('Float')), 'bg#')
             if group_bg == '' or group_bg == 'none' then
-              group_bg = vim.fn.synIDattr(vim.fn.synIDtrans(vim.fn.hlID('Float')), 'bg#')
-              if group_bg == '' or group_bg == 'none' then
-                return '#000000'
-              end
+              return '#000000'
             end
-            return group_bg
-          end,
+          end
+          return group_bg
+        end,
         icons = {
           ERROR = ' ',
           WARN = ' ',
@@ -1751,11 +1751,11 @@ use {
       vim.keymap.set('n', '<Leader>Tn', [[<Cmd>lua require('telescope').extensions.notify.notify()<CR>]])
     end
   }
--- }}}
--- {{{3 dressing.nvim
+  -- }}}
+  -- {{{3 dressing.nvim
   use { 'stevearc/dressing.nvim' }
--- }}}
--- }}}
+  -- }}}
+  -- }}}
 end)
 require('packer_compiled')
 -- }}}1 --------------------- PLUGINS ------------------------------------------
