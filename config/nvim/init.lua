@@ -1024,7 +1024,7 @@ use {
             extra_args = { '--single-quote' }
           }),
           require('null-ls').builtins.formatting.stylua.with({
-            extra_args = { '--indent_type', 'Spaces', '--indent_width', '2', '--quote_style', 'ForceSingle' }
+            extra_args = { '--indent-type', 'Spaces', '--indent-width', '2', '--quote-style', 'AutoPreferSingle' }
           }),
         },
         on_attach = on_attach,
@@ -1055,6 +1055,9 @@ use {
               diagnostics = {
                 enable = true,
                 globals = { 'vim' },
+              },
+              format = {
+                enable = true
               },
               workspace = {
                 library = vim.api.nvim_get_runtime_file('', true),
