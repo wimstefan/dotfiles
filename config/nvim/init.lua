@@ -1658,6 +1658,8 @@ packer.startup(function()
           vim.keymap.set('n', ',sb', function() gs.blame_line { full = true } end, { buffer = bufnr })
           vim.keymap.set('n', ',sd', gs.diffthis, { buffer = bufnr })
           vim.keymap.set('n', ',sD', function() gs.diffthis('~') end, { buffer = bufnr })
+          vim.keymap.set('n', ',ss', gs.stage_hunk, { buffer = bufnr })
+          vim.keymap.set('n', ',su', gs.undo_stage_hunk, { buffer = bufnr })
           vim.keymap.set('n', ',sx', gs.toggle_deleted, { buffer = bufnr })
         end,
         preview_config = {
