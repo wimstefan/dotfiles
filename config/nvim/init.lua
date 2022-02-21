@@ -677,7 +677,7 @@ packer.startup(function()
         },
         pickers = {
           builtin = {
-            theme = 'dropdown',
+            layout_strategy = 'vertical',
             previewer = false
           },
           colorscheme = {
