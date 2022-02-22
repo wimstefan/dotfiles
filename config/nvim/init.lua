@@ -1364,7 +1364,14 @@ packer.startup(function()
   })
   -- }}}
   -- {{{3 nvim-web-devicons
-  use({ 'kyazdani42/nvim-web-devicons' })
+  use({
+    'wimstefan/nvim-web-devicons',
+    config = function()
+      require('nvim-web-devicons').setup({
+        padding = true
+      })
+    end
+  })
   -- }}}
   -- {{{3 lush.nvim
   use({ 'rktjmp/lush.nvim' })
