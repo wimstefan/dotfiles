@@ -922,6 +922,7 @@ packer.startup(function()
         vim.keymap.set('n', ']d', [[<Cmd>lua vim.diagnostic.goto_next({ float = false })<CR>]], { buffer = bufnr })
         vim.keymap.set('n', ',lrn', [[<Cmd>lua vim.lsp.buf.rename()<CR>]], { buffer = bufnr })
         vim.keymap.set('n', ',lh', [[<Cmd>lua vim.lsp.buf.hover()<CR>]], { buffer = bufnr })
+        vim.keymap.set('n', ',lw', [[<Cmd>lua Dump(vim.lsp.buf.list_workspace_folders())<CR>]], { buffer = bufnr })
         if client.supports_method('textDocument/codeAction') then
           vim.keymap.set('n', ',lca', [[<Cmd>Telescope lsp_code_actions<CR>]], { buffer = bufnr })
         else
@@ -1020,9 +1021,6 @@ packer.startup(function()
           require('null-ls').builtins.formatting.prettier.with({
             extra_args = { '--single-quote' }
           }),
-          require('null-ls').builtins.formatting.stylua.with({
-            extra_args = { '--indent-type', 'Spaces', '--indent-width', '2', '--quote-style', 'AutoPreferSingle' }
-          }),
         },
         on_attach = on_attach,
         capabilities = capabilities
@@ -1041,7 +1039,7 @@ packer.startup(function()
         },
         lspconfig = {
           capabilities = capabilities,
-          cmd = { sumneko_binary },
+          cmd = { sumneko_binary, '--preview' },
           on_attach = on_attach,
           settings = {
             Lua = {
@@ -1052,9 +1050,29 @@ packer.startup(function()
               diagnostics = {
                 enable = true,
                 globals = { 'vim' },
+                neededFileStatus = {
+                  codestyle_check = 'Any'
+                }
               },
               format = {
-                enable = true
+                enable = true,
+                defaultConfig = {
+                  indent_style = 'space',
+                  indent_size = 2,
+                  continuation_indent_size = 2,
+                  quote_style = 'single',
+                  call_arg_parentheses = 'keep',
+                  local_assign_continuation_align_to_first_expression = true,
+                  align_call_args = true,
+                  align_function_define_params = true,
+                  align_table_field_to_first_field = true,
+                  keep_one_space_between_table_and_bracket = true,
+                  keep_one_space_between_namedef_and_attribute = false,
+                  continuous_assign_statement_align_to_equal_sign = true,
+                  continuous_assign_table_field_align_to_equal_sign = true,
+                  if_condition_no_continuation_indent = true,
+                  if_condition_align_with_each_other = true,
+                }
               },
               workspace = {
                 library = vim.api.nvim_get_runtime_file('', true),
