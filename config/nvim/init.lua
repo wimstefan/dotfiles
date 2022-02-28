@@ -207,6 +207,12 @@ vim.keymap.set('t', '<A-j>', [[<C-\><C-N><C-w>j]])
 vim.keymap.set('t', '<A-k>', [[<C-\><C-N><C-w>k]])
 vim.keymap.set('t', '<A-l>', [[<C-\><C-N><C-w>l]])
 -- }}}
+-- {{{2 quickfix
+vim.keymap.set('n', '<C-c>', [[<Cmd>lua ToggleQF('q')<CR>]])
+vim.keymap.set('n', '<A-c>', [[<Cmd>lua ToggleQF('l')<CR>]])
+vim.keymap.set('n', '[\\', [[<Cmd>colder<CR>]])
+vim.keymap.set('n', ']\\', [[<Cmd>cnewer<CR>]])
+-- }}}
 --{{{2 signatures
 vim.keymap.set('n', '<Leader>sa', [[1G:s#\(Stefan Wimmer\) <.*>#\1 <stefan@tangoartisan.com>#<CR>G?--<CR>jVGd :r ~/.mutt/short-signature-artisan<CR>/^To:<CR>]])
 vim.keymap.set('n', '<Leader>sg', [[1G:s#\(Stefan Wimmer\) <.*>#\1 <wimstefan@gmail.com>#<CR>G?--<CR>jVGd :r ~/.mutt/short-signature-gmail<CR>/^To:<CR>]])
@@ -403,9 +409,6 @@ function ToggleQF(type)
     end
   end
 end
-
-vim.keymap.set('n', '<C-c>', [[<Cmd>lua ToggleQF('q')<CR>]])
-vim.keymap.set('n', '<A-c>', [[<Cmd>lua ToggleQF('l')<CR>]])
 -- }}}
 -- {{{2 show manpage of current word
 function ShowMan()
@@ -617,6 +620,7 @@ packer.startup(function()
       vim.keymap.set('n', '<Leader>Tc', [[<Cmd>Telescope command_history<CR>]])
       vim.keymap.set('n', '<Leader>Tf', [[<Cmd>Telescope filetypes<CR>]])
       vim.keymap.set('n', '<Leader>Tm', [[<Cmd>Telescope keymaps<CR>]])
+      vim.keymap.set('n', '<Leader>Tq', [[<Cmd>Telescope quickfix<CR>]])
       vim.keymap.set('n', '<Leader>Ts', [[<Cmd>Telescope spell_suggest<CR>]])
       vim.keymap.set('n', '<Leader>Tw', [[<Cmd>Telescope grep_string<CR>]])
       vim.keymap.set('n', '<Leader>Tz', [[<Cmd>Telescope current_buffer_fuzzy_find<CR>]])
@@ -1180,6 +1184,7 @@ packer.startup(function()
   use({
     'kevinhwang91/nvim-bqf',
     config = function()
+      vim.api.nvim_command([[packadd cfilter]])
       require('bqf').setup({
         auto_enable = true,
         auto_resize_height = true
