@@ -1152,6 +1152,7 @@ packer.startup(function()
     'ggandor/lightspeed.nvim',
     config = function()
       vim.keymap.set('n', 's', '<Plug>Lightspeed_omni_s')
+      vim.keymap.set('n', 'S', '<Plug>Lightspeed_omni_gs')
     end
   })
   -- }}}
