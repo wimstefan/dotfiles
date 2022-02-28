@@ -899,12 +899,8 @@ packer.startup(function()
       local lsp_config = require('lspconfig')
 
       -- LSP handlers
-      vim.lsp.handlers['textDocument/signatureHelp'] = vim.lsp.with(vim.lsp.handlers.signature_help, {
-        border = My_Borders
-      })
-      vim.lsp.handlers['textDocument/hover'] = vim.lsp.with(vim.lsp.handlers.hover, {
-        border = My_Borders
-      })
+      vim.lsp.handlers['textDocument/signatureHelp'] = vim.lsp.with(vim.lsp.handlers.signature_help, { border = My_Borders })
+      vim.lsp.handlers['textDocument/hover'] = vim.lsp.with(vim.lsp.handlers.hover, { border = My_Borders })
 
       -- LSP functions
       local on_attach = function(client, bufnr)
@@ -921,7 +917,7 @@ packer.startup(function()
         vim.keymap.set('n', ',lY', [[<Cmd>Telescope lsp_workspace_symbols<CR>]], { buffer = bufnr })
         vim.keymap.set('n', ',ld', [[<Cmd>Telescope diagnostics bufnr=0<CR>]], { buffer = bufnr })
         vim.keymap.set('n', ',lD', [[<Cmd>Telescope diagnostics<CR>]], { buffer = bufnr })
-        vim.keymap.set('n', ',le', [[<Cmd>lua vim.diagnostic.open_float({ scope = 'line', border = My_Borders })<CR>]], { buffer = bufnr })
+        vim.keymap.set('n', ',le', [[<Cmd>lua vim.diagnostic.open_float({ scope = 'line' })<CR>]], { buffer = bufnr })
         vim.keymap.set('n', '[d', [[<Cmd>lua vim.diagnostic.goto_prev({ float = false })<CR>]], { buffer = bufnr })
         vim.keymap.set('n', ']d', [[<Cmd>lua vim.diagnostic.goto_next({ float = false })<CR>]], { buffer = bufnr })
         vim.keymap.set('n', ',lrn', [[<Cmd>lua vim.lsp.buf.rename()<CR>]], { buffer = bufnr })
@@ -933,18 +929,18 @@ packer.startup(function()
           lsp_messages = lsp_messages .. 'no codeAction' .. lsp_msg_sep
         end
         if client.resolved_capabilities.declaration then
-          vim.keymap.set('n', ',lc', [[<Cmd>Telescope lsp_declaratlsp_declarations { buffer = bufnr })
+          vim.keymap.set('n', ',lc', [[<Cmd>lua vim.lsp.buf.declaration()<CR>]],{ buffer = bufnr })
         else
           vim.keymap.set('n', ',lc', [[<Nop>]], { buffer = bufnr })
           lsp_messages = lsp_messages .. 'no declaration' .. lsp_msg_sep
         end
         if client.resolved_capabilities.document_formatting then
-          vim.keymap.set('n', ',lf', ':lua vim.lsp.buf.formatting()<CR>', { buffer = bufnr, silent = true })
+          vim.keymap.set('n', ',lf', '<Cmd>lua vim.lsp.buf.formatting()<CR>', { buffer = bufnr, silent = true })
         else
           lsp_messages = lsp_messages .. 'no format' .. lsp_msg_sep
         end
         if client.resolved_capabilities.document_range_formatting then
-          vim.keymap.set('v', ',lf', ':lua vim.lsp.buf.range_formatting()<CR>', { buffer = bufnr, silent = true })
+          vim.keymap.set('v', ',lf', '<Cmd>lua vim.lsp.buf.range_formatting()<CR>', { buffer = bufnr, silent = true })
         else
           lsp_messages = lsp_messages .. 'no rangeFormat' .. lsp_msg_sep
         end
@@ -981,6 +977,16 @@ packer.startup(function()
       end
 
       local capabilities = vim.lsp.protocol.make_client_capabilities()
+      capabilities.textDocument.completion.completionItem.snippetSupport = true
+      capabilities.textDocument.completion.completionItem.resolveSupport = {
+        properties = {
+          'documentation',
+          'detail',
+          'additionalTextEdits',
+        }
+      }
+      capabilities.experimental = {}
+      capabilities.experimental.hoverActions = true
       capabilities = lsp_cmp.update_capabilities(capabilities)
 
       -- LSP servers
@@ -1491,7 +1497,7 @@ packer.startup(function()
       end
       local lsp_status = function()
         local msg = ''
-        msg = '[LSP] '
+        msg = '[LSP]'
         for _, client in ipairs(vim.lsp.get_active_clients()) do
           msg = msg .. '‹' .. client.name .. '›'
           for _, progress in pairs(client.messages.progress) do
