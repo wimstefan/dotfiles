@@ -409,6 +409,7 @@ function ToggleQF(type)
     end
   end
 end
+
 -- }}}
 -- {{{2 show manpage of current word
 function ShowMan()
@@ -929,7 +930,7 @@ packer.startup(function()
           lsp_messages = lsp_messages .. 'no codeAction' .. lsp_msg_sep
         end
         if client.resolved_capabilities.declaration then
-          vim.keymap.set('n', ',lc', [[<Cmd>lua vim.lsp.buf.declaration()<CR>]],{ buffer = bufnr })
+          vim.keymap.set('n', ',lc', [[<Cmd>lua vim.lsp.buf.declaration()<CR>]], { buffer = bufnr })
         else
           vim.keymap.set('n', ',lc', [[<Nop>]], { buffer = bufnr })
           lsp_messages = lsp_messages .. 'no declaration' .. lsp_msg_sep
