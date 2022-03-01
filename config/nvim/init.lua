@@ -453,13 +453,13 @@ packer.startup(function()
   })
   -- }}}
   -- {{{2 impatient.nvim
-  use({ 'lewis6991/impatient.nvim' })
+  use('lewis6991/impatient.nvim')
   -- }}}
   -- {{{2 FixCursorHold.nvim
-  use({ 'antoinemadec/FixCursorHold.nvim' })
+  use('antoinemadec/FixCursorHold.nvim')
   -- }}}
   -- {{{2 startuptime
-  use({ 'dstein64/vim-startuptime' })
+  use('dstein64/vim-startuptime')
   -- }}}
   -- {{{2 Treesitter
   use({
@@ -1139,13 +1139,13 @@ packer.startup(function()
   })
   -- }}}
   -- {{{2 vim-repeat
-  use({ 'tpope/vim-repeat' })
+  use('tpope/vim-repeat')
   -- }}}
   -- {{{2 vim-surround
-  use({ 'tpope/vim-surround' })
+  use('tpope/vim-surround')
   -- }}}
   -- {{{2 vim-unimpaired
-  use({ 'tpope/vim-unimpaired' })
+  use('tpope/vim-unimpaired')
   -- }}}
   -- {{{2 lightspeed.nvim
   use({
@@ -1244,7 +1244,7 @@ packer.startup(function()
   })
   -- }}}
   -- {{{2 vim-simple-align
-  use({ 'kg8m/vim-simple-align' })
+  use('kg8m/vim-simple-align')
   -- }}}
   -- {{{2 fm-nvim
   use({
@@ -1337,7 +1337,7 @@ packer.startup(function()
   })
   -- }}}
   -- {{{2 vim-dirdiff
-  use({ 'will133/vim-dirdiff' })
+  use('will133/vim-dirdiff')
   -- }}}
   -- {{{2 paperplanes.nvim
   use({
@@ -1351,10 +1351,10 @@ packer.startup(function()
   })
   -- }}}
   -- {{{2 vim-renamer
-  use({ 'qpkorr/vim-renamer' })
+  use('qpkorr/vim-renamer')
   -- }}}
   -- {{{2 vim-gnupg
-  use({ 'jamessan/vim-gnupg' })
+  use('jamessan/vim-gnupg')
   -- }}}
   -- {{{2 vim-log-highlighting
   use({
@@ -1404,7 +1404,7 @@ packer.startup(function()
   })
   -- }}}
   -- {{{3 lush.nvim
-  use({ 'rktjmp/lush.nvim' })
+  use('rktjmp/lush.nvim')
   -- }}}
   -- {{{3 artesanal
   use({
@@ -1790,7 +1790,7 @@ packer.startup(function()
   })
   -- }}}
   -- {{{3 dressing.nvim
-  use({ 'stevearc/dressing.nvim' })
+  use('stevearc/dressing.nvim')
   -- }}}
   -- }}}
 end)
