@@ -225,31 +225,18 @@ vim.keymap.set('n', '<Leader>sl', [[G?--<CR>jVGd :r ~/.mutt/signature<CR>]])
 vim.cmd([[
 augroup General
   autocmd!
-  " tridactyl editing
   autocmd BufRead * if expand('%') =~ 'tangoartisan' | setfiletype html | endif
-  " Syntax for htp files
   autocmd BufNewFile,BufRead *.htp,*.htt set filetype=xhtml
-  " Syntax for xmp files
   autocmd BufNewFile,BufRead *.xmp set filetype=xml
-  " Syntax for rofi files
   autocmd BufNewFile,BufRead *.rasi set filetype=config
-  " Automatically chmod +x Shell and Perl scripts
   autocmd BufWritePost *.sh,*.pl,*.py silent !chmod +x %
-  " Change fileformat on playlist files (created by moc)
   autocmd BufNewFile,BufRead *.m3u set encoding=utf-8 fileencoding=utf-8 ff=unix
-  " run xrdb whenever Xdefaults or Xresources are updated
   autocmd BufWritePost X{resources,defaults} silent !xrdb %
-  " Encoding for cddb files
   autocmd BufNewFile,BufRead *cddb* set encoding=utf-8 fileencoding=utf-8 ff=unix
-  " Enable spelling for text files
   autocmd FileType txt,markdown,asciidoc*,rst if &filetype !~ 'man\|help' | setlocal spell | endif
-  " Some buffers can be closed with 'q'
   autocmd FileType help,man,startuptime,qf,lspinfo,null-ls-info,checkhealth nnoremap <buffer><silent>q :bdelete<CR>
-  " Disable folding in previews
   autocmd BufWinEnter * if &previewwindow | setlocal nofoldenable | endif
-  " Remember last cursor position
   autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") && &ft !~# 'commit' | execute "normal! g`\"" | endif
-  " Enable yank highlighting
   autocmd TextYankPost * silent! lua vim.highlight.on_yank {higroup='WildMenu', timeout=4444}
 augroup END
 augroup Commentstrings
@@ -267,9 +254,7 @@ augroup Help
 augroup END
 augroup Colors
   autocmd!
-  " Clean ColorColumn
   autocmd ColorScheme * highlight clear ColorColumn
-  " Apply nvim-notify colours
   autocmd ColorScheme,VimEnter,WinEnter,BufEnter * call v:lua.NotifyColors()
 augroup END
 ]])
