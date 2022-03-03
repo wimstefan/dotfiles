@@ -177,6 +177,9 @@ vim.diagnostic.config({
 vim.keymap.set('', 'cd', '<Cmd>cd %:h | pwd<CR>')
 vim.keymap.set('n', '<Leader>g', ':grep<Space>')
 vim.keymap.set('n', '<Leader>l', '<Cmd>nohlsearch | hi clear ColorColumn<CR>')
+vim.keymap.set('n', 'M', '<Cmd>lua ShowMan()<CR>')
+vim.keymap.set('n', '<F10>', '<Cmd>lua ToggleDetails()<CR>')
+vim.keymap.set('n', '<F11>', '<Cmd>lua Identify_Highlight_Group()<CR>')
 -- {{{2 navigation
 vim.keymap.set('n', 'k', [[v:count == 0 ? 'gk' : 'k']], { expr = true })
 vim.keymap.set('n', 'j', [[v:count == 0 ? 'gj' : 'j']], { expr = true })
@@ -273,6 +276,16 @@ function Dump(...)
   print(unpack(objects))
 end
 
+function Identify_Highlight_Group()
+	local highlight_name = vim.fn.synIDattr(vim.fn.synIDtrans(vim.fn.synID(vim.fn.line('.'), vim.fn.col('.'), 1)), 'name')
+  if highlight_name == ''
+    then
+      vim.notify('Highlight group not found', vim.log.levels.WARN, { title = '[UI]' })
+    else
+      vim.cmd(string.format([[highlight %s]], highlight_name))
+    end
+end
+
 function NotifyColors()
   vim.cmd([[
     highlight link NotifyERRORBorder DiagnosticVirtualTextError
@@ -325,8 +338,6 @@ function ToggleDetails()
     vim.notify('Details enabled', vim.log.levels.INFO, { title = '[UI]' })
   end
 end
-
-vim.keymap.set('n', '<F10>', '<Cmd>lua ToggleDetails()<CR>')
 -- }}}
 -- {{{2 quickfix/location toggle made by iBaghwan
 function TableLength(T)
@@ -394,15 +405,12 @@ function ToggleQF(type)
     end
   end
 end
-
 -- }}}
 -- {{{2 show manpage of current word
 function ShowMan()
   local cword = vim.fn.expand('<cword>')
   vim.cmd([[Man ]] .. cword)
 end
-
-vim.keymap.set('n', 'M', '<Cmd>lua ShowMan()<CR>')
 -- }}}
 -- }}}1 --------------------- FUNCTIONS ----------------------------------------
 -- {{{1 --------------------- PLUGINS ------------------------------------------
@@ -475,7 +483,7 @@ packer.startup(function()
         },
         highlight = {
           enable = true,
-          additional_vim_regex_highlighting = { 'markdown' }
+          additional_vim_regex_highlighting = true
         },
         incremental_selection = {
           enable = true,
