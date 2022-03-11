@@ -572,7 +572,7 @@ packer.startup(function()
         },
       })
       local parsers = require('nvim-treesitter.parsers')
-      function _G.ensure_treesitter_language_installed()
+      function Ensure_Treesitter_Language_Installed()
         local lang = parsers.get_buf_lang()
         if parsers.get_parser_configs()[lang] and not parsers.has_parser(lang) then
           vim.schedule_wrap(function()
@@ -581,7 +581,7 @@ packer.startup(function()
         end
       end
 
-      vim.cmd([[autocmd FileType * lua ensure_treesitter_language_installed()]])
+      vim.cmd([[autocmd FileType * lua Ensure_Treesitter_Language_Installed()]])
     end
   })
   -- }}}
