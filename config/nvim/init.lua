@@ -747,6 +747,7 @@ packer.startup(function()
       }
     },
     'ray-x/cmp-treesitter',
+    'f3fora/cmp-spell',
   },
   config = function()
     local has_words_before = function()
@@ -780,6 +781,7 @@ packer.startup(function()
             path = '[Filesystem]',
             luasnip = '[Snippet]',
             treesitter = '[TS]',
+            spell = '[Spell]',
           })[entry.source.name]
           vim_item.kind = My_Symbols[vim_item.kind]
           return vim_item
@@ -830,7 +832,6 @@ packer.startup(function()
         { name = 'nvim_lua' },
         { name = 'nvim_lsp' },
         { name = 'path' },
-        { name = 'treesitter' },
         { name = 'luasnip' },
         { name = 'buffer',
           option = {
@@ -839,6 +840,8 @@ packer.startup(function()
             end
           }
         },
+        { name = 'treesitter' },
+        { name = 'spell' },
       })
     })
     cmp.setup.cmdline(':', {
@@ -1019,8 +1022,8 @@ packer.startup(function()
       require('null-ls').setup({
         debug = false,
         sources = {
-          require('null-ls').builtins.completion.spell,
           require('null-ls').builtins.diagnostics.zsh,
+          require('null-ls').builtins.diagnostics.trail_space,
           require('null-ls').builtins.formatting.trim_whitespace,
           require('null-ls').builtins.formatting.prettier.with({
             extra_args = { '--single-quote' }
