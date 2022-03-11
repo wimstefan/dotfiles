@@ -879,6 +879,7 @@ packer.startup(function()
         'stevearc/aerial.nvim',
         config = function()
           require('aerial').setup({
+            backends = { 'treesitter', 'lsp', 'markdown' },
             placement_editor_edge = true,
             symbols = My_Symbols,
             on_attach = function(bufnr)
