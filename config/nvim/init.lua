@@ -686,7 +686,10 @@ packer.startup(function()
             layout_strategy = 'vertical'
           },
           find_files = {
-            follow = true
+            find_command = { 'fd', '--exclude', '.git/' },
+            follow = true,
+            hidden = true,
+            no_ignore = false
           },
           filetypes = {
             theme = 'dropdown'
@@ -707,7 +710,7 @@ packer.startup(function()
             layout_strategy = 'vertical'
           },
           oldfiles = {
-            theme = 'dropdown',
+            layout_strategy = 'vertical',
             previewer = false
           },
           spell_suggest = {
