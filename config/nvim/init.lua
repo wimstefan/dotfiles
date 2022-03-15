@@ -1422,7 +1422,7 @@ packer.startup(function()
     config = function()
       require('nightfox').setup({
         transparent = true,
-        alt_nc = true,
+        alt_nc = false,
         terminal_colors = true,
         styles = {
           comments = 'italic',
@@ -1435,6 +1435,9 @@ packer.startup(function()
           match_paren = true,
           visual = false,
           search = true,
+        },
+        hlgroups = {
+          Folded = { bg = "NONE" }
         }
       })
     end
@@ -1455,6 +1458,28 @@ packer.startup(function()
           transparent_background = true
         }
       end
+    end
+  })
+  -- }}}
+  -- {{{3 onedark.nvim
+  use({
+    'navarasu/onedark.nvim',
+    config = function()
+      require('onedark').setup({
+        transparent = true,
+        code_style = {
+          comments = 'italic',
+          keywords = 'none',
+          functions = 'bold',
+          strings = 'none',
+          variables = 'none'
+        },
+        diagnostics = {
+          background = false
+        },
+        toggle_style_key = ',tos',
+        toggle_style_list = { 'cool', 'deep', 'light' },
+      })
     end
   })
   -- }}}
@@ -1791,7 +1816,20 @@ packer.startup(function()
   })
   -- }}}
   -- {{{3 dressing.nvim
-  use('stevearc/dressing.nvim')
+  use({
+    'stevearc/dressing.nvim',
+    config = function()
+      require('dressing').setup({
+        input = {
+          winblend = 0,
+          winhighlight = 'Normal:ModeMsg,FloatBorder:TelescopeBorder'
+        },
+        select = {
+          winblend = 0
+        },
+      })
+    end
+  })
   -- }}}
   -- }}}
 end)
