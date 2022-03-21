@@ -25,13 +25,20 @@ vim.opt.listchars = {
   extends = '>',
   precedes = '<'
 }
-vim.opt.fillchars = {
-  vert = '▌',
+vim.opt.laststatus = 3
+vim.opt.fillchars:append({
+  horiz = '─',
+  horizup = '┴',
+  horizdown = '┬',
+  vert = '│',
+  vertleft = '┤',
+  vertright = '├',
+  verthoriz = '┼',
   foldclose = '▾',
   foldopen = '▴',
   foldsep = '🮍',
-  msgsep = '🮑'
-}
+  msgsep = '═'
+})
 vim.opt.mouse = 'a'
 
 vim.opt.shiftwidth = indent
@@ -1407,22 +1414,24 @@ packer.startup(function()
     'EdenEast/nightfox.nvim',
     config = function()
       require('nightfox').setup({
-        transparent = true,
-        alt_nc = false,
-        terminal_colors = true,
-        styles = {
-          comments = 'italic',
-          functions = 'italic',
-          keywords = 'bold',
-          strings = 'NONE',
-          variables = 'NONE',
+        options = {
+          transparent = true,
+          dim_inactive = true,
+          terminal_colors = true,
+          styles = {
+            comments = 'italic',
+            functions = 'italic',
+            keywords = 'bold',
+            strings = 'NONE',
+            variables = 'NONE',
+          },
+          inverse = {
+            match_paren = true,
+            visual = false,
+            search = true,
+          }
         },
-        inverse = {
-          match_paren = true,
-          visual = false,
-          search = true,
-        },
-        hlgroups = {
+        groups = {
           Folded = { bg = "NONE" }
         }
       })
@@ -1552,6 +1561,7 @@ packer.startup(function()
       require('lualine').setup({
         options = {
           icons_enabled = true,
+          globalstatus = true,
           section_separators = { left = '', right = '' },
           component_separators = { left = '', right = '' },
         },
@@ -1691,10 +1701,6 @@ packer.startup(function()
           [8] = '⁸',
           [9] = '⁹',
           ['+'] = '⁺'
-        },
-        current_line_blame = false,
-        current_line_blame_opts = {
-          virt_text_pos = 'overlay'
         },
         numhl = true,
         on_attach = function(bufnr)
