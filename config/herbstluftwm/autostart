@@ -69,7 +69,7 @@ hc keybind $Mod-Escape use_previous
 hc keybind $Mod-$Alt-p pseudotile toggle
 hc keybind $Mod-$Alt-s floating toggle
 hc keybind $Mod-Shift-f set_attr clients.focus.floating toggle
-hc keybind $Mod-$Alt-f spawn ${HOME}/.config/herbstluftwm/scripts/maximize.sh
+hc keybind $Mod-$Alt-f spawn $HOME/.config/herbstluftwm/scripts/maximize.sh
 hc keybind $Mod-Shift-m set_attr clients.focus.minimized true
 hc keybind $Mod-Control-m jumpto last-minimized
 
@@ -93,9 +93,9 @@ hc keybind $Mod-Shift-Tab cycle_all -1
 hc keybind $Mod-$Alt-u jumpto urgent
 
 # theme
-width=2
+width=6
 gap=14
-padding=2
+padding=6
 color_base=$(xrdb -query | grep 'foreground' | awk '{print $2}')
 if [ $(cat $HOME/.config/colours/background) = 'dark' ]; then
   op='ee'
@@ -126,6 +126,7 @@ hc attr settings.focus_stealing_prevention true
 hc attr settings.default_frame_layout horizontal
 hc attr settings.smart_frame_surroundings true
 hc attr settings.always_show_frame false
+hc attr settings.tabbed_max true
 hc attr settings.frame_border_width "$gap"
 hc attr settings.frame_transparent_width 0
 hc attr settings.frame_bg_transparent true
@@ -163,7 +164,7 @@ hc rule title=Keybindings floating=on
 hc rule title=Ranger floating=on
 hc rule title=Scratchpad floating=on
 hc rule title=Sysinfo floating=on
-hc rule class~'.*[Tt]erm' title=calendar manage=off
+hc rule class~'.*[Tt]erm' title=Calendar manage=off
 hc rule class~'[Gg]color2' floating=on
 hc rule class~'[Ll]xappearance' floating=on
 hc rule class=scribus tag=7
@@ -180,14 +181,14 @@ hc set tree_style '╾│ ├└╼─┐'
 hc unlock
 
 pkill sxhkd
-sxhkd -c ${HOME}/.config/herbstluftwm/sxhkdrc &
+sxhkd -c $HOME/.config/herbstluftwm/sxhkdrc &
 pkill picom
 while pgrep -x picom >/dev/null; do sleep 1; done
-picom &
+picom --experimental-backends &
 pkill dunst
 dunst &
-feh --bg-fill ${HOME}/system/wallpapers/default.jpg &
-${HOME}/.config/polybar/launch.sh
+feh --bg-fill $HOME/system/wallpapers/default.jpg &
+$HOME/.config/polybar/launch.sh
 
 hc apply_rules --all
 
