@@ -470,6 +470,7 @@ packer.startup(function()
       'nvim-treesitter/nvim-treesitter-textobjects',
       'nvim-treesitter/nvim-treesitter-refactor',
       'windwp/nvim-ts-autotag',
+      'p00f/nvim-ts-rainbow',
       'JoosepAlviste/nvim-ts-context-commentstring',
       {
         'nvim-treesitter/playground',
@@ -506,6 +507,10 @@ packer.startup(function()
         },
         playground = {
           enable = true
+        },
+        rainbow = {
+          enable = true,
+          extended_mode = true
         },
         refactor = {
           highlight_current_scope = { enable = false },
