@@ -832,9 +832,10 @@ packer.startup(function()
       sources = cmp.config.sources({
         { name = 'nvim_lua' },
         { name = 'nvim_lsp' },
-        { name = 'path' },
         { name = 'luasnip' },
-        { name = 'buffer',
+        { name = 'path' },
+        {
+          name = 'buffer',
           option = {
             get_bufnrs = function()
               return vim.api.nvim_list_bufs()
@@ -846,14 +847,15 @@ packer.startup(function()
       })
     })
     cmp.setup.cmdline(':', {
-      sources = {
-        { name = 'cmdline' }
-      }
+      sources = cmp.config.sources({
+        { name = 'cmdline' },
+        { name = 'path' }
+      })
     })
     cmp.setup.cmdline('/', {
-      sources = {
+      sources = cmp.config.sources({
         { name = 'buffer' }
-      }
+      })
     })
   end,
   })
