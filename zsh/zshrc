@@ -1,5 +1,5 @@
 # my zsh config
-# vim: foldmethod=marker foldlevel=1 textwidth=200 filetype=sh
+# vim: foldmethod=marker foldlevel=1 textwidth=200
 
 # BEGIN shell config # {{{1
 # - Options {{{2
@@ -427,12 +427,11 @@ alias dmesg='dmesg --human'
 alias les="less"
 alias grep="grep --color=auto"
 alias gcal="gcal -s1"
-alias glances="PYTHONIOENCODING=utf8 glances"
+alias cr="check-repos.sh"
 alias mtr="mtr --curses"
 alias eix="eix --force-color"
 alias history="history -i -44"
 alias time="/usr/bin/time"
-alias vifm="vifmrun"
 ## ugrep
 alias uq='ug -Q'
 alias ux='ug -UX'
@@ -454,9 +453,6 @@ alias reload="source $HOME/.zshrc"
 alias el="equery list -p -o"
 alias sf="setfont ter-112n"
 alias unmount="udevil unmount"
-if [ -x /usr/local/bin/fzf ]; then
-  alias vif='$(EDITOR) $(fzf)'
-fi
 # urls
 alias packages="w3m https://packages.gentoo.org/"
 alias 24bugs="w3m 'https://bugs.gentoo.org/buglist.cgi?query_format=advanced&chfieldfrom=-1D&chfieldto=Now&chfield=[Bug+creation]&order=bugs.bug_id'"
@@ -559,7 +555,7 @@ function npm-update()
 {
   echo "Installed packages:"
   npm -g list
-  for i in $(npm -g outdated | rg -v Package | awk '{print $1}'); echo $i && npm -g update $i
+  for i in $(npm -g outdated | rg -v Package | awk '{print $1}'); echo "--- $i ---" && npm -g update $i
 }
 
 function pip-update()
@@ -632,12 +628,12 @@ if [[ $USER != root ]]; then
     else
       local mhost="$1"
       echo "Syncing music with $mhost ..."
-      rsync -avz --delete /music/Tango/ $mhost:/music/Tango/
-      rsync -avz --delete /music/Non-Tango/ $mhost:/music/Non-Tango/
+      rsync -avz --delete --exclude='.stfolder' /music/Tango/ $mhost:/music/Tango/
+      rsync -avz --delete --exclude='.stfolder' /music/Non-Tango/ $mhost:/music/Non-Tango/
       echo "Syncing CDDB info with $mhost ..."
       rsync -avz /home/swimmer/.cddb/ $mhost:/home/swimmer/.cddb/
       echo "Syncing playlists with $mhost ..."
-      rsync -avz --delete /music/playlists/ $mhost:/music/playlists/
+      rsync -avz --delete --exclude='.stfolder' /music/playlists/ $mhost:/music/playlists/
     fi
   }
   function sync-music-pretend()
@@ -653,12 +649,12 @@ if [[ $USER != root ]]; then
     else
       local mhost="$1"
       echo "Syncing music with $mhost ..."
-      rsync -avzn --delete /music/Tango/ $mhost:/music/Tango/
-      rsync -avzn --delete /music/Non-Tango/ $mhost:/music/Non-Tango/
+      rsync -avzn --delete --exclude='.stfolder' /music/Tango/ $mhost:/music/Tango/
+      rsync -avzn --delete --exclude='.stfolder' /music/Non-Tango/ $mhost:/music/Non-Tango/
       echo "Syncing CDDB info with $mhost ..."
       rsync -avzn /home/swimmer/.cddb/ $mhost:/home/swimmer/.cddb/
       echo "Syncing playlists with $mhost ..."
-      rsync -avzn --delete /music/playlists/ $mhost:/music/playlists/
+      rsync -avzn --delete --exclude='.stfolder' /music/playlists/ $mhost:/music/playlists/
     fi
   }
   function flac2ogg()
@@ -950,6 +946,9 @@ fi
 # }}}2
 # END user config # }}}1
 # - External modules # {{{2
+if type fasd &> /dev/null; then
+  eval "$(fasd --init auto)"
+fi
 [ -f $HOME/.zsh/external/fzf-extras.git/fzf-extras.sh ] && source $HOME/.zsh/external/fzf-extras.git/fzf-extras.sh
 [ -f $HOME/.zsh/external/fzf-extras.git/fzf-extras.zsh ] && source $HOME/.zsh/external/fzf-extras.git/fzf-extras.zsh
 [ -f $HOME/.zsh/external/fzf-marks.git/fzf-marks.plugin.zsh ] && source $HOME/.zsh/external/fzf-marks.git/fzf-marks.plugin.zsh
@@ -964,22 +963,6 @@ if [[ -f $HOME/.zsh/external/zsh-syntax-highlighting.git/zsh-syntax-highlighting
   source $HOME/.zsh/external/zsh-syntax-highlighting.git/zsh-syntax-highlighting.zsh
   export ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets )
 fi
-if [[ -f $HOME/.zsh/external/z.git/z.sh ]]; then
-  source $HOME/.zsh/external/z.git/z.sh
-  export _Z_DATA="$HOME/.config/z/z.data"
-  unalias z
-  z() {
-    if [[ -z "$*" ]]; then
-      cd "$(_z -l 2>&1 | fzf +s --tac | sed 's/^[0-9,.]* *//')"
-    else
-      _last_z_args="$@"
-      _z "$@"
-    fi
-  }
-  zz() {
-    cd "$(_z -l 2>&1 | sed 's/^[0-9,.]* *//' | fzf -q "$_last_z_args")"
-  }
-fi
 # Kitty configuration
 ## Shell integration
 if [[ -n $KITTY_INSTALLATION_DIR ]]; then
@@ -991,3 +974,5 @@ fi
 # }}}2
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+alias luamake=/home/swimmer/.local/share/nvim/lspconfig/lua-language-server.git/3rd/luamake/luamake
