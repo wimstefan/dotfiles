@@ -188,8 +188,8 @@ vim.keymap.set('n', 'M', '<Cmd>lua ShowMan()<CR>')
 vim.keymap.set('n', '<F10>', '<Cmd>lua ToggleDetails()<CR>')
 vim.keymap.set('n', '<F11>', '<Cmd>lua Identify_Highlight_Group()<CR>')
 -- {{{2 navigation
-vim.keymap.set('n', 'k', [[v:count == 0 ? 'gk' : 'k']], { expr = true })
-vim.keymap.set('n', 'j', [[v:count == 0 ? 'gj' : 'j']], { expr = true })
+vim.keymap.set({ 'n', 'x' }, 'j', function() return vim.v.count > 0 and 'j' or 'gj' end, { expr = true })
+vim.keymap.set({ 'n', 'x' }, 'k', function() return vim.v.count > 0 and 'k' or 'gk' end, { expr = true })
 -- }}}
 -- {{{2 editing
 vim.keymap.set('n', '<Leader>ev', '<Cmd>edit $MYVIMRC<CR>')
@@ -223,7 +223,7 @@ vim.keymap.set('n', '<A-c>', [[<Cmd>lua ToggleQF('l')<CR>]])
 vim.keymap.set('n', '[\\', [[<Cmd>colder<CR>]])
 vim.keymap.set('n', ']\\', [[<Cmd>cnewer<CR>]])
 -- }}}
---{{{2 signatures
+-- {{{2 signatures
 vim.keymap.set('n', '<Leader>sa', [[1G:s#\(Stefan Wimmer\) <.*>#\1 <stefan@tangoartisan.com>#<CR>G?--<CR>jVGd :r ~/.mutt/short-signature-artisan<CR>/^To:<CR>]])
 vim.keymap.set('n', '<Leader>sg', [[1G:s#\(Stefan Wimmer\) <.*>#\1 <wimstefan@gmail.com>#<CR>G?--<CR>jVGd :r ~/.mutt/short-signature-gmail<CR>/^To:<CR>]])
 vim.keymap.set('n', '<Leader>st', [[G?--<CR>jVGd :r ~/.mutt/short-signature-tango<CR>]])
