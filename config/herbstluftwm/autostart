@@ -93,9 +93,12 @@ hc keybind $Mod-Shift-Tab cycle_all -1
 hc keybind $Mod-$Alt-u jumpto urgent
 
 # theme
-width=6
+if [ $(hostname) = 'swimmer' ]; then
+  width=8
+else
+  width=4
+fi
 gap=14
-padding=6
 color_base=$(xrdb -query | grep 'foreground' | awk '{print $2}')
 if [ $(cat $HOME/.config/colours/background) = 'dark' ]; then
   op='ee'
