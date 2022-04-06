@@ -849,7 +849,7 @@ if [[ $USER != root ]]; then
     export POLYBAR_HEIGHT="35"
 
     # Key management
-    eval `keychain --eval --agents ssh id_rsa`
+    eval `keychain --eval --agents gpg,ssh 451CEE7036BBF00C id_rsa`
 
     alias tj="tmux start-server && tmux attach -d -t tj"
     alias tj-ncmpcpp="ncmpcpp -p 6601 -c ~/.ncmpcpp/tj-config"
