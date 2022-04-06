@@ -1144,12 +1144,11 @@ packer.startup(function()
   -- {{{2 vim-unimpaired
   use('tpope/vim-unimpaired')
   -- }}}
-  -- {{{2 lightspeed.nvim
+  -- {{{2 leap.nvim
   use({
-    'ggandor/lightspeed.nvim',
+    'ggandor/leap.nvim',
     config = function()
-      vim.keymap.set('n', 's', '<Plug>Lightspeed_omni_s')
-      vim.keymap.set('n', 'S', '<Plug>Lightspeed_omni_gs')
+      require('leap').set_default_keymaps()
     end
   })
   -- }}}
