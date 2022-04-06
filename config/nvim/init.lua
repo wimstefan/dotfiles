@@ -741,25 +741,23 @@ packer.startup(function()
     'hrsh7th/cmp-path',
     'hrsh7th/cmp-cmdline',
     {
-      'saadparwaiz1/cmp_luasnip',
+      'quangnguyen30192/cmp-nvim-ultisnips',
       requires = {
-        'L3MON4D3/LuaSnip',
-        'honza/vim-snippets'
-      }
+        'SirVer/ultisnips',
+        'honza/vim-snippets',
+        'nvim-treesitter/nvim-treesitter'
+      },
+      config = function()
+        require('cmp_nvim_ultisnips').setup({})
+      end
     },
     'ray-x/cmp-treesitter',
     'f3fora/cmp-spell',
   },
   config = function()
-    local has_words_before = function()
-      local line, col = unpack(vim.api.nvim_win_get_cursor(0))
-      return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match('%s') == nil
-    end
 
     local cmp = require('cmp')
-    local luasnip = require('luasnip')
-    luasnip.filetype_extend('all', { '_' })
-    require('luasnip.loaders.from_snipmate').lazy_load()
+    local cmp_ultisnips_mappings = require('cmp_nvim_ultisnips.mappings')
 
     cmp.setup({
       completion = {
@@ -780,7 +778,7 @@ packer.startup(function()
             nvim_lsp = '[LSP]',
             nvim_lua = '[API]',
             path = '[Filesystem]',
-            luasnip = '[Snippet]',
+            ultisnips = '[Snippet]',
             treesitter = '[TS]',
             spell = '[Spell]',
           })[entry.source.name]
@@ -790,7 +788,7 @@ packer.startup(function()
       },
       snippet = {
         expand = function(args)
-          luasnip.lsp_expand(args.body)
+          vim.fn['UltiSnips#Anon'](args.body)
         end
       },
       mapping = {
@@ -811,10 +809,8 @@ packer.startup(function()
         ['<Tab>'] = cmp.mapping(function(fallback)
           if cmp.visible() then
             cmp.select_next_item()
-          elseif luasnip.expand_or_jumpable() then
-            luasnip.expand_or_jump()
-          elseif has_words_before() then
-            cmp.complete()
+          elseif cmp_ultisnips_mappings.expand_or_jump_forwards() then
+            cmp_ultisnips_mappings.expand_or_jump_forwards(fallback)
           else
             fallback()
           end
@@ -822,8 +818,8 @@ packer.startup(function()
         ['<S-Tab>'] = cmp.mapping(function(fallback)
           if cmp.visible() then
             cmp.select_prev_item()
-          elseif luasnip.jumpable(-1) then
-            luasnip.jump(-1)
+          elseif cmp_ultisnips_mappings.jump_backwards() then
+            cmp_ultisnips_mappings.jump_backwards(fallback)
           else
             fallback()
           end
@@ -832,7 +828,7 @@ packer.startup(function()
       sources = cmp.config.sources({
         { name = 'nvim_lua' },
         { name = 'nvim_lsp' },
-        { name = 'luasnip' },
+        { name = 'ultisnips' },
         { name = 'path' },
         {
           name = 'buffer',
