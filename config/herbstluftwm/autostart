@@ -93,11 +93,7 @@ hc keybind $Mod-Shift-Tab cycle_all -1
 hc keybind $Mod-$Alt-u jumpto urgent
 
 # theme
-if [ $(hostname) = 'swimmer' ]; then
-  width=8
-else
-  width=4
-fi
+width=4
 gap=14
 color_base=$(xrdb -query | grep 'foreground' | awk '{print $2}')
 if [ $(cat $HOME/.config/colours/background) = 'dark' ]; then
@@ -127,7 +123,7 @@ hc attr settings.focus_follows_mouse true
 hc attr settings.focus_stealing_prevention true
 
 hc attr settings.default_frame_layout horizontal
-hc attr settings.smart_frame_surroundings true
+hc attr settings.smart_frame_surroundings hide_all
 hc attr settings.always_show_frame false
 hc attr settings.tabbed_max true
 hc attr settings.frame_border_width "$gap"
@@ -167,7 +163,7 @@ hc rule title=Keybindings floating=on
 hc rule title=Ranger floating=on
 hc rule title=Scratchpad floating=on
 hc rule title=Sysinfo floating=on
-hc rule class~'.*[Tt]erm' title=Calendar manage=off
+hc rule title=Calendar floating=on
 hc rule class~'[Gg]color2' floating=on
 hc rule class~'[Ll]xappearance' floating=on
 hc rule class=scribus tag=7
@@ -179,6 +175,8 @@ hc rule class=Inkscape tag=8
 hc rule class=Audacity tag=9
 hc rule class=puddletag tag=9
 
+hc apply_rules --all
+
 hc set tree_style '╾│ ├└╼─┐'
 
 hc unlock
@@ -187,11 +185,9 @@ pkill sxhkd
 sxhkd -c $HOME/.config/herbstluftwm/sxhkdrc &
 pkill picom
 while pgrep -x picom >/dev/null; do sleep 1; done
-picom --experimental-backends &
+# /usr/local/src/Tools/x11/yshui-picom.git/build/src/picom --experimental-backends --vsync --config $HOME/.config/picom/yshui-picom.conf &
+/usr/local/src/Tools/x11/ibhagwan-picom.git/build/src/picom --experimental-backends --vsync --config $HOME/.config/picom/ibhagwan-picom.conf &
 pkill dunst
 dunst &
 feh --bg-fill $HOME/system/wallpapers/default.jpg &
 $HOME/.config/polybar/launch.sh
-
-hc apply_rules --all
-
