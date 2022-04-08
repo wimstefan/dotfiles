@@ -591,6 +591,20 @@ if [[ $USER != root ]]; then
   export GTK2_RC_FILES="$HOME/.gtkrc-2.0"
   export BROWSER="my-eye-into-the-world"
   export COLORTERM=truecolor
+  export POPUP_TERM="kitty"
+  if [[ $POPUP_TERM =~ "alacritty" ]]; then
+    export POPUP_TITLE="--title"
+    export POPUP_NAME="--class"
+    export POPUP_CMD="--command"
+  elif [[ $POPUP_TERM =~ "kitty" ]]; then
+    export POPUP_TITLE="--title"
+    export POPUP_NAME="--class"
+    export POPUP_CMD=""
+  else
+    export POPUP_TITLE="-title"
+    export POPUP_NAME="-name"
+    export POPUP_CMD="-e"
+  fi
   export TERMINAL="kitty"
   if [[ $TERMINAL =~ "alacritty" ]]; then
     export TERM_TITLE="--title"
@@ -599,6 +613,9 @@ if [[ $USER != root ]]; then
   elif [[ $TERMINAL == "kitty" ]]; then
     export TERM_TITLE="--title"
     export TERM_NAME="--class"
+    export TERM_CMD=""
+  elif [[ $TERMINAL == "wezterm" ]]; then
+    export TERM_NAME="start --class"
     export TERM_CMD=""
   else
     export TERM_TITLE="-title"
