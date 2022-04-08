@@ -746,10 +746,7 @@ packer.startup(function()
         'SirVer/ultisnips',
         'honza/vim-snippets',
         'nvim-treesitter/nvim-treesitter'
-      },
-      config = function()
-        require('cmp_nvim_ultisnips').setup({})
-      end
+      }
     },
     'ray-x/cmp-treesitter',
     'f3fora/cmp-spell',
@@ -800,29 +797,11 @@ packer.startup(function()
           i = cmp.mapping.abort(),
           c = cmp.mapping.close(),
         }),
-        ['<C-l>'] = cmp.mapping(function(fallback)
-          if cmp.visible() then
-            return cmp.complete_common_string()
-          end
-          fallback()
-        end, { 'i', 'c' }),
         ['<Tab>'] = cmp.mapping(function(fallback)
-          if cmp.visible() then
-            cmp.select_next_item()
-          elseif cmp_ultisnips_mappings.expand_or_jump_forwards() then
-            cmp_ultisnips_mappings.expand_or_jump_forwards(fallback)
-          else
-            fallback()
-          end
+          cmp_ultisnips_mappings.expand_or_jump_forwards(fallback)
         end, { 'i', 's' }),
         ['<S-Tab>'] = cmp.mapping(function(fallback)
-          if cmp.visible() then
-            cmp.select_prev_item()
-          elseif cmp_ultisnips_mappings.jump_backwards() then
-            cmp_ultisnips_mappings.jump_backwards(fallback)
-          else
-            fallback()
-          end
+          cmp_ultisnips_mappings.jump_backwards(fallback)
         end, { 'i', 's' })
       },
       sources = cmp.config.sources({
