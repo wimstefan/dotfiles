@@ -94,8 +94,13 @@ hc keybind $Mod-$Alt-u jumpto urgent
 
 # theme
 width=4
-gap=14
-color_base=$(xrdb -query | grep 'foreground' | awk '{print $2}')
+gap=$((width*3))
+color_fg=$(xrdb -query | grep 'foreground' | awk '{print $2}')
+color_bg=$(xrdb -query | grep 'background' | awk '{print $2}')
+color_red=$(xrdb -query | grep 'color1:' | awk '{print $2}')
+color_green=$(xrdb -query | grep 'color2:' | awk '{print $2}')
+color_blue=$(xrdb -query | grep 'color4:' | awk '{print $2}')
+color_cyan=$(xrdb -query | grep 'color6:' | awk '{print $2}')
 if [ $(cat $HOME/.config/colours/background) = 'dark' ]; then
   op='ee'
   tr='11'
@@ -103,12 +108,8 @@ else
   op='aa'
   tr='33'
 fi
-color_active="$color_base$op"
-color_normal="$color_base$tr"
-color_red=$(xrdb -query | grep 'color1:' | awk '{print $2}')
-color_green=$(xrdb -query | grep 'color2:' | awk '{print $2}')
-color_blue=$(xrdb -query | grep 'color4:' | awk '{print $2}')
-color_cyan=$(xrdb -query | grep 'color6:' | awk '{print $2}')
+color_active="$color_fg$op"
+color_normal="$color_fg$tr"
 
 hc set_layout horizontal
 
