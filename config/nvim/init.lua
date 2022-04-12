@@ -37,7 +37,7 @@ vim.opt.fillchars:append({
   foldclose = '▾',
   foldopen = '▴',
   foldsep = '🮍',
-  msgsep = '═'
+  msgsep = '🮑'
 })
 vim.opt.mouse = 'a'
 
@@ -554,8 +554,16 @@ packer.startup(function()
             keymaps = {
               ['af'] = '@function.outer',
               ['if'] = '@function.inner',
-              ['ac'] = '@class.outer',
-              ['ic'] = '@class.inner',
+              ['ip'] = '@parameter.inner',
+              ['ap'] = '@parameter.outer',
+              ['ib'] = '@block.inner',
+              ['ab'] = '@block.outer',
+              ['im'] = '@class.inner',
+              ['am'] = '@class.outer',
+              ['aa'] = '@call.outer',
+              ['ia'] = '@call.inner',
+              ['a/'] = '@comment.outer',
+              ['i/'] = '@comment.outer',
             },
           },
           swap = {
@@ -705,6 +713,9 @@ packer.startup(function()
             layout_strategy = 'vertical'
           },
           lsp_implementations = {
+            layout_strategy = 'vertical'
+          },
+          lsp_references = {
             layout_strategy = 'vertical'
           },
           oldfiles = {
@@ -1025,7 +1036,7 @@ packer.startup(function()
         },
         lspconfig = {
           capabilities = capabilities,
-          cmd = { sumneko_binary, '--preview' },
+          cmd = { sumneko_binary },
           on_attach = on_attach,
           settings = {
             Lua = {
