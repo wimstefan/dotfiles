@@ -183,7 +183,7 @@ vim.diagnostic.config({
 -- {{{1 --------------------- MAPPINGS -----------------------------------------
 vim.keymap.set('', 'cd', '<Cmd>cd %:h | pwd<CR>')
 vim.keymap.set('n', '<Leader>g', ':grep<Space>')
-vim.keymap.set('n', '<Leader>l', '<Cmd>nohlsearch | hi clear ColorColumn<CR>')
+vim.keymap.set('n', '<C-l>', '<Cmd>set nohlsearch|diffupdate|highlight clear ColorColumn|normal! <C-l><CR>')
 vim.keymap.set('n', 'M', '<Cmd>lua ShowMan()<CR>')
 vim.keymap.set('n', '<F10>', '<Cmd>lua ToggleDetails()<CR>')
 vim.keymap.set('n', '<F11>', '<Cmd>lua Identify_Highlight_Group()<CR>')
@@ -200,6 +200,8 @@ vim.keymap.set('n', '<Leader>q', '<Cmd>q!<CR>')
 vim.keymap.set('n', '<Leader>qa', '<Cmd>qa!<CR>')
 vim.keymap.set('n', '<Leader>wqa', '<Cmd>wqa!<CR>')
 vim.keymap.set('n', ',ul', '<Cmd>undolist<CR>')
+vim.keymap.set('n', 'cn', '*``cgn')
+vim.keymap.set('n', 'cN', '*``cgN')
 -- }}}
 -- {{{2 buffers
 vim.keymap.set('n', '<Tab>', '<Cmd>bnext<CR>')
