@@ -754,28 +754,28 @@ packer.startup(function()
     'hrsh7th/cmp-path',
     'hrsh7th/cmp-cmdline',
     {
-      'quangnguyen30192/cmp-nvim-ultisnips',
+      'saadparwaiz1/cmp_luasnip',
       requires = {
-        'SirVer/ultisnips',
-        'honza/vim-snippets',
-        'nvim-treesitter/nvim-treesitter'
+        'L3MON4D3/LuaSnip',
+        'honza/vim-snippets'
       }
     },
     'ray-x/cmp-treesitter',
     'f3fora/cmp-spell',
   },
   config = function()
-
     local cmp = require('cmp')
-    local cmp_ultisnips_mappings = require('cmp_nvim_ultisnips.mappings')
+    local luasnip = require('luasnip')
+    require('luasnip/loaders/from_snipmate').lazy_load()
+    local check_backspace = function()
+      local col = vim.fn.col '.' - 1
+      return col == 0 or vim.fn.getline('.'):sub(col, col):match '%s'
+    end
 
     cmp.setup({
-      completion = {
-        border = My_Borders,
-        scrollbar = '🮑'
-      },
-      documentation = {
-        border = My_Borders
+      window = {
+        completion = cmp.config.window.bordered(),
+        documentation = cmp.config.window.bordered(),
       },
       experimental = {
         ghost_text = true,
@@ -788,7 +788,7 @@ packer.startup(function()
             nvim_lsp = '[LSP]',
             nvim_lua = '[API]',
             path = '[Filesystem]',
-            ultisnips = '[Snippet]',
+            luasnip = '[Snippet]',
             treesitter = '[TS]',
             spell = '[Spell]',
           })[entry.source.name]
@@ -798,29 +798,54 @@ packer.startup(function()
       },
       snippet = {
         expand = function(args)
-          vim.fn['UltiSnips#Anon'](args.body)
+          luasnip.lsp_expand(args.body)
         end
       },
-      mapping = {
-        ['<C-b>'] = cmp.mapping(cmp.mapping.scroll_docs(-4), { 'i', 'c' }),
-        ['<C-f>'] = cmp.mapping(cmp.mapping.scroll_docs(4), { 'i', 'c' }),
+      mapping = cmp.mapping.preset.insert({
+        ['<C-k>'] = cmp.mapping.select_prev_item(),
+        ['<C-j>'] = cmp.mapping.select_next_item(),
+        ['<C-b>'] = cmp.mapping(cmp.mapping.scroll_docs(-1), { 'i', 'c' }),
+        ['<C-f>'] = cmp.mapping(cmp.mapping.scroll_docs(1), { 'i', 'c' }),
         ['<C-Space>'] = cmp.mapping(cmp.mapping.complete(), { 'i', 'c' }),
-        ['<C-y>'] = cmp.mapping.confirm({ select = false }),
-        ['<C-e>'] = cmp.mapping({
+        ['<C-y>'] = cmp.mapping.confirm { select = true },
+        ['<C-e>'] = cmp.mapping {
           i = cmp.mapping.abort(),
           c = cmp.mapping.close(),
-        }),
+        },
+        ['<CR>'] = cmp.config.disable,
         ['<Tab>'] = cmp.mapping(function(fallback)
-          cmp_ultisnips_mappings.expand_or_jump_forwards(fallback)
-        end, { 'i', 's' }),
+          if cmp.visible() then
+            cmp.select_next_item()
+          elseif luasnip.expandable() then
+            luasnip.expand()
+          elseif luasnip.expand_or_jumpable() then
+            luasnip.expand_or_jump()
+          elseif check_backspace() then
+            fallback()
+          else
+            fallback()
+          end
+        end, {
+          'i',
+          's',
+        }),
         ['<S-Tab>'] = cmp.mapping(function(fallback)
-          cmp_ultisnips_mappings.jump_backwards(fallback)
-        end, { 'i', 's' })
-      },
+          if cmp.visible() then
+            cmp.select_prev_item()
+          elseif luasnip.jumpable(-1) then
+            luasnip.jump(-1)
+          else
+            fallback()
+          end
+        end, {
+          'i',
+          's',
+        }),
+      }),
       sources = cmp.config.sources({
         { name = 'nvim_lua' },
         { name = 'nvim_lsp' },
-        { name = 'ultisnips' },
+        { name = 'luasnip' },
         { name = 'path' },
         {
           name = 'buffer',
@@ -835,12 +860,15 @@ packer.startup(function()
       })
     })
     cmp.setup.cmdline(':', {
+      mapping = cmp.mapping.preset.cmdline(),
       sources = cmp.config.sources({
-        { name = 'cmdline' },
         { name = 'path' }
+      }, {
+        { name = 'cmdline' }
       })
     })
     cmp.setup.cmdline('/', {
+      mapping = cmp.mapping.preset.cmdline(),
       sources = cmp.config.sources({
         { name = 'buffer' }
       })
