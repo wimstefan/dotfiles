@@ -246,7 +246,7 @@ augroup General
   autocmd BufWritePost X{resources,defaults} silent !xrdb %
   autocmd BufNewFile,BufRead *cddb* set encoding=utf-8 fileencoding=utf-8 ff=unix
   autocmd FileType txt,markdown,asciidoc*,rst if &filetype !~ 'man\|help' | setlocal spell | endif
-  autocmd FileType help,man,startuptime,qf,lspinfo,null-ls-info,checkhealth nnoremap <buffer><silent>q :bdelete<CR>
+  autocmd FileType help,man,startuptime,qf,lspinfo,checkhealth nnoremap <buffer><silent>q :bdelete<CR>
   autocmd BufWinEnter * if &previewwindow | setlocal nofoldenable | endif
   autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") && &ft !~# 'commit' | execute "normal! g`\"" | endif
   autocmd TextYankPost * silent! lua vim.highlight.on_yank {higroup='WildMenu', timeout=4444}
@@ -882,7 +882,6 @@ packer.startup(function()
     requires = {
       'ii14/lsp-command',
       'folke/lua-dev.nvim',
-      'jose-elias-alvarez/null-ls.nvim',
       {
         'kosayoda/nvim-lightbulb',
         config = function()
@@ -1037,21 +1036,6 @@ packer.startup(function()
           }, opts))
         end
       end
-
-      -- null-ls
-      require('null-ls').setup({
-        debug = false,
-        sources = {
-          require('null-ls').builtins.diagnostics.zsh,
-          require('null-ls').builtins.diagnostics.trail_space,
-          require('null-ls').builtins.formatting.trim_whitespace,
-          require('null-ls').builtins.formatting.prettier.with({
-            extra_args = { '--single-quote' }
-          }),
-        },
-        on_attach = on_attach,
-        capabilities = capabilities
-      })
 
       -- lua
       local sumneko_binary = vim.fn.stdpath('data') .. '/lspconfig/lua-language-server/bin/lua-language-server'
