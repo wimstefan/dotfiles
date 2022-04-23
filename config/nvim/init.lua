@@ -289,6 +289,7 @@ augroup END
 vim.cmd(string.format([[
 augroup Packer
   autocmd!
+  autocmd VimEnter call v:lua.require('packer').sync()
   autocmd FileType packer set previewheight=30
   autocmd FileType git set nolist nonumber norelativenumber
   autocmd BufWritePost init.lua if expand('%s') =~ '%s' || expand('%s') =~ '%s' && expand('%s') !~ 'fugitive\|scp' | source <afile> | call v:lua.require('packer').sync() | endif
