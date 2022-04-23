@@ -98,6 +98,8 @@ else
   vim.opt.foldmethod = fm_opts
 end
 
+vim.cmd[[match Substitute /\s\+$/]]
+
 vim.g.netrw_winsize = 20
 vim.g.netrw_banner = 0
 vim.g.netrw_liststyle = 3
@@ -1554,7 +1556,9 @@ packer.startup(function()
       end
       local lsp_status = function()
         local msg = ''
-        msg = '[LSP]'
+        if #vim.lsp.get_active_clients() > 0 then
+          msg = '[LSP]'
+        end
         for _, client in ipairs(vim.lsp.get_active_clients()) do
           msg = msg .. '‹' .. client.name .. '›'
           for _, progress in pairs(client.messages.progress) do
@@ -1659,7 +1663,7 @@ packer.startup(function()
             },
             {
               'branch',
-              icon = '⭠'
+              icon = ''
             }
           },
           lualine_z = { 'filetype' },
@@ -1802,7 +1806,7 @@ packer.startup(function()
     config = function()
       vim.opt.colorcolumn = '80'
       require('virt-column').setup({
-        char = '🮍',
+        char = '▕',
       })
     end
   })
