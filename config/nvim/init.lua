@@ -957,43 +957,48 @@ packer.startup(function()
         vim.keymap.set('n', '[d', [[<Cmd>lua vim.diagnostic.goto_prev({ float = false })<CR>]], { buffer = bufnr })
         vim.keymap.set('n', ']d', [[<Cmd>lua vim.diagnostic.goto_next({ float = false })<CR>]], { buffer = bufnr })
         vim.keymap.set('n', ',lrn', [[<Cmd>lua vim.lsp.buf.rename()<CR>]], { buffer = bufnr })
-        vim.keymap.set('n', ',lh', [[<Cmd>lua vim.lsp.buf.hover()<CR>]], { buffer = bufnr })
         vim.keymap.set('n', ',lw', [[<Cmd>lua Dump(vim.lsp.buf.list_workspace_folders())<CR>]], { buffer = bufnr })
         if client.supports_method('textDocument/codeAction') then
           vim.keymap.set('n', ',lca', [[<Cmd>Telescope lsp_code_actions<CR>]], { buffer = bufnr })
         else
           lsp_messages = lsp_messages .. 'no codeAction' .. lsp_msg_sep
         end
-        if client.resolved_capabilities.declaration then
+        if client.supports_method('textDocument/declaration') then
           vim.keymap.set('n', ',lc', [[<Cmd>lua vim.lsp.buf.declaration()<CR>]], { buffer = bufnr })
         else
           vim.keymap.set('n', ',lc', [[<Nop>]], { buffer = bufnr })
           lsp_messages = lsp_messages .. 'no declaration' .. lsp_msg_sep
         end
-        if client.resolved_capabilities.document_formatting then
+        if client.supports_method('textDocument/formatting') then
           vim.keymap.set('n', ',lf', '<Cmd>lua vim.lsp.buf.formatting()<CR>', { buffer = bufnr, silent = true })
         else
           lsp_messages = lsp_messages .. 'no format' .. lsp_msg_sep
         end
-        if client.resolved_capabilities.document_range_formatting then
+        if client.supports_method('textDocument/rangeFormatting') then
           vim.keymap.set('v', ',lf', '<Cmd>lua vim.lsp.buf.range_formatting()<CR>', { buffer = bufnr, silent = true })
         else
           lsp_messages = lsp_messages .. 'no rangeFormat' .. lsp_msg_sep
         end
-        if client.resolved_capabilities.implementation then
+        if client.supports_method('textDocument/implementation') then
           vim.keymap.set('n', ',li', [[<Cmd>Telescope lsp_implementations<CR>]], { buffer = bufnr })
         else
           vim.keymap.set('n', ',li', [[<Nop>]], { buffer = bufnr })
           lsp_messages = lsp_messages .. 'no implementation' .. lsp_msg_sep
         end
-        if client.resolved_capabilities.signature_help then
+        if client.supports_method('textDocument/hover') or client.supports_method('hover') then
+          vim.keymap.set('n', ',lh', [[<Cmd>lua vim.lsp.buf.hover()<CR>]], { buffer = bufnr })
+        else
+          vim.keymap.set('n', ',lh', [[<Nop>]], { buffer = bufnr })
+          lsp_messages = lsp_messages .. 'no hovering' .. lsp_msg_sep
+        end
+        if client.supports_method('textDocument/signatureHelp') or client.supports_method('signature_help') then
           vim.keymap.set('i', '<C-s>', [[<Cmd>lua vim.lsp.buf.signature_help({ border = My_Borders })<CR>]], { buffer = bufnr })
           vim.keymap.set('n', ',ls', [[<Cmd>lua vim.lsp.buf.signature_help({ border = My_Borders })<CR>]], { buffer = bufnr })
         else
           vim.keymap.set('n', ',ls', [[<Nop>]], { buffer = bufnr })
           lsp_messages = lsp_messages .. 'no signatureHelp' .. lsp_msg_sep
         end
-        if client.resolved_capabilities.type_definition then
+        if client.supports_method('textDocument/typeDefinition') then
           vim.keymap.set('n', ',ltd', [[<Cmd>Telescope lsp_type_definitions<CR>]], { buffer = bufnr })
         else
           vim.keymap.set('n', ',ltd', [[<Nop>]], { buffer = bufnr })
