@@ -186,7 +186,7 @@ vim.keymap.set('n', '<Leader>g', ':grep<Space>')
 vim.keymap.set('n', '<C-l>', '<Cmd>set nohlsearch|diffupdate|highlight clear ColorColumn|normal! <C-l><CR>')
 vim.keymap.set('n', 'M', '<Cmd>lua ShowMan()<CR>')
 vim.keymap.set('n', '<F10>', '<Cmd>lua ToggleDetails()<CR>')
-vim.keymap.set('n', '<F11>', '<Cmd>lua Identify_Highlight_Group()<CR>')
+vim.keymap.set('n', '<F11>', '<Cmd>lua IdentifyHighlightGroup()<CR>')
 -- {{{2 navigation
 vim.keymap.set({ 'n', 'x' }, 'j', function() return vim.v.count > 0 and 'j' or 'gj' end, { expr = true })
 vim.keymap.set({ 'n', 'x' }, 'k', function() return vim.v.count > 0 and 'k' or 'gk' end, { expr = true })
@@ -285,7 +285,7 @@ function Dump(...)
   print(unpack(objects))
 end
 
-function Identify_Highlight_Group()
+function IdentifyHighlightGroup()
 	local highlight_name = vim.fn.synIDattr(vim.fn.synIDtrans(vim.fn.synID(vim.fn.line('.'), vim.fn.col('.'), 1)), 'name')
   if highlight_name == ''
     then
