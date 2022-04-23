@@ -178,6 +178,23 @@ vim.diagnostic.config({
     source = 'always'
   }
 })
+-- filetype handling
+vim.g.did_load_filetypes = 0
+vim.g.do_filetype_lua = 1
+vim.filetype.add({
+  extension = {
+    conf = 'config',
+    config = 'config',
+    htp = 'xhtml',
+    htt = 'xhtml',
+    rc = 'rc',
+    xmp = 'xml',
+  },
+  pattern = {
+    ['/tmp/mutt.*'] = 'mail',
+    ['/tmp/.*tangoartisan.*'] = 'html',
+  },
+})
 
 -- }}}1 --------------------- OPTIONS ------------------------------------------
 -- {{{1 --------------------- MAPPINGS -----------------------------------------
@@ -237,10 +254,6 @@ vim.keymap.set('n', '<Leader>sl', [[G?--<CR>jVGd :r ~/.mutt/signature<CR>]])
 vim.cmd([[
 augroup General
   autocmd!
-  autocmd BufRead * if expand('%') =~ 'tangoartisan' | setfiletype html | endif
-  autocmd BufNewFile,BufRead *.htp,*.htt set filetype=xhtml
-  autocmd BufNewFile,BufRead *.xmp set filetype=xml
-  autocmd BufNewFile,BufRead *.rasi set filetype=config
   autocmd BufWritePost *.sh,*.pl,*.py silent !chmod +x %
   autocmd BufNewFile,BufRead *.m3u set encoding=utf-8 fileencoding=utf-8 ff=unix
   autocmd BufWritePost X{resources,defaults} silent !xrdb %
