@@ -178,6 +178,9 @@ vim.diagnostic.config({
     source = 'always'
   }
 })
+vim.keymap.set('n', ',dl', '<Cmd>lua vim.diagnostic.setloclist()<CR>')
+vim.keymap.set('n', ',dq', '<Cmd>lua vim.diagnostic.setqflist()<CR>')
+
 -- filetype handling
 vim.g.did_load_filetypes = 0
 vim.g.do_filetype_lua = 1
