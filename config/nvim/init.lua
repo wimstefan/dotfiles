@@ -791,6 +791,7 @@ packer.startup(function()
       return col == 0 or vim.fn.getline('.'):sub(col, col):match '%s'
     end
 
+    vim.opt.completeopt = { 'menu', 'menuone', 'noselect' }
     cmp.setup({
       window = {
         completion = cmp.config.window.bordered(),
