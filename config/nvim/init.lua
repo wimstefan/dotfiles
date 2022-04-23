@@ -1284,18 +1284,6 @@ packer.startup(function()
     end
   })
   -- }}}
-  -- {{{2 neo-tree.nvim
-  use({
-    'nvim-neo-tree/neo-tree.nvim',
-    requires = 'MunifTanjim/nui.nvim',
-    config = function()
-      require('neo-tree').setup({
-        popup_border_style = My_Borders
-      })
-      vim.keymap.set('n', '\\', '<Cmd>NeoTreeRevealToggle<CR>')
-    end
-  })
-  -- }}}
   -- {{{2 toggleterm.nvim
   use({
     'akinsho/toggleterm.nvim',
@@ -1397,6 +1385,12 @@ packer.startup(function()
   use({
     'MTDL9/vim-log-highlighting',
     ft = 'log'
+  })
+  -- }}}
+  -- {{{2 rasi.vim
+  use({
+    'Fymyte/rasi.vim',
+    ft = 'rasi',
   })
   -- }}}
   -- {{{2 unicode.vim
