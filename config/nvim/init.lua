@@ -305,13 +305,12 @@ function Dump(...)
 end
 
 function IdentifyHighlightGroup()
-	local highlight_name = vim.fn.synIDattr(vim.fn.synIDtrans(vim.fn.synID(vim.fn.line('.'), vim.fn.col('.'), 1)), 'name')
-  if highlight_name == ''
-    then
-      vim.notify('Highlight group not found', vim.log.levels.WARN, { title = '[UI]' })
-    else
-      vim.cmd(string.format([[highlight %s]], highlight_name))
-    end
+  local highlight_name = vim.fn.synIDattr(vim.fn.synIDtrans(vim.fn.synID(vim.fn.line('.'), vim.fn.col('.'), 1)), 'name')
+  if highlight_name == '' then
+    vim.notify('Highlight group not found', vim.log.levels.WARN, { title = '[UI]' })
+  else
+    vim.cmd(string.format([[highlight %s]], highlight_name))
+  end
 end
 
 function NotifyColors()
