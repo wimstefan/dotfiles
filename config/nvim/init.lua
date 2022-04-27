@@ -180,8 +180,8 @@ vim.diagnostic.config({
     source = 'always'
   }
 })
-vim.keymap.set('n', ',dl', '<Cmd>lua vim.diagnostic.setloclist()<CR>')
-vim.keymap.set('n', ',dq', '<Cmd>lua vim.diagnostic.setqflist()<CR>')
+vim.keymap.set('n', ',dl', '<Cmd>lua vim.diagnostic.setloclist()<CR>', { desc = 'Populate location list with diagnostic messages' })
+vim.keymap.set('n', ',dq', '<Cmd>lua vim.diagnostic.setqflist()<CR>', { desc = 'Populate quickfix with diagnostic messages' })
 
 -- filetype handling
 vim.g.did_load_filetypes = 0
@@ -206,9 +206,9 @@ vim.filetype.add({
 vim.keymap.set('', 'cd', '<Cmd>cd %:h | pwd<CR>')
 vim.keymap.set('n', '<Leader>g', ':grep<Space>')
 vim.keymap.set('n', '<C-l>', '<Cmd>set nohlsearch|diffupdate|highlight clear ColorColumn|normal! <C-l><CR>')
-vim.keymap.set('n', 'M', '<Cmd>lua ShowMan()<CR>')
-vim.keymap.set('n', '<F10>', '<Cmd>lua ToggleDetails()<CR>')
-vim.keymap.set('n', '<F11>', '<Cmd>lua IdentifyHighlightGroup()<CR>')
+vim.keymap.set('n', 'M', '<Cmd>lua ShowMan()<CR>', { desc = 'Search man pages for current word' })
+vim.keymap.set('n', '<F10>', '<Cmd>lua ToggleDetails()<CR>', { desc = 'Toggle decorations' })
+vim.keymap.set('n', '<F11>', '<Cmd>lua IdentifyHighlightGroup()<CR>', { desc = 'Identify highlight group' })
 -- {{{2 navigation
 vim.keymap.set({ 'n', 'x' }, 'j', function() return vim.v.count > 0 and 'j' or 'gj' end, { expr = true })
 vim.keymap.set({ 'n', 'x' }, 'k', function() return vim.v.count > 0 and 'k' or 'gk' end, { expr = true })
@@ -242,8 +242,8 @@ vim.keymap.set('t', '<A-k>', [[<C-\><C-N><C-w>k]])
 vim.keymap.set('t', '<A-l>', [[<C-\><C-N><C-w>l]])
 -- }}}
 -- {{{2 quickfix
-vim.keymap.set('n', '<C-c>', [[<Cmd>lua ToggleQF('q')<CR>]])
-vim.keymap.set('n', '<A-c>', [[<Cmd>lua ToggleQF('l')<CR>]])
+vim.keymap.set('n', '<C-c>', [[<Cmd>lua ToggleQF('q')<CR>]], { desc = 'Toggle quickfix window' })
+vim.keymap.set('n', '<A-c>', [[<Cmd>lua ToggleQF('l')<CR>]], { desc = 'Toggle location list window' })
 vim.keymap.set('n', '[\\', [[<Cmd>colder<CR>]])
 vim.keymap.set('n', ']\\', [[<Cmd>cnewer<CR>]])
 -- }}}
@@ -952,53 +952,53 @@ packer.startup(function()
         vim.keymap.set('n', ',lY', [[<Cmd>Telescope lsp_workspace_symbols<CR>]], { buffer = bufnr })
         vim.keymap.set('n', ',ld', [[<Cmd>Telescope diagnostics bufnr=0<CR>]], { buffer = bufnr })
         vim.keymap.set('n', ',lD', [[<Cmd>Telescope diagnostics<CR>]], { buffer = bufnr })
-        vim.keymap.set('n', ',le', [[<Cmd>lua vim.diagnostic.open_float({ scope = 'line' })<CR>]], { buffer = bufnr })
-        vim.keymap.set('n', '[d', [[<Cmd>lua vim.diagnostic.goto_prev({ float = false })<CR>]], { buffer = bufnr })
-        vim.keymap.set('n', ']d', [[<Cmd>lua vim.diagnostic.goto_next({ float = false })<CR>]], { buffer = bufnr })
-        vim.keymap.set('n', ',lrn', [[<Cmd>lua vim.lsp.buf.rename()<CR>]], { buffer = bufnr })
-        vim.keymap.set('n', ',lw', [[<Cmd>lua Dump(vim.lsp.buf.list_workspace_folders())<CR>]], { buffer = bufnr })
+        vim.keymap.set('n', ',le', [[<Cmd>lua vim.diagnostic.open_float({ scope = 'line' })<CR>]], { buffer = bufnr }, { desc = 'Diagnostic: open floating window' })
+        vim.keymap.set('n', '[d', [[<Cmd>lua vim.diagnostic.goto_prev({ float = false })<CR>]], { buffer = bufnr }, { desc = 'Diagnostic: got to previous error' })
+        vim.keymap.set('n', ']d', [[<Cmd>lua vim.diagnostic.goto_next({ float = false })<CR>]], { buffer = bufnr }, { desc = 'Diagnostic: got to next error' })
+        vim.keymap.set('n', ',lrn', [[<Cmd>lua vim.lsp.buf.rename()<CR>]], { buffer = bufnr }, { desc = 'LSP: rename' })
+        vim.keymap.set('n', ',lw', [[<Cmd>lua Dump(vim.lsp.buf.list_workspace_folders())<CR>]], { buffer = bufnr }, { desc = 'LSP: list workspace folders' })
         if client.supports_method('textDocument/codeAction') then
-          vim.keymap.set('n', ',lca', [[<Cmd>Telescope lsp_code_actions<CR>]], { buffer = bufnr })
+          vim.keymap.set('n', ',lca', [[<Cmd>lua vim.lsp.buf.code_action()<CR>]], { buffer = bufnr }, { desc = 'LSP: code actions' })
         else
           lsp_messages = lsp_messages .. 'no codeAction' .. lsp_msg_sep
         end
         if client.supports_method('textDocument/declaration') then
-          vim.keymap.set('n', ',lc', [[<Cmd>lua vim.lsp.buf.declaration()<CR>]], { buffer = bufnr })
+          vim.keymap.set('n', ',lc', [[<Cmd>lua vim.lsp.buf.declaration()<CR>]], { buffer = bufnr }, { desc = 'LSP: declaration' })
         else
           vim.keymap.set('n', ',lc', [[<Nop>]], { buffer = bufnr })
           lsp_messages = lsp_messages .. 'no declaration' .. lsp_msg_sep
         end
         if client.supports_method('textDocument/formatting') then
-          vim.keymap.set('n', ',lf', '<Cmd>lua vim.lsp.buf.formatting()<CR>', { buffer = bufnr, silent = true })
+          vim.keymap.set('n', ',lf', '<Cmd>lua vim.lsp.buf.formatting()<CR>', { buffer = bufnr, silent = true }, { desc = 'LSP: formatting' })
         else
           lsp_messages = lsp_messages .. 'no format' .. lsp_msg_sep
         end
         if client.supports_method('textDocument/rangeFormatting') then
-          vim.keymap.set('v', ',lf', '<Cmd>lua vim.lsp.buf.range_formatting()<CR>', { buffer = bufnr, silent = true })
+          vim.keymap.set('v', ',lf', '<Cmd>lua vim.lsp.buf.range_formatting()<CR>', { buffer = bufnr, silent = true }, { desc = 'LSP: range formatting' })
         else
           lsp_messages = lsp_messages .. 'no rangeFormat' .. lsp_msg_sep
         end
         if client.supports_method('textDocument/implementation') then
-          vim.keymap.set('n', ',li', [[<Cmd>Telescope lsp_implementations<CR>]], { buffer = bufnr })
+          vim.keymap.set('n', ',li', [[<Cmd>lua vim.lsp.buf.implementation()<CR>]], { buffer = bufnr }, { desc = 'LSP: implementation' })
         else
           vim.keymap.set('n', ',li', [[<Nop>]], { buffer = bufnr })
           lsp_messages = lsp_messages .. 'no implementation' .. lsp_msg_sep
         end
         if client.supports_method('textDocument/hover') or client.supports_method('hover') then
-          vim.keymap.set('n', ',lh', [[<Cmd>lua vim.lsp.buf.hover()<CR>]], { buffer = bufnr })
+          vim.keymap.set('n', ',lh', [[<Cmd>lua vim.lsp.buf.hover()<CR>]], { buffer = bufnr }, { desc = 'LSP: hover' })
         else
           vim.keymap.set('n', ',lh', [[<Nop>]], { buffer = bufnr })
           lsp_messages = lsp_messages .. 'no hovering' .. lsp_msg_sep
         end
         if client.supports_method('textDocument/signatureHelp') or client.supports_method('signature_help') then
-          vim.keymap.set('i', '<C-s>', [[<Cmd>lua vim.lsp.buf.signature_help({ border = My_Borders })<CR>]], { buffer = bufnr })
-          vim.keymap.set('n', ',ls', [[<Cmd>lua vim.lsp.buf.signature_help({ border = My_Borders })<CR>]], { buffer = bufnr })
+          vim.keymap.set('i', '<C-s>', [[<Cmd>lua vim.lsp.buf.signature_help({ border = My_Borders })<CR>]], { buffer = bufnr }, { desc = 'LSP: signature help' })
+          vim.keymap.set('n', ',ls', [[<Cmd>lua vim.lsp.buf.signature_help({ border = My_Borders })<CR>]], { buffer = bufnr }, { desc = 'LSP: signature help' })
         else
           vim.keymap.set('n', ',ls', [[<Nop>]], { buffer = bufnr })
           lsp_messages = lsp_messages .. 'no signatureHelp' .. lsp_msg_sep
         end
         if client.supports_method('textDocument/typeDefinition') then
-          vim.keymap.set('n', ',ltd', [[<Cmd>Telescope lsp_type_definitions<CR>]], { buffer = bufnr })
+          vim.keymap.set('n', ',ltd', [[<Cmd>lua vim.lsp.buf.type_definition()<CR>]], { buffer = bufnr }, { desc = 'LSP: type definition' })
         else
           vim.keymap.set('n', ',ltd', [[<Nop>]], { buffer = bufnr })
           lsp_messages = lsp_messages .. 'no typeDefinition' .. lsp_msg_sep
@@ -1006,7 +1006,7 @@ packer.startup(function()
 
         -- autocmds
         if client.supports_method('textDocument/codeLens') then
-          vim.keymap.set('n', ',ll', [[<Cmd>lua vim.lsp.buf.codelens.run({ border = My_Borders })<CR>]], { buffer = bufnr })
+          vim.keymap.set('n', ',ll', [[<Cmd>lua vim.lsp.buf.codelens.run({ border = My_Borders })<CR>]], { buffer = bufnr }, { desc = 'LSP: code lens' })
           vim.cmd([[autocmd BufEnter,CursorHold,InsertLeave * lua vim.lsp.codelens.refresh()]])
         else
           lsp_messages = lsp_messages .. 'no codeLens' .. lsp_msg_sep
@@ -1192,7 +1192,7 @@ packer.startup(function()
   use({
     'numToStr/Comment.nvim',
     config = function()
-      vim.keymap.set('x', 'gci', ':g/./lua require\'Comment.api\'.toggle_current_linewise()<CR><cmd>nohls<CR>')
+      vim.keymap.set('x', 'gci', ':g/./lua require\'Comment.api\'.toggle_current_linewise()<CR><cmd>nohls<CR>', { desc = 'Invert comments' })
       require('Comment').setup({
         pre_hook = function(ctx)
           local U = require 'Comment.utils'
@@ -1229,12 +1229,12 @@ packer.startup(function()
     config = function()
       require('hlslens').setup()
       vim.opt.shortmess:append('S')
-      vim.keymap.set('n', 'n', [[<Cmd>execute('normal! ' . v:count1 . 'n')<CR><Cmd>lua require('hlslens').start()<CR>]])
-      vim.keymap.set('n', 'N', [[<Cmd>execute('normal! ' . v:count1 . 'N')<CR><Cmd>lua require('hlslens').start()<CR>]])
-      vim.keymap.set('n', '*', [[*<Cmd>lua require('hlslens').start()<CR>]])
-      vim.keymap.set('n', '#', [[#<Cmd>lua require('hlslens').start()<CR>]])
-      vim.keymap.set('n', 'g*', [[g*<Cmd>lua require('hlslens').start()<CR>]])
-      vim.keymap.set('n', 'g#', [[g#<Cmd>lua require('hlslens').start()<CR>]])
+      vim.keymap.set('n', 'n', [[<Cmd>execute('normal! ' . v:count1 . 'n')<CR><Cmd>lua require('hlslens').start()<CR>]], { desc = 'Hlslens: n' })
+      vim.keymap.set('n', 'N', [[<Cmd>execute('normal! ' . v:count1 . 'N')<CR><Cmd>lua require('hlslens').start()<CR>]], { desc = 'Hlslens: N' })
+      vim.keymap.set('n', '*', [[*<Cmd>lua require('hlslens').start()<CR>]], { desc = 'Hlslens: *' })
+      vim.keymap.set('n', '#', [[#<Cmd>lua require('hlslens').start()<CR>]], { desc = 'Hlslens: #' })
+      vim.keymap.set('n', 'g*', [[g*<Cmd>lua require('hlslens').start()<CR>]], { desc = 'Hlslens: g*' })
+      vim.keymap.set('n', 'g#', [[g#<Cmd>lua require('hlslens').start()<CR>]], { desc = 'Hlslens: g#' })
     end
   })
   -- }}}
@@ -1345,7 +1345,7 @@ packer.startup(function()
           }
         }
       })
-      vim.keymap.set('n', '<Leader>S', [[<Cmd>lua require('spectre').open()<CR>]])
+      vim.keymap.set('n', '<Leader>S', [[<Cmd>lua require('spectre').open()<CR>]], { desc = 'Open spectre' })
     end
   })
   -- }}}
@@ -1743,15 +1743,15 @@ packer.startup(function()
         numhl = true,
         on_attach = function(bufnr)
           local gs = package.loaded.gitsigns
-          vim.keymap.set('n', ']c', "&diff ? ']c' : '<cmd>Gitsigns next_hunk<CR>'", { expr = true })
-          vim.keymap.set('n', '[c', "&diff ? '[c' : '<cmd>Gitsigns prev_hunk<CR>'", { expr = true })
-          vim.keymap.set('n', ',sp', gs.preview_hunk, { buffer = bufnr })
-          vim.keymap.set('n', ',sb', function() gs.blame_line { full = true } end, { buffer = bufnr })
-          vim.keymap.set('n', ',sd', gs.diffthis, { buffer = bufnr })
-          vim.keymap.set('n', ',sD', function() gs.diffthis('~') end, { buffer = bufnr })
-          vim.keymap.set('n', ',ss', gs.stage_hunk, { buffer = bufnr })
-          vim.keymap.set('n', ',su', gs.undo_stage_hunk, { buffer = bufnr })
-          vim.keymap.set('n', ',sx', gs.toggle_deleted, { buffer = bufnr })
+          vim.keymap.set('n', ']c', "&diff ? ']c' : '<cmd>Gitsigns next_hunk<CR>'", { expr = true }, { desc = 'Gitsigns: next hunk' })
+          vim.keymap.set('n', '[c', "&diff ? '[c' : '<cmd>Gitsigns prev_hunk<CR>'", { expr = true }, { desc = 'Gitsigns: previous hunk' })
+          vim.keymap.set('n', ',sp', gs.preview_hunk, { buffer = bufnr }, { desc = 'Gitsigns: preview hunk' })
+          vim.keymap.set('n', ',sb', function() gs.blame_line { full = true } end, { buffer = bufnr }, { desc = 'Gitsigns: blame line' })
+          vim.keymap.set('n', ',sd', gs.diffthis, { buffer = bufnr }, { desc = 'Gitsigns: diffthis' })
+          vim.keymap.set('n', ',sD', function() gs.diffthis('~') end, { buffer = bufnr }, { desc = 'Gitsigns: diffthis ~' })
+          vim.keymap.set('n', ',ss', gs.stage_hunk, { buffer = bufnr }, { desc = 'Gitsigns: stage hunk' })
+          vim.keymap.set('n', ',su', gs.undo_stage_hunk, { buffer = bufnr }, { desc = 'Gitsigns: undo stage hunk' })
+          vim.keymap.set('n', ',sx', gs.toggle_deleted, { buffer = bufnr }, { desc = 'Gitsigns: toggle deleted' })
         end,
         preview_config = {
           border = My_Borders,
@@ -1841,7 +1841,7 @@ packer.startup(function()
         }
       })
       vim.notify = require('notify')
-      vim.keymap.set('n', '<Leader>Tn', [[<Cmd>lua require('telescope').extensions.notify.notify()<CR>]])
+      vim.keymap.set('n', '<Leader>Tn', [[<Cmd>lua require('telescope').extensions.notify.notify()<CR>]], { desc = 'Telescope: notify' })
     end
   })
   -- }}}
