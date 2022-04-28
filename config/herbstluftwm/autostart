@@ -33,11 +33,15 @@ hc keybind $Mod-Shift-l shift right
 
 # splitting frames
 hc keybind $Mod-Control-a split auto
-hc keybind $Mod-Control-u split bottom 0.5
-hc keybind $Mod-Control-o split right 0.5
+hc keybind $Mod-Control-b chain , split vertical 0.5 \
+  , focus down --level=frame \
+  , set_attr tags.focus.tiling.focused_frame.algorithm grid
+hc keybind $Mod-Control-r chain , split horizontal 0.5 \
+  , focus right --level=frame \
+  , set_attr tags.focus.tiling.focused_frame.algorithm grid
 hc keybind $Mod-Control-space split explode
 # remove frame
-hc keybind $Mod-Control-r remove
+hc keybind $Mod-Control-x remove
 
 # resizing frames and floating clients
 resizestep=0.02
@@ -52,13 +56,17 @@ tag_keys=( {1..9} 0 )
 
 hc rename default "${tag_names[0]}" || true
 for i in "${!tag_names[@]}" ; do
-    hc add "${tag_names[$i]}"
-    key="${tag_keys[$i]}"
-    if [ -n "$key" ] ; then
-        hc keybind "$Mod-$key" use_index "$i"
-        hc keybind "$Mod-Shift-$key" move_index "$i"
-    fi
+  hc add "${tag_names[$i]}"
+  key="${tag_keys[$i]}"
+  if [ -n "$key" ] ; then
+    hc keybind "$Mod-$key" use_index "$i"
+    hc keybind "$Mod-Shift-$key" move_index "$i"
+  fi
 done
+
+if [ $HOSTNAME = 'swimmer' ]; then
+  hc floating 3 on
+fi
 
 # cycle through tags
 hc keybind $Mod-period use_index +1 --skip-visible
@@ -66,20 +74,13 @@ hc keybind $Mod-comma use_index -1 --skip-visible
 hc keybind $Mod-Escape use_previous
 
 # layouting
-hc keybind $Mod-$Alt-p pseudotile toggle
-hc keybind $Mod-$Alt-s floating toggle
+hc keybind $Mod-$Alt-f set_attr tags.focus.floating toggle
 hc keybind $Mod-Shift-f set_attr clients.focus.floating toggle
-hc keybind $Mod-$Alt-f spawn $HOME/.config/herbstluftwm/scripts/maximize.sh
+hc keybind $Mod-Shift-p set_attr clients.focus.pseudotile toggle
+hc keybind $Mod-Shift-x spawn $HOME/.config/herbstluftwm/scripts/maximize.sh
 hc keybind $Mod-Shift-m set_attr clients.focus.minimized true
 hc keybind $Mod-Control-m jumpto last-minimized
-
-# The following cycles through the available layouts within a frame, but skips
-# layouts, if the layout change wouldn't affect the actual window positions.
-# I.e. if there are two windows within a frame, the grid layout is skipped.
-hc keybind $Mod-space                                                           \
-            or , and . compare tags.focus.curframe_wcount = 2                   \
-                     . cycle_layout +1 vertical horizontal max vertical grid    \
-               , cycle_layout +1
+hc keybind $Mod-space cycle_layout +1 max grid
 
 # mouse
 hc mouseunbind --all
@@ -111,7 +112,7 @@ fi
 color_active="$color_fg$op"
 color_normal="$color_fg$tr"
 
-hc set_layout horizontal
+hc set_layout grid
 
 hc attr theme.tiling.reset 1
 hc attr theme.floating.reset 1
@@ -123,7 +124,7 @@ hc attr theme.urgent.color "$color_red"
 hc attr settings.focus_follows_mouse true
 hc attr settings.focus_stealing_prevention true
 
-hc attr settings.default_frame_layout horizontal
+hc attr settings.default_frame_layout grid
 hc attr settings.smart_frame_surroundings hide_all
 hc attr settings.always_show_frame false
 hc attr settings.tabbed_max true
@@ -141,7 +142,7 @@ hc attr settings.smart_window_surroundings true
 hc attr settings.gapless_grid true
 hc attr settings.window_gap "$gap"
 
-hc pad 0 $((POLYBAR_HEIGHT+5)) 0 0 0
+hc pad 0 $((POLYBAR_HEIGHT+10)) 0 0 0
 
 # rules
 hc unrule -F
@@ -158,14 +159,16 @@ hc rule instance=tj tag=3
 hc rule instance=komala tag=5
 hc rule instance=home tag=6
 hc rule instance=tj-laptop tag=6
-hc rule title=Calculator floating=on
-hc rule title=Explore floating=on
-hc rule title=Keybindings floating=on
-hc rule title=Ranger floating=on
-hc rule title=Scratchpad floating=on
-hc rule title=Sysinfo floating=on
-hc rule title=Calendar floating=on
-hc rule class~'[Gg]color2' floating=on
+hc rule class=Calculator floating=on
+hc rule class=Explore floating=on
+hc rule class=Keybindings floating=on
+hc rule class=MC floating=on
+hc rule class=Music floating=on
+hc rule class=Explore floating=on
+hc rule class=Scratchpad floating=on
+hc rule class=Sysinfo floating=on
+hc rule class=Calendar floating=on
+hc rule class~'[Gg]pick' floating=on
 hc rule class~'[Ll]xappearance' floating=on
 hc rule class=scribus tag=7
 hc rule class=Thunderbird tag=7
