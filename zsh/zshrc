@@ -449,7 +449,7 @@ alias zxgrep='ugrep -zW'
 alias xdump='ugrep -X ""'
 # shortcuts
 alias xreload="xrdb $HOME/.Xresources"
-alias reload="source $HOME/.zshrc"
+alias zreload="source $HOME/.zshrc"
 alias el="equery list -p -o"
 alias sf="setfont ter-112n"
 alias unmount="udevil unmount"
@@ -623,6 +623,14 @@ if [[ $USER != root ]]; then
     export TERM_CMD="-e"
   fi
 
+  export XDG_RUNTIME_DIR=/tmp/${UID}-runtime-dir
+  if test -z "${XDG_RUNTIME_DIR}"; then
+    export XDG_RUNTIME_DIR=/tmp/${UID}-runtime-dir
+    if ! test -d "${XDG_RUNTIME_DIR}"; then
+      mkdir "${XDG_RUNTIME_DIR}"
+      chmod 0700 "${XDG_RUNTIME_DIR}"
+    fi
+  fi
   # }}}3
   # - Aliases {{{3
   alias ta="tmux attach -d -t"
@@ -740,20 +748,23 @@ if [[ $USER != root ]]; then
         rsync -azK  --delete /usr/local/share/cursors/ $host:/usr/local/share/cursors/
         rsync -az   --delete /usr/local/share/icons/ $host:/usr/local/share/icons/
         rsync -azkL --delete /usr/local/share/themes/ $host:/usr/local/share/themes/
-        rsync -azK  --delete /usr/local/share/rofi/themes/ $host:/usr/local/share/rofi/themes/
         rsync -azkL --delete /usr/share/fonts/owned/ $host:/usr/share/fonts/owned/
         rsync -az   --delete /home/swimmer/.config/libreoffice/4/user/template/ $host:.config/libreoffice/4/user/template/
+        rsync -az            /home/swimmer/.gitconfig $host:
         rsync -az            /home/swimmer/.gtkrc-2.0 $host:
         rsync -az            /home/swimmer/.config/gtk-3.0/ $host:.config/gtk-3.0/
         rsync -az            /home/swimmer/.config/fontconfig/fonts.conf $host:.config/fontconfig/
         rsync -az            /home/swimmer/.config/Trolltech.conf $host:.config/
         rsync -az            /home/swimmer/.config/colours/ $host:.config/colours/
+        rsync -azKl --delete /home/swimmer/.config/alacritty/ $host:.config/alacritty/
         rsync -az   --delete /home/swimmer/.config/dunst/ $host:.config/dunst/
         rsync -az   --delete /home/swimmer/.config/herbstluftwm/ $host:.config/herbstluftwm/
+        rsync -azKl --delete /home/swimmer/.config/kitty/ $host:.config/kitty/
         rsync -az   --delete /home/swimmer/.config/picom/ $host:.config/picom/
         rsync -az   --delete /home/swimmer/.config/polybar/ $host:.config/polybar/
+        rsync -azKl --delete /home/swimmer/.config/rofi/ $host:.config/rofi/
         rsync -az   --delete /home/swimmer/.config/sxhkd/ $host:.config/sxhkd/
-        rsync -az   --delete /home/swimmer/.local/share/kitty/themes/ $host:.local/share/kitty/themes/
+        rsync -az   --delete /home/swimmer/.config/wezterm/ $host:.config/wezterm/
         rsync -az            /home/swimmer/.config/emoji-list.txt $host:.config/
         rsync -az            /usr/local/bin/bg-toggle $host:/usr/local/bin/
       }
