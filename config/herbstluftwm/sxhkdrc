@@ -7,10 +7,10 @@ alt + shift + a
   bg-toggle
 # Rofi dialogue
 super + r
-  rofi -show combi
+  rofi -theme '~/.config/rofi/config-sidebar.rasi' -modi combi,window,drun,run,ssh -show combi -combi-modi window,run,ssh
 # Rofi emoji
 super + z
-  rofi -show emoji -modi emoji -matching normal
+  rofi -theme '~/.config/rofi/config-sidebar.rasi' -modi emoji -show emoji
 ## Dropdown terminals
 # Scratchpad
 super + s
