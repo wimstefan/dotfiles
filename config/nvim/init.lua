@@ -957,47 +957,47 @@ packer.startup(function()
         vim.keymap.set('n', ']d', [[<Cmd>lua vim.diagnostic.goto_next({ float = false })<CR>]], { buffer = bufnr }, { desc = 'Diagnostic: got to next error' })
         vim.keymap.set('n', ',lrn', [[<Cmd>lua vim.lsp.buf.rename()<CR>]], { buffer = bufnr }, { desc = 'LSP: rename' })
         vim.keymap.set('n', ',lw', [[<Cmd>lua Dump(vim.lsp.buf.list_workspace_folders())<CR>]], { buffer = bufnr }, { desc = 'LSP: list workspace folders' })
-        if client.supports_method('textDocument/codeAction') then
+        if client.server_capabilities('codeActionProvider') then
           vim.keymap.set('n', ',lca', [[<Cmd>lua vim.lsp.buf.code_action()<CR>]], { buffer = bufnr }, { desc = 'LSP: code actions' })
         else
           lsp_messages = lsp_messages .. 'no codeAction' .. lsp_msg_sep
         end
-        if client.supports_method('textDocument/declaration') then
+        if client.server_capabilities('declarationProvider') then
           vim.keymap.set('n', ',lc', [[<Cmd>lua vim.lsp.buf.declaration()<CR>]], { buffer = bufnr }, { desc = 'LSP: declaration' })
         else
           vim.keymap.set('n', ',lc', [[<Nop>]], { buffer = bufnr })
           lsp_messages = lsp_messages .. 'no declaration' .. lsp_msg_sep
         end
-        if client.supports_method('textDocument/formatting') then
+        if client.server_capabilities('formattingProvider') then
           vim.keymap.set('n', ',lf', '<Cmd>lua vim.lsp.buf.formatting()<CR>', { buffer = bufnr, silent = true }, { desc = 'LSP: formatting' })
         else
           lsp_messages = lsp_messages .. 'no format' .. lsp_msg_sep
         end
-        if client.supports_method('textDocument/rangeFormatting') then
+        if client.server_capabilities('rangeFormattingProvider') then
           vim.keymap.set('v', ',lf', '<Cmd>lua vim.lsp.buf.range_formatting()<CR>', { buffer = bufnr, silent = true }, { desc = 'LSP: range formatting' })
         else
           lsp_messages = lsp_messages .. 'no rangeFormat' .. lsp_msg_sep
         end
-        if client.supports_method('textDocument/implementation') then
+        if client.server_capabilities('implementationProvider') then
           vim.keymap.set('n', ',li', [[<Cmd>lua vim.lsp.buf.implementation()<CR>]], { buffer = bufnr }, { desc = 'LSP: implementation' })
         else
           vim.keymap.set('n', ',li', [[<Nop>]], { buffer = bufnr })
           lsp_messages = lsp_messages .. 'no implementation' .. lsp_msg_sep
         end
-        if client.supports_method('textDocument/hover') or client.supports_method('hover') then
+        if client.server_capabilities('hoverProvider') or client.supports_method('hover') then
           vim.keymap.set('n', ',lh', [[<Cmd>lua vim.lsp.buf.hover()<CR>]], { buffer = bufnr }, { desc = 'LSP: hover' })
         else
           vim.keymap.set('n', ',lh', [[<Nop>]], { buffer = bufnr })
           lsp_messages = lsp_messages .. 'no hovering' .. lsp_msg_sep
         end
-        if client.supports_method('textDocument/signatureHelp') or client.supports_method('signature_help') then
+        if client.server_capabilities('signatureHelpProvider') or client.supports_method('signature_help') then
           vim.keymap.set('i', '<C-s>', [[<Cmd>lua vim.lsp.buf.signature_help({ border = My_Borders })<CR>]], { buffer = bufnr }, { desc = 'LSP: signature help' })
           vim.keymap.set('n', ',ls', [[<Cmd>lua vim.lsp.buf.signature_help({ border = My_Borders })<CR>]], { buffer = bufnr }, { desc = 'LSP: signature help' })
         else
           vim.keymap.set('n', ',ls', [[<Nop>]], { buffer = bufnr })
           lsp_messages = lsp_messages .. 'no signatureHelp' .. lsp_msg_sep
         end
-        if client.supports_method('textDocument/typeDefinition') then
+        if client.server_capabilities('typeDefinitionProvider') then
           vim.keymap.set('n', ',ltd', [[<Cmd>lua vim.lsp.buf.type_definition()<CR>]], { buffer = bufnr }, { desc = 'LSP: type definition' })
         else
           vim.keymap.set('n', ',ltd', [[<Nop>]], { buffer = bufnr })
@@ -1005,7 +1005,7 @@ packer.startup(function()
         end
 
         -- autocmds
-        if client.supports_method('textDocument/codeLens') then
+        if client.server_capabilities('codeLensProvider') then
           vim.keymap.set('n', ',ll', [[<Cmd>lua vim.lsp.buf.codelens.run({ border = My_Borders })<CR>]], { buffer = bufnr }, { desc = 'LSP: code lens' })
           vim.cmd([[autocmd BufEnter,CursorHold,InsertLeave * lua vim.lsp.codelens.refresh()]])
         else
