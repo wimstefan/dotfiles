@@ -405,15 +405,12 @@ alias -g L="| less"
 alias -g W="| wc -l"
 alias -g Z="| fzf"
 # commands
-alias ls="ls --hyperlink=auto --color=auto -v"
-alias lx="ls -lXB"
-alias lk="ls -lSr"
-alias ll="ls -l"
-alias lt="ls -lrt"
-alias la="ls -Al"
-alias lr="ls -lR $@"
-alias lm="ls -al $@"
-alias lss="ls -sSh1"
+alias ls="exa"
+alias l1="exa -1"
+alias ll="exa -hl --git"
+alias lt="exa -hl --git -snew"
+alias la="exa -hla --git"
+alias lr="exa -hlR --git --tree --icons $@"
 alias b='${(z)BROWSER}'
 alias e='${(z)VISUAL:-${(z)EDITOR}}'
 alias p='${(z)PAGER}'
