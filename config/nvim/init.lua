@@ -109,43 +109,43 @@ vim.g.netrw_alto = 0
 -- Visual configuration options
 -- symbols --
 My_Symbols = {
-  Array = '謹',
-  Boolean = '凌',
-  Class = ' ',
-  Color = ' ',
-  Constant = ' ',
-  Constructor = ' ',
-  EnumMember = ' ',
-  Enum = ' ',
-  Event = ' ',
-  Field = ' ',
-  File = ' ',
-  Folder = ' ',
-  Function = ' ',
-  Interface = ' ',
-  Keyword = ' ',
-  Namespace = ' ',
-  Method = ' ',
-  Module = ' ',
-  Number = '濫',
+  Array = ' ', -- '謹',
+  Boolean = ' ',  --'ﬧ ',
+  Class = ' ', -- ' ', -- ' ',
+  Color = ' ', -- ' ', -- ' ',
+  Constant = ' ', -- ' ',
+  Constructor = ' ', -- ' ', -- ' ',
+  Enum = ' ', -- '練 ', -- ' ',
+  EnumMember = ' ', -- ' ',
+  Event = ' ', -- ' ', -- ' ',
+  Field = ' ', -- ' ', -- ' ',
+  File = ' ', -- ' ',
+  Folder = ' ', -- ' ',
+  Function = ' ', -- ' ',
+  Interface = ' ', -- '﨡', -- ' ',
+  Keyword = ' ', -- ' ', -- ' ',
+  Method = ' ', -- ' ',
+  Module = ' ', -- ' ',
+  Namespace = ' ', -- ' ',
+  Number = ' ', -- '濫',
   Object = '謹',
-  Operator = ' ',
-  Package = ' ',
-  Property = ' ',
-  Reference = ' ',
-  Snippet = ' ',
-  Struct = ' ',
-  Text = ' ',
-  TypeParameter = ' ',
-  Unit = ' ',
-  Value = ' ',
-  Variable = ' ',
+  Operator = '璉 ', -- ' ',
+  Package = ' ', -- ' ',
+  Property = ' ', -- ' ', -- ' ',
+  Reference = ' ', -- ' ', -- ' ' -- ' ',
+  Snippet = ' ', -- ' ', -- ' ',
+  Struct = ' ',  --'פּ ', -- ' ',
+  Text = ' ', -- ' ',
+  TypeParameter = ' ', -- ' ', -- ' ', -- ' ',
+  Unit = ' ', -- '塞 ', -- 'ﰩ '  --' ',
+  Value = ' ', -- ' ',
+  Variable = ' ', -- ' ', -- ' ',
 }
 -- borders --
 My_Borders = 'rounded'
 
 -- diagnostic handling
-local diagnostic_signs = { ' ', ' ', '𥉉', ' ' }
+local diagnostic_signs = { '', '', '', '' }
 local diagnostic_severity_fullnames = { 'Error', 'Warning', 'Information', 'Hint' }
 local diagnostic_severity_shortnames = { 'Error', 'Warn', 'Info', 'Hint' }
 for index, icon in ipairs(diagnostic_signs) do
@@ -923,7 +923,7 @@ packer.startup(function()
           require('aerial').setup({
             backends = { 'treesitter', 'lsp', 'markdown' },
             placement_editor_edge = true,
-            symbols = My_Symbols,
+            icons = My_Symbols,
             on_attach = function(bufnr)
               vim.keymap.set('n', '<Leader>a', '<Cmd>AerialToggle!<CR>', { buffer = bufnr })
               vim.keymap.set('n', '{', '<Cmd>AerialPrev<CR>', { buffer = bufnr })
@@ -1441,6 +1441,12 @@ packer.startup(function()
     end
   })
   -- }}}
+  -- {{{3 nvim-nonicons
+  use({
+    'yamatsum/nvim-nonicons',
+    requires = 'wimstefan/nvim-web-devicons'
+  })
+  -- }}}
   -- {{{3 lush.nvim
   use('rktjmp/lush.nvim')
   -- }}}
@@ -1666,7 +1672,7 @@ packer.startup(function()
               'diff',
               source = diff_source,
               diff_color = { added = 'GitSignsAdd', modified = 'GitSignsChange', removed = 'GitSignsDelete' },
-              symbols = { added = '  ', modified = '  ', removed = '  ' },
+              symbols = { added = '洛 ', modified = '  ', removed = '  ' },
             },
             {
               'branch',
@@ -1844,8 +1850,8 @@ packer.startup(function()
           ERROR = ' ',
           WARN = ' ',
           INFO = ' ',
-          DEBUG = ' ',
-          TRACE = '變 '
+          DEBUG = ' ',
+          TRACE = '變'
         }
       })
       vim.notify = require('notify')
