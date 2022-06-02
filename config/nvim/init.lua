@@ -1276,6 +1276,14 @@ packer.startup(function()
     end
   })
   -- }}}
+  -- {{{2 mkdnflow.nvim
+  use({
+    'jakewvincent/mkdnflow.nvim',
+    config = function()
+      require('mkdnflow').setup({})
+    end
+  })
+  -- }}}
   -- {{{2 vim-simple-align
   use('kg8m/vim-simple-align')
   -- }}}
@@ -1377,8 +1385,10 @@ packer.startup(function()
     'rktjmp/paperplanes.nvim',
     config = function()
       require('paperplanes').setup({
-        register = 'p',
-        provider = 'paste.rs'
+        register = '+',
+        provider = 'dpaste.org',
+        provider_options = { 'https' },
+        cmd = 'curl'
       })
     end
   })
