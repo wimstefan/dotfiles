@@ -1147,10 +1147,7 @@ packer.startup(function()
             enabled = true,
             suggestions = 40
           }
-        },
-        window = {
-          border = My_Borders
-        },
+        }
       })
     end
   })
@@ -1418,6 +1415,7 @@ packer.startup(function()
   use({
     'DarwinSenior/nvim-colorizer.lua',
     config = function()
+      vim.keymap.set('n', ',tc', '<Cmd> ColorizerToggle<CR>')
       require('colorizer').setup(
         { '*' },
         {
@@ -1486,7 +1484,9 @@ packer.startup(function()
           }
         },
         groups = {
-          Folded = { bg = 'NONE' }
+          all = {
+            Folded = { bg = 'NONE' }
+          }
         }
       })
     end
@@ -1873,7 +1873,18 @@ packer.startup(function()
           winhighlight = 'Normal:ModeMsg,FloatBorder:TelescopeBorder'
         },
         select = {
-          winblend = 0
+          telescope = require('telescope.themes').get_cursor {
+            layout_config = {
+              height = function(self, _, max_lines)
+                local results = #self.finder.results
+                local PADDING = 4
+                local LIMIT = math.floor(max_lines / 2)
+                return (results <= (LIMIT - PADDING) and results + PADDING or LIMIT)
+              end,
+            },
+          },
+          winblend = 0,
+          winhighlight = 'Normal:ModeMsg,FloatBorder:TelescopeBorder'
         },
       })
     end
