@@ -731,9 +731,6 @@ packer.startup(function()
           git_branches = {
             layout_strategy = 'vertical'
           },
-          lsp_code_actions = {
-            theme = 'cursor'
-          },
           lsp_declarations = {
             layout_strategy = 'vertical'
           },
@@ -909,7 +906,6 @@ packer.startup(function()
   use({
     'neovim/nvim-lspconfig',
     requires = {
-      'ii14/lsp-command',
       'folke/lua-dev.nvim',
       {
         'kosayoda/nvim-lightbulb',
@@ -1048,6 +1044,7 @@ packer.startup(function()
             'zsh'
           }
         },
+        clangd = {},
         cssls = {},
         html = {
           filetypes = {
@@ -1093,8 +1090,12 @@ packer.startup(function()
                 path = runtime_path
               },
               diagnostics = {
-                enable = true,
-                globals = { 'vim' },
+                enable_check_codestyle = true,
+                globals = {
+                  'awesome',
+                  'client',
+                  'vim'
+                },
                 neededFileStatus = {
                   codestyle_check = 'Any'
                 }
@@ -1104,7 +1105,7 @@ packer.startup(function()
                 defaultConfig = {
                   indent_style = 'space',
                   indent_size = 2,
-                  continuation_indent_size = 2,
+                  continuation_indent_size = 4,
                   quote_style = 'single',
                   call_arg_parentheses = 'keep',
                   local_assign_continuation_align_to_first_expression = true,
@@ -1115,7 +1116,8 @@ packer.startup(function()
                   keep_one_space_between_namedef_and_attribute = false,
                   continuous_assign_statement_align_to_equal_sign = true,
                   continuous_assign_table_field_align_to_equal_sign = true,
-                  if_condition_no_continuation_indent = true,
+                  do_statement_no_indent = false,
+                  if_condition_no_continuation_indent = false,
                   if_condition_align_with_each_other = true,
                 }
               },
