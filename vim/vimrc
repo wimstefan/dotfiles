@@ -15,6 +15,7 @@ function! PackagerInit() abort
   call packager#add('tpope/vim-obsession')
   call packager#add('tpope/vim-repeat')
   call packager#add('tpope/vim-surround')
+  call packager#add('tpope/vim-unimpaired')
   call packager#add('tpope/vim-fugitive')
   call packager#add('junegunn/fzf', {'do': './install --all'})
   call packager#add('junegunn/fzf.vim')
@@ -503,7 +504,7 @@ function! MyStatusline()
   let stl .= '%= '
   if &filetype != 'help'
     if exists('b:git_dir') && winwidth(0) > 70
-      let branch = fugitive#head(8)
+      let branch = FugitiveHead(8)
       let stl .= (branch == 'master') ? 'master' : branch
       if exists('g:loaded_signify')
         let stl .= s:sy_stats_wrapper().' '
@@ -671,48 +672,6 @@ nnoremap          <Leader>sg 1G:s#\(Stefan Wimmer\) <.*>#\1 <wimstefan@gmail.com
 nnoremap          <Leader>st G?--<CR>jVGd :r ~/.mutt/short-signature-tango<CR>
 nnoremap          <Leader>ss G?--<CR>jVGd :r ~/.mutt/short-signature<CR>
 nnoremap          <Leader>sl G?--<CR>jVGd :r ~/.mutt/signature<CR>
-
-" some ideas stolen from tpope/vim-unimpaired
-function! s:statusbump() abort
-  let &l:readonly = &l:readonly
-  return ''
-endfunction
-
-function! s:toggle(op) abort
-  call s:statusbump()
-  return eval('&'.a:op) ? 'no'.a:op : a:op
-endfunction
-
-function! s:option_map(letter, option, mode) abort
-  exe 'nnoremap [o'.a:letter ':'.a:mode.' '.a:option.'<C-r>=<SID>statusbump()<CR><CR>'
-  exe 'nnoremap ]o'.a:letter ':'.a:mode.' no'.a:option.'<C-r>=<SID>statusbump()<CR><CR>'
-  exe 'nnoremap co'.a:letter ':'.a:mode.' <C-r>=<SID>toggle("'.a:option.'")<CR><CR>'
-endfunction
-
-nnoremap [ob :set background=light<CR>
-nnoremap ]ob :set background=dark<CR>
-nnoremap cob :set background=<C-r>=&background == 'dark' ? 'light' : 'dark'<CR><CR>
-call s:option_map('c', 'cursorline', 'setlocal')
-call s:option_map('u', 'cursorcolumn', 'setlocal')
-nnoremap [od :diffthis<CR>
-nnoremap ]od :diffoff<CR>
-nnoremap cod :<C-r>=&diff ? 'diffoff' : 'diffthis'<CR><CR>
-call s:option_map('h', 'hlsearch', 'set')
-call s:option_map('i', 'ignorecase', 'set')
-call s:option_map('l', 'list', 'setlocal')
-call s:option_map('n', 'number', 'setlocal')
-call s:option_map('r', 'relativenumber', 'setlocal')
-call s:option_map('s', 'spell', 'setlocal')
-call s:option_map('z', 'scrollbind', 'windo setlocal')
-nnoremap [ox :set cursorline cursorcolumn<CR>
-nnoremap ]ox :set nocursorline nocursorcolumn<CR>
-nnoremap cox :set <C-r>=&cursorline && &cursorcolumn ? 'nocursorline nocursorcolumn' : 'cursorline cursorcolumn'<CR><CR>
-nnoremap corn :set <C-r>=&number && &relativenumber ? 'nonumber norelativenumber' : 'number relativenumber'<CR><CR>
-nnoremap com :<C-u>set colorcolumn=<C-R>=&colorcolumn == '+'.join(range(1,255),',+') ? '' : '+'.join(range(1,255),',+')<CR><CR><CR>
-nnoremap [cl :highlight CursorLine cterm=bold,italic gui=bold,italic<CR>
-nnoremap ]cl :highlight CursorLine cterm=none gui=none<CR>
-nmap [<Space> O<Esc>j
-nmap ]<Space> o<Esc>k
 
 " various
 set pastetoggle=<F3>
