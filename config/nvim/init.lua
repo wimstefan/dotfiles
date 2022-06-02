@@ -776,6 +776,8 @@ packer.startup(function()
     requires = {
       'hrsh7th/cmp-nvim-lua',
       'hrsh7th/cmp-nvim-lsp',
+      'hrsh7th/cmp-nvim-lsp-signature-help',
+      'hrsh7th/cmp-nvim-lsp-document-symbol',
       'hrsh7th/cmp-buffer',
       'hrsh7th/cmp-path',
       'hrsh7th/cmp-cmdline',
@@ -816,6 +818,7 @@ packer.startup(function()
               nvim_lua = '[API]',
               path = '[Filesystem]',
               luasnip = '[Snippet]',
+              nvim_lsp_signature_help = '[SIG]',
               treesitter = '[TS]',
               spell = '[Spell]',
             })[entry.source.name]
@@ -852,10 +855,7 @@ packer.startup(function()
             else
               fallback()
             end
-          end, {
-            'i',
-            's',
-          }),
+          end, { 'i', 's' }),
           ['<S-Tab>'] = cmp.mapping(function(fallback)
             if cmp.visible() then
               cmp.select_prev_item()
@@ -864,14 +864,12 @@ packer.startup(function()
             else
               fallback()
             end
-          end, {
-            'i',
-            's',
-          }),
+          end, { 'i', 's' }),
         }),
         sources = cmp.config.sources({
           { name = 'nvim_lua' },
           { name = 'nvim_lsp' },
+          { name = 'nvim_lsp_signature_help' },
           { name = 'luasnip' },
           { name = 'path' },
           {
@@ -891,12 +889,16 @@ packer.startup(function()
         sources = cmp.config.sources({
           { name = 'path' }
         }, {
+          { name = 'nvim_lua' }
+        }, {
           { name = 'cmdline' }
         })
       })
       cmp.setup.cmdline('/', {
         mapping = cmp.mapping.preset.cmdline(),
         sources = cmp.config.sources({
+          { name = 'nvim_lsp_document_symbol' }
+        }, {
           { name = 'buffer' }
         })
       })
