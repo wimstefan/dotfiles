@@ -301,8 +301,7 @@ augroup end
 -- }}}1 --------------------- AUTOCMDS -----------------------------------------
 -- {{{1 --------------------- FUNCTIONS ----------------------------------------
 function Dump(...)
-  local objects = vim.tbl_map(vim.inspect, { ... })
-  print(unpack(objects))
+  vim.pretty_print(...)
 end
 
 function TrimTrailingWhitespace()
@@ -373,7 +372,9 @@ function ToggleDetails()
     vim.notify('Details enabled', vim.log.levels.INFO, { title = '[UI]' })
   end
 end
+
 -- }}}
+
 -- {{{2 quickfix/location toggle made by iBaghwan
 function TableLength(T)
   local count = 0
@@ -440,13 +441,17 @@ function ToggleQF(type)
     end
   end
 end
+
 -- }}}
+
 -- {{{2 show manpage of current word
 function ShowMan()
   local cword = vim.fn.expand('<cword>')
   vim.cmd([[Man ]] .. cword)
 end
+
 -- }}}
+
 -- }}}1 --------------------- FUNCTIONS ----------------------------------------
 -- {{{1 --------------------- PLUGINS ------------------------------------------
 local install_path = vim.fn.stdpath('data') .. '/site/pack/packer/start/packer.nvim'
