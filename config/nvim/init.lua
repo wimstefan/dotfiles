@@ -198,6 +198,7 @@ vim.filetype.add({
   pattern = {
     ['/tmp/mutt.*'] = 'mail',
     ['/tmp/.*tangoartisan.*'] = 'html',
+    ['~/%.mutt/.*rc'] = 'muttrc',
   },
 })
 
