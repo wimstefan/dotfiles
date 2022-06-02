@@ -98,7 +98,7 @@ else
   vim.opt.foldmethod = fm_opts
 end
 
-vim.cmd[[match Substitute /\s\+$/]]
+vim.cmd [[match Substitute /\s\+$/]]
 
 vim.g.netrw_winsize = 20
 vim.g.netrw_banner = 0
@@ -224,6 +224,7 @@ vim.keymap.set('n', '<Leader>wqa', '<Cmd>wqa!<CR>')
 vim.keymap.set('n', ',ul', '<Cmd>undolist<CR>')
 vim.keymap.set('n', 'cn', '*``cgn')
 vim.keymap.set('n', 'cN', '*``cgN')
+vim.keymap.set('n', ',xw', '<Cmd>lua TrimTrailingWhitespace()<CR>', { desc = 'Remove trailing whitespaces' })
 -- }}}
 -- {{{2 buffers
 vim.keymap.set('n', '<Tab>', '<Cmd>bnext<CR>')
@@ -302,6 +303,13 @@ augroup end
 function Dump(...)
   local objects = vim.tbl_map(vim.inspect, { ... })
   print(unpack(objects))
+end
+
+function TrimTrailingWhitespace()
+  local curpos = vim.api.nvim_win_get_cursor(0)
+  vim.notify('Removing trailing whitespaces ...', vim.log.levels.INFO, { title = '[EDITING]' })
+  vim.cmd([[keeppatterns %s/\s\+$//e]])
+  vim.api.nvim_win_set_cursor(0, curpos)
 end
 
 function IdentifyHighlightGroup()
