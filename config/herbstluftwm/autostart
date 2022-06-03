@@ -15,7 +15,7 @@ Alt=Mod1
 
 hc keybind $Mod-Shift-q quit
 hc keybind $Mod-Shift-r reload
-hc keybind $Mod-Shift-c close
+hc keybind $Mod-Shift-c close_and_remove
 hc keybind $Mod-Return spawn "${TERMINAL:-uxterm}"
 
 # basic movement in tiling and floating mode

@@ -3,8 +3,10 @@
 #
 ## System
 # Theme switcher
-alt + shift + a
-  bg-toggle
+alt + shift + d
+  herbstclient spawn env =bg-toggle dark
+alt + shift + l
+  herbstclient spawn env =bg-toggle light
 # Rofi dialogue
 super + r
   rofi -theme '~/.config/rofi/config-sidebar.rasi' -modi combi,window,drun,run,ssh -show combi -combi-modi window,run,ssh
