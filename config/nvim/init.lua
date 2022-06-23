@@ -209,7 +209,6 @@ vim.keymap.set('n', '<Leader>g', ':grep<Space>')
 vim.keymap.set('n', '<C-l>', '<Cmd>set nohlsearch|diffupdate|highlight clear ColorColumn|normal! <C-l><CR>')
 vim.keymap.set('n', 'M', '<Cmd>lua ShowMan()<CR>', { desc = 'Search man pages for current word' })
 vim.keymap.set('n', '<F10>', '<Cmd>lua ToggleDetails()<CR>', { desc = 'Toggle decorations' })
-vim.keymap.set('n', '<F11>', '<Cmd>lua IdentifyHighlightGroup()<CR>', { desc = 'Identify highlight group' })
 -- {{{2 navigation
 vim.keymap.set({ 'n', 'x' }, 'j', function() return vim.v.count > 0 and 'j' or 'gj' end, { expr = true })
 vim.keymap.set({ 'n', 'x' }, 'k', function() return vim.v.count > 0 and 'k' or 'gk' end, { expr = true })
@@ -310,15 +309,6 @@ function TrimTrailingWhitespace()
   vim.notify('Removing trailing whitespaces ...', vim.log.levels.INFO, { title = '[EDITING]' })
   vim.cmd([[keeppatterns %s/\s\+$//e]])
   vim.api.nvim_win_set_cursor(0, curpos)
-end
-
-function IdentifyHighlightGroup()
-  local highlight_name = vim.fn.synIDattr(vim.fn.synIDtrans(vim.fn.synID(vim.fn.line('.'), vim.fn.col('.'), 1)), 'name')
-  if highlight_name == '' then
-    vim.notify('Highlight group not found', vim.log.levels.WARN, { title = '[UI]' })
-  else
-    vim.cmd(string.format([[highlight %s]], highlight_name))
-  end
 end
 
 function NotifyColors()
@@ -505,14 +495,7 @@ packer.startup(function()
       'nvim-treesitter/nvim-treesitter-refactor',
       'windwp/nvim-ts-autotag',
       'p00f/nvim-ts-rainbow',
-      'JoosepAlviste/nvim-ts-context-commentstring',
-      {
-        'nvim-treesitter/playground',
-        config = function()
-          vim.keymap.set('n', '<F12>', [[<Cmd>TSHighlightCapturesUnderCursor<CR>]])
-          vim.keymap.set('n', ',tsp', [[<Cmd>TSPlaygroundToggle<CR>]])
-        end
-      }
+      'JoosepAlviste/nvim-ts-context-commentstring'
     },
     config = function()
       require('nvim-treesitter.configs').setup({
@@ -524,8 +507,7 @@ packer.startup(function()
           enable_autocmd = false
         },
         highlight = {
-          enable = true,
-          additional_vim_regex_highlighting = true
+          enable = true
         },
         incremental_selection = {
           enable = true,
