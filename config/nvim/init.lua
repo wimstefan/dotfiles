@@ -34,9 +34,6 @@ vim.opt.fillchars:append({
   vertleft = '┤',
   vertright = '├',
   verthoriz = '┼',
-  foldclose = '▾',
-  foldopen = '▴',
-  foldsep = '🮍',
   msgsep = '🮑'
 })
 vim.opt.mouse = 'a'
@@ -88,15 +85,6 @@ vim.opt.backupcopy = 'auto'
 vim.opt.writebackup = true
 vim.opt.undofile = true
 vim.opt.modelineexpr = true
-
-vim.opt.foldlevel = 99
-local fm_opts = vim.opt.foldmethod:get()
-if fm_opts == '' or fm_opts == 'manual' then
-  vim.opt.foldmethod = 'expr'
-  vim.opt.foldexpr = 'nvim_treesitter#foldexpr()'
-else
-  vim.opt.foldmethod = fm_opts
-end
 
 vim.cmd [[match Substitute /\s\+$/]]
 
@@ -1019,6 +1007,10 @@ packer.startup(function()
           'additionalTextEdits',
         }
       }
+      capabilities.textDocument.foldingRange = {
+        dynamicRegistration = false,
+        lineFoldingOnly = true
+      }
       capabilities.experimental = {}
       capabilities.experimental.hoverActions = true
       capabilities = lsp_cmp.update_capabilities(capabilities)
@@ -1773,6 +1765,56 @@ packer.startup(function()
           border = My_Borders,
         }
       })
+    end
+  })
+  -- }}}
+  -- {{{2 nvim-ufo
+  use({
+    'kevinhwang91/nvim-ufo',
+    requires = 'kevinhwang91/promise-async',
+    config = function()
+      vim.opt.foldlevel = 99
+      vim.opt.foldcolumn = 'auto:5'
+      vim.opt.fillchars:append({
+        foldopen = '',
+        foldsep = '🮍',
+        foldclose = ''
+      })
+      vim.keymap.set('n', '[z', [[<Cmd>lua require('ufo').goPreviousClosedFold()<CR>]], { desc = 'Go to previous closed fold' })
+      vim.keymap.set('n', ']z', [[<Cmd>lua require('ufo').goNextClosedFold()<CR>]], { desc = 'Go to next closed fold' })
+
+      local handler = function(virtText, lnum, endLnum, width, truncate)
+        local newVirtText = {}
+        local suffix = (' ··· %d lines ···'):format(endLnum - lnum)
+        local sufWidth = vim.fn.strdisplaywidth(suffix)
+        local targetWidth = width - sufWidth
+        local curWidth = 0
+        for _, chunk in ipairs(virtText) do
+          local chunkText = chunk[1]
+          local chunkWidth = vim.fn.strdisplaywidth(chunkText)
+          if targetWidth > curWidth + chunkWidth then
+            table.insert(newVirtText, chunk)
+          else
+            chunkText = truncate(chunkText, targetWidth - curWidth)
+            local hlGroup = chunk[2]
+            table.insert(newVirtText, {chunkText, hlGroup})
+            chunkWidth = vim.fn.strdisplaywidth(chunkText)
+            -- str width returned from truncate() may less than 2nd argument, need padding
+            if curWidth + chunkWidth < targetWidth then
+              suffix = suffix .. (' '):rep(targetWidth - curWidth - chunkWidth)
+            end
+            break
+          end
+          curWidth = curWidth + chunkWidth
+        end
+        table.insert(newVirtText, {suffix, 'MoreMsg'})
+        return newVirtText
+      end
+      require('ufo').setup({
+        fold_virt_text_handler = handler
+      })
+      local bufnr = vim.api.nvim_get_current_buf()
+      require('ufo').setFoldVirtTextHandler(bufnr, handler)
     end
   })
   -- }}}
