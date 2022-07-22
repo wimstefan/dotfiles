@@ -1155,9 +1155,6 @@ packer.startup(function()
   -- {{{2 vim-repeat
   use('tpope/vim-repeat')
   -- }}}
-  -- {{{2 vim-surround
-  use('tpope/vim-surround')
-  -- }}}
   -- {{{2 vim-unimpaired
   use('tpope/vim-unimpaired')
   -- }}}
@@ -1174,6 +1171,23 @@ packer.startup(function()
     'lewis6991/spellsitter.nvim',
     config = function()
       require('spellsitter').setup()
+    end
+  })
+  -- }}}
+  -- {{{2 spaceless.nvim
+  use({
+    'lewis6991/spaceless.nvim',
+    config = function()
+      require('spaceless').setup()
+    end
+  })
+  -- }}}
+  -- {{{2 nvim-surround
+  -- Lua
+  use({
+    'kylechui/nvim-surround',
+    config = function()
+      require('nvim-surround').setup()
     end
   })
   -- }}}
@@ -1197,6 +1211,14 @@ packer.startup(function()
           }
         end
       })
+    end
+  })
+  -- }}}
+  -- {{{2 text-case.nvim
+  use({
+    'johmsalas/text-case.nvim',
+    config = function()
+      require('textcase').setup()
     end
   })
   -- }}}
@@ -1348,12 +1370,28 @@ packer.startup(function()
   -- }}}
   -- {{{2 undotree
   use({
-    'mbbill/undotree',
+    'jiaoshijie/undotree',
+    requires = {
+      'nvim-lua/plenary.nvim'
+    },
     config = function()
-      vim.g.undotree_WindowLayout = 2
-      vim.g.undotree_SetFocusWhenToggle = 1
-      vim.g.undotree_ShortIndicators = 1
-      vim.keymap.set('n', ',tu', '<Cmd>UndotreeToggle<CR>', {})
+      require('undotree').setup({
+        float_diff = true,
+        ignore_filetype = { 'Undotree', 'UndotreeDiff', 'qf', 'TelescopePrompt', 'spectre_panel' },
+        window = {
+          winblend = 0,
+        },
+        keymaps = {
+          ['j'] = "move_next",
+          ['k'] = "move_prev",
+          ['J'] = "move_change_next",
+          ['K'] = "move_change_prev",
+          ['<cr>'] = "action_enter",
+          ['p'] = "enter_diffbuf",
+          ['q'] = "quit",
+        }
+      })
+      vim.keymap.set('n', ',tu', [[<Cmd>lua require('undotree').toggle()<CR>]], { desc = 'Undo tree' })
     end
   })
   -- }}}
@@ -1396,7 +1434,7 @@ packer.startup(function()
     'chrisbra/unicode.vim',
     config = function()
       vim.keymap.set('n', '<Leader>ut', '<Cmd>UnicodeTable<CR>')
-      vim.keymap.set('n', 'ga', '<Cmd>UnicodeName<CR>')
+      vim.keymap.set('n', 'gu', '<Cmd>UnicodeName<CR>')
     end
   })
   -- }}}
