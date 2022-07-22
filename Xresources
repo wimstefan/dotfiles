@@ -3,13 +3,16 @@
   Xcursor.size: 48
   *font: xft:monospace:pixelsize=30.0
   *faceName: xft:monospace:pixelsize=30.0
-  rofi.font: Overlock 20
+#elif SRVR_komala
+  Xft.dpi: 96
+  Xcursor.size: 24
+  *font: xft:monospace:pixelsize=14.0
+  *faceName: xft:monospace:pixelsize=14.0
 #elif SRVR_tj
   Xft.dpi: 120
   Xcursor.size: 24
   *font: xft:monospace:pixelsize=16.0
   *faceName: xft:monospace:pixelsize=16.0
-  rofi.font: Overlock 10
 #endif
 
 Xft.autohint: 0
@@ -24,17 +27,6 @@ Xcursor.theme: Qogir-manjaro-dark
 *loginShell:               true
 *scrollBar:                false
 *saveLines:                10000
-
-URxvt.depth:               32
-URxvt.skipBuildinGlyphs:   true
-URxvt.perl-ext-common:     default,matcher,resize-font
-URxvt.matcher.button:      1
-URxvt.url-launcher:        /usr/bin/xdg-open
-URxvt.clipboard.autocopy:  true
-URxvt.keysym.Ctrl-plus:    resize-font:bigger
-URxvt.keysym.Ctrl-minus:   resize-font:smaller
-URxvt.keysym.Ctrl-0:       resize-font:reset
-URxvt.keysym.Ctrl-slash:   resize-font:show
 
 *xterm*termName:           xterm-256color
 *xterm*renderFont:         true
