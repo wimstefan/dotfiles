@@ -98,7 +98,7 @@ vim.g.netrw_alto = 0
 -- symbols --
 My_Symbols = {
   Array = ' ', -- '謹',
-  Boolean = ' ',  --'ﬧ ',
+  Boolean = ' ', --'ﬧ ',
   Class = ' ', -- ' ', -- ' ',
   Color = ' ', -- ' ', -- ' ',
   Constant = ' ', -- ' ',
@@ -122,7 +122,7 @@ My_Symbols = {
   Property = ' ', -- ' ', -- ' ',
   Reference = ' ', -- ' ', -- ' ' -- ' ',
   Snippet = ' ', -- ' ', -- ' ',
-  Struct = ' ',  --'פּ ', -- ' ',
+  Struct = ' ', --'פּ ', -- ' ',
   Text = ' ', -- ' ',
   TypeParameter = ' ', -- ' ', -- ' ', -- ' ',
   Unit = ' ', -- '塞 ', -- 'ﰩ '  --' ',
@@ -168,8 +168,10 @@ vim.diagnostic.config({
     source = 'always'
   }
 })
-vim.keymap.set('n', ',dl', '<Cmd>lua vim.diagnostic.setloclist()<CR>', { desc = 'Populate location list with diagnostic messages' })
-vim.keymap.set('n', ',dq', '<Cmd>lua vim.diagnostic.setqflist()<CR>', { desc = 'Populate quickfix with diagnostic messages' })
+vim.keymap.set('n', ',dl', [[<Cmd>lua vim.diagnostic.setloclist()<CR>]],
+  { desc = 'Populate location list with diagnostic messages' })
+vim.keymap.set('n', ',dq', [[<Cmd>lua vim.diagnostic.setqflist()<CR>]],
+  { desc = 'Populate quickfix with diagnostic messages' })
 
 -- filetype handling
 vim.filetype.add({
@@ -190,36 +192,36 @@ vim.filetype.add({
 
 -- }}}1 --------------------- OPTIONS ------------------------------------------
 -- {{{1 --------------------- MAPPINGS -----------------------------------------
-vim.keymap.set('', 'cd', '<Cmd>cd %:h | pwd<CR>')
-vim.keymap.set('n', '<Leader>g', ':grep<Space>')
-vim.keymap.set('n', '<C-l>', '<Cmd>set nohlsearch|diffupdate|highlight clear ColorColumn|normal! <C-l><CR>')
-vim.keymap.set('n', 'M', '<Cmd>lua ShowMan()<CR>', { desc = 'Search man pages for current word' })
-vim.keymap.set('n', '<F10>', '<Cmd>lua ToggleDetails()<CR>', { desc = 'Toggle decorations' })
+vim.keymap.set('', 'cd', [[<Cmd>cd %:h | pwd<CR>]])
+vim.keymap.set('n', '<Leader>g', [[:grep<Space>]])
+vim.keymap.set('n', '<C-l>', [[<Cmd>set nohlsearch|diffupdate|highlight clear ColorColumn|normal! <C-l><CR>]])
+vim.keymap.set('n', 'M', [[<Cmd>lua ShowMan()<CR>]], { desc = 'Search man pages for current word' })
+vim.keymap.set('n', '<F10>', [[<Cmd>lua ToggleDetails()<CR>]], { desc = 'Toggle decorations' })
 -- {{{2 navigation
 vim.keymap.set({ 'n', 'x' }, 'j', function() return vim.v.count > 0 and 'j' or 'gj' end, { expr = true })
 vim.keymap.set({ 'n', 'x' }, 'k', function() return vim.v.count > 0 and 'k' or 'gk' end, { expr = true })
 -- }}}
 -- {{{2 editing
-vim.keymap.set('n', '<Leader>ev', '<Cmd>edit $MYVIMRC<CR>')
-vim.keymap.set('n', '<Leader>sv', '<Cmd>luafile $MYVIMRC<CR>')
-vim.keymap.set('n', '<Leader>w', '<Cmd>w!<CR>')
-vim.keymap.set('n', '<Leader>wa', '<Cmd>wa!<CR>')
-vim.keymap.set('n', '<Leader>q', '<Cmd>q!<CR>')
-vim.keymap.set('n', '<Leader>qa', '<Cmd>qa!<CR>')
-vim.keymap.set('n', '<Leader>wqa', '<Cmd>wqa!<CR>')
-vim.keymap.set('n', ',ul', '<Cmd>undolist<CR>')
+vim.keymap.set('n', '<Leader>ev', [[<Cmd>edit $MYVIMRC<CR>]])
+vim.keymap.set('n', '<Leader>sv', [[<Cmd>luafile $MYVIMRC<CR>]])
+vim.keymap.set('n', '<Leader>w', [[<Cmd>w!<CR>]])
+vim.keymap.set('n', '<Leader>wa', [[<Cmd>wa!<CR>]])
+vim.keymap.set('n', '<Leader>q', [[<Cmd>q!<CR>]])
+vim.keymap.set('n', '<Leader>qa', [[<Cmd>qa!<CR>]])
+vim.keymap.set('n', '<Leader>wqa', [[<Cmd>wqa!<CR>]])
+vim.keymap.set('n', ',ul', [[<Cmd>undolist<CR>]])
 vim.keymap.set('n', 'cn', '*``cgn')
 vim.keymap.set('n', 'cN', '*``cgN')
-vim.keymap.set('n', ',xw', '<Cmd>lua TrimTrailingWhitespace()<CR>', { desc = 'Remove trailing whitespaces' })
+vim.keymap.set('n', ',xw', [[<Cmd>lua TrimTrailingWhitespace()<CR>]], { desc = 'Remove trailing whitespaces' })
 -- }}}
 -- {{{2 buffers
-vim.keymap.set('n', '<Tab>', '<Cmd>bnext<CR>')
-vim.keymap.set('n', '<S-Tab>', '<Cmd>bprev<CR>')
+vim.keymap.set('n', '<Tab>', [[<Cmd>bnext<CR>]])
+vim.keymap.set('n', '<S-Tab>', [[<Cmd>bprev<CR>]])
 vim.keymap.set('n', '<Leader><Leader>', '<C-^>')
-vim.keymap.set('n', '<Leader>bd', '<Cmd>bdelete<CR>')
+vim.keymap.set('n', '<Leader>bd', [[<Cmd>bdelete<CR>]])
 -- }}}
 -- {{{2 tabs
-vim.keymap.set('n', '<Leader>td', '<Cmd>tabclose<CR>')
+vim.keymap.set('n', '<Leader>td', [[<Cmd>tabclose<CR>]])
 -- }}}
 -- {{{2 terminals
 vim.keymap.set('t', '<Esc>', [[<C-\><C-N>]])
@@ -235,8 +237,10 @@ vim.keymap.set('n', '[\\', [[<Cmd>colder<CR>]])
 vim.keymap.set('n', ']\\', [[<Cmd>cnewer<CR>]])
 -- }}}
 -- {{{2 signatures
-vim.keymap.set('n', '<Leader>sa', [[1G:s#\(Stefan Wimmer\) <.*>#\1 <stefan@tangoartisan.com>#<CR>G?--<CR>jVGd :r ~/.mutt/short-signature-artisan<CR>/^To:<CR>]])
-vim.keymap.set('n', '<Leader>sg', [[1G:s#\(Stefan Wimmer\) <.*>#\1 <wimstefan@gmail.com>#<CR>G?--<CR>jVGd :r ~/.mutt/short-signature-gmail<CR>/^To:<CR>]])
+vim.keymap.set('n', '<Leader>sa',
+  [[1G:s#\(Stefan Wimmer\) <.*>#\1 <stefan@tangoartisan.com>#<CR>G?--<CR>jVGd :r ~/.mutt/short-signature-artisan<CR>/^To:<CR>]])
+vim.keymap.set('n', '<Leader>sg',
+  [[1G:s#\(Stefan Wimmer\) <.*>#\1 <wimstefan@gmail.com>#<CR>G?--<CR>jVGd :r ~/.mutt/short-signature-gmail<CR>/^To:<CR>]])
 vim.keymap.set('n', '<Leader>st', [[G?--<CR>jVGd :r ~/.mutt/short-signature-tango<CR>]])
 vim.keymap.set('n', '<Leader>ss', [[G?--<CR>jVGd :r ~/.mutt/short-signature<CR>]])
 vim.keymap.set('n', '<Leader>sl', [[G?--<CR>jVGd :r ~/.mutt/signature<CR>]])
@@ -455,11 +459,11 @@ packer.startup(function()
   use({
     'shadmansaleh/packer.nvim',
     config = function()
-      vim.keymap.set('n', ',pc', '<Cmd>PackerClean<CR>')
-      vim.keymap.set('n', ',pi', '<Cmd>PackerInstall<CR>')
-      vim.keymap.set('n', ',pq', '<Cmd>PackerStatus<CR>')
-      vim.keymap.set('n', ',ps', '<Cmd>PackerSync<CR>')
-      vim.keymap.set('n', ',pu', '<Cmd>PackerUpdate<CR>')
+      vim.keymap.set('n', ',pc', [[<Cmd>PackerClean<CR>]])
+      vim.keymap.set('n', ',pi', [[<Cmd>PackerInstall<CR>]])
+      vim.keymap.set('n', ',pq', [[<Cmd>PackerStatus<CR>]])
+      vim.keymap.set('n', ',ps', [[<Cmd>PackerSync<CR>]])
+      vim.keymap.set('n', ',pu', [[<Cmd>PackerUpdate<CR>]])
     end
   })
   -- }}}
@@ -887,11 +891,11 @@ packer.startup(function()
             placement_editor_edge = true,
             icons = My_Symbols,
             on_attach = function(bufnr)
-              vim.keymap.set('n', '<Leader>a', '<Cmd>AerialToggle!<CR>', { buffer = bufnr })
-              vim.keymap.set('n', '{', '<Cmd>AerialPrev<CR>', { buffer = bufnr })
-              vim.keymap.set('n', '}', '<Cmd>AerialNext<CR>', { buffer = bufnr })
-              vim.keymap.set('n', '{{', '<Cmd>AerialPrevUp<CR>', { buffer = bufnr })
-              vim.keymap.set('n', '}}', '<Cmd>AerialNextUp<CR>', { buffer = bufnr })
+              vim.keymap.set('n', '<Leader>a', [[<Cmd>AerialToggle!<CR>]], { buffer = bufnr })
+              vim.keymap.set('n', '{', [[<Cmd>AerialPrev<CR>]], { buffer = bufnr })
+              vim.keymap.set('n', '}', [[<Cmd>AerialNext<CR>]], { buffer = bufnr })
+              vim.keymap.set('n', '{{', [[<Cmd>AerialPrevUp<CR>]], { buffer = bufnr })
+              vim.keymap.set('n', '}}', [[<Cmd>AerialNextUp<CR>]], { buffer = bufnr })
             end
           })
           require('telescope').load_extension('aerial')
@@ -904,7 +908,8 @@ packer.startup(function()
       local lsp_config = require('lspconfig')
 
       -- LSP handlers
-      vim.lsp.handlers['textDocument/signatureHelp'] = vim.lsp.with(vim.lsp.handlers.signature_help, { border = My_Borders })
+      vim.lsp.handlers['textDocument/signatureHelp'] = vim.lsp.with(vim.lsp.handlers.signature_help,
+        { border = My_Borders })
       vim.lsp.handlers['textDocument/hover'] = vim.lsp.with(vim.lsp.handlers.hover, { border = My_Borders })
 
       -- LSP functions
@@ -922,36 +927,47 @@ packer.startup(function()
         vim.keymap.set('n', ',lY', [[<Cmd>Telescope lsp_workspace_symbols<CR>]], { buffer = bufnr })
         vim.keymap.set('n', ',ld', [[<Cmd>Telescope diagnostics bufnr=0<CR>]], { buffer = bufnr })
         vim.keymap.set('n', ',lD', [[<Cmd>Telescope diagnostics<CR>]], { buffer = bufnr })
-        vim.keymap.set('n', ',lds', [[<Cmd>lua vim.diagnostic.show()<CR>]], { buffer = bufnr }, { desc = 'Show diagnostics' })
-        vim.keymap.set('n', ',ldh', [[<Cmd>lua vim.diagnostic.hide()<CR>]], { buffer = bufnr }, { desc = 'Hide diagnostics' })
-        vim.keymap.set('n', ',le', [[<Cmd>lua vim.diagnostic.open_float({ scope = 'line' })<CR>]], { buffer = bufnr }, { desc = 'Diagnostic: open floating window' })
-        vim.keymap.set('n', '[d', [[<Cmd>lua vim.diagnostic.goto_prev({ float = false })<CR>]], { buffer = bufnr }, { desc = 'Diagnostic: got to previous error' })
-        vim.keymap.set('n', ']d', [[<Cmd>lua vim.diagnostic.goto_next({ float = false })<CR>]], { buffer = bufnr }, { desc = 'Diagnostic: got to next error' })
+        vim.keymap.set('n', ',lds', [[<Cmd>lua vim.diagnostic.show()<CR>]], { buffer = bufnr },
+          { desc = 'Show diagnostics' })
+        vim.keymap.set('n', ',ldh', [[<Cmd>lua vim.diagnostic.hide()<CR>]], { buffer = bufnr },
+          { desc = 'Hide diagnostics' })
+        vim.keymap.set('n', ',le', [[<Cmd>lua vim.diagnostic.open_float({ scope = 'line' })<CR>]], { buffer = bufnr },
+          { desc = 'Diagnostic: open floating window' })
+        vim.keymap.set('n', '[d', [[<Cmd>lua vim.diagnostic.goto_prev({ float = false })<CR>]], { buffer = bufnr },
+          { desc = 'Diagnostic: got to previous error' })
+        vim.keymap.set('n', ']d', [[<Cmd>lua vim.diagnostic.goto_next({ float = false })<CR>]], { buffer = bufnr },
+          { desc = 'Diagnostic: got to next error' })
         vim.keymap.set('n', ',lrn', [[<Cmd>lua vim.lsp.buf.rename()<CR>]], { buffer = bufnr }, { desc = 'LSP: rename' })
-        vim.keymap.set('n', ',lw', [[<Cmd>lua Dump(vim.lsp.buf.list_workspace_folders())<CR>]], { buffer = bufnr }, { desc = 'LSP: list workspace folders' })
+        vim.keymap.set('n', ',lw', [[<Cmd>lua Dump(vim.lsp.buf.list_workspace_folders())<CR>]], { buffer = bufnr },
+          { desc = 'LSP: list workspace folders' })
         if client.server_capabilities.codeActionProvider then
-          vim.keymap.set('n', ',lca', [[<Cmd>lua vim.lsp.buf.code_action()<CR>]], { buffer = bufnr }, { desc = 'LSP: code actions' })
+          vim.keymap.set('n', ',lca', [[<Cmd>lua vim.lsp.buf.code_action()<CR>]], { buffer = bufnr },
+            { desc = 'LSP: code actions' })
         else
           lsp_messages = lsp_messages .. 'no codeAction' .. lsp_msg_sep
         end
         if client.server_capabilities.declarationProvider then
-          vim.keymap.set('n', ',lc', [[<Cmd>lua vim.lsp.buf.declaration()<CR>]], { buffer = bufnr }, { desc = 'LSP: declaration' })
+          vim.keymap.set('n', ',lc', [[<Cmd>lua vim.lsp.buf.declaration()<CR>]], { buffer = bufnr },
+            { desc = 'LSP: declaration' })
         else
           vim.keymap.set('n', ',lc', [[<Nop>]], { buffer = bufnr })
           lsp_messages = lsp_messages .. 'no declaration' .. lsp_msg_sep
         end
         if client.server_capabilities.documentFormattingProvider then
-          vim.keymap.set('n', ',lf', [[<Cmd>lua vim.lsp.buf.format({ async = true })<CR>]], { buffer = bufnr, silent = true }, { desc = 'LSP: formatting' })
+          vim.keymap.set('n', ',lf', [[<Cmd>lua vim.lsp.buf.format({ async = true })<CR>]],
+            { buffer = bufnr, silent = true }, { desc = 'LSP: formatting' })
         else
           lsp_messages = lsp_messages .. 'no format' .. lsp_msg_sep
         end
         if client.server_capabilities.documentRangeFormattingProvider then
-          vim.keymap.set({ 'v', 'x' }, ',lf', ':<C-u>call v:lua.vim.lsp.buf.range_formatting()<CR>', { buffer = bufnr, silent = true }, { desc = 'LSP: range formatting' })
+          vim.keymap.set({ 'v', 'x' }, ',lf', ':<C-u>call v:lua.vim.lsp.buf.range_formatting()<CR>',
+            { buffer = bufnr, silent = true }, { desc = 'LSP: range formatting' })
         else
           lsp_messages = lsp_messages .. 'no rangeFormat' .. lsp_msg_sep
         end
         if client.server_capabilities.implementationProvider then
-          vim.keymap.set('n', ',li', [[<Cmd>lua vim.lsp.buf.implementation()<CR>]], { buffer = bufnr }, { desc = 'LSP: implementation' })
+          vim.keymap.set('n', ',li', [[<Cmd>lua vim.lsp.buf.implementation()<CR>]], { buffer = bufnr },
+            { desc = 'LSP: implementation' })
         else
           vim.keymap.set('n', ',li', [[<Nop>]], { buffer = bufnr })
           lsp_messages = lsp_messages .. 'no implementation' .. lsp_msg_sep
@@ -963,14 +979,17 @@ packer.startup(function()
           lsp_messages = lsp_messages .. 'no hovering' .. lsp_msg_sep
         end
         if client.server_capabilities.signatureHelpProvider then
-          vim.keymap.set('i', '<C-s>', [[<Cmd>lua vim.lsp.buf.signature_help({ border = My_Borders })<CR>]], { buffer = bufnr }, { desc = 'LSP: signature help' })
-          vim.keymap.set('n', ',ls', [[<Cmd>lua vim.lsp.buf.signature_help({ border = My_Borders })<CR>]], { buffer = bufnr }, { desc = 'LSP: signature help' })
+          vim.keymap.set('i', '<C-s>', [[<Cmd>lua vim.lsp.buf.signature_help({ border = My_Borders })<CR>]],
+            { buffer = bufnr }, { desc = 'LSP: signature help' })
+          vim.keymap.set('n', ',ls', [[<Cmd>lua vim.lsp.buf.signature_help({ border = My_Borders })<CR>]],
+            { buffer = bufnr }, { desc = 'LSP: signature help' })
         else
           vim.keymap.set('n', ',ls', [[<Nop>]], { buffer = bufnr })
           lsp_messages = lsp_messages .. 'no signatureHelp' .. lsp_msg_sep
         end
         if client.server_capabilities.typeDefinitionProvider then
-          vim.keymap.set('n', ',ltd', [[<Cmd>lua vim.lsp.buf.type_definition()<CR>]], { buffer = bufnr }, { desc = 'LSP: type definition' })
+          vim.keymap.set('n', ',ltd', [[<Cmd>lua vim.lsp.buf.type_definition()<CR>]], { buffer = bufnr },
+            { desc = 'LSP: type definition' })
         else
           vim.keymap.set('n', ',ltd', [[<Nop>]], { buffer = bufnr })
           lsp_messages = lsp_messages .. 'no typeDefinition' .. lsp_msg_sep
@@ -978,7 +997,8 @@ packer.startup(function()
 
         -- autocmds
         if client.server_capabilities.codeLensProvider then
-          vim.keymap.set('n', ',ll', [[<Cmd>lua vim.lsp.buf.codelens.run({ border = My_Borders })<CR>]], { buffer = bufnr }, { desc = 'LSP: code lens' })
+          vim.keymap.set('n', ',ll', [[<Cmd>lua vim.lsp.buf.codelens.run({ border = My_Borders })<CR>]],
+            { buffer = bufnr }, { desc = 'LSP: code lens' })
           vim.cmd([[autocmd BufEnter,CursorHold,InsertLeave * lua vim.lsp.codelens.refresh()]])
         else
           lsp_messages = lsp_messages .. 'no codeLens' .. lsp_msg_sep
@@ -1126,11 +1146,11 @@ packer.startup(function()
   use({
     'tpope/vim-fugitive',
     config = function()
-      vim.keymap.set('n', '<Leader>gc', '<Cmd>Git commit -v %<CR>')
-      vim.keymap.set('n', '<Leader>gd', '<Cmd>Gdiffsplit<CR>')
-      vim.keymap.set('n', '<Leader>gl', '<Cmd>0Gclog!<CR>')
-      vim.keymap.set('n', '<Leader>gp', '<Cmd>Git push<CR>')
-      vim.keymap.set('n', '<Leader>gs', '<Cmd>Git<CR>')
+      vim.keymap.set('n', '<Leader>gc', [[<Cmd>Git commit -v %<CR>]])
+      vim.keymap.set('n', '<Leader>gd', [[<Cmd>Gdiffsplit<CR>]])
+      vim.keymap.set('n', '<Leader>gl', [[<Cmd>0Gclog!<CR>]])
+      vim.keymap.set('n', '<Leader>gp', [[<Cmd>Git push<CR>]])
+      vim.keymap.set('n', '<Leader>gs', [[<Cmd>Git<CR>]])
     end
   })
   -- }}}
@@ -1138,7 +1158,7 @@ packer.startup(function()
   use({
     'tpope/vim-obsession',
     config = function()
-      vim.keymap.set('n', ',to', '<Cmd>Obsession<CR>')
+      vim.keymap.set('n', ',to', [[<Cmd>Obsession<CR>]])
     end
   })
   -- }}}
@@ -1185,7 +1205,8 @@ packer.startup(function()
   use({
     'numToStr/Comment.nvim',
     config = function()
-      vim.keymap.set('x', 'gci', ':g/./lua require\'Comment.api\'.toggle_current_linewise()<CR><cmd>nohls<CR>', { desc = 'Invert comments' })
+      vim.keymap.set('x', 'gci', ':g/./lua require\'Comment.api\'.toggle_current_linewise()<CR><cmd>nohls<CR>',
+        { desc = 'Invert comments' })
       require('Comment').setup({
         pre_hook = function(ctx)
           local U = require 'Comment.utils'
@@ -1230,8 +1251,10 @@ packer.startup(function()
     config = function()
       require('hlslens').setup()
       vim.opt.shortmess:append('S')
-      vim.keymap.set('n', 'n', [[<Cmd>execute('normal! ' . v:count1 . 'n')<CR><Cmd>lua require('hlslens').start()<CR>]], { desc = 'Hlslens: n' })
-      vim.keymap.set('n', 'N', [[<Cmd>execute('normal! ' . v:count1 . 'N')<CR><Cmd>lua require('hlslens').start()<CR>]], { desc = 'Hlslens: N' })
+      vim.keymap.set('n', 'n', [[<Cmd>execute('normal! ' . v:count1 . 'n')<CR><Cmd>lua require('hlslens').start()<CR>]],
+        { desc = 'Hlslens: n' })
+      vim.keymap.set('n', 'N', [[<Cmd>execute('normal! ' . v:count1 . 'N')<CR><Cmd>lua require('hlslens').start()<CR>]],
+        { desc = 'Hlslens: N' })
       vim.keymap.set('n', '*', [[*<Cmd>lua require('hlslens').start()<CR>]], { desc = 'Hlslens: *' })
       vim.keymap.set('n', '#', [[#<Cmd>lua require('hlslens').start()<CR>]], { desc = 'Hlslens: #' })
       vim.keymap.set('n', 'g*', [[g*<Cmd>lua require('hlslens').start()<CR>]], { desc = 'Hlslens: g*' })
@@ -1283,8 +1306,8 @@ packer.startup(function()
   use({
     'is0n/fm-nvim',
     config = function()
-      vim.keymap.set('n', '<Leader>z', '<Cmd>Fzf<CR>', {})
-      vim.keymap.set('n', '<Leader>x', '<Cmd>Vifm<CR>', {})
+      vim.keymap.set('n', '<Leader>z', [[<Cmd>Fzf<CR>]], {})
+      vim.keymap.set('n', '<Leader>x', [[<Cmd>Vifm<CR>]], {})
       require('fm-nvim').setup({
         border = My_Borders,
         border_hl = 'Normal'
@@ -1423,8 +1446,8 @@ packer.startup(function()
   use({
     'chrisbra/unicode.vim',
     config = function()
-      vim.keymap.set('n', '<Leader>ut', '<Cmd>UnicodeTable<CR>')
-      vim.keymap.set('n', 'gu', '<Cmd>UnicodeName<CR>')
+      vim.keymap.set('n', '<Leader>ut', [[<Cmd>UnicodeTable<CR>]])
+      vim.keymap.set('n', 'gu', [[<Cmd>UnicodeName<CR>]])
     end
   })
   -- }}}
@@ -1433,7 +1456,7 @@ packer.startup(function()
   use({
     'DarwinSenior/nvim-colorizer.lua',
     config = function()
-      vim.keymap.set('n', ',tc', '<Cmd> ColorizerToggle<CR>')
+      vim.keymap.set('n', ',tc', [[<Cmd> ColorizerToggle<CR>]])
       require('colorizer').setup(
         { '*' },
         {
@@ -1698,7 +1721,7 @@ packer.startup(function()
             },
             {
               'branch',
-              icon = ''
+              icon = 'שׂ '
             }
           },
           lualine_z = { 'filetype' },
@@ -1779,12 +1802,16 @@ packer.startup(function()
         numhl = true,
         on_attach = function(bufnr)
           local gs = package.loaded.gitsigns
-          vim.keymap.set('n', ']c', "&diff ? ']c' : '<cmd>Gitsigns next_hunk<CR>'", { expr = true }, { desc = 'Gitsigns: next hunk' })
-          vim.keymap.set('n', '[c', "&diff ? '[c' : '<cmd>Gitsigns prev_hunk<CR>'", { expr = true }, { desc = 'Gitsigns: previous hunk' })
+          vim.keymap.set('n', ']c', "&diff ? ']c' : '<cmd>Gitsigns next_hunk<CR>'", { expr = true },
+            { desc = 'Gitsigns: next hunk' })
+          vim.keymap.set('n', '[c', "&diff ? '[c' : '<cmd>Gitsigns prev_hunk<CR>'", { expr = true },
+            { desc = 'Gitsigns: previous hunk' })
           vim.keymap.set('n', ',sp', gs.preview_hunk, { buffer = bufnr }, { desc = 'Gitsigns: preview hunk' })
-          vim.keymap.set('n', ',sb', function() gs.blame_line { full = true } end, { buffer = bufnr }, { desc = 'Gitsigns: blame line' })
+          vim.keymap.set('n', ',sb', function() gs.blame_line { full = true } end, { buffer = bufnr },
+            { desc = 'Gitsigns: blame line' })
           vim.keymap.set('n', ',sd', gs.diffthis, { buffer = bufnr }, { desc = 'Gitsigns: diffthis' })
-          vim.keymap.set('n', ',sD', function() gs.diffthis('~') end, { buffer = bufnr }, { desc = 'Gitsigns: diffthis ~' })
+          vim.keymap.set('n', ',sD', function() gs.diffthis('~') end, { buffer = bufnr },
+            { desc = 'Gitsigns: diffthis ~' })
           vim.keymap.set('n', ',ss', gs.stage_hunk, { buffer = bufnr }, { desc = 'Gitsigns: stage hunk' })
           vim.keymap.set('n', ',su', gs.undo_stage_hunk, { buffer = bufnr }, { desc = 'Gitsigns: undo stage hunk' })
           vim.keymap.set('n', ',sx', gs.toggle_deleted, { buffer = bufnr }, { desc = 'Gitsigns: toggle deleted' })
@@ -1796,7 +1823,7 @@ packer.startup(function()
     end
   })
   -- }}}
-  -- {{{2 nvim-ufo
+  -- {{{3 nvim-ufo
   use({
     'kevinhwang91/nvim-ufo',
     requires = 'kevinhwang91/promise-async',
@@ -1808,7 +1835,8 @@ packer.startup(function()
         foldsep = '🮍',
         foldclose = ''
       })
-      vim.keymap.set('n', '[z', [[<Cmd>lua require('ufo').goPreviousClosedFold()<CR>]], { desc = 'Go to previous closed fold' })
+      vim.keymap.set('n', '[z', [[<Cmd>lua require('ufo').goPreviousClosedFold()<CR>]],
+        { desc = 'Go to previous closed fold' })
       vim.keymap.set('n', ']z', [[<Cmd>lua require('ufo').goNextClosedFold()<CR>]], { desc = 'Go to next closed fold' })
 
       local handler = function(virtText, lnum, endLnum, width, truncate)
@@ -1825,7 +1853,7 @@ packer.startup(function()
           else
             chunkText = truncate(chunkText, targetWidth - curWidth)
             local hlGroup = chunk[2]
-            table.insert(newVirtText, {chunkText, hlGroup})
+            table.insert(newVirtText, { chunkText, hlGroup })
             chunkWidth = vim.fn.strdisplaywidth(chunkText)
             -- str width returned from truncate() may less than 2nd argument, need padding
             if curWidth + chunkWidth < targetWidth then
@@ -1835,9 +1863,10 @@ packer.startup(function()
           end
           curWidth = curWidth + chunkWidth
         end
-        table.insert(newVirtText, {suffix, 'MoreMsg'})
+        table.insert(newVirtText, { suffix, 'MoreMsg' })
         return newVirtText
       end
+
       require('ufo').setup({
         fold_virt_text_handler = handler
       })
@@ -1881,7 +1910,7 @@ packer.startup(function()
           'element'
         },
       })
-      vim.keymap.set('n', ',ti', '<Cmd>IndentBlanklineToggle<CR>')
+      vim.keymap.set('n', ',ti', [[<Cmd>IndentBlanklineToggle<CR>]])
     end
   })
   -- }}}
@@ -1927,7 +1956,8 @@ packer.startup(function()
         }
       })
       vim.notify = require('notify')
-      vim.keymap.set('n', '<Leader>Tn', [[<Cmd>lua require('telescope').extensions.notify.notify()<CR>]], { desc = 'Telescope: notify' })
+      vim.keymap.set('n', '<Leader>Tn', [[<Cmd>lua require('telescope').extensions.notify.notify()<CR>]],
+        { desc = 'Telescope: notify' })
     end
   })
   -- }}}
