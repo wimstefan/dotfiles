@@ -172,8 +172,6 @@ vim.keymap.set('n', ',dl', '<Cmd>lua vim.diagnostic.setloclist()<CR>', { desc = 
 vim.keymap.set('n', ',dq', '<Cmd>lua vim.diagnostic.setqflist()<CR>', { desc = 'Populate quickfix with diagnostic messages' })
 
 -- filetype handling
-vim.g.did_load_filetypes = 0
-vim.g.do_filetype_lua = 1
 vim.filetype.add({
   extension = {
     conf = 'config',
@@ -326,8 +324,8 @@ end
 
 -- {{{2 toggle detailed information for easier paste
 function ToggleDetails()
-  local mouse_opts = vim.opt.mouse:get()
-  if mouse_opts.a then
+  local mouse_opts = vim.api.nvim_get_option_value('mouse', {})
+  if mouse_opts == 'a' then
     vim.opt.mouse = 'v'
     vim.opt.cursorcolumn = false
     vim.opt.cursorline = false
