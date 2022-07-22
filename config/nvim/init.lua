@@ -168,10 +168,23 @@ vim.diagnostic.config({
     source = 'always'
   }
 })
-vim.keymap.set('n', ',dl', [[<Cmd>lua vim.diagnostic.setloclist()<CR>]],
-  { desc = 'Populate location list with diagnostic messages' })
-vim.keymap.set('n', ',dq', [[<Cmd>lua vim.diagnostic.setqflist()<CR>]],
-  { desc = 'Populate quickfix with diagnostic messages' })
+vim.keymap.set('n', ',de', function()
+  vim.diagnostic.enable()
+  vim.notify('Diagnostics enabled', vim.log.levels.INFO, { title = '[LSP]' })
+end,
+  { desc = 'Diagnostic: enable' })
+vim.keymap.set('n', ',dd', function()
+  vim.diagnostic.disable()
+  vim.notify('Diagnostics disabled', vim.log.levels.INFO, { title = '[LSP]' })
+end,
+  { desc = 'Diagnostic: disable' })
+vim.keymap.set('n', '[d', function() return vim.diagnostic.goto_prev({ float = false }) end,
+  { desc = 'Diagnostic: got to previous error' })
+vim.keymap.set('n', ']d', function() return vim.diagnostic.goto_next({ float = false }) end,
+  { desc = 'Diagnostic: got to next error' })
+vim.keymap.set('n', ',df', vim.diagnostic.open_float, { desc = 'Diagnostic: open floating window' })
+vim.keymap.set('n', ',dl', vim.diagnostic.setloclist, { desc = 'Diagnostic: populate location list' })
+vim.keymap.set('n', ',dq', vim.diagnostic.setqflist, { desc = 'Diagnostic: populate quickfix' })
 
 -- filetype handling
 vim.filetype.add({
@@ -195,8 +208,8 @@ vim.filetype.add({
 vim.keymap.set('', 'cd', [[<Cmd>cd %:h | pwd<CR>]])
 vim.keymap.set('n', '<Leader>g', [[:grep<Space>]])
 vim.keymap.set('n', '<C-l>', [[<Cmd>set nohlsearch|diffupdate|highlight clear ColorColumn|normal! <C-l><CR>]])
-vim.keymap.set('n', 'M', [[<Cmd>lua ShowMan()<CR>]], { desc = 'Search man pages for current word' })
-vim.keymap.set('n', '<F10>', [[<Cmd>lua ToggleDetails()<CR>]], { desc = 'Toggle decorations' })
+vim.keymap.set('n', 'M', function() return ShowMan() end, { desc = 'Search man pages for current word' })
+vim.keymap.set('n', '<F10>', function() return ToggleDetails() end, { desc = 'Toggle decorations' })
 -- {{{2 navigation
 vim.keymap.set({ 'n', 'x' }, 'j', function() return vim.v.count > 0 and 'j' or 'gj' end, { expr = true })
 vim.keymap.set({ 'n', 'x' }, 'k', function() return vim.v.count > 0 and 'k' or 'gk' end, { expr = true })
@@ -212,7 +225,7 @@ vim.keymap.set('n', '<Leader>wqa', [[<Cmd>wqa!<CR>]])
 vim.keymap.set('n', ',ul', [[<Cmd>undolist<CR>]])
 vim.keymap.set('n', 'cn', '*``cgn')
 vim.keymap.set('n', 'cN', '*``cgN')
-vim.keymap.set('n', ',xw', [[<Cmd>lua TrimTrailingWhitespace()<CR>]], { desc = 'Remove trailing whitespaces' })
+vim.keymap.set('n', ',xw', function() return TrimTrailingWhitespace() end, { desc = 'Remove trailing whitespaces' })
 -- }}}
 -- {{{2 buffers
 vim.keymap.set('n', '<Tab>', [[<Cmd>bnext<CR>]])
@@ -231,8 +244,8 @@ vim.keymap.set('t', '<A-k>', [[<C-\><C-N><C-w>k]])
 vim.keymap.set('t', '<A-l>', [[<C-\><C-N><C-w>l]])
 -- }}}
 -- {{{2 quickfix
-vim.keymap.set('n', '<C-c>', [[<Cmd>lua ToggleQF('q')<CR>]], { desc = 'Toggle quickfix window' })
-vim.keymap.set('n', '<A-c>', [[<Cmd>lua ToggleQF('l')<CR>]], { desc = 'Toggle location list window' })
+vim.keymap.set('n', '<C-c>', function() return ToggleQF('q') end, { desc = 'Toggle quickfix window' })
+vim.keymap.set('n', '<A-c>', function() return ToggleQF('l') end, { desc = 'Toggle location list window' })
 vim.keymap.set('n', '[\\', [[<Cmd>colder<CR>]])
 vim.keymap.set('n', ']\\', [[<Cmd>cnewer<CR>]])
 -- }}}
@@ -927,34 +940,24 @@ packer.startup(function()
         vim.keymap.set('n', ',lY', [[<Cmd>Telescope lsp_workspace_symbols<CR>]], { buffer = bufnr })
         vim.keymap.set('n', ',ld', [[<Cmd>Telescope diagnostics bufnr=0<CR>]], { buffer = bufnr })
         vim.keymap.set('n', ',lD', [[<Cmd>Telescope diagnostics<CR>]], { buffer = bufnr })
-        vim.keymap.set('n', ',lds', [[<Cmd>lua vim.diagnostic.show()<CR>]], { buffer = bufnr },
-          { desc = 'Show diagnostics' })
-        vim.keymap.set('n', ',ldh', [[<Cmd>lua vim.diagnostic.hide()<CR>]], { buffer = bufnr },
-          { desc = 'Hide diagnostics' })
-        vim.keymap.set('n', ',le', [[<Cmd>lua vim.diagnostic.open_float({ scope = 'line' })<CR>]], { buffer = bufnr },
-          { desc = 'Diagnostic: open floating window' })
-        vim.keymap.set('n', '[d', [[<Cmd>lua vim.diagnostic.goto_prev({ float = false })<CR>]], { buffer = bufnr },
-          { desc = 'Diagnostic: got to previous error' })
-        vim.keymap.set('n', ']d', [[<Cmd>lua vim.diagnostic.goto_next({ float = false })<CR>]], { buffer = bufnr },
-          { desc = 'Diagnostic: got to next error' })
-        vim.keymap.set('n', ',lrn', [[<Cmd>lua vim.lsp.buf.rename()<CR>]], { buffer = bufnr }, { desc = 'LSP: rename' })
-        vim.keymap.set('n', ',lw', [[<Cmd>lua Dump(vim.lsp.buf.list_workspace_folders())<CR>]], { buffer = bufnr },
+        vim.keymap.set('n', ',lrn', vim.lsp.buf.rename, { buffer = bufnr }, { desc = 'LSP: rename' })
+        vim.keymap.set('n', ',lw', function() return Dump(vim.lsp.buf.list_workspace_folders()) end, { buffer = bufnr },
           { desc = 'LSP: list workspace folders' })
         if client.server_capabilities.codeActionProvider then
-          vim.keymap.set('n', ',lca', [[<Cmd>lua vim.lsp.buf.code_action()<CR>]], { buffer = bufnr },
+          vim.keymap.set('n', ',lca', vim.lsp.buf.code_action, { buffer = bufnr },
             { desc = 'LSP: code actions' })
         else
           lsp_messages = lsp_messages .. 'no codeAction' .. lsp_msg_sep
         end
         if client.server_capabilities.declarationProvider then
-          vim.keymap.set('n', ',lc', [[<Cmd>lua vim.lsp.buf.declaration()<CR>]], { buffer = bufnr },
+          vim.keymap.set('n', ',lc', vim.lsp.buf.declaration, { buffer = bufnr },
             { desc = 'LSP: declaration' })
         else
           vim.keymap.set('n', ',lc', [[<Nop>]], { buffer = bufnr })
           lsp_messages = lsp_messages .. 'no declaration' .. lsp_msg_sep
         end
         if client.server_capabilities.documentFormattingProvider then
-          vim.keymap.set('n', ',lf', [[<Cmd>lua vim.lsp.buf.format({ async = true })<CR>]],
+          vim.keymap.set('n', ',lf', function() return vim.lsp.buf.format({ async = true }) end,
             { buffer = bufnr, silent = true }, { desc = 'LSP: formatting' })
         else
           lsp_messages = lsp_messages .. 'no format' .. lsp_msg_sep
@@ -966,29 +969,29 @@ packer.startup(function()
           lsp_messages = lsp_messages .. 'no rangeFormat' .. lsp_msg_sep
         end
         if client.server_capabilities.implementationProvider then
-          vim.keymap.set('n', ',li', [[<Cmd>lua vim.lsp.buf.implementation()<CR>]], { buffer = bufnr },
+          vim.keymap.set('n', ',li', vim.lsp.buf.implementation, { buffer = bufnr },
             { desc = 'LSP: implementation' })
         else
           vim.keymap.set('n', ',li', [[<Nop>]], { buffer = bufnr })
           lsp_messages = lsp_messages .. 'no implementation' .. lsp_msg_sep
         end
         if client.server_capabilities.hoverProvider then
-          vim.keymap.set('n', ',lh', [[<Cmd>lua vim.lsp.buf.hover()<CR>]], { buffer = bufnr }, { desc = 'LSP: hover' })
+          vim.keymap.set('n', ',lh', vim.lsp.buf.hover, { buffer = bufnr }, { desc = 'LSP: hover' })
         else
           vim.keymap.set('n', ',lh', [[<Nop>]], { buffer = bufnr })
           lsp_messages = lsp_messages .. 'no hovering' .. lsp_msg_sep
         end
         if client.server_capabilities.signatureHelpProvider then
-          vim.keymap.set('i', '<C-s>', [[<Cmd>lua vim.lsp.buf.signature_help({ border = My_Borders })<CR>]],
+          vim.keymap.set('i', '<C-s>', function() return vim.lsp.buf.signature_help({ border = My_Borders }) end,
             { buffer = bufnr }, { desc = 'LSP: signature help' })
-          vim.keymap.set('n', ',ls', [[<Cmd>lua vim.lsp.buf.signature_help({ border = My_Borders })<CR>]],
+          vim.keymap.set('n', ',ls', function() return vim.lsp.buf.signature_help({ border = My_Borders }) end,
             { buffer = bufnr }, { desc = 'LSP: signature help' })
         else
           vim.keymap.set('n', ',ls', [[<Nop>]], { buffer = bufnr })
           lsp_messages = lsp_messages .. 'no signatureHelp' .. lsp_msg_sep
         end
         if client.server_capabilities.typeDefinitionProvider then
-          vim.keymap.set('n', ',ltd', [[<Cmd>lua vim.lsp.buf.type_definition()<CR>]], { buffer = bufnr },
+          vim.keymap.set('n', ',ltd', vim.lsp.buf.type_definition, { buffer = bufnr },
             { desc = 'LSP: type definition' })
         else
           vim.keymap.set('n', ',ltd', [[<Nop>]], { buffer = bufnr })
@@ -997,7 +1000,7 @@ packer.startup(function()
 
         -- autocmds
         if client.server_capabilities.codeLensProvider then
-          vim.keymap.set('n', ',ll', [[<Cmd>lua vim.lsp.buf.codelens.run({ border = My_Borders })<CR>]],
+          vim.keymap.set('n', ',ll', function() return vim.lsp.buf.codelens.run({ border = My_Borders }) end,
             { buffer = bufnr }, { desc = 'LSP: code lens' })
           vim.cmd([[autocmd BufEnter,CursorHold,InsertLeave * lua vim.lsp.codelens.refresh()]])
         else
@@ -1377,7 +1380,7 @@ packer.startup(function()
           }
         }
       })
-      vim.keymap.set('n', '<Leader>S', [[<Cmd>lua require('spectre').open()<CR>]], { desc = 'Open spectre' })
+      vim.keymap.set('n', '<Leader>S', require('spectre').open, { desc = 'Open spectre' })
     end
   })
   -- }}}
@@ -1404,7 +1407,7 @@ packer.startup(function()
           ['q'] = "quit",
         }
       })
-      vim.keymap.set('n', ',tu', [[<Cmd>lua require('undotree').toggle()<CR>]], { desc = 'Undo tree' })
+      vim.keymap.set('n', ',tu', require('undotree').toggle, { desc = 'Undo tree' })
     end
   })
   -- }}}
@@ -1835,9 +1838,8 @@ packer.startup(function()
         foldsep = '🮍',
         foldclose = ''
       })
-      vim.keymap.set('n', '[z', [[<Cmd>lua require('ufo').goPreviousClosedFold()<CR>]],
-        { desc = 'Go to previous closed fold' })
-      vim.keymap.set('n', ']z', [[<Cmd>lua require('ufo').goNextClosedFold()<CR>]], { desc = 'Go to next closed fold' })
+      vim.keymap.set('n', '[z', require('ufo').goPreviousClosedFold, { desc = 'Go to previous closed fold' })
+      vim.keymap.set('n', ']z', require('ufo').goNextClosedFold, { desc = 'Go to next closed fold' })
 
       local handler = function(virtText, lnum, endLnum, width, truncate)
         local newVirtText = {}
@@ -1956,7 +1958,7 @@ packer.startup(function()
         }
       })
       vim.notify = require('notify')
-      vim.keymap.set('n', '<Leader>Tn', [[<Cmd>lua require('telescope').extensions.notify.notify()<CR>]],
+      vim.keymap.set('n', '<Leader>Tn', require('telescope').extensions.notify.notify,
         { desc = 'Telescope: notify' })
     end
   })
