@@ -178,9 +178,9 @@ vim.keymap.set('n', ',dd', function()
   vim.notify('Diagnostics disabled', vim.log.levels.INFO, { title = '[LSP]' })
 end,
   { desc = 'Diagnostic: disable' })
-vim.keymap.set('n', '[d', function() return vim.diagnostic.goto_prev({ float = false }) end,
+vim.keymap.set('n', '[d', function() vim.diagnostic.goto_prev({ float = false }) end,
   { desc = 'Diagnostic: got to previous error' })
-vim.keymap.set('n', ']d', function() return vim.diagnostic.goto_next({ float = false }) end,
+vim.keymap.set('n', ']d', function() vim.diagnostic.goto_next({ float = false }) end,
   { desc = 'Diagnostic: got to next error' })
 vim.keymap.set('n', ',df', vim.diagnostic.open_float, { desc = 'Diagnostic: open floating window' })
 vim.keymap.set('n', ',dl', vim.diagnostic.setloclist, { desc = 'Diagnostic: populate location list' })
@@ -208,8 +208,8 @@ vim.filetype.add({
 vim.keymap.set('', 'cd', [[<Cmd>cd %:h | pwd<CR>]])
 vim.keymap.set('n', '<Leader>g', [[:grep<Space>]])
 vim.keymap.set('n', '<C-l>', [[<Cmd>set nohlsearch|diffupdate|highlight clear ColorColumn|normal! <C-l><CR>]])
-vim.keymap.set('n', 'M', function() return ShowMan() end, { desc = 'Search man pages for current word' })
-vim.keymap.set('n', '<F10>', function() return ToggleDetails() end, { desc = 'Toggle decorations' })
+vim.keymap.set('n', 'M', function() ShowMan() end, { desc = 'Search man pages for current word' })
+vim.keymap.set('n', '<F10>', function() ToggleDetails() end, { desc = 'Toggle decorations' })
 -- {{{2 navigation
 vim.keymap.set({ 'n', 'x' }, 'j', function() return vim.v.count > 0 and 'j' or 'gj' end, { expr = true })
 vim.keymap.set({ 'n', 'x' }, 'k', function() return vim.v.count > 0 and 'k' or 'gk' end, { expr = true })
@@ -225,7 +225,7 @@ vim.keymap.set('n', '<Leader>wqa', [[<Cmd>wqa!<CR>]])
 vim.keymap.set('n', ',ul', [[<Cmd>undolist<CR>]])
 vim.keymap.set('n', 'cn', '*``cgn')
 vim.keymap.set('n', 'cN', '*``cgN')
-vim.keymap.set('n', ',xw', function() return TrimTrailingWhitespace() end, { desc = 'Remove trailing whitespaces' })
+vim.keymap.set('n', ',xw', function() TrimTrailingWhitespace() end, { desc = 'Remove trailing whitespaces' })
 -- }}}
 -- {{{2 buffers
 vim.keymap.set('n', '<Tab>', [[<Cmd>bnext<CR>]])
@@ -244,8 +244,8 @@ vim.keymap.set('t', '<A-k>', [[<C-\><C-N><C-w>k]])
 vim.keymap.set('t', '<A-l>', [[<C-\><C-N><C-w>l]])
 -- }}}
 -- {{{2 quickfix
-vim.keymap.set('n', '<C-c>', function() return ToggleQF('q') end, { desc = 'Toggle quickfix window' })
-vim.keymap.set('n', '<A-c>', function() return ToggleQF('l') end, { desc = 'Toggle location list window' })
+vim.keymap.set('n', '<C-c>', function() ToggleQF('q') end, { desc = 'Toggle quickfix window' })
+vim.keymap.set('n', '<A-c>', function() ToggleQF('l') end, { desc = 'Toggle location list window' })
 vim.keymap.set('n', '[\\', [[<Cmd>colder<CR>]])
 vim.keymap.set('n', ']\\', [[<Cmd>cnewer<CR>]])
 -- }}}
@@ -611,28 +611,32 @@ packer.startup(function()
       }
     },
     config = function()
-      vim.keymap.set('n', '<Leader>T', [[<Cmd>Telescope<CR>]])
-      vim.keymap.set('n', '<Leader>b', [[<Cmd>Telescope buffers<CR>]])
-      vim.keymap.set('n', '<Leader>c', [[<Cmd>Telescope colorscheme<CR>]])
-      vim.keymap.set('n', '<Leader>f', [[<Cmd>Telescope find_files<CR>]])
-      vim.keymap.set('n', '<Leader>o', [[<Cmd>Telescope oldfiles<CR>]])
-      vim.keymap.set('n', '<Leader>Tg', [[<Cmd>Telescope live_grep grep_open_files=true<CR>]])
-      vim.keymap.set('n', '<Leader>TG', [[<Cmd>Telescope live_grep<CR>]])
-      vim.keymap.set('n', '<Leader>h', [[<Cmd>Telescope help_tags<CR>]])
-      vim.keymap.set('n', '<Leader>M', [[<Cmd>Telescope man_pages<CR>]])
-      vim.keymap.set('n', '<Leader>m', [[<Cmd>Telescope marks<CR>]])
-      vim.keymap.set('n', '<Leader>r', [[<Cmd>Telescope registers<CR>]])
-      vim.keymap.set('n', '<Leader>Tgb', [[<Cmd>Telescope git_bcommits<CR>]])
-      vim.keymap.set('n', '<Leader>Tgc', [[<Cmd>Telescope git_commits<CR>]])
-      vim.keymap.set('n', '<Leader>Tgf', [[<Cmd>Telescope git_files<CR>]])
-      vim.keymap.set('n', '<Leader>Tgs', [[<Cmd>Telescope git_status<CR>]])
-      vim.keymap.set('n', '<Leader>Tc', [[<Cmd>Telescope command_history<CR>]])
-      vim.keymap.set('n', '<Leader>Tf', [[<Cmd>Telescope filetypes<CR>]])
-      vim.keymap.set('n', '<Leader>Tm', [[<Cmd>Telescope keymaps<CR>]])
-      vim.keymap.set('n', '<Leader>Tq', [[<Cmd>Telescope quickfix<CR>]])
-      vim.keymap.set('n', '<Leader>Ts', [[<Cmd>Telescope spell_suggest<CR>]])
-      vim.keymap.set('n', '<Leader>Tw', [[<Cmd>Telescope grep_string<CR>]])
-      vim.keymap.set('n', '<Leader>Tz', [[<Cmd>Telescope current_buffer_fuzzy_find<CR>]])
+      vim.keymap.set('n', '<Leader>T', require('telescope.builtin').builtin, { desc = 'Telescope: builtin' })
+      vim.keymap.set('n', '<Leader>b', require('telescope.builtin').buffers, { desc = 'Telescope: buffers' })
+      vim.keymap.set('n', '<Leader>c', require('telescope.builtin').colorscheme, { desc = 'Telescope: colorschemes' })
+      vim.keymap.set('n', '<Leader>f', require('telescope.builtin').find_files, { desc = 'Telescope: find files' })
+      vim.keymap.set('n', '<Leader>o', require('telescope.builtin').oldfiles, { desc = 'Telescope: oldfiles' })
+      vim.keymap.set('n', '<Leader>Tg', function() require('telescope.builtin').live_grep({ grep_open_files = true }) end
+        , { desc = 'Telescope: grep current file' })
+      vim.keymap.set('n', '<Leader>TG', require('telescope.builtin').live_grep, { desc = 'Telescope: grep all files' })
+      vim.keymap.set('n', '<Leader>h', require('telescope.builtin').help_tags, { desc = 'Telescope: help' })
+      vim.keymap.set('n', '<Leader>M', require('telescope.builtin').man_pages, { desc = 'Telescope: man' })
+      vim.keymap.set('n', '<Leader>m', require('telescope.builtin').marks, { desc = 'Telescope: marks' })
+      vim.keymap.set('n', '<Leader>r', require('telescope.builtin').registers, { desc = 'Telescope: registers' })
+      vim.keymap.set('n', '<Leader>Tgb', require('telescope.builtin').git_bcommits,
+        { desc = 'Telescope: git buffer commits' })
+      vim.keymap.set('n', '<Leader>Tgc', require('telescope.builtin').git_commits, { desc = 'Telescope: git commits' })
+      vim.keymap.set('n', '<Leader>Tgf', require('telescope.builtin').git_files, { desc = 'Telescope: git files' })
+      vim.keymap.set('n', '<Leader>Tgs', require('telescope.builtin').git_status, { desc = 'Telescope: git status' })
+      vim.keymap.set('n', '<Leader>Tc', require('telescope.builtin').command_history,
+        { desc = 'Telescope: command history' })
+      vim.keymap.set('n', '<Leader>Tf', require('telescope.builtin').filetypes, { desc = 'Telescope: filetypes' })
+      vim.keymap.set('n', '<Leader>Tm', require('telescope.builtin').keymaps, { desc = 'Telescope: keymaps' })
+      vim.keymap.set('n', '<Leader>Tq', require('telescope.builtin').quickfix, { desc = 'Telescope: quickfix' })
+      vim.keymap.set('n', '<Leader>Ts', require('telescope.builtin').spell_suggest, { desc = 'Telescope: spell suggest' })
+      vim.keymap.set('n', '<Leader>Tw', require('telescope.builtin').grep_string, { desc = 'Telescope: grep string' })
+      vim.keymap.set('n', '<Leader>Tz', require('telescope.builtin').current_buffer_fuzzy_find,
+        { desc = 'Telescope: fuzzy find buffer' })
       require('telescope').setup({
         defaults = {
           prompt_prefix = '∷ ',
@@ -934,65 +938,69 @@ packer.startup(function()
         -- options
         vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
         -- keybindings
-        vim.keymap.set('n', ',lR', [[<Cmd>Telescope lsp_definitions<CR>]], { buffer = bufnr })
-        vim.keymap.set('n', ',lr', [[<Cmd>Telescope lsp_references<CR>]], { buffer = bufnr })
-        vim.keymap.set('n', ',ly', [[<Cmd>Telescope lsp_document_symbols<CR>]], { buffer = bufnr })
-        vim.keymap.set('n', ',lY', [[<Cmd>Telescope lsp_workspace_symbols<CR>]], { buffer = bufnr })
-        vim.keymap.set('n', ',ld', [[<Cmd>Telescope diagnostics bufnr=0<CR>]], { buffer = bufnr })
-        vim.keymap.set('n', ',lD', [[<Cmd>Telescope diagnostics<CR>]], { buffer = bufnr })
-        vim.keymap.set('n', ',lrn', vim.lsp.buf.rename, { buffer = bufnr }, { desc = 'LSP: rename' })
-        vim.keymap.set('n', ',lw', function() return Dump(vim.lsp.buf.list_workspace_folders()) end, { buffer = bufnr },
-          { desc = 'LSP: list workspace folders' })
+        vim.keymap.set('n', ',lR', require('telescope.builtin').lsp_definitions, { desc = 'Telescope: lsp definitions' },
+          { buffer = bufnr })
+        vim.keymap.set('n', ',lr', require('telescope.builtin').lsp_references, { desc = 'Telescope: lsp references' },
+          { buffer = bufnr })
+        vim.keymap.set('n', ',ly', require('telescope.builtin').lsp_document_symbols,
+          { desc = 'Telescope: lsp document symbols' }, { buffer = bufnr })
+        vim.keymap.set('n', ',lY', require('telescope.builtin').lsp_workspace_symbols,
+          { desc = 'Telescope: lsp workspace symbols' }, { buffer = bufnr })
+        vim.keymap.set('n', ',ld', function() require('telescope.builtin').diagnostics({ bufnr = 0 }) end,
+          { desc = 'Telescope: document diagnostics' }, { buffer = bufnr })
+        vim.keymap.set('n', ',lD', require('telescope.builtin').diagnostics,
+          { desc = 'Telescope: workspace diagnostics' }, { buffer = bufnr })
+        vim.keymap.set('n', ',lrn', vim.lsp.buf.rename, { desc = 'LSP: rename' }, { buffer = bufnr })
+        vim.keymap.set('n', ',lw', function() Dump(vim.lsp.buf.list_workspace_folders()) end,
+          { desc = 'LSP: list workspace folders' }, { buffer = bufnr })
         if client.server_capabilities.codeActionProvider then
-          vim.keymap.set('n', ',lca', vim.lsp.buf.code_action, { buffer = bufnr },
-            { desc = 'LSP: code actions' })
+          vim.keymap.set('n', ',lca', vim.lsp.buf.code_action,
+            { desc = 'LSP: code actions' }, { buffer = bufnr })
         else
           lsp_messages = lsp_messages .. 'no codeAction' .. lsp_msg_sep
         end
         if client.server_capabilities.declarationProvider then
-          vim.keymap.set('n', ',lc', vim.lsp.buf.declaration, { buffer = bufnr },
-            { desc = 'LSP: declaration' })
+          vim.keymap.set('n', ',lc', vim.lsp.buf.declaration,
+            { desc = 'LSP: declaration' }, { buffer = bufnr })
         else
           vim.keymap.set('n', ',lc', [[<Nop>]], { buffer = bufnr })
           lsp_messages = lsp_messages .. 'no declaration' .. lsp_msg_sep
         end
         if client.server_capabilities.documentFormattingProvider then
-          vim.keymap.set('n', ',lf', function() return vim.lsp.buf.format({ async = true }) end,
-            { buffer = bufnr, silent = true }, { desc = 'LSP: formatting' })
+          vim.keymap.set('n', ',lf', function() vim.lsp.buf.format({ async = true }) end,
+            { desc = 'LSP: formatting' }, { buffer = bufnr })
         else
           lsp_messages = lsp_messages .. 'no format' .. lsp_msg_sep
         end
         if client.server_capabilities.documentRangeFormattingProvider then
           vim.keymap.set({ 'v', 'x' }, ',lf', ':<C-u>call v:lua.vim.lsp.buf.range_formatting()<CR>',
-            { buffer = bufnr, silent = true }, { desc = 'LSP: range formatting' })
+            { desc = 'LSP: range formatting' }, { buffer = bufnr })
         else
           lsp_messages = lsp_messages .. 'no rangeFormat' .. lsp_msg_sep
         end
         if client.server_capabilities.implementationProvider then
-          vim.keymap.set('n', ',li', vim.lsp.buf.implementation, { buffer = bufnr },
-            { desc = 'LSP: implementation' })
+          vim.keymap.set('n', ',li', vim.lsp.buf.implementation, { desc = 'LSP: implementation' }, { buffer = bufnr })
         else
           vim.keymap.set('n', ',li', [[<Nop>]], { buffer = bufnr })
           lsp_messages = lsp_messages .. 'no implementation' .. lsp_msg_sep
         end
         if client.server_capabilities.hoverProvider then
-          vim.keymap.set('n', ',lh', vim.lsp.buf.hover, { buffer = bufnr }, { desc = 'LSP: hover' })
+          vim.keymap.set('n', ',lh', vim.lsp.buf.hover, { desc = 'LSP: hover' }, { buffer = bufnr })
         else
           vim.keymap.set('n', ',lh', [[<Nop>]], { buffer = bufnr })
           lsp_messages = lsp_messages .. 'no hovering' .. lsp_msg_sep
         end
         if client.server_capabilities.signatureHelpProvider then
-          vim.keymap.set('i', '<C-s>', function() return vim.lsp.buf.signature_help({ border = My_Borders }) end,
-            { buffer = bufnr }, { desc = 'LSP: signature help' })
-          vim.keymap.set('n', ',ls', function() return vim.lsp.buf.signature_help({ border = My_Borders }) end,
-            { buffer = bufnr }, { desc = 'LSP: signature help' })
+          vim.keymap.set('i', '<C-s>', function() vim.lsp.buf.signature_help({ border = My_Borders }) end,
+            { desc = 'LSP: signature help' }, { buffer = bufnr })
+          vim.keymap.set('n', ',ls', function() vim.lsp.buf.signature_help({ border = My_Borders }) end,
+            { desc = 'LSP: signature help' }, { buffer = bufnr })
         else
           vim.keymap.set('n', ',ls', [[<Nop>]], { buffer = bufnr })
           lsp_messages = lsp_messages .. 'no signatureHelp' .. lsp_msg_sep
         end
         if client.server_capabilities.typeDefinitionProvider then
-          vim.keymap.set('n', ',ltd', vim.lsp.buf.type_definition, { buffer = bufnr },
-            { desc = 'LSP: type definition' })
+          vim.keymap.set('n', ',ltd', vim.lsp.buf.type_definition, { desc = 'LSP: type definition' }, { buffer = bufnr })
         else
           vim.keymap.set('n', ',ltd', [[<Nop>]], { buffer = bufnr })
           lsp_messages = lsp_messages .. 'no typeDefinition' .. lsp_msg_sep
@@ -1000,8 +1008,8 @@ packer.startup(function()
 
         -- autocmds
         if client.server_capabilities.codeLensProvider then
-          vim.keymap.set('n', ',ll', function() return vim.lsp.buf.codelens.run({ border = My_Borders }) end,
-            { buffer = bufnr }, { desc = 'LSP: code lens' })
+          vim.keymap.set('n', ',ll', function() vim.lsp.buf.codelens.run({ border = My_Borders }) end,
+            { desc = 'LSP: code lens' }, { buffer = bufnr })
           vim.cmd([[autocmd BufEnter,CursorHold,InsertLeave * lua vim.lsp.codelens.refresh()]])
         else
           lsp_messages = lsp_messages .. 'no codeLens' .. lsp_msg_sep
@@ -1809,15 +1817,15 @@ packer.startup(function()
             { desc = 'Gitsigns: next hunk' })
           vim.keymap.set('n', '[c', "&diff ? '[c' : '<cmd>Gitsigns prev_hunk<CR>'", { expr = true },
             { desc = 'Gitsigns: previous hunk' })
-          vim.keymap.set('n', ',sp', gs.preview_hunk, { buffer = bufnr }, { desc = 'Gitsigns: preview hunk' })
-          vim.keymap.set('n', ',sb', function() gs.blame_line { full = true } end, { buffer = bufnr },
-            { desc = 'Gitsigns: blame line' })
-          vim.keymap.set('n', ',sd', gs.diffthis, { buffer = bufnr }, { desc = 'Gitsigns: diffthis' })
-          vim.keymap.set('n', ',sD', function() gs.diffthis('~') end, { buffer = bufnr },
-            { desc = 'Gitsigns: diffthis ~' })
-          vim.keymap.set('n', ',ss', gs.stage_hunk, { buffer = bufnr }, { desc = 'Gitsigns: stage hunk' })
-          vim.keymap.set('n', ',su', gs.undo_stage_hunk, { buffer = bufnr }, { desc = 'Gitsigns: undo stage hunk' })
-          vim.keymap.set('n', ',sx', gs.toggle_deleted, { buffer = bufnr }, { desc = 'Gitsigns: toggle deleted' })
+          vim.keymap.set('n', ',sp', gs.preview_hunk, { desc = 'Gitsigns: preview hunk' }, { buffer = bufnr })
+          vim.keymap.set('n', ',sb', function() gs.blame_line { full = true } end, { desc = 'Gitsigns: blame line' },
+            { buffer = bufnr })
+          vim.keymap.set('n', ',sd', gs.diffthis, { desc = 'Gitsigns: diffthis' }, { buffer = bufnr })
+          vim.keymap.set('n', ',sD', function() gs.diffthis('~') end, { desc = 'Gitsigns: diffthis ~' },
+            { buffer = bufnr })
+          vim.keymap.set('n', ',ss', gs.stage_hunk, { desc = 'Gitsigns: stage hunk' }, { buffer = bufnr })
+          vim.keymap.set('n', ',su', gs.undo_stage_hunk, { desc = 'Gitsigns: undo stage hunk' }, { buffer = bufnr })
+          vim.keymap.set('n', ',sx', gs.toggle_deleted, { desc = 'Gitsigns: toggle deleted' }, { buffer = bufnr })
         end,
         preview_config = {
           border = My_Borders,
