@@ -912,7 +912,7 @@ packer.startup(function()
       -- LSP functions
       local on_attach = function(client, bufnr)
         lsp_aerial.on_attach(client, bufnr)
-        local lsp_messages = {}
+        local lsp_messages = ''
         local lsp_msg_sep = ' ∷ '
         lsp_messages = lsp_msg_sep .. 'LSP attached' .. lsp_msg_sep
         -- options
@@ -924,6 +924,8 @@ packer.startup(function()
         vim.keymap.set('n', ',lY', [[<Cmd>Telescope lsp_workspace_symbols<CR>]], { buffer = bufnr })
         vim.keymap.set('n', ',ld', [[<Cmd>Telescope diagnostics bufnr=0<CR>]], { buffer = bufnr })
         vim.keymap.set('n', ',lD', [[<Cmd>Telescope diagnostics<CR>]], { buffer = bufnr })
+        vim.keymap.set('n', ',lds', [[<Cmd>lua vim.diagnostic.show()<CR>]], { buffer = bufnr }, { desc = 'Show diagnostics' })
+        vim.keymap.set('n', ',ldh', [[<Cmd>lua vim.diagnostic.hide()<CR>]], { buffer = bufnr }, { desc = 'Hide diagnostics' })
         vim.keymap.set('n', ',le', [[<Cmd>lua vim.diagnostic.open_float({ scope = 'line' })<CR>]], { buffer = bufnr }, { desc = 'Diagnostic: open floating window' })
         vim.keymap.set('n', '[d', [[<Cmd>lua vim.diagnostic.goto_prev({ float = false })<CR>]], { buffer = bufnr }, { desc = 'Diagnostic: got to previous error' })
         vim.keymap.set('n', ']d', [[<Cmd>lua vim.diagnostic.goto_next({ float = false })<CR>]], { buffer = bufnr }, { desc = 'Diagnostic: got to next error' })
@@ -1062,8 +1064,6 @@ packer.startup(function()
               diagnostics = {
                 enable_check_codestyle = true,
                 globals = {
-                  'awesome',
-                  'client',
                   'vim'
                 },
                 neededFileStatus = {
@@ -1092,7 +1092,9 @@ packer.startup(function()
                 }
               },
               workspace = {
-                library = vim.api.nvim_get_runtime_file('', true),
+                library = {
+                  vim.api.nvim_get_runtime_file('', true)
+                },
                 preloadFileSize = 500
               },
               telemetry = {
