@@ -1355,6 +1355,7 @@ packer.startup(function()
   use({
     'ojroques/vim-oscyank',
     config = function()
+      vim.g.oscyank_term = 'default'
       vim.cmd([[autocmd TextYankPost * if v:event.operator is 'y' && v:event.regname is '' | execute 'OSCYankReg "' | endif]])
     end
   })
