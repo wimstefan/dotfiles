@@ -160,11 +160,7 @@ vim.diagnostic.config({
     scope = 'cursor',
     source = 'always'
   },
-  virtual_text = {
-    focusable = false,
-    prefix = '❰',
-    source = 'always'
-  }
+  virtual_text = false
 })
 vim.keymap.set('n', ',de', function()
   vim.diagnostic.enable()
@@ -894,7 +890,7 @@ packer.startup(function()
         'stevearc/aerial.nvim',
         config = function()
           require('aerial').setup({
-            backends = { 'treesitter', 'lsp', 'markdown' },
+            backends = { 'lsp', 'markdown', 'treesitter' },
             placement_editor_edge = true,
             icons = My_Symbols,
             on_attach = function(bufnr)
@@ -908,6 +904,13 @@ packer.startup(function()
           require('telescope').load_extension('aerial')
         end
       },
+      {
+        'https://git.sr.ht/~whynothugo/lsp_lines.nvim',
+        config = function()
+          require('lsp_lines').setup()
+          vim.keymap.set('', ',ll', require('lsp_lines').toggle, { desc = 'Toggle lsp_lines' })
+        end,
+      }
     },
     config = function()
       local lsp_aerial = require('aerial')
