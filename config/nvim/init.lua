@@ -1713,7 +1713,10 @@ packer.startup(function()
                 warn = vim.fn.sign_getdefined('DiagnosticSignWarn')[1].text .. ' ',
                 info = vim.fn.sign_getdefined('DiagnosticSignInfo')[1].text .. ' ',
                 hint = vim.fn.sign_getdefined('DiagnosticSignHint')[1].text .. ' '
-              }
+              },
+              on_click = function()
+                vim.diagnostic.setqflist()
+              end
             },
           },
           lualine_y = {
@@ -1751,7 +1754,7 @@ packer.startup(function()
             }
           }
         },
-        extensions = { 'aerial', 'fugitive', minimal_extension, 'toggleterm' },
+        extensions = { 'aerial', 'fugitive', 'fzf', 'man', minimal_extension, 'quickfix', 'toggleterm' },
       })
     end
   })
