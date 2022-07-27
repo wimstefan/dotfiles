@@ -86,8 +86,6 @@ vim.opt.writebackup = true
 vim.opt.undofile = true
 vim.opt.modelineexpr = true
 
-vim.cmd [[match Substitute /\s\+$/]]
-
 vim.g.netrw_winsize = 20
 vim.g.netrw_banner = 0
 vim.g.netrw_liststyle = 3
@@ -225,7 +223,6 @@ vim.keymap.set('n', '<Leader>wqa', [[<Cmd>wqa!<CR>]])
 vim.keymap.set('n', ',ul', [[<Cmd>undolist<CR>]])
 vim.keymap.set('n', 'cn', '*``cgn')
 vim.keymap.set('n', 'cN', '*``cgN')
-vim.keymap.set('n', ',xw', function() TrimTrailingWhitespace() end, { desc = 'Remove trailing whitespaces' })
 -- }}}
 -- {{{2 buffers
 vim.keymap.set('n', '<Tab>', [[<Cmd>bnext<CR>]])
@@ -305,13 +302,6 @@ augroup end
 -- {{{1 --------------------- FUNCTIONS ----------------------------------------
 function Dump(...)
   vim.pretty_print(...)
-end
-
-function TrimTrailingWhitespace()
-  local curpos = vim.api.nvim_win_get_cursor(0)
-  vim.notify('Removing trailing whitespaces ...', vim.log.levels.INFO, { title = '[EDITING]' })
-  vim.cmd([[keeppatterns %s/\s\+$//e]])
-  vim.api.nvim_win_set_cursor(0, curpos)
 end
 
 function NotifyColors()
@@ -1195,11 +1185,13 @@ packer.startup(function()
     end
   })
   -- }}}
-  -- {{{2 spaceless.nvim
+  -- {{{2 nvim-retrail
   use({
-    'lewis6991/spaceless.nvim',
+    'zakharykaplan/nvim-retrail',
     config = function()
-      require('spaceless').setup()
+      require('retrail').setup({
+        hlgroup = 'Substitute'
+      })
     end
   })
   -- }}}
