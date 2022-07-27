@@ -384,8 +384,8 @@ function OpenQF()
   local qf_name = 'quickfix'
   local qf_empty = function() return vim.tbl_isempty(vim.fn.getqflist()) end
   if not qf_empty() then
-    vim.cmd([[copen]])
-    vim.cmd([[wincmd J]])
+    vim.cmd.copen()
+    vim.cmd.wincmd('J')
   else
     print(string.format('%s is empty.', qf_name))
   end
@@ -399,7 +399,7 @@ function OpenLoclistAll()
     if win['quickfix'] == 0 then
       if not qf_empty(win['winnr']) then
         vim.api.nvim_set_current_win(win['winid'])
-        vim.cmd([[lopen]])
+        vim.cmd.lopen()
       else
         print(string.format('%s is empty.', qf_name))
       end
@@ -427,7 +427,7 @@ end
 -- {{{2 show manpage of current word
 function ShowMan()
   local cword = vim.fn.expand('<cword>')
-  vim.cmd([[Man ]] .. cword)
+  vim.cmd.Man(cword)
 end
 
 -- }}}
