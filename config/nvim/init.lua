@@ -1351,14 +1351,20 @@ packer.startup(function()
     end
   })
   -- }}}
-  -- {{{2 vim-oscyank
-  use({
-    'ojroques/vim-oscyank',
-    config = function()
-      vim.g.oscyank_term = 'default'
-      vim.cmd([[autocmd TextYankPost * if v:event.operator is 'y' && v:event.regname is '' | execute 'OSCYankReg "' | endif]])
+  -- {{{2 nvim-osc52
+use({
+  'ojroques/nvim-osc52',
+  config = function()
+    require('osc52').setup()
+    local function copy()
+      if vim.v.event.operator == 'y' and vim.v.event.regname == '' then
+        require('osc52').copy_register('"')
+      end
     end
-  })
+
+    vim.api.nvim_create_autocmd('TextYankPost', { callback = copy })
+  end
+})
   -- }}}
   -- {{{2 nvim-spectre
   use({
