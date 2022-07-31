@@ -59,25 +59,20 @@ export ZLS_COLORS=$LS_COLORS
 # - Completion {{{2
 zmodload zsh/complist
 autoload -U compinit && compinit -u
-_force_rehash() {
-  (( CURRENT == 1 )) && rehash
-  return 1
-}
+
+# persistent rehashing i.e puts new executables in the $path
+# if no command is set typing in a line will cd by default
+zstyle ':completion:*' rehash true
+
 # Use caching to make completion for commands such as dpkg and apt usable.
-zstyle ':completion::complete:*' use-cache on
-zstyle ':completion::complete:*' cache-path "$HOME/.cache/zsh"
+zstyle ':completion:complete:*' use-cache on
+zstyle ':completion:complete:*' cache-path "$HOME/.cache/zsh"
 
 # Case-insensitive (all), partial-word, and then substring completion.
-#if zstyle -t ':prezto:module:completion:*' case-sensitive; then
-  #zstyle ':completion:*' matcher-list 'r:|[._-]=* r:|=*' 'l:|=* r:|=*'
-  #setopt CASE_GLOB
-#else
-  zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r:|=*' 'l:|=* r:|=*'
-  #unsetopt CASE_GLOB
-#fi
+zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r:|=*' 'l:|=* r:|=*'
 
 # Group matches and describe.
-zstyle ':completion:*:*:*:*:*' menu select
+zstyle ':completion:*' menu select=long
 zstyle ':completion:*:matches' group 'yes'
 zstyle ':completion:*:options' description 'yes'
 zstyle ':completion:*:options' auto-description '%d'
@@ -109,7 +104,7 @@ zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
 zstyle ':completion:*:*:cd:*' tag-order local-directories directory-stack path-directories
 zstyle ':completion:*:*:cd:*:directory-stack' menu yes select
 zstyle ':completion:*:-tilde-:*' group-order 'named-directories' 'path-directories' 'users' 'expand'
-zstyle ':completion:*' squeeze-slashes true
+zstyle ':completion:*' squeeze-slashes false
 
 # History
 zstyle ':completion:*:history-words' stop yes
@@ -361,6 +356,8 @@ precmd() {
 # }}}2
 # - Misc {{{2
 autoload -U run-help url-quote-magic zcalc zmv
+autoload -Uz bracketed-paste-magic
+zle -N bracketed-paste bracketed-paste-magic
 # }}}2
 # END shell config # }}}1
 # BEGIN user config # {{{1
@@ -408,27 +405,32 @@ alias -g Z="| fzf"
 alias ls="exa"
 alias l1="exa -1"
 alias ll="exa -hl --git"
-alias lt="exa -hl --git -snew"
+alias lt="exa -hl --git --sort=new"
 alias la="exa -hla --git"
 alias lr="exa -hlR --git --tree --icons $@"
+alias lS="exa -hl --git --sort=size --reverse"
 alias b='${(z)BROWSER}'
 alias e='${(z)VISUAL:-${(z)EDITOR}}'
 alias p='${(z)PAGER}'
 alias rm="rm -i --preserve-root"
 alias cp="nocorrect cp -i"
 alias mv="nocorrect mv -i"
+alias scp="rsync"
 alias mkdir="nocorrect mkdir -p --verbose"
 alias mdkir="mkdir"
 alias locate="locate -i"
 alias dmesg='dmesg --human'
 alias les="less"
-alias grep="grep --color=auto"
 alias gcal="gcal -s1"
 alias cr="check-repos.sh"
+alias duf="duf -theme ansi"
 alias mtr="mtr --curses"
 alias eix="eix --force-color"
 alias history="history -i -44"
 alias time="/usr/bin/time"
+alias explore="vifmrun"
+alias x='explore .'
+alias lg='lazygit'
 ## ugrep
 alias uq='ug -Q'
 alias ux='ug -UX'
@@ -741,7 +743,7 @@ if [[ $USER != root ]]; then
         local host=$1
         echo "Syncing terminal & X settings on $host ..."
         rsync -az            /home/swimmer/.Xresources $host:
-        rsync -az   --delete --exclude '.thumbs' /home/swimmer/system/wallpapers/ $host\:system/wallpapers/
+        rsync -az   --delete --exclude '.thumbs' --exclude '.xcf' /home/swimmer/system/wallpapers/ $host\:system/wallpapers/
         rsync -azK  --delete /usr/local/share/cursors/ $host:/usr/local/share/cursors/
         rsync -az   --delete /usr/local/share/icons/ $host:/usr/local/share/icons/
         rsync -azkL --delete /usr/local/share/themes/ $host:/usr/local/share/themes/
@@ -753,8 +755,10 @@ if [[ $USER != root ]]; then
         rsync -az            /home/swimmer/.config/fontconfig/fonts.conf $host:.config/fontconfig/
         rsync -az            /home/swimmer/.config/Trolltech.conf $host:.config/
         rsync -az            /home/swimmer/.config/colours/ $host:.config/colours/
+        rsync -az            /home/swimmer/.config/lazygit/config.yml $host:.config/lazygit/
         rsync -azKl --delete /home/swimmer/.config/alacritty/ $host:.config/alacritty/
         rsync -az   --delete /home/swimmer/.config/dunst/ $host:.config/dunst/
+        rsync -az   --delete /home/swimmer/.config/awesome/ $host:.config/awesome/
         rsync -az   --delete /home/swimmer/.config/herbstluftwm/ $host:.config/herbstluftwm/
         rsync -azKl --delete /home/swimmer/.config/kitty/ $host:.config/kitty/
         rsync -az   --delete /home/swimmer/.config/picom/ $host:.config/picom/
@@ -783,7 +787,6 @@ if [[ $USER != root ]]; then
         rsync -az            /home/swimmer/.config/mc/ini $host:.config/mc/
         rsync -az            /home/swimmer/.config/mc/mc.ext $host:.config/mc/
         rsync -az   --delete /home/swimmer/.local/share/mc/skins/ $host:.local/share/mc/skins/
-        rsync -az   --exclude="bookmarks" --exclude="history" --exclude="__pycache__" /home/swimmer/.config/ranger/ $host:.config/ranger/
         rsync -az   --delete /home/swimmer/.config/vifm/vifmrc $host:.config/vifm/vifmrc
         rsync -az   --delete /home/swimmer/.config/vifm/colors/ $host:.config/vifm/colors/
         echo "Syncing cli browsers on $host ..."
