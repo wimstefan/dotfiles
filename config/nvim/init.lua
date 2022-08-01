@@ -1095,6 +1095,8 @@ packer.startup(function()
               diagnostics = {
                 enable_check_codestyle = true,
                 globals = {
+                  'packer_plugins',
+                  'use',
                   'vim'
                 },
                 neededFileStatus = {
