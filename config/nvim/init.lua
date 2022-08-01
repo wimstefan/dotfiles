@@ -1869,8 +1869,9 @@ use({
         foldsep = '🮍',
         foldclose = ''
       })
-      vim.keymap.set('n', '[z', require('ufo').goPreviousClosedFold, { desc = 'Go to previous closed fold' })
-      vim.keymap.set('n', ']z', require('ufo').goNextClosedFold, { desc = 'Go to next closed fold' })
+      vim.keymap.set('n', '[z', require('ufo').goPreviousClosedFold, { desc = 'Fold: go to previous closed fold' })
+      vim.keymap.set('n', ']z', require('ufo').goNextClosedFold, { desc = 'Fold: go to next closed fold' })
+      vim.keymap.set('n', '<C-e>', require('ufo').peekFoldedLinesUnderCursor, { desc = 'Fold: preview' })
 
       local handler = function(virtText, lnum, endLnum, width, truncate)
         local newVirtText = {}
@@ -1901,7 +1902,18 @@ use({
       end
 
       require('ufo').setup({
-        fold_virt_text_handler = handler
+        fold_virt_text_handler = handler,
+        preview = {
+          win_config = {
+            border = 'double',
+            winhighlight = 'Normal:Folded',
+            winblend = 0
+          },
+          mappings = {
+            scrollU = '<C-u>',
+            scrollD = '<C-d>'
+          }
+        }
       })
       local bufnr = vim.api.nvim_get_current_buf()
       require('ufo').setFoldVirtTextHandler(bufnr, handler)
