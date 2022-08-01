@@ -859,7 +859,12 @@ packer.startup(function()
       cmp.setup.cmdline(':', {
         mapping = cmp.mapping.preset.cmdline(),
         sources = cmp.config.sources({
-          { name = 'path' }
+          {
+            name = 'path',
+            option = {
+              trailing_slash = true
+            }
+          },
         }, {
           { name = 'nvim_lua' }
         }, {
