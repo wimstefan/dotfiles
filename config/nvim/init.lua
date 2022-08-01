@@ -193,6 +193,7 @@ vim.filetype.add({
   pattern = {
     ['/tmp/mutt.*'] = 'mail',
     ['/tmp/.*tangoartisan.*'] = 'html',
+    ['/tmp/.*voswimmer.nl.*'] = 'html',
     ['~/%.mutt/.*rc'] = 'muttrc',
   },
 })
@@ -1323,11 +1324,17 @@ packer.startup(function()
   use({
     'is0n/fm-nvim',
     config = function()
-      vim.keymap.set('n', '<Leader>z', [[<Cmd>Fzf<CR>]], {})
-      vim.keymap.set('n', '<Leader>x', [[<Cmd>Vifm<CR>]], {})
+      vim.keymap.set('n', '<Leader>z', vim.cmd.Fzf, {})
+      vim.keymap.set('n', '<Leader>x', vim.cmd.Vifm, {})
       require('fm-nvim').setup({
-        border = My_Borders,
-        border_hl = 'Normal'
+        ui = {
+          default = 'float',
+          float = {
+            border = My_Borders,
+            float_hl = 'Normal',
+            border_hl = 'FloatBorder'
+          }
+        }
       })
     end
   })
