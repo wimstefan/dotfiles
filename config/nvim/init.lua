@@ -128,6 +128,11 @@ My_Symbols = {
   Variable = ' ', -- ' ', -- ' ',
 }
 -- borders --
+-- My_Borders = { '╤', '═', '╤', '│', '╧', '═', '╧', '│' }
+-- My_Borders = { '╓', '─', '╖', '║', '╜', '─', '╙', '║' }
+-- My_Borders = { '┯', '━', '┯', '│', '┷', '━', '┷', '│' }
+-- My_Borders = { '┎', '─', '┒', '┃', '┚', '─', '┖', '┃' }
+-- My_Borders = { '┬', '─', '┬', '│', '┴', '─', '┴', '│' }
 My_Borders = 'rounded'
 
 -- diagnostic handling
@@ -1485,9 +1490,9 @@ use({
   -- {{{2 Visuals
   -- {{{3 nvim-colorizer.lua
   use({
-    'DarwinSenior/nvim-colorizer.lua',
+    'NvChad/nvim-colorizer.lua',
     config = function()
-      vim.keymap.set('n', ',tc', [[<Cmd> ColorizerToggle<CR>]])
+      vim.keymap.set('n', ',tc', vim.cmd.ColorizerToggle)
       require('colorizer').setup(
         { '*' },
         {
@@ -1567,15 +1572,20 @@ use({
   -- {{{3 zenbones.nvim
   use({
     'mcchrish/zenbones.nvim',
+    requires = {
+      'rktjmp/lush.nvim',
+      'rktjmp/shipwright.nvim'
+    },
     config = function()
       local flavours = { 'zenbones', 'zenwritten', 'neobones', 'nordbones', 'seoulbones', 'tokyobones' }
       for _, flavour in ipairs(flavours) do
         vim.g[flavour] = {
-          solid_float_border = true,
           lightness = 'bright',
-          darkness = 'warm',
+          darkness = 'stark',
           darken_comments = 30,
           lighten_comments = 30,
+          solid_float_border = true,
+          colorize_diagnostic_underline_text = true,
           transparent_background = true
         }
       end
