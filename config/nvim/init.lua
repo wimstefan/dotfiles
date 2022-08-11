@@ -211,8 +211,8 @@ vim.keymap.set('n', '<C-l>', [[<Cmd>set nohlsearch|diffupdate|highlight clear Co
 vim.keymap.set('n', 'M', function() ShowMan() end, { desc = 'Search man pages for current word' })
 vim.keymap.set('n', '<F10>', function() ToggleDetails() end, { desc = 'Toggle decorations' })
 -- {{{2 navigation
-vim.keymap.set({ 'n', 'x' }, 'j', function() return vim.v.count > 0 and 'j' or 'gj' end, { expr = true })
-vim.keymap.set({ 'n', 'x' }, 'k', function() return vim.v.count > 0 and 'k' or 'gk' end, { expr = true })
+vim.keymap.set({ 'n', 'x' }, 'j', function() return vim.v.count > 0 and 'j' or 'gj' end, { expr = true, replace_keycodes = false })
+vim.keymap.set({ 'n', 'x' }, 'k', function() return vim.v.count > 0 and 'k' or 'gk' end, { expr = true, replace_keycodes = false })
 -- }}}
 -- {{{2 editing
 vim.keymap.set('n', '<Leader>ev', [[<Cmd>edit $MYVIMRC<CR>]])
@@ -226,13 +226,13 @@ vim.keymap.set('n', 'cn', '*``cgn')
 vim.keymap.set('n', 'cN', '*``cgN')
 -- }}}
 -- {{{2 buffers
-vim.keymap.set('n', '<Tab>', [[<Cmd>bnext<CR>]])
-vim.keymap.set('n', '<S-Tab>', [[<Cmd>bprev<CR>]])
+vim.keymap.set('n', '<Tab>', vim.cmd.bnext)
+vim.keymap.set('n', '<S-Tab>', vim.cmd.bprev)
 vim.keymap.set('n', '<Leader><Leader>', '<C-^>')
-vim.keymap.set('n', '<Leader>bd', [[<Cmd>bdelete<CR>]])
+vim.keymap.set('n', '<Leader>bd', vim.cmd.bdelete)
 -- }}}
 -- {{{2 tabs
-vim.keymap.set('n', '<Leader>td', [[<Cmd>tabclose<CR>]])
+vim.keymap.set('n', '<Leader>td', vim.cmd.tabclose)
 -- }}}
 -- {{{2 terminals
 vim.keymap.set('t', '<Esc>', [[<C-\><C-N>]])
@@ -244,8 +244,8 @@ vim.keymap.set('t', '<A-l>', [[<C-\><C-N><C-w>l]])
 -- {{{2 quickfix
 vim.keymap.set('n', '<C-c>', function() ToggleQF('q') end, { desc = 'Toggle quickfix window' })
 vim.keymap.set('n', '<A-c>', function() ToggleQF('l') end, { desc = 'Toggle location list window' })
-vim.keymap.set('n', '[\\', [[<Cmd>colder<CR>]])
-vim.keymap.set('n', ']\\', [[<Cmd>cnewer<CR>]])
+vim.keymap.set('n', '[\\', vim.cmd.colder)
+vim.keymap.set('n', ']\\', vim.cmd.cnewer)
 -- }}}
 -- {{{2 signatures
 vim.keymap.set('n', '<Leader>sa',
@@ -306,28 +306,26 @@ function Dump(...)
 end
 
 function NotifyColors()
-  vim.cmd([[
-    highlight link NotifyERRORBorder DiagnosticVirtualTextError
-    highlight link NotifyWARNBorder DiagnosticVirtualTextWarn
-    highlight link NotifyINFOBorder DiagnosticVirtualTextInfo
-    highlight link NotifyDEBUGBorder PmenuSel
-    highlight link NotifyTRACEBorder DiagnosticVirtualTextHint
-    highlight link NotifyERRORIcon DiagnosticSignError
-    highlight link NotifyWARNIcon DiagnosticSignWarn
-    highlight link NotifyINFOIcon DiagnosticSignInfo
-    highlight link NotifyDEBUGIcon ModeMsg
-    highlight link NotifyTRACEIcon DiagnosticSignHint
-    highlight link NotifyERRORTitle DiagnosticError
-    highlight link NotifyWARNTitle DiagnosticWarn
-    highlight link NotifyINFOTitle DiagnosticInfo
-    highlight link NotifyDEBUGTitle ModeMsg
-    highlight link NotifyTRACETitle DiagnosticHint
-    highlight link NotifyERRORBody Normal
-    highlight link NotifyWARNBody Normal
-    highlight link NotifyINFOBody Normal
-    highlight link NotifyDEBUGBody Normal
-    highlight link NotifyTRACEBody Normal
-  ]])
+  vim.cmd.highlight('link NotifyERRORBorder DiagnosticVirtualTextError')
+  vim.cmd.highlight('link NotifyWARNBorder DiagnosticVirtualTextWarn')
+  vim.cmd.highlight('link NotifyINFOBorder DiagnosticVirtualTextInfo')
+  vim.cmd.highlight('link NotifyDEBUGBorder PmenuSel')
+  vim.cmd.highlight('link NotifyTRACEBorder DiagnosticVirtualTextHint')
+  vim.cmd.highlight('link NotifyERRORIcon DiagnosticSignError')
+  vim.cmd.highlight('link NotifyWARNIcon DiagnosticSignWarn')
+  vim.cmd.highlight('link NotifyINFOIcon DiagnosticSignInfo')
+  vim.cmd.highlight('link NotifyDEBUGIcon ModeMsg')
+  vim.cmd.highlight('link NotifyTRACEIcon DiagnosticSignHint')
+  vim.cmd.highlight('link NotifyERRORTitle DiagnosticError')
+  vim.cmd.highlight('link NotifyWARNTitle DiagnosticWarn')
+  vim.cmd.highlight('link NotifyINFOTitle DiagnosticInfo')
+  vim.cmd.highlight('link NotifyDEBUGTitle ModeMsg')
+  vim.cmd.highlight('link NotifyTRACETitle DiagnosticHint')
+  vim.cmd.highlight('link NotifyERRORBody Normal')
+  vim.cmd.highlight('link NotifyWARNBody Normal')
+  vim.cmd.highlight('link NotifyINFOBody Normal')
+  vim.cmd.highlight('link NotifyDEBUGBody Normal')
+  vim.cmd.highlight('link NotifyTRACEBody Normal')
 end
 
 -- {{{2 toggle detailed information for easier paste
@@ -463,11 +461,11 @@ packer.startup(function()
   use({
     'shadmansaleh/packer.nvim',
     config = function()
-      vim.keymap.set('n', ',pc', [[<Cmd>PackerClean<CR>]])
-      vim.keymap.set('n', ',pi', [[<Cmd>PackerInstall<CR>]])
-      vim.keymap.set('n', ',pq', [[<Cmd>PackerStatus<CR>]])
-      vim.keymap.set('n', ',ps', [[<Cmd>PackerSync<CR>]])
-      vim.keymap.set('n', ',pu', [[<Cmd>PackerUpdate<CR>]])
+      vim.keymap.set('n', ',pc', vim.cmd.PackerClean)
+      vim.keymap.set('n', ',pi', vim.cmd.PackerInstall)
+      vim.keymap.set('n', ',pq', vim.cmd.PackerStatus)
+      vim.keymap.set('n', ',ps', vim.cmd.PackerSync)
+      vim.keymap.set('n', ',pu', vim.cmd.PackerUpdate)
     end
   })
   -- }}}
@@ -897,11 +895,11 @@ packer.startup(function()
             placement_editor_edge = true,
             icons = My_Symbols,
             on_attach = function(bufnr)
-              vim.keymap.set('n', '<Leader>a', [[<Cmd>AerialToggle!<CR>]], { buffer = bufnr })
-              vim.keymap.set('n', '{', [[<Cmd>AerialPrev<CR>]], { buffer = bufnr })
-              vim.keymap.set('n', '}', [[<Cmd>AerialNext<CR>]], { buffer = bufnr })
-              vim.keymap.set('n', '{{', [[<Cmd>AerialPrevUp<CR>]], { buffer = bufnr })
-              vim.keymap.set('n', '}}', [[<Cmd>AerialNextUp<CR>]], { buffer = bufnr })
+              vim.keymap.set('n', '<Leader>a', require('aerial').toggle, { buffer = bufnr })
+              vim.keymap.set('n', '{', vim.cmd.AerialPrev, { buffer = bufnr })
+              vim.keymap.set('n', '}', vim.cmd.AerialNext, { buffer = bufnr })
+              vim.keymap.set('n', '{{', vim.cmd.AerialPrevUp, { buffer = bufnr })
+              vim.keymap.set('n', '}}', vim.cmd.AerialNextUp, { buffer = bufnr })
             end
           })
           require('telescope').load_extension('aerial')
@@ -1157,7 +1155,7 @@ packer.startup(function()
   use({
     'tpope/vim-obsession',
     config = function()
-      vim.keymap.set('n', ',to', [[<Cmd>Obsession<CR>]])
+      vim.keymap.set('n', ',to', vim.cmd.Obsession)
     end
   })
   -- }}}
@@ -1460,8 +1458,8 @@ use({
   use({
     'chrisbra/unicode.vim',
     config = function()
-      vim.keymap.set('n', '<Leader>ut', [[<Cmd>UnicodeTable<CR>]])
-      vim.keymap.set('n', 'gu', [[<Cmd>UnicodeName<CR>]])
+      vim.keymap.set('n', '<Leader>ut', vim.cmd.UnicodeTable)
+      vim.keymap.set('n', 'gu', vim.cmd.UnicodeName)
     end
   })
   -- }}}
@@ -1824,9 +1822,9 @@ use({
         numhl = true,
         on_attach = function(bufnr)
           local gs = package.loaded.gitsigns
-          vim.keymap.set('n', ']c', "&diff ? ']c' : '<cmd>Gitsigns next_hunk<CR>'", { expr = true },
+          vim.keymap.set('n', ']c', "&diff ? ']c' : '<cmd>Gitsigns next_hunk<CR>'", { expr = true, replace_keycodes = false },
             { desc = 'Gitsigns: next hunk' })
-          vim.keymap.set('n', '[c', "&diff ? '[c' : '<cmd>Gitsigns prev_hunk<CR>'", { expr = true },
+          vim.keymap.set('n', '[c', "&diff ? '[c' : '<cmd>Gitsigns prev_hunk<CR>'", { expr = true, replace_keycodes = false },
             { desc = 'Gitsigns: previous hunk' })
           vim.keymap.set('n', ',sp', gs.preview_hunk, { desc = 'Gitsigns: preview hunk' }, { buffer = bufnr })
           vim.keymap.set('n', ',sb', function() gs.blame_line { full = true } end, { desc = 'Gitsigns: blame line' },
@@ -1943,7 +1941,7 @@ use({
           'element'
         },
       })
-      vim.keymap.set('n', ',ti', [[<Cmd>IndentBlanklineToggle<CR>]])
+      vim.keymap.set('n', ',ti', vim.cmd.IndentBlanklineToggle)
     end
   })
   -- }}}
