@@ -732,7 +732,6 @@ packer.startup(function()
       'hrsh7th/cmp-nvim-lua',
       'hrsh7th/cmp-nvim-lsp',
       'hrsh7th/cmp-nvim-lsp-signature-help',
-      'hrsh7th/cmp-nvim-lsp-document-symbol',
       'hrsh7th/cmp-buffer',
       'hrsh7th/cmp-path',
       'hrsh7th/cmp-cmdline',
@@ -743,13 +742,15 @@ packer.startup(function()
           'honza/vim-snippets'
         }
       },
-      'ray-x/cmp-treesitter',
       'f3fora/cmp-spell'
     },
     config = function()
-      local cmp = require('cmp')
-      local luasnip = require('luasnip')
       require('luasnip/loaders/from_snipmate').lazy_load()
+      local cmp = require('cmp')
+      local cmp_buffer = require('cmp_buffer')
+      local luasnip = require('luasnip')
+      luasnip.filetype_extend('all', { '_' })
+
       local check_backspace = function()
         local col = vim.fn.col '.' - 1
         return col == 0 or vim.fn.getline('.'):sub(col, col):match '%s'
@@ -773,8 +774,6 @@ packer.startup(function()
               nvim_lua = '[API]',
               path = '[Filesystem]',
               luasnip = '[Snippet]',
-              nvim_lsp_signature_help = '[SIG]',
-              treesitter = '[TS]',
               spell = '[Spell]',
             })[entry.source.name]
             vim_item.kind = My_Symbols[vim_item.kind]
@@ -836,13 +835,22 @@ packer.startup(function()
             name = 'buffer',
             option = {
               get_bufnrs = function()
-                return vim.api.nvim_list_bufs()
+                local buf = vim.api.nvim_get_current_buf()
+                local byte_size = vim.api.nvim_buf_get_offset(buf, vim.api.nvim_buf_line_count(buf))
+                if byte_size > 2048 * 2048 then
+                  return {}
+                end
+                return { buf }
               end
             }
           },
-          { name = 'treesitter' },
           { name = 'spell' },
-        })
+        }),
+        sorting = {
+          comparators = {
+            function(...) return cmp_buffer:compare_locality(...) end,
+          }
+        }
       })
       cmp.setup.cmdline(':', {
         mapping = cmp.mapping.preset.cmdline(),
@@ -862,8 +870,6 @@ packer.startup(function()
       cmp.setup.cmdline('/', {
         mapping = cmp.mapping.preset.cmdline(),
         sources = cmp.config.sources({
-          { name = 'nvim_lsp_document_symbol' }
-        }, {
           { name = 'buffer' }
         })
       })
@@ -1010,20 +1016,10 @@ packer.startup(function()
       end
 
       local capabilities = vim.lsp.protocol.make_client_capabilities()
-      capabilities.textDocument.completion.completionItem.snippetSupport = true
-      capabilities.textDocument.completion.completionItem.resolveSupport = {
-        properties = {
-          'documentation',
-          'detail',
-          'additionalTextEdits',
-        }
-      }
       capabilities.textDocument.foldingRange = {
-        dynamicRegistration = false,
+        dynamicRegistration = true,
         lineFoldingOnly = true
       }
-      capabilities.experimental = {}
-      capabilities.experimental.hoverActions = true
       capabilities = lsp_cmp.update_capabilities(capabilities)
 
       -- LSP servers
