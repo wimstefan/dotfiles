@@ -516,9 +516,6 @@ packer.startup(function()
         indent = {
           enable = false
         },
-        playground = {
-          enable = true
-        },
         rainbow = {
           enable = true,
           extended_mode = true
@@ -526,8 +523,22 @@ packer.startup(function()
         refactor = {
           highlight_current_scope = { enable = false },
           highlight_definitions = { enable = true },
-          navigation = { enable = true },
-          smart_rename = { enable = true },
+          navigation = {
+            enable = true,
+            keymaps = {
+              goto_definition = 'gnd',
+              list_definitions_lsp_fallback = 'gnD',
+              list_definitions_toc = 'gO',
+              goto_next_usage = '<a-*>',
+              goto_previous_usage = '<a-#>'
+            }
+          },
+          smart_rename = {
+            enable = true,
+            keymaps = {
+              smart_rename = 'grr'
+            }
+          }
         },
         textobjects = {
           lookahead = true,
@@ -536,28 +547,8 @@ packer.startup(function()
             border = My_Borders,
             peek_definition_code = {
               ['df'] = '@function.outer',
-              ['dF'] = '@class.outer',
-            },
-          },
-          move = {
-            enable = true,
-            set_jumps = true,
-            goto_next_start = {
-              [']m'] = '@function.outer',
-              [']]'] = '@class.outer',
-            },
-            goto_next_end = {
-              [']M'] = '@function.outer',
-              [']['] = '@class.outer',
-            },
-            goto_previous_start = {
-              ['[m'] = '@function.outer',
-              ['[['] = '@class.outer',
-            },
-            goto_previous_end = {
-              ['[M'] = '@function.outer',
-              ['[]'] = '@class.outer',
-            },
+              ['dF'] = '@class.outer'
+            }
           },
           select = {
             enable = true,
@@ -565,28 +556,19 @@ packer.startup(function()
             keymaps = {
               ['af'] = '@function.outer',
               ['if'] = '@function.inner',
-              ['ip'] = '@parameter.inner',
               ['ap'] = '@parameter.outer',
-              ['ib'] = '@block.inner',
+              ['ip'] = '@parameter.inner',
               ['ab'] = '@block.outer',
-              ['im'] = '@class.inner',
+              ['ib'] = '@block.inner',
               ['am'] = '@class.outer',
+              ['im'] = '@class.inner',
               ['aa'] = '@call.outer',
               ['ia'] = '@call.inner',
               ['a/'] = '@comment.outer',
-              ['i/'] = '@comment.outer',
-            },
-          },
-          swap = {
-            enable = true,
-            swap_next = {
-              ['[S'] = '@parameter.inner',
-            },
-            swap_previous = {
-              [']S'] = '@parameter.inner',
-            },
-          },
-        },
+              ['i/'] = '@comment.inner'
+            }
+          }
+        }
       })
     end
   })
