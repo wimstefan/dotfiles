@@ -380,7 +380,7 @@ alias zxgrep='ugrep -zW'
 alias xdump='ugrep -X ""'
 # shortcuts
 alias xreload="xrdb $HOME/.Xresources"
-alias zreload="source $HOME/.zshrc"
+alias zreload="exec zsh"
 alias el="equery list -p -o"
 alias sf="setfont ter-112n"
 alias unmount="udevil unmount"
@@ -397,20 +397,19 @@ function fr() { find . -iname '*'$1'*' -exec $2 {} \; ; }
 
 function hc() { herbstclient "$@" }
 
-function dirdiff() # compare two directories with vim
-{
+function ez() { fd --type f --hidden --exclude .git | fzf-tmux -p --reverse | xargs nvim }
+
+function dirdiff() { # compare two directories with vim
   DIR1=$(printf '%q' "$1"); shift
   DIR2=$(printf '%q' "$1"); shift
   $EDITOR $@ -c "DirDiff $DIR1 $DIR2"
 }
 
-function viz() # edit AND source ~/.zshrc
-{
+function viz() { # edit AND source ~/.zshrc
   $EDITOR $HOME/.dotfiles/zsh/zshrc && exec zsh
 }
 
-function lowercase() # move filenames to lowercase
-{
+function lowercase() { # move filenames to lowercase
   for file ; do
     filename=${file##*/}
     case "$filename" in
@@ -686,7 +685,7 @@ if [[ $USER != root ]]; then
         rsync -az            /home/swimmer/.config/gtk-3.0/ $host:.config/gtk-3.0/
         rsync -az            /home/swimmer/.config/fontconfig/fonts.conf $host:.config/fontconfig/
         rsync -az            /home/swimmer/.config/Trolltech.conf $host:.config/
-        rsync -az            /home/swimmer/.config/colours/ $host:.config/colours/
+        rsync -azkL --delete /home/swimmer/.config/colours/ $host:.config/colours/
         rsync -az            /home/swimmer/.config/lazygit/config.yml $host:.config/lazygit/
         rsync -azKl --delete /home/swimmer/.config/alacritty/ $host:.config/alacritty/
         rsync -az   --delete /home/swimmer/.config/dunst/ $host:.config/dunst/
