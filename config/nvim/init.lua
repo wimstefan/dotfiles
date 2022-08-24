@@ -1729,7 +1729,9 @@ use({
               'diff',
               source = diff_source,
               diff_color = { added = 'GitSignsAdd', modified = 'GitSignsChange', removed = 'GitSignsDelete' },
-              symbols = { added = '洛 ', modified = '  ', removed = '  ' },
+              -- symbols = { added = '洛 ', modified = '  ', removed = '  ' },
+              -- symbols = { added = 'ﰂ  ', modified = '  ', removed = 'ﯰ  ' },
+              symbols = { added = '落 ', modified = '  ', removed = '  ' },
             },
             {
               'branch',
@@ -1841,15 +1843,25 @@ use({
     requires = 'kevinhwang91/promise-async',
     config = function()
       vim.opt.foldlevel = 99
+      vim.opt.foldlevelstart = 99
       vim.opt.foldcolumn = 'auto:5'
       vim.opt.fillchars:append({
-        foldopen = '',
         foldsep = '🮍',
+        foldopen = '',
         foldclose = ''
       })
-      vim.keymap.set('n', '[z', require('ufo').goPreviousClosedFold, { desc = 'Fold: go to previous closed fold' })
-      vim.keymap.set('n', ']z', require('ufo').goNextClosedFold, { desc = 'Fold: go to next closed fold' })
-      vim.keymap.set('n', '<C-e>', require('ufo').peekFoldedLinesUnderCursor, { desc = 'Fold: preview' })
+      vim.keymap.set('n', '[z', require('ufo').goPreviousClosedFold, { desc = 'ufo: go to previous closed fold' })
+      vim.keymap.set('n', ']z', require('ufo').goNextClosedFold, { desc = 'ufo: go to next closed fold' })
+      vim.keymap.set('n', 'zR', require('ufo').openAllFolds, { desc = 'ufo: open all folds' })
+      vim.keymap.set('n', 'zM', require('ufo').closeAllFolds, { desc = 'ufo: close all folds' })
+      vim.keymap.set('n', 'zr', require('ufo').openFoldsExceptKinds, { desc = 'ufo: open folds except kinds' })
+      vim.keymap.set('n', 'zm', require('ufo').closeFoldsWith, { desc = 'ufo: close folds' })
+      vim.keymap.set('n', 'zp', function()
+          local winid = require('ufo').peekFoldedLinesUnderCursor()
+          if not winid then
+              vim.lsp.buf.hover()
+          end
+      end, { desc = 'ufo: preview' })
 
       local handler = function(virtText, lnum, endLnum, width, truncate)
         local newVirtText = {}
@@ -1880,6 +1892,7 @@ use({
       end
 
       require('ufo').setup({
+        close_fold_kinds = {'imports', 'comment'},
         fold_virt_text_handler = handler,
         preview = {
           win_config = {
@@ -1891,7 +1904,11 @@ use({
             scrollU = '<C-u>',
             scrollD = '<C-d>'
           }
-        }
+        },
+        ---@diagnostic disable-next-line: unused-local
+        provider_selector = function(bufnr, filetype, buftype)
+          return {'treesitter', 'indent'}
+        end
       })
       local bufnr = vim.api.nvim_get_current_buf()
       require('ufo').setFoldVirtTextHandler(bufnr, handler)
@@ -1990,10 +2007,17 @@ use({
     config = function()
       require('dressing').setup({
         input = {
+          enable = true,
+          override = function(conf)
+            conf.col = -1
+            conf.row = 0
+            return conf
+          end,
           winblend = 0,
           winhighlight = 'Normal:ModeMsg,FloatBorder:TelescopeBorder'
         },
         select = {
+          enable = true,
           telescope = require('telescope.themes').get_cursor {
             layout_config = {
               height = function(self, _, max_lines)
