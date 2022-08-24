@@ -10,6 +10,9 @@ html-renderer elinks
 browser "TERM=xterm-256color w3m %u"
 refresh-on-startup yes
 cleanup-on-quit yes
+confirm-mark-feed-read no
+confirm-mark-all-feeds-read no
+download-full-page yes
 auto-reload yes
 reload-time 14
 reload-threads 4
