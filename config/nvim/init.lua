@@ -888,15 +888,14 @@ packer.startup(function()
         'stevearc/aerial.nvim',
         config = function()
           require('aerial').setup({
-            backends = { 'lsp', 'markdown', 'treesitter' },
             placement_editor_edge = true,
             icons = My_Symbols,
             on_attach = function(bufnr)
-              vim.keymap.set('n', '<Leader>a', require('aerial').toggle, { buffer = bufnr })
-              vim.keymap.set('n', '{', vim.cmd.AerialPrev, { buffer = bufnr })
-              vim.keymap.set('n', '}', vim.cmd.AerialNext, { buffer = bufnr })
-              vim.keymap.set('n', '{{', vim.cmd.AerialPrevUp, { buffer = bufnr })
-              vim.keymap.set('n', '}}', vim.cmd.AerialNextUp, { buffer = bufnr })
+              vim.keymap.set('n', '<Leader>a', require('aerial').toggle, { buffer = bufnr }, { desc = 'LSP: aerial outline toggle' })
+              vim.keymap.set('n', '{', vim.cmd.AerialPrev, { buffer = bufnr }, { desc = 'LSP: aerial jump backwards' })
+              vim.keymap.set('n', '}', vim.cmd.AerialNext, { buffer = bufnr }, { desc = 'LSP: aerial jump forewards' })
+              vim.keymap.set('n', '{{', vim.cmd.AerialPrevUp, { buffer = bufnr }, { desc = 'LSP: aerial jump up tree level' })
+              vim.keymap.set('n', '}}', vim.cmd.AerialNextUp, { buffer = bufnr }, { desc = 'LSP: aerial jump down tree level' })
             end
           })
           require('telescope').load_extension('aerial')
@@ -906,9 +905,9 @@ packer.startup(function()
         'https://git.sr.ht/~whynothugo/lsp_lines.nvim',
         config = function()
           require('lsp_lines').setup()
-          vim.keymap.set('', ',ll', require('lsp_lines').toggle, { desc = 'Toggle lsp_lines' })
+          vim.keymap.set('', ',ll', require('lsp_lines').toggle, { desc = 'LSP: toggle lsp_lines' })
         end,
-      }
+      },
     },
     config = function()
       local lsp_aerial = require('aerial')
@@ -929,18 +928,18 @@ packer.startup(function()
         -- options
         vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
         -- keybindings
-        vim.keymap.set('n', ',lR', require('telescope.builtin').lsp_definitions, { desc = 'Telescope: lsp definitions' },
+        vim.keymap.set('n', ',lR', require('telescope.builtin').lsp_definitions, { desc = 'LSP: definitions' },
           { buffer = bufnr })
-        vim.keymap.set('n', ',lr', require('telescope.builtin').lsp_references, { desc = 'Telescope: lsp references' },
+        vim.keymap.set('n', ',lr', require('telescope.builtin').lsp_references, { desc = 'LSP: references' },
           { buffer = bufnr })
         vim.keymap.set('n', ',ly', require('telescope.builtin').lsp_document_symbols,
-          { desc = 'Telescope: lsp document symbols' }, { buffer = bufnr })
+          { desc = 'LSP: document symbols' }, { buffer = bufnr })
         vim.keymap.set('n', ',lY', require('telescope.builtin').lsp_workspace_symbols,
-          { desc = 'Telescope: lsp workspace symbols' }, { buffer = bufnr })
+          { desc = 'LSP: workspace symbols' }, { buffer = bufnr })
         vim.keymap.set('n', ',ld', function() require('telescope.builtin').diagnostics({ bufnr = 0 }) end,
-          { desc = 'Telescope: document diagnostics' }, { buffer = bufnr })
+          { desc = 'LSP: document diagnostics' }, { buffer = bufnr })
         vim.keymap.set('n', ',lD', require('telescope.builtin').diagnostics,
-          { desc = 'Telescope: workspace diagnostics' }, { buffer = bufnr })
+          { desc = 'LSP: workspace diagnostics' }, { buffer = bufnr })
         vim.keymap.set('n', ',lrn', vim.lsp.buf.rename, { desc = 'LSP: rename' }, { buffer = bufnr })
         vim.keymap.set('n', ',lw', function() Dump(vim.lsp.buf.list_workspace_folders()) end,
           { desc = 'LSP: list workspace folders' }, { buffer = bufnr })
@@ -1012,7 +1011,7 @@ packer.startup(function()
 
       local capabilities = vim.lsp.protocol.make_client_capabilities()
       capabilities.textDocument.foldingRange = {
-        dynamicRegistration = true,
+        dynamicRegistration = false,
         lineFoldingOnly = true
       }
       capabilities = lsp_cmp.update_capabilities(capabilities)
@@ -1026,7 +1025,6 @@ packer.startup(function()
             'zsh'
           }
         },
-        clangd = {},
         cssls = {},
         html = {
           filetypes = {
@@ -1036,6 +1034,7 @@ packer.startup(function()
           }
         },
         jsonls = {},
+        marksman = {},
         vimls = {},
       }
       for name, opts in pairs(servers) do
