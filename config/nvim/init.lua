@@ -766,14 +766,11 @@ packer.startup(function()
         formatting = {
           fields = { 'kind', 'abbr', 'menu' },
           format = function(entry, vim_item)
-            vim_item.menu = ({
-              buffer = '[Buffer]',
-              nvim_lsp = '[LSP]',
-              nvim_lua = '[API]',
-              path = '[Filesystem]',
-              luasnip = '[Snippet]',
-              spell = '[Spell]',
-            })[entry.source.name]
+            if entry.source.name == 'nvim_lsp' then
+              vim_item.menu = '<' .. entry.source.source.client.name .. '>'
+            else
+              vim_item.menu = '[' .. entry.source.name .. ']'
+            end
             vim_item.kind = My_Symbols[vim_item.kind]
             return vim_item
           end
