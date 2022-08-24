@@ -114,6 +114,7 @@ color_normal="$color_fg$tr"
 
 hc set_layout grid
 
+hc attr theme.title_when multiple_tabs
 hc attr theme.tiling.reset 1
 hc attr theme.floating.reset 1
 hc attr theme.border_width "$width"
@@ -189,8 +190,8 @@ pkill sxhkd
 sxhkd -c $HOME/.config/herbstluftwm/sxhkdrc &
 pkill picom
 while pgrep -x picom >/dev/null; do sleep 1; done
-# /usr/local/src/Tools/x11/yshui-picom.git/build/src/picom --experimental-backends --vsync --config $HOME/.config/picom/yshui-picom.conf &
-/usr/local/src/Tools/x11/ibhagwan-picom.git/build/src/picom --experimental-backends --vsync --config $HOME/.config/picom/ibhagwan-picom.conf &
+ /usr/local/src/Tools/x11/picom-yshui.git/build/src/picom --config $HOME/.config/picom/yshui-picom.conf &
+#/usr/local/src/Tools/x11/picom-ibhagwan.git/build/src/picom --experimental-backends --config $HOME/.config/picom/ibhagwan-picom.conf &
 pkill dunst
 dunst &
 feh --bg-fill $HOME/system/wallpapers/default.jpg &
