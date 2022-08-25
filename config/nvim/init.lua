@@ -1219,7 +1219,8 @@ packer.startup(function()
   use({
     'numToStr/Comment.nvim',
     config = function()
-      vim.keymap.set('x', 'gci', ':g/./lua require\'Comment.api\'.toggle.linewise.current(nil, {cfg})<CR><cmd>nohls<CR>',
+      vim.keymap.set('x', 'gci', [[:g/./lua require('Comment.api').toggle.linewise.current()<CR><Cmd>nohls<CR>]],
+        { silent = true },
         { desc = 'Invert comments' })
       require('Comment').setup({
         pre_hook = require('ts_context_commentstring.integrations.comment_nvim').create_pre_hook()
