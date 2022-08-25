@@ -14,8 +14,6 @@ setopt    always_to_end           # Move cursor to the end of a completed word.
 setopt    path_dirs               # Perform path search even on command names with slashes.
 setopt    auto_menu               # Show completion menu on a succesive tab press.
 setopt    auto_list               # Automatically list choices on ambiguous completion.
-setopt    auto_param_slash        # If completed parameter is a directory, add a trailing slash.
-setopt NO_menu_complete           # Do not autoselect the first completion entry.
 # Expansion and Globbing
 #setopt    brace_ccl               # {a-z} {0-2} etc expansion
 setopt    extended_glob           # treat the `#', `~' and `^' characters as part of patterns for filename generation
@@ -58,7 +56,7 @@ export ZLS_COLORS=$LS_COLORS
 # }}}2
 # - Completion {{{2
 zmodload zsh/complist
-autoload -U compinit && compinit
+autoload -U compinit && compinit -u
 
 zstyle ':completion:*' completer _complete _approximate
 
