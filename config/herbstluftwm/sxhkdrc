@@ -16,19 +16,19 @@ super + z
 ## Dropdown terminals
 # Scratchpad
 super + s
-  tdrop -m -w 75% -h 66% -y $((POLYBAR_HEIGHT + 20)) -x 14 -n 1 $POPUP_TERM $POPUP_TITLE "Scratchpad" $POPUP_NAME "Scratchpad"
+  tdrop -n Scratchpad -ma -w 75% -h 66% -y $((POLYBAR_HEIGHT + 20)) -x 14 wezterm start --class 'Scratchpad'
 # Calculator
 super + c
-  tdrop -m -w 30% -h 30% -y $((POLYBAR_HEIGHT + 20)) -x 69% -n 2 $POPUP_TERM $POPUP_TITLE "Calculator" $POPUP_CMD wcalc
+  tdrop -n Calculator -ma -w 30% -h 30% -y $((POLYBAR_HEIGHT + 20)) -x 69% wezterm start --class 'Calculator' wcalc
 # Explore
 super + m
-  tdrop -m -w 60% -h 60% -y 39% -x 39% -n 3 $POPUP_TERM $POPUP_TITLE "Explore" $POPUP_CMD mc
+  tdrop -n MC -ma -w 60% -h 60% -y 39% -x 39% wezterm start --class 'MC' mc
 # Explore with images
 super + x
-  tdrop -m -w 70% -h 80% -y $((POLYBAR_HEIGHT + 20)) -x 30% -n 4 /usr/bin/env kitty --class="Vifm" vifmrun ~
+  tdrop -n Explore -ma -w 90% -h 90% -y 9% -x 9% wezterm start --class 'Explore' vifmrun
 # Keybindings
 super + F1
-  tdrop -m -w 40% -h 77% -y $((POLYBAR_HEIGHT + 20)) -n 5 $POPUP_TERM $POPUP_TITLE "Keybindings" $POPUP_CMD $HOME/.config/herbstluftwm/show_help.sh
+  tdrop -n Keybindings -ma -w 40% -h 77% -y $((POLYBAR_HEIGHT + 20)) -x 4 wezterm start --class 'Keybindings' show_keys.sh
 
 #
 # Applications
@@ -41,7 +41,7 @@ super + t
   thunderbird
 ## Editor
 super + e
-  $TERMINAL $TERM_TITLE "Editing ..." $TERM_CMD $EDITOR
+  wezterm start --class 'Editing ...' $EDITOR
 ## Darktable
 super + d
   darktable

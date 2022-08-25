@@ -525,21 +525,7 @@ if [[ $USER != root ]]; then
   export GTK2_RC_FILES="$HOME/.gtkrc-2.0"
   export BROWSER="my-eye-into-the-world"
   export COLORTERM=truecolor
-  export POPUP_TERM="kitty"
-  if [[ $POPUP_TERM =~ "alacritty" ]]; then
-    export POPUP_TITLE="--title"
-    export POPUP_NAME="--class"
-    export POPUP_CMD="--command"
-  elif [[ $POPUP_TERM =~ "kitty" ]]; then
-    export POPUP_TITLE="--title"
-    export POPUP_NAME="--class"
-    export POPUP_CMD=""
-  else
-    export POPUP_TITLE="-title"
-    export POPUP_NAME="-name"
-    export POPUP_CMD="-e"
-  fi
-  export TERMINAL="kitty"
+  export TERMINAL="wezterm"
   if [[ $TERMINAL =~ "alacritty" ]]; then
     export TERM_TITLE="--title"
     export TERM_NAME="--class"
@@ -548,7 +534,7 @@ if [[ $USER != root ]]; then
     export TERM_TITLE="--title"
     export TERM_NAME="--class"
     export TERM_CMD=""
-  elif [[ $TERMINAL == "wezterm" ]]; then
+  elif [[ $TERMINAL =~ "wezterm" ]]; then
     export TERM_NAME="start --class"
     export TERM_CMD=""
   else
@@ -701,6 +687,7 @@ if [[ $USER != root ]]; then
         rsync -azKl --delete /home/swimmer/.config/rofi/ $host:.config/rofi/
         rsync -az   --delete /home/swimmer/.config/sxhkd/ $host:.config/sxhkd/
         rsync -az   --delete /home/swimmer/.config/wezterm/ $host:.config/wezterm/
+        for j in sync-color-schemes wezterm{,-gui,-mux-server}; rsync -azL --delete /home/swimmer/.local/bin/$j $host:.local/bin/
         rsync -az            /home/swimmer/.config/emoji-list.txt $host:.config/
         rsync -az            /usr/local/bin/bg-toggle $host:/usr/local/bin/
       }
