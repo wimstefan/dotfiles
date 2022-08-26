@@ -99,7 +99,6 @@ bindkey -M menuselect '^xi' vi-insert
 bindkey -M menuselect '^xh' accept-and-hold
 bindkey -M menuselect '^xn' accept-and-infer-next-history
 bindkey -M menuselect '^xu' undo
-
 # }}}2
 # - Key bindings {{{2
 # create a zkbd compatible hash;
@@ -129,7 +128,14 @@ key[PageDown]=${terminfo[knp]}
 [[ -n "${key[Left]}"     ]]  && bindkey  "${key[Left]}"     backward-char
 [[ -n "${key[Right]}"    ]]  && bindkey  "${key[Right]}"    forward-char
 
-bindkey "^R" history-incremental-search-backward
+# separate local & global history
+function only-local-history () {
+  zle set-local-history 1
+  zle up-history
+  zle set-local-history 0
+}
+zle -N only-local-history
+bindkey "^[[1;5A" only-local-history
 
 ## vi-mode ##
 # Invoke it even though it should already be activated by $EDITOR
@@ -329,6 +335,25 @@ export DISPLAY=:0.0
 # anti aliasing in the two toolkits
 export GDK_USE_XFT=1
 export QT_XFT=true
+
+if [[ -z "$XDG_DATA_HOME" ]]; then
+  export XDG_DATA_HOME="$HOME/.local/share"
+fi
+if [[ -z "$XDG_CONFIG_HOME" ]]; then
+  export XDG_CONFIG_HOME="$HOME/.config"
+fi
+if [[ -z "$XDG_CACHE_HOME" ]]; then
+  export XDG_CACHE_HOME="$HOME/.cache"
+fi
+if [[ -z "$XDG_DATA_DIRS" ]]; then
+  export XDG_DATA_DIRS="/usr/local/share:/usr/share"
+fi
+if [[ -z "$XDG_CONFIG_DIRS" ]]; then
+  export XDG_CONFIG_DIRS="/etc/xdg"
+else
+  export XDG_CONFIG_DIRS="/etc/xdg:$XDG_CONFIG_DIRS"
+fi
+
 # }}}3
 # - Aliases {{{3
 # generic aliases
