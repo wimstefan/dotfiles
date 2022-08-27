@@ -58,47 +58,47 @@ export ZLS_COLORS=$LS_COLORS
 zmodload zsh/complist
 autoload -U compinit && compinit -u
 
-zstyle ':completion:*' completer _complete _approximate
+zstyle ":completion:*" completer _complete _approximate
 
-zstyle ':completion:complete:*' use-cache on
-zstyle ':completion:complete:*' cache-path "$HOME/.cache/zsh"
+zstyle ":completion:complete:*" use-cache on
+zstyle ":completion:complete:*" cache-path "$HOME/.cache/zsh"
 
-zstyle ':completion:*' menu select search
-zstyle ':completion:*' complete-options true
-zstyle ':completion:*' squeeze-slashes false
-zstyle ':completion:*' file-sort modification follow
-zstyle ':completion:*' rehash true
-zstyle ':completion:*' verbose true
+zstyle ":completion:*" menu select search
+zstyle ":completion:*" complete-options true
+zstyle ":completion:*" squeeze-slashes false
+zstyle ":completion:*" file-sort modification follow
+zstyle ":completion:*" rehash true
+zstyle ":completion:*" verbose true
 
-zstyle ':completion:*:options' description 'yes'
-zstyle ':completion:*:options' auto-description '%d'
-zstyle ':completion:*:descriptions' format ' %F{yellow}-- %d --%f'
-zstyle ':completion:*:messages' format ' %F{purple} -- %d --%f'
-zstyle ':completion:*:corrections' format ' %F{green}-- %d (errors: %e) --%f'
-zstyle ':completion:*:warnings' format ' %F{red}-- no matches found --%f'
-zstyle ':completion:*:default' list-prompt '%S%M matches%s'
-zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
+zstyle ":completion:*:options" description "yes"
+zstyle ":completion:*:options" auto-description "%d"
+zstyle ":completion:*:descriptions" format " %F{yellow}-- %d --%f"
+zstyle ":completion:*:messages" format " %F{purple} -- %d --%f"
+zstyle ":completion:*:corrections" format " %F{green}-- %d (errors: %e) --%f"
+zstyle ":completion:*:warnings" format " %F{red}-- no matches found --%f"
+zstyle ":completion:*:default" list-prompt "%S%M matches%s"
+zstyle ":completion:*:default" list-colors ${(s.:.)LS_COLORS}
 
-zstyle ':completion:*' group-name ''
-zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}' 'r:|[._-]=* r:|=*' 'l:|=* r:|=*'
+zstyle ":completion:*" group-name ""
+zstyle ":completion:*" matcher-list "m:{a-z}={A-Z}" "r:|[._-]=* r:|=*" "l:|=* r:|=*"
 
-zstyle ':completion:*:history-words' stop yes
-zstyle ':completion:*:history-words' remove-all-dups yes
-zstyle ':completion:*:history-words' list false
-zstyle ':completion:*:history-words' menu yes
+zstyle ":completion:*:history-words" stop yes
+zstyle ":completion:*:history-words" remove-all-dups yes
+zstyle ":completion:*:history-words" list false
+zstyle ":completion:*:history-words" menu yes
 
-zstyle ':completion:*:manuals' separate-sections true
-zstyle ':completion:*:manuals.*' insert-sections true
+zstyle ":completion:*:manuals" separate-sections true
+zstyle ":completion:*:manuals.*" insert-sections true
 
-zstyle ':completion:*' keep-prefix true
+zstyle ":completion:*" keep-prefix true
 
 zstyle -e ':completion:*:(ssh|scp|sftp|rsh|rsync):hosts' hosts 'reply=(${=${${(f)"$(cat {/etc/ssh_,~/.ssh/known_}hosts(|2)(N) /dev/null)"}%%[# ]*}//,/ })'
 
-bindkey -M menuselect '^xg' clear-screen
-bindkey -M menuselect '^xi' vi-insert
-bindkey -M menuselect '^xh' accept-and-hold
-bindkey -M menuselect '^xn' accept-and-infer-next-history
-bindkey -M menuselect '^xu' undo
+bindkey -M menuselect "^xg" clear-screen
+bindkey -M menuselect "^xi" vi-insert
+bindkey -M menuselect "^xh" accept-and-hold
+bindkey -M menuselect "^xn" accept-and-infer-next-history
+bindkey -M menuselect "^xu" undo
 # }}}2
 # - Key bindings {{{2
 # create a zkbd compatible hash;
@@ -146,17 +146,17 @@ KEYTIMEOUT=4
 
 # allow v to edit the command line (standard behaviour)
 autoload -Uz edit-command-line
-bindkey -M vicmd 'v' edit-command-line
+bindkey -M vicmd "v" edit-command-line
 
 function zle-line-init zle-keymap-select {
   if [[ ${KEYMAP} == vicmd ]] ||
-     [[ $1 = 'beam' ]]; then
-    echo -ne '\e[5 q'
+     [[ $1 = "beam" ]]; then
+    echo -ne "\e[5 q"
   elif [[ ${KEYMAP} == main ]] ||
        [[ ${KEYMAP} == viins ]] ||
-       [[ ${KEYMAP} = '' ]] ||
-       [[ $1 = 'block' ]]; then
-    echo -ne '\e[1 q'
+       [[ ${KEYMAP} = "" ]] ||
+       [[ $1 = "block" ]]; then
+    echo -ne "\e[1 q"
   fi
   zle reset-prompt
   zle -R
@@ -200,25 +200,25 @@ local return_status="%?"
 
 autoload -Uz vcs_info
 
-zstyle ':vcs_info:*' enable git hg svn
-zstyle ':vcs_info:*' check-for-changes true
-zstyle ':vcs_info:*' use-simple true
-zstyle ':vcs_info:*' unstagedstr '%B%F{cyan}^u %f%b'
-zstyle ':vcs_info:*' stagedstr '%B%F{yellow}^s %f%b'
+zstyle ":vcs_info:*" enable git hg svn
+zstyle ":vcs_info:*" check-for-changes true
+zstyle ":vcs_info:*" use-simple true
+zstyle ":vcs_info:*" unstagedstr "%B%F{cyan}^u %f%b"
+zstyle ":vcs_info:*" stagedstr "%B%F{yellow}^s %f%b"
 
-zstyle ':vcs_info:*' formats "%B[%F{yellow}%s%f%%b: %F{green}%b%f %m%c%u%B]%%b"
-zstyle ':vcs_info:*' actionformats "%B[%F{yellow}%s%f%%b: %F{green}%b@%a%f %m%c%u%B]%%b"
+zstyle ":vcs_info:*" formats "%B[%F{yellow}%s%f%%b: %F{green}%b%f %m%c%u%B]%%b"
+zstyle ":vcs_info:*" actionformats "%B[%F{yellow}%s%f%%b: %F{green}%b@%a%f %m%c%u%B]%%b"
 
-zstyle ':vcs_info:git*+set-message:*' hooks git-untracked git-aheadbehind git-remotebranch git-changes
+zstyle ":vcs_info:git*+set-message:*" hooks git-untracked git-aheadbehind git-remotebranch git-changes
 ### git: Show marker if there are untracked files in repository
 +vi-git-untracked(){
-  if [[ $(git rev-parse --is-inside-work-tree 2> /dev/null) == 'true' ]] && \
-    git status --porcelain | fgrep '??' &> /dev/null ; then
+  if [[ $(git rev-parse --is-inside-work-tree 2> /dev/null) == "true" ]] && \
+    git status --porcelain | fgrep "??" &> /dev/null ; then
     # This will show the marker if there are any untracked files in repo.
     # If instead you want to show the marker only if there are untracked
     # files in $PWD, use:
     #[[ -n $(git ls-files --others --exclude-standard) ]] ; then
-    hook_com[unstaged]+='%B%F{red}^x %f%b'
+    hook_com[unstaged]+="%B%F{red}^x %f%b"
   fi
 }
 
@@ -227,10 +227,10 @@ function +vi-git-aheadbehind() {
   local ahead behind
   local -a gitstatus
 
-  ahead=$(git rev-list ${hook_com[branch]}@{upstream}..HEAD 2>/dev/null | wc -l | tr -d ' ')
+  ahead=$(git rev-list ${hook_com[branch]}@{upstream}..HEAD 2>/dev/null | wc -l | tr -d " ")
   (( $ahead )) && gitstatus+=( " %F{magenta}+${ahead}%f " )
 
-  behind=$(git rev-list HEAD..${hook_com[branch]}@{upstream} 2>/dev/null | wc -l | tr -d ' ')
+  behind=$(git rev-list HEAD..${hook_com[branch]}@{upstream} 2>/dev/null | wc -l | tr -d " ")
   (( $behind )) && gitstatus+=( " %B%F{magenta}-${behind}%f%b " )
 
   hook_com[misc]+=${(j::)gitstatus}
@@ -264,27 +264,27 @@ function +vi-git-changes() {
   if [[ "$stats" = *changed* ]]; then
     s_ch="~$( echo $stats | sed -s 's/^ \([0-9]*\)\s*file.*/\1/')"
   else
-    s_ch=''
+    s_ch=""
   fi
 
   local s_ins
   if [[ "$stats" = *insertion* ]]; then
     s_ins=" %F{green}+$(echo $stats | sed -s 's/^.*,\s\([0-9]*\)\s*insertion.*/\1/')%f"
   else
-    s_ins=''
+    s_ins=""
   fi
 
   local s_del
   if [[ "$stats" = *deletion* ]]; then
     s_del=" %F{red}-$(echo $stats | sed -s 's/^.*,\s\([0-9]*\)\s*deletion.*/\1/')%f"
   else
-    s_del=''
+    s_del=""
   fi
 
   if [[ -n $s_ch ]]; then
     s_lines="($s_ch$s_ins$s_del) "
   else
-    s_lines=''
+    s_lines=""
   fi
   gitdiff+=( "${s_lines}" )
 
@@ -306,29 +306,29 @@ zle -N bracketed-paste bracketed-paste-magic
 # * Common config for *every* user # {{{2
 # - Exports {{{3
 if [[ "$(command -v nvim)" ]]; then
-  export EDITOR='nvim'
-  export VISUAL='nvim'
-  export MANPAGER='nvim +Man!'
+  export EDITOR="nvim"
+  export VISUAL="nvim"
+  export MANPAGER="nvim +Man!"
   export MANWIDTH=999
   alias -g V="| nview -c 'set ft=man nonumber nolist showtabline=0 foldcolumn=0'"
-  alias v='nvim -R'
-  alias nview='nvim -R'
-  alias nvimdiff='nvim -d'
+  alias v="nvim -R"
+  alias nview="nvim -R"
+  alias nvimdiff="nvim -d"
 else
   export EDITOR="vim"
   export VISUAL="vim"
   export MANPAGER="/bin/sh -c \"col -b | vim --not-a-term -c 'set ft=man ts=8 nomod nolist nonu noma linebreak breakindent wrap' -\""
   export MANWIDTH=999
   alias -g V="| vimpager"
-  alias v='view'
+  alias v="view"
 fi
 export HISTFILE="$HOME/.zsh/histfile"
-export HISTSIZE="5000"
-export SAVEHIST="5000"
+export HISTSIZE=5000
+export SAVEHIST=5000
 export MAKEFLAGS="-j $(nproc)"
 export CVS_RSH="ssh"
-export FZF_DEFAULT_OPTS='-m --cycle --border --layout=reverse --inline-info --height 90% --padding 2% --preview "bat {}" --preview-window right:70%:hidden:wrap --bind "?:toggle-preview" --color=bg+:-1,fg+:-1,hl:36,hl+:36,info:75'
-export FZF_CTRL_T_OPTS='--preview "bat {}" --preview-window right:70%:hidden:wrap --bind "?:toggle-preview"'
+export FZF_DEFAULT_OPTS="-m --cycle --border --layout=reverse --inline-info --height 90% --padding 2% --preview 'bat {}' --preview-window right:70%:hidden:wrap --bind '?:toggle-preview' --color=bg+:-1,fg+:-1,hl:36,hl+:36,info:75"
+export FZF_CTRL_T_OPTS="--preview 'bat {}' --preview-window right:70%:hidden:wrap --bind '?:toggle-preview'"
 export HIGHLIGHT_STYLE="github"
 export XAUTHORITY="$HOME/.Xauthority"
 export DISPLAY=:0.0
@@ -370,9 +370,9 @@ alias lt="exa -hl --git --sort=new"
 alias la="exa -hla --git"
 alias lr="exa -hlR --git --tree --icons $@"
 alias lS="exa -hl --git --sort=size --reverse"
-alias b='${(z)BROWSER}'
-alias e='${(z)VISUAL:-${(z)EDITOR}}'
-alias p='${(z)PAGER}'
+alias b="${(z)BROWSER}"
+alias e="${(z)VISUAL:-${(z)EDITOR}}"
+alias p="${(z)PAGER}"
 alias rm="rm -i --preserve-root"
 alias cp="nocorrect cp -i"
 alias mv="nocorrect mv -i"
@@ -380,7 +380,7 @@ alias scp="rsync"
 alias mkdir="nocorrect mkdir -p --verbose"
 alias mdkir="mkdir"
 alias locate="locate -i"
-alias dmesg='dmesg --human'
+alias dmesg="dmesg --human"
 alias les="less"
 alias gcal="gcal -s1"
 alias cr="check-repos.sh"
@@ -390,23 +390,23 @@ alias eix="eix --force-color"
 alias history="history -i -44"
 alias time="/usr/bin/time"
 alias explore="vifmrun"
-alias x='explore .'
-alias lg='lazygit'
+alias x="explore ."
+alias lg="lazygit"
 ## ugrep
-alias uq='ug -Q'
-alias ux='ug -UX'
-alias uz='ug -z'
-alias ugit='ug -R --ignore-files'
-alias grep='ugrep -G'
-alias egrep='ugrep -E'
-alias fgrep='ugrep -F'
-alias xgrep='ugrep -W'
-alias zgrep='ugrep -zG'
-alias zegrep='ugrep -zE'
-alias zfgrep='ugrep -zF'
-alias zpgrep='ugrep -zP'
-alias zxgrep='ugrep -zW'
-alias xdump='ugrep -X ""'
+alias uq="ug -Q"
+alias ux="ug -UX"
+alias uz="ug -z"
+alias ugit="ug -R --ignore-files"
+alias grep="ugrep -G"
+alias egrep="ugrep -E"
+alias fgrep="ugrep -F"
+alias xgrep="ugrep -W"
+alias zgrep="ugrep -zG"
+alias zegrep="ugrep -zE"
+alias zfgrep="ugrep -zF"
+alias zpgrep="ugrep -zP"
+alias zxgrep="ugrep -zW"
+alias xdump="ugrep -X ''"
 # shortcuts
 alias xreload="xrdb $HOME/.Xresources"
 alias zreload="exec zsh"
@@ -420,17 +420,17 @@ alias 24bugs="w3m 'https://bugs.gentoo.org/buglist.cgi?query_format=advanced&chf
 # - Functions {{{3
 function dus()  { du -s "$@" | sort -rn; }
 
-function ff() { find . -iname '*'$1'*' ; }
+function ff() { find . -iname "*"$1"*" ; }
 
-function fr() { find . -iname '*'$1'*' -exec $2 {} \; ; }
+function fr() { find . -iname "*"$1"*" -exec $2 {} \; ; }
 
 function hc() { herbstclient "$@" }
 
 function ez() { fd --type f --hidden --exclude .git | fzf-tmux -p --reverse | xargs nvim }
 
 function dirdiff() { # compare two directories with vim
-  DIR1=$(printf '%q' "$1"); shift
-  DIR2=$(printf '%q' "$1"); shift
+  DIR1=$(printf "%q" "$1"); shift
+  DIR2=$(printf "%q" "$1"); shift
   $EDITOR $@ -c "DirDiff $DIR1 $DIR2"
 }
 
@@ -477,7 +477,7 @@ function check-overlays() {
 }
 
 function fman() { # use fzf to list all manpages and read
-  man -k . | fzf --prompt='Man> ' | awk '{print $1}' | xargs -r man
+  man -k . | fzf --prompt="Man> " | awk '{print $1}' | xargs -r man
 }
 
 # fzf related functions for usage of the fd command
@@ -492,16 +492,16 @@ _fzf_comprun() {
   shift
 
   case "$command" in
-    cd)           fzf "$@" --preview 'tree -C {} | head -200' ;;
+    cd)           fzf "$@" --preview "tree -C {} | head -200" ;;
     export|unset) fzf "$@" --preview "eval 'echo \$'{}" ;;
-    ssh)          fzf "$@" --preview 'dig {}' ;;
+    ssh)          fzf "$@" --preview "dig {}" ;;
     *)            fzf "$@" ;;
   esac
 }
 
 # Dynamic titles
 function terminal_title_precmd() {
-    print -Pn -- '\e]2;%n@%m:%~\a'
+    print -Pn -- "\e]2;%n@%m:%~\a"
 }
 function terminal_title_preexec() {
     print -Pn -- "\e]2;${(q)1}\a"
@@ -519,7 +519,7 @@ function npm-update()
 
 function pip-update()
 {
-  for i in $(pip freeze --user | cut -d '=' -f 1); echo "--- $i ---" && pip install -U --user $i
+  for i in $(pip freeze --user | cut -d "=" -f 1); echo "--- $i ---" && pip install -U --user $i
 }
 
 # }}}3
@@ -529,7 +529,7 @@ stty -ixon
 if [[ $USER != root ]]; then
   echo "Initializing user settings for $USER ..."
   # - Prompt {{{3
-  PROMPT="$bold$colorfg{blue}$mytime $colorfg{green}[$username]$uncolorfg $unbold$curdir $rootorwhat "
+  PROMPT='$bold$colorfg{blue}$mytime $colorfg{green}[$username]$uncolorfg $unbold$curdir $rootorwhat '
   RPROMPT='$(vi_mode_prompt)'
   if [[ -n ${vcs_info_msg_0_} ]]; then
     RPROMPT+=''
@@ -545,22 +545,26 @@ if [[ $USER != root ]]; then
   path=($HOME/.local/bin $HOME/.cargo/bin $HOME/.gem/ruby/bin $HOME/go/bin $path)
   manpath=($HOME/.local/share/man $manpath)
   export MPD_HOST="localhost"
-  export MPD_PORT="6600"
+  export MPD_PORT=6600
   export GPG_TTY=`tty`
   export GTK2_RC_FILES="$HOME/.gtkrc-2.0"
   export BROWSER="my-eye-into-the-world"
   export COLORTERM=truecolor
   export TERMINAL="wezterm"
   if [[ $TERMINAL =~ "alacritty" ]]; then
+    export TERM_OPT=
     export TERM_TITLE="--title"
     export TERM_NAME="--class"
     export TERM_CMD="--command"
   elif [[ $TERMINAL == "kitty" ]]; then
+    export TERM_OPT=
     export TERM_TITLE="--title"
     export TERM_NAME="--class"
     export TERM_CMD=""
   elif [[ $TERMINAL =~ "wezterm" ]]; then
-    export TERM_NAME="start --class"
+    export TERM_OPT="start"
+    export TERM_TITLE="--class"
+    export TERM_NAME="--class"
     export TERM_CMD=""
   else
     export TERM_TITLE="-title"
@@ -598,12 +602,12 @@ if [[ $USER != root ]]; then
     else
       local mhost="$1"
       echo "Syncing music with $mhost ..."
-      rsync -avz --delete --exclude='.stfolder' /music/Tango/ $mhost:/music/Tango/
-      rsync -avz --delete --exclude='.stfolder' /music/Non-Tango/ $mhost:/music/Non-Tango/
+      rsync -avz --delete --exclude=".stfolder" /music/Tango/ $mhost:/music/Tango/
+      rsync -avz --delete --exclude=".stfolder" /music/Non-Tango/ $mhost:/music/Non-Tango/
       echo "Syncing CDDB info with $mhost ..."
       rsync -avz /home/swimmer/.cddb/ $mhost:/home/swimmer/.cddb/
       echo "Syncing playlists with $mhost ..."
-      rsync -avz --delete --exclude='.stfolder' /music/playlists/ $mhost:/music/playlists/
+      rsync -avz --delete --exclude=".stfolder" /music/playlists/ $mhost:/music/playlists/
     fi
   }
   function sync-music-pretend()
@@ -619,12 +623,12 @@ if [[ $USER != root ]]; then
     else
       local mhost="$1"
       echo "Syncing music with $mhost ..."
-      rsync -avzn --delete --exclude='.stfolder' /music/Tango/ $mhost:/music/Tango/
-      rsync -avzn --delete --exclude='.stfolder' /music/Non-Tango/ $mhost:/music/Non-Tango/
+      rsync -avzn --delete --exclude=".stfolder" /music/Tango/ $mhost:/music/Tango/
+      rsync -avzn --delete --exclude=".stfolder" /music/Non-Tango/ $mhost:/music/Non-Tango/
       echo "Syncing CDDB info with $mhost ..."
       rsync -avzn /home/swimmer/.cddb/ $mhost:/home/swimmer/.cddb/
       echo "Syncing playlists with $mhost ..."
-      rsync -avzn --delete --exclude='.stfolder' /music/playlists/ $mhost:/music/playlists/
+      rsync -avzn --delete --exclude=".stfolder" /music/playlists/ $mhost:/music/playlists/
     fi
   }
   function flac2ogg()
@@ -656,7 +660,7 @@ if [[ $USER != root ]]; then
     # task
 
     # X related stuff
-    export POLYBAR_HEIGHT="55"
+    export POLYBAR_HEIGHT=55
 
     # Key management
     eval `keychain --eval --agents gpg,ssh 451CEE7036BBF00C id_rsa`
@@ -689,7 +693,7 @@ if [[ $USER != root ]]; then
         local host=$1
         echo "Syncing terminal & X settings on $host ..."
         rsync -az            /home/swimmer/.Xresources $host:
-        rsync -az   --delete --exclude '.thumbs' --exclude '.xcf' /home/swimmer/system/wallpapers/ $host\:system/wallpapers/
+        rsync -az   --delete --exclude ".thumbs" --exclude ".xcf" /home/swimmer/system/wallpapers/ $host\:system/wallpapers/
         rsync -azK  --delete /usr/local/share/cursors/ $host:/usr/local/share/cursors/
         rsync -az   --delete /usr/local/share/icons/ $host:/usr/local/share/icons/
         rsync -azkL --delete /usr/local/share/themes/ $host:/usr/local/share/themes/
@@ -821,7 +825,7 @@ if [[ $USER != root ]]; then
     echo "Loading host specific settings for $HOST ..."
 
     # X related stuff
-    export POLYBAR_HEIGHT="35"
+    export POLYBAR_HEIGHT=35
 
     # Key management
     eval `keychain --eval --agents gpg,ssh 451CEE7036BBF00C id_rsa`
@@ -876,7 +880,9 @@ else
   function all-update ()
   {
      rkhunter --propupd
-     env-update;
+     eclean-dist -d
+     eclean-pkg -d
+     env-update
      exec zsh
   }
   function fc() {
@@ -942,7 +948,7 @@ fi
 ## Shell integration
 if [[ -n $KITTY_INSTALLATION_DIR ]]; then
   export KITTY_SHELL_INTEGRATION="enabled"
-  autoload -Uz -- "$KITTY_INSTALLATION_DIR"/shell-integration/zsh/kitty-integration
+  autoload -Uz -- $KITTY_INSTALLATION_DIR/shell-integration/zsh/kitty-integration
   kitty-integration
   unfunction kitty-integration
 fi
