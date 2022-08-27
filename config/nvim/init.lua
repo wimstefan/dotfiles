@@ -552,18 +552,24 @@ packer.startup(function()
             enable = true,
             lookahead = true,
             keymaps = {
-              ['af'] = '@function.outer',
-              ['if'] = '@function.inner',
-              ['ap'] = '@parameter.outer',
-              ['ip'] = '@parameter.inner',
+              ['aa'] = '@attribute.outer',
+              ['ia'] = '@attribute.inner',
               ['ab'] = '@block.outer',
               ['ib'] = '@block.inner',
-              ['am'] = '@class.outer',
-              ['im'] = '@class.inner',
-              ['aa'] = '@call.outer',
-              ['ia'] = '@call.inner',
+              ['at'] = '@call.outer',
+              ['it'] = '@call.inner',
+              ['ac'] = '@class.outer',
+              ['ic'] = '@class.inner',
               ['a/'] = '@comment.outer',
-              ['i/'] = '@comment.inner'
+              ['i/'] = '@comment.inner',
+              ['ai'] = '@conditional.outer',
+              ['ii'] = '@conditional.inner',
+              ['af'] = '@function.outer',
+              ['if'] = '@function.inner',
+              ['al'] = '@loop.outer',
+              ['il'] = '@loop.inner',
+              ['ap'] = '@parameter.outer',
+              ['ip'] = '@parameter.inner',
             }
           }
         }
