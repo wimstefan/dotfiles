@@ -265,7 +265,7 @@ augroup General
   autocmd BufNewFile,BufRead *.m3u set encoding=utf-8 fileencoding=utf-8 ff=unix
   autocmd BufWritePost X{resources,defaults} silent !xrdb %
   autocmd BufNewFile,BufRead *cddb* set encoding=utf-8 fileencoding=utf-8 ff=unix
-  autocmd FileType txt,markdown,asciidoc*,rst if &filetype !~ 'man\|help' | setlocal spell | endif
+  autocmd FileType txt,markdown,asciidoc*,rst,gitcommit if &filetype !~ 'man\|help' | setlocal spell | endif
   autocmd FileType help,man,startuptime,qf,lspinfo,checkhealth nnoremap <buffer><silent>q :bdelete<CR>
   autocmd BufWinEnter * if &previewwindow | setlocal nofoldenable | endif
   autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") && &ft !~# 'commit' | execute "normal! g`\"" | endif
@@ -2040,4 +2040,4 @@ use({
 end)
 require('packer_compiled')
 -- }}}1 --------------------- PLUGINS ------------------------------------------
--- vim: foldmethod=marker foldlevel=1
+-- vim: foldmethod=marker foldlevel=0
