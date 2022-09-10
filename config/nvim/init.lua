@@ -439,7 +439,7 @@ end
 -- {{{1 --------------------- PLUGINS ------------------------------------------
 local install_path = vim.fn.stdpath('data') .. '/site/pack/packer/start/packer.nvim'
 if vim.fn.empty(vim.fn.glob(install_path)) > 0 then
-  vim.fn.system({ 'git', 'clone', '--depth', '1', 'https://github.com/shadmansaleh/packer.nvim', install_path })
+  vim.fn.system({ 'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim', install_path })
 end
 
 local packer = require('packer')
@@ -459,13 +459,17 @@ packer.startup(function()
   })
   -- {{{2 packer.nvim
   use({
-    'shadmansaleh/packer.nvim',
+    'wbthomason/packer.nvim',
     config = function()
-      vim.keymap.set('n', ',pc', vim.cmd.PackerClean)
-      vim.keymap.set('n', ',pi', vim.cmd.PackerInstall)
-      vim.keymap.set('n', ',pq', vim.cmd.PackerStatus)
-      vim.keymap.set('n', ',ps', vim.cmd.PackerSync)
-      vim.keymap.set('n', ',pu', vim.cmd.PackerUpdate)
+      vim.keymap.set('n', ',pc', vim.cmd.PackerClean, { desc = 'Packer: clean' })
+      vim.keymap.set('n', ',pi', vim.cmd.PackerInstall, { desc = 'Packer: install' })
+      vim.keymap.set('n', ',pq', vim.cmd.PackerStatus, { desc = 'Packer: status' })
+      vim.keymap.set('n', ',ps', function()
+        vim.cmd.PackerSync({ args = { '--preview' }})
+      end, { desc = 'Packer: sync with preview' })
+      vim.keymap.set('n', ',pu', function()
+        vim.cmd.PackerUpdate({ args = { '--preview' }})
+      end, { desc = 'Packer: update with preview' })
     end
   })
   -- }}}
@@ -475,7 +479,7 @@ packer.startup(function()
   -- {{{2 FixCursorHold.nvim
   use('antoinemadec/FixCursorHold.nvim')
   -- }}}
-  -- {{{2 startuptime
+  -- {{{2 Startuptime
   use('dstein64/vim-startuptime')
   -- }}}
   -- {{{2 Treesitter
