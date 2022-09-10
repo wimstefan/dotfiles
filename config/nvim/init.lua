@@ -1130,6 +1130,12 @@ packer.startup(function()
     end
   })
   -- }}}
+  -- {{{2 nvim-luapad
+  use({
+    'rafcamlet/nvim-luapad',
+    requires = 'antoinemadec/FixCursorHold.nvim'
+  })
+  -- }}}
   -- {{{2 which-key.nvim
   use({
     'folke/which-key.nvim',
@@ -1308,7 +1314,12 @@ packer.startup(function()
   use({
     'jakewvincent/mkdnflow.nvim',
     config = function()
-      require('mkdnflow').setup({})
+      require('mkdnflow').setup({
+        mappings = {
+          MkdnTableNextCell = {'i', '<M-Tab>'},
+          MkdnTablePrevCell = {'i', '<M-S-Tab>'},
+        }
+      })
     end
   })
   -- }}}
@@ -1444,8 +1455,8 @@ use({
       require('paperplanes').setup({
         register = '+',
         provider = 'dpaste.org',
-        provider_options = { 'https' },
-        cmd = 'curl'
+        provider_options = {},
+        notifier = vim.notify or print
       })
     end
   })
