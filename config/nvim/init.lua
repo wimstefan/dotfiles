@@ -920,6 +920,7 @@ packer.startup(function()
       },
     },
     config = function()
+      require('lua-dev').setup()
       local lsp_aerial = require('aerial')
       local lsp_cmp = require('cmp_nvim_lsp')
       local lsp_config = require('lspconfig')
@@ -973,7 +974,8 @@ packer.startup(function()
           lsp_messages = lsp_messages .. 'no format' .. lsp_msg_sep
         end
         if client.server_capabilities.documentRangeFormattingProvider then
-          vim.keymap.set({ 'v', 'x' }, ',lf', ':<C-u>call v:lua.vim.lsp.buf.range_formatting()<CR>',
+          vim.keymap.set({ 'v', 'x' }, ',lf',
+            function() vim.lsp.buf.format({ async = true, range = { 0, vim.fn.argc() } }) end,
             { desc = 'LSP: range formatting' }, { buffer = bufnr })
         else
           lsp_messages = lsp_messages .. 'no rangeFormat' .. lsp_msg_sep
@@ -1020,19 +1022,35 @@ packer.startup(function()
       end
 
       local capabilities = vim.lsp.protocol.make_client_capabilities()
+      capabilities.textDocument.completion.completionItem.snippetSupport = true
+      capabilities.textDocument.completion.completionItem.preselectSupport = true
+      capabilities.textDocument.completion.completionItem.insertReplaceSupport = true
+      capabilities.textDocument.completion.completionItem.labelDetailsSupport = true
+      capabilities.textDocument.completion.completionItem.deprecatedSupport = true
+      capabilities.textDocument.completion.completionItem.commitCharactersSupport = true
+      capabilities.textDocument.completion.completionItem.tagSupport = {
+        valueSet = {
+          1
+        }
+      }
+      capabilities.textDocument.completion.completionItem.resolveSupport = {
+        properties = {
+          'documentation',
+          'detail',
+          'additionalTextEdits',
+        }
+      }
       capabilities.textDocument.foldingRange = {
         dynamicRegistration = false,
         lineFoldingOnly = true
       }
-      capabilities = lsp_cmp.update_capabilities(capabilities)
 
       -- LSP servers
       local servers = {
         bashls = {
           filetypes = {
             'sh',
-            'bash',
-            'zsh'
+            'bash'
           }
         },
         cssls = {},
@@ -1045,41 +1063,10 @@ packer.startup(function()
         },
         jsonls = {},
         marksman = {},
-        vimls = {},
-      }
-      for name, opts in pairs(servers) do
-        if type(opts) == 'function' then
-          opts()
-        else
-          local client = lsp_config[name]
-          client.setup(vim.tbl_extend('force', {
-            on_attach = on_attach,
-            capabilities = capabilities,
-          }, opts))
-        end
-      end
-
-      -- lua
-      local sumneko_binary = vim.fn.stdpath('data') .. '/lspconfig/lua-language-server/bin/lua-language-server'
-      local runtime_path = vim.split(package.path, ';')
-      table.insert(runtime_path, 'lua/?.lua')
-      table.insert(runtime_path, 'lua/?/init.lua')
-      local lua_dev = require('lua-dev').setup({
-        library = {
-          vimruntime = true,
-          types = true,
-          plugins = true
-        },
-        lspconfig = {
-          capabilities = capabilities,
-          cmd = { sumneko_binary },
-          on_attach = on_attach,
+        sumneko_lua = {
+          cmd = { vim.fn.stdpath('data') .. '/lspconfig/lua-language-server/bin/lua-language-server' },
           settings = {
             Lua = {
-              runtime = {
-                version = 'LuaJIT',
-                path = runtime_path
-              },
               diagnostics = {
                 enable_check_codestyle = true,
                 globals = {
@@ -1112,20 +1099,25 @@ packer.startup(function()
                   if_condition_align_with_each_other = true,
                 }
               },
-              workspace = {
-                library = {
-                  vim.api.nvim_get_runtime_file('', true)
-                },
-                preloadFileSize = 500
-              },
               telemetry = {
                 enable = false
               },
             },
           }
-        }
-      })
-      lsp_config.sumneko_lua.setup(lua_dev)
+        },
+        vimls = {},
+      }
+      for name, opts in pairs(servers) do
+        if type(opts) == 'function' then
+          opts()
+        else
+          local client = lsp_config[name]
+          client.setup(vim.tbl_extend('force', {
+            on_attach = on_attach,
+            capabilities = capabilities,
+          }, opts))
+        end
+      end
 
     end
   })
