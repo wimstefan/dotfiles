@@ -327,11 +327,15 @@ return {
 
   -- Fonts
   font = font_set(my_font),
-  font_size = font_size(my_font),
   font_rules = font_rules(my_font),
+  font_size = font_size(my_font),
+  char_select_font_size = font_size(my_font),
+  freetype_load_target = 'Light',
   allow_square_glyphs_to_overflow_width = 'WhenFollowedBySpace',
   custom_block_glyphs = true,
   warn_about_missing_glyphs = false,
+  underline_position = '-1.4pt',
+  underline_thickness = '1.4pt',
 
   -- Behaviour
   term = 'wezterm',
@@ -377,6 +381,8 @@ return {
 
   -- Key bindings
   disable_default_key_bindings = true,
+  use_ime = false,
+  debug_key_events = false,
   leader = { key = 'q', mods = 'CTRL' },
   keys = {
     { key = '-', mods = 'CTRL', action = act.DecreaseFontSize },
@@ -384,6 +390,7 @@ return {
     { key = '0', mods = 'CTRL', action = act.ResetFontSize },
     { key = 'c', mods = 'CTRL|SHIFT', action = act.CopyTo 'Clipboard' },
     { key = 'v', mods = 'CTRL|SHIFT', action = act.PasteFrom 'Clipboard' },
+    { key = 'Z', mods = 'CTRL|SHIFT', action = act.CharSelect },
     { key = 'PageUp', mods = 'SHIFT', action = act.ScrollByPage(-1) },
     { key = 'PageDown', mods = 'SHIFT', action = act.ScrollByPage(1) },
     { key = 'd', mods = 'LEADER', action = act.ShowDebugOverlay },
@@ -409,6 +416,7 @@ return {
     { key = 'w', mods = 'LEADER|SHIFT', action = act.CloseCurrentTab{ confirm = true } },
     { key = '|', mods = 'LEADER|SHIFT', action = act.SplitHorizontal{ domain = 'CurrentPaneDomain' } },
     { key = '-', mods = 'LEADER', action = act.SplitVertical{ domain = 'CurrentPaneDomain' } },
+    { key = 'P', mods = 'LEADER', action = act.PaneSelect },
     { key = 'z', mods = 'LEADER', action = act.TogglePaneZoomState },
     { key = '0', mods = 'LEADER', action = act.ActivateTab(0) },
     { key = '1', mods = 'LEADER', action = act.ActivateTab(1) },
