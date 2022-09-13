@@ -128,7 +128,6 @@ hc attr settings.focus_stealing_prevention true
 hc attr settings.default_frame_layout grid
 hc attr settings.smart_frame_surroundings hide_all
 hc attr settings.always_show_frame false
-hc attr settings.tabbed_max true
 hc attr settings.frame_border_width "$gap"
 hc attr settings.frame_transparent_width 0
 hc attr settings.frame_bg_transparent true
@@ -139,6 +138,7 @@ hc attr settings.frame_active_opacity 0
 hc attr settings.frame_border_normal_color "$color_normal"
 hc attr settings.frame_normal_opacity 50
 
+hc attr settings.tabbed_max true
 hc attr settings.smart_window_surroundings true
 hc attr settings.gapless_grid true
 hc attr settings.window_gap "$gap"
@@ -194,5 +194,9 @@ while pgrep -x picom >/dev/null; do sleep 1; done
 /usr/local/src/Tools/x11/picom-ibhagwan.git/build/src/picom --experimental-backends --config $HOME/.config/picom/herbstluftwm.conf &
 pkill dunst
 dunst &
-feh --bg-fill $HOME/system/wallpapers/default.jpg &
+if [ $HOSTNAME = 'swimmer' ]; then
+  feh --conversion-timeout 1 --image-bg $color_bg --bg-max --geometry '+1900' $HOME/system/wallpapers/gecko.svg &
+elif [ $HOSTNAME = 'tj' ]; then
+  feh --conversion-timeout 4 --image-bg $color_bg --bg-max --geometry '+900' $HOME/system/wallpapers/gecko.svg &
+fi
 $HOME/.config/polybar/launch.sh
