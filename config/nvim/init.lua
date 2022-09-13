@@ -494,6 +494,7 @@ packer.startup(function()
       'JoosepAlviste/nvim-ts-context-commentstring'
     },
     config = function()
+      vim.g.ts_highlight_lua = true
       require('nvim-treesitter.configs').setup({
         auto_install = true,
         autotag = {
