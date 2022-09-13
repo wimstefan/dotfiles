@@ -296,7 +296,7 @@ augroup Packer
   autocmd VimEnter call v:lua.require('packer').sync()
   autocmd FileType packer set previewheight=30
   autocmd FileType git set nolist nonumber norelativenumber
-  autocmd BufWritePost init.lua if expand('%s') =~ '%s' || expand('%s') =~ '%s' && expand('%s') !~ 'fugitive\|scp' | source <afile> | call v:lua.require('packer').sync() | endif
+  autocmd BufWritePost init.lua if expand('%s') =~ '%s' || expand('%s') =~ '%s' && expand('%s') !~ 'fugitive\|scp' | source <afile> | call v:lua.require('packer').clean() | call v:lua.require('packer').sync() | endif
 augroup end
 ]], '%:p', vim.fn.stdpath('config'), '%:p', vim.fn.getenv('HOME') .. '/.dotfiles/', '%'))
 -- }}}1 --------------------- AUTOCMDS -----------------------------------------
