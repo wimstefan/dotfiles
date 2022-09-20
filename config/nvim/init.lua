@@ -93,6 +93,13 @@ vim.g.netrw_preview = 0
 vim.g.netrw_alto = 0
 
 -- Visual configuration options
+-- colour scheme
+if vim.fn.filereadable(vim.fn.expand('$HOME/.config/colours/nvim_theme.lua')) == 1 then
+  vim.api.nvim_command [[luafile $HOME/.config/colours/nvim_theme.lua]]
+else
+  vim.api.nvim_command [[colorscheme quiet]]
+end
+
 -- symbols --
 My_Symbols = {
   Array = ' ', -- '謹',
@@ -127,6 +134,7 @@ My_Symbols = {
   Value = ' ', -- ' ',
   Variable = ' ', -- ' ', -- ' ',
 }
+
 -- borders --
 -- My_Borders = { '╤', '═', '╤', '│', '╧', '═', '╧', '│' }
 -- My_Borders = { '╓', '─', '╖', '║', '╜', '─', '╙', '║' }
@@ -1591,6 +1599,9 @@ use({
         diagnostics = {
           background = false
         },
+        lualine = {
+          transparent = true
+        },
         toggle_style_key = ',tos',
         toggle_style_list = { 'cool', 'deep', 'light' },
       })
@@ -1601,16 +1612,15 @@ use({
   use({
     'nvim-lualine/lualine.nvim',
     config = function()
-      if vim.fn.filereadable(vim.fn.expand('$HOME/.config/colours/nvim_theme.lua')) == 1 then
-        vim.api.nvim_command [[luafile $HOME/.config/colours/nvim_theme.lua]]
-      else
-        vim.api.nvim_command [[colorscheme desert]]
-      end
-      local check_width = function()
-        return vim.fn.winwidth(0) > 100
-      end
-      local check_width_wide = function()
-        return vim.fn.winwidth(0) > 140
+      local function trunc(trunc_width, trunc_len, hide_width, no_ellipsis)
+        return function(str)
+          local win_width = vim.fn.winwidth(0)
+          if hide_width and win_width < hide_width then return ''
+          elseif trunc_width and trunc_len and win_width < trunc_width and #str > trunc_len then
+            return str:sub(1, trunc_len) .. (no_ellipsis and '' or '...')
+          end
+          return str
+        end
       end
       local get_modified = function()
         return '%m' or ''
@@ -1712,17 +1722,21 @@ use({
             {
               get_session,
               padding = 1,
-              color = { fg = 'yellow' },
+              color = { fg = 'brown' },
             },
           },
           lualine_x = {
             {
               'aerial',
-              cond = check_width_wide
+              separator = ' ▌',
+              fmt = trunc(120, 60, 140)
             },
             {
               lsp_status,
-              cond = check_width
+              fmt = trunc(80, 40, 100),
+              on_click = function()
+                vim.cmd('LspInfo')
+              end
             },
             {
               'diagnostics',
@@ -1747,6 +1761,9 @@ use({
               -- symbols = { added = '洛 ', modified = '  ', removed = '  ' },
               -- symbols = { added = 'ﰂ  ', modified = '  ', removed = 'ﯰ  ' },
               symbols = { added = '落 ', modified = '  ', removed = '  ' },
+              on_click = function()
+                vim.cmd.Lazygit()
+              end
             },
             {
               'branch',
@@ -1765,8 +1782,15 @@ use({
         },
         tabline = {
           lualine_a = { window },
+          lualine_b = {
+            {
+              get_path,
+              on_click = function()
+                vim.cmd.Vifm()
+              end
+            }
+          },
           lualine_c = { 'buffers' },
-          lualine_b = { get_path },
           lualine_x = {},
           lualine_y = {},
           lualine_z = {
@@ -1778,6 +1802,7 @@ use({
         },
         extensions = { 'aerial', 'fugitive', 'fzf', 'man', minimal_extension, 'quickfix', 'toggleterm' },
       })
+      require('lualine').refresh()
     end
   })
   -- }}}
