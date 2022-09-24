@@ -590,155 +590,158 @@ packer.startup(function()
     end
   })
   -- }}}
-  -- {{{2 Telescope
+  -- {{{2 FZF
   use({
-    'nvim-telescope/telescope.nvim',
+    'ibhagwan/fzf-lua',
     requires = {
-      'nvim-lua/plenary.nvim',
-      {
-        'nvim-telescope/telescope-fzf-native.nvim',
-        run = 'make'
-      }
+      { 'junegunn/fzf', run = './install --all --xdg' }
     },
     config = function()
-      vim.keymap.set('n', '<Leader>t', require('telescope.builtin').builtin, { desc = 'Telescope: builtin' })
-      vim.keymap.set('n', '<Leader>b', require('telescope.builtin').buffers, { desc = 'Telescope: buffers' })
-      vim.keymap.set('n', '<Leader>c', require('telescope.builtin').colorscheme, { desc = 'Telescope: colorschemes' })
-      vim.keymap.set('n', '<Leader>f', require('telescope.builtin').find_files, { desc = 'Telescope: find files' })
-      vim.keymap.set('n', '<Leader>o', require('telescope.builtin').oldfiles, { desc = 'Telescope: oldfiles' })
-      vim.keymap.set('n', '<Leader>tg', function() require('telescope.builtin').live_grep({ grep_open_files = true }) end
-        , { desc = 'Telescope: grep current file' })
-      vim.keymap.set('n', '<Leader>tG', require('telescope.builtin').live_grep, { desc = 'Telescope: grep all files' })
-      vim.keymap.set('n', '<Leader>h', require('telescope.builtin').help_tags, { desc = 'Telescope: help' })
-      vim.keymap.set('n', '<Leader>M', require('telescope.builtin').man_pages, { desc = 'Telescope: man' })
-      vim.keymap.set('n', '<Leader>m', require('telescope.builtin').marks, { desc = 'Telescope: marks' })
-      vim.keymap.set('n', '<Leader>r', require('telescope.builtin').registers, { desc = 'Telescope: registers' })
-      vim.keymap.set('n', '<Leader>tgb', require('telescope.builtin').git_bcommits,
-        { desc = 'Telescope: git buffer commits' })
-      vim.keymap.set('n', '<Leader>tgc', require('telescope.builtin').git_commits, { desc = 'Telescope: git commits' })
-      vim.keymap.set('n', '<Leader>tgf', require('telescope.builtin').git_files, { desc = 'Telescope: git files' })
-      vim.keymap.set('n', '<Leader>tgs', require('telescope.builtin').git_status, { desc = 'Telescope: git status' })
-      vim.keymap.set('n', '<Leader>tc', require('telescope.builtin').command_history,
-        { desc = 'Telescope: command history' })
-      vim.keymap.set('n', '<Leader>tf', require('telescope.builtin').filetypes, { desc = 'Telescope: filetypes' })
-      vim.keymap.set('n', '<Leader>tm', require('telescope.builtin').keymaps, { desc = 'Telescope: keymaps' })
-      vim.keymap.set('n', '<Leader>tq', require('telescope.builtin').quickfix, { desc = 'Telescope: quickfix' })
-      vim.keymap.set('n', '<Leader>ts', require('telescope.builtin').spell_suggest, { desc = 'Telescope: spell suggest' })
-      vim.keymap.set('n', '<Leader>tw', require('telescope.builtin').grep_string, { desc = 'Telescope: grep string' })
-      vim.keymap.set('n', '<Leader>tz', require('telescope.builtin').current_buffer_fuzzy_find,
-        { desc = 'Telescope: fuzzy find buffer' })
-      require('telescope').setup({
-        defaults = {
-          prompt_prefix = '∷ ',
-          selection_caret = '» ',
-          dynamic_preview_title = true,
-          wrap_results = true,
-          file_ignore_patterns = { '^.git/', 'db', 'gif', 'jpeg', 'jpg', 'ods', 'odt', 'pdf', 'png', 'svg', 'xcf', 'xls' },
-          layout_strategy = 'bottom_pane',
-          sorting_strategy = 'ascending',
-          layout_config = {
-            prompt_position = 'top',
-            center = {
-              mirror = true
-            },
-            horizontal = {
-              anchor = 'NE',
-              height = 0.99,
-              width = 0.66,
-              preview_width = 0.55
-            },
-            vertical = {
-              anchor = 'NE',
-              width = 0.50,
-              height = 0.99,
-              preview_cutoff = 4,
-              preview_height = 0.66,
-              mirror = true
-            },
-          },
-          mappings = {
-            i = {
-              ['<C-h>'] = 'which_key',
-              ['<C-w>'] = require('telescope.actions.layout').toggle_preview,
-              ['<C-q>'] = require('telescope.actions').smart_send_to_qflist + require('telescope.actions').open_qflist,
-              ['<M-q>'] = require('telescope.actions').smart_add_to_qflist + require('telescope.actions').open_qflist,
-            },
-            n = {
-              ['<C-h>'] = 'which_key',
-              ['<C-w>'] = require('telescope.actions.layout').toggle_preview,
-              ['<C-q>'] = require('telescope.actions').smart_send_to_qflist + require('telescope.actions').open_qflist,
-              ['<M-q>'] = require('telescope.actions').smart_add_to_qflist + require('telescope.actions').open_qflist,
-            },
-          },
-          preview = {
-            msg_bg_fillchar = '░',
-          },
-          vimgrep_arguments = {
-            'ugrep',
-            '-RIjnkz',
-            '--color=never',
-            '--hidden',
-            '--ignore-files',
-            '--exclude-dir=".git"'
-          }
-        },
-        pickers = {
-          builtin = {
-            layout_strategy = 'vertical',
-            previewer = false
-          },
-          colorscheme = {
-            theme = 'dropdown',
-            enable_preview = true
-          },
-          diagnostics = {
-            layout_strategy = 'vertical'
-          },
-          find_files = {
-            find_command = { 'fd', '--exclude', '.git/' },
-            follow = true,
-            hidden = true,
-            no_ignore = false
-          },
-          filetypes = {
-            theme = 'dropdown'
-          },
-          git_branches = {
-            layout_strategy = 'vertical'
-          },
-          lsp_declarations = {
-            layout_strategy = 'vertical'
-          },
-          lsp_definitions = {
-            layout_strategy = 'vertical'
-          },
-          lsp_implementations = {
-            layout_strategy = 'vertical'
-          },
-          lsp_references = {
-            layout_strategy = 'vertical'
-          },
-          oldfiles = {
-            layout_strategy = 'vertical',
-            previewer = false
-          },
-          spell_suggest = {
-            theme = 'cursor',
-            layout_config = {
-              height = 14
-            }
-          }
-        },
-        extensions = {
-          fzf = {
-            fuzzy = true,
-            override_generic_sorter = true,
-            override_file_sorter = true,
-            case_mode = 'smart_case'
-          }
+      local fzf_lua = require('fzf-lua')
+      fzf_lua.register_ui_select({
+        winopts = {
+          height = 0.2,
+          width = 0.3
         }
       })
-      require('telescope').load_extension('fzf')
+      local bottom_row = {
+        height = 0.4,
+        width = 1,
+        row = 1,
+        col = 0,
+        preview = {
+          layout = 'horizontal',
+          horizontal = 'right:55%',
+        }
+      }
+      local right_popup = {
+        height = 0.97,
+        width = 0.2,
+        row = 0.2,
+        col = 1
+      }
+      local center_popup = {
+        win_height = 0.2,
+        win_width = 0.3,
+        win_row = 0.5,
+        win_col = 0.5
+      }
+      local right_column = {
+        height = 1,
+        width = 0.45,
+        row = 0,
+        col = 1,
+        preview = {
+          layout = 'vertical',
+          vertical = 'down:65%'
+        }
+      }
+
+      local function show_notifications()
+        local opts = {}
+        opts.prompt = 'Notifications> '
+        opts.fzf_opts = {
+          ['--no-multi'] = ''
+        }
+
+        local entries = require('notify').history()
+        local notifications = {}
+        for i = #entries, 1, -1 do
+          local function diag_level_code(diag)
+            local level = entries[i].level
+            if level == "ERROR" then
+              return fzf_lua.utils.ansi_codes.red(diag)
+            elseif level == "WARN" then
+              return fzf_lua.utils.ansi_codes.yellow(diag)
+            elseif level == "INFO" then
+              return fzf_lua.utils.ansi_codes.green(diag)
+            elseif level == "HINT" then
+              return fzf_lua.utils.ansi_codes.blue(diag)
+            end
+          end
+
+          table.insert(notifications,
+            string.format('%-5s %18s   %4s %14s   %s',
+            fzf_lua.utils.ansi_codes.blue(vim.fn.strftime('%F %H:%M', entries[i].time)),
+            fzf_lua.utils.ansi_codes.magenta(entries[i].title[1]),
+            diag_level_code(entries[i].icon),
+            diag_level_code(entries[i].level),
+            entries[i].message[1])
+          )
+        end
+
+        if vim.tbl_isempty(notifications) then return end
+        fzf_lua.fzf_exec(notifications, opts)
+      end
+
+      vim.keymap.set('n', '<Leader>F', require('fzf-lua').builtin, { desc = 'Fzf: builtin' })
+      vim.keymap.set('n', '<Leader>b', require('fzf-lua').buffers, { desc = 'Fzf: buffers' })
+      vim.keymap.set('n', '<Leader>c', require('fzf-lua').colorschemes, { desc = 'Fzf: colorschemes' })
+      vim.keymap.set('n', '<Leader>f', require('fzf-lua').files, { desc = 'Fzf: files' })
+      vim.keymap.set('n', '<Leader>o', require('fzf-lua').oldfiles, { desc = 'Fzf: oldfiles' })
+      vim.keymap.set('n', '<Leader>fg', require('fzf-lua').lgrep_curbuf, { desc = 'Fzf: grep current file' })
+      vim.keymap.set('n', '<Leader>fG', require('fzf-lua').live_grep_native, { desc = 'Fzf: grep all files' })
+      vim.keymap.set('n', '<Leader>h', require('fzf-lua').help_tags, { desc = 'Fzf: help' })
+      vim.keymap.set('n', '<Leader>M', require('fzf-lua').man_pages, { desc = 'Fzf: man' })
+      vim.keymap.set('n', '<Leader>m', require('fzf-lua').marks, { desc = 'Fzf: marks' })
+      vim.keymap.set('n', '<Leader>r', require('fzf-lua').registers, { desc = 'Fzf: registers' })
+      vim.keymap.set('n', '<Leader>fgb', require('fzf-lua').git_bcommits, { desc = 'Fzf: git buffer commits' })
+      vim.keymap.set('n', '<Leader>fgc', require('fzf-lua').git_commits, { desc = 'Fzf: git commits' })
+      vim.keymap.set('n', '<Leader>fgf', require('fzf-lua').git_files, { desc = 'Fzf: git files' })
+      vim.keymap.set('n', '<Leader>fgs', require('fzf-lua').git_status, { desc = 'Fzf: git status' })
+      vim.keymap.set('n', '<Leader>fc', require('fzf-lua').command_history, { desc = 'Fzf: command history' })
+      vim.keymap.set('n', '<Leader>fm', require('fzf-lua').keymaps, { desc = 'Fzf: keymaps' })
+      vim.keymap.set('n', '<Leader>fq', require('fzf-lua').quickfix, { desc = 'Fzf: quickfix' })
+      vim.keymap.set('n', '<Leader>fs', require('fzf-lua').spell_suggest, { desc = 'Fzf: spell suggest' })
+      vim.keymap.set('n', '<Leader>fw', require('fzf-lua').grep_cword, { desc = 'Fzf: grep string' })
+      vim.keymap.set('n', '<Leader>fn', function() show_notifications() end, { desc = 'Fzf: notifications' })
+
+      fzf_lua.setup({
+        global_resume = true,
+        winopts = bottom_row,
+        builtin = {
+          winopts = right_column
+        },
+        colorschemes = {
+          winopts = right_popup
+        },
+        diagnostics = {
+          winopts = right_column
+        },
+        files = {
+          prompt = 'Files❯ ',
+        },
+        git = {
+          branches = {
+            winopts = right_column
+          },
+          bcommits = {
+            winopts = right_column
+          },
+          commits = {
+            winopts = right_column
+          },
+          status = {
+            winopts = right_column
+          },
+        },
+        grep = {
+          cmd = 'ugrep -RIjnkzs --hidden --ignore-files --exclude-dir=".git"',
+          winopts = right_column
+        },
+        highlights = {
+          winopts = right_column
+        },
+        lsp = {
+          ui_select = true,
+          code_actions = {
+            winopts = center_popup
+          }
+        },
+        spell_suggest = {
+          winopts = right_column
+        }
+      })
     end
   })
   -- }}}
@@ -917,7 +920,6 @@ packer.startup(function()
               vim.keymap.set('n', '}}', vim.cmd.AerialNextUp, { buffer = bufnr }, { desc = 'LSP: aerial jump down tree level' })
             end
           })
-          require('telescope').load_extension('aerial')
         end
       },
       {
@@ -948,19 +950,15 @@ packer.startup(function()
         -- options
         vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
         -- keybindings
-        vim.keymap.set('n', ',lR', require('telescope.builtin').lsp_definitions, { desc = 'LSP: definitions' },
-          { buffer = bufnr })
-        vim.keymap.set('n', ',lr', require('telescope.builtin').lsp_references, { desc = 'LSP: references' },
-          { buffer = bufnr })
-        vim.keymap.set('n', ',ly', require('telescope.builtin').lsp_document_symbols,
-          { desc = 'LSP: document symbols' }, { buffer = bufnr })
-        vim.keymap.set('n', ',lY', require('telescope.builtin').lsp_workspace_symbols,
-          { desc = 'LSP: workspace symbols' }, { buffer = bufnr })
-        vim.keymap.set('n', ',ld', function() require('telescope.builtin').diagnostics({ bufnr = 0 }) end,
-          { desc = 'LSP: document diagnostics' }, { buffer = bufnr })
-        vim.keymap.set('n', ',lD', require('telescope.builtin').diagnostics,
-          { desc = 'LSP: workspace diagnostics' }, { buffer = bufnr })
-        vim.keymap.set('n', ',lrn', vim.lsp.buf.rename, { desc = 'LSP: rename' }, { buffer = bufnr })
+        vim.keymap.set('n', ',lrs', vim.cmd.LspRestart, { desc = 'LSP:: restart' }, { buffer = bufnr })
+        vim.keymap.set('n', ',lR', require('fzf-lua').lsp_definitions, { desc = 'LSP: definitions' }, { buffer = bufnr })
+        vim.keymap.set('n', ',lr', require('fzf-lua').lsp_references, { desc = 'LSP: references' }, { buffer = bufnr })
+        vim.keymap.set('n', ',ly', require('fzf-lua').lsp_document_symbols, { desc = 'LSP: document symbols' }, { buffer = bufnr })
+        vim.keymap.set('n', ',lY', require('fzf-lua').lsp_live_workspace_symbols, { desc = 'LSP: workspace symbols' }, { buffer = bufnr })
+        vim.keymap.set('n', ',ld', require('fzf-lua').lsp_document_diagnostics, { desc = 'LSP: document diagnostics' }, { buffer = bufnr })
+        vim.keymap.set('n', ',lD', require('fzf-lua').lsp_workspace_diagnostics, { desc = 'LSP: workspace diagnostics' }, { buffer = bufnr })
+        -- vim.keymap.set('n', ',lrn', vim.lsp.buf.rename, { desc = 'LSP: rename' }, { buffer = bufnr })
+        vim.keymap.set('n', ',lrn', function() return ':IncRename ' .. vim.fn.expand('<cword>') end, { expr = true }, { buffer = bufnr })
         vim.keymap.set('n', ',lw', function() Dump(vim.lsp.buf.list_workspace_folders()) end,
           { desc = 'LSP: list workspace folders' }, { buffer = bufnr })
         if client.server_capabilities.codeActionProvider then
@@ -1295,9 +1293,8 @@ packer.startup(function()
         end
       end
 
-      require('telescope').load_extension('zk')
       zk.setup({
-        picker = 'telescope'
+        picker = 'fzf'
       })
 
       commands.add('ZkRecents', make_edit_fn({ createdAfter = '1 week ago' }, { title = 'Zk Recents' }))
@@ -1967,8 +1964,7 @@ use({
           'diagnosticpopup',
           'lspinfo',
           'packer',
-          'TelescopePrompt',
-          'TelescopeResults',
+          'FZF',
           '',
         },
         disable_with_nolist = true,
@@ -1988,7 +1984,7 @@ use({
           'block',
           'arguments',
           'element'
-        },
+        }
       })
       vim.keymap.set('n', ',ti', vim.cmd.IndentBlanklineToggle)
     end
@@ -2036,8 +2032,7 @@ use({
         }
       })
       vim.notify = require('notify')
-      vim.keymap.set('n', '<Leader>tn', require('telescope').extensions.notify.notify,
-        { desc = 'Telescope: notify' })
+      vim.keymap.set('n', '<Leader>n', '<Cmd>Notifications<CR>', { desc = 'Notifications' })
     end
   })
   -- }}}
@@ -2047,29 +2042,28 @@ use({
     config = function()
       require('dressing').setup({
         input = {
-          enable = true,
+          enabled = true,
           override = function(conf)
             conf.col = -1
             conf.row = 0
             return conf
           end,
           winblend = 0,
-          winhighlight = 'Normal:ModeMsg,FloatBorder:TelescopeBorder'
+          winhighlight = 'Normal:ModeMsg,FloatBorder:FzfLuaBorder'
         },
         select = {
-          enable = true,
-          telescope = require('telescope.themes').get_cursor {
-            layout_config = {
-              height = function(self, _, max_lines)
-                local results = #self.finder.results
-                local PADDING = 4
-                local LIMIT = math.floor(max_lines / 2)
-                return (results <= (LIMIT - PADDING) and results + PADDING or LIMIT)
-              end,
-            },
-          },
-          winblend = 0,
-          winhighlight = 'Normal:ModeMsg,FloatBorder:TelescopeBorder'
+          enabled = true,
+          backend = { 'builtin' },
+          builtin = {
+            border = My_Borders,
+            override = function(conf)
+              conf.col = -1
+              conf.row = 0
+              return conf
+            end,
+            winblend = 0,
+            winhighlight = 'Normal:ModeMsg,FloatBorder:FzfLuaBorder'
+          }
         },
       })
     end
