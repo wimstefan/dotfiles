@@ -1487,14 +1487,17 @@ use({
   })
   -- }}}
   -- {{{2 Visuals
-  -- {{{3 nvim-highlight-colors
+  -- {{{3 ccc.nvim
   use({
-    'brenoprata10/nvim-highlight-colors',
+    'https://github.com/uga-rosa/ccc.nvim',
     config = function()
-      vim.keymap.set('n', ',tc', vim.cmd.HighlightColorsToggle)
-      require('nvim-highlight-colors').setup({
-        render = 'background'
+      require('ccc').setup({
+        highlighter = {
+          auto_enable = true
+        }
       })
+      vim.keymap.set('n', ',ct', vim.cmd.CccHighlighterToggle)
+      vim.keymap.set('n', ',cp', vim.cmd.CccPick)
     end
   })
   -- }}}
@@ -1580,31 +1583,6 @@ use({
     end
   })
   -- }}}
-  -- {{{3 onedark.nvim
-  use({
-    'navarasu/onedark.nvim',
-    config = function()
-      require('onedark').setup({
-        transparent = true,
-        code_style = {
-          comments = 'italic',
-          keywords = 'none',
-          functions = 'bold',
-          strings = 'none',
-          variables = 'none'
-        },
-        diagnostics = {
-          background = false
-        },
-        lualine = {
-          transparent = true
-        },
-        toggle_style_key = ',tos',
-        toggle_style_list = { 'cool', 'deep', 'light' },
-      })
-    end
-  })
-  -- }}}
   -- {{{3 lualine.nvim
   use({
     'nvim-lualine/lualine.nvim',
@@ -1619,6 +1597,7 @@ use({
           return str
         end
       end
+
       local get_modified = function()
         return '%m' or ''
       end
@@ -1759,7 +1738,8 @@ use({
               -- symbols = { added = 'ﰂ  ', modified = '  ', removed = 'ﯰ  ' },
               symbols = { added = '落 ', modified = '  ', removed = '  ' },
               on_click = function()
-                vim.cmd.Lazygit()
+                vim.cmd('Lazygit')
+                vim.defer_fn(function() vim.cmd('startinsert') end, 300)
               end
             },
             {
@@ -1783,7 +1763,8 @@ use({
             {
               get_path,
               on_click = function()
-                vim.cmd.Vifm()
+                vim.cmd('Vifm')
+                vim.defer_fn(function() vim.cmd('startinsert') end, 300)
               end
             }
           },
@@ -2011,14 +1992,13 @@ use({
       end
 
       require('notify').setup({
-        stages = 'static',
         timeout = 2000,
         background_colour = function()
           local group_bg = vim.fn.synIDattr(vim.fn.synIDtrans(vim.fn.hlID('Normal')), 'bg#')
           if group_bg == '' or group_bg == 'none' then
             group_bg = vim.fn.synIDattr(vim.fn.synIDtrans(vim.fn.hlID('Float')), 'bg#')
             if group_bg == '' or group_bg == 'none' then
-              return '#000000'
+              return '#789bb9'
             end
           end
           return group_bg
