@@ -68,7 +68,7 @@ vim.opt.nrformats:append({
   'alpha'
 })
 if vim.fn.executable('ugrep') == 1 then
-  vim.opt.grepprg = 'ugrep -RIjnkz --hidden --ignore-files --exclude-dir=".git"'
+  vim.opt.grepprg = 'ugrep -RIjnkzs --hidden --ignore-files --exclude-dir=".git"'
   vim.opt.grepformat = '%f:%l:%c:%m,%f+%l+%c+%m,%-G%f\\|%l\\|%c\\|%m'
 elseif vim.fn.executable('git') == 1 then
   vim.opt.grepprg = 'git'
@@ -461,11 +461,10 @@ if vim.fn.empty(vim.fn.glob(install_path)) > 0 then
   vim.fn.system({ 'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim', install_path })
 end
 
-local packer = require('packer')
-local use = packer.use
-packer.startup(function()
-  packer.init({
+require('packer').startup(function(use)
+  require('packer').init({
     compile_path = vim.fn.stdpath('config') .. '/lua/packer_compiled.lua',
+    auto_reload_compiled = true,
     display = {
       open_cmd = '84vnew [packer]',
       working_sym = '北 ',
@@ -494,9 +493,6 @@ packer.startup(function()
   -- }}}
   -- {{{2 impatient.nvim
   use('lewis6991/impatient.nvim')
-  -- }}}
-  -- {{{2 FixCursorHold.nvim
-  use('antoinemadec/FixCursorHold.nvim')
   -- }}}
   -- {{{2 Startuptime
   use('dstein64/vim-startuptime')
@@ -1158,6 +1154,9 @@ packer.startup(function()
     requires = 'antoinemadec/FixCursorHold.nvim'
   })
   -- }}}
+  -- {{{2 nvim-luaref
+  use('milisims/nvim-luaref')
+  -- }}}
   -- {{{2 which-key.nvim
   use({
     'folke/which-key.nvim',
@@ -1215,6 +1214,14 @@ packer.startup(function()
     end
   })
   -- }}}
+  -- {{{2 spaceless.nvim
+  use({
+    'lewis6991/spaceless.nvim',
+    config = function()
+      require('spaceless').setup()
+    end
+  })
+  -- }}}
   -- {{{2 hover.nvim
   use({
     'lewis6991/hover.nvim',
@@ -1234,18 +1241,7 @@ packer.startup(function()
     end
   })
   -- }}}
-  -- {{{2 nvim-retrail
-  use({
-    'zakharykaplan/nvim-retrail',
-    config = function()
-      require('retrail').setup({
-        hlgroup = 'Substitute'
-      })
-    end
-  })
-  -- }}}
   -- {{{2 nvim-surround
-  -- Lua
   use({
     'kylechui/nvim-surround',
     config = function()
@@ -1415,8 +1411,7 @@ use({
           ['rg'] = {
             cmd = 'ugrep',
             args = {
-              '-RIjnkz',
-              '--color=never',
+              '-RIjnkzs',
               '--ignore-files',
               '--exclude-dir=".git"'
             },
@@ -1447,22 +1442,11 @@ use({
     },
     config = function()
       require('undotree').setup({
-        float_diff = true,
-        ignore_filetype = { 'Undotree', 'UndotreeDiff', 'qf', 'TelescopePrompt', 'spectre_panel' },
         window = {
           winblend = 0,
-        },
-        keymaps = {
-          ['j'] = "move_next",
-          ['k'] = "move_prev",
-          ['J'] = "move_change_next",
-          ['K'] = "move_change_prev",
-          ['<cr>'] = "action_enter",
-          ['p'] = "enter_diffbuf",
-          ['q'] = "quit",
         }
       })
-      vim.keymap.set('n', ',tu', require('undotree').toggle, { desc = 'Undo tree' })
+      vim.keymap.set('n', ',tu', require('undotree').toggle, { noremap = true, silent = true }, { desc = 'Undo tree' })
     end
   })
   -- }}}
@@ -1489,16 +1473,10 @@ use({
   use('jamessan/vim-gnupg')
   -- }}}
   -- {{{2 vim-log-highlighting
-  use({
-    'MTDL9/vim-log-highlighting',
-    ft = 'log'
-  })
+  use('MTDL9/vim-log-highlighting')
   -- }}}
   -- {{{2 rasi.vim
-  use({
-    'Fymyte/rasi.vim',
-    ft = 'rasi',
-  })
+  use('Fymyte/rasi.vim')
   -- }}}
   -- {{{2 unicode.vim
   use({
