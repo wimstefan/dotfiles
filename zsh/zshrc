@@ -1,3 +1,4 @@
+#!/usr/bin/env zsh
 # my zsh config
 # vim: foldmethod=marker foldlevel=1 textwidth=200
 
@@ -662,7 +663,7 @@ if [[ $USER != root ]]; then
       # zsh, vim, mc
         local host=$1
         echo "Syncing zsh on $host ..."
-        rsync -az   --delete /home/swimmer/.fzf.*sh $host:
+        rsync -az   --delete /home/swimmer/.config/fzf/fzf.*sh $host:.config/fzf/
         rsync -az   --delete /home/swimmer/.config/zsh/external/ $host:.config/zsh/external/
         rsync -az            /home/swimmer/.config/zsh/zsh_aliases $host:.config/zsh/zsh_aliases
         rsync -az            /home/swimmer/.config/zsh/.zshrc $host:.config/zsh/.zshrc
@@ -870,6 +871,4 @@ if [[ -n $KITTY_INSTALLATION_DIR ]]; then
 fi
 # }}}1
 
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-
-alias luamake=/home/swimmer/.local/share/nvim/lspconfig/lua-language-server.git/3rd/luamake/luamake
+[ -f "${XDG_CONFIG_HOME:-$HOME/.config}"/fzf/fzf.zsh ] && source "${XDG_CONFIG_HOME:-$HOME/.config}"/fzf/fzf.zsh
