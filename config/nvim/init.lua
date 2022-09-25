@@ -941,9 +941,10 @@ packer.startup(function()
       },
     },
     config = function()
+      require('lspconfig.ui.windows').default_options.border = { '╓', '─', '╖', '║', '╜', '─', '╙', '║' }
+      require('cmp_nvim_lsp').setup()
       require('lua-dev').setup()
       local lsp_aerial = require('aerial')
-      local lsp_cmp = require('cmp_nvim_lsp')
       local lsp_config = require('lspconfig')
 
       -- LSP handlers
@@ -967,8 +968,7 @@ packer.startup(function()
         vim.keymap.set('n', ',lY', require('fzf-lua').lsp_live_workspace_symbols, { desc = 'LSP: workspace symbols' }, { buffer = bufnr })
         vim.keymap.set('n', ',ld', require('fzf-lua').lsp_document_diagnostics, { desc = 'LSP: document diagnostics' }, { buffer = bufnr })
         vim.keymap.set('n', ',lD', require('fzf-lua').lsp_workspace_diagnostics, { desc = 'LSP: workspace diagnostics' }, { buffer = bufnr })
-        -- vim.keymap.set('n', ',lrn', vim.lsp.buf.rename, { desc = 'LSP: rename' }, { buffer = bufnr })
-        vim.keymap.set('n', ',lrn', function() return ':IncRename ' .. vim.fn.expand('<cword>') end, { expr = true }, { buffer = bufnr })
+        vim.keymap.set('n', ',lrn', vim.lsp.buf.rename, { desc = 'LSP: rename' }, { buffer = bufnr })
         vim.keymap.set('n', ',lw', function() Dump(vim.lsp.buf.list_workspace_folders()) end,
           { desc = 'LSP: list workspace folders' }, { buffer = bufnr })
         if client.server_capabilities.codeActionProvider then
@@ -1076,7 +1076,14 @@ packer.startup(function()
             'html',
             'html-eex',
             'liquid'
-          }
+          },
+          settings = {
+            css = {
+              lint = {
+                validProperties = {},
+              },
+            },
+          },
         },
         jsonls = {},
         marksman = {},
@@ -1116,9 +1123,15 @@ packer.startup(function()
                   if_condition_align_with_each_other = true,
                 }
               },
+              hint = {
+                enable = true
+              },
               telemetry = {
                 enable = false
               },
+              workspace = {
+                checkThirdParty = false
+              }
             },
           }
         },
