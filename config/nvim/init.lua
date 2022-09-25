@@ -1,5 +1,5 @@
 --------------------- MY PERSONAL NEOVIM CONFIGURATION -------------------------
--- {{{1 --------------------- First things first. ------------------------------
+-- {{{1 --------------------- First things first -------------------------------
 require('impatient')
 -- }}}
 -- {{{1 --------------------- OPTIONS ------------------------------------------
@@ -144,26 +144,26 @@ My_Symbols = {
 My_Borders = 'rounded'
 
 -- nvim-notify colours
-  vim.api.nvim_set_hl(0, 'NotifyERRORBorder', { link = 'DiagnosticVirtualTextError' })
-  vim.api.nvim_set_hl(0, 'NotifyWARNBorder', { link = 'DiagnosticVirtualTextWarn' })
-  vim.api.nvim_set_hl(0, 'NotifyINFOBorder', { link = 'DiagnosticVirtualTextInfo' })
-  vim.api.nvim_set_hl(0, 'NotifyDEBUGBorder', { link = 'PmenuSel' })
-  vim.api.nvim_set_hl(0, 'NotifyTRACEBorder', { link = 'DiagnosticVirtualTextHint' })
-  vim.api.nvim_set_hl(0, 'NotifyERRORIcon', { link = 'DiagnosticSignError' })
-  vim.api.nvim_set_hl(0, 'NotifyWARNIcon', { link = 'DiagnosticSignWarn' })
-  vim.api.nvim_set_hl(0, 'NotifyINFOIcon', { link = 'DiagnosticSignInfo' })
-  vim.api.nvim_set_hl(0, 'NotifyDEBUGIcon', { link = 'ModeMsg' })
-  vim.api.nvim_set_hl(0, 'NotifyTRACEIcon', { link = 'DiagnosticSignHint' })
-  vim.api.nvim_set_hl(0, 'NotifyERRORTitle', { link = 'DiagnosticError' })
-  vim.api.nvim_set_hl(0, 'NotifyWARNTitle', { link = 'DiagnosticWarn' })
-  vim.api.nvim_set_hl(0, 'NotifyINFOTitle', { link = 'DiagnosticInfo' })
-  vim.api.nvim_set_hl(0, 'NotifyDEBUGTitle', { link = 'ModeMsg' })
-  vim.api.nvim_set_hl(0, 'NotifyTRACETitle', { link = 'DiagnosticHint' })
-  vim.api.nvim_set_hl(0, 'NotifyERRORBody', { link = 'Normal' })
-  vim.api.nvim_set_hl(0, 'NotifyWARNBody', { link = 'Normal' })
-  vim.api.nvim_set_hl(0, 'NotifyINFOBody', { link = 'Normal' })
-  vim.api.nvim_set_hl(0, 'NotifyDEBUGBody', { link = 'Normal' })
-  vim.api.nvim_set_hl(0, 'NotifyTRACEBody', { link = 'Normal' })
+vim.api.nvim_set_hl(0, 'NotifyERRORBorder', { link = 'DiagnosticVirtualTextError' })
+vim.api.nvim_set_hl(0, 'NotifyWARNBorder', { link = 'DiagnosticVirtualTextWarn' })
+vim.api.nvim_set_hl(0, 'NotifyINFOBorder', { link = 'DiagnosticVirtualTextInfo' })
+vim.api.nvim_set_hl(0, 'NotifyDEBUGBorder', { link = 'PmenuSel' })
+vim.api.nvim_set_hl(0, 'NotifyTRACEBorder', { link = 'DiagnosticVirtualTextHint' })
+vim.api.nvim_set_hl(0, 'NotifyERRORIcon', { link = 'DiagnosticSignError' })
+vim.api.nvim_set_hl(0, 'NotifyWARNIcon', { link = 'DiagnosticSignWarn' })
+vim.api.nvim_set_hl(0, 'NotifyINFOIcon', { link = 'DiagnosticSignInfo' })
+vim.api.nvim_set_hl(0, 'NotifyDEBUGIcon', { link = 'ModeMsg' })
+vim.api.nvim_set_hl(0, 'NotifyTRACEIcon', { link = 'DiagnosticSignHint' })
+vim.api.nvim_set_hl(0, 'NotifyERRORTitle', { link = 'DiagnosticError' })
+vim.api.nvim_set_hl(0, 'NotifyWARNTitle', { link = 'DiagnosticWarn' })
+vim.api.nvim_set_hl(0, 'NotifyINFOTitle', { link = 'DiagnosticInfo' })
+vim.api.nvim_set_hl(0, 'NotifyDEBUGTitle', { link = 'ModeMsg' })
+vim.api.nvim_set_hl(0, 'NotifyTRACETitle', { link = 'DiagnosticHint' })
+vim.api.nvim_set_hl(0, 'NotifyERRORBody', { link = 'Normal' })
+vim.api.nvim_set_hl(0, 'NotifyWARNBody', { link = 'Normal' })
+vim.api.nvim_set_hl(0, 'NotifyINFOBody', { link = 'Normal' })
+vim.api.nvim_set_hl(0, 'NotifyDEBUGBody', { link = 'Normal' })
+vim.api.nvim_set_hl(0, 'NotifyTRACEBody', { link = 'Normal' })
 
 -- diagnostic handling
 local diagnostic_signs = { '', '', '', '' }
@@ -241,8 +241,10 @@ vim.keymap.set('n', '<C-l>', [[<Cmd>set nohlsearch|diffupdate|highlight clear Co
 vim.keymap.set('n', 'M', function() ShowMan() end, { desc = 'Search man pages for current word' })
 vim.keymap.set('n', '<F10>', function() ToggleDetails() end, { desc = 'Toggle decorations' })
 -- {{{2 navigation
-vim.keymap.set({ 'n', 'x' }, 'j', function() return vim.v.count > 0 and 'j' or 'gj' end, { expr = true, replace_keycodes = false })
-vim.keymap.set({ 'n', 'x' }, 'k', function() return vim.v.count > 0 and 'k' or 'gk' end, { expr = true, replace_keycodes = false })
+vim.keymap.set({ 'n', 'x' }, 'j', function() return vim.v.count > 0 and 'j' or 'gj' end,
+  { expr = true, replace_keycodes = false })
+vim.keymap.set({ 'n', 'x' }, 'k', function() return vim.v.count > 0 and 'k' or 'gk' end,
+  { expr = true, replace_keycodes = false })
 -- }}}
 -- {{{2 editing
 vim.keymap.set('n', '<Leader>ev', [[<Cmd>edit $MYVIMRC<CR>]])
@@ -483,10 +485,10 @@ require('packer').startup(function(use)
       vim.keymap.set('n', ',pi', vim.cmd.PackerInstall, { desc = 'Packer: install' })
       vim.keymap.set('n', ',pq', vim.cmd.PackerStatus, { desc = 'Packer: status' })
       vim.keymap.set('n', ',ps', function()
-        vim.cmd.PackerSync({ args = { '--preview' }})
+        vim.cmd.PackerSync({ args = { '--preview' } })
       end, { desc = 'Packer: sync with preview' })
       vim.keymap.set('n', ',pu', function()
-        vim.cmd.PackerUpdate({ args = { '--preview' }})
+        vim.cmd.PackerUpdate({ args = { '--preview' } })
       end, { desc = 'Packer: update with preview' })
     end
   })
@@ -668,12 +670,12 @@ require('packer').startup(function(use)
           end
 
           table.insert(notifications,
-            string.format ('%-5s  %s %16s %s %s',
-            fzf_lua.utils.ansi_codes.blue(vim.fn.strftime('%F %H:%M', entries[i].time)),
-            diag_level_code(entries[i].icon),
-            diag_level_code(entries[i].level),
-            fzf_lua.utils.ansi_codes.cyan('« ' .. entries[i].title[1] .. ' »'),
-            entries[i].message[1]
+            string.format('%-5s  %s %16s %s %s',
+              fzf_lua.utils.ansi_codes.blue(vim.fn.strftime('%F %H:%M', entries[i].time)),
+              diag_level_code(entries[i].icon),
+              diag_level_code(entries[i].level),
+              fzf_lua.utils.ansi_codes.cyan('« ' .. entries[i].title[1] .. ' »'),
+              entries[i].message[1]
             )
           )
         end
@@ -919,11 +921,14 @@ require('packer').startup(function(use)
             placement_editor_edge = true,
             icons = My_Symbols,
             on_attach = function(bufnr)
-              vim.keymap.set('n', '<Leader>a', require('aerial').toggle, { buffer = bufnr }, { desc = 'LSP: aerial outline toggle' })
+              vim.keymap.set('n', '<Leader>a', require('aerial').toggle, { buffer = bufnr },
+                { desc = 'LSP: aerial outline toggle' })
               vim.keymap.set('n', '{', vim.cmd.AerialPrev, { buffer = bufnr }, { desc = 'LSP: aerial jump backwards' })
               vim.keymap.set('n', '}', vim.cmd.AerialNext, { buffer = bufnr }, { desc = 'LSP: aerial jump forewards' })
-              vim.keymap.set('n', '{{', vim.cmd.AerialPrevUp, { buffer = bufnr }, { desc = 'LSP: aerial jump up tree level' })
-              vim.keymap.set('n', '}}', vim.cmd.AerialNextUp, { buffer = bufnr }, { desc = 'LSP: aerial jump down tree level' })
+              vim.keymap.set('n', '{{', vim.cmd.AerialPrevUp, { buffer = bufnr },
+                { desc = 'LSP: aerial jump up tree level' })
+              vim.keymap.set('n', '}}', vim.cmd.AerialNextUp, { buffer = bufnr },
+                { desc = 'LSP: aerial jump down tree level' })
             end
           })
         end
@@ -960,10 +965,14 @@ require('packer').startup(function(use)
         vim.keymap.set('n', ',lrs', vim.cmd.LspRestart, { desc = 'LSP:: restart' }, { buffer = bufnr })
         vim.keymap.set('n', ',lR', require('fzf-lua').lsp_definitions, { desc = 'LSP: definitions' }, { buffer = bufnr })
         vim.keymap.set('n', ',lr', require('fzf-lua').lsp_references, { desc = 'LSP: references' }, { buffer = bufnr })
-        vim.keymap.set('n', ',ly', require('fzf-lua').lsp_document_symbols, { desc = 'LSP: document symbols' }, { buffer = bufnr })
-        vim.keymap.set('n', ',lY', require('fzf-lua').lsp_live_workspace_symbols, { desc = 'LSP: workspace symbols' }, { buffer = bufnr })
-        vim.keymap.set('n', ',ld', require('fzf-lua').lsp_document_diagnostics, { desc = 'LSP: document diagnostics' }, { buffer = bufnr })
-        vim.keymap.set('n', ',lD', require('fzf-lua').lsp_workspace_diagnostics, { desc = 'LSP: workspace diagnostics' }, { buffer = bufnr })
+        vim.keymap.set('n', ',ly', require('fzf-lua').lsp_document_symbols, { desc = 'LSP: document symbols' },
+          { buffer = bufnr })
+        vim.keymap.set('n', ',lY', require('fzf-lua').lsp_live_workspace_symbols, { desc = 'LSP: workspace symbols' },
+          { buffer = bufnr })
+        vim.keymap.set('n', ',ld', require('fzf-lua').lsp_document_diagnostics, { desc = 'LSP: document diagnostics' },
+          { buffer = bufnr })
+        vim.keymap.set('n', ',lD', require('fzf-lua').lsp_workspace_diagnostics, { desc = 'LSP: workspace diagnostics' }
+          , { buffer = bufnr })
         vim.keymap.set('n', ',lrn', vim.lsp.buf.rename, { desc = 'LSP: rename' }, { buffer = bufnr })
         vim.keymap.set('n', ',lw', function() Dump(vim.lsp.buf.list_workspace_folders()) end,
           { desc = 'LSP: list workspace folders' }, { buffer = bufnr })
@@ -1333,8 +1342,8 @@ require('packer').startup(function(use)
     config = function()
       require('mkdnflow').setup({
         mappings = {
-          MkdnTableNextCell = {'i', '<M-Tab>'},
-          MkdnTablePrevCell = {'i', '<M-S-Tab>'},
+          MkdnTableNextCell = { 'i', '<M-Tab>' },
+          MkdnTablePrevCell = { 'i', '<M-S-Tab>' },
         }
       })
     end
@@ -1388,19 +1397,19 @@ require('packer').startup(function(use)
   })
   -- }}}
   -- {{{2 nvim-osc52
-use({
-  'ojroques/nvim-osc52',
-  config = function()
-    require('osc52').setup()
-    local function copy()
-      if vim.v.event.operator == 'y' and vim.v.event.regname == '' then
-        require('osc52').copy_register('"')
+  use({
+    'ojroques/nvim-osc52',
+    config = function()
+      require('osc52').setup()
+      local function copy()
+        if vim.v.event.operator == 'y' and vim.v.event.regname == '' then
+          require('osc52').copy_register('"')
+        end
       end
-    end
 
-    vim.api.nvim_create_autocmd('TextYankPost', { callback = copy })
-  end
-})
+      vim.api.nvim_create_autocmd('TextYankPost', { callback = copy })
+    end
+  })
   -- }}}
   -- {{{2 nvim-spectre
   use({
@@ -1835,9 +1844,11 @@ use({
         numhl = true,
         on_attach = function(bufnr)
           local gs = package.loaded.gitsigns
-          vim.keymap.set('n', ']c', "&diff ? ']c' : '<cmd>Gitsigns next_hunk<CR>'", { expr = true, replace_keycodes = false },
+          vim.keymap.set('n', ']c', "&diff ? ']c' : '<cmd>Gitsigns next_hunk<CR>'",
+            { expr = true, replace_keycodes = false },
             { desc = 'Gitsigns: next hunk' })
-          vim.keymap.set('n', '[c', "&diff ? '[c' : '<cmd>Gitsigns prev_hunk<CR>'", { expr = true, replace_keycodes = false },
+          vim.keymap.set('n', '[c', "&diff ? '[c' : '<cmd>Gitsigns prev_hunk<CR>'",
+            { expr = true, replace_keycodes = false },
             { desc = 'Gitsigns: previous hunk' })
           vim.keymap.set('n', ',sp', gs.preview_hunk, { desc = 'Gitsigns: preview hunk' }, { buffer = bufnr })
           vim.keymap.set('n', ',sb', function() gs.blame_line { full = true } end, { desc = 'Gitsigns: blame line' },
@@ -1876,10 +1887,10 @@ use({
       vim.keymap.set('n', 'zr', require('ufo').openFoldsExceptKinds, { desc = 'ufo: open folds except kinds' })
       vim.keymap.set('n', 'zm', require('ufo').closeFoldsWith, { desc = 'ufo: close folds' })
       vim.keymap.set('n', 'zp', function()
-          local winid = require('ufo').peekFoldedLinesUnderCursor()
-          if not winid then
-              vim.lsp.buf.hover()
-          end
+        local winid = require('ufo').peekFoldedLinesUnderCursor()
+        if not winid then
+          vim.lsp.buf.hover()
+        end
       end, { desc = 'ufo: preview' })
 
       local handler = function(virtText, lnum, endLnum, width, truncate)
@@ -1911,7 +1922,7 @@ use({
       end
 
       require('ufo').setup({
-        close_fold_kinds = {'imports', 'comment'},
+        close_fold_kinds = { 'imports', 'comment' },
         fold_virt_text_handler = handler,
         preview = {
           win_config = {
@@ -1926,7 +1937,7 @@ use({
         },
         ---@diagnostic disable-next-line: unused-local
         provider_selector = function(bufnr, filetype, buftype)
-          return {'treesitter', 'indent'}
+          return { 'treesitter', 'indent' }
         end
       })
       local bufnr = vim.api.nvim_get_current_buf()
