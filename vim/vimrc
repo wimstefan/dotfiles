@@ -17,7 +17,7 @@ function! PackagerInit() abort
   call packager#add('tpope/vim-surround')
   call packager#add('tpope/vim-unimpaired')
   call packager#add('tpope/vim-fugitive')
-  call packager#add('junegunn/fzf', {'do': './install --all'})
+  call packager#add('junegunn/fzf')
   call packager#add('junegunn/fzf.vim')
   call packager#add('junegunn/vim-peekaboo')
   call packager#add('justinmk/vim-sneak')
