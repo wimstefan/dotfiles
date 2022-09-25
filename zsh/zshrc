@@ -350,11 +350,11 @@ alias -g Z='| fzf'
 # commands
 alias ls=exa
 alias l1='exa -1'
-alias ll='exa -hl --git'
-alias lt='exa -hl --git --sort=new'
-alias la='exa -hla --git'
-alias lr='exa -hlR --git --tree --icons $@'
-alias lS='exa -hl --git --sort=size --reverse'
+alias ll='exa -hlg --git'
+alias lt='exa -hlg --git --sort=new'
+alias la='exa -hlga --git'
+alias lr='exa -hlgR --git --tree --icons $@'
+alias lS='exa -hlg --git --sort=size --reverse'
 alias b=${(z)BROWSER}
 alias e=${(z)VISUAL:-${(z)EDITOR}}
 alias p=${(z)PAGER}
