@@ -757,7 +757,7 @@ packer.startup(function()
     end
   })
   -- }}}
-  -- {{{2 nvim-cmp
+  -- {{{2 Completion
   use({
     'hrsh7th/nvim-cmp',
     requires = {
@@ -773,13 +773,12 @@ packer.startup(function()
           'L3MON4D3/LuaSnip',
           'honza/vim-snippets'
         }
-      },
-      'f3fora/cmp-spell'
+      }
     },
     config = function()
-      require('luasnip/loaders/from_snipmate').lazy_load()
       local cmp = require('cmp')
       local cmp_buffer = require('cmp_buffer')
+      require('luasnip/loaders/from_snipmate').lazy_load()
       local luasnip = require('luasnip')
       luasnip.filetype_extend('all', { '_' })
 
@@ -872,8 +871,7 @@ packer.startup(function()
                 return { buf }
               end
             }
-          },
-          { name = 'spell' },
+          }
         }),
         sorting = {
           comparators = {
