@@ -143,6 +143,28 @@ My_Symbols = {
 -- My_Borders = { '┬', '─', '┬', '│', '┴', '─', '┴', '│' }
 My_Borders = 'rounded'
 
+-- nvim-notify colours
+  vim.api.nvim_set_hl(0, 'NotifyERRORBorder', { link = 'DiagnosticVirtualTextError' })
+  vim.api.nvim_set_hl(0, 'NotifyWARNBorder', { link = 'DiagnosticVirtualTextWarn' })
+  vim.api.nvim_set_hl(0, 'NotifyINFOBorder', { link = 'DiagnosticVirtualTextInfo' })
+  vim.api.nvim_set_hl(0, 'NotifyDEBUGBorder', { link = 'PmenuSel' })
+  vim.api.nvim_set_hl(0, 'NotifyTRACEBorder', { link = 'DiagnosticVirtualTextHint' })
+  vim.api.nvim_set_hl(0, 'NotifyERRORIcon', { link = 'DiagnosticSignError' })
+  vim.api.nvim_set_hl(0, 'NotifyWARNIcon', { link = 'DiagnosticSignWarn' })
+  vim.api.nvim_set_hl(0, 'NotifyINFOIcon', { link = 'DiagnosticSignInfo' })
+  vim.api.nvim_set_hl(0, 'NotifyDEBUGIcon', { link = 'ModeMsg' })
+  vim.api.nvim_set_hl(0, 'NotifyTRACEIcon', { link = 'DiagnosticSignHint' })
+  vim.api.nvim_set_hl(0, 'NotifyERRORTitle', { link = 'DiagnosticError' })
+  vim.api.nvim_set_hl(0, 'NotifyWARNTitle', { link = 'DiagnosticWarn' })
+  vim.api.nvim_set_hl(0, 'NotifyINFOTitle', { link = 'DiagnosticInfo' })
+  vim.api.nvim_set_hl(0, 'NotifyDEBUGTitle', { link = 'ModeMsg' })
+  vim.api.nvim_set_hl(0, 'NotifyTRACETitle', { link = 'DiagnosticHint' })
+  vim.api.nvim_set_hl(0, 'NotifyERRORBody', { link = 'Normal' })
+  vim.api.nvim_set_hl(0, 'NotifyWARNBody', { link = 'Normal' })
+  vim.api.nvim_set_hl(0, 'NotifyINFOBody', { link = 'Normal' })
+  vim.api.nvim_set_hl(0, 'NotifyDEBUGBody', { link = 'Normal' })
+  vim.api.nvim_set_hl(0, 'NotifyTRACEBody', { link = 'Normal' })
+
 -- diagnostic handling
 local diagnostic_signs = { '', '', '', '' }
 local diagnostic_severity_fullnames = { 'Error', 'Warning', 'Information', 'Hint' }
@@ -295,7 +317,6 @@ augroup END
 augroup Colors
   autocmd!
   autocmd ColorScheme * highlight clear ColorColumn
-  autocmd ColorScheme,VimEnter,WinEnter,BufEnter * call v:lua.NotifyColors()
 augroup END
 ]])
 vim.cmd(string.format([[
@@ -324,29 +345,6 @@ function MDump(...)
       vim.api.nvim_win_set_option(win, 'spell', false)
     end,
   })
-end
-
-function NotifyColors()
-  vim.cmd.highlight('link NotifyERRORBorder DiagnosticVirtualTextError')
-  vim.cmd.highlight('link NotifyWARNBorder DiagnosticVirtualTextWarn')
-  vim.cmd.highlight('link NotifyINFOBorder DiagnosticVirtualTextInfo')
-  vim.cmd.highlight('link NotifyDEBUGBorder PmenuSel')
-  vim.cmd.highlight('link NotifyTRACEBorder DiagnosticVirtualTextHint')
-  vim.cmd.highlight('link NotifyERRORIcon DiagnosticSignError')
-  vim.cmd.highlight('link NotifyWARNIcon DiagnosticSignWarn')
-  vim.cmd.highlight('link NotifyINFOIcon DiagnosticSignInfo')
-  vim.cmd.highlight('link NotifyDEBUGIcon ModeMsg')
-  vim.cmd.highlight('link NotifyTRACEIcon DiagnosticSignHint')
-  vim.cmd.highlight('link NotifyERRORTitle DiagnosticError')
-  vim.cmd.highlight('link NotifyWARNTitle DiagnosticWarn')
-  vim.cmd.highlight('link NotifyINFOTitle DiagnosticInfo')
-  vim.cmd.highlight('link NotifyDEBUGTitle ModeMsg')
-  vim.cmd.highlight('link NotifyTRACETitle DiagnosticHint')
-  vim.cmd.highlight('link NotifyERRORBody Normal')
-  vim.cmd.highlight('link NotifyWARNBody Normal')
-  vim.cmd.highlight('link NotifyINFOBody Normal')
-  vim.cmd.highlight('link NotifyDEBUGBody Normal')
-  vim.cmd.highlight('link NotifyTRACEBody Normal')
 end
 
 -- {{{2 toggle detailed information for easier paste
@@ -674,12 +672,13 @@ packer.startup(function()
           end
 
           table.insert(notifications,
-            string.format('%-5s %18s   %4s %14s   %s',
+            string.format ('%-5s  %s %16s %s %s',
             fzf_lua.utils.ansi_codes.blue(vim.fn.strftime('%F %H:%M', entries[i].time)),
-            fzf_lua.utils.ansi_codes.magenta(entries[i].title[1]),
             diag_level_code(entries[i].icon),
             diag_level_code(entries[i].level),
-            entries[i].message[1])
+            fzf_lua.utils.ansi_codes.cyan('« ' .. entries[i].title[1] .. ' »'),
+            entries[i].message[1]
+            )
           )
         end
 
@@ -1999,22 +1998,14 @@ use({
   use({
     'rcarriga/nvim-notify',
     config = function()
-      local highlights = require('notify.config.highlights')
-      function highlights.setup()
-        NotifyColors()
-      end
-
       require('notify').setup({
         timeout = 2000,
         background_colour = function()
-          local group_bg = vim.fn.synIDattr(vim.fn.synIDtrans(vim.fn.hlID('Normal')), 'bg#')
-          if group_bg == '' or group_bg == 'none' then
-            group_bg = vim.fn.synIDattr(vim.fn.synIDtrans(vim.fn.hlID('Float')), 'bg#')
-            if group_bg == '' or group_bg == 'none' then
-              return '#789bb9'
-            end
+          if vim.o.background == 'dark' then
+            return '#1e353b'
+          else
+            return '#d2dee8'
           end
-          return group_bg
         end,
         icons = {
           ERROR = ' ',
