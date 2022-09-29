@@ -1700,7 +1700,11 @@ require('packer').startup(function(use)
             },
             {
               'branch',
-              icon = 'שׂ '
+              icon = 'שׂ ',
+              on_click = function()
+                vim.cmd('Lazygit')
+                vim.defer_fn(function() vim.cmd('startinsert') end, 300)
+              end
             }
           },
           lualine_z = { 'filetype' },
