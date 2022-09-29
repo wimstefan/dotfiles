@@ -1154,6 +1154,9 @@ require('packer').startup(function(use)
               hint = {
                 enable = true
               },
+              runtime = {
+                version = 'LuaJIT',
+              },
               telemetry = {
                 enable = false
               },
