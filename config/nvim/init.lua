@@ -779,9 +779,9 @@ require('packer').startup(function(use)
   use({
     'hrsh7th/nvim-cmp',
     requires = {
-      'hrsh7th/cmp-nvim-lua',
       'hrsh7th/cmp-nvim-lsp',
       'hrsh7th/cmp-nvim-lsp-signature-help',
+      'hrsh7th/cmp-nvim-lua',
       'hrsh7th/cmp-buffer',
       'hrsh7th/cmp-path',
       'hrsh7th/cmp-cmdline',
@@ -817,6 +817,9 @@ require('packer').startup(function(use)
         formatting = {
           fields = { 'kind', 'abbr', 'menu' },
           format = function(entry, vim_item)
+            vim_item.dup = ({
+              nvim_lua = 0
+            })[entry.source.name] or 1
             if entry.source.name == 'nvim_lsp' then
               vim_item.menu = '<' .. entry.source.source.client.name .. '>'
             else
@@ -867,9 +870,9 @@ require('packer').startup(function(use)
           end, { 'i', 's' }),
         }),
         sources = cmp.config.sources({
-          { name = 'nvim_lua' },
           { name = 'nvim_lsp' },
           { name = 'nvim_lsp_signature_help' },
+          { name = 'nvim_lua' },
           { name = 'luasnip' },
           {
             name = 'path',
@@ -912,7 +915,7 @@ require('packer').startup(function(use)
           { name = 'cmdline' }
         })
       })
-      cmp.setup.cmdline('/', {
+      cmp.setup.cmdline({ '/', '?' }, {
         mapping = cmp.mapping.preset.cmdline(),
         sources = cmp.config.sources({
           { name = 'buffer' }
