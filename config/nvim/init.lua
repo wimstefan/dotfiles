@@ -655,12 +655,17 @@ require('packer').startup(function(use)
 
         local entries = require('notify').history()
         local notifications = {}
-        for i = #entries, 1, -1 do
+        for i = 1, #entries do
+          local all_messages = ''
+          local formatted_messages = {}
+
           local function diag_level_code(diag)
             local level = entries[i].level
             if level == "ERROR" then
               return fzf_lua.utils.ansi_codes.red(diag)
             elseif level == "WARN" then
+              return fzf_lua.utils.ansi_codes.yellow(diag)
+            elseif level == "DEBUG" then
               return fzf_lua.utils.ansi_codes.yellow(diag)
             elseif level == "INFO" then
               return fzf_lua.utils.ansi_codes.green(diag)
@@ -669,13 +674,28 @@ require('packer').startup(function(use)
             end
           end
 
+          local function format_msg(...)
+            for _, entry in ipairs(...) do
+              table.insert(formatted_messages, '\n' .. entry)
+            end
+            return formatted_messages
+          end
+
+          local messages = entries[i].message
+          if #messages > 1 then
+            format_msg(messages)
+            all_messages = table.concat(formatted_messages)
+          else
+            all_messages = messages[1]
+          end
+
           table.insert(notifications,
             string.format('%-5s  %s %16s %s %s',
               fzf_lua.utils.ansi_codes.blue(vim.fn.strftime('%F %H:%M', entries[i].time)),
               diag_level_code(entries[i].icon),
               diag_level_code(entries[i].level),
               fzf_lua.utils.ansi_codes.cyan('« ' .. entries[i].title[1] .. ' »'),
-              entries[i].message[1]
+              all_messages
             )
           )
         end
@@ -1497,20 +1517,6 @@ require('packer').startup(function(use)
   })
   -- }}}
   -- {{{2 Visuals
-  -- {{{3 ccc.nvim
-  use({
-    'https://github.com/uga-rosa/ccc.nvim',
-    config = function()
-      require('ccc').setup({
-        highlighter = {
-          auto_enable = true
-        }
-      })
-      vim.keymap.set('n', ',ct', vim.cmd.CccHighlighterToggle)
-      vim.keymap.set('n', ',cp', vim.cmd.CccPick)
-    end
-  })
-  -- }}}
   -- {{{3 nvim-web-devicons
   use({
     'wimstefan/nvim-web-devicons',
@@ -1525,72 +1531,6 @@ require('packer').startup(function(use)
   use({
     'yamatsum/nvim-nonicons',
     requires = 'wimstefan/nvim-web-devicons'
-  })
-  -- }}}
-  -- {{{3 lush.nvim
-  use('rktjmp/lush.nvim')
-  -- }}}
-  -- {{{3 artesanal
-  use({
-    'wimstefan/vim-artesanal',
-    config = function()
-      vim.g.artesanal_dimmed = false
-      vim.g.artesanal_transparent = true
-    end
-  })
-  -- }}}
-  -- {{{3 nightfox.nvim
-  use({
-    'EdenEast/nightfox.nvim',
-    config = function()
-      require('nightfox').setup({
-        options = {
-          transparent = true,
-          dim_inactive = true,
-          terminal_colors = true,
-          styles = {
-            comments = 'italic',
-            functions = 'italic',
-            keywords = 'bold',
-            strings = 'NONE',
-            variables = 'NONE',
-          },
-          inverse = {
-            match_paren = true,
-            visual = false,
-            search = true,
-          }
-        },
-        groups = {
-          all = {
-            Folded = { bg = 'NONE' }
-          }
-        }
-      })
-    end
-  })
-  -- }}}
-  -- {{{3 zenbones.nvim
-  use({
-    'mcchrish/zenbones.nvim',
-    requires = {
-      'rktjmp/lush.nvim',
-      'rktjmp/shipwright.nvim'
-    },
-    config = function()
-      local flavours = { 'zenbones', 'zenwritten', 'neobones', 'nordbones', 'seoulbones', 'tokyobones' }
-      for _, flavour in ipairs(flavours) do
-        vim.g[flavour] = {
-          lightness = 'bright',
-          darkness = 'stark',
-          darken_comments = 30,
-          lighten_comments = 30,
-          solid_float_border = true,
-          colorize_diagnostic_underline_text = true,
-          transparent_background = true
-        }
-      end
-    end
   })
   -- }}}
   -- {{{3 lualine.nvim
@@ -1957,7 +1897,6 @@ require('packer').startup(function(use)
           'diagnosticpopup',
           'lspinfo',
           'packer',
-          'FZF',
           '',
         },
         disable_with_nolist = true,
@@ -2002,9 +1941,9 @@ require('packer').startup(function(use)
         timeout = 2000,
         background_colour = function()
           if vim.o.background == 'dark' then
-            return '#1e353b'
+            return '#0f1c1e'
           else
-            return '#d2dee8'
+            return '#dbdbdb'
           end
         end,
         icons = {
@@ -2017,6 +1956,18 @@ require('packer').startup(function(use)
       })
       vim.notify = require('notify')
       vim.keymap.set('n', '<Leader>n', '<Cmd>Notifications<CR>', { desc = 'Notifications' })
+    end
+  })
+  -- }}}
+  -- {{{3 messages.nvim
+  use({
+    'AckslD/messages.nvim',
+    config = function()
+      require('messages').setup()
+      Msg = function(...)
+        require('messages.api').capture_thing(...)
+      end
+      vim.keymap.set('n', '<Leader>ms', vim.cmd.Messages, { desc = 'Messages' })
     end
   })
   -- }}}
@@ -2050,6 +2001,86 @@ require('packer').startup(function(use)
           }
         },
       })
+    end
+  })
+  -- }}}
+  -- {{{3 lush.nvim
+  use('rktjmp/lush.nvim')
+  -- }}}
+  -- {{{3 artesanal
+  use({
+    'wimstefan/vim-artesanal',
+    config = function()
+      vim.g.artesanal_dimmed = false
+      vim.g.artesanal_transparent = true
+    end
+  })
+  -- }}}
+  -- {{{3 nightfox.nvim
+  use({
+    'EdenEast/nightfox.nvim',
+    config = function()
+      require('nightfox').setup({
+        options = {
+          transparent = true,
+          dim_inactive = true,
+          terminal_colors = true,
+          styles = {
+            comments = 'italic',
+            functions = 'italic',
+            keywords = 'bold',
+            strings = 'NONE',
+            variables = 'NONE',
+          },
+          inverse = {
+            match_paren = true,
+            visual = false,
+            search = true,
+          }
+        },
+        groups = {
+          all = {
+            Folded = { bg = 'NONE' }
+          }
+        }
+      })
+    end
+  })
+  -- }}}
+  -- {{{3 zenbones.nvim
+  use({
+    'mcchrish/zenbones.nvim',
+    requires = {
+      'rktjmp/lush.nvim',
+      'rktjmp/shipwright.nvim'
+    },
+    config = function()
+      local flavours = { 'zenbones', 'zenwritten', 'neobones', 'nordbones', 'seoulbones', 'tokyobones' }
+      for _, flavour in ipairs(flavours) do
+        vim.g[flavour] = {
+          lightness = 'bright',
+          darkness = 'stark',
+          darken_comments = 30,
+          lighten_comments = 30,
+          solid_float_border = true,
+          colorize_diagnostic_underline_text = true,
+          transparent_background = true
+        }
+      end
+    end
+  })
+  -- }}}
+  -- {{{3 ccc.nvim
+  use({
+    'https://github.com/uga-rosa/ccc.nvim',
+    config = function()
+      require('ccc').setup({
+        highlighter = {
+          auto_enable = true
+        }
+      })
+      vim.keymap.set('n', ',ct', vim.cmd.CccHighlighterToggle)
+      vim.keymap.set('n', ',cp', vim.cmd.CccPick)
     end
   })
   -- }}}
