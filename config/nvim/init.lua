@@ -1370,6 +1370,13 @@ require('packer').startup(function(use)
         mappings = {
           MkdnTableNextCell = { 'i', '<M-Tab>' },
           MkdnTablePrevCell = { 'i', '<M-S-Tab>' },
+          MkdnTableNewRowBelow = { 'n', ',mir' },
+          MkdnTableNewRowAbove = { 'n', ',miR' },
+          MkdnTableNewColAfter = { 'n', ',mic' },
+          MkdnTableNewColBefore = { 'n', ',miC' },
+          MkdnFoldSection = { 'n', ',mf' },
+          MkdnUnfoldSection = { 'n', ',mF' },
+          MkdnUpdateNumbering = { 'n', ',mn' }
         }
       })
     end
