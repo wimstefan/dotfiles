@@ -127,6 +127,7 @@ My_Symbols = {
   Property = ' ', -- ' ', -- ' ',
   Reference = ' ', -- ' ', -- ' ' -- ' ',
   Snippet = ' ', -- ' ', -- ' ',
+  String = ' ',
   Struct = ' ', --'פּ ', -- ' ',
   Text = ' ', -- ' ',
   TypeParameter = ' ', -- ' ', -- ' ', -- ' ',
@@ -926,22 +927,42 @@ require('packer').startup(function(use)
         end
       },
       {
-        'stevearc/aerial.nvim',
+        'simrat39/symbols-outline.nvim',
         config = function()
-          require('aerial').setup({
-            placement_editor_edge = true,
-            icons = My_Symbols,
-            on_attach = function(bufnr)
-              vim.keymap.set('n', '<Leader>a', require('aerial').toggle, { buffer = bufnr },
-                { desc = 'LSP: aerial outline toggle' })
-              vim.keymap.set('n', '{', vim.cmd.AerialPrev, { buffer = bufnr }, { desc = 'LSP: aerial jump backwards' })
-              vim.keymap.set('n', '}', vim.cmd.AerialNext, { buffer = bufnr }, { desc = 'LSP: aerial jump forewards' })
-              vim.keymap.set('n', '{{', vim.cmd.AerialPrevUp, { buffer = bufnr },
-                { desc = 'LSP: aerial jump up tree level' })
-              vim.keymap.set('n', '}}', vim.cmd.AerialNextUp, { buffer = bufnr },
-                { desc = 'LSP: aerial jump down tree level' })
-            end
+          require('symbols-outline').setup({
+            preview_bg_highlight = 'Normal',
+            symbols = {
+              File = {icon = My_Symbols.File, hl = 'TSURI'},
+              Module = {icon = My_Symbols.Module, hl = 'TSNamespace'},
+              Namespace = {icon = My_Symbols.Namespace, hl = 'TSNamespace'},
+              Package = {icon = My_Symbols.Package, hl = 'TSNamespace'},
+              Class = {icon = My_Symbols.Class, hl = 'TSType'},
+              Method = {icon = My_Symbols.Method, hl = 'TSMethod'},
+              Property = {icon = My_Symbols.Property, hl = 'TSMethod'},
+              Field = {icon = My_Symbols.Field, hl = 'TSField'},
+              Constructor = {icon = My_Symbols.Constructor, hl = 'TSConstructor'},
+              Enum = {icon = My_Symbols.Enum, hl = 'TSType'},
+              Interface = {icon = My_Symbols.Interface, hl = 'TSType'},
+              Function = {icon = My_Symbols.Function, hl = 'TSFunction'},
+              Variable = {icon = My_Symbols.Variable, hl = 'TSConstant'},
+              Constant = {icon = My_Symbols.Constant, hl = 'TSConstant'},
+              String = {icon = My_Symbols.String, hl = 'TSString'},
+              Number = {icon = My_Symbols.Number, hl = 'TSNumber'},
+              Boolean = {icon = My_Symbols.Boolean, hl = 'TSBoolean'},
+              Array = {icon = My_Symbols.Array, hl = 'TSConstant'},
+              Object = {icon = My_Symbols.Object, hl = 'TSType'},
+              Key = {icon = My_Symbols.Keyword, hl = 'TSType'},
+              Null = {icon = 'NULL', hl = 'TSType'},
+              EnumMember = {icon = My_Symbols.EnumMember, hl = 'TSField'},
+              Struct = {icon = My_Symbols.Struct, hl = 'TSType'},
+              Event = {icon = My_Symbols.Event, hl = 'TSType'},
+              Operator = {icon = My_Symbols.Operator, hl = 'TSOperator'},
+              TypeParameter = {icon = My_Symbols.TypeParameter, hl = 'TSParameter'}
+            }
           })
+          vim.keymap.set('n', '<Leader>s', vim.cmd.SymbolsOutline, { desc = 'Symbols Outline toggle' })
+          vim.keymap.set('n', ',tso', vim.cmd.SymbolsOutlineOpen, { desc = 'Symbols Outline open' })
+          vim.keymap.set('n', ',tsc', vim.cmd.SymbolsOutlineClose, { desc = 'Symbols Outline close' })
         end
       },
       {
@@ -956,7 +977,6 @@ require('packer').startup(function(use)
       require('lspconfig.ui.windows').default_options.border = { '╓', '─', '╖', '║', '╜', '─', '╙', '║' }
       require('cmp_nvim_lsp').setup()
       require('lua-dev').setup()
-      local lsp_aerial = require('aerial')
       local lsp_config = require('lspconfig')
 
       -- LSP handlers
@@ -966,7 +986,6 @@ require('packer').startup(function(use)
 
       -- LSP functions
       local on_attach = function(client, bufnr)
-        lsp_aerial.on_attach(client, bufnr)
         local lsp_messages = ''
         local lsp_msg_sep = ' ∷ '
         lsp_messages = lsp_msg_sep .. 'LSP attached' .. lsp_msg_sep
@@ -1102,7 +1121,6 @@ require('packer').startup(function(use)
           },
         },
         jsonls = {},
-        marksman = {},
         sumneko_lua = {
           cmd = { vim.fn.stdpath('data') .. '/lspconfig/lua-language-server/bin/lua-language-server' },
           settings = {
@@ -1654,11 +1672,6 @@ require('packer').startup(function(use)
           },
           lualine_x = {
             {
-              'aerial',
-              separator = ' ▌',
-              fmt = trunc(120, 60, 140)
-            },
-            {
               lsp_status,
               fmt = trunc(80, 40, 100),
               on_click = function()
@@ -1733,7 +1746,7 @@ require('packer').startup(function(use)
             }
           }
         },
-        extensions = { 'aerial', 'fugitive', 'fzf', 'man', minimal_extension, 'quickfix', 'toggleterm' },
+        extensions = { 'fugitive', 'fzf', 'man', minimal_extension, 'quickfix', 'toggleterm' },
       })
       require('lualine').refresh()
     end
