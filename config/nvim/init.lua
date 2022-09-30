@@ -525,13 +525,7 @@ require('packer').startup(function(use)
           enable = true
         },
         incremental_selection = {
-          enable = true,
-          keymaps = {
-            init_selection = 'gnn',
-            node_incremental = 'grn',
-            scope_incremental = 'grc',
-            node_decremental = 'grm',
-          },
+          enable = true
         },
         indent = {
           enable = false
@@ -541,23 +535,17 @@ require('packer').startup(function(use)
           extended_mode = true
         },
         refactor = {
-          highlight_current_scope = { enable = false },
-          highlight_definitions = { enable = true },
+          highlight_current_scope = {
+            enable = false
+          },
+          highlight_definitions = {
+            enable = true
+          },
           navigation = {
-            enable = true,
-            keymaps = {
-              goto_definition = 'gnd',
-              list_definitions_lsp_fallback = 'gnD',
-              list_definitions_toc = 'gO',
-              goto_next_usage = '<a-*>',
-              goto_previous_usage = '<a-#>'
-            }
+            enable = true
           },
           smart_rename = {
-            enable = true,
-            keymaps = {
-              smart_rename = 'grr'
-            }
+            enable = true
           }
         },
         textobjects = {
