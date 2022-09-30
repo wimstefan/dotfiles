@@ -1340,6 +1340,84 @@ require('packer').startup(function(use)
     end
   })
   -- }}}
+  -- {{{2 nvim-ufo
+  use({
+    'kevinhwang91/nvim-ufo',
+    requires = 'kevinhwang91/promise-async',
+    config = function()
+      vim.opt.foldlevel = 99
+      vim.opt.foldlevelstart = 99
+      vim.opt.foldcolumn = 'auto:5'
+      vim.opt.fillchars:append({
+        foldsep = '🮍',
+        foldopen = '',
+        foldclose = ''
+      })
+      vim.keymap.set('n', '[z', require('ufo').goPreviousClosedFold, { desc = 'ufo: go to previous closed fold' })
+      vim.keymap.set('n', ']z', require('ufo').goNextClosedFold, { desc = 'ufo: go to next closed fold' })
+      vim.keymap.set('n', 'zR', require('ufo').openAllFolds, { desc = 'ufo: open all folds' })
+      vim.keymap.set('n', 'zM', require('ufo').closeAllFolds, { desc = 'ufo: close all folds' })
+      vim.keymap.set('n', 'zr', require('ufo').openFoldsExceptKinds, { desc = 'ufo: open folds except kinds' })
+      vim.keymap.set('n', 'zm', require('ufo').closeFoldsWith, { desc = 'ufo: close folds' })
+      vim.keymap.set('n', 'zp', function()
+        local winid = require('ufo').peekFoldedLinesUnderCursor()
+        if not winid then
+          vim.lsp.buf.hover()
+        end
+      end, { desc = 'ufo: preview' })
+
+      local handler = function(virtText, lnum, endLnum, width, truncate)
+        local newVirtText = {}
+        local suffix = (' ··· %d lines ···'):format(endLnum - lnum)
+        local sufWidth = vim.fn.strdisplaywidth(suffix)
+        local targetWidth = width - sufWidth
+        local curWidth = 0
+        for _, chunk in ipairs(virtText) do
+          local chunkText = chunk[1]
+          local chunkWidth = vim.fn.strdisplaywidth(chunkText)
+          if targetWidth > curWidth + chunkWidth then
+            table.insert(newVirtText, chunk)
+          else
+            chunkText = truncate(chunkText, targetWidth - curWidth)
+            local hlGroup = chunk[2]
+            table.insert(newVirtText, { chunkText, hlGroup })
+            chunkWidth = vim.fn.strdisplaywidth(chunkText)
+            -- str width returned from truncate() may less than 2nd argument, need padding
+            if curWidth + chunkWidth < targetWidth then
+              suffix = suffix .. (' '):rep(targetWidth - curWidth - chunkWidth)
+            end
+            break
+          end
+          curWidth = curWidth + chunkWidth
+        end
+        table.insert(newVirtText, { suffix, 'MoreMsg' })
+        return newVirtText
+      end
+
+      require('ufo').setup({
+        close_fold_kinds = { 'imports', 'comment' },
+        fold_virt_text_handler = handler,
+        preview = {
+          win_config = {
+            border = 'double',
+            winhighlight = 'Normal:Folded',
+            winblend = 0
+          },
+          mappings = {
+            scrollU = '<C-u>',
+            scrollD = '<C-d>'
+          }
+        },
+        ---@diagnostic disable-next-line: unused-local
+        provider_selector = function(bufnr, filetype, buftype)
+          return { 'treesitter', 'indent' }
+        end
+      })
+      local bufnr = vim.api.nvim_get_current_buf()
+      require('ufo').setFoldVirtTextHandler(bufnr, handler)
+    end
+  })
+  -- }}}
   -- {{{2 zk-nvim
   use({
     'mickael-menu/zk-nvim',
@@ -1825,84 +1903,6 @@ require('packer').startup(function(use)
     end
   })
   -- }}}
-  -- {{{3 nvim-ufo
-  use({
-    'kevinhwang91/nvim-ufo',
-    requires = 'kevinhwang91/promise-async',
-    config = function()
-      vim.opt.foldlevel = 99
-      vim.opt.foldlevelstart = 99
-      vim.opt.foldcolumn = 'auto:5'
-      vim.opt.fillchars:append({
-        foldsep = '🮍',
-        foldopen = '',
-        foldclose = ''
-      })
-      vim.keymap.set('n', '[z', require('ufo').goPreviousClosedFold, { desc = 'ufo: go to previous closed fold' })
-      vim.keymap.set('n', ']z', require('ufo').goNextClosedFold, { desc = 'ufo: go to next closed fold' })
-      vim.keymap.set('n', 'zR', require('ufo').openAllFolds, { desc = 'ufo: open all folds' })
-      vim.keymap.set('n', 'zM', require('ufo').closeAllFolds, { desc = 'ufo: close all folds' })
-      vim.keymap.set('n', 'zr', require('ufo').openFoldsExceptKinds, { desc = 'ufo: open folds except kinds' })
-      vim.keymap.set('n', 'zm', require('ufo').closeFoldsWith, { desc = 'ufo: close folds' })
-      vim.keymap.set('n', 'zp', function()
-        local winid = require('ufo').peekFoldedLinesUnderCursor()
-        if not winid then
-          vim.lsp.buf.hover()
-        end
-      end, { desc = 'ufo: preview' })
-
-      local handler = function(virtText, lnum, endLnum, width, truncate)
-        local newVirtText = {}
-        local suffix = (' ··· %d lines ···'):format(endLnum - lnum)
-        local sufWidth = vim.fn.strdisplaywidth(suffix)
-        local targetWidth = width - sufWidth
-        local curWidth = 0
-        for _, chunk in ipairs(virtText) do
-          local chunkText = chunk[1]
-          local chunkWidth = vim.fn.strdisplaywidth(chunkText)
-          if targetWidth > curWidth + chunkWidth then
-            table.insert(newVirtText, chunk)
-          else
-            chunkText = truncate(chunkText, targetWidth - curWidth)
-            local hlGroup = chunk[2]
-            table.insert(newVirtText, { chunkText, hlGroup })
-            chunkWidth = vim.fn.strdisplaywidth(chunkText)
-            -- str width returned from truncate() may less than 2nd argument, need padding
-            if curWidth + chunkWidth < targetWidth then
-              suffix = suffix .. (' '):rep(targetWidth - curWidth - chunkWidth)
-            end
-            break
-          end
-          curWidth = curWidth + chunkWidth
-        end
-        table.insert(newVirtText, { suffix, 'MoreMsg' })
-        return newVirtText
-      end
-
-      require('ufo').setup({
-        close_fold_kinds = { 'imports', 'comment' },
-        fold_virt_text_handler = handler,
-        preview = {
-          win_config = {
-            border = 'double',
-            winhighlight = 'Normal:Folded',
-            winblend = 0
-          },
-          mappings = {
-            scrollU = '<C-u>',
-            scrollD = '<C-d>'
-          }
-        },
-        ---@diagnostic disable-next-line: unused-local
-        provider_selector = function(bufnr, filetype, buftype)
-          return { 'treesitter', 'indent' }
-        end
-      })
-      local bufnr = vim.api.nvim_get_current_buf()
-      require('ufo').setFoldVirtTextHandler(bufnr, handler)
-    end
-  })
-  -- }}}
   -- {{{3 indent-blankline.nvim
   use({
     'lukas-reineke/indent-blankline.nvim',
@@ -1944,7 +1944,6 @@ require('packer').startup(function(use)
   use({
     'lukas-reineke/virt-column.nvim',
     config = function()
-      vim.opt.colorcolumn = '80'
       require('virt-column').setup({
         char = '▕',
       })
