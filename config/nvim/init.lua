@@ -7,6 +7,7 @@ require('impatient')
 vim.g.mapleader = ' '
 
 local indent = 2
+local limited = '80'
 
 vim.opt.termguicolors = true
 vim.opt.number = true
@@ -94,10 +95,10 @@ vim.g.netrw_alto = 0
 
 -- Visual configuration options
 -- colour scheme
-if vim.fn.filereadable(vim.fn.expand('$HOME/.config/colours/nvim_theme.lua')) == 1 then
-  vim.api.nvim_command [[luafile $HOME/.config/colours/nvim_theme.lua]]
+if vim.fn.filereadable(vim.fn.expand(vim.fn.getenv('HOME') .. '/.config/colours/nvim_theme.lua')) == 1 then
+  vim.cmd.luafile(vim.fn.getenv('HOME') .. '/.config/colours/nvim_theme.lua')
 else
-  vim.api.nvim_command [[colorscheme quiet]]
+  vim.cmd.colorscheme('quiet')
 end
 
 -- symbols --
@@ -144,7 +145,7 @@ My_Symbols = {
 -- My_Borders = { '┬', '─', '┬', '│', '┴', '─', '┴', '│' }
 My_Borders = 'rounded'
 
--- nvim-notify colours
+-- colours
 vim.api.nvim_set_hl(0, 'NotifyERRORBorder', { link = 'DiagnosticVirtualTextError' })
 vim.api.nvim_set_hl(0, 'NotifyWARNBorder', { link = 'DiagnosticVirtualTextWarn' })
 vim.api.nvim_set_hl(0, 'NotifyINFOBorder', { link = 'DiagnosticVirtualTextInfo' })
@@ -165,6 +166,7 @@ vim.api.nvim_set_hl(0, 'NotifyWARNBody', { link = 'Normal' })
 vim.api.nvim_set_hl(0, 'NotifyINFOBody', { link = 'Normal' })
 vim.api.nvim_set_hl(0, 'NotifyDEBUGBody', { link = 'Normal' })
 vim.api.nvim_set_hl(0, 'NotifyTRACEBody', { link = 'Normal' })
+vim.api.nvim_set_hl(0, 'ColorColumn', { link = 'Visual' })
 
 -- diagnostic handling
 local diagnostic_signs = { '', '', '', '' }
@@ -343,6 +345,19 @@ augroup('General', function(g)
     callback = function()
       if not vim.bo.filetype ~= ({ 'man', 'help' }) then
         vim.opt_local.spell = true
+      end
+    end
+  })
+  aucmd('FileType', {
+    group = g,
+    pattern = '*',
+    desc = 'Enable colorcolumn',
+    callback = function()
+      if not (vim.bo.filetype == 'man'
+          or vim.bo.filetype == 'help'
+          or vim.bo.filetype == 'packer'
+          or vim.bo.filetype == 'qf') then
+        vim.opt_local.colorcolumn = limited
       end
     end
   })
@@ -570,7 +585,7 @@ function ToggleDetails()
     vim.opt.list = true
     vim.opt.number = true
     vim.opt.relativenumber = true
-    vim.opt.colorcolumn = '80'
+    vim.opt.colorcolumn = limited
     vim.notify('Details enabled', vim.log.levels.INFO, { title = '[UI]' })
   end
 end
@@ -664,7 +679,6 @@ end
 require('packer').startup(function(use)
   require('packer').init({
     compile_path = vim.fn.stdpath('config') .. '/lua/packer_compiled.lua',
-    auto_reload_compiled = true,
     display = {
       open_cmd = '84vnew [packer]',
       working_sym = '北 ',
@@ -2143,16 +2157,6 @@ require('packer').startup(function(use)
         }
       })
       vim.keymap.set('n', ',ti', vim.cmd.IndentBlanklineToggle)
-    end
-  })
-  -- }}}
-  -- {{{3 virt-column.nvim
-  use({
-    'lukas-reineke/virt-column.nvim',
-    config = function()
-      require('virt-column').setup({
-        char = '▕',
-      })
     end
   })
   -- }}}
