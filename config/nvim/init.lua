@@ -291,46 +291,243 @@ vim.keymap.set('n', '<Leader>sl', [[G?--<CR>jVGd :r ~/.mutt/signature<CR>]])
 -- }}}
 -- }}}1 --------------------- MAPPINGS -----------------------------------------
 -- {{{1 --------------------- AUTOCMDS -----------------------------------------
-vim.cmd([[
-augroup General
-  autocmd!
-  autocmd BufWritePost *.sh,*.pl,*.py silent !chmod +x %
-  autocmd BufNewFile,BufRead *.m3u set encoding=utf-8 fileencoding=utf-8 ff=unix
-  autocmd BufWritePost X{resources,defaults} silent !xrdb %
-  autocmd BufNewFile,BufRead *cddb* set encoding=utf-8 fileencoding=utf-8 ff=unix
-  autocmd FileType txt,markdown,asciidoc*,rst,gitcommit if &filetype !~ 'man\|help' | setlocal spell | endif
-  autocmd FileType help,man,startuptime,qf,lspinfo,checkhealth nnoremap <buffer><silent>q :bdelete<CR>
-  autocmd BufWinEnter * if &previewwindow | setlocal nofoldenable | endif
-  autocmd BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") && &ft !~# 'commit' | execute "normal! g`\"" | endif
-  autocmd TextYankPost * silent! lua vim.highlight.on_yank {higroup='WildMenu', timeout=4444}
-augroup END
-augroup Commentstrings
-  autocmd!
-  autocmd FileType pfmain,toml set commentstring=#\%s
-  autocmd FileType vifm set commentstring=\"\ %s
-  autocmd FileType xdefaults set commentstring=!\%s
-  autocmd FileType json syntax match Comment +\/\/.\+$+
-augroup END
-augroup Help
-  autocmd!
-  autocmd BufWinEnter * if &filetype =~ 'help' | wincmd L | vertical resize 84 | endif
-  autocmd BufWinEnter * if &filetype =~ 'man' | wincmd L | wincmd = | endif
-  autocmd FileType man,help,*doc setlocal nonumber norelativenumber nospell nolist nocursorcolumn
-augroup END
-augroup Colors
-  autocmd!
-  autocmd ColorScheme * highlight clear ColorColumn
-augroup END
-]])
-vim.cmd(string.format([[
-augroup Packer
-  autocmd!
-  autocmd VimEnter call v:lua.require('packer').sync()
-  autocmd FileType packer set previewheight=30
-  autocmd FileType git set nolist nonumber norelativenumber
-  autocmd BufWritePost init.lua if expand('%s') =~ '%s' || expand('%s') =~ '%s' && expand('%s') !~ 'fugitive\|scp' | source <afile> | call v:lua.require('packer').clean() | call v:lua.require('packer').sync() | endif
-augroup end
-]], '%:p', vim.fn.stdpath('config'), '%:p', vim.fn.getenv('HOME') .. '/.dotfiles/', '%'))
+local aucmd = vim.api.nvim_create_autocmd
+local function augroup(name, fnc)
+  fnc(vim.api.nvim_create_augroup(name, { clear = true }))
+end
+
+augroup('General', function(g)
+  aucmd('BufWritePost', {
+    group = g,
+    pattern = {
+      '*.{,z}sh',
+      '*.pl',
+      '*.py'
+    },
+    desc = 'Make files executable',
+    callback = function()
+      vim.fn.system({ 'chmod', '+x', vim.fn.expand('%') })
+    end
+  })
+  aucmd('BufWritePost', {
+    group = g,
+    pattern = 'X{resources,defaults}',
+    desc = 'Reload X settings',
+    callback = function()
+      vim.fn.system({ 'xrdb', vim.fn.expand('%') })
+    end
+  })
+  aucmd({ 'BufNewFile', 'BufRead' }, {
+    group = g,
+    pattern = {
+      '*.m3u*',
+      '*cddb*'
+    },
+    desc = 'Format playlist & cddb files',
+    callback = function()
+      vim.opt_local.encoding = 'utf-8'
+      vim.opt_local.fileencoding = 'utf-8'
+      vim.opt_local.fileformat = 'unix'
+    end
+  })
+  aucmd('FileType', {
+    group = g,
+    pattern = {
+      'txt',
+      'markdown',
+      'asciidoc*',
+      'rst',
+      'gitcommit'
+    },
+    desc = 'Enable spelling',
+    callback = function()
+      if not vim.bo.filetype ~= ({ 'man', 'help' }) then
+        vim.opt_local.spell = true
+      end
+    end
+  })
+  aucmd('BufReadPost', {
+    group = g,
+    desc = 'Jump back to previous cursor position',
+    callback = function()
+      local previous_pos = vim.api.nvim_buf_get_mark(0, '"')[1]
+      local last_line = vim.api.nvim_buf_line_count(0)
+      if previous_pos >= 1
+        and previous_pos <= last_line
+        and vim.bo.filetype ~= 'commit'
+      then
+        vim.cmd 'normal! g`"'
+      end
+    end,
+  })
+  aucmd('BufWinEnter', {
+    group = g,
+    desc = 'Disable folding in preview window',
+    callback = function()
+      if vim.wo.previewwindow then
+        vim.opt_local.foldenable = false
+      end
+    end
+  })
+end)
+
+augroup('Commentstrings', function(g)
+  aucmd('FileType', {
+    group = g,
+    pattern = {
+      'pfmain',
+      'toml'
+    },
+    desc = 'commentstring for pfmain & toml',
+    callback = function()
+      vim.opt_local.commentstring = '#%s'
+    end
+  })
+  aucmd('FileType', {
+    group = g,
+    pattern = 'vifm',
+    desc = 'commentstring for vifm',
+    callback = function()
+      vim.opt_local.commentstring = '"%s'
+    end
+  })
+  aucmd('FileType', {
+    group = g,
+    pattern = 'xdefaults',
+    desc = 'commentstring for xdefaults',
+    callback = function()
+      vim.opt_local.commentstring = '!%s'
+    end
+  })
+end)
+
+augroup('Colors', function(g)
+end)
+
+augroup('HighlightYankedText', function(g)
+  aucmd('TextYankPost', {
+    group = g,
+    pattern = '*',
+    desc = 'Copy to clipboard/tmux/OSC52',
+    callback = function()
+      local ok, yank_data = pcall(vim.fn.getreg, '0')
+      local valid_yank = ok and #yank_data > 0 and vim.v.operator == 'y'
+      if valid_yank and vim.fn.has('clipboard') == 1 then
+        pcall(vim.fn.setreg, '+', yank_data)
+      end
+      if valid_yank and vim.env.SSH_CONNECTION then
+        vim.fn['OSCYankString'](yank_data)
+      end
+      if valid_yank and vim.env.TMUX then
+        vim.fn.system({ 'tmux', 'set-buffer', '-w', yank_data })
+      end
+      vim.highlight.on_yank({ higroup = 'Substitute', timeout = 4444 })
+    end
+  })
+end)
+
+augroup('Help', function(g)
+  local function open_vert()
+    local cfg = vim.api.nvim_win_get_config(0)
+    if cfg and (cfg.external or cfg.relative and #cfg.relative > 0)
+        or vim.api.nvim_win_get_height(0) == 1 then
+      return
+    end
+    local width = math.floor(vim.o.columns * 0.44)
+    vim.cmd('wincmd L')
+    vim.cmd('vertical resize ' .. width)
+  end
+
+  local function simple_quit()
+    vim.keymap.set('n', 'q', '<Cmd>q<CR>', { buffer = true })
+  end
+
+  aucmd('FileType', {
+    group = g,
+    pattern = {
+      'help',
+      'man'
+    },
+    callback = open_vert,
+  })
+  aucmd('FileType', {
+    group = g,
+    pattern = {
+      'help',
+      'man',
+      'startuptime',
+      'qf',
+      'checkhealth'
+    },
+    callback = simple_quit,
+  })
+  aucmd('BufEnter', {
+    group = g,
+    pattern = '*.txt',
+    callback = function()
+      if vim.bo.buftype == 'help' then
+        open_vert()
+      end
+    end
+  })
+  aucmd('BufHidden', {
+    group = g,
+    pattern = 'man://*',
+    callback = function()
+      if vim.bo.filetype == 'man' then
+        local bufnr = vim.api.nvim_get_current_buf()
+        vim.defer_fn(function()
+          if vim.api.nvim_buf_is_valid(bufnr) then
+            vim.api.nvim_buf_delete(bufnr, { force = true })
+          end
+        end, 0)
+      end
+    end
+  })
+end)
+
+augroup('Packer', function(g)
+  -- aucmd('VimEnter', {
+  --   group = g,
+  --   desc = 'Packer: call packer.sync() on VimEnter',
+  --   callback = function()
+  --     require('packer').sync()
+  --   end
+  -- })
+  aucmd('FileType', {
+    group = g,
+    pattern = 'packer',
+    desc = 'Packer: set preview height',
+    callback = function()
+      vim.opt_local.previewheight = 40
+    end
+  })
+  aucmd('FileType', {
+    group = g,
+    pattern = 'git',
+    desc = 'Packer: format git output',
+    callback = function()
+      vim.opt_local.list = false
+      vim.opt_local.number = false
+      vim.opt_local.relativenumber = false
+    end
+  })
+  aucmd('BufWritePost', {
+    group = g,
+    pattern = 'init.lua',
+    desc = 'Packer: clean & sync after writing',
+    callback = function()
+      if vim.fn.expand('%:p') ~= vim.fn.stdpath('config')
+        or vim.fn.expand('%:p') ~= vim.fn.getenv('HOME') .. '/.dotfiles/'
+        and not vim.fn.expand('%') ~= ({ 'fugitive://*', 'scp://*' })
+      then
+        vim.cmd('source <afile>')
+        require('packer').clean()
+        require('packer').sync()
+      end
+    end
+  })
+end)
 -- }}}1 --------------------- AUTOCMDS -----------------------------------------
 -- {{{1 --------------------- FUNCTIONS ----------------------------------------
 function Dump(...)
@@ -922,7 +1119,12 @@ require('packer').startup(function(use)
         'kosayoda/nvim-lightbulb',
         config = function()
           vim.fn.sign_define('LightBulbSign', { text = ' ', texthl = 'WarningMsg', linehl = '', numhl = '' })
-          vim.cmd([[autocmd CursorHold,CursorHoldI * lua require('nvim-lightbulb').update_lightbulb()]])
+          vim.api.nvim_create_autocmd({ 'CursorHold', 'CursorHoldI' }, {
+            desc = 'LSP: show lightbulb',
+            callback = function()
+              require('nvim-lightbulb').update_lightbulb()
+            end
+          })
           require('nvim-lightbulb').update_lightbulb()
         end
       },
@@ -1064,7 +1266,11 @@ require('packer').startup(function(use)
         if client.server_capabilities.codeLensProvider then
           vim.keymap.set('n', ',ll', function() vim.lsp.buf.codelens.run({ border = My_Borders }) end,
             { desc = 'LSP: code lens' }, { buffer = bufnr })
-          vim.cmd([[autocmd BufEnter,CursorHold,InsertLeave * lua vim.lsp.codelens.refresh()]])
+          vim.api.nvim_create_autocmd({ 'BufEnter', 'CursorHold', 'InsertLeave' }, {
+            desc = 'LSP: code lens',
+            buffer = bufnr,
+            callback = vim.lsp.codelens.refresh
+          })
         else
           lsp_messages = lsp_messages .. 'no codeLens' .. lsp_msg_sep
         end
