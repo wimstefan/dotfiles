@@ -225,6 +225,7 @@ vim.filetype.add({
     config = 'config',
     htp = 'xhtml',
     htt = 'xhtml',
+    json = 'jsonc',
     rc = 'rc',
     xmp = 'xml',
   },
