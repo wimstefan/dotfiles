@@ -552,7 +552,7 @@ end
 function MDump(...)
   local msg = vim.inspect(...)
   vim.notify('```lua\n' .. msg .. '\n```', vim.log.levels.INFO, {
-    title = 'Debug',
+    title = '[DEBUG]',
     on_open = function(win)
       vim.api.nvim_win_set_option(win, 'conceallevel', 3)
       local buf = vim.api.nvim_win_get_buf(win)
@@ -560,6 +560,10 @@ function MDump(...)
       vim.api.nvim_win_set_option(win, 'spell', false)
     end,
   })
+end
+
+function Debug(note)
+  vim.notify(note, vim.log.levels.DEBUG, { title = '[DEBUG]' })
 end
 
 -- {{{2 toggle detailed information for easier paste
