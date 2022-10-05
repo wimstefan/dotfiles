@@ -533,12 +533,11 @@ augroup('Packer', function(g)
     pattern = 'init.lua',
     desc = 'Packer: clean & sync after writing',
     callback = function()
-      if vim.fn.expand('%:p') ~= vim.fn.stdpath('config')
-        or vim.fn.expand('%:p') ~= vim.fn.getenv('HOME') .. '/.dotfiles/'
-        and not vim.fn.expand('%') ~= ({ 'fugitive://*', 'scp://*' })
+      if vim.fn.expand('%:p') == vim.fn.stdpath('config') .. '/nvim/init.lua'
+        or vim.fn.expand('%:p') == vim.fn.getenv('HOME') .. '/.dotfiles/config/nvim/init.lua'
+        and not (vim.fn.expand('%:p') == '^fugitive://*' or vim.fn.expand('%:p') == '^scp://*')
       then
         vim.cmd('source <afile>')
-        require('packer').clean()
         require('packer').sync()
       end
     end
@@ -698,15 +697,16 @@ require('packer').startup(function(use)
   use({
     'wbthomason/packer.nvim',
     config = function()
-      vim.keymap.set('n', ',pc', vim.cmd.PackerClean, { desc = 'Packer: clean' })
-      vim.keymap.set('n', ',pi', vim.cmd.PackerInstall, { desc = 'Packer: install' })
-      vim.keymap.set('n', ',pq', vim.cmd.PackerStatus, { desc = 'Packer: status' })
+      vim.keymap.set('n', ',pc', function()
+        require('packer').clean()
+        vim.notify('All clean', vim.log.levels.INFO, { title = '[Packer]' })
+      end, { desc = 'Packer: clean' })
+      vim.keymap.set('n', ',pi', require('packer').install, { desc = 'Packer: install' })
+      vim.keymap.set('n', ',pq', require('packer').status, { desc = 'Packer: status' })
       vim.keymap.set('n', ',ps', function()
-        vim.cmd.PackerSync({ args = { '--preview' } })
+        require('packer').sync({ preview_updates = true })
+        vim.notify('Syncing ...', vim.log.levels.INFO, { title = '[Packer]' })
       end, { desc = 'Packer: sync with preview' })
-      vim.keymap.set('n', ',pu', function()
-        vim.cmd.PackerUpdate({ args = { '--preview' } })
-      end, { desc = 'Packer: update with preview' })
     end
   })
   -- }}}
