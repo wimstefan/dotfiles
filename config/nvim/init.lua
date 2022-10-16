@@ -332,6 +332,17 @@ augroup('General', function(g)
       end
     end
   })
+  aucmd('FileType', {
+    group = g,
+    pattern = 'checkhealth',
+    desc = 'Format checkhealth output',
+    callback = function()
+      vim.opt_local.list = false
+      vim.opt_local.number = false
+      vim.opt_local.relativenumber = false
+      vim.opt_local.colorcolumn = ''
+    end
+  })
   aucmd('BufReadPost', {
     group = g,
     desc = 'Jump back to previous cursor position',
