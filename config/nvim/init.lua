@@ -1124,7 +1124,7 @@ require('packer').startup(function(use)
   use({
     'neovim/nvim-lspconfig',
     requires = {
-      'folke/lua-dev.nvim',
+      'folke/neodev.nvim',
       {
         'kosayoda/nvim-lightbulb',
         config = function()
@@ -1183,12 +1183,12 @@ require('packer').startup(function(use)
           require('lsp_lines').setup()
           vim.keymap.set('', ',ll', require('lsp_lines').toggle, { desc = 'LSP: toggle lsp_lines' })
         end,
-      },
+      }
     },
     config = function()
-      require('lspconfig.ui.windows').default_options.border = { '╓', '─', '╖', '║', '╜', '─', '╙', '║' }
+      require('lspconfig.ui.windows').default_options.border = My_Borders
       require('cmp_nvim_lsp').setup()
-      require('lua-dev').setup()
+      require('neodev').setup()
       local lsp_config = require('lspconfig')
 
       -- LSP handlers
@@ -1289,25 +1289,7 @@ require('packer').startup(function(use)
         vim.notify(lsp_messages, vim.log.levels.INFO, { title = '[LSP]' })
       end
 
-      local capabilities = vim.lsp.protocol.make_client_capabilities()
-      capabilities.textDocument.completion.completionItem.snippetSupport = true
-      capabilities.textDocument.completion.completionItem.preselectSupport = true
-      capabilities.textDocument.completion.completionItem.insertReplaceSupport = true
-      capabilities.textDocument.completion.completionItem.labelDetailsSupport = true
-      capabilities.textDocument.completion.completionItem.deprecatedSupport = true
-      capabilities.textDocument.completion.completionItem.commitCharactersSupport = true
-      capabilities.textDocument.completion.completionItem.tagSupport = {
-        valueSet = {
-          1
-        }
-      }
-      capabilities.textDocument.completion.completionItem.resolveSupport = {
-        properties = {
-          'documentation',
-          'detail',
-          'additionalTextEdits',
-        }
-      }
+      local capabilities = require('cmp_nvim_lsp').default_capabilities(vim.lsp.protocol.make_client_capabilities())
       capabilities.textDocument.foldingRange = {
         dynamicRegistration = false,
         lineFoldingOnly = true
