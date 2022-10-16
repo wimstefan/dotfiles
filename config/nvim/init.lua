@@ -400,28 +400,6 @@ augroup('Colours', function(g)
   })
 end)
 
-augroup('HighlightYankedText', function(g)
-  aucmd('TextYankPost', {
-    group = g,
-    pattern = '*',
-    desc = 'Copy to clipboard/tmux/OSC52',
-    callback = function()
-      local ok, yank_data = pcall(vim.fn.getreg, '0')
-      local valid_yank = ok and #yank_data > 0 and vim.v.operator == 'y'
-      if valid_yank and vim.fn.has('clipboard') == 1 then
-        pcall(vim.fn.setreg, '+', yank_data)
-      end
-      if valid_yank and vim.env.SSH_CONNECTION then
-        vim.fn['OSCYankString'](yank_data)
-      end
-      if valid_yank and vim.env.TMUX then
-        vim.fn.system({ 'tmux', 'set-buffer', '-w', yank_data })
-      end
-      vim.highlight.on_yank({ higroup = 'Substitute', timeout = 4444 })
-    end
-  })
-end)
-
 augroup('Help', function(g)
   local function open_vert()
     local cfg = vim.api.nvim_win_get_config(0)
@@ -1704,6 +1682,16 @@ require('packer').startup(function(use)
     end
   })
   -- }}}
+  -- {{{2 pantran.nvim
+  use({
+    'potamides/pantran.nvim',
+    config = function()
+      require('pantran').setup({
+        default_engine = 'deepl'
+      })
+    end
+  })
+  -- }}}
   -- {{{2 vim-simple-align
   use('kg8m/vim-simple-align')
   -- }}}
@@ -1751,20 +1739,8 @@ require('packer').startup(function(use)
     end
   })
   -- }}}
-  -- {{{2 nvim-osc52
-  use({
-    'ojroques/nvim-osc52',
-    config = function()
-      require('osc52').setup()
-      local function copy()
-        if vim.v.event.operator == 'y' and vim.v.event.regname == '' then
-          require('osc52').copy_register('"')
-        end
-      end
-
-      vim.api.nvim_create_autocmd('TextYankPost', { callback = copy })
-    end
-  })
+  -- {{{2 smartyank.nvim
+  use('ibhagwan/smartyank.nvim')
   -- }}}
   -- {{{2 nvim-spectre
   use({
@@ -2316,7 +2292,7 @@ require('packer').startup(function(use)
   -- }}}
   -- {{{3 ccc.nvim
   use({
-    'https://github.com/uga-rosa/ccc.nvim',
+    'uga-rosa/ccc.nvim',
     config = function()
       require('ccc').setup({
         highlighter = {
