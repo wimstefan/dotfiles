@@ -94,13 +94,6 @@ vim.g.netrw_preview = 0
 vim.g.netrw_alto = 0
 
 -- Visual configuration options
--- colour scheme
-if vim.fn.filereadable(vim.fn.expand(vim.fn.getenv('HOME') .. '/.config/colours/nvim_theme.lua')) == 1 then
-  vim.cmd.luafile(vim.fn.getenv('HOME') .. '/.config/colours/nvim_theme.lua')
-else
-  vim.cmd.colorscheme('quiet')
-end
-
 -- symbols --
 My_Symbols = {
   Array = ' ', -- '謹',
@@ -124,13 +117,13 @@ My_Symbols = {
   Number = ' ', -- '濫',
   Object = '謹',
   Operator = '璉 ', -- ' ',
-  Package = ' ', -- ' ',
+  Package = ' ', -- '  ',
   Property = ' ', -- ' ', -- ' ',
-  Reference = ' ', -- ' ', -- ' ' -- ' ',
+  Reference = ' ', -- '  ', -- ' ' -- ' ',
   Snippet = ' ', -- ' ', -- ' ',
   String = ' ',
   Struct = ' ', --'פּ ', -- ' ',
-  Text = ' ', -- ' ',
+  Text = '  ', -- ' ',
   TypeParameter = ' ', -- ' ', -- ' ', -- ' ',
   Unit = ' ', -- '塞 ', -- 'ﰩ '  --' ',
   Value = ' ', -- ' ',
@@ -144,29 +137,6 @@ My_Symbols = {
 -- My_Borders = { '┎', '─', '┒', '┃', '┚', '─', '┖', '┃' }
 -- My_Borders = { '┬', '─', '┬', '│', '┴', '─', '┴', '│' }
 My_Borders = 'rounded'
-
--- colours
-vim.api.nvim_set_hl(0, 'NotifyERRORBorder', { link = 'DiagnosticVirtualTextError' })
-vim.api.nvim_set_hl(0, 'NotifyWARNBorder', { link = 'DiagnosticVirtualTextWarn' })
-vim.api.nvim_set_hl(0, 'NotifyINFOBorder', { link = 'DiagnosticVirtualTextInfo' })
-vim.api.nvim_set_hl(0, 'NotifyDEBUGBorder', { link = 'PmenuSel' })
-vim.api.nvim_set_hl(0, 'NotifyTRACEBorder', { link = 'DiagnosticVirtualTextHint' })
-vim.api.nvim_set_hl(0, 'NotifyERRORIcon', { link = 'DiagnosticSignError' })
-vim.api.nvim_set_hl(0, 'NotifyWARNIcon', { link = 'DiagnosticSignWarn' })
-vim.api.nvim_set_hl(0, 'NotifyINFOIcon', { link = 'DiagnosticSignInfo' })
-vim.api.nvim_set_hl(0, 'NotifyDEBUGIcon', { link = 'ModeMsg' })
-vim.api.nvim_set_hl(0, 'NotifyTRACEIcon', { link = 'DiagnosticSignHint' })
-vim.api.nvim_set_hl(0, 'NotifyERRORTitle', { link = 'DiagnosticError' })
-vim.api.nvim_set_hl(0, 'NotifyWARNTitle', { link = 'DiagnosticWarn' })
-vim.api.nvim_set_hl(0, 'NotifyINFOTitle', { link = 'DiagnosticInfo' })
-vim.api.nvim_set_hl(0, 'NotifyDEBUGTitle', { link = 'ModeMsg' })
-vim.api.nvim_set_hl(0, 'NotifyTRACETitle', { link = 'DiagnosticHint' })
-vim.api.nvim_set_hl(0, 'NotifyERRORBody', { link = 'Normal' })
-vim.api.nvim_set_hl(0, 'NotifyWARNBody', { link = 'Normal' })
-vim.api.nvim_set_hl(0, 'NotifyINFOBody', { link = 'Normal' })
-vim.api.nvim_set_hl(0, 'NotifyDEBUGBody', { link = 'Normal' })
-vim.api.nvim_set_hl(0, 'NotifyTRACEBody', { link = 'Normal' })
-vim.api.nvim_set_hl(0, 'ColorColumn', { link = 'Visual' })
 
 -- diagnostic handling
 local diagnostic_signs = { '', '', '', '' }
@@ -417,7 +387,17 @@ augroup('Commentstrings', function(g)
   })
 end)
 
-augroup('Colors', function(g)
+augroup('Colours', function(g)
+  aucmd({ 'VimEnter', 'WinEnter', 'BufWinEnter' }, {
+    group = g,
+    pattern = '*',
+    desc = 'Apply visual tweaks',
+    callback = function()
+      vim.schedule(function()
+        Prettify()
+      end)
+    end
+  })
 end)
 
 augroup('HighlightYankedText', function(g)
@@ -565,6 +545,39 @@ end
 function Debug(note)
   vim.notify(note, vim.log.levels.DEBUG, { title = '[DEBUG]' })
 end
+
+-- {{{2 apply visual tweaks
+function Prettify()
+  -- colorscheme
+  if vim.fn.filereadable(vim.fn.expand(vim.fn.getenv('HOME') .. '/.config/colours/nvim_theme.lua')) == 1 then
+    vim.cmd.luafile(vim.fn.getenv('HOME') .. '/.config/colours/nvim_theme.lua')
+  else
+    vim.cmd.colorscheme('quiet')
+  end
+  -- notify colours
+  vim.api.nvim_set_hl(0, 'NotifyERRORBorder', { link = 'DiagnosticVirtualTextError' })
+  vim.api.nvim_set_hl(0, 'NotifyWARNBorder', { link = 'DiagnosticVirtualTextWarn' })
+  vim.api.nvim_set_hl(0, 'NotifyINFOBorder', { link = 'DiagnosticVirtualTextInfo' })
+  vim.api.nvim_set_hl(0, 'NotifyDEBUGBorder', { link = 'PmenuSel' })
+  vim.api.nvim_set_hl(0, 'NotifyTRACEBorder', { link = 'DiagnosticVirtualTextHint' })
+  vim.api.nvim_set_hl(0, 'NotifyERRORIcon', { link = 'DiagnosticSignError' })
+  vim.api.nvim_set_hl(0, 'NotifyWARNIcon', { link = 'DiagnosticSignWarn' })
+  vim.api.nvim_set_hl(0, 'NotifyINFOIcon', { link = 'DiagnosticSignInfo' })
+  vim.api.nvim_set_hl(0, 'NotifyDEBUGIcon', { link = 'ModeMsg' })
+  vim.api.nvim_set_hl(0, 'NotifyTRACEIcon', { link = 'DiagnosticSignHint' })
+  vim.api.nvim_set_hl(0, 'NotifyERRORTitle', { link = 'DiagnosticError' })
+  vim.api.nvim_set_hl(0, 'NotifyWARNTitle', { link = 'DiagnosticWarn' })
+  vim.api.nvim_set_hl(0, 'NotifyINFOTitle', { link = 'DiagnosticInfo' })
+  vim.api.nvim_set_hl(0, 'NotifyDEBUGTitle', { link = 'ModeMsg' })
+  vim.api.nvim_set_hl(0, 'NotifyTRACETitle', { link = 'DiagnosticHint' })
+  vim.api.nvim_set_hl(0, 'NotifyERRORBody', { link = 'Normal' })
+  vim.api.nvim_set_hl(0, 'NotifyWARNBody', { link = 'Normal' })
+  vim.api.nvim_set_hl(0, 'NotifyINFOBody', { link = 'Normal' })
+  vim.api.nvim_set_hl(0, 'NotifyDEBUGBody', { link = 'Normal' })
+  vim.api.nvim_set_hl(0, 'NotifyTRACEBody', { link = 'Normal' })
+  vim.api.nvim_set_hl(0, 'ColorColumn', { link = 'Visual' })
+end
+-- }}}
 
 -- {{{2 toggle detailed information for easier paste
 function ToggleDetails()
@@ -2186,20 +2199,19 @@ require('packer').startup(function(use)
           TRACE = '變'
         }
       })
-      vim.notify = require('notify')
-      vim.keymap.set('n', '<Leader>n', '<Cmd>Notifications<CR>', { desc = 'Notifications' })
     end
   })
   -- }}}
-  -- {{{3 messages.nvim
+  -- {{{3 noice.nvim
   use({
-    'AckslD/messages.nvim',
+    'folke/noice.nvim',
+    requires = {
+      'MunifTanjim/nui.nvim',
+      'rcarriga/nvim-notify',
+    },
     config = function()
-      require('messages').setup()
-      Msg = function(...)
-        require('messages.api').capture_thing(...)
-      end
-      vim.keymap.set('n', '<Leader>ms', vim.cmd.Messages, { desc = 'Messages' })
+      require('noice').setup()
+      vim.keymap.set('n', '<Leader>n', vim.cmd.Noice, { desc = 'Make some noice' })
     end
   })
   -- }}}
