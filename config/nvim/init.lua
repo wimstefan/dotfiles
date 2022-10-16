@@ -805,6 +805,7 @@ require('packer').startup(function(use)
       local fzf_lua = require('fzf-lua')
       fzf_lua.register_ui_select({
         winopts = {
+          relative = 'cursor',
           height = 0.2,
           width = 0.3
         }
@@ -822,14 +823,13 @@ require('packer').startup(function(use)
       local right_popup = {
         height = 0.97,
         width = 0.2,
-        row = 0.2,
+        row = 0.3,
         col = 1
       }
-      local center_popup = {
+      local cursor_popup = {
+        relative = 'cursor',
         win_height = 0.2,
-        win_width = 0.3,
-        win_row = 0.5,
-        win_col = 0.5
+        win_width = 0.3
       }
       local right_column = {
         height = 1,
@@ -961,11 +961,11 @@ require('packer').startup(function(use)
         lsp = {
           ui_select = true,
           code_actions = {
-            winopts = center_popup
+            winopts = cursor_popup
           }
         },
         spell_suggest = {
-          winopts = right_column
+          winopts = cursor_popup
         }
       })
     end
