@@ -370,8 +370,8 @@ augroup('General', function(g)
       local previous_pos = vim.api.nvim_buf_get_mark(0, '"')[1]
       local last_line = vim.api.nvim_buf_line_count(0)
       if previous_pos >= 1
-        and previous_pos <= last_line
-        and vim.bo.filetype ~= 'commit'
+          and previous_pos <= last_line
+          and vim.bo.filetype ~= 'commit'
       then
         vim.cmd 'normal! g`"'
       end
@@ -524,8 +524,8 @@ augroup('Packer', function(g)
     desc = 'Packer: clean & sync after writing',
     callback = function()
       if vim.fn.expand('%:p') == vim.fn.stdpath('config') .. '/nvim/init.lua'
-        or vim.fn.expand('%:p') == vim.fn.getenv('HOME') .. '/.dotfiles/config/nvim/init.lua'
-        and not (vim.fn.expand('%:p') == '^fugitive://*' or vim.fn.expand('%:p') == '^scp://*')
+          or vim.fn.expand('%:p') == vim.fn.getenv('HOME') .. '/.dotfiles/config/nvim/init.lua'
+          and not (vim.fn.expand('%:p') == '^fugitive://*' or vim.fn.expand('%:p') == '^scp://*')
       then
         vim.cmd('source <afile>')
         require('packer').sync()
@@ -568,6 +568,7 @@ function Prettify()
   vim.api.nvim_set_hl(0, 'ColorColumn', { link = 'Visual' })
   vim.api.nvim_set_hl(0, 'FloatNormal', { link = 'Normal' })
 end
+
 -- }}}
 
 -- {{{2 toggle detailed information for easier paste
@@ -1101,32 +1102,32 @@ if packer_ok then
             require('symbols-outline').setup({
               preview_bg_highlight = 'Normal',
               symbols = {
-                File = {icon = My_Symbols.File, hl = 'TSURI'},
-                Module = {icon = My_Symbols.Module, hl = 'TSNamespace'},
-                Namespace = {icon = My_Symbols.Namespace, hl = 'TSNamespace'},
-                Package = {icon = My_Symbols.Package, hl = 'TSNamespace'},
-                Class = {icon = My_Symbols.Class, hl = 'TSType'},
-                Method = {icon = My_Symbols.Method, hl = 'TSMethod'},
-                Property = {icon = My_Symbols.Property, hl = 'TSMethod'},
-                Field = {icon = My_Symbols.Field, hl = 'TSField'},
-                Constructor = {icon = My_Symbols.Constructor, hl = 'TSConstructor'},
-                Enum = {icon = My_Symbols.Enum, hl = 'TSType'},
-                Interface = {icon = My_Symbols.Interface, hl = 'TSType'},
-                Function = {icon = My_Symbols.Function, hl = 'TSFunction'},
-                Variable = {icon = My_Symbols.Variable, hl = 'TSConstant'},
-                Constant = {icon = My_Symbols.Constant, hl = 'TSConstant'},
-                String = {icon = My_Symbols.String, hl = 'TSString'},
-                Number = {icon = My_Symbols.Number, hl = 'TSNumber'},
-                Boolean = {icon = My_Symbols.Boolean, hl = 'TSBoolean'},
-                Array = {icon = My_Symbols.Array, hl = 'TSConstant'},
-                Object = {icon = My_Symbols.Object, hl = 'TSType'},
-                Key = {icon = My_Symbols.Keyword, hl = 'TSType'},
-                Null = {icon = 'NULL', hl = 'TSType'},
-                EnumMember = {icon = My_Symbols.EnumMember, hl = 'TSField'},
-                Struct = {icon = My_Symbols.Struct, hl = 'TSType'},
-                Event = {icon = My_Symbols.Event, hl = 'TSType'},
-                Operator = {icon = My_Symbols.Operator, hl = 'TSOperator'},
-                TypeParameter = {icon = My_Symbols.TypeParameter, hl = 'TSParameter'}
+                File = { icon = My_Symbols.File, hl = 'TSURI' },
+                Module = { icon = My_Symbols.Module, hl = 'TSNamespace' },
+                Namespace = { icon = My_Symbols.Namespace, hl = 'TSNamespace' },
+                Package = { icon = My_Symbols.Package, hl = 'TSNamespace' },
+                Class = { icon = My_Symbols.Class, hl = 'TSType' },
+                Method = { icon = My_Symbols.Method, hl = 'TSMethod' },
+                Property = { icon = My_Symbols.Property, hl = 'TSMethod' },
+                Field = { icon = My_Symbols.Field, hl = 'TSField' },
+                Constructor = { icon = My_Symbols.Constructor, hl = 'TSConstructor' },
+                Enum = { icon = My_Symbols.Enum, hl = 'TSType' },
+                Interface = { icon = My_Symbols.Interface, hl = 'TSType' },
+                Function = { icon = My_Symbols.Function, hl = 'TSFunction' },
+                Variable = { icon = My_Symbols.Variable, hl = 'TSConstant' },
+                Constant = { icon = My_Symbols.Constant, hl = 'TSConstant' },
+                String = { icon = My_Symbols.String, hl = 'TSString' },
+                Number = { icon = My_Symbols.Number, hl = 'TSNumber' },
+                Boolean = { icon = My_Symbols.Boolean, hl = 'TSBoolean' },
+                Array = { icon = My_Symbols.Array, hl = 'TSConstant' },
+                Object = { icon = My_Symbols.Object, hl = 'TSType' },
+                Key = { icon = My_Symbols.Keyword, hl = 'TSType' },
+                Null = { icon = 'NULL', hl = 'TSType' },
+                EnumMember = { icon = My_Symbols.EnumMember, hl = 'TSField' },
+                Struct = { icon = My_Symbols.Struct, hl = 'TSType' },
+                Event = { icon = My_Symbols.Event, hl = 'TSType' },
+                Operator = { icon = My_Symbols.Operator, hl = 'TSOperator' },
+                TypeParameter = { icon = My_Symbols.TypeParameter, hl = 'TSParameter' }
               }
             })
             vim.keymap.set('n', '<Leader>s', vim.cmd.SymbolsOutline, { desc = 'Symbols Outline toggle' })
@@ -1161,23 +1162,32 @@ if packer_ok then
           -- options
           vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
           -- keybindings
-          vim.keymap.set('n', ',lrs', vim.cmd.LspRestart, { desc = 'LSP: restart' }, { buffer = bufnr })
-          vim.keymap.set('n', ',lR', require('fzf-lua').lsp_definitions, { desc = 'LSP: definitions' }, { buffer = bufnr })
-          vim.keymap.set('n', ',lr', require('fzf-lua').lsp_references, { desc = 'LSP: references' }, { buffer = bufnr })
-          vim.keymap.set('n', ',ly', require('fzf-lua').lsp_document_symbols, { desc = 'LSP: document symbols' },
-            { buffer = bufnr })
-          vim.keymap.set('n', ',lY', require('fzf-lua').lsp_live_workspace_symbols, { desc = 'LSP: workspace symbols' },
-            { buffer = bufnr })
-          vim.keymap.set('n', ',ld', require('fzf-lua').lsp_document_diagnostics, { desc = 'LSP: document diagnostics' },
-            { buffer = bufnr })
-          vim.keymap.set('n', ',lD', require('fzf-lua').lsp_workspace_diagnostics, { desc = 'LSP: workspace diagnostics' }
-            , { buffer = bufnr })
-          vim.keymap.set('n', ',lrn', vim.lsp.buf.rename, { desc = 'LSP: rename' }, { buffer = bufnr })
+          vim.keymap.set('n', ',lrs', vim.cmd.LspRestart,
+            { desc = 'LSP: restart' }, { buffer = bufnr })
+          vim.keymap.set('n', ',lR', require('fzf-lua').lsp_definitions,
+            { desc = 'LSP: definitions' }, { buffer = bufnr })
+          vim.keymap.set('n', ',lr', require('fzf-lua').lsp_references,
+            { desc = 'LSP: references' }, { buffer = bufnr })
+          vim.keymap.set('n', ',ly', require('fzf-lua').lsp_document_symbols,
+            { desc = 'LSP: document symbols' }, { buffer = bufnr })
+          vim.keymap.set('n', ',lY', require('fzf-lua').lsp_live_workspace_symbols,
+            { desc = 'LSP: workspace symbols' }, { buffer = bufnr })
+          vim.keymap.set('n', ',ld', require('fzf-lua').lsp_document_diagnostics,
+            { desc = 'LSP: document diagnostics' }, { buffer = bufnr })
+          vim.keymap.set('n', ',lD', require('fzf-lua').lsp_workspace_diagnostics,
+            { desc = 'LSP: workspace diagnostics' } , { buffer = bufnr })
+          vim.keymap.set('n', ',lrn', vim.lsp.buf.rename,
+            { desc = 'LSP: rename' }, { buffer = bufnr })
           vim.keymap.set('n', ',lw', function() Dump(vim.lsp.buf.list_workspace_folders()) end,
             { desc = 'LSP: list workspace folders' }, { buffer = bufnr })
           if client.server_capabilities.codeActionProvider then
-            vim.keymap.set('n', ',lca', function() require('fzf-lua').lsp_code_actions({ winopts = { relative = 'cursor', width = 0.5, col = 0.9, row = 1.01 } }) end,
-            { desc = 'LSP: code actions' }, { buffer = bufnr })
+            vim.keymap.set('n', ',lca',
+              function()
+                require('fzf-lua').lsp_code_actions({
+                  winopts = { relative = 'cursor', width = 0.5, col = 0.9, row = 1.01 }
+                })
+              end,
+              { desc = 'LSP: code actions' }, { buffer = bufnr })
           else
             lsp_messages = lsp_messages .. 'no codeAction' .. lsp_msg_sep
           end
@@ -1202,13 +1212,15 @@ if packer_ok then
             lsp_messages = lsp_messages .. 'no rangeFormat' .. lsp_msg_sep
           end
           if client.server_capabilities.implementationProvider then
-            vim.keymap.set('n', ',li', vim.lsp.buf.implementation, { desc = 'LSP: implementation' }, { buffer = bufnr })
+            vim.keymap.set('n', ',li', vim.lsp.buf.implementation,
+              { desc = 'LSP: implementation' }, { buffer = bufnr })
           else
             vim.keymap.set('n', ',li', [[<Nop>]], { buffer = bufnr })
             lsp_messages = lsp_messages .. 'no implementation' .. lsp_msg_sep
           end
           if client.server_capabilities.hoverProvider then
-            vim.keymap.set('n', ',lh', vim.lsp.buf.hover, { desc = 'LSP: hover' }, { buffer = bufnr })
+            vim.keymap.set('n', ',lh', vim.lsp.buf.hover,
+              { desc = 'LSP: hover' }, { buffer = bufnr })
           else
             vim.keymap.set('n', ',lh', [[<Nop>]], { buffer = bufnr })
             lsp_messages = lsp_messages .. 'no hovering' .. lsp_msg_sep
@@ -1223,7 +1235,8 @@ if packer_ok then
             lsp_messages = lsp_messages .. 'no signatureHelp' .. lsp_msg_sep
           end
           if client.server_capabilities.typeDefinitionProvider then
-            vim.keymap.set('n', ',ltd', vim.lsp.buf.type_definition, { desc = 'LSP: type definition' }, { buffer = bufnr })
+            vim.keymap.set('n', ',ltd', vim.lsp.buf.type_definition,
+              { desc = 'LSP: type definition' }, { buffer = bufnr })
           else
             vim.keymap.set('n', ',ltd', [[<Nop>]], { buffer = bufnr })
             lsp_messages = lsp_messages .. 'no typeDefinition' .. lsp_msg_sep
