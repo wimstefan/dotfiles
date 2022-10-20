@@ -10,7 +10,6 @@ local ensure_packer = function()
     local impatient_ok, impatient = pcall(require, 'impatient')
     if impatient_ok then
       impatient.enable_profile()
-      vim.notify('impatient.nvim loaded', vim.log.levels.WARN)
     else
       vim.notify('impatient.nvim not available', vim.log.levels.ERROR)
     end
@@ -565,28 +564,9 @@ function Prettify()
   else
     vim.cmd.colorscheme('quiet')
   end
-  -- notify colours
-  vim.api.nvim_set_hl(0, 'NotifyERRORBorder', { link = 'DiagnosticVirtualTextError' })
-  vim.api.nvim_set_hl(0, 'NotifyWARNBorder', { link = 'DiagnosticVirtualTextWarn' })
-  vim.api.nvim_set_hl(0, 'NotifyINFOBorder', { link = 'DiagnosticVirtualTextInfo' })
-  vim.api.nvim_set_hl(0, 'NotifyDEBUGBorder', { link = 'PmenuSel' })
-  vim.api.nvim_set_hl(0, 'NotifyTRACEBorder', { link = 'DiagnosticVirtualTextHint' })
-  vim.api.nvim_set_hl(0, 'NotifyERRORIcon', { link = 'DiagnosticSignError' })
-  vim.api.nvim_set_hl(0, 'NotifyWARNIcon', { link = 'DiagnosticSignWarn' })
-  vim.api.nvim_set_hl(0, 'NotifyINFOIcon', { link = 'DiagnosticSignInfo' })
-  vim.api.nvim_set_hl(0, 'NotifyDEBUGIcon', { link = 'ModeMsg' })
-  vim.api.nvim_set_hl(0, 'NotifyTRACEIcon', { link = 'DiagnosticSignHint' })
-  vim.api.nvim_set_hl(0, 'NotifyERRORTitle', { link = 'DiagnosticError' })
-  vim.api.nvim_set_hl(0, 'NotifyWARNTitle', { link = 'DiagnosticWarn' })
-  vim.api.nvim_set_hl(0, 'NotifyINFOTitle', { link = 'DiagnosticInfo' })
-  vim.api.nvim_set_hl(0, 'NotifyDEBUGTitle', { link = 'ModeMsg' })
-  vim.api.nvim_set_hl(0, 'NotifyTRACETitle', { link = 'DiagnosticHint' })
-  vim.api.nvim_set_hl(0, 'NotifyERRORBody', { link = 'Normal' })
-  vim.api.nvim_set_hl(0, 'NotifyWARNBody', { link = 'Normal' })
-  vim.api.nvim_set_hl(0, 'NotifyINFOBody', { link = 'Normal' })
-  vim.api.nvim_set_hl(0, 'NotifyDEBUGBody', { link = 'Normal' })
-  vim.api.nvim_set_hl(0, 'NotifyTRACEBody', { link = 'Normal' })
+  -- highlights
   vim.api.nvim_set_hl(0, 'ColorColumn', { link = 'Visual' })
+  vim.api.nvim_set_hl(0, 'FloatNormal', { link = 'Normal' })
 end
 -- }}}
 
@@ -871,64 +851,6 @@ if packer_ok then
           }
         }
 
-        local function show_notifications()
-          local opts = {}
-          opts.prompt = 'Notifications> '
-          opts.fzf_opts = {
-            ['--no-multi'] = ''
-          }
-
-          local entries = require('notify').history()
-          local notifications = {}
-          for i = 1, #entries do
-            local all_messages = ''
-            local formatted_messages = {}
-
-            local function diag_level_code(diag)
-              local level = entries[i].level
-              if level == "ERROR" then
-                return fzf_lua.utils.ansi_codes.red(diag)
-              elseif level == "WARN" then
-                return fzf_lua.utils.ansi_codes.yellow(diag)
-              elseif level == "DEBUG" then
-                return fzf_lua.utils.ansi_codes.yellow(diag)
-              elseif level == "INFO" then
-                return fzf_lua.utils.ansi_codes.green(diag)
-              elseif level == "HINT" then
-                return fzf_lua.utils.ansi_codes.blue(diag)
-              end
-            end
-
-            local function format_msg(...)
-              for _, entry in ipairs(...) do
-                table.insert(formatted_messages, '\n' .. entry)
-              end
-              return formatted_messages
-            end
-
-            local messages = entries[i].message
-            if #messages > 1 then
-              format_msg(messages)
-              all_messages = table.concat(formatted_messages)
-            else
-              all_messages = messages[1]
-            end
-
-            table.insert(notifications,
-              string.format('%-5s  %s %16s %s %s',
-                fzf_lua.utils.ansi_codes.blue(vim.fn.strftime('%F %H:%M', entries[i].time)),
-                diag_level_code(entries[i].icon),
-                diag_level_code(entries[i].level),
-                fzf_lua.utils.ansi_codes.cyan('« ' .. entries[i].title[1] .. ' »'),
-                all_messages
-              )
-            )
-          end
-
-          if vim.tbl_isempty(notifications) then return end
-          fzf_lua.fzf_exec(notifications, opts)
-        end
-
         vim.keymap.set('n', '<Leader>F', require('fzf-lua').builtin, { desc = 'Fzf: builtin' })
         vim.keymap.set('n', '<Leader>b', require('fzf-lua').buffers, { desc = 'Fzf: buffers' })
         vim.keymap.set('n', '<Leader>c', require('fzf-lua').colorschemes, { desc = 'Fzf: colorschemes' })
@@ -949,7 +871,6 @@ if packer_ok then
         vim.keymap.set('n', '<Leader>fq', require('fzf-lua').quickfix, { desc = 'Fzf: quickfix' })
         vim.keymap.set('n', '<Leader>fs', require('fzf-lua').spell_suggest, { desc = 'Fzf: spell suggest' })
         vim.keymap.set('n', '<Leader>fw', require('fzf-lua').grep_cword, { desc = 'Fzf: grep string' })
-        vim.keymap.set('n', '<Leader>fn', function() show_notifications() end, { desc = 'Fzf: notifications' })
 
         fzf_lua.setup({
           global_resume = true,
@@ -1233,7 +1154,7 @@ if packer_ok then
           -- options
           vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
           -- keybindings
-          vim.keymap.set('n', ',lrs', vim.cmd.LspRestart, { desc = 'LSP:: restart' }, { buffer = bufnr })
+          vim.keymap.set('n', ',lrs', vim.cmd.LspRestart, { desc = 'LSP: restart' }, { buffer = bufnr })
           vim.keymap.set('n', ',lR', require('fzf-lua').lsp_definitions, { desc = 'LSP: definitions' }, { buffer = bufnr })
           vim.keymap.set('n', ',lr', require('fzf-lua').lsp_references, { desc = 'LSP: references' }, { buffer = bufnr })
           vim.keymap.set('n', ',ly', require('fzf-lua').lsp_document_symbols, { desc = 'LSP: document symbols' },
@@ -1975,6 +1896,25 @@ if packer_ok then
             },
             lualine_x = {
               {
+                require('noice').api.status.message.get_hl,
+                cond = require('noice').api.status.message.has,
+              },
+              {
+                require('noice').api.status.command.get,
+                cond = require('noice').api.status.command.has,
+                color = { fg = 'brightblue' },
+              },
+              {
+                require('noice').api.status.mode.get,
+                cond = require('noice').api.status.mode.has,
+                color = { fg = 'brightblue' },
+              },
+              {
+                require('noice').api.status.search.get,
+                cond = require('noice').api.status.search.has,
+                color = { fg = 'brightblue' },
+              },
+              {
                 lsp_status,
                 fmt = trunc(80, 40, 100),
                 on_click = function()
@@ -2049,7 +1989,7 @@ if packer_ok then
               }
             }
           },
-          extensions = { 'fugitive', 'fzf', 'man', minimal_extension, 'quickfix', 'toggleterm' },
+          extensions = { 'fugitive', 'fzf', 'man', minimal_extension, 'quickfix', 'symbols-outline', 'toggleterm' },
         })
         require('lualine').refresh()
       end
@@ -2165,39 +2105,37 @@ if packer_ok then
       end
     })
     -- }}}
-    -- {{{3 nvim-notify
-    use({
-      'rcarriga/nvim-notify',
-      config = function()
-        require('notify').setup({
-          timeout = 2000,
-          background_colour = function()
-            if vim.o.background == 'dark' then
-              return '#0f1c1e'
-            else
-              return '#dbdbdb'
-            end
-          end,
-          icons = {
-            ERROR = ' ',
-            WARN = ' ',
-            INFO = ' ',
-            DEBUG = ' ',
-            TRACE = '變'
-          }
-        })
-      end
-    })
-    -- }}}
     -- {{{3 noice.nvim
     use({
       'folke/noice.nvim',
-      requires = {
-        'MunifTanjim/nui.nvim',
-        'rcarriga/nvim-notify',
-      },
+      requires = 'MunifTanjim/nui.nvim',
       config = function()
-        require('noice').setup()
+        require('noice').setup({
+          cmdline = {
+            view = 'cmdline',
+          },
+          popupmenu = {
+            backend = 'cmp'
+          },
+          views = {
+            popupmenu = {
+              win_options = {
+                winhighlight = {
+                  Normal = 'Normal',
+                  FloatBorder = 'FloatBorder'
+                }
+              }
+            },
+            split = {
+              win_options = {
+                winhighlight = {
+                  Normal = 'Normal',
+                  FloatBorder = 'FloatBorder'
+                }
+              }
+            }
+          },
+        })
         vim.keymap.set('n', '<Leader>n', vim.cmd.Noice, { desc = 'Make some noice' })
       end
     })
