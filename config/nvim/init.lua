@@ -812,13 +812,7 @@ if packer_ok then
       },
       config = function()
         local fzf_lua = require('fzf-lua')
-        fzf_lua.register_ui_select({
-          winopts = {
-            relative = 'cursor',
-            height = 0.2,
-            width = 0.3
-          }
-        })
+
         local bottom_row = {
           height = 0.4,
           width = 1,
@@ -834,11 +828,6 @@ if packer_ok then
           width = 0.2,
           row = 0.3,
           col = 1
-        }
-        local cursor_popup = {
-          relative = 'cursor',
-          win_height = 0.2,
-          win_width = 0.3
         }
         local right_column = {
           height = 1,
@@ -908,14 +897,12 @@ if packer_ok then
           highlights = {
             winopts = right_column
           },
-          lsp = {
-            ui_select = true,
-            code_actions = {
-              winopts = cursor_popup
-            }
-          },
           spell_suggest = {
-            winopts = cursor_popup
+            winopts = {
+              relative = 'cursor',
+              width = 0.2,
+              row = 1.01
+            }
           }
         })
       end
@@ -1169,8 +1156,8 @@ if packer_ok then
           vim.keymap.set('n', ',lw', function() Dump(vim.lsp.buf.list_workspace_folders()) end,
             { desc = 'LSP: list workspace folders' }, { buffer = bufnr })
           if client.server_capabilities.codeActionProvider then
-            vim.keymap.set('n', ',lca', vim.lsp.buf.code_action,
-              { desc = 'LSP: code actions' }, { buffer = bufnr })
+            vim.keymap.set('n', ',lca', function() require('fzf-lua').lsp_code_actions({ winopts = { relative = 'cursor', width = 0.5, col = 0.9, row = 1.01 } }) end,
+            { desc = 'LSP: code actions' }, { buffer = bufnr })
           else
             lsp_messages = lsp_messages .. 'no codeAction' .. lsp_msg_sep
           end
