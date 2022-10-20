@@ -929,8 +929,28 @@ if packer_ok then
       config = function()
         local cmp = require('cmp')
         local cmp_buffer = require('cmp_buffer')
+
         require('luasnip/loaders/from_snipmate').lazy_load()
         local luasnip = require('luasnip')
+        luasnip.config.set_config {
+          history = true,
+          updateevents = 'TextChanged,TextChangedI',
+          enable_autosnippets = true,
+          ext_opts = {
+            [require('luasnip.util.types').choiceNode] = {
+              active = {
+                hl_mode = 'combine',
+                virt_text = { { '●', 'Operator' } },
+              },
+            },
+            [require('luasnip.util.types').insertNode] = {
+              active = {
+                hl_mode = 'combine',
+                virt_text = { { '●', 'Type' } },
+              },
+            },
+          }
+        }
         luasnip.filetype_extend('all', { '_' })
 
         local check_backspace = function()
