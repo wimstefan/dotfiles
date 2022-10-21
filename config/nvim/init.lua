@@ -7,16 +7,7 @@ local ensure_packer = function()
     vim.cmd [[packadd packer.nvim]]
     return true
   else
-    local impatient_ok, impatient = pcall(require, 'impatient')
-    if impatient_ok then
-      impatient.enable_profile()
-    else
-      vim.notify('impatient.nvim not available', vim.log.levels.ERROR)
-    end
-    local packer_compiled_ok = pcall(require, 'packer_compiled')
-    if packer_compiled_ok then
-      require('packer_compiled')
-    end
+    require('impatient')
   end
   return false
 end
@@ -684,6 +675,7 @@ local packer_ok = pcall(require, 'packer')
 if packer_ok then
   require('packer').startup(function(use)
     require('packer').init({
+      compile_path = vim.fn.stdpath('config') .. '/lua/packer_compiled.lua',
       display = {
         open_cmd = '84vnew [packer]',
         working_sym = '北 ',
@@ -2277,6 +2269,7 @@ if packer_ok then
     if packer_bootstrap then
       require('packer').sync()
     end
+    require('packer_compiled')
   end)
 end
 -- }}}1 --------------------- PLUGINS ------------------------------------------
