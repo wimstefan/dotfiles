@@ -409,19 +409,6 @@ augroup('Commentstrings', function(g)
   })
 end)
 
-augroup('Colours', function(g)
-  aucmd({ 'VimEnter', 'WinEnter', 'BufWinEnter' }, {
-    group = g,
-    pattern = '*',
-    desc = 'Apply visual tweaks',
-    callback = function()
-      vim.schedule(function()
-        Prettify()
-      end)
-    end
-  })
-end)
-
 augroup('Help', function(g)
   local function open_vert()
     local cfg = vim.api.nvim_win_get_config(0)
@@ -1176,7 +1163,7 @@ if packer_ok then
             vim.keymap.set('n', ',lca',
               function()
                 require('fzf-lua').lsp_code_actions({
-                  winopts = { relative = 'cursor', width = 0.5, col = 0.9, row = 1.01 }
+                  winopts = { relative = 'cursor', height = 0.2, width = 0.4, col = 0.9, row = 1.01 }
                 })
               end,
               { desc = 'LSP: code actions' }, { buffer = bufnr })
@@ -1834,18 +1821,6 @@ if packer_ok then
           end
           for _, client in ipairs(vim.lsp.get_active_clients()) do
             msg = msg .. '‹' .. client.name .. '›'
-            for _, progress in pairs(client.messages.progress) do
-              if not progress.done then
-                msg = progress.title
-                if progress.message then
-                  msg = msg .. ' ' .. progress.message
-                end
-                if progress.percentage then
-                  msg = string.format('%s%2d%s', '⸢', progress.percentage, '%%⸥')
-                end
-                return msg
-              end
-            end
           end
           return msg
         end
@@ -1909,22 +1884,19 @@ if packer_ok then
             lualine_x = {
               {
                 require('noice').api.status.message.get_hl,
-                cond = require('noice').api.status.message.has,
+                cond = require('noice').api.status.message.has
               },
               {
-                require('noice').api.status.command.get,
-                cond = require('noice').api.status.command.has,
-                color = { fg = 'brightblue' },
+                require('noice').api.status.command.get_hl,
+                cond = require('noice').api.status.command.has
               },
               {
-                require('noice').api.status.mode.get,
-                cond = require('noice').api.status.mode.has,
-                color = { fg = 'brightblue' },
+                require('noice').api.status.mode.get_hl,
+                cond = require('noice').api.status.mode.has
               },
               {
-                require('noice').api.status.search.get,
-                cond = require('noice').api.status.search.has,
-                color = { fg = 'brightblue' },
+                require('noice').api.status.search.get_hl,
+                cond = require('noice').api.status.search.has
               },
               {
                 lsp_status,
@@ -2004,6 +1976,7 @@ if packer_ok then
           extensions = { 'fugitive', 'fzf', 'man', minimal_extension, 'quickfix', 'symbols-outline', 'toggleterm' },
         })
         require('lualine').refresh()
+        Prettify()
       end
     })
     -- }}}
@@ -2125,9 +2098,33 @@ if packer_ok then
         require('noice').setup({
           cmdline = {
             view = 'cmdline',
+            format = {
+              cmdline = { pattern = '^:', icon = '❱' },
+              search_down = { kind = 'search', pattern = '^/', icon = ' ⭭' },
+              search_up = { kind = 'search', pattern = '^%?', icon = ' ⭫' },
+              filter = { pattern = '^:%s*!', icon = '＄', ft = 'sh' },
+              lua = { pattern = '^:%s*lua%s+', icon = ' ', ft = 'lua' }
+            }
           },
           popupmenu = {
             backend = 'cmp'
+          },
+          routes = {
+            {
+              filter = {
+                event = 'msg_show',
+                kind = 'search_count'
+              },
+              opts = { skip = true },
+            },
+            {
+              filter = {
+                event = 'msg_show',
+                kind = '',
+                find = 'written'
+              },
+              opts = { skip = true },
+            },
           },
           views = {
             popupmenu = {
@@ -2149,6 +2146,7 @@ if packer_ok then
           },
         })
         vim.keymap.set('n', '<Leader>n', vim.cmd.Noice, { desc = 'Make some noice' })
+        Prettify()
       end
     })
     -- }}}
