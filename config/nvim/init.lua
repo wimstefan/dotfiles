@@ -1120,6 +1120,12 @@ if packer_ok then
             require('lsp_lines').setup()
             vim.keymap.set('', ',ll', require('lsp_lines').toggle, { desc = 'LSP: toggle lsp_lines' })
           end,
+        },
+        {
+          'smjonas/inc-rename.nvim',
+          config = function()
+            require('inc_rename').setup()
+          end,
         }
       },
       config = function()
@@ -1155,8 +1161,10 @@ if packer_ok then
             { desc = 'LSP: document diagnostics' }, { buffer = bufnr })
           vim.keymap.set('n', ',lD', require('fzf-lua').lsp_workspace_diagnostics,
             { desc = 'LSP: workspace diagnostics' } , { buffer = bufnr })
-          vim.keymap.set('n', ',lrn', vim.lsp.buf.rename,
-            { desc = 'LSP: rename' }, { buffer = bufnr })
+          vim.keymap.set('n', ',lrn', function()
+              return ':IncRename ' .. vim.fn.expand('<cword>')
+            end,
+            { desc = 'LSP: rename', expr = true, replace_keycodes = false }, { buffer = bufnr })
           vim.keymap.set('n', ',lw', function() Dump(vim.lsp.buf.list_workspace_folders()) end,
             { desc = 'LSP: list workspace folders' }, { buffer = bufnr })
           if client.server_capabilities.codeActionProvider then
@@ -2103,7 +2111,15 @@ if packer_ok then
               search_down = { kind = 'search', pattern = '^/', icon = ' ⭭' },
               search_up = { kind = 'search', pattern = '^%?', icon = ' ⭫' },
               filter = { pattern = '^:%s*!', icon = '＄', ft = 'sh' },
-              lua = { pattern = '^:%s*lua%s+', icon = ' ', ft = 'lua' }
+              lua = { pattern = '^:%s*lua%s+', icon = ' ', ft = 'lua' },
+              IncRename = {
+                pattern = '^:%s*IncRename%s+',
+                icon = '  ',
+                conceal = true,
+                opts = {
+                  buf_options = { filetype = 'text' }
+                }
+              },
             }
           },
           popupmenu = {
