@@ -839,6 +839,7 @@ if packer_ok then
         vim.keymap.set('n', '<Leader>fm', require('fzf-lua').keymaps, { desc = 'Fzf: keymaps' })
         vim.keymap.set('n', '<Leader>fq', require('fzf-lua').quickfix, { desc = 'Fzf: quickfix' })
         vim.keymap.set('n', '<Leader>fs', require('fzf-lua').spell_suggest, { desc = 'Fzf: spell suggest' })
+        vim.keymap.set('n', '<Leader>ft', require('fzf-lua').filetypes, { desc = 'Fzf: filetypes' })
         vim.keymap.set('n', '<Leader>fw', require('fzf-lua').grep_cword, { desc = 'Fzf: grep string' })
 
         fzf_lua.setup({
@@ -855,6 +856,13 @@ if packer_ok then
           },
           files = {
             prompt = 'Files❯ ',
+          },
+          filetypes = {
+            winopts = {
+              relative = 'cursor',
+              width = 0.14,
+              row = 1.01
+            }
           },
           git = {
             branches = {
