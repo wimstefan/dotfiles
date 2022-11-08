@@ -5,14 +5,14 @@
   *faceName: xft:monospace:pixelsize=30.0
 #elif SRVR_komala
   Xft.dpi: 96
-  Xcursor.size: 24
-  *font: xft:monospace:pixelsize=14.0
-  *faceName: xft:monospace:pixelsize=14.0
-#elif SRVR_tj
-  Xft.dpi: 120
-  Xcursor.size: 24
+  Xcursor.size: 36
   *font: xft:monospace:pixelsize=16.0
   *faceName: xft:monospace:pixelsize=16.0
+#elif SRVR_tj
+  Xft.dpi: 120
+  Xcursor.size: 36
+  *font: xft:monospace:pixelsize=18.0
+  *faceName: xft:monospace:pixelsize=18.0
 #endif
 
 Xft.autohint: 0
@@ -21,7 +21,7 @@ Xft.hintstyle: hintfull
 Xft.hinting: 1
 Xft.antialias: 1
 
-Xcursor.theme: Qogir-manjaro-dark
+Xcursor.theme: Catppuccin-Latte-Light-Cursors
 
 *internalBorder:           24
 *loginShell:               true
