@@ -1140,11 +1140,6 @@ if packer_ok then
         require('neodev').setup()
         local lsp_config = require('lspconfig')
 
-        -- LSP handlers
-        vim.lsp.handlers['textDocument/signatureHelp'] = vim.lsp.with(vim.lsp.handlers.signature_help,
-          { border = My_Borders })
-        vim.lsp.handlers['textDocument/hover'] = vim.lsp.with(vim.lsp.handlers.hover, { border = My_Borders })
-
         -- LSP functions
         local on_attach = function(client, bufnr)
           local lsp_messages = ''
@@ -1192,14 +1187,33 @@ if packer_ok then
             lsp_messages = lsp_messages .. 'no declaration' .. lsp_msg_sep
           end
           if client.server_capabilities.documentFormattingProvider then
-            vim.keymap.set('n', ',lf', function() vim.lsp.buf.format({ async = true }) end,
+            local fmt_opts = vim.bo[bufnr].ft == 'lua'
+                and 'async=true,bufnr=0,name="sumneko_lua"'
+                or 'async=true,bufnr=0'
+            vim.keymap.set('n', ',lf', function() vim.lsp.buf.format(fmt_opts) end,
               { desc = 'LSP: formatting' }, { buffer = bufnr })
           else
             lsp_messages = lsp_messages .. 'no format' .. lsp_msg_sep
           end
           if client.server_capabilities.documentRangeFormattingProvider then
-            vim.keymap.set({ 'v', 'x' }, ',lf',
-              function() vim.lsp.buf.format({ async = true, range = { 0, vim.fn.argc() } }) end,
+            vim.keymap.set('v', ',lf', function()
+              local _, csrow, cscol, cerow, cecol
+              local mode = vim.fn.mode()
+              assert(mode == 'v' or mode == 'V' or mode == '')
+              _, csrow, cscol, _ = unpack(vim.fn.getpos('.'))
+              _, cerow, cecol, _ = unpack(vim.fn.getpos('v'))
+              if mode == 'V' then
+                cscol, cecol = 0, 999
+              end
+              local fmt_opts = {
+                async   = true,
+                bufnr   = 0,
+                name    = vim.bo[bufnr].ft == 'lua' and 'sumneko_lua' or nil,
+                start   = { csrow, cscol },
+                ['end'] = { cerow, cecol },
+              }
+              vim.lsp.buf.format(fmt_opts)
+            end,
               { desc = 'LSP: range formatting' }, { buffer = bufnr })
           else
             lsp_messages = lsp_messages .. 'no rangeFormat' .. lsp_msg_sep
