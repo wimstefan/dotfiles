@@ -2,9 +2,10 @@ local wez = require('wezterm')
 local act = wez.action
 local mux = wez.mux
 local hostname = wez.hostname()
+local my_font = 'pt'
 -- local selected_scheme = 'wilmersdorf' -- dark
 -- local selected_scheme = 'iceberg-light' -- light
-local selected_scheme = 'seoulbones_light'
+local selected_scheme = 'dayfox'
 
 local function basename(s)
   return string.gsub(s, "(.*[/\\])(.*)", "%2")
@@ -378,11 +379,12 @@ return {
   font_size = font_size(my_font),
   char_select_font_size = font_size(my_font),
   freetype_load_target = 'Light',
-  allow_square_glyphs_to_overflow_width = 'WhenFollowedBySpace',
+  allow_square_glyphs_to_overflow_width = 'Always',
   custom_block_glyphs = true,
   warn_about_missing_glyphs = false,
   underline_position = '-1.4pt',
-  underline_thickness = '1.4pt',
+  underline_thickness = '200%',
+  unicode_version = 15,
 
   -- Behaviour
   term = 'wezterm',
