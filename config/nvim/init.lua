@@ -907,7 +907,6 @@ if packer_ok then
       requires = {
         'hrsh7th/cmp-nvim-lsp',
         'hrsh7th/cmp-nvim-lsp-signature-help',
-        'hrsh7th/cmp-nvim-lua',
         'hrsh7th/cmp-buffer',
         'hrsh7th/cmp-path',
         'hrsh7th/cmp-cmdline',
@@ -963,9 +962,6 @@ if packer_ok then
           formatting = {
             fields = { 'kind', 'abbr', 'menu' },
             format = function(entry, vim_item)
-              vim_item.dup = ({
-                nvim_lua = 0
-              })[entry.source.name] or 1
               if entry.source.name == 'nvim_lsp' then
                 vim_item.menu = '<' .. entry.source.source.client.name .. '>'
               else
@@ -1018,8 +1014,7 @@ if packer_ok then
           sources = cmp.config.sources({
             { name = 'nvim_lsp' },
             { name = 'nvim_lsp_signature_help' },
-            { name = 'nvim_lua' },
-            { name = 'luasnip' },
+            { name = 'luasnip', option = { show_autosnippets = true } },
             {
               name = 'path',
               option = {
@@ -1055,8 +1050,6 @@ if packer_ok then
                 trailing_slash = true
               }
             },
-          }, {
-            { name = 'nvim_lua' }
           }, {
             { name = 'cmdline' }
           })
