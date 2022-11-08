@@ -27,17 +27,21 @@ use-proxy no
 # colors
 color background         default    default
 color listnormal         default    default
-color listnormal_unread  blue       default
-color listfocus          green      default
-color listfocus_unread   blue       default     underline bold
+color listnormal_unread  color4     default
+color listfocus          color6     default
+color listfocus_unread   color4     default     underline bold
 color info               default    default     reverse
 color article            default    default
-highlight article       "^(Feed|Author|Link|Date|Podcast.*):.*" blue default
-highlight article       "^(Title.*):.*" blue default bold
-highlight article       "^Links:"                           white   blue
-highlight article       "\\[[0-9][0-9]*\\]"                 green   default
-highlight article       "\\[image [0-9][0-9]*\\]"           green   default
-highlight article       "\\[embedded flash: [0-9][0-9]*\\]" green   default
-highlight article       ":.*\\(link\\)$"                    magenta default
-highlight article       ":.*\\(image\\)$"                   magenta default
-highlight article       ":.*\\(embedded flash\\)$"          magenta default
+highlight article       "^(Feed|Author|Link|Date): .+"       color4 default
+highlight article       "^(Feed|Author|Link|Date):"          color2 default
+highlight article       "^(Title): .+"                       color4 default bold
+highlight article       "^(Title):"                          color2 default bold
+highlight article       "^Links:"                            white   color4
+highlight article       "\\[[0-9][0-9]*\\]"                  color6   default
+highlight article       "\\[image [0-9][0-9]*\\]"            color6   default
+highlight article       "\\[embedded flash: [0-9][0-9]*\\]"  color6   default
+highlight article       ":.*\\(link\\)$"                     magenta default
+highlight article       ":.*\\(image\\)$"                    magenta default
+highlight article       ":.*\\(embedded flash\\)$"           magenta default
+
+# vim: ft=config
