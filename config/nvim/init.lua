@@ -550,6 +550,8 @@ function Prettify()
   -- highlights
   vim.api.nvim_set_hl(0, 'ColorColumn', { link = 'Visual' })
   vim.api.nvim_set_hl(0, 'FloatNormal', { link = 'Normal' })
+  vim.api.nvim_set_hl(0, 'NormalFloat', { link = 'Normal' })
+  vim.api.nvim_set_hl(0, 'LspFloatWinNormal', { link = 'Normal' })
 end
 
 -- }}}
@@ -1373,21 +1375,6 @@ if packer_ok then
     -- {{{2 nvim-luaref
     use('milisims/nvim-luaref')
     -- }}}
-    -- {{{2 which-key.nvim
-    use({
-      'folke/which-key.nvim',
-      config = function()
-        require('which-key').setup({
-          plugins = {
-            spelling = {
-              enabled = true,
-              suggestions = 40
-            }
-          }
-        })
-      end
-    })
-    -- }}}
     -- {{{2 vim-fugitive
     use({
       'tpope/vim-fugitive',
@@ -2122,6 +2109,26 @@ if packer_ok then
       end
     })
     -- }}}
+    -- {{{3 which-key.nvim
+    use({
+      'folke/which-key.nvim',
+      config = function()
+        require('which-key').setup({
+          window = {
+            border = My_Borders,
+            margin = { 0, 0, 2, 0 },
+            padding = { 2, 2, 2, 2 }
+          },
+          plugins = {
+            spelling = {
+              enabled = true,
+              suggestions = 40
+            }
+          }
+        })
+      end
+    })
+    -- }}}
     -- {{{3 noice.nvim
     use({
       'folke/noice.nvim',
@@ -2131,40 +2138,26 @@ if packer_ok then
           cmdline = {
             view = 'cmdline',
             format = {
-              cmdline = { pattern = '^:', icon = '❱' },
-              search_down = { kind = 'search', pattern = '^/', icon = ' ⭭' },
-              search_up = { kind = 'search', pattern = '^%?', icon = ' ⭫' },
-              filter = { pattern = '^:%s*!', icon = '＄', ft = 'sh' },
-              lua = { pattern = '^:%s*lua%s+', icon = ' ', ft = 'lua' },
-              IncRename = {
-                pattern = '^:%s*IncRename%s+',
-                icon = '  ',
-                conceal = true,
-                opts = {
-                  buf_options = { filetype = 'text' }
-                }
-              },
+              cmdline = { pattern = '^:', icon = '❱', lang = 'vim' },
+              search_down = { kind = 'search', pattern = '^/', icon = ' 🢗', lang = 'regex' },
+              search_up = { kind = 'search', pattern = '^%?', icon = ' 🢕', lang = 'regex' },
+              filter = { pattern = '^:%s*!', icon = '＄', lang = 'bash' },
+              lua = { pattern = '^:%s*lua%s+', icon = ' ', lang = 'lua' },
+              input = {}
             }
           },
-          popupmenu = {
-            backend = 'cmp'
+          lsp = {
+            override = {
+              ['vim.lsp.util.convert_input_to_markdown_lines'] = true,
+              ['vim.lsp.util.stylize_markdown'] = true,
+              ['cmp.entry.get_documentation'] = true
+            },
           },
-          routes = {
-            {
-              filter = {
-                event = 'msg_show',
-                kind = 'search_count'
-              },
-              opts = { skip = true },
-            },
-            {
-              filter = {
-                event = 'msg_show',
-                kind = '',
-                find = 'written'
-              },
-              opts = { skip = true },
-            },
+          presets = {
+            bottom_search = true,
+            long_message_to_split = true,
+            inc_rename = true,
+            lsp_doc_border = true
           },
           views = {
             popupmenu = {
@@ -2187,39 +2180,6 @@ if packer_ok then
         })
         vim.keymap.set('n', '<Leader>n', vim.cmd.Noice, { desc = 'Make some noice' })
         Prettify()
-      end
-    })
-    -- }}}
-    -- {{{3 dressing.nvim
-    use({
-      'stevearc/dressing.nvim',
-      config = function()
-        require('dressing').setup({
-          input = {
-            enabled = true,
-            override = function(conf)
-              conf.col = -1
-              conf.row = 0
-              return conf
-            end,
-            winblend = 0,
-            winhighlight = 'Normal:ModeMsg,FloatBorder:FzfLuaBorder'
-          },
-          select = {
-            enabled = true,
-            backend = { 'builtin' },
-            builtin = {
-              border = My_Borders,
-              override = function(conf)
-                conf.col = -1
-                conf.row = 0
-                return conf
-              end,
-              winblend = 0,
-              winhighlight = 'Normal:ModeMsg,FloatBorder:FzfLuaBorder'
-            }
-          },
-        })
       end
     })
     -- }}}
@@ -2286,6 +2246,77 @@ if packer_ok then
             transparent_background = true
           }
         end
+      end
+    })
+    -- }}}
+    -- {{{3 catppuccin
+    use({
+      'catppuccin/nvim',
+      as = 'catppuccin',
+      config = function()
+        require('catppuccin').setup({
+          compile_path = vim.fn.stdpath('cache') .. '/catppuccin',
+          transparent_background = true,
+          term_colors = true,
+          styles = {
+            comments = { 'italic' },
+            conditionals = { 'italic' },
+            loops = {},
+            functions = { 'bold' },
+            keywords = {},
+            strings = {},
+            variables = {},
+            numbers = {},
+            booleans = {},
+            properties = {},
+            types = {},
+            operators = {},
+          },
+          integrations = {
+            cmp = true,
+            gitsigns = true,
+            leap = true,
+            markdown = true,
+            noice = true,
+            symbols_outline = true,
+            treesitter = true,
+            treesitter_context = true,
+            ts_rainbow = true,
+            which_key = true,
+            indent_blankline = {
+              enabled = true,
+              colored_indent_levels = true,
+            },
+            native_lsp = {
+              enabled = true,
+              virtual_text = {
+                errors = { 'italic' },
+                hints = { 'italic' },
+                warnings = { 'italic' },
+                information = { 'italic' },
+              },
+              underlines = {
+                errors = { 'underline' },
+                hints = { 'underline' },
+                warnings = { 'underline' },
+                information = { 'underline' },
+              },
+            }
+          },
+          color_overrides = {
+            latte = {
+              pink = '#ed8fd3',
+              mauve = '#ab70f2',
+              red = '#ed5680',
+              marroon = '#e16f82',
+              peach = '#f88f4f',
+              green = '#17998a',
+              sky = '#89cceb',
+              blue ='#526ba4',
+              lavender = '#7a96fd'
+            }
+          }
+        })
       end
     })
     -- }}}
