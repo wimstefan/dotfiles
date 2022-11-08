@@ -10,9 +10,9 @@ local function basename(s)
   return string.gsub(s, "(.*[/\\])(.*)", "%2")
 end
 
--- Colour configuration
+-- {{{1 Colour configuration
 -- see https://github.com/wez/wezterm/issues/2376#issuecomment-1208816450
-local scheme = wezterm.get_builtin_color_schemes()[selected_scheme]
+local scheme = wez.get_builtin_color_schemes()[selected_scheme]
 local C_FG = scheme.foreground
 local C_BG = scheme.background
 ---@diagnostic disable-next-line: unused-local
@@ -47,12 +47,12 @@ local C_BRIGHT_MAGENTA = scheme.ansi[14]
 local C_BRIGHT_CYAN = scheme.ansi[15]
 ---@diagnostic disable-next-line: unused-local
 local C_BRIGHT_WHITE = scheme.ansi[16]
-local fg = wezterm.color.parse(scheme.foreground)
-local bg = wezterm.color.parse(scheme.background)
+local fg = wez.color.parse(scheme.foreground)
+local bg = wez.color.parse(scheme.background)
 ---@diagnostic disable-next-line: unused-local
 local h, s, l, a = fg:hsla()
 if l > 0.5 then
-  C_FG = fg:complement_ryb():lighten(0.4)
+  C_FG = fg:complement_ryb():lighten(4.4)
   C_BG = bg:darken(0.2)
 else
   C_FG = fg:complement_ryb():darken(0.8)
@@ -91,14 +91,17 @@ scheme.scrollbar_thumb = C_BLUE
 scheme.split = C_BLUE
 scheme.compose_cursor = C_BRIGHT_GREEN
 scheme.visual_bell = C_BRIGHT_RED
+-- 1}}}
 
--- Font configuration
+-- {{{1 Font configuration
+-- {{{2 font_fallback
 local function font_fallback(name)
   local names = { name, 'nonicons', 'JoyPixels', 'OpenMoji',
     { family = 'Iosevka Artesanal', weight = 'Book', scale = 1.1 } }
-  return wezterm.font_with_fallback(names)
+  return wez.font_with_fallback(names)
 end
-
+-- 2}}}
+-- {{{2 font_set
 local function font_set(name)
   local font
   if string.match(name, 'custom') then
@@ -107,38 +110,29 @@ local function font_set(name)
     font = font_fallback({ family = 'Fantasque Sans Mono', weight = 'Regular' })
   elseif string.match(name, 'iosevka') then
     font = font_fallback({ family = 'Iosevka Artesanal', harfbuzz_features = { 'calt=1', 'ccmp=1', 'dlig=1', 'onum=1' } })
+  elseif string.match(name, 'mona') then
+    font = font_fallback({ family = 'MonoLisa', weight = 'Light', harfbuzz_features = { 'case=1', 'liga=1', 'dlig=1', 'onum=1' } })
   elseif string.match(name, 'operator') then
-    font = font_fallback({ family = 'Operator Mono', weight = 'Book' })
+    font = font_fallback({ family = 'Operator Mono', weight = 'Light' })
   elseif string.match(name, 'plex') then
     font = font_fallback({ family = 'IBM Plex Mono Text', harfbuzz_features = { 'zero' } })
+  elseif string.match(name, 'pt') then
+    font = font_fallback({ family = 'PT Mono', weight = 'Regular' })
   elseif string.match(name, 'recursive') then
     font = font_fallback({ family = 'Rec Mono Casual', weight = 'Regular' })
   end
   return font
 end
-
+-- 2}}}
+-- {{{2 font_rules
 local function font_rules(name)
   local rules = {}
-  if string.match(name, 'custom') then
+  if string.match(name, 'custom')
+      or string.match(name, 'fantasque')
+      or string.match(name, 'mona')
+      or string.match(name, 'recursive')
+  then
     rules = nil
-  elseif string.match(name, 'fantasque') then
-    rules = {
-      {
-        intensity = 'Bold',
-        italic = false,
-        font = font_fallback({ family = 'Fantasque Sans Mono', weight = 'Bold' })
-      },
-      {
-        intensity = 'Normal',
-        italic = true,
-        font = font_fallback({ family = 'Fantasque Sans Mono', weight = 'Regular', style = 'Italic' })
-      },
-      {
-        intensity = 'Bold',
-        italic = true,
-        font = font_fallback({ family = 'Fantasque Sans Mono', weight = 'Bold', style = 'Italic' })
-      },
-    }
   elseif string.match(name, 'iosevka') then
     rules = {
       {
@@ -150,7 +144,7 @@ local function font_rules(name)
       {
         intensity = 'Normal',
         italic = true,
-        font = font_fallback({ family = 'Iosevka Artesanal Book', style = 'Italic' })
+        font = font_fallback({ family = 'Iosevka Artesanal', weight = 'Book', style = 'Italic' })
       },
       {
         intensity = 'Bold',
@@ -163,17 +157,17 @@ local function font_rules(name)
       {
         intensity = 'Bold',
         italic = false,
-        font = font_fallback({ family = 'Operator Mono', weight = 'Medium' })
+        font = font_fallback({ family = 'Operator Mono', weight = 'Book' })
       },
       {
         intensity = 'Normal',
         italic = true,
-        font = font_fallback({ family = 'Operator Mono', weight = 'Book', style = 'Italic' })
+        font = font_fallback({ family = 'Operator Mono', weight = 'Light', style = 'Italic' })
       },
       {
         intensity = 'Bold',
         italic = true,
-        font = font_fallback({ family = 'Operator Mono', weight = 'Medium', style = 'Italic' })
+        font = font_fallback({ family = 'Operator Mono', weight = 'Book', style = 'Italic' })
       },
     }
   elseif string.match(name, 'plex') then
@@ -194,28 +188,26 @@ local function font_rules(name)
         font = font_fallback({ family = 'IBM Plex Mono SmBld', style = 'Italic', harfbuzz_features = { 'zero' } })
       },
     }
-  elseif string.match(name, 'recursive') then
+  elseif string.match(name, 'pt') then
     rules = {
-      {
-        intensity = 'Bold',
-        italic = false,
-        font = font_fallback({ family = 'Rec Mono Casual', weight = 'Bold' })
-      },
       {
         intensity = 'Normal',
         italic = true,
-        font = font_fallback({ family = 'Rec Mono Casual', weight = 'Regular', style = 'Italic' })
+        font = font_fallback({ family = 'IBM Plex Mono Text', style = 'Italic', harfbuzz_features = { 'zero' } })
+        -- font = font_fallback({ family = 'Operator Mono', weight = 'Light', style = 'Italic' })
       },
       {
         intensity = 'Bold',
         italic = true,
-        font = font_fallback({ family = 'Rec Mono Casual', weight = 'Bold', style = 'Italic' })
+        font = font_fallback({ family = 'IBM Plex Mono SmBld', style = 'Italic', harfbuzz_features = { 'zero' } })
+        -- font = font_fallback({ family = 'Operator Mono', weight = 'Book', style = 'Italic' })
       },
     }
   end
   return rules
 end
-
+-- 2}}}
+-- {{{2 font_size
 local function font_size(name)
   local size
   if hostname == 'swimmer' then
@@ -227,8 +219,30 @@ local function font_size(name)
       size = 11.0
     elseif string.match(name, 'operator') then
       size = 11.0
+    elseif string.match(name, 'mona') then
+      size = 9.5
     elseif string.match(name, 'plex') then
       size = 10.6
+    elseif string.match(name, 'pt') then
+      size = 10.0
+    elseif string.match(name, 'recursive') then
+      size = 9.9
+    end
+  elseif hostname == 'komala' then
+    if string.match(name, 'custom') then
+      size = 10.0
+    elseif string.match(name, 'fantasque') then
+      size = 11.4
+    elseif string.match(name, 'iosevka') then
+      size = 11.0
+    elseif string.match(name, 'operator') then
+      size = 11.0
+    elseif string.match(name, 'mona') then
+      size = 9.5
+    elseif string.match(name, 'plex') then
+      size = 10.6
+    elseif string.match(name, 'pt') then
+      size = 10.0
     elseif string.match(name, 'recursive') then
       size = 9.9
     end
@@ -236,41 +250,66 @@ local function font_size(name)
     if string.match(name, 'custom') then
       size = 10.0
     elseif string.match(name, 'fantasque') then
-      size = 11.0
+      size = 11.4
     elseif string.match(name, 'iosevka') then
-      size = 10.4
+      size = 11.0
+    elseif string.match(name, 'mona') then
+      size = 9.0
     elseif string.match(name, 'operator') then
       size = 11.0
     elseif string.match(name, 'plex') then
       size = 10.4
+    elseif string.match(name, 'pt') then
+      size = 9.6
     elseif string.match(name, 'recursive') then
-      size = 9.4
+      size = 9.8
     end
   end
   return size
 end
-
+-- 2}}}
+-- {{{2 set_geometry
 local function set_geometry(x)
   local value = 0
   if x == 'cols' then
     value = 160
   elseif x == 'rows' then
     if hostname == 'swimmer' then
-      if my_font == 'recursive' then
-        value = 62
-      elseif my_font == 'iosevka' then
+      if (my_font == 'iosevka' or my_font == 'pt') then
         value = 64
+      elseif (my_font == 'custom' or my_font == 'operator') then
+        value = 55
+      elseif (my_font == 'recursive' or my_font == 'fantasque' or my_font == 'mona') then
+        value = 62
+      elseif (my_font == 'plex') then
+        value = 53
+      end
+    elseif hostname == 'komala' then
+      if (my_font == 'iosevka' or my_font == 'pt') then
+        value = 64
+      elseif (my_font == 'custom' or my_font == 'operator') then
+        value = 55
+      elseif (my_font == 'recursive' or my_font == 'fantasque' or my_font == 'mona') then
+        value = 62
+      elseif (my_font == 'plex') then
+        value = 53
       end
     elseif hostname == 'tj' then
-      if my_font == 'recursive' then
-        value = 51
-      elseif my_font == 'iosevka' then
+      if (my_font == 'iosevka' or my_font == 'mona') then
         value = 50
+      elseif (my_font == 'recursive' or my_font == 'pt') then
+        value = 51
+      elseif (my_font == 'custom') then
+        value = 41
+      elseif (my_font == 'operator' or my_font == 'fantasque' or my_font == 'plex') then
+        value = 42
       end
     end
   end
   return value
 end
+-- 2}}}
+-- 1}}}
 
 ---@diagnostic disable-next-line: unused-local
 local function update_ssh_status(window, pane)
