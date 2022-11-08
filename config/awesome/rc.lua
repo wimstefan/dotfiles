@@ -213,6 +213,7 @@ local volume = lain.widget.alsabar({
     symbol_alsa:set_image(volume_icon)
   end
 })
+-- volume.tooltip
 volume.bar:buttons(gears.table.join(
   awful.button({}, 1, function() -- left click
     awful.spawn.with_shell(mymixer)
@@ -300,7 +301,10 @@ local widget_power = lain.widget.bat({
         power_icon = beautiful.symbol_battery_three_quarters
         power_text = bat_now.perc .. "%"
       else
-        if tonumber(bat_now.perc) <= 10 then
+        if tonumber(bat_now.perc) == "0..9" then
+          power_icon = beautiful.symbol_battery_empty
+          power_text = bat_now.perc .. "%"
+        elseif tonumber(bat_now.perc) <= 10 then
           power_icon = beautiful.symbol_battery_empty
           power_text = bat_now.perc .. "%"
         elseif tonumber(bat_now.perc) <= 30 then
@@ -332,8 +336,11 @@ local widget_power = lain.widget.bat({
       title = "Battery low",
       text = "Plug the cable!",
       timeout = 15,
-      fg = beautiful.red_alt,
-      bg = beautiful.black_alt
+      font = beautiful.clock_font,
+      border_color = beautiful.red,
+      border_width = beautiful.border_width * 2.2,
+      fg = beautiful.red,
+      bg = beautiful.real_white
     }
     bat_notification_critical_preset = {
       title = "Battery exhausted",
@@ -353,9 +360,9 @@ local tooltip_bat = awful.tooltip({
     if (not bat_now.status) or bat_now.status == "N/A" or type(bat_now.perc) ~= "number" then
       text = "[Plugged in]\n" .. " No battery"
     elseif bat_now.status == "Discharging" then
-      text = "[status] discharging\n" .. "◴ time left " .. bat_now.time
+      text = "[status] discharging\n" .. "羽 time left " .. bat_now.time
     elseif bat_now.status == "Charging" then
-      text = "[status] charging\n" .. "◴ time left " .. bat_now.time
+      text = "[status] charging\n" .. "羽 time left " .. bat_now.time
     elseif bat_now.status == "Full" then
       text = "[status] charged"
     end
@@ -994,13 +1001,12 @@ ruled.client.connect_signal("request::rules", function()
   ruled.client.append_rule { rule_any = { class = { "^tj" } }, properties = { tag = "3" } }
   ruled.client.append_rule { rule_any = { class = { "^komala" } }, properties = { tag = "5" } }
   ruled.client.append_rule { rule_any = { class = { "laptop$", "^home", "^swimmer" } }, properties = { tag = "6" } }
-  ruled.client.append_rule { rule_any = { class = { "Thunderbird" } }, properties = { tag = "7" } }
-  ruled.client.append_rule { rule_any = { class = { "Darktable", "Gimp", "Inkscape", "Scribus" } },
-    properties = { tag = "8" } }
+  ruled.client.append_rule { rule_any = { class = { "thunderbird" } }, properties = { tag = "7" } }
+  ruled.client.append_rule { rule_any = { class = { "Darktable", "Gimp", "Inkscape", "Scribus" } }, properties = { tag = "8" } }
   ruled.client.append_rule { rule_any = { class = { "Audacious", "Audacity", "puddletag" } }, properties = { tag = "9" } }
 
   -- Application & host specific rules
-  ruled.client.append_rule { rule_any = { class = { "Mixxx" } }, properties = { shape = shape.rectangle } }
+  ruled.client.append_rule { rule_any = { class = { "Mixxx", "libreoffice" } }, properties = { shape = shape.rectangle } }
 
   if hostname == "swimmer" then
     ruled.client.append_rule {
@@ -1158,6 +1164,13 @@ end)
 
 -- {{{1 Signals
 -- Signal function to execute when a new client appears.
+screen.connect_signal("arrange", function(s)
+  local only = #s.tiled_clients == 1 or s.selected_tag.layout.name == "max"
+  for _, c in pairs(s.clients) do
+    local max = c.fullscreen or c.maximized or only and not c.floating
+    c.border_width = max and 0 or beautiful.border_width
+  end
+end)
 client.connect_signal("manage", function(c)
   if awesome.startup and
       not c.size_hints.user_position
@@ -1180,10 +1193,10 @@ client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_c
 awful.spawn.with_shell(
   "pkill picom;" ..
   "while pgrep -x picom >/dev/null; do sleep 1; done;" ..
-  "/usr/local/src/Tools/x11/picom-dccsillag.git/build/src/picom --config $HOME/.config/picom/awesomewm.conf &;"
-  -- "/usr/local/src/Tools/x11/picom-FT-Labs.git/build/src/picom --experimental-backends --config $HOME/.config/picom/awesomewm.conf &;"
+  -- "/usr/local/src/Tools/x11/picom-dccsillag.git/build/src/picom --config $HOME/.config/picom/awesomewm.conf &;"
+  -- "/usr/local/src/Tools/x11/picom-FT-Labs.git/build/src/picom --config $HOME/.config/picom/ft-awesomewm.conf &;"
   -- "/usr/local/src/Tools/x11/picom-ibhagwan.git/build/src/picom --experimental-backends --config $HOME/.config/picom/awesomewm.conf &;"
-  -- "/usr/local/src/Tools/x11/picom-yshui.git/build/src/picom --config $HOME/.config/picom/awesomewm.conf &;"
+  "/usr/local/src/Tools/x11/picom-yshui.git/build/src/picom --config $HOME/.config/picom/awesomewm.conf &;"
 )
 -- 1}}}
 
