@@ -66,6 +66,7 @@ vim.opt.pastetoggle = '<F3>'
 vim.opt.diffopt:append({
   'vertical',
   'indent-heuristic',
+  'linematch:60',
   'algorithm:histogram'
 })
 vim.opt.spellfile = vim.fn.stdpath('config') .. '/spell/myspell.utf-8.add'
@@ -2031,6 +2032,10 @@ if packer_ok then
               show_count = true
             }
           },
+          diff_opts = {
+            internal = true,
+            linematch = 60
+          },
           count_chars = {
             [1] = '¹',
             [2] = '²',
@@ -2052,7 +2057,7 @@ if packer_ok then
             vim.keymap.set('n', '[c', "&diff ? '[c' : '<cmd>Gitsigns prev_hunk<CR>'",
               { expr = true, replace_keycodes = false },
               { desc = 'Gitsigns: previous hunk' })
-            vim.keymap.set('n', ',sp', gs.preview_hunk, { desc = 'Gitsigns: preview hunk' }, { buffer = bufnr })
+            vim.keymap.set('n', ',sp', gs.preview_hunk_inline, { desc = 'Gitsigns: preview hunk' }, { buffer = bufnr })
             vim.keymap.set('n', ',sb', function() gs.blame_line { full = true } end, { desc = 'Gitsigns: blame line' },
               { buffer = bufnr })
             vim.keymap.set('n', ',sd', gs.diffthis, { desc = 'Gitsigns: diffthis' }, { buffer = bufnr })
