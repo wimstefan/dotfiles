@@ -1,7 +1,7 @@
-local wezterm = require('wezterm')
-local act = wezterm.action
-local hostname = wezterm.hostname()
-local my_font = 'iosevka'
+local wez = require('wezterm')
+local act = wez.action
+local mux = wez.mux
+local hostname = wez.hostname()
 -- local selected_scheme = 'wilmersdorf' -- dark
 -- local selected_scheme = 'iceberg-light' -- light
 local selected_scheme = 'seoulbones_light'
@@ -320,12 +320,15 @@ local function update_ssh_status(window, pane)
   return text
 end
 
-wezterm.on('format-tab-title', function(tab)
+wez.on('format-tab-title', function(tab)
   local tab_prefix = tab.tab_index == 0 and "  " or " "
   local tab_index = tab.tab_index
   local pane = tab.active_pane
   -- local tab_title = tab_index .. ' ' .. tab.active_pane.title
   local tab_title = tab_index .. ' ' .. basename(pane.foreground_process_name)
+  if pane.domain_name and not pane.domain_name == 'local' then
+    tab_title = pane.domain_name .. ':' .. tab_title
+  end
   if tab.is_active then
     return {
       { Text = tab_prefix },
@@ -338,18 +341,23 @@ wezterm.on('format-tab-title', function(tab)
   }
 end)
 
-wezterm.on('update-right-status', function(window, pane)
+wez.on('update-right-status', function(window, pane)
   local host = update_ssh_status(window, pane)
-  local host_name = wezterm.hostname()
-  local date = wezterm.strftime('[%H:%M] %a %b %d %Y  ')
+  local date = wez.strftime('[%H:%M] %a %b %d %Y  ')
   local bat = ''
-  for _, b in ipairs(wezterm.battery_info()) do
+  for _, b in ipairs(wez.battery_info()) do
     bat = string.format('[BAT] %.0f%% ', b.state_of_charge * 100)
   end
-  window:set_right_status(wezterm.format({
+  local keytable = window:active_key_table()
+  if keytable then
+    keytable = 'TABLE: ' .. keytable
+  end
+  window:set_right_status(wez.format({
     { Attribute = { Intensity = 'Bold' } },
     { Foreground = { AnsiColor = 'Green' } },
-    { Text = '• ' .. host .. ': ' .. host_name .. ' •' .. ' ' },
+    { Text = '• ' .. host .. ': ' .. hostname .. ' •' .. ' ' },
+    { Foreground = { AnsiColor = 'Blue' } },
+    { Text = keytable or '' },
     { Foreground = { AnsiColor = 'Yellow' } },
     { Text = bat },
     { Foreground = 'Default' },
@@ -443,10 +451,10 @@ return {
         patterns = {
           'https?://\\S+'
         },
-        action = wezterm.action_callback(function(window, pane)
+        action = wez.action_callback(function(window, pane)
           local url = window:get_selection_text_for_pane(pane)
-          wezterm.log_info('opening: ' .. url)
-          wezterm.open_with(url)
+          wez.log_info('opening: ' .. url)
+          wez.open_with(url)
         end)
       }
     },
@@ -480,3 +488,4 @@ return {
     { key = 'DownArrow', mods = 'LEADER|SHIFT', action = act.AdjustPaneSize{ 'Down', 4 } },
   },
 }
+-- vim: foldmethod=marker foldlevel=0
