@@ -548,7 +548,9 @@ function Prettify()
     vim.cmd.colorscheme('quiet')
   end
   -- highlights
+  vim.api.nvim_set_hl(0, 'Normal', { bg = 'none' })
   vim.api.nvim_set_hl(0, 'ColorColumn', { link = 'Visual' })
+  vim.api.nvim_set_hl(0, 'FloatBorder', { link = 'Normal' })
   vim.api.nvim_set_hl(0, 'FloatNormal', { link = 'Normal' })
   vim.api.nvim_set_hl(0, 'NormalFloat', { link = 'Normal' })
   vim.api.nvim_set_hl(0, 'LspFloatWinNormal', { link = 'Normal' })
@@ -586,13 +588,7 @@ end
 
 -- }}}
 
--- {{{2 quickfix/location toggle made by iBaghwan
-function TableLength(T)
-  local count = 0
-  for _ in pairs(T) do count = count + 1 end
-  return count
-end
-
+-- {{{2 quickfix/location toggle made by ibhagwan
 function FindQF(type)
   local wininfo = vim.fn.getwininfo()
   local win_tbl = {}
@@ -639,9 +635,9 @@ function OpenLoclistAll()
 end
 
 function ToggleQF(type)
-  local windows = FindQF(type)
-  if TableLength(windows) > 0 then
-    for _, win in pairs(windows) do
+local windows = FindQF(type)
+  if #windows > 0 then
+    for _, win in ipairs(windows) do
       vim.api.nvim_win_hide(win.winid)
     end
   else
