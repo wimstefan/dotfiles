@@ -1026,14 +1026,9 @@ if packer_ok then
               name = 'buffer',
               option = {
                 get_bufnrs = function()
-                  local buf = vim.api.nvim_get_current_buf()
-                  local byte_size = vim.api.nvim_buf_get_offset(buf, vim.api.nvim_buf_line_count(buf))
-                  if byte_size > 2048 * 2048 then
-                    return {}
-                  end
-                  return { buf }
-                end
-              }
+                  return vim.api.nvim_list_bufs()
+                end,
+              },
             }
           }),
           sorting = {
