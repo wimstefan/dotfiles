@@ -1291,6 +1291,7 @@ if packer_ok then
               },
             },
           },
+          intelephense = {},
           jsonls = {},
           sumneko_lua = {
             cmd = { vim.fn.stdpath('data') .. '/lspconfig/lua-language-server/bin/lua-language-server' },
@@ -1303,9 +1304,6 @@ if packer_ok then
                     'use',
                     'vim'
                   },
-                  neededFileStatus = {
-                    codestyle_check = 'Any'
-                  }
                 },
                 format = {
                   enable = true,
@@ -1330,9 +1328,6 @@ if packer_ok then
                 },
                 hint = {
                   enable = true
-                },
-                runtime = {
-                  version = 'LuaJIT',
                 },
                 telemetry = {
                   enable = false
