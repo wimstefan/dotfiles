@@ -1793,7 +1793,10 @@ if packer_ok then
     -- {{{3 nvim-nonicons
     use({
       'yamatsum/nvim-nonicons',
-      requires = 'wimstefan/nvim-web-devicons'
+      requires = 'wimstefan/nvim-web-devicons',
+      config = function()
+        require('nvim-nonicons').setup()
+      end
     })
     -- }}}
     -- {{{3 lualine.nvim
@@ -1956,7 +1959,7 @@ if packer_ok then
               },
               {
                 'branch',
-                icon = 'שׂ ',
+                icon = require('nvim-nonicons').get('git-branch'),
                 on_click = function()
                   vim.cmd('Lazygit')
                   vim.defer_fn(function() vim.cmd('startinsert') end, 300)
@@ -2151,6 +2154,15 @@ if packer_ok then
               input = {}
             }
           },
+          format = {
+            level = {
+              icons = {
+                error = vim.fn.sign_getdefined('DiagnosticSignError')[1].text,
+                warn = vim.fn.sign_getdefined('DiagnosticSignWarn')[1].text,
+                info = vim.fn.sign_getdefined('DiagnosticSignInfo')[1].text,
+              }
+            }
+          },
           lsp = {
             override = {
               ['vim.lsp.util.convert_input_to_markdown_lines'] = true,
@@ -2160,6 +2172,7 @@ if packer_ok then
           },
           presets = {
             bottom_search = true,
+            command_palette = true,
             long_message_to_split = true,
             inc_rename = true,
             lsp_doc_border = true
@@ -2261,6 +2274,10 @@ if packer_ok then
       config = function()
         require('catppuccin').setup({
           compile_path = vim.fn.stdpath('cache') .. '/catppuccin',
+          background = {
+            light = 'latte',
+            dark = 'mocha'
+          },
           transparent_background = true,
           term_colors = true,
           styles = {
@@ -2310,20 +2327,23 @@ if packer_ok then
           },
           color_overrides = {
             latte = {
-              pink = '#ed8fd3',
+              pink = '#c01f94',
               mauve = '#ab70f2',
-              red = '#ed5680',
-              marroon = '#e16f82',
-              peach = '#f88f4f',
+              red = '#cc1548',
+              marroon = '#c52942',
+              peach = '#f89b61',
               green = '#17998a',
-              sky = '#89cceb',
+              sky = '#9dacce',
               blue ='#526ba4',
-              lavender = '#7a96fd'
+              lavender = '#768bbb'
             }
           }
         })
       end
     })
+    -- }}}
+    -- {{{3 nvim-base16
+    use('RRethy/nvim-base16' )
     -- }}}
     -- {{{3 ccc.nvim
     use({
