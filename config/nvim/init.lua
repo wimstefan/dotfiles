@@ -827,7 +827,6 @@ if packer_ok then
         }
 
         vim.keymap.set('n', '<Leader>F', require('fzf-lua').builtin, { desc = 'Fzf: builtin' })
-        vim.keymap.set('n', '<Leader>b', require('fzf-lua').buffers, { desc = 'Fzf: buffers' })
         vim.keymap.set('n', '<Leader>c', require('fzf-lua').colorschemes, { desc = 'Fzf: colorschemes' })
         vim.keymap.set('n', '<Leader>f', require('fzf-lua').files, { desc = 'Fzf: files' })
         vim.keymap.set('n', '<Leader>o', require('fzf-lua').oldfiles, { desc = 'Fzf: oldfiles' })
@@ -1398,14 +1397,6 @@ if packer_ok then
       end
     })
     -- }}}
-    -- {{{2 spellsitter.nvim
-    use({
-      'lewis6991/spellsitter.nvim',
-      config = function()
-        require('spellsitter').setup()
-      end
-    })
-    -- }}}
     -- {{{2 spaceless.nvim
     use({
       'lewis6991/spaceless.nvim',
@@ -1459,6 +1450,17 @@ if packer_ok then
       'johmsalas/text-case.nvim',
       config = function()
         require('textcase').setup()
+      end
+    })
+    -- }}}
+    -- {{{2 buffer-manager.nvim
+    use({
+      'j-morano/buffer_manager.nvim',
+      requires = {
+        'nvim-lua/plenary.nvim'
+      },
+      config = function()
+        vim.keymap.set({ 't', 'n' }, '<Leader>b', require('buffer_manager.ui').toggle_quick_menu, { noremap = true })
       end
     })
     -- }}}
@@ -1621,6 +1623,21 @@ if packer_ok then
     use({
       'potamides/pantran.nvim',
       config = function()
+        local keylock = vim.env.HOME .. '/system/.deepl_key.gpg'
+        if vim.fn.filereadable(keylock) then
+          local unlocked = vim.fn.system({
+            'gpg',
+            '-q',
+            '--no-verbose',
+            '-d',
+            '--batch',
+            keylock
+          })
+          unlocked = unlocked:gsub('\n', '')
+          vim.env.DEEPL_AUTH_KEY = unlocked
+        else
+          vim.notify('No DEEPL_AUTH_KEY available', vim.log.levels.WARN)
+        end
         require('pantran').setup({
           default_engine = 'deepl'
         })
