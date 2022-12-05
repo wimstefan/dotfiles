@@ -663,7 +663,6 @@ end
 -- {{{1 --------------------- PLUGINS ------------------------------------------
 require('packer').startup(function(use)
   require('packer').init({
-    compile_path = vim.fn.stdpath('config') .. '/lua/packer_compiled.lua',
     display = {
       open_cmd = '84vnew [packer]',
       working_sym = '北 ',
@@ -2358,7 +2357,6 @@ require('packer').startup(function(use)
   if is_bootstrap then
     require('packer').sync()
   end
-  pcall(require, 'packer_compiled')
 end)
 if is_bootstrap then
   print '=================================='
