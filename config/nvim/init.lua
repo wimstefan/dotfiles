@@ -7,7 +7,12 @@ if vim.fn.empty(vim.fn.glob(install_path)) > 0 then
   vim.fn.system({ 'git', 'clone', 'https://github.com/wbthomason/packer.nvim', install_path })
   vim.cmd [[packadd packer.nvim]]
 else
-  pcall(require, 'impatient')
+  local ok, impatient = pcall(require, 'impatient')
+  if ok then
+    impatient.enable_profile()
+  else
+    vim.notify(impatient)
+  end
 end
 -- }}}
 -- {{{1 --------------------- OPTIONS ------------------------------------------
