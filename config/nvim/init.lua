@@ -554,6 +554,7 @@ function Prettify()
   end
   -- highlights
   vim.api.nvim_set_hl(0, 'Normal', { bg = 'none' })
+  vim.api.nvim_set_hl(0, 'Folded', { bg = 'none' })
   vim.api.nvim_set_hl(0, 'ColorColumn', { link = 'Visual' })
   vim.api.nvim_set_hl(0, 'FloatBorder', { link = 'Normal' })
   vim.api.nvim_set_hl(0, 'FloatNormal', { link = 'Normal' })
@@ -2263,81 +2264,6 @@ require('packer').startup(function(use)
           transparent_background = true
         }
       end
-    end
-  })
-  -- }}}
-  -- {{{3 catppuccin
-  use({
-    'catppuccin/nvim',
-    as = 'catppuccin',
-    config = function()
-      require('catppuccin').setup({
-        compile_path = vim.fn.stdpath('cache') .. '/catppuccin',
-        background = {
-          light = 'latte',
-          dark = 'mocha'
-        },
-        transparent_background = true,
-        term_colors = true,
-        styles = {
-          comments = { 'italic' },
-          conditionals = { 'italic' },
-          loops = {},
-          functions = { 'bold' },
-          keywords = {},
-          strings = {},
-          variables = {},
-          numbers = {},
-          booleans = {},
-          properties = {},
-          types = {},
-          operators = {},
-        },
-        integrations = {
-          cmp = true,
-          gitsigns = true,
-          leap = true,
-          markdown = true,
-          noice = true,
-          symbols_outline = true,
-          treesitter = true,
-          treesitter_context = true,
-          ts_rainbow = true,
-          which_key = true,
-          indent_blankline = {
-            enabled = true,
-            colored_indent_levels = true,
-          },
-          native_lsp = {
-            enabled = true,
-            virtual_text = {
-              errors = { 'italic' },
-              hints = { 'italic' },
-              warnings = { 'italic' },
-              information = { 'italic' },
-            },
-            underlines = {
-              errors = { 'underline' },
-              hints = { 'underline' },
-              warnings = { 'underline' },
-              information = { 'underline' },
-            },
-          }
-        },
-        color_overrides = {
-          latte = {
-            pink = '#c01f94',
-            mauve = '#ab70f2',
-            red = '#cc1548',
-            marroon = '#c52942',
-            peach = '#f89b61',
-            green = '#17998a',
-            sky = '#9dacce',
-            blue ='#526ba4',
-            lavender = '#768bbb'
-          }
-        }
-      })
     end
   })
   -- }}}
