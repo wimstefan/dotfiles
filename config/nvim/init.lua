@@ -707,6 +707,7 @@ require('packer').startup(function(use)
     'nvim-treesitter/nvim-treesitter',
     run = ':TSUpdate',
     requires = {
+      'RRethy/nvim-treesitter-textsubjects',
       'nvim-treesitter/nvim-treesitter-textobjects',
       'nvim-treesitter/nvim-treesitter-refactor',
       'windwp/nvim-ts-autotag',
@@ -784,6 +785,15 @@ require('packer').startup(function(use)
               ['ap'] = '@parameter.outer',
               ['ip'] = '@parameter.inner',
             }
+          }
+        },
+        textsubjects = {
+          enable = true,
+          prev_selection = ',',
+          keymaps = {
+            ['.'] = 'textsubjects-smart',
+            [';'] = 'textsubjects-container-outer',
+            ['i;'] = 'textsubjects-container-inner',
           }
         }
       })
