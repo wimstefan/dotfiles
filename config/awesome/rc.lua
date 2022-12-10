@@ -848,7 +848,7 @@ awful.keyboard.append_global_keybindings({
   awful.key({ modkey }, "x",
     function()
       awful.spawn.with_shell("tdrop -n Explore -a -m -w 90% -h 90% -y 9% -x 9% " ..
-        terminal .. CLASS .. "'Explore' " .. CMD .. "vifmrun")
+        terminal .. CLASS .. "'Explore' " .. CMD .. "vifm")
     end,
     { description = "Explore", group = "applications" }),
   awful.key({ modkey }, "s",
@@ -1194,8 +1194,7 @@ awful.spawn.with_shell(
   "pkill picom;" ..
   "while pgrep -x picom >/dev/null; do sleep 1; done;" ..
   -- "/usr/local/src/Tools/x11/picom-dccsillag.git/build/src/picom --config $HOME/.config/picom/awesomewm.conf &;"
-  -- "/usr/local/src/Tools/x11/picom-FT-Labs.git/build/src/picom --config $HOME/.config/picom/ft-awesomewm.conf &;"
-  -- "/usr/local/src/Tools/x11/picom-ibhagwan.git/build/src/picom --experimental-backends --config $HOME/.config/picom/awesomewm.conf &;"
+  -- "/usr/local/src/Tools/x11/picom-FT-Labs.git/build/src/picom --config $HOME/.config/picom/awesomewm.conf &;"
   "/usr/local/src/Tools/x11/picom-yshui.git/build/src/picom --config $HOME/.config/picom/awesomewm.conf &;"
 )
 -- 1}}}
