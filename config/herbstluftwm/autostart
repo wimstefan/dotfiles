@@ -114,23 +114,35 @@ color_normal="$color_fg$tr"
 
 hc set_layout grid
 
-hc attr theme.title_when multiple_tabs
 hc attr theme.tiling.reset 1
 hc attr theme.floating.reset 1
+
 hc attr theme.border_width "$width"
 hc attr theme.active.color "$color_green$op"
 hc attr theme.normal.color "$color_normal"
 hc attr theme.urgent.color "$color_red"
 
-hc attr settings.focus_follows_mouse true
-hc attr settings.focus_stealing_prevention true
+hc attr theme.title_when multiple_tabs
+hc attr theme.title_height 25
+hc attr theme.title_depth $((width*2))
+hc attr theme.title_align center
+if [ $HOSTNAME = 'swimmer' ]; then
+  hc attr theme.title_font 'PT Sans Narrow:pixelsize=24'
+elif [ $HOSTNAME = 'tj' ]; then
+  hc attr theme.title_font 'PayPal Sans Small:pixelsize=14'
+fi
 
-hc attr settings.default_frame_layout grid
-hc attr settings.smart_frame_surroundings hide_all
+hc attr settings.focus_follows_mouse on
+hc attr settings.focus_stealing_prevention on
+
+# hc attr settings.default_frame_layout grid
+hc attr settings.smart_frame_surroundings on
+hc attr settings.show_frame_decorations focused_if_multiple
 hc attr settings.always_show_frame false
 hc attr settings.frame_border_width "$gap"
+hc attr settings.frame_border_inner_width $((gap/2))
 hc attr settings.frame_transparent_width 0
-hc attr settings.frame_bg_transparent true
+hc attr settings.frame_bg_transparent on
 hc attr settings.frame_gap "$gap"
 hc attr settings.frame_padding 0
 hc attr settings.frame_border_active_color "$color_green$op"
@@ -138,10 +150,11 @@ hc attr settings.frame_active_opacity 0
 hc attr settings.frame_border_normal_color "$color_normal"
 hc attr settings.frame_normal_opacity 50
 
-hc attr settings.tabbed_max true
-hc attr settings.smart_window_surroundings true
-hc attr settings.gapless_grid true
+hc attr settings.tabbed_max on
+hc attr settings.gapless_grid on
 hc attr settings.window_gap "$gap"
+hc attr settings.smart_window_surroundings on
+hc attr settings.hide_covered_windows on
 
 hc pad 0 $((POLYBAR_HEIGHT+10)) 0 0 0
 
@@ -190,8 +203,7 @@ pkill sxhkd
 sxhkd -c $HOME/.config/herbstluftwm/sxhkdrc &
 pkill picom
 while pgrep -x picom >/dev/null; do sleep 1; done
-#/usr/local/src/Tools/x11/picom-yshui.git/build/src/picom --config $HOME/.config/picom/herbstluftwm.conf &
-/usr/local/src/Tools/x11/picom-ibhagwan.git/build/src/picom --experimental-backends --config $HOME/.config/picom/herbstluftwm.conf &
+/usr/local/src/Tools/x11/picom-yshui.git/build/src/picom --config $HOME/.config/picom/herbstluftwm.conf &
 pkill dunst
 dunst &
 if [ $HOSTNAME = 'swimmer' ]; then
