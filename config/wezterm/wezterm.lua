@@ -2,18 +2,34 @@ local wez = require('wezterm')
 local act = wez.action
 local mux = wez.mux
 local hostname = wez.hostname()
-local my_font = 'pt'
+local my_font
+if hostname == 'tj' then
+  my_font = 'pt'
+else
+  my_font = 'pt'
+end
 -- local selected_scheme = 'wilmersdorf' -- dark
--- local selected_scheme = 'iceberg-light' -- light
-local selected_scheme = 'dayfox'
+-- local selected_scheme = 'terafox' -- dark
+-- local selected_scheme = 'Atelier Cave (base16)'
+-- local selected_scheme = 'Atelier Cave Light (base16)'
+-- local selected_scheme = 'Atelier Lakeside Light (base16)'
+-- local selected_scheme = 'seoulbones_dark'
+-- local selected_scheme = 'seoulbones_light'
+-- local selected_scheme = 'base16-tokyo-city-terminal-light'
+local selected_scheme = 'base16-tokyo-city-terminal-dark'
 
 local function basename(s)
-  return string.gsub(s, "(.*[/\\])(.*)", "%2")
+  return string.gsub(s, '(.*[/\\])(.*)', '%2')
 end
 
 -- {{{1 Colour configuration
 -- see https://github.com/wez/wezterm/issues/2376#issuecomment-1208816450
-local scheme = wez.get_builtin_color_schemes()[selected_scheme]
+local scheme
+if string.match(selected_scheme, '^base16') then
+  scheme = wez.color.load_base16_scheme(os.getenv('XDG_CONFIG_HOME') .. '/wezterm/colors/' .. selected_scheme .. '.yaml')
+else
+  scheme = wez.get_builtin_color_schemes()[selected_scheme]
+end
 local C_FG = scheme.foreground
 local C_BG = scheme.background
 ---@diagnostic disable-next-line: unused-local
@@ -53,14 +69,17 @@ local bg = wez.color.parse(scheme.background)
 ---@diagnostic disable-next-line: unused-local
 local h, s, l, a = fg:hsla()
 if l > 0.5 then
-  C_FG = fg:complement_ryb():lighten(4.4)
-  C_BG = bg:darken(0.2)
+  if selected_scheme == 'seoulbones_dark' then
+    C_BG = bg:darken(0.6)
+  end
+  C_FG = fg:lighten(1.0)
 else
-  C_FG = fg:complement_ryb():darken(0.8)
-  C_BG = bg:lighten(0.6)
+  C_FG = fg:darken(1.0)
+  C_BG = bg:lighten(0.8)
 end
 scheme.foreground = C_FG
 scheme.background = C_BG
+scheme.selection_fg = 'none'
 scheme.tab_bar = {
   background = C_BG,
   active_tab = {
@@ -97,8 +116,7 @@ scheme.visual_bell = C_BRIGHT_RED
 -- {{{1 Font configuration
 -- {{{2 font_fallback
 local function font_fallback(name)
-  local names = { name, 'nonicons', 'JoyPixels', 'OpenMoji',
-    { family = 'Iosevka Artesanal', weight = 'Book', scale = 1.1 } }
+  local names = { name, 'nonicons', 'JoyPixels', 'OpenMoji', 'Iosevka Artesanal' }
   return wez.font_with_fallback(names)
 end
 -- 2}}}
@@ -106,13 +124,13 @@ end
 local function font_set(name)
   local font
   if string.match(name, 'custom') then
-    font = font_fallback({ family = 'Rec Mono Custom' })
+    font = font_fallback({ family = 'Codelia Ligatures' })
   elseif string.match(name, 'fantasque') then
     font = font_fallback({ family = 'Fantasque Sans Mono', weight = 'Regular' })
   elseif string.match(name, 'iosevka') then
     font = font_fallback({ family = 'Iosevka Artesanal', harfbuzz_features = { 'calt=1', 'ccmp=1', 'dlig=1', 'onum=1' } })
   elseif string.match(name, 'mona') then
-    font = font_fallback({ family = 'MonoLisa', weight = 'Light', harfbuzz_features = { 'case=1', 'liga=1', 'dlig=1', 'onum=1' } })
+    font = font_fallback({ family = 'MonoLisa', weight = 'Book', harfbuzz_features = { 'case=1', 'liga=1', 'dlig=1', 'onum=1' } })
   elseif string.match(name, 'operator') then
     font = font_fallback({ family = 'Operator Mono', weight = 'Light' })
   elseif string.match(name, 'plex') then
@@ -194,14 +212,14 @@ local function font_rules(name)
       {
         intensity = 'Normal',
         italic = true,
-        font = font_fallback({ family = 'IBM Plex Mono Text', style = 'Italic', harfbuzz_features = { 'zero' } })
-        -- font = font_fallback({ family = 'Operator Mono', weight = 'Light', style = 'Italic' })
+        -- font = font_fallback({ family = 'IBM Plex Mono Text', style = 'Italic', harfbuzz_features = { 'zero' } })
+        font = font_fallback({ family = 'Codelia Ligatures Medium', style = 'Italic' })
       },
       {
         intensity = 'Bold',
         italic = true,
-        font = font_fallback({ family = 'IBM Plex Mono SmBld', style = 'Italic', harfbuzz_features = { 'zero' } })
-        -- font = font_fallback({ family = 'Operator Mono', weight = 'Book', style = 'Italic' })
+        -- font = font_fallback({ family = 'IBM Plex Mono SmBld', style = 'Italic', harfbuzz_features = { 'zero' } })
+        font = font_fallback({ family = 'Codelia Ligatures Bold', style = 'Italic' })
       },
     }
   end
@@ -219,7 +237,7 @@ local function font_size(name)
     elseif string.match(name, 'iosevka') then
       size = 11.0
     elseif string.match(name, 'operator') then
-      size = 11.0
+      size = 10.3
     elseif string.match(name, 'mona') then
       size = 9.5
     elseif string.match(name, 'plex') then
@@ -257,11 +275,11 @@ local function font_size(name)
     elseif string.match(name, 'mona') then
       size = 9.0
     elseif string.match(name, 'operator') then
-      size = 11.0
+      size = 10.0
     elseif string.match(name, 'plex') then
       size = 10.4
     elseif string.match(name, 'pt') then
-      size = 9.6
+      size = 10.0
     elseif string.match(name, 'recursive') then
       size = 9.8
     end
@@ -315,14 +333,14 @@ end
 ---@diagnostic disable-next-line: unused-local
 local function update_ssh_status(window, pane)
   local text = pane:get_domain_name()
-  if text == "local" then
+  if text == 'local' then
     text = hostname
   end
   return text
 end
 
 wez.on('format-tab-title', function(tab)
-  local tab_prefix = tab.tab_index == 0 and "  " or " "
+  local tab_prefix = tab.tab_index == 0 and '  ' or ' '
   local tab_index = tab.tab_index
   local pane = tab.active_pane
   -- local tab_title = tab_index .. ' ' .. tab.active_pane.title
@@ -366,6 +384,13 @@ wez.on('update-right-status', function(window, pane)
   }))
 end)
 
+-- wez.on('gui-startup', function(cmd)
+--     local tab, top_pane, window = mux.spawn_window(cmd or {})
+--     local bottom_pane = top_pane:split { direction = 'Bottom' }
+--     top_pane:split { direction = 'Right'}
+--     bottom_pane:split { direction = 'Right'}
+-- end)
+
 return {
   color_schemes = {
     [selected_scheme] = scheme
@@ -378,13 +403,12 @@ return {
   font_rules = font_rules(my_font),
   font_size = font_size(my_font),
   char_select_font_size = font_size(my_font),
-  freetype_load_target = 'Light',
-  allow_square_glyphs_to_overflow_width = 'Always',
-  custom_block_glyphs = true,
   warn_about_missing_glyphs = false,
   underline_position = '-1.4pt',
   underline_thickness = '200%',
   unicode_version = 15,
+  use_cap_height_to_scale_fallback_fonts = true,
+  freetype_load_target = 'HorizontalLcd',
 
   -- Behaviour
   term = 'wezterm',
@@ -400,7 +424,6 @@ return {
   initial_cols = set_geometry('cols'),
   initial_rows = set_geometry('rows'),
   enable_kitty_graphics = true,
-  enable_kitty_keyboard = true,
   selection_word_boundary = ' \t\n{}"\'`,;@│*',
   clean_exit_codes = { 127, 130, 255 },
 
@@ -434,6 +457,7 @@ return {
   debug_key_events = false,
   leader = { key = 'q', mods = 'CTRL' },
   keys = {
+    { key = 'F11', action = act.ToggleFullScreen },
     { key = '-', mods = 'CTRL', action = act.DecreaseFontSize },
     { key = '=', mods = 'CTRL', action = act.IncreaseFontSize },
     { key = '0', mods = 'CTRL', action = act.ResetFontSize },
