@@ -344,7 +344,6 @@ augroup('General', function(g)
       if not (
         vim.bo.filetype == 'man'
         or vim.bo.filetype == 'help'
-        or vim.bo.filetype == 'noice'
         or vim.bo.filetype == 'packer'
         or vim.bo.filetype == 'qf'
         or vim.bo.filetype == 'whichkey'
@@ -554,6 +553,7 @@ function Prettify()
   end
   -- highlights
   vim.api.nvim_set_hl(0, 'Normal', { bg = 'none' })
+  vim.api.nvim_set_hl(0, 'NormalNC', { bg = 'none' })
   vim.api.nvim_set_hl(0, 'Folded', { bg = 'none' })
   vim.api.nvim_set_hl(0, 'ColorColumn', { link = 'Visual' })
   vim.api.nvim_set_hl(0, 'FloatBorder', { link = 'Normal' })
@@ -1810,211 +1810,6 @@ require('packer').startup(function(use)
     end
   })
   -- }}}
-  -- {{{3 lualine.nvim
-  use({
-    'nvim-lualine/lualine.nvim',
-    config = function()
-      local function trunc(trunc_width, trunc_len, hide_width, no_ellipsis)
-        return function(str)
-          local win_width = vim.fn.winwidth(0)
-          if hide_width and win_width < hide_width then return ''
-          elseif trunc_width and trunc_len and win_width < trunc_width and #str > trunc_len then
-            return str:sub(1, trunc_len) .. (no_ellipsis and '' or '...')
-          end
-          return str
-        end
-      end
-
-      local get_modified = function()
-        return '%m' or ''
-      end
-      local get_readonly = function()
-        if not vim.bo.readonly then
-          return ''
-        end
-        return '[RO]'
-      end
-      local get_session = function()
-        if not vim.g.loaded_obsession then
-          return ''
-        end
-        return '%{ObsessionStatus("\\\\o/", "_o_")}'
-      end
-      local get_spell = function()
-        if not vim.wo.spell then
-          return ''
-        end
-        return '[SP]'
-      end
-      local get_path = function()
-        return '[' .. vim.fn.expand('%:p:h') .. ']'
-      end
-      local lsp_status = function()
-        local msg = ''
-        if #vim.lsp.get_active_clients() > 0 then
-          msg = '[LSP]'
-        end
-        for _, client in ipairs(vim.lsp.get_active_clients()) do
-          msg = msg .. '‹' .. client.name .. '›'
-        end
-        return msg
-      end
-      local diff_source = function()
-        local gitsigns = vim.b.gitsigns_status_dict
-        if gitsigns then
-          return { added = gitsigns.added, modified = gitsigns.changed, removed = gitsigns.removed }
-        end
-      end
-      local window = function()
-        return vim.api.nvim_win_get_number(0)
-      end
-      local minimal_extension = {
-        sections = {
-          lualine_a = { 'filename' },
-          lualine_b = {},
-          lualine_c = {},
-          lualine_x = {},
-          lualine_y = { 'location', 'progress' },
-          lualine_z = { 'filetype' },
-        },
-        filetypes = { 'help', 'packer', 'qf' }
-      }
-
-      require('lualine').setup({
-        options = {
-          icons_enabled = true,
-          globalstatus = true,
-          section_separators = { left = '', right = '' },
-          component_separators = { left = '', right = '' },
-        },
-        sections = {
-          lualine_a = { 'mode' },
-          lualine_b = { 'location', 'progress' },
-          lualine_c = {
-            {
-              'filename',
-              file_status = false
-            },
-            {
-              get_readonly,
-              padding = 0,
-              color = { fg = 'grey' },
-            },
-            {
-              get_modified,
-              padding = 0,
-              color = { fg = 'red' },
-            },
-            {
-              get_spell,
-              padding = 1,
-              color = { fg = 'brown' },
-            },
-            {
-              get_session,
-              padding = 1,
-              color = { fg = 'brown' },
-            },
-          },
-          lualine_x = {
-            {
-              require('noice').api.status.message.get_hl,
-              cond = require('noice').api.status.message.has
-            },
-            {
-              require('noice').api.status.command.get_hl,
-              cond = require('noice').api.status.command.has
-            },
-            {
-              require('noice').api.status.mode.get_hl,
-              cond = require('noice').api.status.mode.has
-            },
-            {
-              require('noice').api.status.search.get_hl,
-              cond = require('noice').api.status.search.has
-            },
-            {
-              lsp_status,
-              fmt = trunc(80, 40, 100),
-              on_click = function()
-                vim.cmd('LspInfo')
-              end
-            },
-            {
-              'diagnostics',
-              always_visible = false,
-              sources = { 'nvim_diagnostic' },
-              symbols = {
-                error = vim.fn.sign_getdefined('DiagnosticSignError')[1].text .. ' ',
-                warn = vim.fn.sign_getdefined('DiagnosticSignWarn')[1].text .. ' ',
-                info = vim.fn.sign_getdefined('DiagnosticSignInfo')[1].text .. ' ',
-                hint = vim.fn.sign_getdefined('DiagnosticSignHint')[1].text .. ' '
-              },
-              on_click = function()
-                vim.diagnostic.setqflist()
-              end
-            },
-          },
-          lualine_y = {
-            {
-              'diff',
-              source = diff_source,
-              diff_color = { added = 'GitSignsAdd', modified = 'GitSignsChange', removed = 'GitSignsDelete' },
-              -- symbols = { added = '洛 ', modified = '  ', removed = '  ' },
-              -- symbols = { added = 'ﰂ  ', modified = '  ', removed = 'ﯰ  ' },
-              symbols = { added = '落 ', modified = '  ', removed = '  ' },
-              on_click = function()
-                vim.cmd('Lazygit')
-                vim.defer_fn(function() vim.cmd('startinsert') end, 300)
-              end
-            },
-            {
-              'branch',
-              icon = require('nvim-nonicons').get('git-branch'),
-              on_click = function()
-                vim.cmd('Lazygit')
-                vim.defer_fn(function() vim.cmd('startinsert') end, 300)
-              end
-            }
-          },
-          lualine_z = { 'filetype' },
-        },
-        inactive_sections = {
-          lualine_a = { 'filename' },
-          lualine_b = {},
-          lualine_c = {},
-          lualine_x = {},
-          lualine_y = { 'location' },
-          lualine_z = { 'filetype' },
-        },
-        tabline = {
-          lualine_a = { window },
-          lualine_b = {
-            {
-              get_path,
-              on_click = function()
-                vim.cmd('Vifm')
-                vim.defer_fn(function() vim.cmd('startinsert') end, 300)
-              end
-            }
-          },
-          lualine_c = { 'buffers' },
-          lualine_x = {},
-          lualine_y = {},
-          lualine_z = {
-            {
-              'tabs',
-              mode = 2
-            }
-          }
-        },
-        extensions = { 'fugitive', 'fzf', 'man', minimal_extension, 'quickfix', 'symbols-outline', 'toggleterm' },
-      })
-      require('lualine').refresh()
-      Prettify()
-    end
-  })
-  -- }}}
   -- {{{3 gitsigns.nvim
   use({
     'lewis6991/gitsigns.nvim',
@@ -2148,70 +1943,6 @@ require('packer').startup(function(use)
     end
   })
   -- }}}
-  -- {{{3 noice.nvim
-  use({
-    'folke/noice.nvim',
-    requires = 'MunifTanjim/nui.nvim',
-    config = function()
-      require('noice').setup({
-        cmdline = {
-          view = 'cmdline',
-          format = {
-            cmdline = { pattern = '^:', icon = '❱', lang = 'vim' },
-            search_down = { kind = 'search', pattern = '^/', icon = ' 🢗', lang = 'regex' },
-            search_up = { kind = 'search', pattern = '^%?', icon = ' 🢕', lang = 'regex' },
-            filter = { pattern = '^:%s*!', icon = '＄', lang = 'bash' },
-            lua = { pattern = '^:%s*lua%s+', icon = ' ', lang = 'lua' },
-            input = {}
-          }
-        },
-        format = {
-          level = {
-            icons = {
-              error = vim.fn.sign_getdefined('DiagnosticSignError')[1].text,
-              warn = vim.fn.sign_getdefined('DiagnosticSignWarn')[1].text,
-              info = vim.fn.sign_getdefined('DiagnosticSignInfo')[1].text,
-            }
-          }
-        },
-        lsp = {
-          override = {
-            ['vim.lsp.util.convert_input_to_markdown_lines'] = true,
-            ['vim.lsp.util.stylize_markdown'] = true,
-            ['cmp.entry.get_documentation'] = true
-          },
-        },
-        presets = {
-          bottom_search = true,
-          command_palette = true,
-          long_message_to_split = true,
-          inc_rename = true,
-          lsp_doc_border = true
-        },
-        views = {
-          popupmenu = {
-            win_options = {
-              winhighlight = {
-                Normal = 'Normal',
-                FloatBorder = 'FloatBorder'
-              }
-            }
-          },
-          split = {
-            win_options = {
-              winhighlight = {
-                Normal = 'Normal',
-                FloatBorder = 'FloatBorder'
-              }
-            }
-          }
-        },
-      })
-      vim.keymap.set('n', '<Leader>n', vim.cmd.Noice, { desc = 'Make some noice' })
-      Prettify()
-    end
-  })
-  -- }}}
   -- {{{3 lush.nvim
   use('rktjmp/lush.nvim')
   -- }}}
@@ -2231,7 +1962,7 @@ require('packer').startup(function(use)
       require('nightfox').setup({
         options = {
           transparent = true,
-          dim_inactive = true,
+          dim_inactive = false,
           terminal_colors = true,
           styles = {
             comments = 'italic',
@@ -2292,6 +2023,204 @@ require('packer').startup(function(use)
       })
       vim.keymap.set('n', ',ct', vim.cmd.CccHighlighterToggle)
       vim.keymap.set('n', ',cp', vim.cmd.CccPick)
+    end
+  })
+  -- }}}
+  -- {{{3 notifier.nvim
+  use({
+    'vigoux/notifier.nvim',
+    config = function()
+      require'notifier'.setup()
+      vim.keymap.set('n', '<Leader>n', vim.cmd.NotifierReplay, { desc = 'Notifications' })
+    end
+  })
+  -- }}}
+  -- {{{3 lualine.nvim
+  use({
+    'nvim-lualine/lualine.nvim',
+    config = function()
+      local function trunc(trunc_width, trunc_len, hide_width, no_ellipsis)
+        return function(str)
+          local win_width = vim.fn.winwidth(0)
+          if hide_width and win_width < hide_width then return ''
+          elseif trunc_width and trunc_len and win_width < trunc_width and #str > trunc_len then
+            return str:sub(1, trunc_len) .. (no_ellipsis and '' or '...')
+          end
+          return str
+        end
+      end
+
+      local get_modified = function()
+        return '%m' or ''
+      end
+      local get_readonly = function()
+        if not vim.bo.readonly then
+          return ''
+        end
+        return '[RO]'
+      end
+      local get_session = function()
+        if not vim.g.loaded_obsession then
+          return ''
+        end
+        return '%{ObsessionStatus("\\\\o/", "_o_")}'
+      end
+      local get_spell = function()
+        if not vim.wo.spell then
+          return ''
+        end
+        return '[SP]'
+      end
+      local get_path = function()
+        return '[' .. vim.fn.expand('%:p:h') .. ']'
+      end
+      local lsp_status = function()
+        local msg = ''
+        if #vim.lsp.get_active_clients() > 0 then
+          msg = '[LSP]'
+        end
+        for _, client in ipairs(vim.lsp.get_active_clients()) do
+          msg = msg .. '‹' .. client.name .. '›'
+        end
+        return msg
+      end
+      local diff_source = function()
+        local gitsigns = vim.b.gitsigns_status_dict
+        if gitsigns then
+          return { added = gitsigns.added, modified = gitsigns.changed, removed = gitsigns.removed }
+        end
+      end
+      local window = function()
+        return vim.api.nvim_win_get_number(0)
+      end
+      local minimal_extension = {
+        sections = {
+          lualine_a = { 'filename' },
+          lualine_b = {},
+          lualine_c = {},
+          lualine_x = {},
+          lualine_y = { 'location', 'progress' },
+          lualine_z = { 'filetype' },
+        },
+        filetypes = { 'help', 'packer', 'qf' }
+      }
+
+      require('lualine').setup({
+        options = {
+          icons_enabled = true,
+          globalstatus = true,
+          section_separators = { left = '', right = '' },
+          component_separators = { left = '', right = '' },
+        },
+        sections = {
+          lualine_a = { 'mode' },
+          lualine_b = { 'location', 'progress' },
+          lualine_c = {
+            {
+              'filename',
+              file_status = false
+            },
+            {
+              get_readonly,
+              padding = 0,
+              color = { fg = 'grey' },
+            },
+            {
+              get_modified,
+              padding = 0,
+              color = { fg = 'red' },
+            },
+            {
+              get_spell,
+              padding = 1,
+              color = { fg = 'brown' },
+            },
+            {
+              get_session,
+              padding = 1,
+              color = { fg = 'brown' },
+            },
+          },
+          lualine_x = {
+            {
+              lsp_status,
+              fmt = trunc(80, 40, 100),
+              on_click = function()
+                vim.cmd('LspInfo')
+              end
+            },
+            {
+              'diagnostics',
+              always_visible = false,
+              sources = { 'nvim_diagnostic' },
+              symbols = {
+                error = vim.fn.sign_getdefined('DiagnosticSignError')[1].text .. ' ',
+                warn = vim.fn.sign_getdefined('DiagnosticSignWarn')[1].text .. ' ',
+                info = vim.fn.sign_getdefined('DiagnosticSignInfo')[1].text .. ' ',
+                hint = vim.fn.sign_getdefined('DiagnosticSignHint')[1].text .. ' '
+              },
+              on_click = function()
+                vim.diagnostic.setqflist()
+              end
+            },
+          },
+          lualine_y = {
+            {
+              'diff',
+              source = diff_source,
+              diff_color = { added = 'GitSignsAdd', modified = 'GitSignsChange', removed = 'GitSignsDelete' },
+              -- symbols = { added = '洛 ', modified = '  ', removed = '  ' },
+              -- symbols = { added = 'ﰂ  ', modified = '  ', removed = 'ﯰ  ' },
+              symbols = { added = '落 ', modified = '  ', removed = '  ' },
+              on_click = function()
+                vim.cmd('Lazygit')
+                vim.defer_fn(function() vim.cmd('startinsert') end, 300)
+              end
+            },
+            {
+              'branch',
+              icon = require('nvim-nonicons').get('git-branch'),
+              on_click = function()
+                vim.cmd('Lazygit')
+                vim.defer_fn(function() vim.cmd('startinsert') end, 300)
+              end
+            }
+          },
+          lualine_z = { 'filetype' },
+        },
+        inactive_sections = {
+          lualine_a = { 'filename' },
+          lualine_b = {},
+          lualine_c = {},
+          lualine_x = {},
+          lualine_y = { 'location' },
+          lualine_z = { 'filetype' },
+        },
+        tabline = {
+          lualine_a = { window },
+          lualine_b = {
+            {
+              get_path,
+              on_click = function()
+                vim.cmd('Vifm')
+                vim.defer_fn(function() vim.cmd('startinsert') end, 300)
+              end
+            }
+          },
+          lualine_c = { 'buffers' },
+          lualine_x = {},
+          lualine_y = {},
+          lualine_z = {
+            {
+              'tabs',
+              mode = 2
+            }
+          }
+        },
+        extensions = { 'fugitive', 'fzf', 'man', minimal_extension, 'quickfix', 'symbols-outline', 'toggleterm' },
+      })
+      require('lualine').refresh()
+      Prettify()
     end
   })
   -- }}}
