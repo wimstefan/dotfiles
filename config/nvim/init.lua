@@ -1256,7 +1256,7 @@ require('packer').startup(function(use)
 
         -- autocmds
         if client.server_capabilities.codeLensProvider then
-          vim.keymap.set('n', ',ll', function() vim.lsp.buf.codelens.run({ border = My_Borders }) end,
+          vim.keymap.set('n', ',ll', function() vim.lsp.codelens.run({ border = My_Borders }) end,
             { desc = 'LSP: code lens' }, { buffer = bufnr })
           vim.api.nvim_create_autocmd({ 'BufEnter', 'CursorHold', 'InsertLeave' }, {
             desc = 'LSP: code lens',
@@ -1306,6 +1306,9 @@ require('packer').startup(function(use)
           cmd = { vim.fn.stdpath('data') .. '/lspconfig/lua-language-server/bin/lua-language-server' },
           settings = {
             Lua = {
+              codelens = {
+                enable = true
+              },
               diagnostics = {
                 enable_check_codestyle = true,
                 globals = {
