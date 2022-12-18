@@ -1588,22 +1588,20 @@ require('packer').startup(function(use)
   use({
     'mickael-menu/zk-nvim',
     config = function()
-      local zk = require('zk')
-      local commands = require('zk.commands')
       local function make_edit_fn(defaults, picker_options)
         return function(options)
           options = vim.tbl_extend('force', defaults, options or {})
-          zk.edit(options, picker_options)
+          require('zk').edit(options, picker_options)
         end
       end
 
-      zk.setup({
+      require('zk').setup({
         picker = 'fzf'
       })
 
-      commands.add('ZkRecents', make_edit_fn({ createdAfter = '1 week ago' }, { title = 'Zk Recents' }))
+      require('zk.commands').add('ZkRecents', make_edit_fn({ createdAfter = '1 week ago' }, { title = 'Zk Recents' }))
 
-      vim.keymap.set('n', '<Leader>zf', [[<Cmd>ZkNotes { match = vim.fn.input('Search: ') }<CR>]])
+      vim.keymap.set('n', '<Leader>zf', [[<Cmd>ZkNotes { match = { vim.fn.input('Search: ') } }<CR>]])
       vim.keymap.set('v', '<Leader>zf', [[:'<,'>ZkMatch<CR>]])
       vim.keymap.set('n', '<Leader>zn', [[<Cmd>ZkNew { title = vim.fn.input('Title: ') }<CR>]])
       vim.keymap.set('n', '<Leader>zl', [[<Cmd>ZkNotes<CR>]])
