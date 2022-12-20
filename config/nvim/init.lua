@@ -2013,7 +2013,7 @@ require('packer').startup(function(use)
   })
   -- }}}
   -- {{{3 nvim-base16
-  use('RRethy/nvim-base16' )
+  use('RRethy/nvim-base16')
   -- }}}
   -- {{{3 ccc.nvim
   use({
@@ -2033,7 +2033,7 @@ require('packer').startup(function(use)
   use({
     'vigoux/notifier.nvim',
     config = function()
-      require'notifier'.setup()
+      require('notifier').setup()
       vim.keymap.set('n', '<Leader>n', vim.cmd.NotifierReplay, { desc = 'Notifications' })
     end
   })
