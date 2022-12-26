@@ -1,4 +1,5 @@
 return {
+  -- {{{2 nvim-web-devicons
   {
     'wimstefan/nvim-web-devicons',
     config = function()
@@ -7,12 +8,16 @@ return {
       })
     end
   },
+  -- }}}
+  -- {{{2 nvim-nonicons
   {
     'yamatsum/nvim-nonicons',
     config = function()
       require('nvim-nonicons').setup()
     end
   },
+  -- }}}
+  -- {{{2 indent-blankline.nvim
   {
     'lukas-reineke/indent-blankline.nvim',
     event = 'BufReadPre',
@@ -50,6 +55,8 @@ return {
       })
     end
   },
+  -- }}}
+  -- {{{2 nvim-ufo
   {
     'kevinhwang91/nvim-ufo',
     dependencies = 'kevinhwang91/promise-async',
@@ -129,6 +136,7 @@ return {
     end
   },
   -- }}}
+  -- {{{2 which-key.nvim
   {
     'folke/which-key.nvim',
     event = 'BufReadPre',
@@ -148,8 +156,12 @@ return {
       })
     end
   },
+  -- }}}
+  -- {{{2 lush.nvim
   'rktjmp/lush.nvim',
   'rktjmp/shipwright.nvim',
+  -- }}}
+  -- {{{2 vim-artesanal
   {
     'wimstefan/vim-artesanal',
     lazy = false,
@@ -158,6 +170,8 @@ return {
       vim.g.artesanal_transparent = true
     end
   },
+  -- }}}
+  -- {{{2 nightfox.nvim
   {
     'EdenEast/nightfox.nvim',
     lazy = false,
@@ -188,6 +202,8 @@ return {
       })
     end
   },
+  -- }}}
+  -- {{{2 zenbones.nvim
   {
     'mcchrish/zenbones.nvim',
     lazy = false,
@@ -206,10 +222,14 @@ return {
       end
     end
   },
+  -- }}}
+  -- {{{2 nvim-base16
   {
     'RRethy/nvim-base16',
     lazy = false,
   },
+  -- }}}
+  -- {{{2 ccc.nvim
   {
     'uga-rosa/ccc.nvim',
     event = 'BufReadPre',
@@ -225,9 +245,11 @@ return {
       })
     end
   },
+  -- }}}
+  -- {{{2 notifier.nvim
   {
     'vigoux/notifier.nvim',
-    event = 'BufReadPre',
+    lazy = false,
     init = function()
       vim.keymap.set('n', '<Leader>n', vim.cmd.NotifierReplay, { desc = 'Notifications' })
     end,
@@ -235,6 +257,8 @@ return {
       require('notifier').setup()
     end
   },
+  -- }}}
+  -- {{{2 lualine.nvim
   {
     'nvim-lualine/lualine.nvim',
     lazy = false,
@@ -422,6 +446,7 @@ return {
       require('lualine').refresh()
       Prettify()
     end
-  },
+  }
+  -- }}}
 }
--- vim: foldmethod=marker foldlevel=0
+-- vim: foldmethod=marker foldlevel=1
