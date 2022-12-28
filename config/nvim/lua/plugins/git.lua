@@ -99,38 +99,5 @@ return {
     config = function()
       require('diffview').setup()
     end
-  },
-  {
-    'TimUntersberger/neogit',
-    keys = {
-      {
-        '<Leader>gf',
-        function()
-          require('neogit').open({ kind = 'floating' })
-        end,
-        desc = 'Neogit: floating'
-      },
-      {
-        '<Leader>gs',
-        function()
-          require('neogit').open({ kind = 'split' })
-        end,
-        desc = 'Neogit: split'
-      },
-      {
-        '<Leader>gt',
-        function()
-          require('neogit').open({ kind = 'tab' })
-        end,
-        desc = 'Neogit: tab'
-      }
-    },
-    config = function()
-      require('neogit').setup({
-        integrations = {
-          diffview = true
-        }
-      })
-    end
   }
 }
