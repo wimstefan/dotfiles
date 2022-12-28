@@ -52,7 +52,9 @@ return {
           lookahead = true,
           lsp_interop = {
             enable = true,
-            border = My_Borders,
+            floating_preview_opts = {
+              border = My_Borders
+            },
             peek_definition_code = {
               ['df'] = '@function.outer',
               ['dF'] = '@class.outer'

@@ -21,9 +21,13 @@ return {
   {
     'lukas-reineke/indent-blankline.nvim',
     event = 'BufReadPre',
-    init = function()
-      vim.keymap.set('n', ',ti', vim.cmd.IndentBlanklineToggle)
-    end,
+    keys = {
+      {
+        ',ti',
+        vim.cmd.IndentBlanklineToggle,
+        desc = 'IndentBlankline: toggle'
+      }
+    },
     config = function()
       require('indent_blankline').setup({
         char = '▏',
@@ -61,20 +65,60 @@ return {
     'kevinhwang91/nvim-ufo',
     dependencies = 'kevinhwang91/promise-async',
     event = 'BufReadPost',
-    init = function()
-      vim.keymap.set('n', '[z', require('ufo').goPreviousClosedFold, { desc = 'ufo: go to previous closed fold' })
-      vim.keymap.set('n', ']z', require('ufo').goNextClosedFold, { desc = 'ufo: go to next closed fold' })
-      vim.keymap.set('n', 'zR', require('ufo').openAllFolds, { desc = 'ufo: open all folds' })
-      vim.keymap.set('n', 'zM', require('ufo').closeAllFolds, { desc = 'ufo: close all folds' })
-      vim.keymap.set('n', 'zr', require('ufo').openFoldsExceptKinds, { desc = 'ufo: open folds except kinds' })
-      vim.keymap.set('n', 'zm', require('ufo').closeFoldsWith, { desc = 'ufo: close folds' })
-      vim.keymap.set('n', 'zp', function()
-        local winid = require('ufo').peekFoldedLinesUnderCursor()
-        if not winid then
-          vim.lsp.buf.hover()
-        end
-      end, { desc = 'ufo: preview' })
-    end,
+    keys = {
+      {
+        '[z',
+        function()
+          require('ufo').goPreviousClosedFold()
+        end,
+        desc = 'Ufo: go to previous closed fold'
+      },
+      {
+        ']z',
+        function()
+          require('ufo').goNextClosedFold()
+        end,
+        desc = 'Ufo: go to next closed fold'
+      },
+      {
+        'zR',
+        function()
+          require('ufo').openAllFolds()
+        end,
+        desc = 'Ufo: open all folds'
+      },
+      {
+        'zM',
+        function()
+          require('ufo').closeAllFolds()
+        end,
+        desc = 'Ufo: close all folds'
+      },
+      {
+        'zr',
+        function()
+          require('ufo').openFoldsExceptKinds()
+        end,
+        desc = 'Ufo: open folds except kinds'
+      },
+      {
+        'zm',
+        function()
+          require('ufo').closeFoldsWith()
+        end,
+        desc = 'Ufo: close folds'
+      },
+      {
+        'zp',
+        function()
+          local winid = require('ufo').peekFoldedLinesUnderCursor()
+          if not winid then
+            vim.lsp.buf.hover()
+          end
+        end,
+        desc = 'Ufo: preview'
+      }
+    },
     config = function()
       vim.opt.foldlevel = 99
       vim.opt.foldlevelstart = 99
@@ -164,7 +208,6 @@ return {
   -- {{{2 vim-artesanal
   {
     'wimstefan/vim-artesanal',
-    lazy = false,
     config = function()
       vim.g.artesanal_dimmed = false
       vim.g.artesanal_transparent = true
@@ -174,7 +217,6 @@ return {
   -- {{{2 nightfox.nvim
   {
     'EdenEast/nightfox.nvim',
-    lazy = false,
     config = function()
       require('nightfox').setup({
         options = {
@@ -206,7 +248,6 @@ return {
   -- {{{2 zenbones.nvim
   {
     'mcchrish/zenbones.nvim',
-    lazy = false,
     config = function()
       local flavours = { 'zenbones', 'zenwritten', 'neobones', 'nordbones', 'seoulbones', 'tokyobones' }
       for _, flavour in ipairs(flavours) do
@@ -224,19 +265,24 @@ return {
   },
   -- }}}
   -- {{{2 nvim-base16
-  {
-    'RRethy/nvim-base16',
-    lazy = false,
-  },
+  'RRethy/nvim-base16',
   -- }}}
   -- {{{2 ccc.nvim
   {
     'uga-rosa/ccc.nvim',
     event = 'BufReadPre',
-    init = function()
-      vim.keymap.set('n', ',ct', vim.cmd.CccHighlighterToggle)
-      vim.keymap.set('n', ',cp', vim.cmd.CccPick)
-    end,
+    keys = {
+      {
+        ',ct',
+        vim.cmd.CccHighlighterToggle,
+        desc = 'Ccc: toggle highlights'
+      },
+      {
+        ',cp',
+        vim.cmd.CccPick,
+        desc = 'Ccc: edit color'
+      }
+    },
     config = function()
       require('ccc').setup({
         highlighter = {
@@ -250,15 +296,19 @@ return {
   {
     'vigoux/notifier.nvim',
     lazy = false,
-    init = function()
-      vim.keymap.set('n', '<Leader>n', vim.cmd.NotifierReplay, { desc = 'Notifications' })
-    end,
+    keys = {
+      {
+        '<Leader>n',
+        vim.cmd.NotifierReplay,
+        desc = 'Notifications'
+      }
+    },
     config = function()
       require('notifier').setup()
     end
   },
   -- }}}
-  -- {{{2 lualine.nvim
+  -- {{{2 Statusline
   {
     'nvim-lualine/lualine.nvim',
     lazy = false,

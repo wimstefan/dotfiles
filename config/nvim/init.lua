@@ -631,6 +631,7 @@ end)
 -- {{{1 --------------------- PLUGINS ------------------------------------------
 vim.keymap.set('n', '<Leader>l', require('lazy').home, { desc = 'Lazy' })
 vim.keymap.set('n', '<Leader>ll', require('lazy').log, { desc = 'Lazy: log' })
+vim.keymap.set('n', '<Leader>lp', require('lazy').profile, { desc = 'Lazy: profile' })
 vim.keymap.set('n', '<Leader>ls', require('lazy').sync, { desc = 'Lazy: sync' })
 
 local opts = {

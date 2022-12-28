@@ -5,28 +5,148 @@ return {
   },
   {
     'ibhagwan/fzf-lua',
-    init = function()
-      vim.keymap.set('n', '<Leader>F', require('fzf-lua').builtin, { desc = 'Fzf: builtin' })
-      vim.keymap.set('n', '<Leader>c', require('fzf-lua').colorschemes, { desc = 'Fzf: colorschemes' })
-      vim.keymap.set('n', '<Leader>f', require('fzf-lua').files, { desc = 'Fzf: files' })
-      vim.keymap.set('n', '<Leader>o', require('fzf-lua').oldfiles, { desc = 'Fzf: oldfiles' })
-      vim.keymap.set('n', '<Leader>fg', require('fzf-lua').lgrep_curbuf, { desc = 'Fzf: grep current file' })
-      vim.keymap.set('n', '<Leader>fG', require('fzf-lua').live_grep_native, { desc = 'Fzf: grep all files' })
-      vim.keymap.set('n', '<Leader>h', require('fzf-lua').help_tags, { desc = 'Fzf: help' })
-      vim.keymap.set('n', '<Leader>k', require('fzf-lua').man_pages, { desc = 'Fzf: man' })
-      vim.keymap.set('n', '<Leader>fgb', require('fzf-lua').git_bcommits, { desc = 'Fzf: git buffer commits' })
-      vim.keymap.set('n', '<Leader>fgc', require('fzf-lua').git_commits, { desc = 'Fzf: git commits' })
-      vim.keymap.set('n', '<Leader>fgf', require('fzf-lua').git_files, { desc = 'Fzf: git files' })
-      vim.keymap.set('n', '<Leader>fgs', require('fzf-lua').git_status, { desc = 'Fzf: git status' })
-      vim.keymap.set('n', '<Leader>fc', require('fzf-lua').command_history, { desc = 'Fzf: command history' })
-      vim.keymap.set('n', '<Leader>fk', require('fzf-lua').keymaps, { desc = 'Fzf: keymaps' })
-      vim.keymap.set('n', '<Leader>fm', require('fzf-lua').marks, { desc = 'Fzf: marks' })
-      vim.keymap.set('n', '<Leader>fq', require('fzf-lua').quickfix, { desc = 'Fzf: quickfix' })
-      vim.keymap.set('n', '<Leader>fr', require('fzf-lua').registers, { desc = 'Fzf: registers' })
-      vim.keymap.set('n', '<Leader>fs', require('fzf-lua').spell_suggest, { desc = 'Fzf: spell suggest' })
-      vim.keymap.set('n', '<Leader>ft', require('fzf-lua').filetypes, { desc = 'Fzf: filetypes' })
-      vim.keymap.set('n', '<Leader>fw', require('fzf-lua').grep_cword, { desc = 'Fzf: grep string' })
-    end,
+    keys = {
+      {
+        '<Leader>F',
+        function()
+          require('fzf-lua').builtin()
+        end,
+        desc = 'Fzf: builtin'
+      },
+      {
+        '<Leader>c',
+        function()
+          require('fzf-lua').colorschemes()
+        end,
+        desc = 'Fzf: colorschemes'
+      },
+      {
+        '<Leader>f',
+        function()
+          require('fzf-lua').files()
+        end,
+        desc = 'Fzf: files'
+      },
+      {
+        '<Leader>o',
+        function()
+          require('fzf-lua').oldfiles()
+        end,
+        desc = 'Fzf: oldfiles'
+      },
+      {
+        '<Leader>fg',
+        function()
+          require('fzf-lua').lgrep_curbuf()
+        end,
+        desc = 'Fzf: grep current file'
+      },
+      {
+        '<Leader>fG',
+        function()
+          require('fzf-lua').live_grep_native()
+        end,
+        desc = 'Fzf: grep all files'
+      },
+      {
+        '<Leader>h',
+        function()
+          require('fzf-lua').help_tags()
+        end,
+        desc = 'Fzf: help'
+      },
+      {
+        '<Leader>k',
+        function()
+          require('fzf-lua').man_pages()
+        end,
+        desc = 'Fzf: man'
+      },
+      {
+        '<Leader>fgb',
+        function()
+          require('fzf-lua').git_bcommits()
+        end,
+        desc = 'Fzf: git buffer commits'
+      },
+      {
+        '<Leader>fgc',
+        function()
+          require('fzf-lua').git_commits()
+        end,
+        desc = 'Fzf: git commits'
+      },
+      {
+        '<Leader>fgf',
+        function()
+          require('fzf-lua').git_files()
+        end,
+        desc = 'Fzf: git files'
+      },
+      {
+        '<Leader>fgs',
+        function()
+          require('fzf-lua').git_status()
+        end,
+        desc = 'Fzf: git status'
+      },
+      {
+        '<Leader>fc',
+        function()
+          require('fzf-lua').command_history()
+        end,
+        desc = 'Fzf: command history'
+      },
+      {
+        '<Leader>fk',
+        function()
+          require('fzf-lua').keymaps()
+        end,
+        desc = 'Fzf: keymaps'
+      },
+      {
+        '<Leader>fm',
+        function()
+          require('fzf-lua').marks()
+        end,
+        desc = 'Fzf: marks'
+      },
+      {
+        '<Leader>fq',
+        function()
+          require('fzf-lua').quickfix()
+        end,
+        desc = 'Fzf: quickfix'
+      },
+      {
+        '<Leader>fr',
+        function()
+          require('fzf-lua').registers()
+        end,
+        desc = 'Fzf: registers'
+      },
+      {
+        '<Leader>fs',
+        function()
+          require('fzf-lua').spell_suggest()
+        end,
+        desc = 'Fzf: spell suggest'
+      },
+      {
+        '<Leader>ft',
+        function()
+          require('fzf-lua').filetypes()
+        end,
+        desc = 'Fzf: filetypes'
+      },
+      {
+        '<Leader>fw',
+        function()
+          require('fzf-lua').grep_cword()
+        end,
+        desc = 'Fzf: grep string'
+      }
+    },
     config = function()
       local fzf_lua = require('fzf-lua')
 

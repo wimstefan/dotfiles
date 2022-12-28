@@ -84,23 +84,49 @@ return {
       'DiffviewFocusFiles',
       'DiffviewFileHistory'
     },
-    init = function()
-      vim.keymap.set('n', '<Leader>gd', vim.cmd.DiffviewOpen, { desc = 'Git: diff' })
-      vim.keymap.set('n', '<Leader>gl', vim.cmd.DiffviewFileHistory, { desc = 'Git: log' })
-    end,
+    keys = {
+      {
+        '<Leader>gd',
+        vim.cmd.DiffviewOpen,
+        desc = 'Git: diff'
+      },
+      {
+        '<Leader>gl',
+        vim.cmd.DiffviewFileHistory,
+        desc = 'Git: log'
+      }
+    },
     config = function()
       require('diffview').setup()
     end
   },
   {
     'TimUntersberger/neogit',
-    cmd = 'Neogit',
-    init = function()
-      vim.keymap.set('n', '<Leader>gs', function() require('neogit').open() end, { desc = 'Neogit' })
-    end,
+    keys = {
+      {
+        '<Leader>gf',
+        function()
+          require('neogit').open({ kind = 'floating' })
+        end,
+        desc = 'Neogit: floating'
+      },
+      {
+        '<Leader>gs',
+        function()
+          require('neogit').open({ kind = 'split' })
+        end,
+        desc = 'Neogit: split'
+      },
+      {
+        '<Leader>gt',
+        function()
+          require('neogit').open({ kind = 'tab' })
+        end,
+        desc = 'Neogit: tab'
+      }
+    },
     config = function()
       require('neogit').setup({
-        kind = 'split',
         integrations = {
           diffview = true
         }

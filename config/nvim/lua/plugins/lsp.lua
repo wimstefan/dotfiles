@@ -256,12 +256,23 @@ return {
   },
   {
     'simrat39/symbols-outline.nvim',
-    cmd = 'SymbolsOutline',
-    init = function()
-      vim.keymap.set('n', '<Leader>s', vim.cmd.SymbolsOutline, { desc = 'Symbols Outline toggle' })
-      vim.keymap.set('n', ',tso', vim.cmd.SymbolsOutlineOpen, { desc = 'Symbols Outline open' })
-      vim.keymap.set('n', ',tsc', vim.cmd.SymbolsOutlineClose, { desc = 'Symbols Outline close' })
-    end,
+    keys = {
+      {
+        '<Leader>s',
+        vim.cmd.SymbolsOutline,
+        desc = 'SymbolsOutline: toggle'
+      },
+      {
+        ',tso',
+        vim.cmd.SymbolsOutlineOpen,
+        desc = 'SymbolsOutline: open'
+      },
+      {
+        ',tsc',
+        vim.cmd.SymbolsOutlineClose,
+        desc = 'SymbolsOutline: close'
+      }
+    },
     config = function()
       require('symbols-outline').setup({
         preview_bg_highlight = 'Normal',
@@ -299,9 +310,15 @@ return {
   {
     'whynothugo/lsp_lines.nvim',
     url = 'https://git.sr.ht/~whynothugo/lsp_lines.nvim',
-    init = function()
-      vim.keymap.set('', ',ll', require('lsp_lines').toggle, { desc = 'LSP: toggle lsp_lines' })
-    end,
+    keys = {
+      {
+        ',ll',
+        function()
+          require('lsp_lines').toggle()
+        end,
+        desc = 'LSP: toggle lsp_lines'
+      }
+    },
     config = function()
       require('lsp_lines').setup()
     end
@@ -309,7 +326,6 @@ return {
   {
     'smjonas/inc-rename.nvim',
     cmd = 'IncRename',
-    keys = ',lrn',
     config = function()
       require('inc_rename').setup()
     end

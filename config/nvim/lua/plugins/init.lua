@@ -15,10 +15,13 @@ return {
   -- {{{2 vim-obsession
   {
     'tpope/vim-obsession',
-    keys = ',to',
-    init = function()
-      vim.keymap.set('n', ',to', vim.cmd.Obsession)
-    end
+    keys = {
+      {
+        ',to',
+        vim.cmd.Obsession,
+        { desc = 'Obsession' }
+      }
+    }
   },
   -- }}}
   -- {{{2 vim-repeat
@@ -52,13 +55,21 @@ return {
   {
     'lewis6991/hover.nvim',
     keys = {
-      'H',
-      'gH'
+      {
+        'H',
+        function()
+          require('hover').hover()
+        end,
+        desc = 'hover.nvim'
+      },
+      {
+        'gH',
+        function()
+          require('hover').hover_select()
+        end,
+        desc = 'hover.nvim (select)'
+      }
     },
-    init = function()
-      vim.keymap.set('n', 'H', require('hover').hover, { desc = 'hover.nvim' })
-      vim.keymap.set('n', 'gH', require('hover').hover_select, { desc = 'hover.nvim (select)' })
-    end,
     config = function()
       require('hover').setup {
         init = function()
@@ -89,11 +100,15 @@ return {
     dependencies = {
       'JoosepAlviste/nvim-ts-context-commentstring'
     },
-    init = function()
-      vim.keymap.set('x', 'gci', [[:g/./lua require('Comment.api').toggle.linewise.current()<CR><Cmd>nohls<CR>]],
-        { silent = true },
-        { desc = 'Invert comments' })
-    end,
+    keys = {
+      {
+        'gci',
+        [[:g/./lua require('Comment.api').toggle.linewise.current()<CR><Cmd>nohls<CR>]],
+        mode = 'x',
+        silent = true,
+        desc = 'Invert comments'
+      }
+    },
     config = function()
       require('Comment').setup({
         pre_hook = require('ts_context_commentstring.integrations.comment_nvim').create_pre_hook()
@@ -113,10 +128,16 @@ return {
   -- {{{2 buffer-manager.nvim
   {
     'j-morano/buffer_manager.nvim',
-    keys = '<Leader>b',
-    init = function()
-      vim.keymap.set({ 't', 'n' }, '<Leader>b', require('buffer_manager.ui').toggle_quick_menu, { noremap = true })
-    end
+    keys = {
+      {
+        '<Leader>b',
+        function()
+          require('buffer_manager.ui').toggle_quick_menu()
+        end,
+        mode = { 't', 'n' },
+        noremap = true
+      }
+    }
   },
   -- }}}
   -- {{{2 nvim-bqf
@@ -135,17 +156,38 @@ return {
   -- {{{2 nvim-hlslens
   {
     'kevinhwang91/nvim-hlslens',
-    event = 'VeryLazy',
-    init = function()
-      vim.keymap.set('n', 'n', [[<Cmd>execute('normal! ' . v:count1 . 'n')<CR><Cmd>lua require('hlslens').start()<CR>]],
-        { desc = 'Hlslens: n' })
-      vim.keymap.set('n', 'N', [[<Cmd>execute('normal! ' . v:count1 . 'N')<CR><Cmd>lua require('hlslens').start()<CR>]],
-        { desc = 'Hlslens: N' })
-      vim.keymap.set('n', '*', [[*<Cmd>lua require('hlslens').start()<CR>]], { desc = 'Hlslens: *' })
-      vim.keymap.set('n', '#', [[#<Cmd>lua require('hlslens').start()<CR>]], { desc = 'Hlslens: #' })
-      vim.keymap.set('n', 'g*', [[g*<Cmd>lua require('hlslens').start()<CR>]], { desc = 'Hlslens: g*' })
-      vim.keymap.set('n', 'g#', [[g#<Cmd>lua require('hlslens').start()<CR>]], { desc = 'Hlslens: g#' })
-    end,
+    keys = {
+      {
+        'n',
+        [[<Cmd>execute('normal! ' . v:count1 . 'n')<CR><Cmd>lua require('hlslens').start()<CR>]],
+        desc = 'Hlslens: n'
+      },
+      {
+        'N',
+        [[<Cmd>execute('normal! ' . v:count1 . 'N')<CR><Cmd>lua require('hlslens').start()<CR>]],
+        desc = 'Hlslens: N'
+      },
+      {
+        '*',
+        [[*<Cmd>lua require('hlslens').start()<CR>]],
+        desc = 'Hlslens: *'
+      },
+      {
+        '#',
+        [[#<Cmd>lua require('hlslens').start()<CR>]],
+        desc = 'Hlslens: #'
+      },
+      {
+        'g*',
+        [[g*<Cmd>lua require('hlslens').start()<CR>]],
+        desc = 'Hlslens: g*'
+      },
+      {
+        'g#',
+        [[g#<Cmd>lua require('hlslens').start()<CR>]],
+        desc = 'Hlslens: g#'
+      }
+    },
     config = function()
       require('hlslens').setup()
       vim.opt.shortmess:append('S')
@@ -245,13 +287,25 @@ return {
     cmd = {
       'Fzf',
       'Lazygit',
-      'ViFm'
+      'Vifm'
     },
-    init = function()
-      vim.keymap.set('n', '<Leader>z', vim.cmd.Fzf, { desc = 'Fzf' })
-      vim.keymap.set('n', '<Leader>L', vim.cmd.Lazygit, { desc = 'Lazygit' })
-      vim.keymap.set('n', '<Leader>x', vim.cmd.Vifm, { desc = 'Vifm' })
-    end,
+    keys = {
+      {
+        '<Leader>z',
+        vim.cmd.Fzf,
+        desc = 'Fzf'
+      },
+      {
+        '<Leader>L',
+        vim.cmd.Lazygit,
+        desc = 'Lazygit'
+      },
+      {
+        '<Leader>x',
+        vim.cmd.Vifm,
+        desc = 'Vifm'
+      }
+    },
     config = function()
       require('fm-nvim').setup({
         ui = {
@@ -270,12 +324,24 @@ return {
   {
     'akinsho/toggleterm.nvim',
     cmd = 'ToggleTerm',
-    keys = '<C-\\>',
-    init = function()
-      vim.keymap.set('n', '<Leader>Tf', [[<Cmd>ToggleTerm direction=float<CR>]])
-      vim.keymap.set('n', '<Leader>Th', [[<Cmd>ToggleTerm direction=horizontal<CR>]])
-      vim.keymap.set('n', '<Leader>Tv', [[<Cmd>ToggleTerm direction=vertical<CR>]])
-    end,
+    keys = {
+      { '<C-\\>' },
+      {
+        '<Leader>Tf',
+        [[<Cmd>ToggleTerm direction=float<CR>]],
+        desc = 'ToggleTerm: floating'
+      },
+      {
+        '<Leader>Th',
+        [[<Cmd>ToggleTerm direction=horizontal<CR>]],
+        desc = 'ToggleTerm: horizontal'
+      },
+      {
+        '<Leader>Tv',
+        [[<Cmd>ToggleTerm direction=vertical<CR>]],
+        desc = 'ToggleTerm: vertical'
+      }
+    },
     config = function()
       require('toggleterm').setup({
         size = function(term)
@@ -304,10 +370,15 @@ return {
   -- {{{2 nvim-spectre
   {
     'windwp/nvim-spectre',
-    cmd = 'Spectre',
-    init = function()
-      vim.keymap.set('n', '<Leader>S', require('spectre').open, { desc = 'Open spectre' })
-    end,
+    keys = {
+      {
+        '<Leader>S',
+        function()
+          require('spectre').open()
+        end,
+        desc = 'Spectre'
+      }
+    },
     config = function()
       require('spectre').setup({
         find_engine = {
@@ -339,10 +410,17 @@ return {
   -- {{{2 undotree
   {
     'jiaoshijie/undotree',
-    keys = ',tu',
-    init = function()
-      vim.keymap.set('n', ',tu', require('undotree').toggle, { noremap = true, silent = true }, { desc = 'Undo tree' })
-    end,
+    keys = {
+      {
+        ',tu',
+        function()
+          require('undotree').toggle()
+        end,
+        noremap = true,
+        silent = true,
+        desc = 'Undotree'
+      }
+    },
     config = function()
       require('undotree').setup({
         window = {
@@ -404,10 +482,18 @@ return {
       'UnicodeName',
       'UnicodeTable'
     },
-    init = function()
-      vim.keymap.set('n', '<Leader>ut', vim.cmd.UnicodeTable)
-      vim.keymap.set('n', 'gu', vim.cmd.UnicodeName)
-    end
+    keys = {
+      {
+        '<Leader>ut',
+        vim.cmd.UnicodeTable,
+        desc = 'Open unicode table'
+      },
+      {
+        'gu',
+        vim.cmd.UnicodeName,
+        desc = 'Lookup Unicode character'
+      }
+    }
   },
   -- }}}
   -- {{{2 vim-startuptime
