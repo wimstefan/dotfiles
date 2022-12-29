@@ -50,17 +50,17 @@ return {
         on_attach = function(bufnr)
           local gs = package.loaded.gitsigns
           vim.keymap.set('n', ']c', "&diff ? ']c' : '<cmd>Gitsigns next_hunk<CR>'",
-          { expr = true, replace_keycodes = false },
-          { desc = 'Gitsigns: next hunk' })
+            { expr = true, replace_keycodes = false },
+            { desc = 'Gitsigns: next hunk' })
           vim.keymap.set('n', '[c', "&diff ? '[c' : '<cmd>Gitsigns prev_hunk<CR>'",
-          { expr = true, replace_keycodes = false },
-          { desc = 'Gitsigns: previous hunk' })
+            { expr = true, replace_keycodes = false },
+            { desc = 'Gitsigns: previous hunk' })
           vim.keymap.set('n', ',sp', gs.preview_hunk, { desc = 'Gitsigns: preview hunk' }, { buffer = bufnr })
           vim.keymap.set('n', ',sb', function() gs.blame_line { full = true } end, { desc = 'Gitsigns: blame line' },
-          { buffer = bufnr })
+            { buffer = bufnr })
           vim.keymap.set('n', ',sd', gs.diffthis, { desc = 'Gitsigns: diffthis' }, { buffer = bufnr })
           vim.keymap.set('n', ',sD', function() gs.diffthis('~') end, { desc = 'Gitsigns: diffthis ~' },
-          { buffer = bufnr })
+            { buffer = bufnr })
           vim.keymap.set('n', ',ss', gs.stage_hunk, { desc = 'Gitsigns: stage hunk' }, { buffer = bufnr })
           vim.keymap.set('n', ',su', gs.undo_stage_hunk, { desc = 'Gitsigns: undo stage hunk' }, { buffer = bufnr })
           vim.keymap.set('n', ',sx', gs.toggle_deleted, { desc = 'Gitsigns: toggle deleted' }, { buffer = bufnr })

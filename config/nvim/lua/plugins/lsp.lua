@@ -25,101 +25,103 @@ return {
         vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
         -- keybindings
         vim.keymap.set('n', ',lrs', vim.cmd.LspRestart,
-        { desc = 'LSP: restart' }, { buffer = bufnr })
+          { desc = 'LSP: restart' }, { buffer = bufnr })
         vim.keymap.set('n', ',lR', require('fzf-lua').lsp_definitions,
-        { desc = 'LSP: definitions' }, { buffer = bufnr })
+          { desc = 'LSP: definitions' }, { buffer = bufnr })
         vim.keymap.set('n', ',lr', require('fzf-lua').lsp_references,
-        { desc = 'LSP: references' }, { buffer = bufnr })
+          { desc = 'LSP: references' }, { buffer = bufnr })
         vim.keymap.set('n', ',ly', require('fzf-lua').lsp_document_symbols,
-        { desc = 'LSP: document symbols' }, { buffer = bufnr })
+          { desc = 'LSP: document symbols' }, { buffer = bufnr })
         vim.keymap.set('n', ',lY', require('fzf-lua').lsp_live_workspace_symbols,
-        { desc = 'LSP: workspace symbols' }, { buffer = bufnr })
+          { desc = 'LSP: workspace symbols' }, { buffer = bufnr })
         vim.keymap.set('n', ',ld', require('fzf-lua').lsp_document_diagnostics,
-        { desc = 'LSP: document diagnostics' }, { buffer = bufnr })
+          { desc = 'LSP: document diagnostics' }, { buffer = bufnr })
         vim.keymap.set('n', ',lD', require('fzf-lua').lsp_workspace_diagnostics,
-        { desc = 'LSP: workspace diagnostics' } , { buffer = bufnr })
-        vim.keymap.set('n', ',lrn', function()
-          return ':IncRename ' .. vim.fn.expand('<cword>')
-        end,
-        { desc = 'LSP: rename', expr = true, replace_keycodes = false }, { buffer = bufnr })
+          { desc = 'LSP: workspace diagnostics' }, { buffer = bufnr })
+        vim.keymap.set('n', ',lrn',
+          function()
+            return ':IncRename ' .. vim.fn.expand('<cword>')
+          end,
+          { desc = 'LSP: rename', expr = true, replace_keycodes = false }, { buffer = bufnr })
         vim.keymap.set('n', ',lw', function() Dump(vim.lsp.buf.list_workspace_folders()) end,
-        { desc = 'LSP: list workspace folders' }, { buffer = bufnr })
+          { desc = 'LSP: list workspace folders' }, { buffer = bufnr })
         if client.server_capabilities.codeActionProvider then
           vim.keymap.set('n', ',lca',
-          function()
-            require('fzf-lua').lsp_code_actions({
-              winopts = { relative = 'cursor', height = 0.2, width = 0.4, col = 0.9, row = 1.01 }
-            })
-          end,
-          { desc = 'LSP: code actions' }, { buffer = bufnr })
+            function()
+              require('fzf-lua').lsp_code_actions({
+                winopts = { relative = 'cursor', height = 0.2, width = 0.4, col = 0.9, row = 1.01 }
+              })
+            end,
+            { desc = 'LSP: code actions' }, { buffer = bufnr })
         else
           lsp_messages = lsp_messages .. 'no codeAction' .. lsp_msg_sep
         end
         if client.server_capabilities.declarationProvider then
           vim.keymap.set('n', ',lc', vim.lsp.buf.declaration,
-          { desc = 'LSP: declaration' }, { buffer = bufnr })
+            { desc = 'LSP: declaration' }, { buffer = bufnr })
         else
           vim.keymap.set('n', ',lc', [[<Nop>]], { buffer = bufnr })
           lsp_messages = lsp_messages .. 'no declaration' .. lsp_msg_sep
         end
         if client.server_capabilities.documentFormattingProvider then
           local fmt_opts = vim.bo[bufnr].ft == 'lua'
-          and 'async=true,bufnr=0,name="sumneko_lua"'
-          or 'async=true,bufnr=0'
+            and 'async=true,bufnr=0,name="sumneko_lua"'
+            or 'async=true,bufnr=0'
           vim.keymap.set('n', ',lf', function() vim.lsp.buf.format(fmt_opts) end,
-          { desc = 'LSP: formatting' }, { buffer = bufnr })
+            { desc = 'LSP: formatting' }, { buffer = bufnr })
         else
           lsp_messages = lsp_messages .. 'no format' .. lsp_msg_sep
         end
         if client.server_capabilities.documentRangeFormattingProvider then
-          vim.keymap.set('v', ',lf', function()
-            local _, csrow, cscol, cerow, cecol
-            local mode = vim.fn.mode()
-            assert(mode == 'v' or mode == 'V' or mode == '')
-            _, csrow, cscol, _ = unpack(vim.fn.getpos('.'))
-            _, cerow, cecol, _ = unpack(vim.fn.getpos('v'))
-            if mode == 'V' then
-              cscol, cecol = 0, 999
-            end
-            local fmt_opts = {
-              async   = true,
-              bufnr   = 0,
-              name    = vim.bo[bufnr].ft == 'lua' and 'sumneko_lua' or nil,
-              start   = { csrow, cscol },
-              ['end'] = { cerow, cecol },
-            }
-            vim.lsp.buf.format(fmt_opts)
-          end,
-          { desc = 'LSP: range formatting' }, { buffer = bufnr })
+          vim.keymap.set('v', ',lf',
+            function()
+              local _, csrow, cscol, cerow, cecol
+              local mode = vim.fn.mode()
+              assert(mode == 'v' or mode == 'V' or mode == '')
+              _, csrow, cscol, _ = unpack(vim.fn.getpos('.'))
+              _, cerow, cecol, _ = unpack(vim.fn.getpos('v'))
+              if mode == 'V' then
+                cscol, cecol = 0, 999
+              end
+              local fmt_opts = {
+                async   = true,
+                bufnr   = 0,
+                name    = vim.bo[bufnr].ft == 'lua' and 'sumneko_lua' or nil,
+                start   = { csrow, cscol },
+                ['end'] = { cerow, cecol },
+              }
+              vim.lsp.buf.format(fmt_opts)
+            end,
+            { desc = 'LSP: range formatting' }, { buffer = bufnr })
         else
           lsp_messages = lsp_messages .. 'no rangeFormat' .. lsp_msg_sep
         end
         if client.server_capabilities.implementationProvider then
           vim.keymap.set('n', ',li', vim.lsp.buf.implementation,
-          { desc = 'LSP: implementation' }, { buffer = bufnr })
+            { desc = 'LSP: implementation' }, { buffer = bufnr })
         else
           vim.keymap.set('n', ',li', [[<Nop>]], { buffer = bufnr })
           lsp_messages = lsp_messages .. 'no implementation' .. lsp_msg_sep
         end
         if client.server_capabilities.hoverProvider then
           vim.keymap.set('n', ',lh', vim.lsp.buf.hover,
-          { desc = 'LSP: hover' }, { buffer = bufnr })
+            { desc = 'LSP: hover' }, { buffer = bufnr })
         else
           vim.keymap.set('n', ',lh', [[<Nop>]], { buffer = bufnr })
           lsp_messages = lsp_messages .. 'no hovering' .. lsp_msg_sep
         end
         if client.server_capabilities.signatureHelpProvider then
           vim.keymap.set('i', '<C-s>', function() vim.lsp.buf.signature_help({ border = My_Borders }) end,
-          { desc = 'LSP: signature help' }, { buffer = bufnr })
+            { desc = 'LSP: signature help' }, { buffer = bufnr })
           vim.keymap.set('n', ',ls', function() vim.lsp.buf.signature_help({ border = My_Borders }) end,
-          { desc = 'LSP: signature help' }, { buffer = bufnr })
+            { desc = 'LSP: signature help' }, { buffer = bufnr })
         else
           vim.keymap.set('n', ',ls', [[<Nop>]], { buffer = bufnr })
           lsp_messages = lsp_messages .. 'no signatureHelp' .. lsp_msg_sep
         end
         if client.server_capabilities.typeDefinitionProvider then
           vim.keymap.set('n', ',ltd', vim.lsp.buf.type_definition,
-          { desc = 'LSP: type definition' }, { buffer = bufnr })
+            { desc = 'LSP: type definition' }, { buffer = bufnr })
         else
           vim.keymap.set('n', ',ltd', [[<Nop>]], { buffer = bufnr })
           lsp_messages = lsp_messages .. 'no typeDefinition' .. lsp_msg_sep
@@ -128,7 +130,7 @@ return {
         -- autocmds
         if client.server_capabilities.codeLensProvider then
           vim.keymap.set('n', ',ll', function() vim.lsp.codelens.run({ border = My_Borders }) end,
-          { desc = 'LSP: code lens' }, { buffer = bufnr })
+            { desc = 'LSP: code lens' }, { buffer = bufnr })
           vim.api.nvim_create_autocmd({ 'BufEnter', 'CursorHold', 'InsertLeave' }, {
             desc = 'LSP: code lens',
             buffer = bufnr,
