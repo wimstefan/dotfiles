@@ -522,8 +522,9 @@ augroup('General', function(g)
       if previous_pos >= 1
           and previous_pos <= last_line
           and vim.bo.filetype ~= 'commit'
+          or vim.bo.filetype ~= 'rebase'
       then
-        vim.cmd 'normal! g`"'
+        vim.cmd('normal! g`"')
       end
     end,
   })
@@ -659,15 +660,6 @@ local opts = {
   },
   checker = {
     enabled = true
-  },
-  performance = {
-    reset_packpath = false,
-    rtp = {
-      reset = false,
-      paths = {
-        vim.fn.stdpath('config') .. 'ftplugin'
-      }
-    }
   }
 }
 
