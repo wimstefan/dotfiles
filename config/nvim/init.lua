@@ -369,6 +369,17 @@ end
 
 -- }}}2
 
+-- {{{2 toggle foldcolumn
+function ToggleFoldColumn()
+  local current_fc = vim.api.nvim_get_option_value('foldcolumn', {})
+  if current_fc == '0' then
+    vim.opt.foldcolumn = 'auto:1'
+  else
+    vim.opt.foldcolumn = '0'
+  end
+end
+
+-- }}}2
 -- }}}1 --------------------- FUNCTIONS ----------------------------------------
 -- {{{1 --------------------- MAPPINGS -----------------------------------------
 vim.keymap.set('', 'cd', [[<Cmd>cd %:h | pwd<CR>]])
@@ -378,6 +389,7 @@ vim.keymap.set('n', '<Leader>i', [[<Cmd>Inspect!<CR>]])
 vim.keymap.set('n', '<Leader>K', function() ShowMan() end, { desc = 'Search man pages for current word' })
 vim.keymap.set('n', '<Leader>m', [[<Cmd>messages<cr>]])
 vim.keymap.set('n', '<Leader>p', function() Prettify() end, { desc = 'Apply visual tweaks' })
+vim.keymap.set('n', '<F9>', function() ToggleFoldColumn() end, { desc = 'Toggle foldcolumn' })
 vim.keymap.set('n', '<F10>', function() ToggleDetails() end, { desc = 'Toggle decorations' })
 -- {{{2 navigation
 vim.keymap.set({ 'n', 'x' }, 'j', function() return vim.v.count > 0 and 'j' or 'gj' end,
