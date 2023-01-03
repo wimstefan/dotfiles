@@ -4,9 +4,9 @@ local mux = wez.mux
 local hostname = wez.hostname()
 local my_font
 if hostname == 'tj' then
-  my_font = 'pt'
+  my_font = 'iosevka'
 else
-  my_font = 'pt'
+  my_font = 'iosevka'
 end
 -- local selected_scheme = 'wilmersdorf' -- dark
 -- local selected_scheme = 'terafox' -- dark
@@ -16,6 +16,7 @@ end
 -- local selected_scheme = 'seoulbones_dark'
 -- local selected_scheme = 'seoulbones_light'
 -- local selected_scheme = 'base16-tokyo-city-terminal-light'
+-- local selected_scheme = 'base16-tokyo-city-terminal-dark'
 local selected_scheme = 'base16-tokyo-city-terminal-dark'
 
 local function basename(s)
@@ -73,9 +74,11 @@ if l > 0.5 then
     C_BG = bg:darken(0.6)
   end
   C_FG = fg:lighten(1.0)
+  scheme.selection_bg = 'rgba(88% 88% 88% 30%)'
 else
   C_FG = fg:darken(1.0)
   C_BG = bg:lighten(0.8)
+  scheme.selection_bg = 'rgba(70% 70% 70% 40%)'
 end
 scheme.foreground = C_FG
 scheme.background = C_BG
@@ -116,7 +119,7 @@ scheme.visual_bell = C_BRIGHT_RED
 -- {{{1 Font configuration
 -- {{{2 font_fallback
 local function font_fallback(name)
-  local names = { name, 'nonicons', 'JoyPixels', 'OpenMoji', 'Iosevka Artesanal' }
+  local names = { name, 'nonicons', 'JoyPixels', 'Iosevka Artesanal' }
   return wez.font_with_fallback(names)
 end
 -- 2}}}
@@ -157,18 +160,21 @@ local function font_rules(name)
       {
         intensity = 'Bold',
         italic = false,
-        font = font_fallback({ family = 'Iosevka Artesanal', weight = 'Bold',
-          harfbuzz_features = { 'calt=1', 'ccmp=1', 'dlig=1', 'onum=1' } }),
+        font = font_fallback({ family = 'Iosevka Artesanal', weight = 'Bold' }),
       },
       {
         intensity = 'Normal',
         italic = true,
-        font = font_fallback({ family = 'Iosevka Artesanal', weight = 'Book', style = 'Italic' })
+        -- font = font_fallback({ family = 'Iosevka Artesanal', weight = 'Book', style = 'Italic' })
+        -- font = font_fallback({ family = 'IBM Plex Mono Text', style = 'Italic', harfbuzz_features = { 'zero' } })
+        font = font_fallback({ family = 'Operator Mono', weight = 'Book', style = 'Italic' })
       },
       {
         intensity = 'Bold',
         italic = true,
-        font = font_fallback({ family = 'Iosevka Artesanal', weight = 'Bold', style = 'Italic' })
+        -- font = font_fallback({ family = 'Iosevka Artesanal', weight = 'Bold', style = 'Italic' })
+        -- font = font_fallback({ family = 'IBM Plex Mono SmBld', style = 'Italic', harfbuzz_features = { 'zero' } })
+        font = font_fallback({ family = 'Operator Mono', weight = 'Medium', style = 'Italic' })
       },
     }
   elseif string.match(name, 'operator') then
@@ -237,9 +243,9 @@ local function font_size(name)
     elseif string.match(name, 'iosevka') then
       size = 11.0
     elseif string.match(name, 'operator') then
-      size = 10.3
+      size = 10.5
     elseif string.match(name, 'mona') then
-      size = 9.5
+      size = 9.6
     elseif string.match(name, 'plex') then
       size = 10.6
     elseif string.match(name, 'pt') then
@@ -279,7 +285,7 @@ local function font_size(name)
     elseif string.match(name, 'plex') then
       size = 10.4
     elseif string.match(name, 'pt') then
-      size = 10.0
+      size = 9.5
     elseif string.match(name, 'recursive') then
       size = 9.8
     end
@@ -407,7 +413,6 @@ return {
   underline_position = '-1.4pt',
   underline_thickness = '200%',
   unicode_version = 15,
-  use_cap_height_to_scale_fallback_fonts = true,
   freetype_load_target = 'HorizontalLcd',
 
   -- Behaviour
