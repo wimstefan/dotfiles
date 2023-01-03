@@ -203,7 +203,7 @@ pkill sxhkd
 sxhkd -c $HOME/.config/herbstluftwm/sxhkdrc &
 pkill picom
 while pgrep -x picom >/dev/null; do sleep 1; done
-/usr/local/src/Tools/x11/picom-yshui.git/build/src/picom --config $HOME/.config/picom/herbstluftwm.conf &
+picom --config $HOME/.config/picom/herbstluftwm.conf &
 pkill dunst
 dunst &
 if [ $HOSTNAME = 'swimmer' ]; then
