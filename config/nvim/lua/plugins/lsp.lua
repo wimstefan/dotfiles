@@ -9,7 +9,6 @@ return {
       require('lspconfig.ui.windows').default_options.border = My_Borders
       require('cmp_nvim_lsp').setup()
       require('neodev').setup()
-      local lsp_config = require('lspconfig')
 
       -- LSP handlers
       vim.lsp.handlers['textDocument/signatureHelp'] = vim.lsp.with(vim.lsp.handlers.signature_help,
@@ -40,7 +39,11 @@ return {
           { desc = 'LSP: workspace diagnostics' }, { buffer = bufnr })
         vim.keymap.set('n', ',lrn',
           function()
-            return ':IncRename ' .. vim.fn.expand('<cword>')
+            if pcall(require, 'inc_rename') then
+              return ':IncRename ' .. vim.fn.expand('<cword>')
+            else
+              vim.lsp.buf.rename()
+            end
           end,
           { desc = 'LSP: rename', expr = true, replace_keycodes = false }, { buffer = bufnr })
         vim.keymap.set('n', ',lw', function() Dump(vim.lsp.buf.list_workspace_folders()) end,
@@ -129,7 +132,7 @@ return {
 
         -- autocmds
         if client.server_capabilities.codeLensProvider then
-          vim.keymap.set('n', ',ll', function() vim.lsp.codelens.run({ border = My_Borders }) end,
+          vim.keymap.set('n', ',lL', function() vim.lsp.codelens.run({ border = My_Borders }) end,
             { desc = 'LSP: code lens' }, { buffer = bufnr })
           vim.api.nvim_create_autocmd({ 'BufEnter', 'CursorHold', 'InsertLeave' }, {
             desc = 'LSP: code lens',
@@ -182,12 +185,15 @@ return {
               codelens = {
                 enable = true
               },
+              completion = {
+                callSnippet = 'Replace',
+                workspaceWord = true,
+              },
               diagnostics = {
-                enable_check_codestyle = true,
                 globals = {
                   'use',
                   'vim'
-                },
+                }
               },
               format = {
                 enable = true,
@@ -228,7 +234,7 @@ return {
         if type(opts) == 'function' then
           opts()
         else
-          local client = lsp_config[name]
+          local client = require('lspconfig')[name]
           client.setup(vim.tbl_extend('force', {
             on_attach = on_attach,
             capabilities = capabilities,
