@@ -1,27 +1,14 @@
 return {
   {
-    'hrsh7th/nvim-cmp',
-    event = {
-      'CmdlineEnter',
-      'InsertEnter'
-    },
+    'L3MON4D3/LuaSnip',
     dependencies = {
-      'hrsh7th/cmp-nvim-lsp',
-      'hrsh7th/cmp-nvim-lsp-signature-help',
-      'hrsh7th/cmp-buffer',
-      'hrsh7th/cmp-path',
-      'hrsh7th/cmp-cmdline',
-      'saadparwaiz1/cmp_luasnip',
-      'L3MON4D3/LuaSnip',
-      'honza/vim-snippets'
+      'honza/vim-snippets',
+      config = function()
+        require('luasnip/loaders/from_snipmate').lazy_load()
+      end
     },
     config = function()
-      local cmp = require('cmp')
-      local cmp_buffer = require('cmp_buffer')
-
-      require('luasnip/loaders/from_snipmate').lazy_load()
-      local luasnip = require('luasnip')
-      luasnip.config.set_config {
+      require('luasnip').config.set_config {
         history = true,
         updateevents = 'TextChanged,TextChangedI',
         enable_autosnippets = true,
@@ -40,7 +27,27 @@ return {
           },
         }
       }
-      luasnip.filetype_extend('all', { '_' })
+      require('luasnip').filetype_extend('all', { '_' })
+    end
+  },
+  {
+    'hrsh7th/nvim-cmp',
+    event = {
+      'CmdlineEnter',
+      'InsertEnter'
+    },
+    dependencies = {
+      'hrsh7th/cmp-nvim-lsp',
+      'hrsh7th/cmp-nvim-lsp-signature-help',
+      'hrsh7th/cmp-buffer',
+      'hrsh7th/cmp-path',
+      'hrsh7th/cmp-cmdline',
+      'saadparwaiz1/cmp_luasnip'
+    },
+    config = function()
+      local cmp = require('cmp')
+      local cmp_buffer = require('cmp_buffer')
+      local luasnip = require('luasnip')
 
       local check_backspace = function()
         local col = vim.fn.col '.' - 1
