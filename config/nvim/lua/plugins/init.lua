@@ -9,17 +9,55 @@ return {
     dependencies = 'antoinemadec/FixCursorHold.nvim'
   },
   -- }}}
-  -- {{{2 nvim-luaref
-  'milisims/nvim-luaref',
-  -- }}}
-  -- {{{2 vim-obsession
+  -- {{{2 Projects
   {
-    'tpope/vim-obsession',
+    'nyngwang/fzf-lua-projections.nvim',
+    dependencies = {
+      'GnikDroy/projections.nvim',
+      config = function()
+        require('projections').setup({
+          workspaces = {
+            { '~/.dotfiles/config', {} },
+            { '~/Bedrijfje', {} }
+          }
+        })
+        vim.opt.sessionoptions:append('localoptions')
+        local Workspace = require('projections.workspace')
+        vim.api.nvim_create_user_command('AddWorkspace', function()
+          Workspace.add(vim.loop.cwd())
+        end, {})
+        local Switcher = require('projections.switcher')
+        vim.api.nvim_create_autocmd({ 'VimEnter' }, {
+            callback = function()
+                if vim.fn.argc() == 0 then Switcher.switch(vim.loop.cwd()) end
+            end,
+        })
+        local Session = require('projections.session')
+        vim.api.nvim_create_autocmd({ 'VimLeavePre' }, {
+            callback = function() Session.store(vim.loop.cwd()) end,
+        })
+        vim.api.nvim_create_autocmd({ 'VimEnter' }, {
+          callback = function()
+            if vim.fn.argc() ~= 0 then return end
+            local session_info = Session.info(vim.loop.cwd())
+            if session_info == nil then
+              Session.restore_latest()
+            else
+              Session.restore(vim.loop.cwd())
+            end
+          end,
+          desc = 'Restore last session automatically'
+        })
+      end
+    },
     keys = {
       {
-        ',to',
-        vim.cmd.Obsession,
-        { desc = 'Obsession' }
+        '<Leader>fp',
+        function()
+          require('fzf-lua-p').projects()
+        end,
+        'NOREF_NOERR_TRUNC',
+        { desc = 'FZF: projects' }
       }
     }
   },
@@ -91,6 +129,13 @@ return {
     config = function()
       require('nvim-surround').setup()
     end
+  },
+  -- }}}
+  -- {{{2 ns-textobject.nvim
+  {
+    'XXiaoA/ns-textobject.nvim',
+    event = 'BufReadPost',
+    config = true
   },
   -- }}}
   -- {{{2 Comment.nvim
