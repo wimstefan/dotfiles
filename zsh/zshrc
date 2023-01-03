@@ -371,6 +371,7 @@ alias cr=check-repos.sh
 alias duf='duf -theme ansi'
 alias mtr='mtr --curses'
 alias eix='eix --force-color'
+alias w3m='TERM=xterm-256color w3m'
 alias history='history -i -44'
 alias time=/usr/bin/time
 alias explore=vifm
@@ -626,6 +627,33 @@ if [[ $USER != root ]]; then
         rsync -az   --delete /home/swimmer/.dotfiles/ $host:.dotfiles/
       }
 
+      function sync-cli() {
+      # zsh, vim, mc
+        local host=$1
+        echo "Syncing zsh on $host ..."
+        rsync -az   --delete /home/swimmer/.config/fzf/fzf.*sh $host:.config/fzf/
+        rsync -az   --delete /home/swimmer/.config/zsh/external/ $host:.config/zsh/external/
+        rsync -az            /home/swimmer/.config/zsh/zsh_aliases $host:.config/zsh/zsh_aliases
+        rsync -az            /home/swimmer/.config/zsh/.zshrc $host:.config/zsh/.zshrc
+        echo "Syncing vim & neovim on $host ..."
+        rsync -az            /home/swimmer/.vimrc $host:
+        rsync -azk  --delete /home/swimmer/.vim/ $host:.vim/
+        rsync -azK  --delete /home/swimmer/.config/nvim/ $host:.config/nvim/
+        echo "Syncing bat on $host ..."
+        rsync -az            /home/swimmer/.config/bat/ $host:.config/bat/
+        echo "Syncing file explorers on $host ..."
+        rsync -az            /home/swimmer/.config/mc/ini $host:.config/mc/
+        rsync -az            /home/swimmer/.config/mc/mc.ext $host:.config/mc/
+        rsync -az   --delete /home/swimmer/.local/share/mc/skins/ $host:.local/share/mc/skins/
+        rsync -az   --delete /home/swimmer/.config/vifm/vifmrc $host:.config/vifm/vifmrc
+        rsync -az   --delete /home/swimmer/.config/vifm/colors/ $host:.config/vifm/colors/
+        echo "Syncing cli browsers on $host ..."
+        rsync -az            /home/swimmer/.w3m/config $host:.w3m/config
+        rsync -az            /home/swimmer/.elinks/elinks.conf $host:.elinks/elinks.conf
+        echo "Syncing moc themes on $host ..."
+        rsync -azk  --delete /home/swimmer/.moc/themes/ $host:.moc/themes/
+      }
+
       function sync-x() {
       # terminal & X settings
         local host=$1
@@ -653,39 +681,14 @@ if [[ $USER != root ]]; then
         rsync -az   --delete /home/swimmer/.config/polybar/ $host:.config/polybar/
         rsync -azKl --delete /home/swimmer/.config/rofi/ $host:.config/rofi/
         rsync -az   --delete /home/swimmer/.config/sxhkd/ $host:.config/sxhkd/
-        rsync -azl  --delete /home/swimmer/.config/wezterm/ $host:.config/wezterm/
+        rsync -azKl --delete /home/swimmer/.config/wezterm/ $host:.config/wezterm/
         rsync -azL  --delete /home/swimmer/.terminfo/w/wezterm $host:.terminfo/w/
         rsync -azL  --delete /usr/local/share/applications/wezterm.desktop $host:/usr/local/share/applications/
         for j in strip-ansi-escapes sync-color-schemes wezterm{,-gui,-mux-server}; rsync -azL --delete /home/swimmer/.local/bin/$j $host:/usr/local/bin/
         rsync -az            /home/swimmer/.config/emoji-list.txt $host:.config/
         rsync -az            /usr/local/bin/bg-toggle $host:/usr/local/bin/
       }
-      function sync-cli() {
-      # zsh, vim, mc
-        local host=$1
-        echo "Syncing zsh on $host ..."
-        rsync -az   --delete /home/swimmer/.config/fzf/fzf.*sh $host:.config/fzf/
-        rsync -az   --delete /home/swimmer/.config/zsh/external/ $host:.config/zsh/external/
-        rsync -az            /home/swimmer/.config/zsh/zsh_aliases $host:.config/zsh/zsh_aliases
-        rsync -az            /home/swimmer/.config/zsh/.zshrc $host:.config/zsh/.zshrc
-        echo "Syncing vim & neovim on $host ..."
-        rsync -az            /home/swimmer/.vimrc $host:
-        rsync -azk  --delete /home/swimmer/.vim/ $host:.vim/
-        rsync -azK  --delete /home/swimmer/.config/nvim/ $host:.config/nvim/
-        echo "Syncing bat on $host ..."
-        rsync -az            /home/swimmer/.config/bat/ $host:.config/bat/
-        echo "Syncing file explorers on $host ..."
-        rsync -az            /home/swimmer/.config/mc/ini $host:.config/mc/
-        rsync -az            /home/swimmer/.config/mc/mc.ext $host:.config/mc/
-        rsync -az   --delete /home/swimmer/.local/share/mc/skins/ $host:.local/share/mc/skins/
-        rsync -az   --delete /home/swimmer/.config/vifm/vifmrc $host:.config/vifm/vifmrc
-        rsync -az   --delete /home/swimmer/.config/vifm/colors/ $host:.config/vifm/colors/
-        echo "Syncing cli browsers on $host ..."
-        rsync -az            /home/swimmer/.w3m/config $host:.w3m/config
-        rsync -az            /home/swimmer/.elinks/elinks.conf $host:.elinks/elinks.conf
-        echo "Syncing moc themes on $host ..."
-        rsync -azk  --delete /home/swimmer/.moc/themes/ $host:.moc/themes/
-      }
+
       function sync-misc() {
       # diverse
         local host=$1
@@ -697,8 +700,8 @@ if [[ $USER != root ]]; then
             echo "<< $i >>"
             if ping -c1 $i > /dev/null; then
               sync-dotfiles $i
-              sync-x $i
               sync-cli $i
+              sync-x $i
             else
               echo "$i is down"
             fi
@@ -707,8 +710,8 @@ if [[ $USER != root ]]; then
             echo "<< $i >>"
             if ping -c1 $i > /dev/null; then
               sync-dotfiles $i
-              sync-x $i
               sync-cli $i
+              sync-x $i
             else
               echo "$i is down"
             fi
@@ -718,8 +721,8 @@ if [[ $USER != root ]]; then
               echo "<< $h >>"
               if ping -c1 $h > /dev/null; then
                 sync-dotfiles $h
-                sync-x $h
                 sync-cli $h
+                sync-x $h
               else
                 echo "$h is down"
               fi
