@@ -16,7 +16,7 @@ if not vim.loop.fs_stat(lazypath) then
   })
 end
 vim.opt.rtp:prepend(lazypath)
--- }}}
+-- }}}1
 -- {{{1 --------------------- OPTIONS ------------------------------------------
 local indent = 2
 local limited = '80'
@@ -266,7 +266,7 @@ function Prettify()
   vim.notify('Applying visual tweaks', vim.log.levels.INFO, { title = '[UI]' })
 end
 
--- }}}
+-- }}}2
 
 -- {{{2 toggle detailed information for easier paste
 function ToggleDetails()
@@ -296,7 +296,7 @@ function ToggleDetails()
   end
 end
 
--- }}}
+-- }}}2
 
 -- {{{2 quickfix/location toggle made by ibhagwan
 function FindQF(type)
@@ -359,7 +359,7 @@ local windows = FindQF(type)
   end
 end
 
--- }}}
+-- }}}2
 
 -- {{{2 show manpage of current word
 function ShowMan()
@@ -367,7 +367,7 @@ function ShowMan()
   vim.cmd.Man(cword)
 end
 
--- }}}
+-- }}}2
 
 -- }}}1 --------------------- FUNCTIONS ----------------------------------------
 -- {{{1 --------------------- MAPPINGS -----------------------------------------
@@ -384,7 +384,7 @@ vim.keymap.set({ 'n', 'x' }, 'j', function() return vim.v.count > 0 and 'j' or '
   { expr = true, replace_keycodes = false })
 vim.keymap.set({ 'n', 'x' }, 'k', function() return vim.v.count > 0 and 'k' or 'gk' end,
   { expr = true, replace_keycodes = false })
--- }}}
+-- }}}2
 -- {{{2 editing
 vim.keymap.set('n', '<Leader>ev', [[<Cmd>edit $MYVIMRC<CR>]])
 vim.keymap.set('n', '<Leader>sv', [[<Cmd>luafile $MYVIMRC<CR>]])
@@ -395,30 +395,30 @@ vim.keymap.set('n', '<Leader>qa', [[<Cmd>qa!<CR>]])
 vim.keymap.set('n', '<Leader>wqa', [[<Cmd>wqa!<CR>]])
 vim.keymap.set('n', 'cn', '*``cgn')
 vim.keymap.set('n', 'cN', '*``cgN')
--- }}}
+-- }}}2
 -- {{{2 buffers
 vim.keymap.set('n', '<Tab>', vim.cmd.bnext, { desc = 'Go to next buffer' })
 vim.keymap.set('n', '<S-Tab>', vim.cmd.bprev, { desc = 'Go to previous buffer' })
 vim.keymap.set('n', '<Leader><Leader>', '<C-^>')
 vim.keymap.set('n', '<Leader>bd', function() vim.cmd.bdelete() end, { desc = 'Delete buffer' })
 vim.keymap.set('n', '<Leader>bl', function() vim.cmd.buffer('#') end, { desc = 'Go to last buffer' })
--- }}}
+-- }}}2
 -- {{{2 tabs
 vim.keymap.set('n', '<Leader>td', vim.cmd.tabclose)
--- }}}
+-- }}}2
 -- {{{2 terminals
 vim.keymap.set('t', '<Esc>', [[<C-\><C-N>]])
 vim.keymap.set('t', '<A-h>', [[<C-\><C-N><C-w>h]])
 vim.keymap.set('t', '<A-j>', [[<C-\><C-N><C-w>j]])
 vim.keymap.set('t', '<A-k>', [[<C-\><C-N><C-w>k]])
 vim.keymap.set('t', '<A-l>', [[<C-\><C-N><C-w>l]])
--- }}}
+-- }}}2
 -- {{{2 quickfix
 vim.keymap.set('n', '<C-c>', function() ToggleQF('q') end, { desc = 'Toggle quickfix window' })
 vim.keymap.set('n', '<A-c>', function() ToggleQF('l') end, { desc = 'Toggle location list window' })
 vim.keymap.set('n', '[\\', vim.cmd.colder)
 vim.keymap.set('n', ']\\', vim.cmd.cnewer)
--- }}}
+-- }}}2
 -- {{{2 signatures
 vim.keymap.set('n', '<Leader>sa',
   [[1G:s#\(Stefan Wimmer\) <.*>#\1 <stefan@tangoartisan.com>#<CR>G?--<CR>jVGd :r ~/.mutt/short-signature-artisan<CR>/^To:<CR>]])
@@ -427,7 +427,7 @@ vim.keymap.set('n', '<Leader>sg',
 vim.keymap.set('n', '<Leader>st', [[G?--<CR>jVGd :r ~/.mutt/short-signature-tango<CR>]])
 vim.keymap.set('n', '<Leader>ss', [[G?--<CR>jVGd :r ~/.mutt/short-signature<CR>]])
 vim.keymap.set('n', '<Leader>sl', [[G?--<CR>jVGd :r ~/.mutt/signature<CR>]])
--- }}}
+-- }}}2
 -- }}}1 --------------------- MAPPINGS -----------------------------------------
 -- {{{1 --------------------- AUTOCMDS -----------------------------------------
 local aucmd = vim.api.nvim_create_autocmd

@@ -12,7 +12,7 @@ return {
     },
     config = true
   },
-  -- }}}
+  -- }}}2
   -- {{{2 Statusline
   {
     'nvim-lualine/lualine.nvim',
@@ -201,7 +201,7 @@ return {
       vim.defer_fn(function() Prettify() end, 0)
     end
   },
-  -- }}}
+  -- }}}2
   -- {{{2 nvim-ufo
   {
     'kevinhwang91/nvim-ufo',
@@ -314,7 +314,7 @@ return {
       })
     end
   },
-  -- }}}
+  -- }}}2
   -- {{{2 which-key.nvim
   {
     'folke/which-key.nvim',
@@ -335,7 +335,7 @@ return {
       })
     end
   },
-  -- }}}
+  -- }}}2
   -- {{{2 indent-blankline.nvim
   {
     'lukas-reineke/indent-blankline.nvim',
@@ -377,7 +377,7 @@ return {
       })
     end
   },
-  -- }}}
+  -- }}}2
   -- {{{2 nvim-web-devicons
   {
     'wimstefan/nvim-web-devicons',
@@ -387,17 +387,17 @@ return {
       })
     end
   },
-  -- }}}
+  -- }}}2
   -- {{{2 nvim-nonicons
   {
     'yamatsum/nvim-nonicons',
     config = true
   },
-  -- }}}
+  -- }}}2
   -- {{{2 lush.nvim
   'rktjmp/lush.nvim',
   'rktjmp/shipwright.nvim',
-  -- }}}
+  -- }}}2
   -- {{{2 vim-artesanal
   {
     'wimstefan/vim-artesanal',
@@ -406,7 +406,7 @@ return {
       vim.g.artesanal_transparent = true
     end
   },
-  -- }}}
+  -- }}}2
   -- {{{2 nightfox.nvim
   {
     'EdenEast/nightfox.nvim',
@@ -437,7 +437,7 @@ return {
       })
     end
   },
-  -- }}}
+  -- }}}2
   -- {{{2 zenbones.nvim
   {
     'mcchrish/zenbones.nvim',
@@ -456,10 +456,10 @@ return {
       end
     end
   },
-  -- }}}
+  -- }}}2
   -- {{{2 nvim-base16
   'RRethy/nvim-base16',
-  -- }}}
+  -- }}}2
   -- {{{2 ccc.nvim
   {
     'uga-rosa/ccc.nvim',
@@ -484,6 +484,6 @@ return {
       })
     end
   }
-  -- }}}
+  -- }}}2
 }
 -- vim: foldmethod=marker foldlevel=1

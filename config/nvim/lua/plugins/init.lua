@@ -1,14 +1,14 @@
 return {
   -- {{{2 plenary.nvim
   'nvim-lua/plenary.nvim',
-  -- }}}
+  -- }}}2
   -- {{{2 nvim-luapad
   {
     'rafcamlet/nvim-luapad',
     cmd = 'Luapad',
     dependencies = 'antoinemadec/FixCursorHold.nvim'
   },
-  -- }}}
+  -- }}}2
   -- {{{2 Projects
   {
     'nyngwang/fzf-lua-projections.nvim',
@@ -61,16 +61,16 @@ return {
       }
     }
   },
-  -- }}}
+  -- }}}2
   -- {{{2 vim-repeat
   'tpope/vim-repeat',
-  -- }}}
+  -- }}}2
   -- {{{2 vim-unimpaired
   {
     'tpope/vim-unimpaired',
     event = 'VeryLazy'
   },
-  -- }}}
+  -- }}}2
   -- {{{2 leap.nvim
   {
     'ggandor/leap.nvim',
@@ -79,14 +79,14 @@ return {
       require('leap').set_default_keymaps()
     end
   },
-  -- }}}
+  -- }}}2
   -- {{{2 spaceless.nvim
   {
     'lewis6991/spaceless.nvim',
     event = 'VeryLazy',
     config = true
   },
-  -- }}}
+  -- }}}2
   -- {{{2 hover.nvim
   {
     'lewis6991/hover.nvim',
@@ -119,20 +119,20 @@ return {
       }
     end
   },
-  -- }}}
+  -- }}}2
   -- {{{2 nvim-surround
   {
     'kylechui/nvim-surround',
     config = true
   },
-  -- }}}
+  -- }}}2
   -- {{{2 ns-textobject.nvim
   {
     'XXiaoA/ns-textobject.nvim',
     event = 'BufReadPost',
     config = true
   },
-  -- }}}
+  -- }}}2
   -- {{{2 Comment.nvim
   {
     'numToStr/Comment.nvim',
@@ -155,14 +155,14 @@ return {
       })
     end
   },
-  -- }}}
+  -- }}}2
   -- {{{2 text-case.nvim
   {
     'johmsalas/text-case.nvim',
     event = 'VeryLazy',
     config = true
   },
-  -- }}}
+  -- }}}2
   -- {{{2 buffer-manager.nvim
   {
     'j-morano/buffer_manager.nvim',
@@ -177,7 +177,7 @@ return {
       }
     }
   },
-  -- }}}
+  -- }}}2
   -- {{{2 nvim-bqf
   {
     'kevinhwang91/nvim-bqf',
@@ -190,7 +190,7 @@ return {
       })
     end
   },
-  -- }}}
+  -- }}}2
   -- {{{2 nvim-hlslens
   {
     'kevinhwang91/nvim-hlslens',
@@ -231,7 +231,7 @@ return {
       vim.opt.shortmess:append('S')
     end
   },
-  -- }}}
+  -- }}}2
   -- {{{2 zk-nvim
   {
     'mickael-menu/zk-nvim',
@@ -265,7 +265,7 @@ return {
       vim.keymap.set('n', '<Leader>zt', [[<Cmd>ZkTags<CR>]])
     end
   },
-  -- }}}
+  -- }}}2
   -- {{{2 mkdnflow.nvim
   {
     'jakewvincent/mkdnflow.nvim',
@@ -286,7 +286,7 @@ return {
       })
     end
   },
-  -- }}}
+  -- }}}2
   -- {{{2 pantran.nvim
   {
     'potamides/pantran.nvim',
@@ -312,13 +312,13 @@ return {
       })
     end
   },
-  -- }}}
+  -- }}}2
   -- {{{2 vim-simple-align
   {
     'kg8m/vim-simple-align',
     cmd = 'SimpleAlign'
   },
-  -- }}}
+  -- }}}2
   -- {{{2 fm-nvim
   {
     'is0n/fm-nvim',
@@ -357,7 +357,7 @@ return {
       })
     end
   },
-  -- }}}
+  -- }}}2
   -- {{{2 toggleterm.nvim
   {
     'akinsho/toggleterm.nvim',
@@ -398,13 +398,13 @@ return {
       })
     end
   },
-  -- }}}
+  -- }}}2
   -- {{{2 smartyank.nvim
   {
     'ibhagwan/smartyank.nvim',
     event = 'VeryLazy'
   },
-  -- }}}
+  -- }}}2
   -- {{{2 nvim-spectre
   {
     'windwp/nvim-spectre',
@@ -444,7 +444,7 @@ return {
       })
     end
   },
-  -- }}}
+  -- }}}2
   -- {{{2 undotree
   {
     'jiaoshijie/undotree',
@@ -467,13 +467,13 @@ return {
       })
     end
   },
-  -- }}}
+  -- }}}2
   -- {{{2 vim-dirdiff
   {
     'will133/vim-dirdiff',
     cmd = 'DirDiff'
   },
-  -- }}}
+  -- }}}2
   -- {{{2 paperplanes.nvim
   {
     'rktjmp/paperplanes.nvim',
@@ -487,32 +487,32 @@ return {
       })
     end
   },
-  -- }}}
+  -- }}}2
   -- {{{2 vim-renamer
   {
     'qpkorr/vim-renamer',
     cmd = 'Renamer'
   },
-  -- }}}
+  -- }}}2
   -- {{{2 vim-gnupg
   {
     'jamessan/vim-gnupg',
     lazy = false
   },
-  -- }}}
+  -- }}}2
   -- {{{2 vim-log-highlighting
   {
     'MTDL9/vim-log-highlighting',
     ft = 'log'
   },
-  -- }}}
+  -- }}}2
   -- {{{2 rasi.vim
   {
     'Fymyte/rasi.vim',
     ft = 'rasi',
     build = ':TSInstall rasi'
   },
-  -- }}}
+  -- }}}2
   -- {{{2 unicode.vim
   {
     'chrisbra/unicode.vim',
@@ -533,12 +533,12 @@ return {
       }
     }
   },
-  -- }}}
+  -- }}}2
   -- {{{2 vim-startuptime
   {
     'dstein64/vim-startuptime',
     cmd = 'StartupTime'
   }
-  -- }}}
+  -- }}}2
 }
 -- vim: foldmethod=marker foldlevel=1
