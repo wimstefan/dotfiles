@@ -222,7 +222,6 @@ vim.filetype.add({
     ['~/%.mutt/.*rc'] = 'muttrc',
   },
 })
-
 -- }}}1 --------------------- OPTIONS ------------------------------------------
 -- {{{1 --------------------- FUNCTIONS ----------------------------------------
 function Dump(...)
@@ -287,7 +286,7 @@ function ToggleDetails()
     vim.opt.mouse = 'a'
     vim.opt.cursorcolumn = true
     vim.opt.cursorline = true
-    vim.opt.signcolumn = 'yes'
+    vim.opt.signcolumn = 'auto:5-9'
     vim.opt.foldenable = true
     vim.opt.list = true
     vim.opt.number = true
@@ -398,11 +397,11 @@ vim.keymap.set('n', 'cn', '*``cgn')
 vim.keymap.set('n', 'cN', '*``cgN')
 -- }}}
 -- {{{2 buffers
-vim.keymap.set('n', '<Tab>', vim.cmd.bnext)
-vim.keymap.set('n', '<S-Tab>', vim.cmd.bprev)
+vim.keymap.set('n', '<Tab>', vim.cmd.bnext, { desc = 'Go to next buffer' })
+vim.keymap.set('n', '<S-Tab>', vim.cmd.bprev, { desc = 'Go to previous buffer' })
 vim.keymap.set('n', '<Leader><Leader>', '<C-^>')
-vim.keymap.set('n', '<Leader>bd', vim.cmd.bdelete)
-vim.keymap.set('n', '<Leader>bl', vim.cmd.buffer('#'))
+vim.keymap.set('n', '<Leader>bd', function() vim.cmd.bdelete() end, { desc = 'Delete buffer' })
+vim.keymap.set('n', '<Leader>bl', function() vim.cmd.buffer('#') end, { desc = 'Go to last buffer' })
 -- }}}
 -- {{{2 tabs
 vim.keymap.set('n', '<Leader>td', vim.cmd.tabclose)
@@ -517,14 +516,14 @@ augroup('General', function(g)
     group = g,
     desc = 'Jump back to previous cursor position',
     callback = function()
-      local previous_pos = vim.api.nvim_buf_get_mark(0, '"')[1]
-      local last_line = vim.api.nvim_buf_line_count(0)
-      if previous_pos >= 1
-          and previous_pos <= last_line
-          and vim.bo.filetype ~= 'commit'
-          or vim.bo.filetype ~= 'rebase'
+      local mark = vim.api.nvim_buf_get_mark(0, '"')
+      local lcount = vim.api.nvim_buf_line_count(0)
+      if mark[1] > 0
+        and mark[1] <= lcount
+        and vim.bo.filetype ~= 'commit'
+        or vim.bo.filetype ~= 'rebase'
       then
-        vim.cmd('normal! g`"')
+        pcall(vim.api.nvim_win_set_cursor, 0, mark)
       end
     end,
   })
