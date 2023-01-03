@@ -318,6 +318,7 @@ return {
   {
     'whynothugo/lsp_lines.nvim',
     url = 'https://git.sr.ht/~whynothugo/lsp_lines.nvim',
+    event = 'VeryLazy',
     keys = {
       {
         ',ll',
@@ -327,15 +328,11 @@ return {
         desc = 'LSP: toggle lsp_lines'
       }
     },
-    config = function()
-      require('lsp_lines').setup()
-    end
+    config = true
   },
   {
     'smjonas/inc-rename.nvim',
     cmd = 'IncRename',
-    config = function()
-      require('inc_rename').setup()
-    end
+    config = true
   }
 }

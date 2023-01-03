@@ -84,9 +84,7 @@ return {
   {
     'lewis6991/spaceless.nvim',
     event = 'VeryLazy',
-    config = function()
-      require('spaceless').setup()
-    end
+    config = true
   },
   -- }}}
   -- {{{2 hover.nvim
@@ -125,10 +123,7 @@ return {
   -- {{{2 nvim-surround
   {
     'kylechui/nvim-surround',
-    event = 'BufReadPost',
-    config = function()
-      require('nvim-surround').setup()
-    end
+    config = true
   },
   -- }}}
   -- {{{2 ns-textobject.nvim
@@ -141,7 +136,7 @@ return {
   -- {{{2 Comment.nvim
   {
     'numToStr/Comment.nvim',
-    event = 'BufReadPost',
+    event = 'VeryLazy',
     dependencies = {
       'JoosepAlviste/nvim-ts-context-commentstring'
     },
@@ -164,10 +159,8 @@ return {
   -- {{{2 text-case.nvim
   {
     'johmsalas/text-case.nvim',
-    event = 'BufReadPost',
-    config = function()
-      require('textcase').setup()
-    end
+    event = 'VeryLazy',
+    config = true
   },
   -- }}}
   -- {{{2 buffer-manager.nvim
@@ -233,8 +226,8 @@ return {
         desc = 'Hlslens: g#'
       }
     },
-    config = function()
-      require('hlslens').setup()
+    config = true,
+    init = function()
       vim.opt.shortmess:append('S')
     end
   },

@@ -96,8 +96,6 @@ return {
         desc = 'Git: log'
       }
     },
-    config = function()
-      require('diffview').setup()
-    end
+    config = true
   }
 }

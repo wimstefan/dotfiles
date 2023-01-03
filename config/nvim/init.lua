@@ -645,6 +645,7 @@ local opts = {
       config = ' ',
       event = ' ',
       ft = ' ',
+      import = ' ',
       init = ' ',
       keys = ' ',
       plugin = ' ',

@@ -1,8 +1,8 @@
 {
     "Lua.diagnostics.disable": [
-        "redundant-parameter",
-        "param-type-mismatch",
         "assign-type-mismatch",
+        "param-type-mismatch",
+        "redundant-parameter",
         "undefined-field"
     ]
 }
