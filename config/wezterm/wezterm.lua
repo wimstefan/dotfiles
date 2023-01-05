@@ -462,7 +462,6 @@ return {
   debug_key_events = false,
   leader = { key = 'q', mods = 'CTRL' },
   keys = {
-    { key = 'F11', action = act.ToggleFullScreen },
     { key = '-', mods = 'CTRL', action = act.DecreaseFontSize },
     { key = '=', mods = 'CTRL', action = act.IncreaseFontSize },
     { key = '0', mods = 'CTRL', action = act.ResetFontSize },
@@ -471,6 +470,7 @@ return {
     { key = 'Z', mods = 'CTRL|SHIFT', action = act.CharSelect },
     { key = 'PageUp', mods = 'SHIFT', action = act.ScrollByPage(-1) },
     { key = 'PageDown', mods = 'SHIFT', action = act.ScrollByPage(1) },
+    { key = 'c', mods = 'LEADER', action = act.ActivateCommandPalette },
     { key = 'd', mods = 'LEADER', action = act.ShowDebugOverlay },
     { key = 'l', mods = 'LEADER', action = act.ShowLauncher },
     { key = 'Space', mods = 'LEADER', action = act.QuickSelect },
