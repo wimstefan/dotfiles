@@ -181,9 +181,9 @@ return {
   -- {{{2 nvim-bqf
   {
     'kevinhwang91/nvim-bqf',
+    dependencies = 'junegunn/fzf',
     event = 'BufReadPost',
     config = function()
-      vim.api.nvim_command([[packadd cfilter]])
       require('bqf').setup({
         auto_enable = true,
         auto_resize_height = true
