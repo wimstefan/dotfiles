@@ -7,7 +7,6 @@ return {
       'nvim-treesitter/nvim-treesitter-textobjects',
       'nvim-treesitter/nvim-treesitter-refactor',
       'windwp/nvim-ts-autotag',
-      'p00f/nvim-ts-rainbow',
       'JoosepAlviste/nvim-ts-context-commentstring'
     },
     config = function()
@@ -29,10 +28,6 @@ return {
         },
         indent = {
           enable = false
-        },
-        rainbow = {
-          enable = true,
-          extended_mode = true
         },
         refactor = {
           highlight_current_scope = {

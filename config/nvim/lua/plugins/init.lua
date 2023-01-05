@@ -57,7 +57,7 @@ return {
           require('fzf-lua-p').projects()
         end,
         'NOREF_NOERR_TRUNC',
-        { desc = 'FZF: projects' }
+        desc = 'Fzf: projects'
       }
     }
   },
