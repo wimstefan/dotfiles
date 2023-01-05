@@ -7,28 +7,11 @@ return {
         require('luasnip/loaders/from_snipmate').lazy_load()
       end
     },
-    config = function()
-      require('luasnip').config.set_config {
-        history = true,
-        updateevents = 'TextChanged,TextChangedI',
-        enable_autosnippets = true,
-        ext_opts = {
-          [require('luasnip.util.types').choiceNode] = {
-            active = {
-              hl_mode = 'combine',
-              virt_text = { { '●', 'Operator' } },
-            },
-          },
-          [require('luasnip.util.types').insertNode] = {
-            active = {
-              hl_mode = 'combine',
-              virt_text = { { '●', 'Type' } },
-            },
-          },
-        }
-      }
-      require('luasnip').filetype_extend('all', { '_' })
-    end
+    config = {
+      history = true,
+      delete_check_events = 'TextChanged',
+      updateevents = 'TextChanged,TextChangedI'
+    }
   },
   {
     'hrsh7th/nvim-cmp',
@@ -49,31 +32,14 @@ return {
       local cmp_buffer = require('cmp_buffer')
       local luasnip = require('luasnip')
 
-      local check_backspace = function()
-        local col = vim.fn.col '.' - 1
-        return col == 0 or vim.fn.getline('.'):sub(col, col):match '%s'
+      local has_words_before = function()
+        local line, col = unpack(vim.api.nvim_win_get_cursor(0))
+        return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match('%s') == nil
       end
 
-      vim.opt.completeopt = { 'menu', 'menuone', 'noselect' }
       cmp.setup({
-        window = {
-          completion = cmp.config.window.bordered(),
-          documentation = cmp.config.window.bordered(),
-        },
-        experimental = {
-          ghost_text = true,
-        },
-        formatting = {
-          fields = { 'kind', 'abbr', 'menu' },
-          format = function(entry, vim_item)
-            if entry.source.name == 'nvim_lsp' then
-              vim_item.menu = '<' .. entry.source.source.client.name .. '>'
-            else
-              vim_item.menu = '[' .. entry.source.name .. ']'
-            end
-            vim_item.kind = My_Symbols[vim_item.kind]
-            return vim_item
-          end
+        completion = {
+          completeopt = 'menu, menuone, noselect'
         },
         snippet = {
           expand = function(args)
@@ -81,25 +47,18 @@ return {
           end
         },
         mapping = cmp.mapping.preset.insert({
-          ['<C-k>'] = cmp.mapping.select_prev_item(),
-          ['<C-j>'] = cmp.mapping.select_next_item(),
-          ['<C-b>'] = cmp.mapping(cmp.mapping.scroll_docs(-10), { 'i', 'c' }),
-          ['<C-f>'] = cmp.mapping(cmp.mapping.scroll_docs(10), { 'i', 'c' }),
-          ['<C-Space>'] = cmp.mapping(cmp.mapping.complete(), { 'i', 'c' }),
-          ['<C-y>'] = cmp.mapping.confirm { select = true },
-          ['<C-e>'] = cmp.mapping {
-            i = cmp.mapping.abort(),
-            c = cmp.mapping.close(),
-          },
+          ['<C-e>'] = cmp.mapping.abort(),
+          ['<C-b>'] = cmp.mapping.scroll_docs(-10),
+          ['<C-f>'] = cmp.mapping.scroll_docs(10),
+          ['<C-Space>'] = cmp.mapping.complete(),
+          ['<C-z>'] = cmp.mapping.confirm { select = true },
           ['<CR>'] = cmp.config.disable,
           ['<Tab>'] = cmp.mapping(function(fallback)
             if cmp.visible() then
               cmp.select_next_item()
-            elseif luasnip.expandable() then
-              luasnip.expand()
             elseif luasnip.expand_or_jumpable() then
               luasnip.expand_or_jump()
-            elseif check_backspace() then
+            elseif has_words_before() then
               fallback()
             else
               fallback()
@@ -118,7 +77,7 @@ return {
         sources = cmp.config.sources({
           { name = 'nvim_lsp' },
           { name = 'nvim_lsp_signature_help' },
-          { name = 'luasnip', option = { show_autosnippets = true } },
+          { name = 'luasnip' },
           {
             name = 'path',
             option = {
@@ -134,6 +93,25 @@ return {
             },
           }
         }),
+        formatting = {
+          fields = { 'kind', 'abbr', 'menu' },
+          format = function(entry, vim_item)
+            if entry.source.name == 'nvim_lsp' then
+              vim_item.menu = '<' .. entry.source.source.client.name .. '>'
+            else
+              vim_item.menu = '[' .. entry.source.name .. ']'
+            end
+            vim_item.kind = My_Symbols[vim_item.kind]
+            return vim_item
+          end
+        },
+        window = {
+          completion = cmp.config.window.bordered(),
+          documentation = cmp.config.window.bordered()
+        },
+        experimental = {
+          ghost_text = true
+        },
         sorting = {
           comparators = {
             function(...) return cmp_buffer:compare_locality(...) end,
@@ -155,9 +133,9 @@ return {
       })
       cmp.setup.cmdline({ '/', '?' }, {
         mapping = cmp.mapping.preset.cmdline(),
-        sources = cmp.config.sources({
+        sources = {
           { name = 'buffer' }
-        })
+        }
       })
     end
   }
