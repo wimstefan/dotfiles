@@ -203,6 +203,13 @@ theme.menu_submenu_icon = recolor(theme.menu_submenu_icon, theme.red_alt)
 -- Appearance {{{
 -- Recolor Layout icons:
 theme = theme_assets.recolor_layout(theme, theme.magenta_alt)
+theme.lain_icons         = os.getenv("HOME") .. "/.config/awesome/lain/icons/layout/default/"
+theme.layout_termfair    = recolor(theme.lain_icons .. "termfair.png", theme.magenta_alt)
+theme.layout_centerfair  = recolor(theme.lain_icons .. "centerfair.png", theme.magenta_alt)
+theme.layout_cascade     = recolor(theme.lain_icons .. "cascade.png", theme.magenta_alt)
+theme.layout_cascadetile = recolor(theme.lain_icons .. "cascadetile.png", theme.magenta_alt)
+theme.layout_centerwork  = recolor(theme.lain_icons .. "centerwork.png", theme.magenta_alt)
+theme.layout_centerworkh = recolor(theme.lain_icons .. "centerworkh.png", theme.magenta_alt)
 
 -- Recolor titlebar icons:
 local function darker(color_value, darker_n)
