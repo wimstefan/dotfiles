@@ -7,7 +7,7 @@ return {
         require('luasnip/loaders/from_snipmate').lazy_load()
       end
     },
-    config = {
+    opts = {
       history = true,
       delete_check_events = 'TextChanged',
       updateevents = 'TextChanged,TextChangedI'

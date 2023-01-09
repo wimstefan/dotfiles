@@ -14,7 +14,7 @@ return {
     'nyngwang/fzf-lua-projections.nvim',
     dependencies = {
       'GnikDroy/projections.nvim',
-      config = function()
+      opts = function()
         require('projections').setup({
           workspaces = {
             { '~/.dotfiles/config', {} },
@@ -107,7 +107,7 @@ return {
       }
     },
     config = function()
-      require('hover').setup {
+      require('hover').setup({
         init = function()
           require('hover.providers.lsp')
           require('hover.providers.man')
@@ -116,7 +116,7 @@ return {
           border = nil
         },
         title = true
-      }
+      })
     end
   },
   -- }}}2
