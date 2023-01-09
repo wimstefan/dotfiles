@@ -102,22 +102,22 @@ return {
             {
               get_readonly,
               padding = 0,
-              color = { fg = 'grey' },
+              color = { fg = 'grey', bg = 'none' },
             },
             {
               get_modified,
               padding = 0,
-              color = { fg = 'red' },
+              color = { fg = 'red', bg = 'none' },
             },
             {
               get_spell,
               padding = 1,
-              color = { fg = 'brown' },
+              color = { fg = 'brown', bg = 'none' },
             },
             {
               get_session,
               padding = 1,
-              color = { fg = 'brown' },
+              color = { fg = 'brown', bg = 'none' },
             },
           },
           lualine_x = {
