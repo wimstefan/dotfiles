@@ -28,13 +28,13 @@ return {
         end, {})
         local Switcher = require('projections.switcher')
         vim.api.nvim_create_autocmd({ 'VimEnter' }, {
-            callback = function()
-                if vim.fn.argc() == 0 then Switcher.switch(vim.loop.cwd()) end
-            end,
+          callback = function()
+            if vim.fn.argc() == 0 then Switcher.switch(vim.loop.cwd()) end
+          end,
         })
         local Session = require('projections.session')
         vim.api.nvim_create_autocmd({ 'VimLeavePre' }, {
-            callback = function() Session.store(vim.loop.cwd()) end,
+          callback = function() Session.store(vim.loop.cwd()) end,
         })
         vim.api.nvim_create_autocmd({ 'VimEnter' }, {
           callback = function()
