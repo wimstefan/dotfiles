@@ -98,6 +98,13 @@ return {
         desc = 'Fzf: command history'
       },
       {
+        '<Leader>fh',
+        function()
+          require('fzf-lua').highlights()
+        end,
+        desc = 'Fzf: highlights'
+      },
+      {
         '<Leader>fk',
         function()
           require('fzf-lua').keymaps()
