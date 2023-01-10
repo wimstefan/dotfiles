@@ -1,6 +1,7 @@
 local wez = require('wezterm')
 local act = wez.action
 local mux = wez.mux
+local gpus = wez.gui.enumerate_gpus()
 local hostname = wez.hostname()
 local my_font
 if hostname == 'tj' then
@@ -8,8 +9,9 @@ if hostname == 'tj' then
 else
   my_font = 'iosevka'
 end
--- local selected_scheme = 'wilmersdorf' -- dark
--- local selected_scheme = 'terafox' -- dark
+-- local selected_scheme = 'wilmersdorf'
+-- local selected_scheme = 'terafox'
+-- local selected_scheme = 'nightfox'
 -- local selected_scheme = 'Atelier Cave (base16)'
 -- local selected_scheme = 'Atelier Cave Light (base16)'
 -- local selected_scheme = 'Atelier Lakeside Light (base16)'
@@ -17,7 +19,7 @@ end
 -- local selected_scheme = 'seoulbones_light'
 -- local selected_scheme = 'base16-tokyo-city-terminal-light'
 -- local selected_scheme = 'base16-tokyo-city-terminal-dark'
-local selected_scheme = 'base16-tokyo-city-terminal-dark'
+local selected_scheme = 'Atelier Cave Light (base16)'
 
 local function basename(s)
   return string.gsub(s, '(.*[/\\])(.*)', '%2')
@@ -33,41 +35,24 @@ else
 end
 local C_FG = scheme.foreground
 local C_BG = scheme.background
----@diagnostic disable-next-line: unused-local
 local C_BLACK = scheme.ansi[1]
----@diagnostic disable-next-line: unused-local
 local C_RED = scheme.ansi[2]
----@diagnostic disable-next-line: unused-local
 local C_GREEN = scheme.ansi[3]
----@diagnostic disable-next-line: unused-local
 local C_YELLOW = scheme.ansi[4]
----@diagnostic disable-next-line: unused-local
 local C_BLUE = scheme.ansi[5]
----@diagnostic disable-next-line: unused-local
 local C_MAGENTA = scheme.ansi[6]
----@diagnostic disable-next-line: unused-local
 local C_CYAN = scheme.ansi[7]
----@diagnostic disable-next-line: unused-local
 local C_WHITE = scheme.ansi[8]
----@diagnostic disable-next-line: unused-local
 local C_BRIGHT_BLACK = scheme.ansi[9]
----@diagnostic disable-next-line: unused-local
 local C_BRIGHT_RED = scheme.ansi[10]
----@diagnostic disable-next-line: unused-local
 local C_BRIGHT_GREEN = scheme.ansi[11]
----@diagnostic disable-next-line: unused-local
 local C_BRIGHT_YELLOW = scheme.ansi[12]
----@diagnostic disable-next-line: unused-local
 local C_BRIGHT_BLUE = scheme.ansi[13]
----@diagnostic disable-next-line: unused-local
 local C_BRIGHT_MAGENTA = scheme.ansi[14]
----@diagnostic disable-next-line: unused-local
 local C_BRIGHT_CYAN = scheme.ansi[15]
----@diagnostic disable-next-line: unused-local
 local C_BRIGHT_WHITE = scheme.ansi[16]
 local fg = wez.color.parse(scheme.foreground)
 local bg = wez.color.parse(scheme.background)
----@diagnostic disable-next-line: unused-local
 local h, s, l, a = fg:hsla()
 if l > 0.5 then
   if selected_scheme == 'seoulbones_dark' then
@@ -77,7 +62,7 @@ if l > 0.5 then
   scheme.selection_bg = 'rgba(88% 88% 88% 30%)'
 else
   C_FG = fg:darken(1.0)
-  C_BG = bg:lighten(0.8)
+  C_BG = bg:darken(0.1)
   scheme.selection_bg = 'rgba(70% 70% 70% 40%)'
 end
 scheme.foreground = C_FG
@@ -336,7 +321,6 @@ end
 -- 2}}}
 -- 1}}}
 
----@diagnostic disable-next-line: unused-local
 local function update_ssh_status(window, pane)
   local text = pane:get_domain_name()
   if text == 'local' then
@@ -403,6 +387,8 @@ return {
   },
   color_scheme = selected_scheme,
   force_reverse_video_cursor = true,
+  webgpu_preferred_adapter = gpus[1],
+  front_end = 'WebGpu',
 
   -- Fonts
   font = font_set(my_font),
@@ -413,13 +399,12 @@ return {
   underline_position = '-1.4pt',
   underline_thickness = '200%',
   unicode_version = 15,
-  freetype_load_target = 'HorizontalLcd',
 
   -- Behaviour
   term = 'wezterm',
   check_for_updates = false,
   adjust_window_size_when_changing_font_size = false,
-  window_background_opacity = 0.7,
+  window_background_opacity = 0.6,
   window_padding = {
     left = '3cell',
     right = '3cell',
