@@ -5,34 +5,11 @@ return {
     config = function()
       require('gitsigns').setup({
         signs = {
-          add = {
-            hl = 'GitSignsAdd',
-            numhl = 'GitSignsAddNr',
-            show_count = true
-          },
-          change = {
-            hl = 'GitSignsChange',
-            numhl = 'GitSignsChangeNr',
-            show_count = true
-          },
-          delete = {
-            hl = 'GitSignsDelete',
-            numhl = 'GitSignsDeleteNr',
-            show_count = true
-          },
-          topdelete = {
-            hl = 'GitSignsDelete',
-            numhl = 'GitSignsDeleteNr',
-            show_count = true
-          },
-          changedelete = {
-            hl = 'GitSignsChange',
-            numhl = 'GitSignsChangeNr',
-            show_count = true
-          }
-        },
-        diff_opts = {
-          linematch = 60
+          add = { show_count = true },
+          change = { show_count = true },
+          delete = { show_count = true },
+          topdelete = { show_count = true },
+          changedelete = { show_count = true }
         },
         count_chars = {
           [1] = '¹',
@@ -46,7 +23,16 @@ return {
           [9] = '⁹',
           ['+'] = '⁺'
         },
-        numhl = true,
+        diff_opts = {
+          internal = true,
+          linematch = 60
+        },
+        preview_config = {
+          border = My_Borders,
+          relative = 'cursor',
+          row = 1,
+          col = 2
+        },
         on_attach = function(bufnr)
           local gs = package.loaded.gitsigns
           vim.keymap.set('n', ']c', "&diff ? ']c' : '<cmd>Gitsigns next_hunk<CR>'",
@@ -64,14 +50,7 @@ return {
           vim.keymap.set('n', ',ss', gs.stage_hunk, { desc = 'Gitsigns: stage hunk' }, { buffer = bufnr })
           vim.keymap.set('n', ',su', gs.undo_stage_hunk, { desc = 'Gitsigns: undo stage hunk' }, { buffer = bufnr })
           vim.keymap.set('n', ',sx', gs.toggle_deleted, { desc = 'Gitsigns: toggle deleted' }, { buffer = bufnr })
-        end,
-        preview_config = {
-          border = My_Borders,
-        },
-        _extmark_signs = true,
-        _threaded_diff = true,
-        _signs_staged_enable = true,
-        word_diff = true,
+        end
       })
     end
   }
