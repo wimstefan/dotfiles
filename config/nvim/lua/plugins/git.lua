@@ -74,28 +74,5 @@ return {
         word_diff = true,
       })
     end
-  },
-  {
-    'sindrets/diffview.nvim',
-    cmd = {
-      'DiffviewOpen',
-      'DiffviewClose',
-      'DiffviewToggleFiles',
-      'DiffviewFocusFiles',
-      'DiffviewFileHistory'
-    },
-    keys = {
-      {
-        '<Leader>gd',
-        vim.cmd.DiffviewOpen,
-        desc = 'Git: diff'
-      },
-      {
-        '<Leader>gl',
-        vim.cmd.DiffviewFileHistory,
-        desc = 'Git: log'
-      }
-    },
-    config = true
   }
 }
