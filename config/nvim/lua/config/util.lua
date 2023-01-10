@@ -148,8 +148,10 @@ function ToggleFoldColumn()
   local current_fc = vim.api.nvim_get_option_value('foldcolumn', {})
   if current_fc == '0' then
     vim.opt.foldcolumn = 'auto:1'
+    vim.notify('FoldColumn enabled', vim.log.levels.INFO, { title = '[UI]' })
   else
     vim.opt.foldcolumn = '0'
+    vim.notify('FoldColumn disabled', vim.log.levels.INFO, { title = '[UI]' })
   end
 end
 
