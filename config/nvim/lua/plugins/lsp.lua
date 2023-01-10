@@ -68,8 +68,8 @@ return {
         end
         if client.server_capabilities.documentFormattingProvider then
           local fmt_opts = vim.bo[bufnr].ft == 'lua'
-            and 'async=true,bufnr=0,name="sumneko_lua"'
-            or 'async=true,bufnr=0'
+              and 'async=true,bufnr=0,name="sumneko_lua"'
+              or 'async=true,bufnr=0'
           vim.keymap.set('n', ',lf', function() vim.lsp.buf.format(fmt_opts) end,
             { desc = 'LSP: formatting' }, { buffer = bufnr })
         else

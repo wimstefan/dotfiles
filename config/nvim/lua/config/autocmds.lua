@@ -59,12 +59,12 @@ augroup('General', function(g)
     desc = 'Enable colorcolumn',
     callback = function()
       if not (
-        vim.bo.filetype == 'man'
-        or vim.bo.filetype == 'help'
-        or vim.bo.filetype == 'lazy'
-        or vim.bo.filetype == 'qf'
-        or vim.bo.filetype == 'whichkey'
-      ) then
+          vim.bo.filetype == 'man'
+              or vim.bo.filetype == 'help'
+              or vim.bo.filetype == 'lazy'
+              or vim.bo.filetype == 'qf'
+              or vim.bo.filetype == 'whichkey'
+          ) then
         vim.opt_local.colorcolumn = limited
       end
     end
@@ -87,9 +87,9 @@ augroup('General', function(g)
       local mark = vim.api.nvim_buf_get_mark(0, '"')
       local lcount = vim.api.nvim_buf_line_count(0)
       if mark[1] > 0
-        and mark[1] <= lcount
-        and vim.bo.filetype ~= 'commit'
-        or vim.bo.filetype ~= 'rebase'
+          and mark[1] <= lcount
+          and vim.bo.filetype ~= 'commit'
+          or vim.bo.filetype ~= 'rebase'
       then
         pcall(vim.api.nvim_win_set_cursor, 0, mark)
       end

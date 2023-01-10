@@ -119,7 +119,7 @@ function OpenLoclistAll()
 end
 
 function ToggleQF(type)
-local windows = FindQF(type)
+  local windows = FindQF(type)
   if #windows > 0 then
     for _, win in ipairs(windows) do
       vim.api.nvim_win_hide(win.winid)
