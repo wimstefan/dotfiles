@@ -4,11 +4,7 @@ return {
     'vigoux/notifier.nvim',
     lazy = false,
     keys = {
-      {
-        '<Leader>n',
-        vim.cmd.NotifierReplay,
-        desc = 'Notifications'
-      }
+      { '<Leader>n', vim.cmd.NotifierReplay, desc = 'Notifications' }
     },
     config = true
   },
@@ -208,51 +204,13 @@ return {
     dependencies = 'kevinhwang91/promise-async',
     event = 'BufReadPost',
     keys = {
-      {
-        '[z',
-        function()
-          require('ufo').goPreviousClosedFold()
-        end,
-        desc = 'Ufo: go to previous closed fold'
-      },
-      {
-        ']z',
-        function()
-          require('ufo').goNextClosedFold()
-        end,
-        desc = 'Ufo: go to next closed fold'
-      },
-      {
-        'zR',
-        function()
-          require('ufo').openAllFolds()
-        end,
-        desc = 'Ufo: open all folds'
-      },
-      {
-        'zM',
-        function()
-          require('ufo').closeAllFolds()
-        end,
-        desc = 'Ufo: close all folds'
-      },
-      {
-        'zr',
-        function()
-          require('ufo').openFoldsExceptKinds()
-        end,
-        desc = 'Ufo: open folds except kinds'
-      },
-      {
-        'zm',
-        function()
-          require('ufo').closeFoldsWith()
-        end,
-        desc = 'Ufo: close folds'
-      },
-      {
-        'zp',
-        function()
+      { '[z', function() require('ufo').goPreviousClosedFold() end, desc = 'Ufo: go to previous closed fold' },
+      { ']z', function() require('ufo').goNextClosedFold() end, desc = 'Ufo: go to next closed fold' },
+      { 'zR', function() require('ufo').openAllFolds() end, desc = 'Ufo: open all folds' },
+      { 'zM', function() require('ufo').closeAllFolds() end, desc = 'Ufo: close all folds' },
+      { 'zr', function() require('ufo').openFoldsExceptKinds() end, desc = 'Ufo: open folds except kinds' },
+      { 'zm', function() require('ufo').closeFoldsWith() end, desc = 'Ufo: close folds' },
+      { 'zp', function()
           local winid = require('ufo').peekFoldedLinesUnderCursor()
           if not winid then
             vim.lsp.buf.hover()
@@ -340,11 +298,7 @@ return {
   {
     'lukas-reineke/indent-blankline.nvim',
     keys = {
-      {
-        ',ti',
-        vim.cmd.IndentBlanklineToggle,
-        desc = 'IndentBlankline: toggle'
-      }
+      { ',ti', vim.cmd.IndentBlanklineToggle, desc = 'IndentBlankline: toggle' }
     },
     config = function()
       require('indent_blankline').setup({
@@ -465,16 +419,8 @@ return {
     'uga-rosa/ccc.nvim',
     event = 'BufReadPost',
     keys = {
-      {
-        ',ct',
-        vim.cmd.CccHighlighterToggle,
-        desc = 'Ccc: toggle highlights'
-      },
-      {
-        ',cp',
-        vim.cmd.CccPick,
-        desc = 'Ccc: edit color'
-      }
+      { ',ct', vim.cmd.CccHighlighterToggle, desc = 'Ccc: toggle highlights' },
+      { ',cp', vim.cmd.CccPick, desc = 'Ccc: edit color' }
     },
     config = function()
       require('ccc').setup({

@@ -265,21 +265,9 @@ return {
   {
     'simrat39/symbols-outline.nvim',
     keys = {
-      {
-        '<Leader>s',
-        vim.cmd.SymbolsOutline,
-        desc = 'SymbolsOutline: toggle'
-      },
-      {
-        ',tso',
-        vim.cmd.SymbolsOutlineOpen,
-        desc = 'SymbolsOutline: open'
-      },
-      {
-        ',tsc',
-        vim.cmd.SymbolsOutlineClose,
-        desc = 'SymbolsOutline: close'
-      }
+      { '<Leader>s', vim.cmd.SymbolsOutline, desc = 'SymbolsOutline: toggle' },
+      { ',tso', vim.cmd.SymbolsOutlineOpen, desc = 'SymbolsOutline: open' },
+      { ',tsc', vim.cmd.SymbolsOutlineClose, desc = 'SymbolsOutline: close' }
     },
     config = function()
       require('symbols-outline').setup({
@@ -320,13 +308,7 @@ return {
     url = 'https://git.sr.ht/~whynothugo/lsp_lines.nvim',
     event = 'VeryLazy',
     keys = {
-      {
-        ',ll',
-        function()
-          require('lsp_lines').toggle()
-        end,
-        desc = 'LSP: toggle lsp_lines'
-      }
+      { ',ll', function() require('lsp_lines').toggle() end, desc = 'LSP: toggle lsp_lines' }
     },
     config = true
   },

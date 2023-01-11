@@ -51,14 +51,7 @@ return {
       end
     },
     keys = {
-      {
-        '<Leader>fp',
-        function()
-          require('fzf-lua-p').projects()
-        end,
-        'NOREF_NOERR_TRUNC',
-        desc = 'Fzf: projects'
-      }
+      { '<Leader>fp', function() require('fzf-lua-p').projects() end, 'NOREF_NOERR_TRUNC', desc = 'Fzf: projects' }
     }
   },
   -- }}}2
@@ -97,20 +90,8 @@ return {
   {
     'lewis6991/hover.nvim',
     keys = {
-      {
-        'H',
-        function()
-          require('hover').hover()
-        end,
-        desc = 'hover.nvim'
-      },
-      {
-        'gH',
-        function()
-          require('hover').hover_select()
-        end,
-        desc = 'hover.nvim (select)'
-      }
+      { 'H', function() require('hover').hover() end, desc = 'hover.nvim' },
+      { 'gH', function() require('hover').hover_select() end, desc = 'hover.nvim (select)' }
     },
     config = function()
       require('hover').setup({
@@ -147,13 +128,7 @@ return {
       'JoosepAlviste/nvim-ts-context-commentstring'
     },
     keys = {
-      {
-        'gci',
-        [[:g/./lua require('Comment.api').toggle.linewise.current()<CR><Cmd>nohls<CR>]],
-        mode = 'x',
-        silent = true,
-        desc = 'Invert comments'
-      }
+      { 'gci', [[:g/./lua require('Comment.api').toggle.linewise.current()<CR><Cmd>nohls<CR>]], mode = 'x', silent = true, desc = 'Invert comments' }
     },
     config = function()
       require('Comment').setup({
@@ -173,14 +148,7 @@ return {
   {
     'j-morano/buffer_manager.nvim',
     keys = {
-      {
-        '<Leader>b',
-        function()
-          require('buffer_manager.ui').toggle_quick_menu()
-        end,
-        mode = { 't', 'n' },
-        noremap = true
-      }
+      { '<Leader>b', function() require('buffer_manager.ui').toggle_quick_menu() end, mode = { 't', 'n' }, noremap = true, desc = 'Buffer manager' }
     }
   },
   -- }}}2
@@ -201,36 +169,12 @@ return {
   {
     'kevinhwang91/nvim-hlslens',
     keys = {
-      {
-        'n',
-        [[<Cmd>execute('normal! ' . v:count1 . 'n')<CR><Cmd>lua require('hlslens').start()<CR>]],
-        desc = 'Hlslens: n'
-      },
-      {
-        'N',
-        [[<Cmd>execute('normal! ' . v:count1 . 'N')<CR><Cmd>lua require('hlslens').start()<CR>]],
-        desc = 'Hlslens: N'
-      },
-      {
-        '*',
-        [[*<Cmd>lua require('hlslens').start()<CR>]],
-        desc = 'Hlslens: *'
-      },
-      {
-        '#',
-        [[#<Cmd>lua require('hlslens').start()<CR>]],
-        desc = 'Hlslens: #'
-      },
-      {
-        'g*',
-        [[g*<Cmd>lua require('hlslens').start()<CR>]],
-        desc = 'Hlslens: g*'
-      },
-      {
-        'g#',
-        [[g#<Cmd>lua require('hlslens').start()<CR>]],
-        desc = 'Hlslens: g#'
-      }
+      { 'n', [[<Cmd>execute('normal! ' . v:count1 . 'n')<CR><Cmd>lua require('hlslens').start()<CR>]], desc = 'Hlslens: n' },
+      { 'N', [[<Cmd>execute('normal! ' . v:count1 . 'N')<CR><Cmd>lua require('hlslens').start()<CR>]], desc = 'Hlslens: N' },
+      { '*', [[*<Cmd>lua require('hlslens').start()<CR>]], desc = 'Hlslens: *' },
+      { '#', [[#<Cmd>lua require('hlslens').start()<CR>]], desc = 'Hlslens: #' },
+      { 'g*', [[g*<Cmd>lua require('hlslens').start()<CR>]], desc = 'Hlslens: g*' },
+      { 'g#', [[g#<Cmd>lua require('hlslens').start()<CR>]], desc = 'Hlslens: g#' }
     },
     config = true,
     init = function()
@@ -334,21 +278,9 @@ return {
       'Vifm'
     },
     keys = {
-      {
-        '<Leader>z',
-        vim.cmd.Fzf,
-        desc = 'Fzf'
-      },
-      {
-        '<Leader>L',
-        vim.cmd.Lazygit,
-        desc = 'Lazygit'
-      },
-      {
-        '<Leader>x',
-        vim.cmd.Vifm,
-        desc = 'Vifm'
-      }
+      { '<Leader>z', vim.cmd.Fzf, desc = 'Fzf' },
+      { '<Leader>L', vim.cmd.Lazygit, desc = 'Lazygit' },
+      { '<Leader>x', vim.cmd.Vifm, desc = 'Vifm' }
     },
     config = function()
       require('fm-nvim').setup({
@@ -370,21 +302,9 @@ return {
     cmd = 'ToggleTerm',
     keys = {
       { '<C-\\>' },
-      {
-        '<Leader>Tf',
-        [[<Cmd>ToggleTerm direction=float<CR>]],
-        desc = 'ToggleTerm: floating'
-      },
-      {
-        '<Leader>Th',
-        [[<Cmd>ToggleTerm direction=horizontal<CR>]],
-        desc = 'ToggleTerm: horizontal'
-      },
-      {
-        '<Leader>Tv',
-        [[<Cmd>ToggleTerm direction=vertical<CR>]],
-        desc = 'ToggleTerm: vertical'
-      }
+      { '<Leader>Tf', [[<Cmd>ToggleTerm direction=float<CR>]], desc = 'ToggleTerm: floating' },
+      { '<Leader>Th', [[<Cmd>ToggleTerm direction=horizontal<CR>]], desc = 'ToggleTerm: horizontal' },
+      { '<Leader>Tv', [[<Cmd>ToggleTerm direction=vertical<CR>]], desc = 'ToggleTerm: vertical' }
     },
     config = function()
       require('toggleterm').setup({
@@ -415,13 +335,7 @@ return {
   {
     'windwp/nvim-spectre',
     keys = {
-      {
-        '<Leader>S',
-        function()
-          require('spectre').open()
-        end,
-        desc = 'Spectre'
-      }
+      { '<Leader>S', function() require('spectre').open() end, desc = 'Spectre' }
     },
     config = function()
       require('spectre').setup({
@@ -455,15 +369,7 @@ return {
   {
     'jiaoshijie/undotree',
     keys = {
-      {
-        ',tu',
-        function()
-          require('undotree').toggle()
-        end,
-        noremap = true,
-        silent = true,
-        desc = 'Undotree'
-      }
+      { ',tu', function() require('undotree').toggle() end, noremap = true, silent = true, desc = 'Undotree' }
     },
     config = function()
       require('undotree').setup({
@@ -527,16 +433,8 @@ return {
       'UnicodeTable'
     },
     keys = {
-      {
-        '<Leader>ut',
-        vim.cmd.UnicodeTable,
-        desc = 'Open unicode table'
-      },
-      {
-        'gu',
-        vim.cmd.UnicodeName,
-        desc = 'Lookup Unicode character'
-      }
+      { '<Leader>ut', vim.cmd.UnicodeTable, desc = 'Open unicode table' },
+      { 'gu', vim.cmd.UnicodeName, desc = 'Lookup Unicode character' }
     }
   },
   -- }}}2
