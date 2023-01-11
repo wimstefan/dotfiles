@@ -56,7 +56,10 @@ return {
   },
   -- }}}2
   -- {{{2 vim-repeat
-  'tpope/vim-repeat',
+  {
+    'tpope/vim-repeat',
+    keys = '.'
+  },
   -- }}}2
   -- {{{2 vim-unimpaired
   {
@@ -437,12 +440,6 @@ return {
       { 'gu', vim.cmd.UnicodeName, desc = 'Lookup Unicode character' }
     }
   },
-  -- }}}2
-  -- {{{2 vim-startuptime
-  {
-    'dstein64/vim-startuptime',
-    cmd = 'StartupTime'
-  }
   -- }}}2
 }
 -- vim: foldmethod=marker foldlevel=1
