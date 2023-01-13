@@ -336,7 +336,7 @@ return {
   -- }}}2
   -- {{{2 nvim-spectre
   {
-    'windwp/nvim-spectre',
+    'nvim-pack/nvim-spectre',
     keys = {
       { '<Leader>S', function() require('spectre').open() end, desc = 'Spectre' }
     },
