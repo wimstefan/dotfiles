@@ -3,6 +3,8 @@
         "assign-type-mismatch",
         "param-type-mismatch",
         "redundant-parameter",
-        "undefined-field"
+        "undefined-field",
+        "undefined-global",
+        "unused-local"
     ]
 }
