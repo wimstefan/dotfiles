@@ -8,6 +8,10 @@
     "screen",
     "tag"
   ],
+  "Lua.diagnostics.disable": [
+    "lowercase-global",
+    "unused-local"
+  ],
   "workspace.library": [
     "/usr/local/src/Tools/x11/awesome-emmylua/lua"
   ]

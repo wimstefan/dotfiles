@@ -1,6 +1,5 @@
 -- my awesome config
 -- awesome_mode: api-level=4:screen=on
----@diagnostic disable: lowercase-global
 -- If LuaRocks is installed, make sure that packages installed through it are
 -- found (e.g. lgi). If LuaRocks is not installed, do nothing.
 pcall(require, "luarocks.loader")
@@ -790,7 +789,7 @@ client.connect_signal("request::default_keybindings", function()
       end,
       { description = "kill all visible clients for the current tag", group = "client" }
     ),
-    awful.key({ modkey, ctrlkey }, "space", awful.client.floating.toggle,
+    awful.key({ modkey, ctrlkey }, "space", function(c) c.floating = true end,
       { description = "toggle floating", group = "client" }),
     awful.key({ modkey, ctrlkey }, "t", function(c) c.ontop = not c.ontop end,
       { description = "toggle keep on top", group = "client" }),
@@ -1000,7 +999,7 @@ ruled.client.connect_signal("request::rules", function()
         "Lxappearance",
         "Gpick",
         "pinentry",
-        "Scribus",
+        "scribus",
         "Thunderbird",
         "Wpa_gui",
         "Zathura",
@@ -1032,7 +1031,7 @@ ruled.client.connect_signal("request::rules", function()
   ruled.client.append_rule { rule_any = { class = { "^komala" } }, properties = { tag = "5" } }
   ruled.client.append_rule { rule_any = { class = { "laptop$", "^home", "^swimmer" } }, properties = { tag = "6" } }
   ruled.client.append_rule { rule_any = { class = { "thunderbird" } }, properties = { tag = "7" } }
-  ruled.client.append_rule { rule_any = { class = { "Darktable", "Gimp", "Inkscape", "Scribus" } }, properties = { tag = "8" } }
+  ruled.client.append_rule { rule_any = { class = { "Darktable", "Gimp", "Inkscape", "scribus" } }, properties = { tag = "8" } }
   ruled.client.append_rule { rule_any = { class = { "Audacious", "Audacity", "puddletag" } }, properties = { tag = "9" } }
 
   -- Application & host specific rules
