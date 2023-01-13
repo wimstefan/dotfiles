@@ -3,12 +3,17 @@ return {
     'neovim/nvim-lspconfig',
     event = 'BufReadPre',
     dependencies = {
-      'hrsh7th/cmp-nvim-lsp'
+      {
+        'folke/neodev.nvim',
+        config = true
+      },
+      {
+        'hrsh7th/cmp-nvim-lsp',
+        config = true
+      }
     },
     config = function()
       require('lspconfig.ui.windows').default_options.border = My_Borders
-      require('cmp_nvim_lsp').setup()
-      require('neodev').setup()
 
       -- LSP handlers
       vim.lsp.handlers['textDocument/signatureHelp'] = vim.lsp.with(vim.lsp.handlers.signature_help,
@@ -23,6 +28,8 @@ return {
         -- options
         vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
         -- keybindings
+        vim.keymap.set('n', ',lI', vim.cmd.LspInfo,
+          { desc = 'LSP: info' }, { buffer = bufnr })
         vim.keymap.set('n', ',lrs', vim.cmd.LspRestart,
           { desc = 'LSP: restart' }, { buffer = bufnr })
         vim.keymap.set('n', ',lR', require('fzf-lua').lsp_definitions,
@@ -244,7 +251,6 @@ return {
 
     end
   },
-  'folke/neodev.nvim',
   {
     'kosayoda/nvim-lightbulb',
     event = {
@@ -302,15 +308,6 @@ return {
         }
       })
     end
-  },
-  {
-    'whynothugo/lsp_lines.nvim',
-    url = 'https://git.sr.ht/~whynothugo/lsp_lines.nvim',
-    event = 'VeryLazy',
-    keys = {
-      { ',ll', function() require('lsp_lines').toggle() end, desc = 'LSP: toggle lsp_lines' }
-    },
-    config = true
   },
   {
     'smjonas/inc-rename.nvim',

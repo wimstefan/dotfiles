@@ -166,25 +166,31 @@ vim.diagnostic.config({
     border = My_Borders,
     header = '',
     focusable = false,
-    scope = 'cursor',
+    scope = 'line',
     source = 'always'
   },
-  virtual_text = false
+  virtual_text = {
+    source = 'always'
+  }
 })
-vim.keymap.set('n', ',de', function()
-  vim.diagnostic.enable()
-  vim.notify('Diagnostics enabled', vim.log.levels.INFO, { title = '[LSP]' })
-end,
-  { desc = 'Diagnostic: enable' })
-vim.keymap.set('n', ',dd', function()
-  vim.diagnostic.disable()
-  vim.notify('Diagnostics disabled', vim.log.levels.INFO, { title = '[LSP]' })
-end,
-  { desc = 'Diagnostic: disable' })
+
+local enabled = true
+local function toggle_diagnostics()
+    enabled = not enabled
+    if enabled then
+      vim.diagnostic.enable()
+      vim.notify('Diagnostics enabled', vim.log.levels.INFO, { title = '[LSP]' })
+    else
+      vim.diagnostic.disable()
+      vim.notify('Diagnostics disabled', vim.log.levels.INFO, { title = '[LSP]' })
+    end
+  end
+
 vim.keymap.set('n', '[d', function() vim.diagnostic.goto_prev({ float = false }) end,
   { desc = 'Diagnostic: got to previous error' })
 vim.keymap.set('n', ']d', function() vim.diagnostic.goto_next({ float = false }) end,
   { desc = 'Diagnostic: got to next error' })
+vim.keymap.set('n', ',dt', function() toggle_diagnostics() end,  { desc = 'Diagnostic: toggle' })
 vim.keymap.set('n', ',df', vim.diagnostic.open_float, { desc = 'Diagnostic: open floating window' })
 vim.keymap.set('n', ',dl', vim.diagnostic.setloclist, { desc = 'Diagnostic: populate location list' })
 vim.keymap.set('n', ',dq', vim.diagnostic.setqflist, { desc = 'Diagnostic: populate quickfix' })
