@@ -361,6 +361,30 @@ return {
     end
   },
   -- }}}2
+  -- {{{2 tokyonight.nvim
+  {
+    'folke/tokyonight.nvim',
+    opts = function()
+      return {
+        style = 'night',
+        light_style = 'day',
+        transparent = true,
+        styles = {
+          comments = { italic = true },
+          keywords = {},
+          functions = { italic = true },
+          variables = {},
+          sidebars = 'transparent',
+          floats = 'transparent'
+        },
+        on_colors = function(colours)
+          colours.green = '#50b498'
+          colours.yellow = '#ffb450'
+        end,
+      }
+    end
+  },
+  -- }}}2
   -- {{{2 nightfox.nvim
   {
     'EdenEast/nightfox.nvim',
