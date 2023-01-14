@@ -8,7 +8,6 @@ local limited = '80'
 vim.opt.termguicolors = true
 vim.opt.number = true
 vim.opt.relativenumber = true
-vim.opt.signcolumn = 'yes'
 vim.opt.showtabline = 2
 vim.opt.linebreak = true
 vim.opt.showbreak = '  » '

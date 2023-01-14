@@ -198,6 +198,20 @@ return {
     end
   },
   -- }}}2
+  -- {{{2 Statuscolumn
+  {
+    'luukvbaal/statuscol.nvim',
+    event = 'VeryLazy',
+    opts = function()
+      return {
+        relculright = true,
+        setopt = true,
+        order = 'FsSNs'
+      }
+    end,
+    config = true
+  },
+  -- }}}
   -- {{{2 nvim-ufo
   {
     'kevinhwang91/nvim-ufo',
