@@ -19,7 +19,7 @@ end
 -- local selected_scheme = 'seoulbones_light'
 -- local selected_scheme = 'base16-tokyo-city-terminal-light'
 -- local selected_scheme = 'base16-tokyo-city-terminal-dark'
-local selected_scheme = 'Atelier Cave Light (base16)'
+local selected_scheme = 'tokyonight_day'
 
 local function basename(s)
   return string.gsub(s, '(.*[/\\])(.*)', '%2')
@@ -30,6 +30,8 @@ end
 local scheme
 if string.match(selected_scheme, '^base16') then
   scheme = wez.color.load_base16_scheme(os.getenv('XDG_CONFIG_HOME') .. '/wezterm/colors/' .. selected_scheme .. '.yaml')
+elseif string.match(selected_scheme, '^tokyonight_') then
+  scheme = wez.color.load_scheme(os.getenv('XDG_CONFIG_HOME') .. '/wezterm/colors/' .. selected_scheme .. '.toml')
 else
   scheme = wez.get_builtin_color_schemes()[selected_scheme]
 end
@@ -71,26 +73,26 @@ scheme.selection_fg = 'none'
 scheme.tab_bar = {
   background = C_BG,
   active_tab = {
-    bg_color = C_BG,
+    bg_color = 'none',
     fg_color = C_FG,
     intensity = 'Bold'
   },
   inactive_tab = {
-    bg_color = C_BG,
+    bg_color = 'none',
     fg_color = C_FG,
     intensity = 'Half'
   },
   inactive_tab_hover = {
-    bg_color = C_BG,
+    bg_color = 'none',
     fg_color = C_FG,
     intensity = 'Half'
   },
   new_tab = {
-    bg_color = C_BG,
+    bg_color = 'none',
     fg_color = C_FG,
   },
   new_tab_hover = {
-    bg_color = C_BG,
+    bg_color = 'none',
     fg_color = C_FG,
     italic = true
   }
@@ -404,7 +406,7 @@ return {
   term = 'wezterm',
   check_for_updates = false,
   adjust_window_size_when_changing_font_size = false,
-  window_background_opacity = 0.6,
+  window_background_opacity = 0.7,
   window_padding = {
     left = '3cell',
     right = '3cell',
@@ -429,7 +431,7 @@ return {
   swallow_mouse_click_on_pane_focus = true,
   swallow_mouse_click_on_window_focus = true,
   inactive_pane_hsb = {
-    saturation = 0.7,
+    saturation = 1.0,
     brightness = 1.0,
   },
 
