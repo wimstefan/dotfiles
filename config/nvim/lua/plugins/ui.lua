@@ -226,7 +226,8 @@ return {
       { 'zM', function() require('ufo').closeAllFolds() end, desc = 'Ufo: close all folds' },
       { 'zr', function() require('ufo').openFoldsExceptKinds() end, desc = 'Ufo: open folds except kinds' },
       { 'zm', function() require('ufo').closeFoldsWith() end, desc = 'Ufo: close folds' },
-      { 'zp', function()
+      { 'zp',
+        function()
           local winid = require('ufo').peekFoldedLinesUnderCursor()
           if not winid then
             vim.lsp.buf.hover()

@@ -131,7 +131,8 @@ return {
       'JoosepAlviste/nvim-ts-context-commentstring'
     },
     keys = {
-      { 'gci', [[:g/./lua require('Comment.api').toggle.linewise.current()<CR><Cmd>nohls<CR>]], mode = 'x', silent = true, desc = 'Invert comments' }
+      { 'gci', [[:g/./lua require('Comment.api').toggle.linewise.current()<CR><Cmd>nohls<CR>]],
+        mode = 'x', silent = true, desc = 'Invert comments' }
     },
     config = function()
       require('Comment').setup({
@@ -151,7 +152,8 @@ return {
   {
     'j-morano/buffer_manager.nvim',
     keys = {
-      { '<Leader>b', function() require('buffer_manager.ui').toggle_quick_menu() end, mode = { 't', 'n' }, noremap = true, desc = 'Buffer manager' }
+      { '<Leader>b', function() require('buffer_manager.ui').toggle_quick_menu() end,
+        mode = { 't', 'n' }, noremap = true, desc = 'Buffer manager' }
     }
   },
   -- }}}2
@@ -172,8 +174,10 @@ return {
   {
     'kevinhwang91/nvim-hlslens',
     keys = {
-      { 'n', [[<Cmd>execute('normal! ' . v:count1 . 'n')<CR><Cmd>lua require('hlslens').start()<CR>]], desc = 'Hlslens: n' },
-      { 'N', [[<Cmd>execute('normal! ' . v:count1 . 'N')<CR><Cmd>lua require('hlslens').start()<CR>]], desc = 'Hlslens: N' },
+      { 'n', [[<Cmd>execute('normal! ' . v:count1 . 'n')<CR><Cmd>lua require('hlslens').start()<CR>]],
+        desc = 'Hlslens: n' },
+      { 'N', [[<Cmd>execute('normal! ' . v:count1 . 'N')<CR><Cmd>lua require('hlslens').start()<CR>]],
+        desc = 'Hlslens: N' },
       { '*', [[*<Cmd>lua require('hlslens').start()<CR>]], desc = 'Hlslens: *' },
       { '#', [[#<Cmd>lua require('hlslens').start()<CR>]], desc = 'Hlslens: #' },
       { 'g*', [[g*<Cmd>lua require('hlslens').start()<CR>]], desc = 'Hlslens: g*' },

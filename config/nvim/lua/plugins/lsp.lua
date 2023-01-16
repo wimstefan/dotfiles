@@ -18,7 +18,8 @@ return {
       -- LSP handlers
       vim.lsp.handlers['textDocument/signatureHelp'] = vim.lsp.with(vim.lsp.handlers.signature_help,
         { border = require('config.ui').borders })
-      vim.lsp.handlers['textDocument/hover'] = vim.lsp.with(vim.lsp.handlers.hover, { border = require('config.ui').borders })
+      vim.lsp.handlers['textDocument/hover'] = vim.lsp.with(vim.lsp.handlers.hover,
+        { border = require('config.ui').borders })
 
       -- LSP functions
       local on_attach = function(client, bufnr)
@@ -75,8 +76,8 @@ return {
         end
         if client.server_capabilities.documentFormattingProvider then
           local fmt_opts = vim.bo[bufnr].ft == 'lua'
-              and 'async=true,bufnr=0,name="sumneko_lua"'
-              or 'async=true,bufnr=0'
+            and 'async=true,bufnr=0,name="sumneko_lua"'
+            or 'async=true,bufnr=0'
           vim.keymap.set('n', ',lf', function() vim.lsp.buf.format(fmt_opts) end,
             { desc = 'LSP: formatting' }, { buffer = bufnr })
         else
@@ -121,9 +122,11 @@ return {
           lsp_messages = lsp_messages .. 'no hovering' .. lsp_msg_sep
         end
         if client.server_capabilities.signatureHelpProvider then
-          vim.keymap.set('i', '<C-s>', function() vim.lsp.buf.signature_help({ border = require('config.ui').borders }) end,
+          vim.keymap.set('i', '<C-s>',
+            function() vim.lsp.buf.signature_help({ border = require('config.ui').borders }) end,
             { desc = 'LSP: signature help' }, { buffer = bufnr })
-          vim.keymap.set('n', ',ls', function() vim.lsp.buf.signature_help({ border = require('config.ui').borders }) end,
+          vim.keymap.set('n', ',ls',
+            function() vim.lsp.buf.signature_help({ border = require('config.ui').borders }) end,
             { desc = 'LSP: signature help' }, { buffer = bufnr })
         else
           vim.keymap.set('n', ',ls', [[<Nop>]], { buffer = bufnr })
