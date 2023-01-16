@@ -7,7 +7,7 @@ local my_font
 if hostname == 'tj' then
   my_font = 'iosevka'
 else
-  my_font = 'iosevka'
+  my_font = 'jet'
 end
 -- local selected_scheme = 'wilmersdorf'
 -- local selected_scheme = 'terafox'
@@ -19,7 +19,7 @@ end
 -- local selected_scheme = 'seoulbones_light'
 -- local selected_scheme = 'base16-tokyo-city-terminal-light'
 -- local selected_scheme = 'base16-tokyo-city-terminal-dark'
-local selected_scheme = 'tokyonight_day'
+local selected_scheme = 'tokyonight_night'
 
 local function basename(s)
   return string.gsub(s, '(.*[/\\])(.*)', '%2')
@@ -119,6 +119,8 @@ local function font_set(name)
     font = font_fallback({ family = 'Fantasque Sans Mono', weight = 'Regular' })
   elseif string.match(name, 'iosevka') then
     font = font_fallback({ family = 'Iosevka Artesanal', harfbuzz_features = { 'calt=1', 'ccmp=1', 'dlig=1', 'onum=1' } })
+  elseif string.match(name, 'jet') then
+    font = font_fallback({ family = 'JetBrains Mono', weight = 'Light' })
   elseif string.match(name, 'mona') then
     font = font_fallback({ family = 'MonoLisa', weight = 'Book', harfbuzz_features = { 'case=1', 'liga=1', 'dlig=1', 'onum=1' } })
   elseif string.match(name, 'operator') then
@@ -144,11 +146,6 @@ local function font_rules(name)
     rules = nil
   elseif string.match(name, 'iosevka') then
     rules = {
-      {
-        intensity = 'Bold',
-        italic = false,
-        font = font_fallback({ family = 'Iosevka Artesanal', weight = 'Bold' }),
-      },
       {
         intensity = 'Normal',
         italic = true,
@@ -229,6 +226,8 @@ local function font_size(name)
       size = 11.4
     elseif string.match(name, 'iosevka') then
       size = 11.0
+    elseif string.match(name, 'jet') then
+      size = 10.0
     elseif string.match(name, 'operator') then
       size = 10.5
     elseif string.match(name, 'mona') then
@@ -247,6 +246,8 @@ local function font_size(name)
       size = 11.4
     elseif string.match(name, 'iosevka') then
       size = 11.0
+    elseif string.match(name, 'jet') then
+      size = 10.0
     elseif string.match(name, 'operator') then
       size = 11.0
     elseif string.match(name, 'mona') then
@@ -265,6 +266,8 @@ local function font_size(name)
       size = 11.4
     elseif string.match(name, 'iosevka') then
       size = 11.0
+    elseif string.match(name, 'jet') then
+      size = 9.0
     elseif string.match(name, 'mona') then
       size = 9.0
     elseif string.match(name, 'operator') then
@@ -289,7 +292,7 @@ local function set_geometry(x)
     if hostname == 'swimmer' then
       if (my_font == 'iosevka' or my_font == 'pt') then
         value = 64
-      elseif (my_font == 'custom' or my_font == 'operator') then
+      elseif (my_font == 'custom' or my_font == 'jet' or my_font == 'operator') then
         value = 55
       elseif (my_font == 'recursive' or my_font == 'fantasque' or my_font == 'mona') then
         value = 62
@@ -299,7 +302,7 @@ local function set_geometry(x)
     elseif hostname == 'komala' then
       if (my_font == 'iosevka' or my_font == 'pt') then
         value = 64
-      elseif (my_font == 'custom' or my_font == 'operator') then
+      elseif (my_font == 'custom' or my_font == 'jet' or my_font == 'operator') then
         value = 55
       elseif (my_font == 'recursive' or my_font == 'fantasque' or my_font == 'mona') then
         value = 62
@@ -313,7 +316,7 @@ local function set_geometry(x)
         value = 51
       elseif (my_font == 'custom') then
         value = 41
-      elseif (my_font == 'operator' or my_font == 'fantasque' or my_font == 'plex') then
+      elseif (my_font == 'jet' or my_font == 'operator' or my_font == 'fantasque' or my_font == 'plex') then
         value = 42
       end
     end
