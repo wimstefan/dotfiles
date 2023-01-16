@@ -328,8 +328,6 @@ export HISTSIZE=5000
 export SAVEHIST=5000
 export MAKEFLAGS="-j $(nproc)"
 export CVS_RSH='ssh'
-export FZF_DEFAULT_OPTS='-m --cycle --border --layout=reverse --inline-info --no-separator --height ~90% --padding 1 --margin 1 --preview "bat {}" --preview-window right:70%:hidden:wrap --bind "?:toggle-preview" --color=bg+:-1,fg+:-1,hl:36,hl+:36,info:75'
-export FZF_CTRL_T_OPTS='--preview "bat {}" --preview-window right:70%:hidden:wrap --bind "?:toggle-preview"'
 export HIGHLIGHT_STYLE='github'
 export XAUTHORITY=${HOME}/.Xauthority
 export DISPLAY=:0.0
@@ -851,9 +849,6 @@ fi
 if type fasd &> /dev/null; then
   eval "$(fasd --init auto)"
 fi
-[ -f $ZDOTDIR/external/fzf-extras.git/fzf-extras.sh ] && source $ZDOTDIR/external/fzf-extras.git/fzf-extras.sh
-[ -f $ZDOTDIR/external/fzf-extras.git/fzf-extras.zsh ] && source $ZDOTDIR/external/fzf-extras.git/fzf-extras.zsh
-[ -f $ZDOTDIR/external/fzf-marks.git/fzf-marks.plugin.zsh ] && source $ZDOTDIR/external/fzf-marks.git/fzf-marks.plugin.zsh
 [ -f $ZDOTDIR/external/forgit.git/forgit.plugin.zsh ] && source $ZDOTDIR/external/forgit.git/forgit.plugin.zsh
 if [[ -f $ZDOTDIR/external/zsh-autosuggestions.git/zsh-autosuggestions.zsh ]]; then
   zmodload zsh/zpty
@@ -865,7 +860,8 @@ if [[ -f $ZDOTDIR/external/zsh-syntax-highlighting.git/zsh-syntax-highlighting.z
   source $ZDOTDIR/external/zsh-syntax-highlighting.git/zsh-syntax-highlighting.zsh
   export ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets )
 fi
-# Kitty configuration
+
+# kitty configuration
 ## Shell integration
 if [[ -n $KITTY_INSTALLATION_DIR ]]; then
   export KITTY_SHELL_INTEGRATION=enabled
@@ -875,4 +871,55 @@ if [[ -n $KITTY_INSTALLATION_DIR ]]; then
 fi
 # }}}1
 
+# fzf configuration
+export FZF_DEFAULT_OPTS='
+  -m
+  --cycle
+  --layout reverse
+  --inline-info
+  --no-separator
+  --height ~90%
+  --padding 1
+  --margin 1
+  --preview "bat {}"
+  --preview-window right:70%:hidden:wrap
+  --bind "?:toggle-preview"
+  --color "bg+:-1,fg+:-1,hl:36,hl+:36,info:75"
+'
+export FZF_CTRL_R_OPTS='
+  --preview "echo {}"
+  --bind "ctrl-y:execute-silent(echo -n {2..} | pbcopy)+abort"
+  --color header:italic
+  --header "Press CTRL-Y to copy command into clipboard"
+'
+export FZF_CTRL_T_COMMAND='
+  fd |
+  fzf --prompt "All>" \
+  --header "CTRL-D: Directories / CTRL-F: Files" \
+  --bind "ctrl-d:change-prompt(Directories> )+reload(fd --type d)" \
+  --bind "ctrl-f:change-prompt(Files> )+reload(fd --type f)"
+'
+export FZF_ALT_C_OPTS='--preview "tree -C {}"'
+
+_fzf_compgen_path() {
+  fd --hidden --follow --exclude ".git" . "$1"
+}
+_fzf_compgen_dir() {
+  fd --type d --hidden --follow --exclude ".git" . "$1"
+}
+_fzf_comprun() {
+  local command=$1
+  shift
+
+  case "$command" in
+    cd) fzf --preview 'tree -C {}' "$@" ;;
+    export|unset) fzf --preview "eval 'echo \$'{}" "$@" ;;
+    ssh) fzf --preview 'dig {}' "$@" ;;
+    *) fzf --preview 'bat -n --color=always {}' "$@" ;;
+  esac
+}
+
+[ -f $ZDOTDIR/external/fzf-extras.git/fzf-extras.sh ] && source $ZDOTDIR/external/fzf-extras.git/fzf-extras.sh
+[ -f $ZDOTDIR/external/fzf-extras.git/fzf-extras.zsh ] && source $ZDOTDIR/external/fzf-extras.git/fzf-extras.zsh
+[ -f $ZDOTDIR/external/fzf-marks.git/fzf-marks.plugin.zsh ] && source $ZDOTDIR/external/fzf-marks.git/fzf-marks.plugin.zsh
 [ -f "${XDG_CONFIG_HOME:-$HOME/.config}"/fzf/fzf.zsh ] && source "${XDG_CONFIG_HOME:-$HOME/.config}"/fzf/fzf.zsh
