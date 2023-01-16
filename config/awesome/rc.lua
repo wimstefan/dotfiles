@@ -113,12 +113,6 @@ tag.connect_signal("request::default_layouts", function()
     awful.layout.suit.max,
     -- awful.layout.suit.max.fullscreen,
     -- awful.layout.suit.corner.nw,
-    -- lain.layout.termfair,
-    lain.layout.termfair.center,
-    -- lain.layout.cascade,
-    lain.layout.cascade.tile,
-    lain.layout.centerwork,
-    lain.layout.centerwork.horizontal,
   })
 end)
 -- 1}}}
@@ -147,48 +141,6 @@ end)
 -- {{{2 Formatting aids
 local spacer = wibox.widget.textbox(' ')
 local spr = wibox.widget.textbox('<span color="' .. beautiful.blue_alt .. '" weight="bold"> │ </span>')
--- }}}
--- {{{2 Playerctl widget
--- local art = wibox.widget {
---     image = "default_image.png",
---     resize = true,
---     forced_height = dpi(80),
---     forced_width = dpi(80),
---     widget = wibox.widget.imagebox
--- }
--- local name_widget = wibox.widget {
---     markup = "No players",
---     align = "center",
---     valign = "center",
---     widget = wibox.widget.textbox
--- }
--- local title_widget = wibox.widget {
---     markup = "Nothing Playing",
---     align = "center",
---     valign = "center",
---     widget = wibox.widget.textbox
--- }
--- local artist_widget = wibox.widget {
---     markup = "Nothing Playing",
---     align = "center",
---     valign = "center",
---     widget = wibox.widget.textbox
--- }
---
--- local playerctl = bling.signal.playerctl.lib {
---     update_on_activity = true,
---     player = { "spotify", "%any", "mopidy" },
---     debounce_delay = 1
--- }
--- playerctl:connect_signal("metadata", function(_, title, artist, album_path, album, new, player_name)
---   art:set_image(gears.surface.load_uncached(album_path))
---   name_widget:set_markup_silently(player_name)
---   title_widget:set_markup_silently(title)
---   artist_widget:set_markup_silently(artist)
---   if new == true then
---     naughty.notify({title = title, text = artist, image = album_path})
---   end
--- end)
 -- }}}
 -- {{{2 ALSA volume bar
 local symbol_alsa = wibox.widget.imagebox()
@@ -1225,6 +1177,19 @@ awful.spawn.with_shell(
   -- "/usr/local/src/Tools/x11/picom-FT-Labs.git/build/src/picom --config $HOME/.config/picom/awesomewm.conf &;"
   "picom --config $HOME/.config/picom/awesomewm.conf &;"
 )
+-- 1}}}
+
+-- {{{1 Memory management
+collectgarbage("setpause", 110)
+collectgarbage("setstepmul", 1000)
+gears.timer({
+  timeout = 5,
+  autostart = true,
+  call_now = true,
+  callback = function()
+    collectgarbage("collect")
+  end,
+})
 -- 1}}}
 
 -- vim: fdm=marker fdl=0 tw=200
