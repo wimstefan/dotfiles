@@ -1,10 +1,41 @@
 {
-    "Lua.diagnostics.disable": [
-        "assign-type-mismatch",
-        "param-type-mismatch",
-        "redundant-parameter",
-        "undefined-field",
-        "undefined-global",
-        "unused-local"
-    ]
+  "$schema": "https://raw.githubusercontent.com/sumneko/vscode-lua/master/setting/schema.json",
+  "codelens": {
+    "enable": true
+  },
+  "completion": {
+    "callsnippet": "Replace"
+  },
+  "diagnostics": {
+    "disable": [
+      "assign-type-mismatch",
+      "param-type-mismatch",
+      "redundant-parameter",
+      "undefined-field",
+      "undefined-global",
+      "unused-local"
+    ],
+    "globals": [
+      "use",
+      "vim"
+    ],
+    "neededFileStatus": {
+      "codestyle-check": "Any"
+    }
+  },
+  "format": {
+    "enable": true,
+    "defaultConfig": {
+      "indent_style": "space",
+      "indent_size": "2",
+      "continuation_indent_size": "2",
+      "quote_style": "single"
+    }
+  },
+  "hint": {
+    "enable": true
+  },
+  "workspace": {
+    "checkThirdParty": false
+  }
 }
