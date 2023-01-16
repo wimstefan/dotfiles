@@ -144,9 +144,11 @@ return {
               'diff',
               source = diff_source,
               diff_color = { added = 'GitSignsAdd', modified = 'GitSignsChange', removed = 'GitSignsDelete' },
-              -- symbols = { added = '洛 ', modified = '  ', removed = '  ' },
-              -- symbols = { added = 'ﰂ  ', modified = '  ', removed = 'ﯰ  ' },
-              symbols = { added = '落 ', modified = '  ', removed = '  ' },
+              symbols = {
+                added = require('config.ui').icons.git.added,
+                modified = require('config.ui').icons.git.modified,
+                removed = require('config.ui').icons.git.removed
+              },
               on_click = function()
                 vim.cmd('Lazygit')
                 vim.defer_fn(function() vim.cmd('startinsert') end, 300)
@@ -294,7 +296,7 @@ return {
     config = function()
       require('which-key').setup({
         window = {
-          border = My_Borders,
+          border = require('config.ui').borders,
           margin = { 0, 0, 2, 0 },
           padding = { 2, 2, 2, 2 }
         },

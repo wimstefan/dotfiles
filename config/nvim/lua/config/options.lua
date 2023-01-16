@@ -80,6 +80,7 @@ vim.opt.keywordprg = ':help'
 
 vim.opt.timeoutlen = 500
 vim.opt.updatetime = 100
+vim.opt.autoread = true
 vim.opt.autowrite = true
 vim.opt.backup = false
 vim.opt.backupcopy = 'auto'
@@ -93,53 +94,8 @@ vim.g.netrw_liststyle = 3
 vim.g.netrw_preview = 0
 vim.g.netrw_alto = 0
 
--- Visual configuration options
--- symbols --
-My_Symbols = {
-  Array = ' ', -- '謹',
-  Boolean = ' ', --'ﬧ ',
-  Class = ' ', -- ' ', -- ' ',
-  Color = ' ', -- ' ', -- ' ',
-  Constant = ' ', -- ' ',
-  Constructor = ' ', -- ' ', -- ' ',
-  Enum = ' ', -- '練 ', -- ' ',
-  EnumMember = ' ', -- ' ',
-  Event = ' ', -- ' ', -- ' ',
-  Field = ' ', -- ' ', -- ' ',
-  File = ' ', -- ' ',
-  Folder = ' ', -- ' ',
-  Function = ' ', -- ' ',
-  Interface = ' ', -- '﨡', -- ' ',
-  Keyword = ' ', -- ' ', -- ' ',
-  Method = ' ', -- ' ',
-  Module = ' ', -- ' ',
-  Namespace = ' ', -- ' ',
-  Number = ' ', -- '濫',
-  Object = '謹',
-  Operator = '璉 ', -- ' ',
-  Package = ' ', -- '  ',
-  Property = ' ', -- ' ', -- ' ',
-  Reference = ' ', -- '  ', -- ' ' -- ' ',
-  Snippet = ' ', -- ' ', -- ' ',
-  String = ' ',
-  Struct = ' ', --'פּ ', -- ' ',
-  Text = '  ', -- ' ',
-  TypeParameter = ' ', -- ' ', -- ' ', -- ' ',
-  Unit = ' ', -- '塞 ', -- 'ﰩ '  --' ',
-  Value = ' ', -- ' ',
-  Variable = ' ', -- ' ', -- ' ',
-}
-
--- borders --
--- My_Borders = { '╤', '═', '╤', '│', '╧', '═', '╧', '│' }
--- My_Borders = { '╓', '─', '╖', '║', '╜', '─', '╙', '║' }
--- My_Borders = { '┯', '━', '┯', '│', '┷', '━', '┷', '│' }
--- My_Borders = { '┎', '─', '┒', '┃', '┚', '─', '┖', '┃' }
--- My_Borders = { '┬', '─', '┬', '│', '┴', '─', '┴', '│' }
-My_Borders = 'rounded'
-
 -- diagnostic handling
-local diagnostic_signs = { '', '', '', '' }
+local diagnostic_signs = require('config.ui').icons.diagnostics
 local diagnostic_severity_fullnames = { 'Error', 'Warning', 'Information', 'Hint' }
 local diagnostic_severity_shortnames = { 'Error', 'Warn', 'Info', 'Hint' }
 for index, icon in ipairs(diagnostic_signs) do
@@ -162,7 +118,7 @@ for index, icon in ipairs(diagnostic_signs) do
 end
 vim.diagnostic.config({
   float = {
-    border = My_Borders,
+    border = require('config.ui').borders,
     header = '',
     focusable = false,
     scope = 'line',

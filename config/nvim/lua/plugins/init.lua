@@ -290,7 +290,7 @@ return {
         ui = {
           default = 'float',
           float = {
-            border = My_Borders,
+            border = require('config.ui').borders,
             float_hl = 'Normal',
             border_hl = 'FloatBorder'
           }
@@ -322,7 +322,7 @@ return {
         shade_terminals = false,
         direction = 'float',
         float_opts = {
-          border = My_Borders
+          border = require('config.ui').borders
         }
       })
     end

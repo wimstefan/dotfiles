@@ -28,7 +28,7 @@ return {
           linematch = 60
         },
         preview_config = {
-          border = My_Borders,
+          border = require('config.ui').borders,
           relative = 'cursor',
           row = 1,
           col = 2

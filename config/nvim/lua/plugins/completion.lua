@@ -33,7 +33,6 @@ return {
     },
     dependencies = {
       'hrsh7th/cmp-nvim-lsp',
-      'hrsh7th/cmp-nvim-lsp-signature-help',
       'hrsh7th/cmp-buffer',
       'hrsh7th/cmp-path',
       'hrsh7th/cmp-cmdline',
@@ -113,7 +112,7 @@ return {
             else
               vim_item.menu = '[' .. entry.source.name .. ']'
             end
-            vim_item.kind = My_Symbols[vim_item.kind]
+            vim_item.kind = require('config.ui').icons.kinds[vim_item.kind]
             return vim_item
           end
         },

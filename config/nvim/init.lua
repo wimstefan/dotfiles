@@ -19,7 +19,7 @@ require('lazy').setup({
     lazy = true
   },
   ui = {
-    border = My_Borders,
+    border = require('config.ui').borders,
     icons = {
       cmd = ' ',
       config = ' ',

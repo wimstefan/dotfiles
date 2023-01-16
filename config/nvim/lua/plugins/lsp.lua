@@ -13,12 +13,12 @@ return {
       }
     },
     config = function()
-      require('lspconfig.ui.windows').default_options.border = My_Borders
+      require('lspconfig.ui.windows').default_options.border = require('config.ui').borders
 
       -- LSP handlers
       vim.lsp.handlers['textDocument/signatureHelp'] = vim.lsp.with(vim.lsp.handlers.signature_help,
-        { border = My_Borders })
-      vim.lsp.handlers['textDocument/hover'] = vim.lsp.with(vim.lsp.handlers.hover, { border = My_Borders })
+        { border = require('config.ui').borders })
+      vim.lsp.handlers['textDocument/hover'] = vim.lsp.with(vim.lsp.handlers.hover, { border = require('config.ui').borders })
 
       -- LSP functions
       local on_attach = function(client, bufnr)
@@ -121,9 +121,9 @@ return {
           lsp_messages = lsp_messages .. 'no hovering' .. lsp_msg_sep
         end
         if client.server_capabilities.signatureHelpProvider then
-          vim.keymap.set('i', '<C-s>', function() vim.lsp.buf.signature_help({ border = My_Borders }) end,
+          vim.keymap.set('i', '<C-s>', function() vim.lsp.buf.signature_help({ border = require('config.ui').borders }) end,
             { desc = 'LSP: signature help' }, { buffer = bufnr })
-          vim.keymap.set('n', ',ls', function() vim.lsp.buf.signature_help({ border = My_Borders }) end,
+          vim.keymap.set('n', ',ls', function() vim.lsp.buf.signature_help({ border = require('config.ui').borders }) end,
             { desc = 'LSP: signature help' }, { buffer = bufnr })
         else
           vim.keymap.set('n', ',ls', [[<Nop>]], { buffer = bufnr })
@@ -139,7 +139,7 @@ return {
 
         -- autocmds
         if client.server_capabilities.codeLensProvider then
-          vim.keymap.set('n', ',lL', function() vim.lsp.codelens.run({ border = My_Borders }) end,
+          vim.keymap.set('n', ',lL', function() vim.lsp.codelens.run({ border = require('config.ui').borders }) end,
             { desc = 'LSP: code lens' }, { buffer = bufnr })
           vim.api.nvim_create_autocmd({ 'BufEnter', 'CursorHold', 'InsertLeave' }, {
             desc = 'LSP: code lens',
@@ -279,32 +279,32 @@ return {
       require('symbols-outline').setup({
         preview_bg_highlight = 'Normal',
         symbols = {
-          File = { icon = My_Symbols.File, hl = 'TSURI' },
-          Module = { icon = My_Symbols.Module, hl = 'TSNamespace' },
-          Namespace = { icon = My_Symbols.Namespace, hl = 'TSNamespace' },
-          Package = { icon = My_Symbols.Package, hl = 'TSNamespace' },
-          Class = { icon = My_Symbols.Class, hl = 'TSType' },
-          Method = { icon = My_Symbols.Method, hl = 'TSMethod' },
-          Property = { icon = My_Symbols.Property, hl = 'TSMethod' },
-          Field = { icon = My_Symbols.Field, hl = 'TSField' },
-          Constructor = { icon = My_Symbols.Constructor, hl = 'TSConstructor' },
-          Enum = { icon = My_Symbols.Enum, hl = 'TSType' },
-          Interface = { icon = My_Symbols.Interface, hl = 'TSType' },
-          Function = { icon = My_Symbols.Function, hl = 'TSFunction' },
-          Variable = { icon = My_Symbols.Variable, hl = 'TSConstant' },
-          Constant = { icon = My_Symbols.Constant, hl = 'TSConstant' },
-          String = { icon = My_Symbols.String, hl = 'TSString' },
-          Number = { icon = My_Symbols.Number, hl = 'TSNumber' },
-          Boolean = { icon = My_Symbols.Boolean, hl = 'TSBoolean' },
-          Array = { icon = My_Symbols.Array, hl = 'TSConstant' },
-          Object = { icon = My_Symbols.Object, hl = 'TSType' },
-          Key = { icon = My_Symbols.Keyword, hl = 'TSType' },
+          File = { icon = require('config.ui').icons.kinds.File, hl = 'TSURI' },
+          Module = { icon = require('config.ui').icons.kinds.Module, hl = 'TSNamespace' },
+          Namespace = { icon = require('config.ui').icons.kinds.Namespace, hl = 'TSNamespace' },
+          Package = { icon = require('config.ui').icons.kinds.Package, hl = 'TSNamespace' },
+          Class = { icon = require('config.ui').icons.kinds.Class, hl = 'TSType' },
+          Method = { icon = require('config.ui').icons.kinds.Method, hl = 'TSMethod' },
+          Property = { icon = require('config.ui').icons.kinds.Property, hl = 'TSMethod' },
+          Field = { icon = require('config.ui').icons.kinds.Field, hl = 'TSField' },
+          Constructor = { icon = require('config.ui').icons.kinds.Constructor, hl = 'TSConstructor' },
+          Enum = { icon = require('config.ui').icons.kinds.Enum, hl = 'TSType' },
+          Interface = { icon = require('config.ui').icons.kinds.Interface, hl = 'TSType' },
+          Function = { icon = require('config.ui').icons.kinds.Function, hl = 'TSFunction' },
+          Variable = { icon = require('config.ui').icons.kinds.Variable, hl = 'TSConstant' },
+          Constant = { icon = require('config.ui').icons.kinds.Constant, hl = 'TSConstant' },
+          String = { icon = require('config.ui').icons.kinds.String, hl = 'TSString' },
+          Number = { icon = require('config.ui').icons.kinds.Number, hl = 'TSNumber' },
+          Boolean = { icon = require('config.ui').icons.kinds.Boolean, hl = 'TSBoolean' },
+          Array = { icon = require('config.ui').icons.kinds.Array, hl = 'TSConstant' },
+          Object = { icon = require('config.ui').icons.kinds.Object, hl = 'TSType' },
+          Key = { icon = require('config.ui').icons.kinds.Keyword, hl = 'TSType' },
           Null = { icon = 'NULL', hl = 'TSType' },
-          EnumMember = { icon = My_Symbols.EnumMember, hl = 'TSField' },
-          Struct = { icon = My_Symbols.Struct, hl = 'TSType' },
-          Event = { icon = My_Symbols.Event, hl = 'TSType' },
-          Operator = { icon = My_Symbols.Operator, hl = 'TSOperator' },
-          TypeParameter = { icon = My_Symbols.TypeParameter, hl = 'TSParameter' }
+          EnumMember = { icon = require('config.ui').icons.kinds.EnumMember, hl = 'TSField' },
+          Struct = { icon = require('config.ui').icons.kinds.Struct, hl = 'TSType' },
+          Event = { icon = require('config.ui').icons.kinds.Event, hl = 'TSType' },
+          Operator = { icon = require('config.ui').icons.kinds.Operator, hl = 'TSOperator' },
+          TypeParameter = { icon = require('config.ui').icons.kinds.TypeParameter, hl = 'TSParameter' }
         }
       })
     end

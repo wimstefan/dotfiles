@@ -48,7 +48,7 @@ return {
           lsp_interop = {
             enable = true,
             floating_preview_opts = {
-              border = My_Borders
+              border = require('config.ui').borders
             },
             peek_definition_code = {
               ['df'] = '@function.outer',
