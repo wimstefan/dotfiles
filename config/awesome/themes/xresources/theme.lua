@@ -113,7 +113,9 @@ theme.notification_shape = function(cr, width, height)
   -- local transform = shape.transform(shape.infobubble):rotate(math.pi/2)
   -- transform(cr, height, width, dpi(6), dpi(7), height - dpi(30))
 end
-theme.tooltip_shape = shape.infobubble
+theme.tooltip_shape = function(cr, width, height, corner_radius, arrow_size, arrow_position)
+  shape.infobubble(cr, width, height, corner_radius, dpi(6), width / 2)
+end
 -- }}}
 
 -- Settings {{{
