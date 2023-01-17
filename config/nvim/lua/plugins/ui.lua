@@ -129,10 +129,10 @@ return {
               always_visible = false,
               sources = { 'nvim_diagnostic' },
               symbols = {
-                error = vim.fn.sign_getdefined('DiagnosticSignError')[1].text .. ' ',
-                warn = vim.fn.sign_getdefined('DiagnosticSignWarn')[1].text .. ' ',
-                info = vim.fn.sign_getdefined('DiagnosticSignInfo')[1].text .. ' ',
-                hint = vim.fn.sign_getdefined('DiagnosticSignHint')[1].text .. ' '
+                error = require('config.ui').icons.diagnostics[0],
+                warn = require('config.ui').icons.diagnostics[1],
+                info = require('config.ui').icons.diagnostics[2],
+                hint = require('config.ui').icons.diagnostics[3]
               },
               on_click = function()
                 vim.diagnostic.setqflist()
