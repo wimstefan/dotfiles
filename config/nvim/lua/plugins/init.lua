@@ -71,12 +71,6 @@ return {
   {
     'ggandor/leap.nvim',
     event = 'VeryLazy',
-    dependencies = {
-      'ggandor/flit.nvim',
-      opts = {
-        labeled_modes = 'nv'
-      }
-    },
     config = function()
       require('leap').set_default_keymaps()
     end
