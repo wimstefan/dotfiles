@@ -5,7 +5,7 @@ local gpus = wez.gui.enumerate_gpus()
 local hostname = wez.hostname()
 local my_font
 if hostname == 'tj' then
-  my_font = 'iosevka'
+  my_font = 'jet'
 else
   my_font = 'jet'
 end
@@ -120,7 +120,7 @@ local function font_set(name)
   elseif string.match(name, 'iosevka') then
     font = font_fallback({ family = 'Iosevka Artesanal', harfbuzz_features = { 'calt=1', 'ccmp=1', 'dlig=1', 'onum=1' } })
   elseif string.match(name, 'jet') then
-    font = font_fallback({ family = 'JetBrains Mono', weight = 'Light' })
+    font = font_fallback({ family = 'JetBrains Mono', weight = 'Light', harfbuzz_features = { 'cv06', 'cv07', 'cv11', 'ss20', 'zero' } })
   elseif string.match(name, 'mona') then
     font = font_fallback({ family = 'MonoLisa', weight = 'Book', harfbuzz_features = { 'case=1', 'liga=1', 'dlig=1', 'onum=1' } })
   elseif string.match(name, 'operator') then
@@ -267,7 +267,7 @@ local function font_size(name)
     elseif string.match(name, 'iosevka') then
       size = 11.0
     elseif string.match(name, 'jet') then
-      size = 9.0
+      size = 9.5
     elseif string.match(name, 'mona') then
       size = 9.0
     elseif string.match(name, 'operator') then
