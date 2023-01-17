@@ -110,13 +110,6 @@ return {
     config = true
   },
   -- }}}2
-  -- {{{2 ns-textobject.nvim
-  {
-    'XXiaoA/ns-textobject.nvim',
-    event = 'BufReadPost',
-    config = true
-  },
-  -- }}}2
   -- {{{2 Comment.nvim
   {
     'numToStr/Comment.nvim',
