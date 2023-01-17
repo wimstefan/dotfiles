@@ -24,7 +24,7 @@ return {
           enable = true
         },
         incremental_selection = {
-          enable = true
+          enable = false
         },
         indent = {
           enable = true
@@ -77,6 +77,83 @@ return {
               ['il'] = '@loop.inner',
               ['ap'] = '@parameter.outer',
               ['ip'] = '@parameter.inner',
+              ['is'] = '@scopename.inner',
+              ['as'] = '@statement.outer'
+            },
+            include_surrounding_whitespace = true
+          },
+          move = {
+            enable = true,
+            set_jumps = true,
+            goto_next_start = {
+              ['gna'] = '@attribute.outer',
+              ['gnia'] = '@attribute.inner',
+              ['gnb'] = '@block.outer',
+              ['gnib'] = '@block.inner',
+              ['gnt'] = '@call.outer',
+              ['gnit'] = '@call.inner',
+              ['gnc'] = '@class.outer',
+              ['gnic'] = '@class.inner',
+              ['gn/'] = '@comment.outer',
+              ['gnf'] = '@function.outer',
+              ['gnif'] = '@function.inner',
+              ['gnl'] = '@loop.outer',
+              ['gnil'] = '@loop.inner',
+              ['gnp'] = '@parameter.outer',
+              ['gnip'] = '@parameter.inner',
+              ['gnis'] = '@scopename.inner'
+            },
+            goto_next_end = {
+              ['gnA'] = '@attribute.outer',
+              ['gniA'] = '@attribute.inner',
+              ['gnB'] = '@block.outer',
+              ['gniB'] = '@block.inner',
+              ['gnT'] = '@call.outer',
+              ['gniT'] = '@call.inner',
+              ['gnC'] = '@class.outer',
+              ['gniC'] = '@class.inner',
+              ['gnF'] = '@function.outer',
+              ['gniF'] = '@function.inner',
+              ['gnL'] = '@loop.outer',
+              ['gniL'] = '@loop.inner',
+              ['gnP'] = '@parameter.outer',
+              ['gniP'] = '@parameter.inner',
+              ['gniS'] = '@scopename.inner'
+            },
+            goto_previous_start = {
+              ['gpa'] = '@attribute.outer',
+              ['gpia'] = '@attribute.inner',
+              ['gpb'] = '@block.outer',
+              ['gpib'] = '@block.inner',
+              ['gpt'] = '@call.outer',
+              ['gpit'] = '@call.inner',
+              ['gpc'] = '@class.outer',
+              ['gpic'] = '@class.inner',
+              ['gp/'] = '@comment.outer',
+              ['gpf'] = '@function.outer',
+              ['gpif'] = '@function.inner',
+              ['gpl'] = '@loop.outer',
+              ['gpil'] = '@loop.inner',
+              ['gpp'] = '@parameter.outer',
+              ['gpip'] = '@parameter.inner',
+              ['gpis'] = '@scopename.inner'
+            },
+            goto_previous_end = {
+              ['gpA'] = '@attribute.outer',
+              ['gpiA'] = '@attribute.inner',
+              ['gpB'] = '@block.outer',
+              ['gpiB'] = '@block.inner',
+              ['gpT'] = '@call.outer',
+              ['gpiT'] = '@call.inner',
+              ['gpC'] = '@class.outer',
+              ['gpiC'] = '@class.inner',
+              ['gpF'] = '@function.outer',
+              ['gpiF'] = '@function.inner',
+              ['gpL'] = '@loop.outer',
+              ['gpiL'] = '@loop.inner',
+              ['gpP'] = '@parameter.outer',
+              ['gpiP'] = '@parameter.inner',
+              ['gpiS'] = '@scopename.inner'
             }
           }
         },
