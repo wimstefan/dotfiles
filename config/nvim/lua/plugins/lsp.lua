@@ -246,7 +246,41 @@ return {
         intelephense = {},
         jsonls = {},
         sumneko_lua = {
-          cmd = { vim.fn.stdpath('data') .. '/lspconfig/lua-language-server/bin/lua-language-server' }
+          cmd = { vim.fn.stdpath('data') .. '/lspconfig/lua-language-server/bin/lua-language-server' },
+          settings = {
+            Lua = {
+              codelens = {
+                enable = true
+              },
+              completion = {
+                callsnippet = 'Replace'
+              },
+              diagnostics = {
+                globals = {
+                  'use',
+                  'vim'
+                }
+              },
+              neededFileStatus = {
+                ['codestyle-check'] = 'Any'
+              },
+              format = {
+                enable = true,
+                defaultConfig = {
+                  indent_style = 'space',
+                  indent_size = 2,
+                  continuation_indent_size = 2,
+                  quote_style = 'single'
+                }
+              },
+              hint = {
+                enable = true
+              },
+              workspace = {
+                checkThirdParty = false
+              }
+            }
+          }
         },
         vimls = {},
       }
