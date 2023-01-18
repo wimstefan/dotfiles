@@ -107,6 +107,7 @@ return {
   -- {{{2 nvim-surround
   {
     'kylechui/nvim-surround',
+    event = 'VeryLazy',
     config = true
   },
   -- }}}2
