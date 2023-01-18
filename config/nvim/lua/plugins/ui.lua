@@ -433,6 +433,22 @@ return {
     end
   },
   -- }}}2
+  -- {{{2 rose-pine
+  {
+    'rose-pine/neovim',
+    name = 'rose-pine',
+    config = function()
+      require('rose-pine').setup({
+        dark_variant = 'main',
+        disable_background = true,
+        disable_float_background = false,
+        bold_vert_split = true,
+        groups = {},
+        highlight_groups = {}
+      })
+    end
+  },
+  -- }}}2
   -- {{{2 zenbones.nvim
   {
     'mcchrish/zenbones.nvim',
