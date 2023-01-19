@@ -197,19 +197,6 @@ return {
           lsp_messages = lsp_messages .. 'no typeDefinition' .. lsp_msg_sep
         end
 
-        -- autocmds
-        if client.server_capabilities.codeLensProvider then
-          vim.keymap.set('n', ',lL', function() vim.lsp.codelens.run({ border = require('config.ui').borders }) end,
-            { desc = 'LSP: code lens' }, { buffer = bufnr })
-          vim.api.nvim_create_autocmd({ 'BufEnter', 'CursorHold', 'InsertLeave' }, {
-            desc = 'LSP: code lens',
-            buffer = bufnr,
-            callback = vim.lsp.codelens.refresh
-          })
-        else
-          lsp_messages = lsp_messages .. 'no codeLens' .. lsp_msg_sep
-        end
-
         -- messages
         vim.notify(lsp_messages, vim.log.levels.INFO, { title = '[LSP]' })
       end
