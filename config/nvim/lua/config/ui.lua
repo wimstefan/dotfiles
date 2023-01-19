@@ -5,7 +5,8 @@ M.icons = {
     ' ',
     ' ',
     ' ',
-    ' '
+    ' ',
+    '󰄭 '
   },
   git = {
     -- added = '洛 ', modified = '  ', removed = '  ',

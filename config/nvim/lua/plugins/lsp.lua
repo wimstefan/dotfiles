@@ -23,8 +23,8 @@ return {
 
       -- diagnostic handling
       local diagnostic_signs = require('config.ui').icons.diagnostics
-      local diagnostic_severity_fullnames = { 'Error', 'Warning', 'Information', 'Hint' }
-      local diagnostic_severity_shortnames = { 'Error', 'Warn', 'Info', 'Hint' }
+      local diagnostic_severity_fullnames = { 'Error', 'Warning', 'Information', 'Hint', 'Ok' }
+      local diagnostic_severity_shortnames = { 'Error', 'Warn', 'Info', 'Hint', 'Ok' }
       for index, icon in ipairs(diagnostic_signs) do
         local fullname = diagnostic_severity_fullnames[index]
         local shortname = diagnostic_severity_shortnames[index]
