@@ -40,8 +40,10 @@ end)
 -- {{{1 Variable definitions
 local modkey = "Mod4"
 local altkey = "Mod1"
+local altgrkey = "Mod5"
 local ctrlkey = "Control"
 local shftkey = "Shift"
+local spacekey = "Space"
 
 beautiful.init(gears.filesystem.get_configuration_dir() .. "themes/xresources/theme.lua")
 
@@ -707,13 +709,13 @@ awful.keyboard.append_global_keybindings({
     { description = "focus next by index", group = "client" }),
   awful.key({ modkey, shftkey }, "Tab", function() awful.client.focus.byidx(-1) end,
     { description = "focus previous by index", group = "client" }),
-  awful.key({ shftkey }, "Right", function() awful.client.focus.bydirection("right") end,
+  awful.key({ ctrlkey }, "Right", function() awful.client.focus.bydirection("right") end,
     {description = "focus right", group = "client"}),
-  awful.key({ shftkey }, "Left", function() awful.client.focus.bydirection("left") end,
+  awful.key({ ctrlkey }, "Left", function() awful.client.focus.bydirection("left") end,
     {description = "focus left", group = "client"}),
-  awful.key({ shftkey }, "Up", function() awful.client.focus.bydirection("up") end,
+  awful.key({ ctrlkey }, "Up", function() awful.client.focus.bydirection("up") end,
     {description = "focus up", group = "client"}),
-  awful.key({ shftkey }, "Down", function() awful.client.focus.bydirection("down") end,
+  awful.key({ ctrlkey }, "Down", function() awful.client.focus.bydirection("down") end,
     {description = "focus down", group = "client"}),
   awful.key({ modkey, shftkey }, "j", function() awful.client.swap.byidx(1) end,
     { description = "swap with next client by index", group = "client" }),
@@ -780,21 +782,21 @@ client.connect_signal("request::default_keybindings", function()
       { description = "toggle titlebar", group = "client" }),
     awful.key({ modkey, altkey }, "m", lain.util.magnify_client,
       { description = "(de)magnify", group = "client" }),
-    awful.key({ modkey, altkey }, "Down", function(c) helpers.resize_dwim(c, "down") end,
+    awful.key({ altkey, ctrlkey }, "j", function(c) helpers.resize_dwim(c, "down") end,
       { description = "resize down", group = "client" }),
-    awful.key({ modkey, altkey }, "Up", function(c) helpers.resize_dwim(c, "up") end,
+    awful.key({ altkey, ctrlkey }, "k", function(c) helpers.resize_dwim(c, "up") end,
       { description = "resize up", group = "client" }),
-    awful.key({ modkey, altkey }, "Left", function(c) helpers.resize_dwim(c, "left") end,
+    awful.key({ altkey, ctrlkey }, "h", function(c) helpers.resize_dwim(c, "left") end,
       {description = "resize left", group = "client" }),
-    awful.key({ modkey, altkey }, "Right", function(c) helpers.resize_dwim(c, "right") end,
+    awful.key({ altkey, ctrlkey }, "l", function(c) helpers.resize_dwim(c, "right") end,
       { description = "resize right", group = "client" }),
-    awful.key({ altkey, shftkey }, "Down", function (c) helpers.move_client_dwim(c, "down") end,
+    awful.key({ altkey, modkey }, "j", function (c) helpers.move_client_dwim(c, "down") end,
       { description = "move down", group = "client" }),
-    awful.key({ altkey, shftkey }, "Up", function (c) helpers.move_client_dwim(c, "up") end,
+    awful.key({ altkey, modkey }, "k", function (c) helpers.move_client_dwim(c, "up") end,
       { description = "move up", group = "client" }),
-    awful.key({ altkey, shftkey }, "Left", function (c) helpers.move_client_dwim(c, "left") end,
+    awful.key({ altkey, modkey }, "h", function (c) helpers.move_client_dwim(c, "left") end,
       { description = "move left", group = "client" }),
-    awful.key({ altkey, shftkey }, "Right", function (c) helpers.move_client_dwim(c, "right") end,
+    awful.key({ altkey, modkey }, "l", function (c) helpers.move_client_dwim(c, "right") end,
       { description = "move right", group = "client" })
     })
 end)
