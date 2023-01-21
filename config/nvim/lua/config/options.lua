@@ -34,6 +34,7 @@ vim.opt.fillchars:append({
   msgsep = '🮑'
 })
 vim.opt.mouse = 'a'
+vim.opt.mousemodel = 'extend'
 
 vim.opt.shiftwidth = indent
 vim.opt.shiftround = true
