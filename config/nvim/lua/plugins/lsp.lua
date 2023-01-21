@@ -236,9 +236,6 @@ return {
           cmd = { vim.fn.stdpath('data') .. '/lspconfig/lua-language-server/bin/lua-language-server' },
           settings = {
             Lua = {
-              codelens = {
-                enable = true
-              },
               completion = {
                 callsnippet = 'Replace'
               },
