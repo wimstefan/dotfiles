@@ -84,7 +84,7 @@ return {
         options = {
           icons_enabled = true,
           globalstatus = true,
-          section_separators = { left = '', right = '' },
+          section_separators = { left = '░', right = '░' },
           component_separators = { left = '', right = '' },
         },
         sections = {
@@ -206,9 +206,9 @@ return {
     event = 'VeryLazy',
     opts = function()
       return {
-        relculright = true,
+        relculright = false,
         setopt = true,
-        order = 'FsSNs'
+        order = 'FsSsNs'
       }
     end,
     config = true
