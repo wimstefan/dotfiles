@@ -9,17 +9,21 @@ if hostname == 'tj' then
 else
   my_font = 'jet'
 end
--- local selected_scheme = 'wilmersdorf'
--- local selected_scheme = 'terafox'
--- local selected_scheme = 'nightfox'
--- local selected_scheme = 'Atelier Cave (base16)'
--- local selected_scheme = 'Atelier Cave Light (base16)'
--- local selected_scheme = 'Atelier Lakeside Light (base16)'
--- local selected_scheme = 'seoulbones_dark'
--- local selected_scheme = 'seoulbones_light'
--- local selected_scheme = 'base16-tokyo-city-terminal-light'
--- local selected_scheme = 'base16-tokyo-city-terminal-dark'
-local selected_scheme = 'tokyonight_night'
+local scheme_pool = {
+  terafox = 'terafox',
+  dayfox = 'dayfox',
+  atelier_cave_base16 = 'Atelier Cave (base16)',
+  atelier_cave_light_base16 = 'Atelier Cave Light (base16)',
+  seoulbones_dark = 'seoulbones_dark',
+  seoulbones_light = 'seoulbones_light',
+  base16_tokyo_city_terminal_dark = 'base16-tokyo-city-terminal-dark',
+  base16_tokyo_city_terminal_light = 'base16-tokyo-city-terminal-light',
+  tokyonight_night = 'tokyonight_night',
+  tokyonight_day = 'tokyonight_day',
+  my_rose_pine = 'my_rose_pine',
+  my_rose_pine_dawn = 'my_rose_pine_dawn'
+}
+local selected_scheme = scheme_pool.my_rose_pine_dawn
 
 local function basename(s)
   return string.gsub(s, '(.*[/\\])(.*)', '%2')
@@ -27,11 +31,16 @@ end
 
 -- {{{1 Colour configuration
 -- see https://github.com/wez/wezterm/issues/2376#issuecomment-1208816450
+local colour_dir = os.getenv('XDG_CONFIG_HOME') .. '/wezterm/colours/'
 local scheme
 if string.match(selected_scheme, '^base16') then
-  scheme = wez.color.load_base16_scheme(os.getenv('XDG_CONFIG_HOME') .. '/wezterm/colors/' .. selected_scheme .. '.yaml')
+  scheme = wez.color.load_base16_scheme(colour_dir .. selected_scheme .. '.yaml')
 elseif string.match(selected_scheme, '^tokyonight_') then
-  scheme = wez.color.load_scheme(os.getenv('XDG_CONFIG_HOME') .. '/wezterm/colors/' .. selected_scheme .. '.toml')
+  scheme = wez.color.load_scheme(colour_dir .. selected_scheme .. '.toml')
+elseif string.match(selected_scheme, 'my_rose_pine$') then
+  scheme = require('colours/rose_pine').colors()
+elseif string.match(selected_scheme, 'my_rose_pine_dawn$') then
+  scheme = require('colours/rose_pine_dawn').colors()
 else
   scheme = wez.get_builtin_color_schemes()[selected_scheme]
 end
@@ -64,7 +73,9 @@ if l > 0.5 then
   scheme.selection_bg = 'rgba(88% 88% 88% 30%)'
 else
   C_FG = fg:darken(1.0)
-  C_BG = bg:darken(0.1)
+  if selected_scheme == 'my_rose_pine_dawn' or selected_scheme == 'rose-pine-dawn' then
+    C_BG = bg:complement():darken(0.06)
+  end
   scheme.selection_bg = 'rgba(70% 70% 70% 40%)'
 end
 scheme.foreground = C_FG
@@ -120,7 +131,7 @@ local function font_set(name)
   elseif string.match(name, 'iosevka') then
     font = font_fallback({ family = 'Iosevka Artesanal', harfbuzz_features = { 'calt=1', 'ccmp=1', 'dlig=1', 'onum=1' } })
   elseif string.match(name, 'jet') then
-    font = font_fallback({ family = 'JetBrains Mono', weight = 'Light', harfbuzz_features = { 'cv06', 'cv07', 'cv11', 'ss20', 'zero' } })
+    font = font_fallback({ family = 'JetBrains Mono', weight = 'Regular', harfbuzz_features = { 'cv06', 'cv07', 'cv11', 'ss20', 'zero' } })
   elseif string.match(name, 'mona') then
     font = font_fallback({ family = 'MonoLisa', weight = 'Book', harfbuzz_features = { 'case=1', 'liga=1', 'dlig=1', 'onum=1' } })
   elseif string.match(name, 'operator') then
@@ -409,7 +420,7 @@ return {
   term = 'wezterm',
   check_for_updates = false,
   adjust_window_size_when_changing_font_size = false,
-  window_background_opacity = 0.7,
+  window_background_opacity = 0.1,
   window_padding = {
     left = '3cell',
     right = '3cell',
