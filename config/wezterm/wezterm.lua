@@ -7,9 +7,10 @@ local my_font
 if hostname == 'tj' then
   my_font = 'jet'
 else
-  my_font = 'jet'
+  my_font = 'iosevka'
 end
 local scheme_pool = {
+  nightfox = 'nightfox',
   terafox = 'terafox',
   dayfox = 'dayfox',
   atelier_cave_base16 = 'Atelier Cave (base16)',
@@ -18,7 +19,9 @@ local scheme_pool = {
   seoulbones_light = 'seoulbones_light',
   base16_tokyo_city_terminal_dark = 'base16-tokyo-city-terminal-dark',
   base16_tokyo_city_terminal_light = 'base16-tokyo-city-terminal-light',
+  tokyonight_moon = 'tokyonight_moon',
   tokyonight_night = 'tokyonight_night',
+  tokyonight_storm = 'tokyonight_storm',
   tokyonight_day = 'tokyonight_day',
   my_rose_pine = 'my_rose_pine',
   my_rose_pine_dawn = 'my_rose_pine_dawn'
@@ -32,6 +35,7 @@ end
 -- {{{1 Colour configuration
 -- see https://github.com/wez/wezterm/issues/2376#issuecomment-1208816450
 local colour_dir = os.getenv('XDG_CONFIG_HOME') .. '/wezterm/colours/'
+local opacity
 local scheme
 if string.match(selected_scheme, '^base16') then
   scheme = wez.color.load_base16_scheme(colour_dir .. selected_scheme .. '.yaml')
@@ -71,10 +75,15 @@ if l > 0.5 then
   end
   C_FG = fg:lighten(1.0)
   scheme.selection_bg = 'rgba(88% 88% 88% 30%)'
+  opacity = 0.1
 else
   C_FG = fg:darken(1.0)
   if selected_scheme == 'my_rose_pine_dawn' or selected_scheme == 'rose-pine-dawn' then
     C_BG = bg:complement():darken(0.06)
+    opacity = 0.2
+  else
+    C_BG = bg:complement():darken(0.2)
+    opacity = 0.4
   end
   scheme.selection_bg = 'rgba(70% 70% 70% 40%)'
 end
@@ -120,6 +129,7 @@ local function font_fallback(name)
   local names = { name, 'nonicons', 'JoyPixels', 'Iosevka Artesanal' }
   return wez.font_with_fallback(names)
 end
+
 -- 2}}}
 -- {{{2 font_set
 local function font_set(name)
@@ -131,9 +141,11 @@ local function font_set(name)
   elseif string.match(name, 'iosevka') then
     font = font_fallback({ family = 'Iosevka Artesanal', harfbuzz_features = { 'calt=1', 'ccmp=1', 'dlig=1', 'onum=1' } })
   elseif string.match(name, 'jet') then
-    font = font_fallback({ family = 'JetBrains Mono', weight = 'Regular', harfbuzz_features = { 'cv06', 'cv07', 'cv11', 'ss20', 'zero' } })
+    font = font_fallback({ family = 'JetBrains Mono', weight = 'Regular',
+      harfbuzz_features = { 'cv06', 'cv07', 'cv11', 'ss20', 'zero' } })
   elseif string.match(name, 'mona') then
-    font = font_fallback({ family = 'MonoLisa', weight = 'Book', harfbuzz_features = { 'case=1', 'liga=1', 'dlig=1', 'onum=1' } })
+    font = font_fallback({ family = 'MonoLisa', weight = 'Book',
+      harfbuzz_features = { 'case=1', 'liga=1', 'dlig=1', 'onum=1' } })
   elseif string.match(name, 'operator') then
     font = font_fallback({ family = 'Operator Mono', weight = 'Light' })
   elseif string.match(name, 'plex') then
@@ -145,14 +157,15 @@ local function font_set(name)
   end
   return font
 end
+
 -- 2}}}
 -- {{{2 font_rules
 local function font_rules(name)
   local rules = {}
   if string.match(name, 'custom')
-      or string.match(name, 'fantasque')
-      or string.match(name, 'mona')
-      or string.match(name, 'recursive')
+    or string.match(name, 'fantasque')
+    or string.match(name, 'mona')
+    or string.match(name, 'recursive')
   then
     rules = nil
   elseif string.match(name, 'iosevka') then
@@ -226,6 +239,7 @@ local function font_rules(name)
   end
   return rules
 end
+
 -- 2}}}
 -- {{{2 font_size
 local function font_size(name)
@@ -293,6 +307,7 @@ local function font_size(name)
   end
   return size
 end
+
 -- 2}}}
 -- {{{2 set_geometry
 local function set_geometry(x)
@@ -334,6 +349,7 @@ local function set_geometry(x)
   end
   return value
 end
+
 -- 2}}}
 -- 1}}}
 
@@ -420,7 +436,7 @@ return {
   term = 'wezterm',
   check_for_updates = false,
   adjust_window_size_when_changing_font_size = false,
-  window_background_opacity = 0.1,
+  window_background_opacity = opacity,
   window_padding = {
     left = '3cell',
     right = '3cell',
@@ -475,10 +491,10 @@ return {
     { key = 'd', mods = 'LEADER', action = act.ShowDebugOverlay },
     { key = 'l', mods = 'LEADER', action = act.ShowLauncher },
     { key = 'Space', mods = 'LEADER', action = act.QuickSelect },
-    { key = 'f', mods = 'LEADER', action = act.Search{ CaseSensitiveString = '' } },
+    { key = 'f', mods = 'LEADER', action = act.Search { CaseSensitiveString = '' } },
     { key = 'x', mods = 'LEADER', action = act.ActivateCopyMode },
     { key = 'e', mods = 'LEADER',
-      action = act.QuickSelectArgs{
+      action = act.QuickSelectArgs {
         label = 'open url',
         patterns = {
           'https?://\\S+'
@@ -491,10 +507,10 @@ return {
       }
     },
     { key = 't', mods = 'LEADER', action = act.SpawnTab 'CurrentPaneDomain' },
-    { key = 'w', mods = 'LEADER', action = act.CloseCurrentPane{ confirm = true } },
-    { key = 'w', mods = 'LEADER|SHIFT', action = act.CloseCurrentTab{ confirm = true } },
-    { key = '|', mods = 'LEADER|SHIFT', action = act.SplitHorizontal{ domain = 'CurrentPaneDomain' } },
-    { key = '-', mods = 'LEADER', action = act.SplitVertical{ domain = 'CurrentPaneDomain' } },
+    { key = 'w', mods = 'LEADER', action = act.CloseCurrentPane { confirm = true } },
+    { key = 'w', mods = 'LEADER|SHIFT', action = act.CloseCurrentTab { confirm = true } },
+    { key = '|', mods = 'LEADER|SHIFT', action = act.SplitHorizontal { domain = 'CurrentPaneDomain' } },
+    { key = '-', mods = 'LEADER', action = act.SplitVertical { domain = 'CurrentPaneDomain' } },
     { key = 'P', mods = 'LEADER', action = act.PaneSelect },
     { key = 'z', mods = 'LEADER', action = act.TogglePaneZoomState },
     { key = '0', mods = 'LEADER', action = act.ActivateTab(0) },
@@ -514,10 +530,10 @@ return {
     { key = 'RightArrow', mods = 'LEADER', action = act.ActivatePaneDirection 'Right' },
     { key = 'UpArrow', mods = 'LEADER', action = act.ActivatePaneDirection 'Up' },
     { key = 'DownArrow', mods = 'LEADER', action = act.ActivatePaneDirection 'Down' },
-    { key = 'LeftArrow', mods = 'LEADER|SHIFT', action = act.AdjustPaneSize{ 'Left', 4 } },
-    { key = 'RightArrow', mods = 'LEADER|SHIFT', action = act.AdjustPaneSize{ 'Right', 4 } },
-    { key = 'UpArrow', mods = 'LEADER|SHIFT', action = act.AdjustPaneSize{ 'Up', 4 } },
-    { key = 'DownArrow', mods = 'LEADER|SHIFT', action = act.AdjustPaneSize{ 'Down', 4 } },
+    { key = 'LeftArrow', mods = 'LEADER|SHIFT', action = act.AdjustPaneSize { 'Left', 4 } },
+    { key = 'RightArrow', mods = 'LEADER|SHIFT', action = act.AdjustPaneSize { 'Right', 4 } },
+    { key = 'UpArrow', mods = 'LEADER|SHIFT', action = act.AdjustPaneSize { 'Up', 4 } },
+    { key = 'DownArrow', mods = 'LEADER|SHIFT', action = act.AdjustPaneSize { 'Down', 4 } },
   },
 }
 -- vim: foldmethod=marker foldlevel=0
