@@ -32,10 +32,6 @@ function Prettify()
   vim.api.nvim_set_hl(0, 'NormalNC', { bg = 'none' })
   vim.api.nvim_set_hl(0, 'Folded', { bg = 'none' })
   vim.api.nvim_set_hl(0, 'ColorColumn', { link = 'Visual' })
-  vim.api.nvim_set_hl(0, 'FloatBorder', { link = 'Normal' })
-  vim.api.nvim_set_hl(0, 'FloatNormal', { link = 'Normal' })
-  vim.api.nvim_set_hl(0, 'NormalFloat', { link = 'Normal' })
-  vim.api.nvim_set_hl(0, 'LspFloatWinNormal', { link = 'Normal' })
 
   vim.notify('Applying visual tweaks', vim.log.levels.INFO, { title = '[UI]' })
 end

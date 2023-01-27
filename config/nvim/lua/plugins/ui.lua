@@ -383,7 +383,7 @@ return {
     'folke/tokyonight.nvim',
     opts = function()
       return {
-        style = 'night',
+        style = 'moon',
         light_style = 'day',
         transparent = true,
         styles = {
@@ -392,7 +392,7 @@ return {
           functions = { italic = true },
           variables = {},
           sidebars = 'transparent',
-          floats = 'transparent'
+          floats = 'dark'
         },
         on_colors = function(colours)
           colours.green = '#50b498'
