@@ -9,7 +9,7 @@ vim.keymap.set('n', '<F9>', function() ToggleFoldColumn() end, { desc = 'Toggle 
 vim.keymap.set('n', '<F10>', function() ToggleDetails() end, { desc = 'Toggle decorations' })
 -- {{{2 lazy.nvim
 vim.keymap.set('n', '<Leader>l', require('lazy').home, { desc = 'Lazy' })
-vim.keymap.set('n', '<Leader>ll', require('lazy').log, { desc = 'Lazy: log' })
+vim.keymap.set('n', '<Leader>ll', [[:Lazy load<Space>]], { desc = 'Lazy: load' })
 vim.keymap.set('n', '<Leader>lp', require('lazy').profile, { desc = 'Lazy: profile' })
 vim.keymap.set('n', '<Leader>ls', require('lazy').sync, { desc = 'Lazy: sync' })
 -- }}}2
