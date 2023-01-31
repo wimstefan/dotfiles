@@ -81,20 +81,26 @@ augroup('General', function(g)
     end
   })
   local unpack = unpack or table.unpack
+  local ignore_filetype = { 'gitcommit', 'gitrebase' }
+  local ignore_buftype = { 'quickfix', 'nofile', 'help' }
   aucmd('BufReadPost', {
     group = g,
     desc = 'Jump back to previous cursor position',
     callback = function()
-      local mark = vim.api.nvim_buf_get_mark(0, '"')
-      local lcount = vim.api.nvim_buf_line_count(0)
-      if mark[1] > 0
-        and mark[1] <= lcount
-        and vim.bo.filetype ~= 'commit'
-        or vim.bo.filetype ~= 'rebase'
-      then
-        pcall(vim.api.nvim_win_set_cursor, 0, mark)
+      if vim.tbl_contains(ignore_filetype, vim.bo.filetype) then
+        return
       end
-    end,
+      if vim.tbl_contains(ignore_buftype, vim.bo.buftype) then
+        return
+      end
+      local row, col = unpack(vim.api.nvim_buf_get_mark(0, '"'))
+      if row > 0 and row <= vim.api.nvim_buf_line_count(0) then
+        vim.api.nvim_win_set_cursor(0, { row, col })
+        if vim.api.nvim_eval 'foldclosed(\'.\')' ~= -1 then
+          vim.api.nvim_input 'zv'
+        end
+      end
+    end
   })
   aucmd('BufWinEnter', {
     group = g,
