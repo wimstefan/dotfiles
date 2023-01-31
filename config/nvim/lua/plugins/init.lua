@@ -11,47 +11,22 @@ return {
   -- }}}2
   -- {{{2 Projects
   {
-    'nyngwang/fzf-lua-projections.nvim',
+    'gennaro-tedesco/nvim-possession',
     dependencies = {
-      'GnikDroy/projections.nvim',
-      opts = function()
-        require('projections').setup({
-          workspaces = {
-            { '~/.dotfiles/config', {} },
-            { '~/Bedrijfje', {} }
-          }
-        })
-        vim.opt.sessionoptions:append('localoptions')
-        local Workspace = require('projections.workspace')
-        vim.api.nvim_create_user_command('AddWorkspace', function()
-          Workspace.add(vim.loop.cwd())
-        end, {})
-        local Switcher = require('projections.switcher')
-        vim.api.nvim_create_autocmd({ 'VimEnter' }, {
-          callback = function()
-            if vim.fn.argc() == 0 then Switcher.switch(vim.loop.cwd()) end
-          end,
-        })
-        local Session = require('projections.session')
-        vim.api.nvim_create_autocmd({ 'VimLeavePre' }, {
-          callback = function() Session.store(vim.loop.cwd()) end,
-        })
-        vim.api.nvim_create_autocmd({ 'VimEnter' }, {
-          callback = function()
-            if vim.fn.argc() ~= 0 then return end
-            local session_info = Session.info(vim.loop.cwd())
-            if session_info == nil then
-              Session.restore_latest()
-            else
-              Session.restore(vim.loop.cwd())
-            end
-          end,
-          desc = 'Restore last session automatically'
-        })
-      end
+      'ibhagwan/fzf-lua',
     },
     keys = {
-      { '<Leader>fp', function() require('fzf-lua-p').projects() end, 'NOREF_NOERR_TRUNC', desc = 'Fzf: projects' }
+      { '<leader>pl', function() require('nvim-possession').list() end, desc = 'Projects: list' },
+      { '<leader>pn', function() require('nvim-possession').new() end, desc = 'Projects: new' },
+      { '<leader>pu', function() require('nvim-possession').update() end, desc = 'Projects: update' }
+    },
+    opts = {
+      sessions = {
+        sessions_icon = '󱜤  '
+      },
+      autoswitch = {
+        enable = true
+      }
     }
   },
   -- }}}2

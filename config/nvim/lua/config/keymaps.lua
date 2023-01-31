@@ -4,7 +4,7 @@ vim.keymap.set('n', '<Leader>g', [[:grep<Space>]])
 vim.keymap.set('n', '<Leader>i', [[<Cmd>Inspect!<CR>]])
 vim.keymap.set('n', '<Leader>K', function() ShowMan() end, { desc = 'Search man pages for current word' })
 vim.keymap.set('n', '<Leader>m', [[<Cmd>messages<cr>]])
-vim.keymap.set('n', '<Leader>p', function() Prettify() end, { desc = 'Apply visual tweaks' })
+vim.keymap.set('n', '<Leader>P', function() Prettify() end, { desc = 'Apply visual tweaks' })
 vim.keymap.set('n', '<F9>', function() ToggleFoldColumn() end, { desc = 'Toggle foldcolumn' })
 vim.keymap.set('n', '<F10>', function() ToggleDetails() end, { desc = 'Toggle decorations' })
 -- {{{2 lazy.nvim
