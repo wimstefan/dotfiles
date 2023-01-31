@@ -80,6 +80,7 @@ return {
 
       -- LSP functions
       local on_attach = function(client, bufnr)
+        local unpack = unpack or table.unpack
         local lsp_messages = ''
         local lsp_msg_sep = ' ∷ '
         lsp_messages = lsp_msg_sep .. 'LSP attached' .. lsp_msg_sep

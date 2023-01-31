@@ -39,6 +39,7 @@ return {
       'saadparwaiz1/cmp_luasnip'
     },
     config = function()
+      local unpack = unpack or table.unpack
       local cmp = require('cmp')
       local cmp_buffer = require('cmp_buffer')
       local luasnip = require('luasnip')

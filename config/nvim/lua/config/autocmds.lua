@@ -80,6 +80,7 @@ augroup('General', function(g)
       vim.opt_local.colorcolumn = ''
     end
   })
+  local unpack = unpack or table.unpack
   aucmd('BufReadPost', {
     group = g,
     desc = 'Jump back to previous cursor position',
