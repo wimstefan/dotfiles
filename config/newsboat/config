@@ -1,3 +1,4 @@
+always-display-description yes
 article-sort-order date-desc
 articlelist-format  "%4i %f %D   %?T?|%-30T|  ?%t"
 datetime-format "%F %R"
