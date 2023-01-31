@@ -1,12 +1,12 @@
 return {
   {
+    'folke/neodev.nvim',
+    config = true
+  },
+  {
     'neovim/nvim-lspconfig',
     event = 'BufReadPre',
     dependencies = {
-      {
-        'folke/neodev.nvim',
-        config = true
-      },
       {
         'hrsh7th/cmp-nvim-lsp',
         config = true
@@ -246,9 +246,6 @@ return {
                   'vim'
                 }
               },
-              neededFileStatus = {
-                ['codestyle-check'] = 'Any'
-              },
               format = {
                 enable = true,
                 defaultConfig = {
@@ -257,6 +254,9 @@ return {
                   continuation_indent_size = 2,
                   quote_style = 'single'
                 }
+              },
+              neededFileStatus = {
+                ['codestyle-check'] = 'Any'
               },
               hint = {
                 enable = true
