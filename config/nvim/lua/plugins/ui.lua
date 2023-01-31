@@ -34,12 +34,6 @@ return {
         end
         return '[RO]'
       end
-      local get_session = function()
-        if not vim.g.loaded_obsession then
-          return ''
-        end
-        return '%{ObsessionStatus("\\\\o/", "_o_")}'
-      end
       local get_spell = function()
         if not vim.wo.spell then
           return ''
@@ -109,12 +103,7 @@ return {
               get_spell,
               padding = 1,
               color = { fg = 'brown', bg = 'none' },
-            },
-            {
-              get_session,
-              padding = 1,
-              color = { fg = 'brown', bg = 'none' },
-            },
+            }
           },
           lualine_x = {
             {
