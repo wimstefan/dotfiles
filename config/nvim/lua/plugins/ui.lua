@@ -43,6 +43,10 @@ return {
       local get_path = function()
         return '[' .. vim.fn.expand('%:p:h') .. ']'
       end
+      local get_session = function()
+        local session = require('nvim-possession').status()
+        return session or ''
+      end
       local lsp_status = function()
         local msg = ''
         if #vim.lsp.get_active_clients() > 0 then
@@ -106,6 +110,9 @@ return {
             }
           },
           lualine_x = {
+            {
+              get_session
+            },
             {
               lsp_status,
               fmt = trunc(80, 40, 100),
