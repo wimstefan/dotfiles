@@ -418,6 +418,12 @@ return {
     build = ':TSInstall rasi'
   },
   -- }}}2
+  -- {{{2 kdl.vim
+  {
+    'imsnif/kdl.vim',
+    ft = 'kdl'
+  },
+  -- }}}2
   -- {{{2 unicode.vim
   {
     'chrisbra/unicode.vim',
