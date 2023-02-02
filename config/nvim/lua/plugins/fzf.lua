@@ -12,6 +12,7 @@ return {
       { '<Leader>o', function() require('fzf-lua').oldfiles() end, desc = 'Fzf: oldfiles' },
       { '<Leader>h', function() require('fzf-lua').help_tags() end, desc = 'Fzf: help' },
       { '<Leader>k', function() require('fzf-lua').man_pages() end, desc = 'Fzf: man' },
+      { '<Leader>t', function() require('fzf-lua').tabs() end, desc = 'Fzf: tabs' },
       { '<Leader>?', function() require('fzf-lua').lgrep_curbuf() end, desc = 'Fzf: grep current file' },
       { '<Leader>/', function() require('fzf-lua').live_grep_native() end, desc = 'Fzf: grep all files' },
       { '<Leader>fgb', function() require('fzf-lua').git_bcommits() end, desc = 'Fzf: git buffer commits' },
