@@ -1,29 +1,9 @@
 return {
   {
-    'L3MON4D3/LuaSnip',
+    'dcampos/nvim-snippy',
     dependencies = {
-      'honza/vim-snippets',
-      config = function()
-        require('luasnip/loaders/from_snipmate').lazy_load()
-      end
-    },
-    opts = {
-      history = true,
-      delete_check_events = 'TextChanged',
-      updateevents = 'TextChanged,TextChangedI'
-    },
-    config = function()
-      local list_snips = function()
-        local ft_list = require('luasnip').available()[vim.o.filetype]
-        local ft_snips = {}
-        for _, item in pairs(ft_list) do
-          ft_snips[item.trigger] = item.name
-        end
-        print(vim.inspect(ft_snips))
-      end
-
-      vim.api.nvim_create_user_command('SnipList', list_snips, {})
-    end
+      'honza/vim-snippets'
+    }
   },
   {
     'hrsh7th/nvim-cmp',
@@ -36,13 +16,13 @@ return {
       'hrsh7th/cmp-buffer',
       'hrsh7th/cmp-path',
       'hrsh7th/cmp-cmdline',
-      'saadparwaiz1/cmp_luasnip'
+      'dcampos/cmp-snippy'
     },
     config = function()
       local unpack = unpack or table.unpack
       local cmp = require('cmp')
       local cmp_buffer = require('cmp_buffer')
-      local luasnip = require('luasnip')
+      local snippy = require('snippy')
 
       local has_words_before = function()
         local line, col = unpack(vim.api.nvim_win_get_cursor(0))
@@ -55,7 +35,7 @@ return {
         },
         snippet = {
           expand = function(args)
-            luasnip.lsp_expand(args.body)
+            snippy.expand_snippet(args.body)
           end
         },
         mapping = cmp.mapping.preset.insert({
@@ -68,10 +48,10 @@ return {
           ['<Tab>'] = cmp.mapping(function(fallback)
             if cmp.visible() then
               cmp.select_next_item()
-            elseif luasnip.expand_or_jumpable() then
-              luasnip.expand_or_jump()
+            elseif snippy.can_expand_or_advance() then
+              snippy.can_expand_or_advance()
             elseif has_words_before() then
-              fallback()
+              cmp.complete()
             else
               fallback()
             end
@@ -79,8 +59,8 @@ return {
           ['<S-Tab>'] = cmp.mapping(function(fallback)
             if cmp.visible() then
               cmp.select_prev_item()
-            elseif luasnip.jumpable(-1) then
-              luasnip.jump(-1)
+            elseif snippy.can_jump(-1) then
+              snippy.previous()
             else
               fallback()
             end
@@ -89,7 +69,7 @@ return {
         sources = cmp.config.sources({
           { name = 'nvim_lsp' },
           { name = 'nvim_lsp_signature_help' },
-          { name = 'luasnip' },
+          { name = 'snippy' },
           {
             name = 'path',
             option = {
