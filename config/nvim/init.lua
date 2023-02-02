@@ -42,3 +42,4 @@ require('lazy').setup({
     enabled = true
   }
 })
+require('lazy.view.config').keys.profile_filter = '<C-p>'
