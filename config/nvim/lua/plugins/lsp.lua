@@ -134,7 +134,7 @@ return {
         end
         if client.server_capabilities.documentFormattingProvider then
           local fmt_opts = vim.bo[bufnr].ft == 'lua'
-            and 'async=true,bufnr=0,name="sumneko_lua"'
+            and 'async=true,bufnr=0,name="lua_ls"'
             or 'async=true,bufnr=0'
           vim.keymap.set('n', ',lf', function() vim.lsp.buf.format(fmt_opts) end,
             { desc = 'LSP: formatting' }, { buffer = bufnr })
@@ -155,7 +155,7 @@ return {
               local fmt_opts = {
                 async   = true,
                 bufnr   = 0,
-                name    = vim.bo[bufnr].ft == 'lua' and 'sumneko_lua' or nil,
+                name    = vim.bo[bufnr].ft == 'lua' and 'lua_ls' or nil,
                 start   = { csrow, cscol },
                 ['end'] = { cerow, cecol },
               }
@@ -233,7 +233,7 @@ return {
         },
         intelephense = {},
         jsonls = {},
-        sumneko_lua = {
+        lua_ls = {
           cmd = { vim.fn.stdpath('data') .. '/lspconfig/lua-language-server/bin/lua-language-server' },
           settings = {
             Lua = {
@@ -241,6 +241,9 @@ return {
                 callsnippet = 'Replace'
               },
               diagnostics = {
+                neededFileStatus = {
+                  ['codestyle-check'] = 'Any'
+                },
                 globals = {
                   'use',
                   'vim'
@@ -250,13 +253,10 @@ return {
                 enable = true,
                 defaultConfig = {
                   indent_style = 'space',
-                  indent_size = 2,
-                  continuation_indent_size = 2,
+                  indent_size = '2',
+                  continuation_indent = '2',
                   quote_style = 'single'
                 }
-              },
-              neededFileStatus = {
-                ['codestyle-check'] = 'Any'
               },
               hint = {
                 enable = true
