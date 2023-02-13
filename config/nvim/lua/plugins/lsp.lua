@@ -233,6 +233,7 @@ return {
         },
         intelephense = {},
         jsonls = {},
+        marksman = {},
         lua_ls = {
           cmd = { vim.fn.stdpath('data') .. '/lspconfig/lua-language-server/bin/lua-language-server' },
           settings = {

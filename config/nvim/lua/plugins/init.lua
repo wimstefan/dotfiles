@@ -209,27 +209,6 @@ return {
     end
   },
   -- }}}2
-  -- {{{2 mkdnflow.nvim
-  {
-    'jakewvincent/mkdnflow.nvim',
-    ft = 'markdown',
-    config = function()
-      require('mkdnflow').setup({
-        mappings = {
-          MkdnTableNextCell = { 'i', '<M-Tab>' },
-          MkdnTablePrevCell = { 'i', '<M-S-Tab>' },
-          MkdnTableNewRowBelow = { 'n', ',mir' },
-          MkdnTableNewRowAbove = { 'n', ',miR' },
-          MkdnTableNewColAfter = { 'n', ',mic' },
-          MkdnTableNewColBefore = { 'n', ',miC' },
-          MkdnFoldSection = { 'n', ',mf' },
-          MkdnUnfoldSection = { 'n', ',mF' },
-          MkdnUpdateNumbering = { 'n', ',mn' }
-        }
-      })
-    end
-  },
-  -- }}}2
   -- {{{2 pantran.nvim
   {
     'potamides/pantran.nvim',
