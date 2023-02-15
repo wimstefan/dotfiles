@@ -47,7 +47,7 @@ return {
     'ggandor/leap.nvim',
     event = 'VeryLazy',
     config = function()
-      require('leap').set_default_keymaps()
+      require('leap').add_default_mappings()
     end
   },
   -- }}}2
@@ -77,6 +77,13 @@ return {
         title = true
       })
     end
+  },
+  -- }}}2
+  -- {{{2 ultimate-autopair.nvim
+  {
+    'altermo/ultimate-autopair.nvim',
+    event = 'VeryLazy',
+    config = true
   },
   -- }}}2
   -- {{{2 nvim-surround
@@ -395,12 +402,6 @@ return {
     'Fymyte/rasi.vim',
     ft = 'rasi',
     build = ':TSInstall rasi'
-  },
-  -- }}}2
-  -- {{{2 kdl.vim
-  {
-    'imsnif/kdl.vim',
-    ft = 'kdl'
   },
   -- }}}2
   -- {{{2 unicode.vim
