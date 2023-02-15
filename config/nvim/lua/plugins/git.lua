@@ -41,15 +41,15 @@ return {
           vim.keymap.set('n', '[c', "&diff ? '[c' : '<cmd>Gitsigns prev_hunk<CR>'",
             { expr = true, replace_keycodes = false },
             { desc = 'Gitsigns: previous hunk' })
-          vim.keymap.set('n', ',sp', gs.preview_hunk, { desc = 'Gitsigns: preview hunk' }, { buffer = bufnr })
-          vim.keymap.set('n', ',sb', function() gs.blame_line { full = true } end, { desc = 'Gitsigns: blame line' },
+          vim.keymap.set('n', '<Leader>gp', gs.preview_hunk, { desc = 'Gitsigns: preview hunk' }, { buffer = bufnr })
+          vim.keymap.set('n', '<Leader>gb', function() gs.blame_line { full = true } end, { desc = 'Gitsigns: blame line' },
             { buffer = bufnr })
-          vim.keymap.set('n', ',sd', gs.diffthis, { desc = 'Gitsigns: diffthis' }, { buffer = bufnr })
-          vim.keymap.set('n', ',sD', function() gs.diffthis('~') end, { desc = 'Gitsigns: diffthis ~' },
+          vim.keymap.set('n', '<Leader>gd', gs.diffthis, { desc = 'Gitsigns: diffthis' }, { buffer = bufnr })
+          vim.keymap.set('n', '<Leader>gD', function() gs.diffthis('~') end, { desc = 'Gitsigns: diffthis ~' },
             { buffer = bufnr })
-          vim.keymap.set('n', ',ss', gs.stage_hunk, { desc = 'Gitsigns: stage hunk' }, { buffer = bufnr })
-          vim.keymap.set('n', ',su', gs.undo_stage_hunk, { desc = 'Gitsigns: undo stage hunk' }, { buffer = bufnr })
-          vim.keymap.set('n', ',sx', gs.toggle_deleted, { desc = 'Gitsigns: toggle deleted' }, { buffer = bufnr })
+          vim.keymap.set('n', '<Leader>gs', gs.stage_hunk, { desc = 'Gitsigns: stage hunk' }, { buffer = bufnr })
+          vim.keymap.set('n', '<Leader>gu', gs.undo_stage_hunk, { desc = 'Gitsigns: undo stage hunk' }, { buffer = bufnr })
+          vim.keymap.set('n', '<Leader>gx', gs.toggle_deleted, { desc = 'Gitsigns: toggle deleted' }, { buffer = bufnr })
         end
       })
     end
