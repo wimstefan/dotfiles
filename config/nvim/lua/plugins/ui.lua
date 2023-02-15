@@ -347,12 +347,8 @@ return {
   -- }}}2
   -- {{{2 nvim-web-devicons
   {
-    'wimstefan/nvim-web-devicons',
-    config = function()
-      require('nvim-web-devicons').setup({
-        padding = true
-      })
-    end
+    'nvim-tree/nvim-web-devicons',
+    config = true
   },
   -- }}}2
   -- {{{2 nvim-nonicons
@@ -368,6 +364,7 @@ return {
   -- {{{2 vim-artesanal
   {
     'wimstefan/vim-artesanal',
+    event = 'VeryLazy',
     config = function()
       vim.g.artesanal_dimmed = false
       vim.g.artesanal_transparent = true
@@ -377,6 +374,7 @@ return {
   -- {{{2 tokyonight.nvim
   {
     'folke/tokyonight.nvim',
+    event = 'VeryLazy',
     opts = function()
       return {
         style = 'moon',
@@ -401,6 +399,7 @@ return {
   -- {{{2 nightfox.nvim
   {
     'EdenEast/nightfox.nvim',
+    event = 'VeryLazy',
     config = function()
       require('nightfox').setup({
         options = {
@@ -433,9 +432,10 @@ return {
   {
     'rose-pine/neovim',
     name = 'rose-pine',
+    event = 'VeryLazy',
     config = function()
       require('rose-pine').setup({
-        dark_variant = 'main',
+        dark_variant = 'moon',
         disable_background = true,
         disable_float_background = false,
         bold_vert_split = true,
@@ -448,6 +448,7 @@ return {
   -- {{{2 zenbones.nvim
   {
     'mcchrish/zenbones.nvim',
+    event = 'VeryLazy',
     config = function()
       local flavours = { 'zenbones', 'zenwritten', 'neobones', 'nordbones', 'seoulbones', 'tokyobones' }
       for _, flavour in ipairs(flavours) do
@@ -465,7 +466,10 @@ return {
   },
   -- }}}2
   -- {{{2 nvim-base16
-  'RRethy/nvim-base16',
+  {
+    'RRethy/nvim-base16',
+    event = 'VeryLazy'
+  },
   -- }}}2
   -- {{{2 ccc.nvim
   {
