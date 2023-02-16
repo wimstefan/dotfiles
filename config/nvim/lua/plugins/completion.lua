@@ -30,9 +30,6 @@ return {
       end
 
       cmp.setup({
-        completion = {
-          completeopt = 'menu, menuone, noselect'
-        },
         snippet = {
           expand = function(args)
             snippy.expand_snippet(args.body)
