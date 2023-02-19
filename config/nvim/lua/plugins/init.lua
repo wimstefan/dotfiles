@@ -155,25 +155,6 @@ return {
     }
   },
   -- }}}2
-  -- {{{2 nvim-hlslens
-  {
-    'kevinhwang91/nvim-hlslens',
-    keys = {
-      { 'n', [[<Cmd>execute('normal! ' . v:count1 . 'n')<CR><Cmd>lua require('hlslens').start()<CR>]],
-        desc = 'Hlslens: n' },
-      { 'N', [[<Cmd>execute('normal! ' . v:count1 . 'N')<CR><Cmd>lua require('hlslens').start()<CR>]],
-        desc = 'Hlslens: N' },
-      { '*', [[*<Cmd>lua require('hlslens').start()<CR>]], desc = 'Hlslens: *' },
-      { '#', [[#<Cmd>lua require('hlslens').start()<CR>]], desc = 'Hlslens: #' },
-      { 'g*', [[g*<Cmd>lua require('hlslens').start()<CR>]], desc = 'Hlslens: g*' },
-      { 'g#', [[g#<Cmd>lua require('hlslens').start()<CR>]], desc = 'Hlslens: g#' }
-    },
-    opts = {},
-    init = function()
-      vim.opt.shortmess:append('S')
-    end
-  },
-  -- }}}2
   -- {{{2 zk-nvim
   {
     'mickael-menu/zk-nvim',

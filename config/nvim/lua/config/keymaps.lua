@@ -1,5 +1,4 @@
 vim.keymap.set('', 'cd', [[<Cmd>cd %:h | pwd<CR>]])
-vim.keymap.set('n', '<C-l>', [[<Cmd>set nohlsearch|diffupdate|highlight clear ColorColumn|normal! <C-l><CR>]])
 vim.keymap.set('n', '<Leader>G', [[:grep<Space>]])
 vim.keymap.set('n', '<Leader>i', [[<Cmd>Inspect!<CR>]])
 vim.keymap.set('n', '<Leader>K', function() ShowMan() end, { desc = 'Search man pages for current word' })

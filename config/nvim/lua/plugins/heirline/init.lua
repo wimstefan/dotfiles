@@ -128,6 +128,8 @@ function M.load()
       statusline.WorkDir,
       spacer,
       statusline.FileNameBlock,
+      spacer,
+      statusline.SearchResults,
       align,
       statusline.Sessions,
       spacer,
