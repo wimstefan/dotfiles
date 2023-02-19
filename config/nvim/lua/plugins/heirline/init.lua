@@ -120,6 +120,7 @@ function M.load()
           filetype = self.force_inactive_filetypes,
         })
       end,
+      statusline.Root,
       statusline.Ruler,
       spacer,
       statusline.ViMode,

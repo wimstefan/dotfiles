@@ -362,24 +362,14 @@ M.Diagnostics = {
   }
 }
 -- }}}2
--- {{{2 Special cases - terminal, help
-local TerminalName = {
-  provider = function()
-    local tname, _ = vim.api.nvim_buf_get_name(0):gsub('.*:', '')
-    return '  ' .. tname
-  end,
-  hl = { fg = 'blue', bg = 'bg_statusline', bold = true },
-}
-
-local HelpFileName = {
+-- {{{2 Special cases
+M.Root = {
   condition = function()
-    return vim.bo.filetype == 'help'
+    local user = vim.env.USER
+    return user == 'root'
   end,
-  provider = function()
-    local filename = vim.api.nvim_buf_get_name(0)
-    return vim.fn.fnamemodify(filename, ':t')
-  end,
-  hl = { fg = 'blue', bg = 'bg_statusline' },
+  { provider = ' ＃ ', hl = { fg = 'red', reverse = true } },
+  { provider = ' ', hl = { bg = bg_statusline } }
 }
 -- }}}2
 
