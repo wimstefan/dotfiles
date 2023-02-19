@@ -3,7 +3,6 @@ vim.g.mapleader = ' '
 vim.g.maplocalleader = ','
 
 local indent = 2
-local limited = '80'
 
 vim.opt.termguicolors = true
 vim.opt.number = true

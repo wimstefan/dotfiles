@@ -55,22 +55,6 @@ augroup('General', function(g)
   })
   aucmd('FileType', {
     group = g,
-    pattern = '*',
-    desc = 'Enable colorcolumn',
-    callback = function()
-      if not (
-        vim.bo.filetype == 'man'
-          or vim.bo.filetype == 'help'
-          or vim.bo.filetype == 'lazy'
-          or vim.bo.filetype == 'qf'
-          or vim.bo.filetype == 'whichkey'
-        ) then
-        vim.opt_local.colorcolumn = limited
-      end
-    end
-  })
-  aucmd('FileType', {
-    group = g,
     pattern = 'checkhealth',
     desc = 'Format checkhealth output',
     callback = function()

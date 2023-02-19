@@ -104,6 +104,23 @@ return {
     }
   },
   -- }}}2
+  -- {{{2
+  {
+    'm4xshen/smartcolumn.nvim',
+    event = 'VeryLazy',
+    opts = {
+      disabled_filetypes = {
+        'help',
+        'lazy',
+        'man',
+        'markdown',
+        'qf',
+        'text',
+        'whichkey'
+      }
+    }
+  },
+  -- }}}2
   -- {{{2 indent-blankline.nvim
   {
     'lukas-reineke/indent-blankline.nvim',
