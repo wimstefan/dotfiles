@@ -6,7 +6,7 @@ return {
     keys = {
       { '<Leader>n', vim.cmd.NotifierReplay, desc = 'Notifications' }
     },
-    config = true
+    opts = {}
   },
   -- }}}2
   -- {{{2 nvim-ufo
@@ -143,13 +143,13 @@ return {
   -- {{{2 nvim-web-devicons
   {
     'nvim-tree/nvim-web-devicons',
-    config = true
+    opts = {}
   },
   -- }}}2
   -- {{{2 nvim-nonicons
   {
     'yamatsum/nvim-nonicons',
-    config = true
+    opts = {}
   },
   -- }}}2
   -- {{{2 lush.nvim

@@ -52,7 +52,7 @@ return {
   {
     'lewis6991/spaceless.nvim',
     event = 'VeryLazy',
-    config = true
+    opts = {}
   },
   -- }}}2
   -- {{{2 hover.nvim
@@ -80,14 +80,14 @@ return {
   {
     'altermo/ultimate-autopair.nvim',
     event = 'VeryLazy',
-    config = true
+    opts = {}
   },
   -- }}}2
   -- {{{2 nvim-surround
   {
     'kylechui/nvim-surround',
     event = 'VeryLazy',
-    config = true
+    opts = {}
   },
   -- }}}2
   -- {{{2 Comment.nvim
@@ -132,7 +132,7 @@ return {
   {
     'johmsalas/text-case.nvim',
     event = 'VeryLazy',
-    config = true
+    opts = {}
   },
   -- }}}2
   -- {{{2 buffer-manager.nvim
@@ -168,7 +168,7 @@ return {
       { 'g*', [[g*<Cmd>lua require('hlslens').start()<CR>]], desc = 'Hlslens: g*' },
       { 'g#', [[g#<Cmd>lua require('hlslens').start()<CR>]], desc = 'Hlslens: g#' }
     },
-    config = true,
+    opts = {},
     init = function()
       vim.opt.shortmess:append('S')
     end

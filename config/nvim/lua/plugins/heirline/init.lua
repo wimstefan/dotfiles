@@ -1,7 +1,7 @@
 local M = {
   'rebelot/heirline.nvim',
   event = 'VeryLazy',
-  config = true
+  opts = {}
 }
 
 local filetypes = {

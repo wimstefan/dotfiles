@@ -1,7 +1,7 @@
 return {
   {
     'folke/neodev.nvim',
-    config = true
+    opts = {}
   },
   {
     'neovim/nvim-lspconfig',
@@ -9,7 +9,7 @@ return {
     dependencies = {
       {
         'hrsh7th/cmp-nvim-lsp',
-        config = true
+        opts = {}
       }
     },
     config = function()
@@ -341,6 +341,6 @@ return {
   {
     'smjonas/inc-rename.nvim',
     cmd = 'IncRename',
-    config = true
+    opts = {}
   }
 }
