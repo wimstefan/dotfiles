@@ -290,7 +290,7 @@ return {
       'CursorHold',
       'CursorHoldI'
     },
-    config = function()
+    opts = function()
       vim.fn.sign_define('LightBulbSign', { text = ' ', texthl = 'WarningMsg', linehl = '', numhl = '' })
       vim.api.nvim_create_autocmd({ 'CursorHold', 'CursorHoldI' }, {
         desc = 'LSP: show lightbulb',
@@ -305,42 +305,38 @@ return {
     'simrat39/symbols-outline.nvim',
     keys = {
       { '<Leader>s', vim.cmd.SymbolsOutline, desc = 'SymbolsOutline: toggle' },
-      { ',tso', vim.cmd.SymbolsOutlineOpen, desc = 'SymbolsOutline: open' },
-      { ',tsc', vim.cmd.SymbolsOutlineClose, desc = 'SymbolsOutline: close' }
     },
-    config = function()
-      require('symbols-outline').setup({
-        preview_bg_highlight = 'Normal',
-        symbols = {
-          File = { icon = require('config.ui').icons.kinds.File, hl = 'TSURI' },
-          Module = { icon = require('config.ui').icons.kinds.Module, hl = 'TSNamespace' },
-          Namespace = { icon = require('config.ui').icons.kinds.Namespace, hl = 'TSNamespace' },
-          Package = { icon = require('config.ui').icons.kinds.Package, hl = 'TSNamespace' },
-          Class = { icon = require('config.ui').icons.kinds.Class, hl = 'TSType' },
-          Method = { icon = require('config.ui').icons.kinds.Method, hl = 'TSMethod' },
-          Property = { icon = require('config.ui').icons.kinds.Property, hl = 'TSMethod' },
-          Field = { icon = require('config.ui').icons.kinds.Field, hl = 'TSField' },
-          Constructor = { icon = require('config.ui').icons.kinds.Constructor, hl = 'TSConstructor' },
-          Enum = { icon = require('config.ui').icons.kinds.Enum, hl = 'TSType' },
-          Interface = { icon = require('config.ui').icons.kinds.Interface, hl = 'TSType' },
-          Function = { icon = require('config.ui').icons.kinds.Function, hl = 'TSFunction' },
-          Variable = { icon = require('config.ui').icons.kinds.Variable, hl = 'TSConstant' },
-          Constant = { icon = require('config.ui').icons.kinds.Constant, hl = 'TSConstant' },
-          String = { icon = require('config.ui').icons.kinds.String, hl = 'TSString' },
-          Number = { icon = require('config.ui').icons.kinds.Number, hl = 'TSNumber' },
-          Boolean = { icon = require('config.ui').icons.kinds.Boolean, hl = 'TSBoolean' },
-          Array = { icon = require('config.ui').icons.kinds.Array, hl = 'TSConstant' },
-          Object = { icon = require('config.ui').icons.kinds.Object, hl = 'TSType' },
-          Key = { icon = require('config.ui').icons.kinds.Keyword, hl = 'TSType' },
-          Null = { icon = 'NULL', hl = 'TSType' },
-          EnumMember = { icon = require('config.ui').icons.kinds.EnumMember, hl = 'TSField' },
-          Struct = { icon = require('config.ui').icons.kinds.Struct, hl = 'TSType' },
-          Event = { icon = require('config.ui').icons.kinds.Event, hl = 'TSType' },
-          Operator = { icon = require('config.ui').icons.kinds.Operator, hl = 'TSOperator' },
-          TypeParameter = { icon = require('config.ui').icons.kinds.TypeParameter, hl = 'TSParameter' }
-        }
-      })
-    end
+    opts = {
+      preview_bg_highlight = 'Normal',
+      symbols = {
+        File = { icon = require('config.ui').icons.kinds.File, hl = 'TSURI' },
+        Module = { icon = require('config.ui').icons.kinds.Module, hl = 'TSNamespace' },
+        Namespace = { icon = require('config.ui').icons.kinds.Namespace, hl = 'TSNamespace' },
+        Package = { icon = require('config.ui').icons.kinds.Package, hl = 'TSNamespace' },
+        Class = { icon = require('config.ui').icons.kinds.Class, hl = 'TSType' },
+        Method = { icon = require('config.ui').icons.kinds.Method, hl = 'TSMethod' },
+        Property = { icon = require('config.ui').icons.kinds.Property, hl = 'TSMethod' },
+        Field = { icon = require('config.ui').icons.kinds.Field, hl = 'TSField' },
+        Constructor = { icon = require('config.ui').icons.kinds.Constructor, hl = 'TSConstructor' },
+        Enum = { icon = require('config.ui').icons.kinds.Enum, hl = 'TSType' },
+        Interface = { icon = require('config.ui').icons.kinds.Interface, hl = 'TSType' },
+        Function = { icon = require('config.ui').icons.kinds.Function, hl = 'TSFunction' },
+        Variable = { icon = require('config.ui').icons.kinds.Variable, hl = 'TSConstant' },
+        Constant = { icon = require('config.ui').icons.kinds.Constant, hl = 'TSConstant' },
+        String = { icon = require('config.ui').icons.kinds.String, hl = 'TSString' },
+        Number = { icon = require('config.ui').icons.kinds.Number, hl = 'TSNumber' },
+        Boolean = { icon = require('config.ui').icons.kinds.Boolean, hl = 'TSBoolean' },
+        Array = { icon = require('config.ui').icons.kinds.Array, hl = 'TSConstant' },
+        Object = { icon = require('config.ui').icons.kinds.Object, hl = 'TSType' },
+        Key = { icon = require('config.ui').icons.kinds.Keyword, hl = 'TSType' },
+        Null = { icon = 'NULL', hl = 'TSType' },
+        EnumMember = { icon = require('config.ui').icons.kinds.EnumMember, hl = 'TSField' },
+        Struct = { icon = require('config.ui').icons.kinds.Struct, hl = 'TSType' },
+        Event = { icon = require('config.ui').icons.kinds.Event, hl = 'TSType' },
+        Operator = { icon = require('config.ui').icons.kinds.Operator, hl = 'TSOperator' },
+        TypeParameter = { icon = require('config.ui').icons.kinds.TypeParameter, hl = 'TSParameter' }
+      }
+    }
   },
   {
     'smjonas/inc-rename.nvim',

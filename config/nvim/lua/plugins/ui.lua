@@ -31,7 +31,7 @@ return {
         desc = 'Ufo: preview'
       }
     },
-    config = function()
+    opts = function()
       vim.opt.foldlevel = 99
       vim.opt.foldlevelstart = 99
       vim.opt.foldcolumn = 'auto:1'
@@ -89,21 +89,19 @@ return {
   {
     'folke/which-key.nvim',
     event = 'VeryLazy',
-    config = function()
-      require('which-key').setup({
-        window = {
-          border = require('config.ui').borders,
-          margin = { 0, 0, 2, 0 },
-          padding = { 2, 2, 2, 2 }
-        },
-        plugins = {
-          spelling = {
-            enabled = true,
-            suggestions = 40
-          }
+    opts = {
+      window = {
+        border = require('config.ui').borders,
+        margin = { 0, 0, 2, 0 },
+        padding = { 2, 2, 2, 2 }
+      },
+      plugins = {
+        spelling = {
+          enabled = true,
+          suggestions = 40
         }
-      })
-    end
+      }
+    }
   },
   -- }}}2
   -- {{{2 indent-blankline.nvim
@@ -112,36 +110,34 @@ return {
     keys = {
       { ',ti', vim.cmd.IndentBlanklineToggle, desc = 'IndentBlankline: toggle' }
     },
-    config = function()
-      require('indent_blankline').setup({
-        char = '▏',
-        filetype_exclude = {
-          'help',
-          'man',
-          'diagnosticpopup',
-          'lspinfo',
-          '',
-        },
-        disable_with_nolist = true,
-        use_treesitter = true,
-        show_current_context = true,
-        show_current_context_start = true,
-        show_current_context_start_on_current_line = true,
-        context_patterns = {
-          'class',
-          'function',
-          'method',
-          '^if',
-          '^while',
-          '^for',
-          '^object',
-          '^table',
-          'block',
-          'arguments',
-          'element'
-        }
-      })
-    end
+    opts = {
+      char = '▏',
+      filetype_exclude = {
+        'help',
+        'man',
+        'diagnosticpopup',
+        'lspinfo',
+        '',
+      },
+      disable_with_nolist = true,
+      use_treesitter = true,
+      show_current_context = true,
+      show_current_context_start = true,
+      show_current_context_start_on_current_line = true,
+      context_patterns = {
+        'class',
+        'function',
+        'method',
+        '^if',
+        '^while',
+        '^for',
+        '^object',
+        '^table',
+        'block',
+        'arguments',
+        'element'
+      }
+    }
   },
   -- }}}2
   -- {{{2 nvim-web-devicons
@@ -199,32 +195,30 @@ return {
   {
     'EdenEast/nightfox.nvim',
     event = 'VeryLazy',
-    config = function()
-      require('nightfox').setup({
-        options = {
-          transparent = true,
-          dim_inactive = false,
-          terminal_colors = true,
-          styles = {
-            comments = 'italic',
-            functions = 'italic',
-            keywords = 'bold',
-            strings = 'NONE',
-            variables = 'NONE',
-          },
-          inverse = {
-            match_paren = true,
-            visual = false,
-            search = true,
-          }
+    opts = {
+      options = {
+        transparent = true,
+        dim_inactive = false,
+        terminal_colors = true,
+        styles = {
+          comments = 'italic',
+          functions = 'italic',
+          keywords = 'bold',
+          strings = 'NONE',
+          variables = 'NONE',
         },
-        groups = {
-          all = {
-            Folded = { bg = 'NONE' }
-          }
+        inverse = {
+          match_paren = true,
+          visual = false,
+          search = true,
         }
-      })
-    end
+      },
+      groups = {
+        all = {
+          Folded = { bg = 'NONE' }
+        }
+      }
+    }
   },
   -- }}}2
   -- {{{2 rose-pine
@@ -232,16 +226,14 @@ return {
     'rose-pine/neovim',
     name = 'rose-pine',
     event = 'VeryLazy',
-    config = function()
-      require('rose-pine').setup({
-        dark_variant = 'moon',
-        disable_background = true,
-        disable_float_background = false,
-        bold_vert_split = true,
-        groups = {},
-        highlight_groups = {}
-      })
-    end
+    opts = {
+      dark_variant = 'moon',
+      disable_background = true,
+      disable_float_background = false,
+      bold_vert_split = true,
+      groups = {},
+      highlight_groups = {}
+    }
   },
   -- }}}2
   -- {{{2 zenbones.nvim
@@ -278,13 +270,11 @@ return {
       { ',ct', vim.cmd.CccHighlighterToggle, desc = 'Ccc: toggle highlights' },
       { ',cp', vim.cmd.CccPick, desc = 'Ccc: edit color' }
     },
-    config = function()
-      require('ccc').setup({
-        highlighter = {
-          auto_enable = true
-        }
-      })
-    end
+    opts = {
+      highlighter = {
+        auto_enable = true
+      }
+    }
   }
   -- }}}2
 }

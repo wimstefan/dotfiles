@@ -12,9 +12,6 @@ return {
   -- {{{2 Projects
   {
     'gennaro-tedesco/nvim-possession',
-    dependencies = {
-      'ibhagwan/fzf-lua',
-    },
     keys = {
       { '<leader>pl', function() require('nvim-possession').list() end, desc = 'Projects: list' },
       { '<leader>pn', function() require('nvim-possession').new() end, desc = 'Projects: new' },
@@ -97,9 +94,6 @@ return {
   {
     'numToStr/Comment.nvim',
     event = 'VeryLazy',
-    dependencies = {
-      'JoosepAlviste/nvim-ts-context-commentstring'
-    },
     keys = {
       { 'gci', [[:g/./lua require('Comment.api').toggle.linewise.current()<CR><Cmd>nohls<CR>]],
         mode = 'x', silent = true, desc = 'Invert comments' }
@@ -155,12 +149,10 @@ return {
     'kevinhwang91/nvim-bqf',
     dependencies = 'junegunn/fzf',
     event = 'BufReadPost',
-    config = function()
-      require('bqf').setup({
-        auto_enable = true,
-        auto_resize_height = true
-      })
-    end
+    opts = {
+      auto_enable = true,
+      auto_resize_height = true
+    }
   },
   -- }}}2
   -- {{{2 nvim-hlslens
@@ -261,18 +253,16 @@ return {
       { '<Leader>L', vim.cmd.Lazygit, desc = 'Lazygit' },
       { '<Leader>x', vim.cmd.Vifm, desc = 'Vifm' }
     },
-    config = function()
-      require('fm-nvim').setup({
-        ui = {
-          default = 'float',
-          float = {
-            border = require('config.ui').borders,
-            float_hl = 'Normal',
-            border_hl = 'FloatBorder'
-          }
+    opts = {
+      ui = {
+        default = 'float',
+        float = {
+          border = require('config.ui').borders,
+          float_hl = 'Normal',
+          border_hl = 'FloatBorder'
         }
-      })
-    end
+      }
+    }
   },
   -- }}}2
   -- {{{2 toggleterm.nvim
@@ -285,23 +275,21 @@ return {
       { '<Leader>Th', [[<Cmd>ToggleTerm direction=horizontal<CR>]], desc = 'ToggleTerm: horizontal' },
       { '<Leader>Tv', [[<Cmd>ToggleTerm direction=vertical<CR>]], desc = 'ToggleTerm: vertical' }
     },
-    config = function()
-      require('toggleterm').setup({
-        size = function(term)
-          if term.direction == 'horizontal' then
-            return vim.o.lines * 0.44
-          elseif term.direction == 'vertical' then
-            return vim.o.columns * 0.44
-          end
-        end,
-        open_mapping = [[<C-\>]],
-        shade_terminals = false,
-        direction = 'float',
-        float_opts = {
-          border = require('config.ui').borders
-        }
-      })
-    end
+    opts = {
+      size = function(term)
+        if term.direction == 'horizontal' then
+          return vim.o.lines * 0.44
+        elseif term.direction == 'vertical' then
+          return vim.o.columns * 0.44
+        end
+      end,
+      open_mapping = [[<C-\>]],
+      shade_terminals = false,
+      direction = 'float',
+      float_opts = {
+        border = require('config.ui').borders
+      }
+    }
   },
   -- }}}2
   -- {{{2 smartyank.nvim
@@ -316,32 +304,30 @@ return {
     keys = {
       { '<Leader>S', function() require('spectre').open() end, desc = 'Spectre' }
     },
-    config = function()
-      require('spectre').setup({
-        find_engine = {
-          ['rg'] = {
-            cmd = 'ugrep',
-            args = {
-              '-RIjnkzs',
-              '--ignore-files',
-              '--exclude-dir=".git"'
+    opts = {
+      find_engine = {
+        ['rg'] = {
+          cmd = 'ugrep',
+          args = {
+            '-RIjnkzs',
+            '--ignore-files',
+            '--exclude-dir=".git"'
+          },
+          options = {
+            ['ignore-case'] = {
+              value = '--ignore-case',
+              icon = '[I]',
+              desc = 'ignore case'
             },
-            options = {
-              ['ignore-case'] = {
-                value = '--ignore-case',
-                icon = '[I]',
-                desc = 'ignore case'
-              },
-              ['hidden'] = {
-                value = '--hidden',
-                desc = 'hidden file',
-                icon = '[H]'
-              },
-            }
+            ['hidden'] = {
+              value = '--hidden',
+              desc = 'hidden file',
+              icon = '[H]'
+            },
           }
         }
-      })
-    end
+      }
+    }
   },
   -- }}}2
   -- {{{2 undotree
@@ -350,13 +336,11 @@ return {
     keys = {
       { ',tu', function() require('undotree').toggle() end, noremap = true, silent = true, desc = 'Undotree' }
     },
-    config = function()
-      require('undotree').setup({
-        window = {
-          winblend = 0,
-        }
-      })
-    end
+    opts = {
+      window = {
+        winblend = 0
+      }
+    }
   },
   -- }}}2
   -- {{{2 vim-dirdiff
@@ -369,14 +353,12 @@ return {
   {
     'rktjmp/paperplanes.nvim',
     cmd = 'PP',
-    config = function()
-      require('paperplanes').setup({
-        register = '+',
-        provider = 'dpaste.org',
-        provider_options = {},
-        notifier = vim.notify or print
-      })
-    end
+    opts = {
+      register = '+',
+      provider = 'dpaste.org',
+      provider_options = {},
+      notifier = vim.notify or print
+    }
   },
   -- }}}2
   -- {{{2 vim-renamer

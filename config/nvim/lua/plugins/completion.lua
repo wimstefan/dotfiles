@@ -18,7 +18,7 @@ return {
       'hrsh7th/cmp-cmdline',
       'dcampos/cmp-snippy'
     },
-    config = function()
+    opts = function()
       local unpack = unpack or table.unpack
       local cmp = require('cmp')
       local cmp_buffer = require('cmp_buffer')
