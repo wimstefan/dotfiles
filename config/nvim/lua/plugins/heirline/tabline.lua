@@ -1,6 +1,7 @@
+local conditions = require('heirline.conditions')
 local utils = require('heirline.utils')
-local format = require('plugins.heirline').format
 local get_hl = utils.get_highlight
+local format = require('plugins.heirline').format
 
 local TablineFileName = {
   provider = function(self)
@@ -66,9 +67,6 @@ local TablineFileNameBlock = {
 }
 
 local TablineBufferBlock = {
-  condition = function(self)
-    return self.is_visible
-  end,
   utils.surround({ format.seps.half_bracket.left .. ' ', ' ' .. format.seps.half_bracket.right }, '', TablineFileNameBlock)
 }
 
@@ -92,8 +90,8 @@ local Tabpage = {
 }
 
 local TabpageClose = {
-  provider = '%999X  %X',
-  hl = 'TabLine'
+  provider = '%999X x%X',
+  hl = { fg = 'red', bold = true }
 }
 
 local TabPages = {
@@ -105,25 +103,4 @@ local TabPages = {
   TabpageClose
 }
 
-local TabLineOffset = {
-  condition = function(self)
-    local win = vim.api.nvim_tabpage_list_wins(0)[1]
-    local bufnr = vim.api.nvim_win_get_buf(win)
-    self.winid = win
-  end,
-  provider = function(self)
-    local title = self.title
-    local width = vim.api.nvim_win_get_width(self.winid)
-    local pad = math.ceil((width - #title) / 2)
-    return string.rep(' ', pad) .. title .. string.rep(' ', pad)
-  end,
-  hl = function(self)
-    if vim.api.nvim_get_current_win() == self.winid then
-      return 'TablineSel'
-    else
-      return 'Tabline'
-    end
-  end
-}
-
-return { TabLineOffset, BufferLine, TabPages }
+return { BufferLine, TabPages }
