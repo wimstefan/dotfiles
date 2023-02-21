@@ -104,7 +104,7 @@ return {
     }
   },
   -- }}}2
-  -- {{{2
+  -- {{{2 smartcolumn.nvim
   {
     'm4xshen/smartcolumn.nvim',
     event = 'VeryLazy',
@@ -238,6 +238,19 @@ return {
     }
   },
   -- }}}2
+  -- {{{2 catppuccin/nvim
+  {
+    'catppuccin/nvim',
+    name = 'catppuccin',
+    event = 'VeryLazy',
+    opts = {
+      styles = {
+        comments = { 'italic' },
+        functions = { 'bold' }
+      }
+    }
+  },
+  -- }}}
   -- {{{2 rose-pine
   {
     'rose-pine/neovim',
