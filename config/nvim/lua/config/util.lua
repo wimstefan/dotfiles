@@ -139,15 +139,15 @@ end
 
 -- }}}2
 
--- {{{2 toggle foldcolumn
-function ToggleFoldColumn()
-  local current_fc = vim.api.nvim_get_option_value('foldcolumn', {})
-  if current_fc == '0' then
-    vim.opt.foldcolumn = 'auto:1'
-    vim.notify('FoldColumn enabled', vim.log.levels.INFO, { title = '[UI]' })
+-- {{{2 toggle hlsearch
+function ToggleHlSearch()
+  local current_hls = vim.api.nvim_get_option_value('hlsearch', {})
+  if current_hls == false then
+    vim.opt.hlsearch = true
+    vim.notify('Search highlighting enabled', vim.log.levels.INFO, { title = '[UI]' })
   else
-    vim.opt.foldcolumn = '0'
-    vim.notify('FoldColumn disabled', vim.log.levels.INFO, { title = '[UI]' })
+    vim.opt.hlsearch = false
+    vim.notify('Search highlighting disabled', vim.log.levels.INFO, { title = '[UI]' })
   end
 end
 
