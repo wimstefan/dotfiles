@@ -246,7 +246,7 @@ M.LSPActive = {
     for i, server in pairs(vim.lsp.get_active_clients({ bufnr = 0 })) do
       table.insert(names, server.name)
     end
-    return format.seps.double_quote.right .. ' ' .. ' [' .. table.concat(names, ' ') .. ']'
+    return format.seps.double_quote.right .. ' ' .. ' [' .. table.concat(names, '|') .. ']'
   end,
   hl = { fg = 'green', bg = 'bg_statusline', bold = true },
   on_click = {
@@ -262,7 +262,7 @@ M.LSPActive = {
 -- {{{2 Git
 M.Git = {
   condition = conditions.is_git_repo,
-  { provider = format.seps.double_quote.right .. ' ' },
+  { provider = format.seps.double_quote.right .. ' ', hl = { fg = 'orange', bg = 'bg_statusline', bold = true } },
   init = function(self)
     self.status_dict = vim.b.gitsigns_status_dict
     self.has_changes = self.status_dict.added ~= 0 or self.status_dict.removed ~= 0 or
@@ -272,8 +272,7 @@ M.Git = {
   {
     provider = function(self)
       return ' ' .. self.status_dict.head
-    end,
-    hl = { bold = true }
+    end
   },
   {
     condition = function(self)
@@ -320,8 +319,7 @@ M.Git = {
 -- {{{2 Diagnostics
 M.Diagnostics = {
   condition = conditions.has_diagnostics,
-  hl = { fg = 'yellow' },
-  { provider = format.seps.double_quote.right .. ' ' },
+  { provider = format.seps.double_quote.right .. ' ', hl = { fg = 'yellow', bg = 'bg_statusline', bold = true } },
   init = function(self)
     self.errors = #vim.diagnostic.get(0, { severity = vim.diagnostic.severity.ERROR })
     self.warnings = #vim.diagnostic.get(0, { severity = vim.diagnostic.severity.WARN })
