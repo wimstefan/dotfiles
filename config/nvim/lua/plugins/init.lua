@@ -135,15 +135,6 @@ return {
     opts = {}
   },
   -- }}}2
-  -- {{{2 buffer-manager.nvim
-  {
-    'j-morano/buffer_manager.nvim',
-    keys = {
-      { '<Leader>b', function() require('buffer_manager.ui').toggle_quick_menu() end,
-        mode = { 't', 'n' }, noremap = true, desc = 'Buffer manager' }
-    }
-  },
-  -- }}}2
   -- {{{2 nvim-bqf
   {
     'kevinhwang91/nvim-bqf',

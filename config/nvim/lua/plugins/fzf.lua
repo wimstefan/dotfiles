@@ -7,6 +7,7 @@ return {
     'ibhagwan/fzf-lua',
     keys = {
       { '<Leader>F', function() require('fzf-lua').builtin() end, desc = 'Fzf: builtin' },
+      { '<Leader>b', function() require('fzf-lua').buffers() end, desc = 'Fzf: buffers' },
       { '<Leader>c', function() require('fzf-lua').colorschemes() end, desc = 'Fzf: colorschemes' },
       { '<Leader>f', function() require('fzf-lua').files() end, desc = 'Fzf: files' },
       { '<Leader>o', function() require('fzf-lua').oldfiles() end, desc = 'Fzf: oldfiles' },
