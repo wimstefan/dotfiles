@@ -180,28 +180,30 @@ return {
     end
   },
   -- }}}2
-  -- {{{2 pantran.nvim
+  -- {{{2 autolist.nvim
   {
-    'potamides/pantran.nvim',
-    cmd = 'Pantran',
+    'gaoDean/autolist.nvim',
+    ft = {
+      'markdown',
+      'text'
+    },
     config = function()
-      local keylock = vim.env.HOME .. '/system/.deepl_key.gpg'
-      if vim.fn.filereadable(keylock) then
-        local unlocked = vim.fn.system({
-          'gpg',
-          '-q',
-          '--no-verbose',
-          '-d',
-          '--batch',
-          keylock
-        })
-        unlocked = unlocked:gsub('\n', '')
-        vim.env.DEEPL_AUTH_KEY = unlocked
-      else
-        vim.notify('No DEEPL_AUTH_KEY available', vim.log.levels.WARN)
-      end
-      require('pantran').setup({
-        default_engine = 'deepl'
+      local autolist = require('autolist')
+      autolist.setup()
+      autolist.create_mapping_hook('i', '<CR>', autolist.new)
+      autolist.create_mapping_hook('i', '<Tab>', autolist.indent)
+      autolist.create_mapping_hook('i', '<S-Tab>', autolist.indent, '<C-D>')
+      autolist.create_mapping_hook('n', 'o', autolist.new)
+      autolist.create_mapping_hook('n', 'O', autolist.new_before)
+      autolist.create_mapping_hook('n', '>>', autolist.indent)
+      autolist.create_mapping_hook('n', '<<', autolist.indent)
+      autolist.create_mapping_hook('n', '<C-r>', autolist.force_recalculate)
+      autolist.create_mapping_hook('n', '<leader>x', autolist.invert_entry, '')
+      vim.api.nvim_create_autocmd('TextChanged', {
+        pattern = '*',
+        callback = function()
+          vim.cmd.normal({ autolist.force_recalculate(nil, nil), bang = false })
+        end
       })
     end
   },
@@ -223,7 +225,7 @@ return {
     keys = {
       { '<Leader>z', vim.cmd.Fzf, desc = 'Fzf' },
       { '<Leader>L', vim.cmd.Lazygit, desc = 'Lazygit' },
-      { '<Leader>x', vim.cmd.Vifm, desc = 'Vifm' }
+      { '<Leader>X', vim.cmd.Vifm, desc = 'Vifm' }
     },
     opts = {
       ui = {
@@ -331,6 +333,32 @@ return {
       provider_options = {},
       notifier = vim.notify or print
     }
+  },
+  -- }}}2
+  -- {{{2 pantran.nvim
+  {
+    'potamides/pantran.nvim',
+    cmd = 'Pantran',
+    config = function()
+      local keylock = vim.env.HOME .. '/system/.deepl_key.gpg'
+      if vim.fn.filereadable(keylock) then
+        local unlocked = vim.fn.system({
+          'gpg',
+          '-q',
+          '--no-verbose',
+          '-d',
+          '--batch',
+          keylock
+        })
+        unlocked = unlocked:gsub('\n', '')
+        vim.env.DEEPL_AUTH_KEY = unlocked
+      else
+        vim.notify('No DEEPL_AUTH_KEY available', vim.log.levels.WARN)
+      end
+      require('pantran').setup({
+        default_engine = 'deepl'
+      })
+    end
   },
   -- }}}2
   -- {{{2 vim-renamer
