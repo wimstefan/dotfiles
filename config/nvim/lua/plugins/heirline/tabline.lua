@@ -70,11 +70,13 @@ local TablineBufferBlock = {
   utils.surround({ format.seps.half_bracket.left .. ' ', ' ' .. format.seps.half_bracket.right }, '', TablineFileNameBlock)
 }
 
-local BufferLine = utils.make_buflist(
+local BufferLine = {
+  utils.make_buflist(
   TablineBufferBlock,
   { provider = '   ', hl = { fg = 'gray' } },
   { provider = '   ', hl = { fg = 'gray' } }
-)
+  )
+}
 
 local Tabpage = {
   provider = function(self)

@@ -1,8 +1,10 @@
 return {
+  -- neodev.nvim
   {
     'folke/neodev.nvim',
     opts = {}
   },
+  -- nvim-lspconfig
   {
     'neovim/nvim-lspconfig',
     event = 'BufReadPre',
@@ -281,9 +283,9 @@ return {
           }, opts))
         end
       end
-
     end
   },
+  -- nvim-lightbulb
   {
     'kosayoda/nvim-lightbulb',
     event = {
@@ -301,6 +303,27 @@ return {
       require('nvim-lightbulb').update_lightbulb()
     end
   },
+  -- hover.nvim
+  {
+    'lewis6991/hover.nvim',
+    keys = {
+      { 'H',  function() require('hover').hover() end,        desc = 'hover.nvim' },
+      { 'gH', function() require('hover').hover_select() end, desc = 'hover.nvim (select)' }
+    },
+    config = function()
+      require('hover').setup({
+        init = function()
+          require('hover.providers.lsp')
+          require('hover.providers.man')
+        end,
+        preview_opts = {
+          border = nil
+        },
+        title = true
+      })
+    end
+  },
+  -- symbols-outline.nvim
   {
     'simrat39/symbols-outline.nvim',
     keys = {
@@ -338,9 +361,11 @@ return {
       }
     }
   },
+  -- inc-rename.nvim
   {
     'smjonas/inc-rename.nvim',
     cmd = 'IncRename',
     opts = {}
   }
 }
+-- vim: foldlevel=1

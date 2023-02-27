@@ -1,10 +1,12 @@
 return {
+  -- nvim-snippy
   {
     'dcampos/nvim-snippy',
     dependencies = {
       'honza/vim-snippets'
     }
   },
+  -- nvim-cmp
   {
     'hrsh7th/nvim-cmp',
     event = {
@@ -37,7 +39,7 @@ return {
         },
         mapping = cmp.mapping.preset.insert({
           ['<C-e>'] = cmp.mapping.abort(),
-          ['<C-b>'] = cmp.mapping.scroll_docs(-10),
+          ['<C-b>'] = cmp.mapping.scroll_docs( -10),
           ['<C-f>'] = cmp.mapping.scroll_docs(10),
           ['<C-Space>'] = cmp.mapping.complete(),
           ['<C-z>'] = cmp.mapping.confirm { select = true },
@@ -56,7 +58,7 @@ return {
           ['<S-Tab>'] = cmp.mapping(function(fallback)
             if cmp.visible() then
               cmp.select_prev_item()
-            elseif snippy.can_jump(-1) then
+            elseif snippy.can_jump( -1) then
               snippy.previous()
             else
               fallback()
@@ -127,5 +129,109 @@ return {
         }
       })
     end
+  },
+  -- ultimate-autopair.nvim
+  {
+    'altermo/ultimate-autopair.nvim',
+    event = 'VeryLazy',
+    opts = {}
+  },
+  -- nvim-surround
+  {
+    'kylechui/nvim-surround',
+    event = 'VeryLazy',
+    opts = {}
+  },
+  -- Comment.nvim
+  {
+    'numToStr/Comment.nvim',
+    event = 'VeryLazy',
+    keys = {
+      { 'gci', [[:g/./lua require('Comment.api').toggle.linewise.current()<CR><Cmd>nohls<CR>]],
+        mode = 'x', silent = true, desc = 'Invert comments' }
+    },
+    config = function()
+      require('Comment').setup({
+        pre_hook = require('ts_context_commentstring.integrations.comment_nvim').create_pre_hook()
+      })
+    end
+  },
+  -- smartyank.nvim
+  {
+    'ibhagwan/smartyank.nvim',
+    event = 'VeryLazy'
+  },
+  -- text-case.nvim
+  {
+    'johmsalas/text-case.nvim',
+    event = 'VeryLazy',
+    opts = {}
+  },
+  -- undotree
+  {
+    'jiaoshijie/undotree',
+    keys = {
+      { ',tu', function() require('undotree').toggle() end, noremap = true, silent = true, desc = 'Undotree' }
+    },
+    opts = {
+      window = {
+        winblend = 0
+      }
+    }
+  },
+  -- autolist.nvim
+  {
+    'gaoDean/autolist.nvim',
+    ft = {
+      'markdown',
+      'text'
+    },
+    config = function()
+      local autolist = require('autolist')
+      autolist.setup()
+      autolist.create_mapping_hook('i', '<CR>', autolist.new)
+      autolist.create_mapping_hook('i', '<Tab>', autolist.indent)
+      autolist.create_mapping_hook('i', '<S-Tab>', autolist.indent, '<C-D>')
+      autolist.create_mapping_hook('n', 'o', autolist.new)
+      autolist.create_mapping_hook('n', 'O', autolist.new_before)
+      autolist.create_mapping_hook('n', '>>', autolist.indent)
+      autolist.create_mapping_hook('n', '<<', autolist.indent)
+      autolist.create_mapping_hook('n', '<C-r>', autolist.force_recalculate)
+      autolist.create_mapping_hook('n', '<leader>x', autolist.invert_entry, '')
+      vim.api.nvim_create_autocmd('TextChanged', {
+        pattern = '*',
+        callback = function()
+          vim.cmd.normal({ autolist.force_recalculate(nil, nil), bang = false })
+        end
+      })
+    end
+  },
+  -- vim-simple-align
+  {
+    'kg8m/vim-simple-align',
+    cmd = 'SimpleAlign'
+  },
+  -- dial.nvim
+  {
+    'monaqa/dial.nvim',
+    keys = {
+      { '<C-a>', function() return require('dial.map').inc_normal() end, expr = true, desc = 'Increment' },
+      { '<C-x>', function() return require('dial.map').dec_normal() end, expr = true, desc = 'Decrement' },
+      { '<C-a>', function() return require('dial.map').inc_normal() end, mode = 'v',  expr = true,       desc = 'Increment visual selection' },
+      { '<C-x>', function() return require('dial.map').dec_normal() end, mode = 'v',  expr = true,       desc = 'Decrement visual selection' }
+    },
+    config = function()
+      local augend = require('dial.augend')
+      require('dial.config').augends:register_group({
+        default = {
+          augend.integer.alias.decimal,
+          augend.integer.alias.hex,
+          augend.date.alias['%Y/%m/%d'],
+          augend.constant.alias.bool,
+          augend.semver.alias.semver
+        }
+      })
+    end
   }
 }
+-- vim: foldlevel=1

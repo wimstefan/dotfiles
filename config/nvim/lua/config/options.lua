@@ -1,7 +1,3 @@
--- define leader keys
-vim.g.mapleader = ' '
-vim.g.maplocalleader = ','
-
 local indent = 2
 
 vim.opt.termguicolors = true

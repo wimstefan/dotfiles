@@ -40,18 +40,6 @@ augroup('General', function(g)
   aucmd('FileType', {
     group = g,
     pattern = {
-      'help',
-      'lua',
-      'vim'
-    },
-    desc = 'Enable treesitter highlighting',
-    callback = function()
-      vim.treesitter.start()
-    end
-  })
-  aucmd('FileType', {
-    group = g,
-    pattern = {
       'txt',
       'markdown',
       'asciidoc*',
