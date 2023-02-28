@@ -402,5 +402,4 @@ M.SearchResults = {
 -- }}}2
 
 return M
-
 -- vim: foldmethod=marker foldlevel=1

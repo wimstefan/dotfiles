@@ -1,5 +1,5 @@
 return {
-  -- notifier.nvim
+  -- {{{2 notifier.nvim
   {
     'vigoux/notifier.nvim',
     lazy = false,
@@ -8,7 +8,8 @@ return {
     },
     opts = {}
   },
-  -- nvim-ufo
+  -- }}}2
+  -- {{{2 nvim-ufo
   {
     'kevinhwang91/nvim-ufo',
     dependencies = 'kevinhwang91/promise-async',
@@ -83,7 +84,8 @@ return {
       })
     end
   },
-  -- which-key.nvim
+  -- }}}2
+  -- {{{2 which-key.nvim
   {
     'folke/which-key.nvim',
     event = 'VeryLazy',
@@ -101,7 +103,8 @@ return {
       }
     }
   },
-  -- smartcolumn.nvim
+  -- }}}2
+  -- {{{2 smartcolumn.nvim
   {
     'm4xshen/smartcolumn.nvim',
     event = 'VeryLazy',
@@ -117,7 +120,8 @@ return {
       }
     }
   },
-  -- indent-blankline.nvim
+  -- }}}2
+  -- {{{2 indent-blankline.nvim
   {
     'lukas-reineke/indent-blankline.nvim',
     keys = {
@@ -152,17 +156,20 @@ return {
       }
     }
   },
-  -- nvim-web-devicons
+  -- }}}2
+  -- n{{{2 vim-web-devicons
   {
     'nvim-tree/nvim-web-devicons',
     opts = {}
   },
-  -- nvim-nonicons
+  -- }}}2
+  -- {{{2 nvim-nonicons
   {
     'yamatsum/nvim-nonicons',
     opts = {}
   },
-  -- ccc.nvim
+  -- }}}2
+  -- {{{2 ccc.nvim
   {
     'uga-rosa/ccc.nvim',
     event = 'BufReadPost',
@@ -176,5 +183,6 @@ return {
       }
     }
   }
+  -- }}}2
 }
--- vim: foldlevel=1
+-- vim: foldmethod=marker foldlevel=1

@@ -1,12 +1,13 @@
 return {
-  -- nvim-snippy
+  -- {{{2 nvim-snippy
   {
     'dcampos/nvim-snippy',
     dependencies = {
       'honza/vim-snippets'
     }
   },
-  -- nvim-cmp
+  -- }}}2
+  -- {{{2 nvim-cmp
   {
     'hrsh7th/nvim-cmp',
     event = {
@@ -130,18 +131,21 @@ return {
       })
     end
   },
-  -- ultimate-autopair.nvim
+  -- }}}2
+  -- {{{2 ultimate-autopair.nvim
   {
     'altermo/ultimate-autopair.nvim',
     event = 'VeryLazy',
     opts = {}
   },
-  -- nvim-surround
+  -- }}}2
+  -- {{{2 nvim-surround
   {
     'kylechui/nvim-surround',
     event = 'VeryLazy',
     opts = {}
   },
+  -- }}}2
   -- Comment.nvim
   {
     'numToStr/Comment.nvim',
@@ -156,17 +160,20 @@ return {
       })
     end
   },
-  -- smartyank.nvim
+  -- }}}2
+  -- {{{2 smartyank.nvim
   {
     'ibhagwan/smartyank.nvim',
     event = 'VeryLazy'
   },
-  -- text-case.nvim
+  -- }}}2
+  -- {{{2 text-case.nvim
   {
     'johmsalas/text-case.nvim',
     event = 'VeryLazy',
     opts = {}
   },
+  -- }}}2
   -- undotree
   {
     'jiaoshijie/undotree',
@@ -179,7 +186,8 @@ return {
       }
     }
   },
-  -- autolist.nvim
+  -- }}}2
+  -- {{{2 autolist.nvim
   {
     'gaoDean/autolist.nvim',
     ft = {
@@ -206,12 +214,14 @@ return {
       })
     end
   },
-  -- vim-simple-align
+  -- }}}2
+  -- {{{2 vim-simple-align
   {
     'kg8m/vim-simple-align',
     cmd = 'SimpleAlign'
   },
-  -- dial.nvim
+  -- }}}2
+  -- {{{2 dial.nvim
   {
     'monaqa/dial.nvim',
     keys = {
@@ -233,5 +243,6 @@ return {
       })
     end
   }
+  -- }}}2
 }
--- vim: foldlevel=1
+-- vim: foldmethod=marker foldlevel=1

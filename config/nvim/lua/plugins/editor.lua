@@ -1,5 +1,5 @@
 return {
-  -- fzf
+  -- {{{2 fzf
   {
     'junegunn/fzf',
     build = './install --all --xdg'
@@ -114,7 +114,8 @@ return {
       })
     end
   },
-  -- gitsigns.nvim
+  -- }}}2
+  -- {{{2 gitsigns.nvim
   {
     'lewis6991/gitsigns.nvim',
     event = 'BufReadPre',
@@ -169,13 +170,15 @@ return {
       end
     }
   },
-  -- spaceless.nvim
+  -- }}}2
+  -- {{{2 spaceless.nvim
   {
     'lewis6991/spaceless.nvim',
     event = 'VeryLazy',
     opts = {}
   },
-  -- leap.nvim
+  -- }}}2
+  -- l{{{2 eap.nvim
   {
     'ggandor/leap.nvim',
     event = 'VeryLazy',
@@ -183,17 +186,20 @@ return {
       require('leap').add_default_mappings()
     end
   },
-  -- vim-renamer
+  -- }}}2
+  -- {{{2 vim-renamer
   {
     'qpkorr/vim-renamer',
     cmd = 'Renamer'
   },
-  -- vim-dirdiff
+  -- }}}2
+  -- {{{2 vim-dirdiff
   {
     'will133/vim-dirdiff',
     cmd = 'DirDiff'
   },
-  -- paperplanes.nvim
+  -- }}}2
+  -- {{{2 paperplanes.nvim
   {
     'rktjmp/paperplanes.nvim',
     cmd = 'PP',
@@ -204,7 +210,8 @@ return {
       notifier = vim.notify or print
     }
   },
-  -- pantran.nvim
+  -- }}}2
+  -- {{{2 pantran.nvim
   {
     'potamides/pantran.nvim',
     cmd = 'Pantran',
@@ -229,7 +236,8 @@ return {
       })
     end
   },
-  -- zk-nvim
+  -- }}}2
+  -- {{{2 zk-nvim
   {
     'mickael-menu/zk-nvim',
     keys = {
@@ -262,7 +270,8 @@ return {
       vim.keymap.set('n', '<Leader>zt', [[<Cmd>ZkTags<CR>]])
     end
   },
-  -- nvim-spectre
+  -- }}}2
+  -- {{{2 nvim-spectre
   {
     'nvim-pack/nvim-spectre',
     keys = {
@@ -292,6 +301,7 @@ return {
         }
       }
     }
-  },
+  }
+  -- }}}2
 }
--- vim: foldlevel=1
+-- vim: foldmethod=marker foldlevel=1

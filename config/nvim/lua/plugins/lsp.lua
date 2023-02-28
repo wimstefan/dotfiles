@@ -1,10 +1,11 @@
 return {
-  -- neodev.nvim
+  -- {{{2 neodev.nvim
   {
     'folke/neodev.nvim',
     opts = {}
   },
-  -- nvim-lspconfig
+  -- }}}2
+  -- {{{2 nvim-lspconfig
   {
     'neovim/nvim-lspconfig',
     event = 'BufReadPre',
@@ -285,7 +286,8 @@ return {
       end
     end
   },
-  -- nvim-lightbulb
+  -- }}}2
+  -- {{{2 nvim-lightbulb
   {
     'kosayoda/nvim-lightbulb',
     event = {
@@ -303,7 +305,8 @@ return {
       require('nvim-lightbulb').update_lightbulb()
     end
   },
-  -- hover.nvim
+  -- }}}2
+  -- {{{2 hover.nvim
   {
     'lewis6991/hover.nvim',
     keys = {
@@ -323,7 +326,8 @@ return {
       })
     end
   },
-  -- symbols-outline.nvim
+  -- }}}2
+  -- {{{2 symbols-outline.nvim
   {
     'simrat39/symbols-outline.nvim',
     keys = {
@@ -361,11 +365,13 @@ return {
       }
     }
   },
-  -- inc-rename.nvim
+  -- }}}2
+  -- {{{2 inc-rename.nvim
   {
     'smjonas/inc-rename.nvim',
     cmd = 'IncRename',
     opts = {}
   }
+  -- }}}2
 }
--- vim: foldlevel=1
+-- vim: foldmethod=marker foldlevel=1

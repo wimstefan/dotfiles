@@ -1,13 +1,15 @@
 return {
-  -- plenary.nvim
+  -- {{{2 plenary.nvim
   'nvim-lua/plenary.nvim',
-  -- nvim-luapad
+  -- }}}2
+  -- {{{2 nvim-luapad
   {
     'rafcamlet/nvim-luapad',
     cmd = 'Luapad',
     dependencies = 'antoinemadec/FixCursorHold.nvim'
   },
-  -- Projects
+  -- }}}2
+  -- {{{2 Projects
   {
     'gennaro-tedesco/nvim-possession',
     keys = {
@@ -24,17 +26,20 @@ return {
       }
     }
   },
-  -- vim-repeat
+  -- }}}2
+  -- {{{2 vim-repeat
   {
     'tpope/vim-repeat',
     keys = '.'
   },
-  -- vim-unimpaired
+  -- }}}2
+  -- {{{2 vim-unimpaired
   {
     'tpope/vim-unimpaired',
     event = 'VeryLazy'
   },
-  -- nvim-bqf
+  -- }}}2
+  -- {{{2 nvim-bqf
   {
     'kevinhwang91/nvim-bqf',
     dependencies = 'junegunn/fzf',
@@ -44,7 +49,8 @@ return {
       auto_resize_height = true
     }
   },
-  -- toggleterm.nvim
+  -- }}}2
+  -- {{{2 toggleterm.nvim
   {
     'akinsho/toggleterm.nvim',
     cmd = 'ToggleTerm',
@@ -70,7 +76,8 @@ return {
       }
     }
   },
-  -- fm-nvim
+  -- }}}2
+  -- {{{2 fm-nvim
   {
     'is0n/fm-nvim',
     cmd = {
@@ -94,23 +101,27 @@ return {
       }
     }
   },
-  -- vim-gnupg
+  -- }}}2
+  -- {{{2 vim-gnupg
   {
     'jamessan/vim-gnupg',
     lazy = false
   },
-  -- vim-log-highlighting
+  -- }}}2
+  -- {{{2 vim-log-highlighting
   {
     'MTDL9/vim-log-highlighting',
     ft = 'log'
   },
-  -- rasi.vim
+  -- }}}2
+  -- {{{2 rasi.vim
   {
     'Fymyte/rasi.vim',
     ft = 'rasi',
     build = ':TSInstall rasi'
   },
-  -- unicode.vim
+  -- }}}2
+  -- {{{2 unicode.vim
   {
     'chrisbra/unicode.vim',
     cmd = {
@@ -121,6 +132,7 @@ return {
       { '<Leader>ut', vim.cmd.UnicodeTable, desc = 'Open unicode table' },
       { 'gu', vim.cmd.UnicodeName, desc = 'Lookup Unicode character' }
     }
-  },
   }
--- vim: foldlevel=1
+  -- }}}2
+}
+-- vim: foldmethod=marker foldlevel=1

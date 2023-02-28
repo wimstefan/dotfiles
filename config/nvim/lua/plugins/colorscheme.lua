@@ -1,6 +1,9 @@
 return {
+  -- {{{2 lush
   'rktjmp/lush.nvim',
   'rktjmp/shipwright.nvim',
+  -- }}}2
+  -- {{{2 vim-artesanal
   {
     'wimstefan/vim-artesanal',
     event = 'VeryLazy',
@@ -9,6 +12,8 @@ return {
       vim.g.artesanal_transparent = true
     end
   },
+  -- }}}2
+  -- {{{2 tokyonight
   {
     'folke/tokyonight.nvim',
     event = 'VeryLazy',
@@ -32,6 +37,8 @@ return {
       }
     end
   },
+  -- }}}2
+  -- {{{2 nightfox
   {
     'EdenEast/nightfox.nvim',
     event = 'VeryLazy',
@@ -60,6 +67,8 @@ return {
       }
     }
   },
+  -- }}}2
+  -- {{{2 catppuccin
   {
     'catppuccin/nvim',
     name = 'catppuccin',
@@ -71,6 +80,8 @@ return {
       }
     }
   },
+  -- }}}2
+  -- {{{2 rose-pine
   {
     'rose-pine/neovim',
     name = 'rose-pine',
@@ -84,6 +95,8 @@ return {
       highlight_groups = {}
     }
   },
+  -- }}}2
+  -- {{{2 zenbones
   {
     'mcchrish/zenbones.nvim',
     event = 'VeryLazy',
@@ -102,8 +115,12 @@ return {
       end
     end
   },
+  -- }}}2
+  -- {{{2 nvim-base16
   {
     'RRethy/nvim-base16',
     event = 'VeryLazy'
   }
+  -- }}}2
 }
+-- vim: foldmethod=marker foldlevel=1
