@@ -96,6 +96,8 @@ return {
         padding = { 2, 2, 2, 2 }
       },
       plugins = {
+        marks = true,
+        registers = true,
         spelling = {
           enabled = true,
           suggestions = 40
@@ -157,7 +159,7 @@ return {
     }
   },
   -- }}}2
-  -- n{{{2 vim-web-devicons
+  -- {{{2 vim-web-devicons
   {
     'nvim-tree/nvim-web-devicons',
     opts = {}
