@@ -7,7 +7,8 @@ return {
       'nvim-treesitter/nvim-treesitter-textobjects',
       'nvim-treesitter/nvim-treesitter-refactor',
       'windwp/nvim-ts-autotag',
-      'JoosepAlviste/nvim-ts-context-commentstring'
+      'JoosepAlviste/nvim-ts-context-commentstring',
+      'HiPhish/nvim-ts-rainbow2'
     },
     config = function()
       require('nvim-treesitter.configs').setup({
@@ -27,6 +28,14 @@ return {
         },
         indent = {
           enable = false
+        },
+        rainbow = {
+          enable = true,
+          query = {
+            'rainbow-parens',
+            html = 'rainbow-tags'
+          },
+          strategy = require('ts-rainbow.strategy.global'),
         },
         refactor = {
           highlight_current_scope = {
