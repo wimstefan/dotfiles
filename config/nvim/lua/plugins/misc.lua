@@ -86,7 +86,7 @@ return {
       'Vifm'
     },
     keys = {
-      { '<Leader>z', vim.cmd.Fzf, desc = 'Fzf' },
+      { '<Leader>Z', vim.cmd.Fzf, desc = 'Fzf' },
       { '<Leader>L', vim.cmd.Lazygit, desc = 'Lazygit' },
       { '<Leader>X', vim.cmd.Vifm, desc = 'Vifm' }
     },

@@ -126,36 +126,17 @@ return {
   -- {{{2 indent-blankline.nvim
   {
     'lukas-reineke/indent-blankline.nvim',
+    event = 'VeryLazy',
     keys = {
       { ',ti', vim.cmd.IndentBlanklineToggle, desc = 'IndentBlankline: toggle' }
     },
     opts = {
+      enabled = false,
       char = '▏',
-      filetype_exclude = {
-        'help',
-        'man',
-        'diagnosticpopup',
-        'lspinfo',
-        '',
-      },
       disable_with_nolist = true,
       use_treesitter = true,
       show_current_context = true,
-      show_current_context_start = true,
-      show_current_context_start_on_current_line = true,
-      context_patterns = {
-        'class',
-        'function',
-        'method',
-        '^if',
-        '^while',
-        '^for',
-        '^object',
-        '^table',
-        'block',
-        'arguments',
-        'element'
-      }
+      show_current_context_start = true
     }
   },
   -- }}}2
