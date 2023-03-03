@@ -3,12 +3,6 @@
   "Lua.diagnostics.disable": [
     "lowercase-global",
     "unused-local"
-  ],
-  "Lua.format.defaultConfig": {
-    "indent_style": "space",
-    "indent_size": "2",
-    "continuation_indent_size": "2",
-    "quote_style": "single"
-  }
+  ]
 }
 
