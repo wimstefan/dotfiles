@@ -6,7 +6,7 @@ local my_font
 if hostname == 'tj' then
   my_font = 'operator'
 else
-  my_font = 'mona'
+  my_font = 'operator'
 end
 local scheme_pool = {
   catppuccin_frappe = 'catppuccin_frappe',
@@ -342,11 +342,18 @@ end
 -- 2}}}
 -- {{{2 freetype
 local function ft_target(type)
-  local appearance = wez.gui.get_appearance()
+  local appearance
+  local bg_file = io.open(wez.home_dir .. '/.config/colours/background', 'r')
+  if bg_file then
+    appearance = bg_file:read('*a')
+    bg_file:close()
+  else
+    appearance = 'dark'
+  end
   local ft_type
   if string.match(type, 'load') then
     if my_font == 'operator' then
-      if string.match(appearance, 'Light') then
+      if string.match(appearance, 'light') then
         ft_type = 'Light'
       else
         ft_type = 'Normal'
@@ -356,7 +363,7 @@ local function ft_target(type)
     end
   elseif string.match(type, 'render') then
     if my_font == 'operator' then
-      if string.match(appearance, 'Light') then
+      if string.match(appearance, 'light') then
         ft_type = 'HorizontalLcd'
       else
         ft_type = 'Normal'
