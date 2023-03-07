@@ -100,6 +100,14 @@ end)
 augroup('Commentstrings', function(g)
   aucmd('FileType', {
     group = g,
+    pattern = 'kdl',
+    desc = 'commentstring for kdl',
+    callback = function()
+      vim.opt_local.commentstring = '//%s'
+    end
+  })
+  aucmd('FileType', {
+    group = g,
     pattern = {
       'pfmain',
       'toml'
