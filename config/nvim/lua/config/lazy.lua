@@ -5,17 +5,20 @@ if not vim.loop.fs_stat(lazypath) then
     'clone',
     '--filter=blob:none',
     '--single-branch',
-    'https://github.com/folke/lazy.nvim',
+    'https://github.com/folke/lazy.nvim.git',
     lazypath,
   })
 end
 vim.opt.rtp:prepend(lazypath)
 require('lazy').setup({
+  defaults = {
+    lazy = true
+  },
   spec = {
     import = 'plugins'
   },
-  defaults = {
-    lazy = true
+  git = {
+    timeout = 24
   },
   ui = {
     border = require('config.ui').borders,
