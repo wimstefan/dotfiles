@@ -143,6 +143,10 @@ return {
   -- {{{2 vim-web-devicons
   {
     'nvim-tree/nvim-web-devicons',
+    dependencies = {
+      'lifepillar/vim-colortemplate',
+      lazy = false
+    },
     opts = {}
   },
   -- }}}2
