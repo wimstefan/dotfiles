@@ -19,8 +19,6 @@ vim.keymap.set({ 'n', 'x' }, 'k', function() return vim.v.count > 0 and 'k' or '
   { expr = true, replace_keycodes = false })
 -- }}}2
 -- {{{2 editing
-vim.keymap.set('n', '<Leader>ev', [[<Cmd>edit $MYVIMRC<CR>]])
-vim.keymap.set('n', '<Leader>sv', [[<Cmd>luafile $MYVIMRC<CR>]])
 vim.keymap.set('n', '<Leader>w', [[<Cmd>w!<CR>]])
 vim.keymap.set('n', '<Leader>wa', [[<Cmd>wa!<CR>]])
 vim.keymap.set('n', '<Leader>q', [[<Cmd>q!<CR>]])
