@@ -88,7 +88,11 @@ return {
         local lsp_msg_sep = ' ∷ '
         lsp_messages = lsp_msg_sep .. 'LSP attached' .. lsp_msg_sep
         -- options
-        vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
+        if vim.api.nvim_buf_get_option(0, 'filetype') == 'lua' then
+          vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lua_omnifunc')
+        else
+          vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
+        end
         -- keybindings
         vim.keymap.set('n', ',lI', vim.cmd.LspInfo,
           { desc = 'LSP: info' }, { buffer = bufnr })
@@ -259,7 +263,8 @@ return {
                   indent_style = 'space',
                   indent_size = '2',
                   continuation_indent = '2',
-                  quote_style = 'single'
+                  quote_style = 'single',
+                  align_array_table = 'false'
                 }
               },
               hint = {
@@ -310,7 +315,7 @@ return {
   {
     'lewis6991/hover.nvim',
     keys = {
-      { 'H',  function() require('hover').hover() end,        desc = 'hover.nvim' },
+      { 'H', function() require('hover').hover() end, desc = 'hover.nvim' },
       { 'gH', function() require('hover').hover_select() end, desc = 'hover.nvim (select)' }
     },
     config = function()
