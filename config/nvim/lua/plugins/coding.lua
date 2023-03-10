@@ -40,7 +40,7 @@ return {
         },
         mapping = cmp.mapping.preset.insert({
           ['<C-e>'] = cmp.mapping.abort(),
-          ['<C-b>'] = cmp.mapping.scroll_docs( -10),
+          ['<C-b>'] = cmp.mapping.scroll_docs(-10),
           ['<C-f>'] = cmp.mapping.scroll_docs(10),
           ['<C-Space>'] = cmp.mapping.complete(),
           ['<C-z>'] = cmp.mapping.confirm { select = true },
@@ -59,7 +59,7 @@ return {
           ['<S-Tab>'] = cmp.mapping(function(fallback)
             if cmp.visible() then
               cmp.select_prev_item()
-            elseif snippy.can_jump( -1) then
+            elseif snippy.can_jump(-1) then
               snippy.previous()
             else
               fallback()
@@ -151,8 +151,13 @@ return {
     'numToStr/Comment.nvim',
     event = 'VeryLazy',
     keys = {
-      { 'gci', [[:g/./lua require('Comment.api').toggle.linewise.current()<CR><Cmd>nohls<CR>]],
-        mode = 'x', silent = true, desc = 'Invert comments' }
+      {
+        'gci',
+        [[:g/./lua require('Comment.api').toggle.linewise.current()<CR><Cmd>nohls<CR>]],
+        mode = 'x',
+        silent = true,
+        desc = 'Invert comments'
+      }
     },
     config = function()
       require('Comment').setup({
@@ -221,8 +226,8 @@ return {
     keys = {
       { '<C-a>', function() return require('dial.map').inc_normal() end, expr = true, desc = 'Increment' },
       { '<C-x>', function() return require('dial.map').dec_normal() end, expr = true, desc = 'Decrement' },
-      { '<C-a>', function() return require('dial.map').inc_normal() end, mode = 'v',  expr = true,       desc = 'Increment visual selection' },
-      { '<C-x>', function() return require('dial.map').dec_normal() end, mode = 'v',  expr = true,       desc = 'Decrement visual selection' }
+      { '<C-a>', function() return require('dial.map').inc_normal() end, mode = 'v', expr = true, desc = 'Increment visual selection' },
+      { '<C-x>', function() return require('dial.map').dec_normal() end, mode = 'v', expr = true, desc = 'Decrement visual selection' }
     },
     config = function()
       local augend = require('dial.augend')
