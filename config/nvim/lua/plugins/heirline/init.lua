@@ -42,7 +42,6 @@ M.format = {
 }
 
 function M.load()
-  vim.defer_fn(function() Prettify() end, 0)
   local heirline = require('heirline')
   local conditions = require('heirline.conditions')
   local utils = require('heirline.utils')

@@ -70,12 +70,12 @@ return {
         local mousepos = vim.fn.getmousepos()
         local lnum = mousepos.line
         if vim.fn.foldlevel(lnum) <= vim.fn.foldlevel(lnum - 1) then return end
-        vim.cmd.execute("'" .. lnum .. 'fold' .. (vim.fn.foldclosed(lnum) == -1 and 'close' or 'open') .. "'")
+        vim.cmd.execute('\'' .. lnum .. 'fold' .. (vim.fn.foldclosed(lnum) == -1 and 'close' or 'open') .. '\'')
       end,
       name = 'heirline_fold_click'
     }
   },
   {
-    provider = "%=%2{v:virtnum ? '' : &nu ? (&rnu && v:relnum ? v:relnum : v:lnum . ' ') . ' ' : ''}"
+    provider = '%=%2{v:virtnum ? "" : &nu ? (&rnu && v:relnum ? v:relnum : v:lnum . " ") . " " : ""}'
   }
 }

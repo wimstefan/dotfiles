@@ -97,6 +97,16 @@ augroup('General', function(g)
   })
 end)
 
+augroup('Colours', function(g)
+  aucmd('ColorScheme', {
+    group = g,
+    desc = 'Apply visual tweaks',
+    callback = function()
+      Prettify()
+    end
+  })
+end)
+
 augroup('Commentstrings', function(g)
   aucmd('FileType', {
     group = g,

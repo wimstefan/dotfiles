@@ -32,6 +32,7 @@ function Prettify()
   vim.api.nvim_set_hl(0, 'NormalNC', { bg = 'none' })
   vim.api.nvim_set_hl(0, 'Folded', { bg = 'none' })
   vim.api.nvim_set_hl(0, 'ColorColumn', { link = 'Visual' })
+  vim.api.nvim_set_hl(0, 'CursorLineNr', { fg = 'orange', bold = true, italic = true })
 
   vim.notify('Applying visual tweaks', vim.log.levels.INFO, { title = '[UI]' })
 end
