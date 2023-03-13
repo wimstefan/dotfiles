@@ -77,6 +77,36 @@ return {
       styles = {
         comments = { 'italic' },
         functions = { 'bold' }
+      },
+      color_overrides = {
+        latte = {
+          rosewater = '#e19f91',
+          flamingo = '#de8080',
+          pink = '#e974ca',
+          mauve = '#a860d6',
+          red = '#bb2427',
+          maroon = '#dd585d',
+          peach = '#e76e30',
+          yellow = '#e39909',
+          green = '#60938e',
+          teal = '#58b6a9',
+          sky = '#6ebdcc',
+          sapphire = '#57aacf',
+          blue = '#5984e6',
+          lavender = '#898be7',
+          text = '#414559',
+          subtext1 = '#51576d',
+          subtext0 = '#626880',
+          overlay2 = '#737994',
+          overlay1 = '#838ba7',
+          overlay0 = '#949cbb',
+          surface2 = '#a5adce',
+          surface1 = '#b5bfe2',
+          surface0 = '#c6d0f5',
+          base = '#f8f9fe',
+          mantle = '#f0f0fa',
+          crust = '#ebebfa'
+        }
       }
     }
   },
