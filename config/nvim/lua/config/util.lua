@@ -1,5 +1,5 @@
 function Dump(...)
-  vim.pretty_print(...)
+  vim.print(...)
 end
 
 function MDump(...)

@@ -45,7 +45,6 @@ vim.opt.ignorecase = true
 vim.opt.gdefault = true
 vim.opt.inccommand = 'split'
 vim.opt.selection = 'exclusive'
-vim.opt.pastetoggle = '<F3>'
 vim.opt.diffopt:append({
   'vertical',
   'indent-heuristic',
