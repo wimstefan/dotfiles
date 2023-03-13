@@ -246,7 +246,7 @@ M.LSPActive = {
     for i, server in pairs(vim.lsp.get_active_clients({ bufnr = 0 })) do
       table.insert(names, server.name)
     end
-    return format.seps.double_quote.right .. ' ' .. ' [' .. table.concat(names, '|') .. ']'
+    return format.seps.double_quote.right .. ' ' .. '  ' .. table.concat(names, '|')
   end,
   hl = { fg = 'green', bg = 'bg_statusline', bold = true },
   on_click = {
@@ -271,7 +271,7 @@ M.Git = {
   hl = { fg = 'orange', bg = 'bg_statusline' },
   {
     provider = function(self)
-      return ' ' .. self.status_dict.head
+      return ' ' .. self.status_dict.head
     end
   },
   {
