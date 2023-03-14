@@ -192,7 +192,7 @@ local FileIcon = {
     return self.icon and (format.seps.half_bracket.left .. self.icon .. '  ') or format.seps.half_bracket.left
   end,
   hl = function(self)
-      return { fg = self.icon_color, reverse = true }
+    return { fg = self.icon_color, reverse = true }
   end,
   on_click = {
     callback = function()
@@ -209,7 +209,7 @@ local FileType = {
     self.icon, self.icon_color = require('nvim-web-devicons').get_icon_color(filename, extension)
   end,
   provider = function(self)
-      return vim.bo.filetype and string.lower(vim.bo.filetype) .. format.seps.half_bracket.right
+    return vim.bo.filetype and string.lower(vim.bo.filetype) .. format.seps.half_bracket.right
   end,
   hl = function(self)
     return { fg = self.icon_color, reverse = true }

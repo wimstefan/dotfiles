@@ -72,9 +72,9 @@ local TablineBufferBlock = {
 
 local BufferLine = {
   utils.make_buflist(
-  TablineBufferBlock,
-  { provider = '   ', hl = { fg = 'gray' } },
-  { provider = '   ', hl = { fg = 'gray' } }
+    TablineBufferBlock,
+    { provider = '   ', hl = { fg = 'gray' } },
+    { provider = '   ', hl = { fg = 'gray' } }
   )
 }
 
