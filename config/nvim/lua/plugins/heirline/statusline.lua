@@ -8,13 +8,6 @@ local format = require('plugins.heirline').format
 M.ViMode = {
   init = function(self)
     self.mode = vim.fn.mode(1)
-    if not self.once then
-      vim.api.nvim_create_autocmd('ModeChanged', {
-        pattern = '*:*o',
-        command = 'redrawstatus'
-      })
-      self.once = true
-    end
   end,
   static = {
     mode_names = {
@@ -55,12 +48,19 @@ M.ViMode = {
     }
   },
   provider = function(self)
-    return ' ' .. '%2(' .. self.mode_names[self.mode] .. '%)' .. ' '
+    return ' ' .. '%2(' .. self.mode_names[vim.fn.mode(1)] .. '%)' .. ' '
   end,
   hl = function(self)
     local color = self:mode_color()
     return { fg = color, bold = true, reverse = true }
-  end
+  end,
+  update = {
+    'ModeChanged',
+    pattern = '*:*',
+    callback = vim.schedule_wrap(function()
+      vim.cmd('redrawstatus')
+    end)
+  }
 }
 -- }}}2
 -- {{{2 File area

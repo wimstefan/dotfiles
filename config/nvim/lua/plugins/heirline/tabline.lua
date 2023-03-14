@@ -52,7 +52,9 @@ local TablineFileNameBlock = {
   on_click = {
     callback = function(_, minwid, _, button)
       if (button == 'm') then
-        vim.api.nvim_buf_delete(minwid, { force = false })
+        vim.schedule(function()
+          vim.api.nvim_buf_delete(minwid, { force = false })
+        end)
       else
         vim.api.nvim_win_set_buf(0, minwid)
       end
