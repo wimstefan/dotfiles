@@ -88,7 +88,7 @@ return {
         local lsp_msg_sep = ' ∷ '
         lsp_messages = lsp_msg_sep .. 'LSP attached' .. lsp_msg_sep
         -- options
-        if vim.api.nvim_buf_get_option(0, 'filetype') == 'lua' then
+        if vim.api.nvim_buf_get_option(bufnr, 'filetype') == 'lua' then
           vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lua_omnifunc')
         else
           vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
@@ -98,6 +98,8 @@ return {
           { desc = 'LSP: info' }, { buffer = bufnr })
         vim.keymap.set('n', ',lrs', vim.cmd.LspRestart,
           { desc = 'LSP: restart' }, { buffer = bufnr })
+        vim.keymap.set('n', ',lF', function() require('fzf-lua').lsp_finder() end,
+          { desc = 'LSP: finder' }, { buffer = bufnr })
         vim.keymap.set('n', ',lR', require('fzf-lua').lsp_definitions,
           { desc = 'LSP: definitions' }, { buffer = bufnr })
         vim.keymap.set('n', ',lr', require('fzf-lua').lsp_references,
