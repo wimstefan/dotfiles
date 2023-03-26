@@ -319,9 +319,7 @@ local tooltip_bat = awful.tooltip({
     if (not bat_now.status) or bat_now.status == 'N/A' or type(bat_now.perc) ~= 'number' then
       text = '[Plugged in]\n' .. ' No battery'
     elseif bat_now.status == 'Discharging' then
-      text = '[status] discharging\n' .. '羽 time left ' .. bat_now.time
     elseif bat_now.status == 'Charging' then
-      text = '[status] charging\n' .. '羽 time left ' .. bat_now.time
     elseif bat_now.status == 'Full' then
       text = '[status] charged'
     end
