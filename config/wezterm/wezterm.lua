@@ -428,12 +428,10 @@ wez.on('format-tab-title', function(tab)
   if tab.is_active then
     return {
       { Text = tab_prefix },
-      { Text = pane.is_zoomed and '⸢' .. tab_title .. '  ' .. '⸥' or '⸢' .. tab_title .. '⸥' }
     }
   end
   return {
     { Text = tab_prefix },
-    { Text = pane.is_zoomed and tab_title .. '  ' or tab_title }
   }
 end)
 
