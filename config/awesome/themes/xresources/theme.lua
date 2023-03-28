@@ -103,7 +103,7 @@ end
 -- left   = math.pi/2   , -- 90
 -- right  = 3*math.pi/2 , -- 270
 theme.app_shape = function(cr, width, height)
-  shape.rounded_rect(cr, width, height, dpi(14))
+  shape.rounded_rect(cr, width, height, dpi(6))
 end
 theme.hotkeys_shape = function(cr, width, height)
   shape.partially_rounded_rect(cr, width, height, true, false, true, false, dpi(14))
