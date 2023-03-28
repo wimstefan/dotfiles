@@ -30,7 +30,7 @@ color background         default    default
 color listnormal         default    default
 color listnormal_unread  color4     default
 color listfocus          color6     default
-color listfocus_unread   color4     default     underline bold
+color listfocus_unread   color4     default     standout underline bold
 color info               default    default     reverse
 color article            default    default
 highlight article       "^(Feed|Author|Link|Date): .+"       color4 default
