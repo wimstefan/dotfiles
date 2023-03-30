@@ -98,7 +98,7 @@ augroup('General', function(g)
 end)
 
 augroup('Colours', function(g)
-  aucmd('ColorScheme', {
+  aucmd({ 'ColorScheme', 'UiEnter' }, {
     group = g,
     desc = 'Apply visual tweaks',
     callback = function()

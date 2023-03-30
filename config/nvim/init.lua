@@ -7,5 +7,3 @@ require('config.options')
 require('config.util')
 require('config.autocmds')
 require('config.keymaps')
-
-Prettify()
