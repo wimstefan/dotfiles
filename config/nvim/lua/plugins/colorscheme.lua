@@ -72,7 +72,8 @@ return {
   {
     'catppuccin/nvim',
     name = 'catppuccin',
-    event = 'VeryLazy',
+    lazy = false,
+    priority = 1000,
     opts = {
       styles = {
         comments = { 'italic' },
