@@ -3,9 +3,9 @@ return {
     'nvim-treesitter/nvim-treesitter',
     build = ':TSUpdate',
     dependencies = {
-      'RRethy/nvim-treesitter-textsubjects',
-      'nvim-treesitter/nvim-treesitter-textobjects',
       'nvim-treesitter/nvim-treesitter-refactor',
+      'nvim-treesitter/nvim-treesitter-textobjects',
+      'RRethy/nvim-treesitter-textsubjects',
       'windwp/nvim-ts-autotag',
       'JoosepAlviste/nvim-ts-context-commentstring',
       'HiPhish/nvim-ts-rainbow2'
@@ -27,7 +27,7 @@ return {
           enable = false
         },
         indent = {
-          enable = false
+          enable = true
         },
         rainbow = {
           enable = true,
