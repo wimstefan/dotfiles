@@ -106,21 +106,29 @@ return {
     }
   },
   -- }}}2
-  -- {{{2 smartcolumn.nvim
+  -- {{{2 deadcolumn.nvim
   {
-    'm4xshen/smartcolumn.nvim',
+    'Bekaboo/deadcolumn.nvim',
     event = 'VeryLazy',
+    init = function()
+      vim.opt.colorcolumn = '80'
+    end,
     opts = {
-      disabled_filetypes = {
-        'help',
-        'lazy',
-        'man',
-        'markdown',
-        'qf',
-        'text',
-        'whichkey'
+      blending = {
+        threshold = 0.75,
+        colorcode = '#f8f9fe'
+      },
+      warning = {
+        alpha = 0.9,
+        colorcode = '#e78284'
       }
     }
+  },
+  -- }}}2
+  -- {{{2 relative-toggle.nvim
+  {
+    'cpea2506/relative-toggle.nvim',
+    event = 'VeryLazy'
   },
   -- }}}2
   -- {{{2 indent-blankline.nvim
