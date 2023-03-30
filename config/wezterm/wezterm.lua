@@ -182,7 +182,7 @@ local function font_rules(name)
         -- font = font_fallback({ family = 'IBM Plex Mono Text', style = 'Italic', harfbuzz_features = { 'zero' } })
         font = font_fallback({
           family = 'Liga Operator Mono',
-          weight = 'Light',
+          weight = 'Book',
           style = 'Italic',
           harfbuzz_features = { 'ss05' }
         })
@@ -194,7 +194,7 @@ local function font_rules(name)
         -- font = font_fallback({ family = 'IBM Plex Mono SmBld', style = 'Italic', harfbuzz_features = { 'zero' } })
         font = font_fallback({
           family = 'Liga Operator Mono',
-          weight = 'Book',
+          weight = 'Regular',
           style = 'Italic',
           harfbuzz_features = { 'ss05' }
         })
@@ -382,9 +382,9 @@ local function set_geometry(x)
     value = 160
   elseif x == 'rows' then
     if hostname == 'swimmer' then
-      if (my_font == 'iosevka' or my_font == 'pt') then
+      if (my_font == 'pt') then
         value = 64
-      elseif (my_font == 'recursive' or my_font == 'fantasque' or my_font == 'mona') then
+      elseif (my_font == 'fantasque' or my_font == 'iosevka' or my_font == 'recursive' or my_font == 'mona') then
         value = 61
       elseif (my_font == 'custom' or my_font == 'jet' or my_font == 'operator') then
         value = 56
@@ -392,9 +392,9 @@ local function set_geometry(x)
         value = 53
       end
     elseif hostname == 'komala' then
-      if (my_font == 'iosevka' or my_font == 'pt') then
+      if (my_font == 'pt') then
         value = 64
-      elseif (my_font == 'hasklig' or my_font == 'recursive' or my_font == 'fantasque' or my_font == 'mona') then
+      elseif (my_font == 'fantasque' or my_font == 'hasklig' or my_font == 'iosevka' or my_font == 'mona' or my_font == 'recursive') then
         value = 61
       elseif (my_font == 'custom' or my_font == 'jet' or my_font == 'operator') then
         value = 56
@@ -404,7 +404,7 @@ local function set_geometry(x)
     elseif hostname == 'tj' then
       if (my_font == 'pt' or my_font == 'recursive') then
         value = 51
-      elseif (my_font == 'operator' or my_font == 'hasklig' or my_font == 'iosevka' or my_font == 'mona') then
+      elseif (my_font == 'hasklig' or my_font == 'iosevka' or my_font == 'mona' or my_font == 'operator') then
         value = 50
       elseif (my_font == 'fantasque' or my_font == 'jet' or my_font == 'plex') then
         value = 44
@@ -485,15 +485,15 @@ return {
   underline_thickness = '220%',
   unicode_version = 15,
   -- Behaviour
-  term = 'xterm-256color',
+  term = 'wezterm',
   check_for_updates = false,
   adjust_window_size_when_changing_font_size = false,
   window_background_opacity = opacity,
   window_padding = {
-    left = '3cell',
-    right = '3cell',
-    top = '1cell',
-    bottom = '1cell',
+    left = '0.8%',
+    right = '0.8%',
+    top = '1.0%',
+    bottom = '0.0%',
   },
   initial_cols = set_geometry('cols'),
   initial_rows = set_geometry('rows'),
