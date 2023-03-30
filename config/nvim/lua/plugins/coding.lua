@@ -146,7 +146,7 @@ return {
     opts = {}
   },
   -- }}}2
-  -- Comment.nvim
+  -- {{{2 Comment.nvim
   {
     'numToStr/Comment.nvim',
     event = 'VeryLazy',
@@ -169,7 +169,8 @@ return {
   -- {{{2 smartyank.nvim
   {
     'ibhagwan/smartyank.nvim',
-    event = 'VeryLazy'
+    event = 'VeryLazy',
+    config = true
   },
   -- }}}2
   -- {{{2 text-case.nvim
@@ -224,10 +225,12 @@ return {
   {
     'monaqa/dial.nvim',
     keys = {
-      { '<C-a>', function() return require('dial.map').inc_normal() end, expr = true, desc = 'Increment' },
-      { '<C-x>', function() return require('dial.map').dec_normal() end, expr = true, desc = 'Decrement' },
-      { '<C-a>', function() return require('dial.map').inc_normal() end, mode = 'v', expr = true, desc = 'Increment visual selection' },
-      { '<C-x>', function() return require('dial.map').dec_normal() end, mode = 'v', expr = true, desc = 'Decrement visual selection' }
+      { '<C-a>', function() return require('dial.map').inc_normal() end, expr = true, noremap = true, desc = 'Increment' },
+      { '<C-x>', function() return require('dial.map').dec_normal() end, expr = true, noremap = true, desc = 'Decrement' },
+      { '<C-a>', function() return require('dial.map').inc_visual() end, mode = 'v', expr = true, noremap = true, desc = 'Increment visual selection' },
+      { '<C-x>', function() return require('dial.map').dec_visual() end, mode = 'v', expr = true, noremap = true, desc = 'Decrement visual selection' },
+      { 'g<C-a>', function() return require('dial.map').inc_gvisual() end, mode = 'v', expr = true, noremap = true, desc = 'Increment visual selection' },
+      { 'g<C-x>', function() return require('dial.map').dec_gvisual() end, mode = 'v', expr = true, noremap = true, desc = 'Decrement visual selection' }
     },
     config = function()
       local augend = require('dial.augend')
