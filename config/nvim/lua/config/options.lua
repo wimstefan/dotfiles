@@ -51,9 +51,6 @@ vim.opt.diffopt:append({
   'linematch:60',
   'algorithm:histogram'
 })
-vim.opt.diffopt:remove({
-  'internal'
-})
 vim.opt.spellfile = vim.fn.stdpath('config') .. '/spell/myspell.utf-8.add'
 vim.opt.spelllang = {
   'en',
