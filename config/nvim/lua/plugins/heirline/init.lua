@@ -4,10 +4,18 @@ local M = {
   opts = {}
 }
 
+local buftypes = {
+  'help',
+  'nofile',
+  'prompt',
+  'quickfix',
+  'terminal'
+}
 local filetypes = {
   '^toggleterm$'
 }
 local force_inactive_filetypes = {
+  '^$',
   '^lazy$',
   '^netrw$',
   '^toggleterm$',
@@ -92,6 +100,7 @@ function M.load()
   heirline.setup({
     statusline = {
       static = {
+        buftypes = buftypes,
         filetypes = filetypes,
         force_inactive_filetypes = force_inactive_filetypes,
         mode_colors = {
@@ -140,7 +149,20 @@ function M.load()
       spacer,
       statusline.FileTypeBlock
     },
-    statuscolumn = statuscolumn,
+    statuscolumn = {
+      static = {
+        buftypes = buftypes,
+        filetypes = filetypes,
+        force_inactive_filetypes = force_inactive_filetypes
+      },
+      condition = function(self)
+        return not conditions.buffer_matches({
+          buftype = self.buftypes,
+          filetype = self.force_inactive_filetypes,
+        })
+      end,
+      statuscolumn
+    },
     tabline = tabline
   })
 end
