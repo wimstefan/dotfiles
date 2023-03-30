@@ -178,15 +178,6 @@ return {
     opts = {}
   },
   -- }}}2
-  -- l{{{2 eap.nvim
-  {
-    'ggandor/leap.nvim',
-    event = 'VeryLazy',
-    config = function()
-      require('leap').add_default_mappings()
-    end
-  },
-  -- }}}2
   -- {{{2 vim-renamer
   {
     'qpkorr/vim-renamer',
@@ -275,7 +266,8 @@ return {
   {
     'nvim-pack/nvim-spectre',
     keys = {
-      { '<Leader>S', function() require('spectre').open() end, desc = 'Spectre' }
+      { '<Leader>S', function() require('spectre').open() end, desc = 'Spectre' },
+      { '<Leader>Sw', function() require('spectre').open_visual({ select_word = true }) end, desc = 'Spectre: current word' }
     },
     opts = {
       find_engine = {
