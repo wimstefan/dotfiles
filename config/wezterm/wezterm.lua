@@ -67,13 +67,6 @@ local scheme_pool = {
   catppuccin_latte = 'catppuccin_latte',
   catppuccin_macchiato = 'catppuccin_macchiato',
   catppuccin_mocha = 'catppuccin_mocha',
-  my_carbonfox = 'my_carbonfox',
-  my_duskfox = 'my_duskfox',
-  my_nightfox = 'my_nightfox',
-  my_nordfox = 'my_nordfox',
-  my_terafox = 'my_terafox',
-  my_dayfox = 'my_dayfox',
-  my_dawnfox = 'my_dawnfox',
   atelier_cave_base16 = 'Atelier Cave (base16)',
   atelier_cave_light_base16 = 'Atelier Cave Light (base16)',
   github_dark = 'Github Dark',
@@ -96,7 +89,7 @@ local opacity
 local scheme
 if string.match(selected_scheme, '^base16') then
   scheme = wez.color.load_base16_scheme(colour_dir .. selected_scheme .. '.yaml')
-elseif string.match(selected_scheme, '^catppuccin_') or string.match(selected_scheme, '^tokyonight_') or string.match(selected_scheme, 'my_.*fox$') then
+elseif string.match(selected_scheme, '^catppuccin_') or string.match(selected_scheme, '^tokyonight_') then
   scheme = wez.color.load_scheme(colour_dir .. selected_scheme .. '.toml')
 elseif string.match(selected_scheme, 'my_rose_pine$') then
   scheme = require('colours/rose_pine').colors()
