@@ -2,12 +2,66 @@ local wez = require('wezterm')
 local act = wez.action
 local gpus = wez.gui.enumerate_gpus()
 local hostname = wez.hostname()
+local config = {}
+if wez.config_builder then
+  config = wez.config_builder()
+end
+
 local my_font
 if hostname == 'tj' then
   my_font = 'operator'
 else
   my_font = 'operator'
 end
+
+local function basename(s)
+  return string.gsub(s, '(.*[/\\])(.*)', '%2')
+end
+
+wez.on('format-tab-title', function(tab)
+  local tab_prefix = tab.tab_index == 0 and '  ' or ' '
+  local tab_index = tab.tab_index
+  local pane = tab.active_pane
+  -- local tab_title = tab_index .. ' ' .. tab.active_pane.title
+  local tab_title = tab_index .. ' ' .. basename(pane.foreground_process_name)
+  if tab.is_active then
+    return {
+      { Text = tab_prefix },
+      { Text = pane.is_zoomed and '⸢' .. tab_title .. '  ' .. '⸥' or '⸢' .. tab_title .. '⸥' }
+    }
+  end
+  return {
+    { Text = tab_prefix },
+    { Text = pane.is_zoomed and tab_title .. '  ' or tab_title }
+  }
+end)
+
+wez.on('update-right-status', function(window, pane)
+  local title = pane:get_title()
+  local date = wez.strftime('[%H:%M] %a %b %d %Y  ')
+  local bat = ''
+  for _, b in ipairs(wez.battery_info()) do
+    bat = string.format('[BAT] %.0f%% ', b.state_of_charge * 100)
+  end
+  local keytable = window:active_key_table()
+  if keytable then
+    keytable = 'TABLE: ' .. keytable
+  end
+  window:set_right_status(wez.format({
+    { Attribute = { Intensity = 'Bold' } },
+    { Foreground = { AnsiColor = 'Green' } },
+    { Text = '• ' .. title .. ' •' .. ' ' },
+    { Foreground = { AnsiColor = 'Blue' } },
+    { Text = keytable or '' },
+    { Foreground = { AnsiColor = 'Yellow' } },
+    { Text = bat },
+    { Foreground = 'Default' },
+    { Text = date },
+  }))
+end)
+
+-- {{{1 Colour configuration
+-- see https://github.com/wez/wezterm/issues/2376#issuecomment-1208816450
 local scheme_pool = {
   catppuccin_frappe = 'catppuccin_frappe',
   catppuccin_latte = 'catppuccin_latte',
@@ -36,14 +90,7 @@ local scheme_pool = {
   my_rose_pine_moon = 'my_rose_pine_moon',
   my_rose_pine_dawn = 'my_rose_pine_dawn'
 }
-local selected_scheme = scheme_pool.catppuccin_frappe
-
-local function basename(s)
-  return string.gsub(s, '(.*[/\\])(.*)', '%2')
-end
-
--- {{{1 Colour configuration
--- see https://github.com/wez/wezterm/issues/2376#issuecomment-1208816450
+local selected_scheme = scheme_pool.catppuccin_latte
 local colour_dir = os.getenv('XDG_CONFIG_HOME') .. '/wezterm/colours/'
 local opacity
 local scheme
@@ -89,7 +136,7 @@ if l > 0.5 then
   opacity = 0.01
 else
   C_FG = fg:darken(0.8)
-  scheme.selection_bg = 'rgba(70% 70% 70% 40%)'
+  scheme.selection_bg = 'rgba(44% 44% 44% 40%)'
   opacity = 0.01
 end
 scheme.foreground = C_FG
@@ -126,6 +173,15 @@ scheme.scrollbar_thumb = C_BLUE
 scheme.split = C_BLUE
 scheme.compose_cursor = C_BRIGHT_GREEN
 scheme.visual_bell = C_BRIGHT_RED
+config.color_schemes = {
+  [selected_scheme] = scheme
+}
+config.color_scheme = selected_scheme
+config.pane_select_fg_color = C_FG
+config.pane_select_bg_color = C_BG
+config.force_reverse_video_cursor = true
+config.webgpu_preferred_adapter = gpus[1]
+config.front_end = 'WebGpu'
 -- 1}}}
 
 -- {{{1 Font configuration
@@ -417,177 +473,199 @@ local function set_geometry(x)
 end
 
 -- 2}}}
+config.font = font_set(my_font)
+config.font_rules = font_rules(my_font)
+config.font_size = font_size(my_font)
+config.char_select_font_size = font_size(my_font) - 1
+config.command_palette_font_size = font_size(my_font) - 1
+config.freetype_load_target = ft_target('load')
+config.freetype_render_target = ft_target('render')
+-- allow_square_glyphs_to_overflow_width = 'Always'
+config.warn_about_missing_glyphs = false
+config.underline_position = '-2.2pt'
+config.underline_thickness = '220%'
+config.unicode_version = 15
+config.window_frame = {
+  font = wez.font({ family = 'PayPal Sans Big' }),
+  font_size = font_size(my_font) - 2
+}
 -- 1}}}
 
-wez.on('format-tab-title', function(tab)
-  local tab_prefix = tab.tab_index == 0 and '  ' or ' '
-  local tab_index = tab.tab_index
-  local pane = tab.active_pane
-  -- local tab_title = tab_index .. ' ' .. tab.active_pane.title
-  local tab_title = tab_index .. ' ' .. basename(pane.foreground_process_name)
-  if tab.is_active then
-    return {
-      { Text = tab_prefix },
-      { Text = pane.is_zoomed and '⸢' .. tab_title .. '  ' .. '⸥' or '⸢' .. tab_title .. '⸥' }
-    }
-  end
-  return {
-    { Text = tab_prefix },
-    { Text = pane.is_zoomed and tab_title .. '  ' or tab_title }
-  }
-end)
+-- {{{1 Tab bar configuration
+-- sets up appearance in retro style; monospace font, no extra padding, no symbol glyphs
+-- config.tab_bar_appearance = 'Retro'
+-- Adopts the current default fancy styling with more padding, more distinct tab outline, glyphs/buttons
+-- config.tab_bar_appearance = "Fancy"
+-- or custom, where you get to control more stuff
+-- config.tab_bar_appearance = {
+--   font = wez.font 'Roboto',
+--   font_size = 12,
+--   line_height = 1.75,
+--
+--   -- Defines the `active_tab` element.  Element is a box_model element, which is a recursive
+--   -- tree like structure which has some similarities to the DOM, but is not anywhere near as
+--   -- full-featured.
+--   -- You'll also be able to specify `inactive_tab` and `new_tab` in the same way.
+--   -- Note that hover state is only supported for colors in the current implementation of box_model.
+--   -- changing content or geometry on hover is not supported.
+--   active_tab = {
+--     -- various geometry and color config
+--     padding = '0.25 cell',
+--     border = {
+--       top = '2 px',
+--     },
+--     border_color = 'maroon',
+--     border_color_hover = 'pink',
+--     bg_color = 'black',
+--     bg_color_hover = 'gray',
+--     text_color = 'white',
+--     text_color_hover = 'white',
+--     border_corners = {
+--       top_left = {
+--         width = '0.5 cell',
+--         height = '0.5 cell',
+--         -- reference a pre-defined polygon list
+--         poly = 'TopLeftRoundedCorner',
+--       },
+--       -- top_right, bottom_left and bottom_right can be specified here
+--     },
+--
+--     -- what is rendered in the element
+--     content = {
+--       'TITLE',    -- will be replaced with the tab title text produced by format-tab-title
+--       -- Define a close button
+--       {
+--         padding = '0.25 cell',
+--         float = 'right',
+--         z_index = 1,
+--         item_type = 'CloseTab',      -- so that it behaves like a close tab button
+--         content = {
+--           -- custom polygon list; this one renders an X
+--           poly = {
+--             {
+--               path = {
+--                 { MoveTo = { 'One', 'Zero' } },
+--                 { LineTo = { 'Zero', 'One' } },
+--               },
+--               intensity = 'Full',
+--               style = 'Outline',
+--             },
+--             {
+--               path = {
+--                 { MoveTo = { 'Zero', 'Zero' } },
+--                 { LineTo = { 'One', 'One' } },
+--               },
+--               intensity = 'Full',
+--               style = 'Outline',
+--             },
+--           },        -- poly
+--         },          -- content
+--       }             -- close button
+--     }               -- content
+--   },
+-- }
+config.hide_tab_bar_if_only_one_tab = true
+config.use_fancy_tab_bar = false
+config.tab_bar_at_bottom = true
+config.tab_max_width = 44
+config.show_tab_index_in_tab_bar = true
+-- }}}1
 
-wez.on('update-right-status', function(window, pane)
-  local title = pane:get_title()
-  local date = wez.strftime('[%H:%M] %a %b %d %Y  ')
-  local bat = ''
-  for _, b in ipairs(wez.battery_info()) do
-    bat = string.format('[BAT] %.0f%% ', b.state_of_charge * 100)
-  end
-  local keytable = window:active_key_table()
-  if keytable then
-    keytable = 'TABLE: ' .. keytable
-  end
-  window:set_right_status(wez.format({
-    { Attribute = { Intensity = 'Bold' } },
-    { Foreground = { AnsiColor = 'Green' } },
-    { Text = '• ' .. title .. ' •' .. ' ' },
-    { Foreground = { AnsiColor = 'Blue' } },
-    { Text = keytable or '' },
-    { Foreground = { AnsiColor = 'Yellow' } },
-    { Text = bat },
-    { Foreground = 'Default' },
-    { Text = date },
-  }))
-end)
-
-return {
-  color_schemes = {
-    [selected_scheme] = scheme
-  },
-  color_scheme = selected_scheme,
-  pane_select_fg_color = C_FG,
-  pane_select_bg_color = C_BG,
-  force_reverse_video_cursor = true,
-  webgpu_preferred_adapter = gpus[1],
-  front_end = 'WebGpu',
-  -- Fonts
-  font = font_set(my_font),
-  font_rules = font_rules(my_font),
-  font_size = font_size(my_font),
-  char_select_font_size = font_size(my_font) - 1,
-  command_palette_font_size = font_size(my_font) - 1,
-  freetype_load_target = ft_target('load'),
-  freetype_render_target = ft_target('render'),
-  -- allow_square_glyphs_to_overflow_width = 'Always',
-  warn_about_missing_glyphs = false,
-  underline_position = '-2.2pt',
-  underline_thickness = '220%',
-  unicode_version = 15,
-  -- Behaviour
-  term = 'wezterm',
-  check_for_updates = false,
-  adjust_window_size_when_changing_font_size = false,
-  window_background_opacity = opacity,
-  window_padding = {
-    left = '0.8%',
-    right = '0.8%',
-    top = '1.0%',
-    bottom = '0.0%',
-  },
-  initial_cols = set_geometry('cols'),
-  initial_rows = set_geometry('rows'),
-  enable_kitty_graphics = true,
-  selection_word_boundary = ' \t\n{}"\'`,;@│*',
-  clean_exit_codes = { 127, 130, 255 },
-  -- Tabs
-  hide_tab_bar_if_only_one_tab = true,
-  use_fancy_tab_bar = false,
-  tab_bar_at_bottom = true,
-  tab_max_width = 44,
-  show_tab_index_in_tab_bar = true,
-  window_frame = {
-    font = wez.font({ family = 'PayPal Sans Big' }),
-    font_size = font_size(my_font) - 2
-  },
-  -- Panes
-  pane_focus_follows_mouse = true,
-  swallow_mouse_click_on_pane_focus = true,
-  swallow_mouse_click_on_window_focus = true,
-  inactive_pane_hsb = {
-    saturation = 1.0,
-    brightness = 1.0,
-  },
-  -- Hyperlinks
-  hyperlink_rules = {
-    {
-      regex = '\\b\\w+://(?:[\\w.-]+)\\.[a-z0-9]{2,15}\\S*\\b',
-      format = '$0',
-    },
-  },
-  -- Key bindings
-  disable_default_key_bindings = true,
-  use_ime = false,
-  debug_key_events = false,
-  leader = { key = 'q', mods = 'CTRL' },
-  keys = {
-    { key = '-', mods = 'CTRL', action = act.DecreaseFontSize },
-    { key = '=', mods = 'CTRL', action = act.IncreaseFontSize },
-    { key = '0', mods = 'CTRL', action = act.ResetFontSize },
-    { key = 'c', mods = 'CTRL|SHIFT', action = act.CopyTo 'Clipboard' },
-    { key = 'v', mods = 'CTRL|SHIFT', action = act.PasteFrom 'Clipboard' },
-    { key = 'Z', mods = 'CTRL|SHIFT', action = act.CharSelect },
-    { key = 'PageUp', mods = 'SHIFT', action = act.ScrollByPage(-1) },
-    { key = 'PageDown', mods = 'SHIFT', action = act.ScrollByPage(1) },
-    { key = 'c', mods = 'LEADER', action = act.ActivateCommandPalette },
-    { key = 'd', mods = 'LEADER', action = act.ShowDebugOverlay },
-    { key = 'l', mods = 'LEADER', action = act.ShowLauncher },
-    { key = 'Space', mods = 'LEADER', action = act.QuickSelect },
-    { key = 'f', mods = 'LEADER', action = act.Search { CaseSensitiveString = '' } },
-    { key = 'x', mods = 'LEADER', action = act.ActivateCopyMode },
-    {
-      key = 'e',
-      mods = 'LEADER',
-      action = act.QuickSelectArgs {
-        label = 'open url',
-        patterns = {
-          'https?://\\S+'
-        },
-        action = wez.action_callback(function(window, pane)
-          local url = window:get_selection_text_for_pane(pane)
-          wez.log_info('opening: ' .. url)
-          wez.open_with(url)
-        end)
-      }
-    },
-    { key = 't', mods = 'LEADER', action = act.SpawnTab 'CurrentPaneDomain' },
-    { key = 'w', mods = 'LEADER', action = act.CloseCurrentPane { confirm = true } },
-    { key = 'w', mods = 'LEADER|SHIFT', action = act.CloseCurrentTab { confirm = true } },
-    { key = '|', mods = 'LEADER|SHIFT', action = act.SplitHorizontal { domain = 'CurrentPaneDomain' } },
-    { key = '-', mods = 'LEADER', action = act.SplitVertical { domain = 'CurrentPaneDomain' } },
-    { key = 'P', mods = 'LEADER', action = act.PaneSelect },
-    { key = 'z', mods = 'LEADER', action = act.TogglePaneZoomState },
-    { key = '0', mods = 'LEADER', action = act.ActivateTab(0) },
-    { key = '1', mods = 'LEADER', action = act.ActivateTab(1) },
-    { key = '2', mods = 'LEADER', action = act.ActivateTab(2) },
-    { key = '3', mods = 'LEADER', action = act.ActivateTab(3) },
-    { key = '4', mods = 'LEADER', action = act.ActivateTab(4) },
-    { key = '5', mods = 'LEADER', action = act.ActivateTab(5) },
-    { key = '6', mods = 'LEADER', action = act.ActivateTab(6) },
-    { key = '7', mods = 'LEADER', action = act.ActivateTab(7) },
-    { key = '8', mods = 'LEADER', action = act.ActivateTab(8) },
-    { key = '9', mods = 'LEADER', action = act.ActivateTab(9) },
-    { key = 'p', mods = 'LEADER', action = act.ActivateTabRelative(-1) },
-    { key = 'n', mods = 'LEADER', action = act.ActivateTabRelative(1) },
-    { key = 'o', mods = 'LEADER', action = act.ActivateLastTab },
-    { key = 'LeftArrow', mods = 'LEADER', action = act.ActivatePaneDirection 'Left' },
-    { key = 'RightArrow', mods = 'LEADER', action = act.ActivatePaneDirection 'Right' },
-    { key = 'UpArrow', mods = 'LEADER', action = act.ActivatePaneDirection 'Up' },
-    { key = 'DownArrow', mods = 'LEADER', action = act.ActivatePaneDirection 'Down' },
-    { key = 'LeftArrow', mods = 'LEADER|SHIFT', action = act.AdjustPaneSize { 'Left', 4 } },
-    { key = 'RightArrow', mods = 'LEADER|SHIFT', action = act.AdjustPaneSize { 'Right', 4 } },
-    { key = 'UpArrow', mods = 'LEADER|SHIFT', action = act.AdjustPaneSize { 'Up', 4 } },
-    { key = 'DownArrow', mods = 'LEADER|SHIFT', action = act.AdjustPaneSize { 'Down', 4 } },
-  },
+-- Behaviour
+config.term = 'wezterm'
+config.check_for_updates = false
+config.adjust_window_size_when_changing_font_size = false
+config.window_background_opacity = opacity
+config.window_padding = {
+  left = '0.8%',
+  right = '0.8%',
+  top = '1.0%',
+  bottom = '0.0%'
 }
+config.initial_cols = set_geometry('cols')
+config.initial_rows = set_geometry('rows')
+config.enable_kitty_graphics = true
+config.selection_word_boundary = ' \t\n{}"\'`,;@│*'
+config.clean_exit_codes = { 127, 130, 255 }
+-- Panes
+config.pane_focus_follows_mouse = true
+config.swallow_mouse_click_on_pane_focus = true
+config.swallow_mouse_click_on_window_focus = true
+config.inactive_pane_hsb = {
+  saturation = 1.0,
+  brightness = 1.0
+}
+-- Hyperlinks
+config.hyperlink_rules = {
+  {
+    regex = '\\b\\w+://(?:[\\w.-]+)\\.[a-z0-9]{2,15}\\S*\\b',
+    format = '$0',
+  }
+}
+-- Key bindings
+config.disable_default_key_bindings = false
+config.use_ime = false
+config.debug_key_events = false
+config.leader = { key = 'q', mods = 'CTRL' }
+config.keys = {
+  { key = '-', mods = 'CTRL', action = act.DecreaseFontSize },
+  { key = '=', mods = 'CTRL', action = act.IncreaseFontSize },
+  { key = '0', mods = 'CTRL', action = act.ResetFontSize },
+  { key = 'c', mods = 'CTRL|SHIFT', action = act.CopyTo 'Clipboard' },
+  { key = 'v', mods = 'CTRL|SHIFT', action = act.PasteFrom 'Clipboard' },
+  { key = 'Z', mods = 'CTRL|SHIFT', action = act.CharSelect },
+  { key = 'PageUp', mods = 'SHIFT', action = act.ScrollByPage(-1) },
+  { key = 'PageDown', mods = 'SHIFT', action = act.ScrollByPage(1) },
+  { key = 'c', mods = 'LEADER', action = act.ActivateCommandPalette },
+  { key = 'd', mods = 'LEADER', action = act.ShowDebugOverlay },
+  { key = 'l', mods = 'LEADER', action = act.ShowLauncher },
+  { key = 'Space', mods = 'LEADER', action = act.QuickSelect },
+  { key = 'f', mods = 'LEADER', action = act.Search { CaseSensitiveString = '' } },
+  { key = 'x', mods = 'LEADER', action = act.ActivateCopyMode },
+  {
+    key = 'e',
+    mods = 'LEADER',
+    action = act.QuickSelectArgs {
+      label = 'open url',
+      patterns = {
+        'https?://\\S+'
+      },
+      action = wez.action_callback(function(window, pane)
+        local url = window:get_selection_text_for_pane(pane)
+        wez.log_info('opening: ' .. url)
+        wez.open_with(url)
+      end)
+    }
+  },
+  { key = 't', mods = 'LEADER', action = act.SpawnTab 'CurrentPaneDomain' },
+  { key = 'w', mods = 'LEADER', action = act.CloseCurrentPane { confirm = true } },
+  { key = 'w', mods = 'LEADER|SHIFT', action = act.CloseCurrentTab { confirm = true } },
+  { key = '|', mods = 'LEADER|SHIFT', action = act.SplitHorizontal { domain = 'CurrentPaneDomain' } },
+  { key = '-', mods = 'LEADER', action = act.SplitVertical { domain = 'CurrentPaneDomain' } },
+  { key = 'P', mods = 'LEADER', action = act.PaneSelect },
+  { key = 'z', mods = 'LEADER', action = act.TogglePaneZoomState },
+  { key = '0', mods = 'LEADER', action = act.ActivateTab(0) },
+  { key = '1', mods = 'LEADER', action = act.ActivateTab(1) },
+  { key = '2', mods = 'LEADER', action = act.ActivateTab(2) },
+  { key = '3', mods = 'LEADER', action = act.ActivateTab(3) },
+  { key = '4', mods = 'LEADER', action = act.ActivateTab(4) },
+  { key = '5', mods = 'LEADER', action = act.ActivateTab(5) },
+  { key = '6', mods = 'LEADER', action = act.ActivateTab(6) },
+  { key = '7', mods = 'LEADER', action = act.ActivateTab(7) },
+  { key = '8', mods = 'LEADER', action = act.ActivateTab(8) },
+  { key = '9', mods = 'LEADER', action = act.ActivateTab(9) },
+  { key = 'p', mods = 'LEADER', action = act.ActivateTabRelative(-1) },
+  { key = 'n', mods = 'LEADER', action = act.ActivateTabRelative(1) },
+  { key = 'o', mods = 'LEADER', action = act.ActivateLastTab },
+  { key = 'LeftArrow', mods = 'LEADER', action = act.ActivatePaneDirection 'Left' },
+  { key = 'RightArrow', mods = 'LEADER', action = act.ActivatePaneDirection 'Right' },
+  { key = 'UpArrow', mods = 'LEADER', action = act.ActivatePaneDirection 'Up' },
+  { key = 'DownArrow', mods = 'LEADER', action = act.ActivatePaneDirection 'Down' },
+  { key = 'LeftArrow', mods = 'LEADER|SHIFT', action = act.AdjustPaneSize { 'Left', 4 } },
+  { key = 'RightArrow', mods = 'LEADER|SHIFT', action = act.AdjustPaneSize { 'Right', 4 } },
+  { key = 'UpArrow', mods = 'LEADER|SHIFT', action = act.AdjustPaneSize { 'Up', 4 } },
+  { key = 'DownArrow', mods = 'LEADER|SHIFT', action = act.AdjustPaneSize { 'Down', 4 } },
+}
+
+return config
 -- vim: foldmethod=marker foldlevel=0
