@@ -38,36 +38,6 @@ return {
     end
   },
   -- }}}2
-  -- {{{2 nightfox
-  {
-    'EdenEast/nightfox.nvim',
-    event = 'VeryLazy',
-    opts = {
-      options = {
-        transparent = true,
-        dim_inactive = false,
-        terminal_colors = true,
-        styles = {
-          comments = 'italic',
-          functions = 'italic',
-          keywords = 'bold',
-          strings = 'NONE',
-          variables = 'NONE',
-        },
-        inverse = {
-          match_paren = true,
-          visual = false,
-          search = true,
-        }
-      },
-      groups = {
-        all = {
-          Folded = { bg = 'NONE' }
-        }
-      }
-    }
-  },
-  -- }}}2
   -- {{{2 catppuccin
   {
     'catppuccin/nvim',
