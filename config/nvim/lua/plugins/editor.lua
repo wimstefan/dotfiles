@@ -157,7 +157,7 @@ return {
         vim.keymap.set('n', '[c', "&diff ? '[c' : '<cmd>Gitsigns prev_hunk<CR>'",
           { expr = true, replace_keycodes = false },
           { desc = 'Gitsigns: previous hunk' })
-        vim.keymap.set('n', '<Leader>gp', gs.preview_hunk, { desc = 'Gitsigns: preview hunk' }, { buffer = bufnr })
+        vim.keymap.set('n', '<Leader>gp', gs.preview_hunk_inline, { desc = 'Gitsigns: preview hunk' }, { buffer = bufnr })
         vim.keymap.set('n', '<Leader>gb', function() gs.blame_line { full = true } end, { desc = 'Gitsigns: blame line' },
           { buffer = bufnr })
         vim.keymap.set('n', '<Leader>gd', gs.diffthis, { desc = 'Gitsigns: diffthis' }, { buffer = bufnr })
@@ -168,6 +168,21 @@ return {
         vim.keymap.set('n', '<Leader>gx', gs.toggle_deleted, { desc = 'Gitsigns: toggle deleted' }, { buffer = bufnr })
         vim.keymap.set('n', '<Leader>gr', gs.reset_hunk, { desc = 'Gitsigns: reset hunk' }, { buffer = bufnr })
       end
+    }
+  },
+  -- }}}2
+  -- {{{2 flash.nvim
+  {
+    'folke/flash.nvim',
+    event = 'VeryLazy',
+    opts = {
+      search = {
+        mode = 'fuzzy',
+        incremental = true
+      },
+      jump = {
+        autojump = true
+      }
     }
   },
   -- }}}2
@@ -262,38 +277,16 @@ return {
     end
   },
   -- }}}2
-  -- {{{2 nvim-spectre
+  -- {{{2 muren.nvim
   {
-    'nvim-pack/nvim-spectre',
+    'AckslD/muren.nvim',
     keys = {
-      { '<Leader>S', function() require('spectre').open() end, desc = 'Spectre' },
-      { '<Leader>Sw', function() require('spectre').open_visual({ select_word = true }) end, desc = 'Spectre: current word' }
+      { '<Leader>R', vim.cmd.MurenToggle, desc = 'Muren' },
+      { '<Leader>Rf', vim.cmd.MurenFresh, desc = 'Muren: fresh' },
+      { '<Leader>Ru', vim.cmd.MurenUnique, desc = 'Muren: unique' }
     },
-    opts = {
-      find_engine = {
-        ['rg'] = {
-          cmd = 'ugrep',
-          args = {
-            '-RIjnkzs',
-            '--ignore-files',
-            '--exclude-dir=".git"'
-          },
-          options = {
-            ['ignore-case'] = {
-              value = '--ignore-case',
-              icon = '[I]',
-              desc = 'ignore case'
-            },
-            ['hidden'] = {
-              value = '--hidden',
-              desc = 'hidden file',
-              icon = '[H]'
-            },
-          }
-        }
-      }
-    }
+    config = true
   }
-  -- }}}2
+  -- }}}
 }
 -- vim: foldmethod=marker foldlevel=1
