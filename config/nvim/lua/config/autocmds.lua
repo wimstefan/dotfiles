@@ -55,6 +55,18 @@ augroup('General', function(g)
   })
   aucmd('FileType', {
     group = g,
+    pattern = {
+      'markdown'
+    },
+    desc = 'Format markdown',
+    callback = function()
+      vim.opt_local.tabstop = 2
+      vim.opt_local.softtabstop = 2
+      vim.opt_local.shiftwidth = 2
+    end
+  })
+  aucmd('FileType', {
+    group = g,
     pattern = 'checkhealth',
     desc = 'Format checkhealth output',
     callback = function()
