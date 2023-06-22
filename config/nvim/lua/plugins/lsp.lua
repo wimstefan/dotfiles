@@ -100,10 +100,6 @@ return {
           { desc = 'LSP: restart' }, { buffer = bufnr })
         vim.keymap.set('n', ',lF', function() require('fzf-lua').lsp_finder() end,
           { desc = 'LSP: finder' }, { buffer = bufnr })
-        vim.keymap.set('n', ',lR', require('fzf-lua').lsp_definitions,
-          { desc = 'LSP: definitions' }, { buffer = bufnr })
-        vim.keymap.set('n', ',lr', require('fzf-lua').lsp_references,
-          { desc = 'LSP: references' }, { buffer = bufnr })
         vim.keymap.set('n', ',ly', require('fzf-lua').lsp_document_symbols,
           { desc = 'LSP: document symbols' }, { buffer = bufnr })
         vim.keymap.set('n', ',lY', require('fzf-lua').lsp_live_workspace_symbols,
@@ -123,7 +119,7 @@ return {
           { desc = 'LSP: rename', expr = true, replace_keycodes = false }, { buffer = bufnr })
         vim.keymap.set('n', ',lw', function() Dump(vim.lsp.buf.list_workspace_folders()) end,
           { desc = 'LSP: list workspace folders' }, { buffer = bufnr })
-        if client.server_capabilities.codeActionProvider then
+        if client.supports_method('textDocument/codeAction') then
           vim.keymap.set('n', ',lca',
             function()
               require('fzf-lua').lsp_code_actions({
@@ -134,14 +130,7 @@ return {
         else
           lsp_messages = lsp_messages .. 'no codeAction' .. lsp_msg_sep
         end
-        if client.server_capabilities.declarationProvider then
-          vim.keymap.set('n', ',lc', vim.lsp.buf.declaration,
-            { desc = 'LSP: declaration' }, { buffer = bufnr })
-        else
-          vim.keymap.set('n', ',lc', [[<Nop>]], { buffer = bufnr })
-          lsp_messages = lsp_messages .. 'no declaration' .. lsp_msg_sep
-        end
-        if client.server_capabilities.documentFormattingProvider then
+        if client.supports_method('textDocument/formatting') then
           local fmt_opts = vim.bo[bufnr].ft == 'lua'
             and 'async=true,bufnr=0,name="lua_ls"'
             or 'async=true,bufnr=0'
@@ -150,7 +139,7 @@ return {
         else
           lsp_messages = lsp_messages .. 'no format' .. lsp_msg_sep
         end
-        if client.server_capabilities.documentRangeFormattingProvider then
+        if client.supports_method('textDocument/rangeFormatting') then
           vim.keymap.set('v', ',lf',
             function()
               local _, csrow, cscol, cerow, cecol
@@ -174,21 +163,28 @@ return {
         else
           lsp_messages = lsp_messages .. 'no rangeFormat' .. lsp_msg_sep
         end
-        if client.server_capabilities.implementationProvider then
-          vim.keymap.set('n', ',li', vim.lsp.buf.implementation,
-            { desc = 'LSP: implementation' }, { buffer = bufnr })
-        else
-          vim.keymap.set('n', ',li', [[<Nop>]], { buffer = bufnr })
-          lsp_messages = lsp_messages .. 'no implementation' .. lsp_msg_sep
-        end
-        if client.server_capabilities.hoverProvider then
+        if client.supports_method('textDocument/hover') then
           vim.keymap.set('n', ',lh', vim.lsp.buf.hover,
             { desc = 'LSP: hover' }, { buffer = bufnr })
         else
           vim.keymap.set('n', ',lh', [[<Nop>]], { buffer = bufnr })
           lsp_messages = lsp_messages .. 'no hovering' .. lsp_msg_sep
         end
-        if client.server_capabilities.signatureHelpProvider then
+        if client.supports_method('textDocument/implementation') then
+          vim.keymap.set('n', ',li', function() require('fzf-lua').lsp_implementations() end,
+            { desc = 'LSP: implementations' }, { buffer = bufnr })
+        else
+          vim.keymap.set('n', ',li', [[<Nop>]], { buffer = bufnr })
+          lsp_messages = lsp_messages .. 'no implementation' .. lsp_msg_sep
+        end
+        if client.supports_method('textDocument/inlayHint') then
+          vim.keymap.set('n', ',lH', function() vim.lsp.buf.inlay_hint(0) end,
+            { desc = 'LSP: hints' }, { buffer = bufnr })
+        else
+          vim.keymap.set('n', ',lH', [[<Nop>]], { buffer = bufnr })
+          lsp_messages = lsp_messages .. 'no hints' .. lsp_msg_sep
+        end
+        if client.supports_method('textDocument/signatureHelp') then
           vim.keymap.set('i', '<C-s>',
             function() vim.lsp.buf.signature_help({ border = require('config.ui').borders }) end,
             { desc = 'LSP: signature help' }, { buffer = bufnr })
@@ -198,13 +194,6 @@ return {
         else
           vim.keymap.set('n', ',ls', [[<Nop>]], { buffer = bufnr })
           lsp_messages = lsp_messages .. 'no signatureHelp' .. lsp_msg_sep
-        end
-        if client.server_capabilities.typeDefinitionProvider then
-          vim.keymap.set('n', ',ltd', vim.lsp.buf.type_definition,
-            { desc = 'LSP: type definition' }, { buffer = bufnr })
-        else
-          vim.keymap.set('n', ',ltd', [[<Nop>]], { buffer = bufnr })
-          lsp_messages = lsp_messages .. 'no typeDefinition' .. lsp_msg_sep
         end
 
         -- messages
@@ -277,6 +266,7 @@ return {
             }
           }
         },
+        rust_analyzer = {},
         vimls = {},
       }
       for name, opts in pairs(servers) do
