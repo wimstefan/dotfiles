@@ -7,11 +7,20 @@ if wez.config_builder then
   config = wez.config_builder()
 end
 
+local appearance
+local bg_file = io.open(wez.home_dir .. '/.config/colours/background', 'r')
+if bg_file then
+  appearance = bg_file:read('*a')
+  bg_file:close()
+else
+  appearance = 'dark'
+end
+
 local my_font
 if hostname == 'tj' then
   my_font = 'operator'
 else
-  my_font = 'operator'
+  my_font = 'triple'
 end
 
 local function basename(s)
@@ -195,7 +204,8 @@ local function font_set(name)
   elseif string.match(name, 'hasklig') then
     font = font_fallback({ family = 'Hasklig', harfbuzz_features = { 'onum' } })
   elseif string.match(name, 'iosevka') then
-    font = font_fallback({ family = 'Iosevka Artesanal', harfbuzz_features = { 'calt', 'ccmp', 'dlig', 'onum' } })
+    font = font_fallback({ family = 'IosevkaArtesanal Nerd Font', harfbuzz_features = { 'calt', 'ccmp', 'dlig', 'onum' } })
+    -- font = font_fallback({ family = 'Iosevka Artesanal', harfbuzz_features = { 'calt', 'ccmp', 'dlig', 'onum' } })
   elseif string.match(name, 'jet') then
     font = font_fallback({ family = 'JetBrains Mono', harfbuzz_features = { 'cv06', 'cv07', 'cv11', 'ss20', 'zero' } })
   elseif string.match(name, 'mona') then
@@ -207,7 +217,13 @@ local function font_set(name)
   elseif string.match(name, 'pt') then
     font = font_fallback({ family = 'PT Mono', weight = 'Regular' })
   elseif string.match(name, 'recursive') then
-    font = font_fallback({ family = 'Rec Mono Casual', weight = 'Regular' })
+    font = font_fallback({ family = 'Rec Mono Custom', weight = 'Regular' })
+  elseif string.match(name, 'triple') then
+    if string.match(appearance, 'light') then
+      font = font_fallback({ family = 'Triplicate T4', weight = 'Regular', harfbuzz_features = { 'onum' } })
+    else
+      font = font_fallback({ family = 'Triplicate T3', weight = 'Regular', harfbuzz_features = { 'onum' } })
+    end
   end
   return font
 end
@@ -220,6 +236,7 @@ local function font_rules(name)
     or string.match(name, 'fantasque')
     or string.match(name, 'mona')
     or string.match(name, 'recursive')
+    or string.match(name, 'triple')
   then
     rules = nil
   elseif string.match(name, 'iosevka') then
@@ -318,7 +335,7 @@ end
 -- {{{2 font_size
 local function font_size(name)
   local size
-  if hostname == 'swimmer' then
+  if hostname == 'swimmer' or hostname == 'komala' then
     if string.match(name, 'custom') then
       size = 10.0
     elseif string.match(name, 'fantasque') then
@@ -330,37 +347,17 @@ local function font_size(name)
     elseif string.match(name, 'jet') then
       size = 10.0
     elseif string.match(name, 'operator') then
-      size = 11.0
+      size = 10.7
     elseif string.match(name, 'mona') then
       size = 10.0
     elseif string.match(name, 'plex') then
-      size = 10.6
+      size = 10.0
     elseif string.match(name, 'pt') then
       size = 10.0
     elseif string.match(name, 'recursive') then
       size = 9.9
-    end
-  elseif hostname == 'komala' then
-    if string.match(name, 'custom') then
-      size = 10.0
-    elseif string.match(name, 'fantasque') then
-      size = 11.4
-    elseif string.match(name, 'hasklig') then
+    elseif string.match(name, 'triple') then
       size = 10.5
-    elseif string.match(name, 'iosevka') then
-      size = 11.0
-    elseif string.match(name, 'jet') then
-      size = 10.0
-    elseif string.match(name, 'operator') then
-      size = 11.0
-    elseif string.match(name, 'mona') then
-      size = 10.0
-    elseif string.match(name, 'plex') then
-      size = 10.6
-    elseif string.match(name, 'pt') then
-      size = 10.0
-    elseif string.match(name, 'recursive') then
-      size = 9.9
     end
   elseif hostname == 'tj' then
     if string.match(name, 'custom') then
@@ -382,7 +379,9 @@ local function font_size(name)
     elseif string.match(name, 'pt') then
       size = 9.5
     elseif string.match(name, 'recursive') then
-      size = 9.8
+      size = 9.2
+    elseif string.match(name, 'triple') then
+      size = 9.5
     end
   end
   return size
@@ -391,14 +390,6 @@ end
 -- 2}}}
 -- {{{2 freetype
 local function ft_target(type)
-  local appearance
-  local bg_file = io.open(wez.home_dir .. '/.config/colours/background', 'r')
-  if bg_file then
-    appearance = bg_file:read('*a')
-    bg_file:close()
-  else
-    appearance = 'dark'
-  end
   local ft_type
   if string.match(type, 'load') then
     if my_font == 'operator' then
@@ -433,17 +424,17 @@ local function set_geometry(x)
     if hostname == 'swimmer' then
       if (my_font == 'pt') then
         value = 64
-      elseif (my_font == 'fantasque' or my_font == 'iosevka' or my_font == 'recursive' or my_font == 'mona') then
+      elseif (my_font == 'fantasque' or my_font == 'iosevka' or my_font == 'mona' or my_font == 'recursive' or my_font == 'triple') then
         value = 61
-      elseif (my_font == 'custom' or my_font == 'jet' or my_font == 'operator') then
+      elseif (my_font == 'custom' or my_font == 'jet' or my_font == 'operator' or my_font == 'plex') then
         value = 56
-      elseif (my_font == 'hasklig' or my_font == 'plex') then
+      elseif (my_font == 'hasklig') then
         value = 53
       end
     elseif hostname == 'komala' then
       if (my_font == 'pt') then
         value = 64
-      elseif (my_font == 'fantasque' or my_font == 'hasklig' or my_font == 'iosevka' or my_font == 'mona' or my_font == 'recursive') then
+      elseif (my_font == 'fantasque' or my_font == 'hasklig' or my_font == 'iosevka' or my_font == 'mona' or my_font == 'recursive' or my_font == 'triple') then
         value = 61
       elseif (my_font == 'custom' or my_font == 'jet' or my_font == 'operator') then
         value = 56
@@ -453,9 +444,9 @@ local function set_geometry(x)
     elseif hostname == 'tj' then
       if (my_font == 'pt' or my_font == 'recursive') then
         value = 51
-      elseif (my_font == 'hasklig' or my_font == 'iosevka' or my_font == 'mona' or my_font == 'operator') then
+      elseif (my_font == 'hasklig' or my_font == 'iosevka' or my_font == 'mona' or my_font == 'operator' or my_font == 'plex' or my_font == 'triple') then
         value = 50
-      elseif (my_font == 'fantasque' or my_font == 'jet' or my_font == 'plex') then
+      elseif (my_font == 'fantasque' or my_font == 'jet') then
         value = 44
       elseif (my_font == 'custom') then
         value = 41
@@ -572,8 +563,8 @@ config.window_background_opacity = opacity
 config.window_padding = {
   left = '0.8%',
   right = '0.8%',
-  top = '1.0%',
-  bottom = '0.0%'
+  top = '0.8%',
+  bottom = '0'
 }
 config.initial_cols = set_geometry('cols')
 config.initial_rows = set_geometry('rows')
@@ -596,7 +587,7 @@ config.hyperlink_rules = {
   }
 }
 -- Key bindings
-config.disable_default_key_bindings = false
+config.disable_default_key_bindings = true
 config.use_ime = false
 config.debug_key_events = false
 config.leader = { key = 'q', mods = 'CTRL' }
