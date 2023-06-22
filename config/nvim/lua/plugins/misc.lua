@@ -13,6 +13,7 @@ return {
   {
     'gennaro-tedesco/nvim-possession',
     keys = {
+      { '<leader>pd', function() require('nvim-possession').delete() end, desc = 'Projects: delete' },
       { '<leader>pl', function() require('nvim-possession').list() end, desc = 'Projects: list' },
       { '<leader>pn', function() require('nvim-possession').new() end, desc = 'Projects: new' },
       { '<leader>pu', function() require('nvim-possession').update() end, desc = 'Projects: update' }
