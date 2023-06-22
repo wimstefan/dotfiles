@@ -30,6 +30,9 @@ Xcursor.theme: Catppuccin-Latte-Light-Cursors
 
 *xterm*termName:           xterm-256color
 *xterm*renderFont:         true
+*xterm*wideChars:          true
+*xterm*decTerminalID:      340
+*xterm*decGraphicsID:      340
 *xterm*highlightSelection: true
 *xterm*highlightReverse:   true
 *xterm*trimSelection:      true
