@@ -22,6 +22,7 @@ local naughty = require('naughty')
 local ruled = require('ruled')
 local menubar = require('menubar')
 local hotkeys_popup = require('awful.hotkeys_popup')
+package.loaded['awful.hotkeys_popup.keys.tmux'] = {}
 require('awful.hotkeys_popup.keys')
 -- Utilities
 local helpers = require('helpers')

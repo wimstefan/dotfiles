@@ -683,7 +683,9 @@ if [[ $USER != root ]]; then
         rsync -azL  --delete /home/swimmer/.terminfo/w/wezterm $host:.terminfo/w/
         rsync -azL  --delete /usr/local/share/applications/wezterm.desktop $host:/usr/local/share/applications/
         for j in strip-ansi-escapes sync-color-schemes wezterm{,-gui,-mux-server}; rsync -azL --delete /home/swimmer/.local/bin/$j $host:/usr/local/bin/
-        rsync -az            /home/swimmer/.config/emoji-list.txt $host:.config/
+        rsync -az            /home/swimmer/.config/zellij/config.kdl $host:.config/zellij/config.kdl
+        rsync -az            /home/swimmer/.config/zellij/layouts/swap.kdl $host:.config/zellij/layouts/swap.kdl
+        rsync -azkL --delete /home/swimmer/.config/zellij/themes/ $host:.config/zellij/themes/
         rsync -az            /usr/local/bin/bg-toggle $host:/usr/local/bin/
       }
 
@@ -923,3 +925,49 @@ _fzf_comprun() {
 [ -f $ZDOTDIR/external/fzf-extras.git/fzf-extras.zsh ] && source $ZDOTDIR/external/fzf-extras.git/fzf-extras.zsh
 [ -f $ZDOTDIR/external/fzf-marks.git/fzf-marks.plugin.zsh ] && source $ZDOTDIR/external/fzf-marks.git/fzf-marks.plugin.zsh
 [ -f "${XDG_CONFIG_HOME:-$HOME/.config}"/fzf/fzf.zsh ] && source "${XDG_CONFIG_HOME:-$HOME/.config}"/fzf/fzf.zsh
+
+# zellij
+alias zx=zellij
+function zr () { zellij run --name "$*" -- zsh -ic "$*";}
+function zrf () { zellij run --name "$*" --floating -- zsh -ic "$*";}
+function ze () { zellij edit "$*";}
+function zef () { zellij edit --floating "$*";}
+function za () {
+  ZJ_SESSION="$1"
+  ZJ_SESSIONS=$(zellij list-sessions)
+  NO_SESSIONS=$(echo "${ZJ_SESSIONS}" | wc -l)
+
+  if [ "${ZJ_SESSION}" != "" ]; then
+    zellij attach "${ZJ_SESSION}"
+  else
+    if [ "${NO_SESSIONS}" -ge 2 ]; then
+      zellij attach "$(echo "${ZJ_SESSIONS}" | fzf --multi )"
+    else
+      zellij
+    fi
+  fi
+}
+function zl () {
+  ZJ_LAYOUT_DIR=$(zellij setup --check \
+    | grep "LAYOUT DIR" - \
+    | grep -o '".*"' - | tr -d '"')
+
+  if [[ -d "${ZJ_LAYOUT_DIR}" ]];then
+        ZJ_LAYOUT="$(fd --type file . "${ZJ_LAYOUT_DIR}" \
+        | sed 's|.*/||' \
+        | sed 's|\.kdl||' \
+        | fzf --multi \
+        || exit)"
+    zellij --session "${ZJ_LAYOUT}" --layout "${ZJ_LAYOUT}"
+  fi
+}
+function zn () {
+  ZJ_SESSION="$1"
+
+  if [ "${ZJ_SESSION}" != "" ]; then
+    zellij --session "${ZJ_SESSION}" --layout "${ZJ_SESSION}"
+  else
+    echo "No session defined"
+    return
+  fi
+}
