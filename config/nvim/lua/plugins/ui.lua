@@ -9,6 +9,16 @@ return {
     opts = {}
   },
   -- }}}2
+  -- {{{2 dropbar.nvim
+  {
+    'Bekaboo/dropbar.nvim',
+    event = 'VeryLazy',
+    config = true,
+    keys = {
+      { '<Leader>d', function() require('dropbar.api').pick() end, desc = 'Dropbar: Pick mode' }
+    }
+  },
+  -- }}}2
   -- {{{2 nvim-ufo
   {
     'kevinhwang91/nvim-ufo',
@@ -80,7 +90,13 @@ return {
             scrollU = '<C-u>',
             scrollD = '<C-d>'
           }
-        }
+        },
+        provider_selector = function(bufnr, filetype, buftype)
+          local ftMap = {
+            git = ''
+          }
+          return ftMap[filetype] or { 'treesitter', 'indent' }
+        end
       })
     end
   },
@@ -123,12 +139,6 @@ return {
         colorcode = '#e78284'
       }
     }
-  },
-  -- }}}2
-  -- {{{2 relative-toggle.nvim
-  {
-    'cpea2506/relative-toggle.nvim',
-    event = 'VeryLazy'
   },
   -- }}}2
   -- {{{2 indent-blankline.nvim
