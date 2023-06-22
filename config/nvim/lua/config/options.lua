@@ -21,6 +21,7 @@ vim.opt.listchars = {
 }
 vim.opt.laststatus = 3
 vim.opt.fillchars:append({
+  diff = ' ',
   horiz = '─',
   horizup = '┴',
   horizdown = '┬',
