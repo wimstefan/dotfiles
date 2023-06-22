@@ -17,18 +17,17 @@ local TablineFileName = {
 local TablineFileFlags = {
   {
     condition = function(self)
-      return vim.api.nvim_buf_get_option(self.bufnr, 'modified')
+      return vim.bo[self.bufnr].modified
     end,
     provider = ' ●',
     hl = { fg = 'red' }
   },
   {
     condition = function(self)
-      return not vim.api.nvim_buf_get_option(self.bufnr, 'modifiable')
-        or vim.api.nvim_buf_get_option(self.bufnr, 'readonly')
+      return not vim.bo[self.bufnr].modifiable or vim.bo[self.bufnr].readonly
     end,
     provider = function(self)
-      if vim.api.nvim_buf_get_option(self.bufnr, 'buftype') == 'toggleterm' then
+      if vim.bo[self.bufnr].buftype == 'toggleterm' then
         return '  '
       else
         return ' x'

@@ -88,10 +88,10 @@ return {
         local lsp_msg_sep = ' ∷ '
         lsp_messages = lsp_msg_sep .. 'LSP attached' .. lsp_msg_sep
         -- options
-        if vim.api.nvim_buf_get_option(bufnr, 'filetype') == 'lua' then
-          vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lua_omnifunc')
+        if vim.bo[bufnr].filetype == 'lua' then
+          vim.bo[bufnr].omnifunc = 'v:lua.vim.lua_omnifunc'
         else
-          vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
+          vim.bo[bufnr].omnifunc = 'v:lua.vim.lsp.omnifunc'
         end
         -- keybindings
         vim.keymap.set('n', ',lI', vim.cmd.LspInfo,

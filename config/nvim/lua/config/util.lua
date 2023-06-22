@@ -7,10 +7,10 @@ function MDump(...)
   vim.notify('```lua\n' .. msg .. '\n```', vim.log.levels.INFO, {
     title = '[DEBUG]',
     on_open = function(win)
-      vim.api.nvim_win_set_option(win, 'conceallevel', 3)
+      vim.wo[win].conceallevel = 3
       local buf = vim.api.nvim_win_get_buf(win)
-      vim.api.nvim_buf_set_option(buf, 'filetype', 'markdown')
-      vim.api.nvim_win_set_option(win, 'spell', false)
+      vim.bo[buf].filetype = 'markdown'
+      vim.wo[win].spell = false
     end,
   })
 end
