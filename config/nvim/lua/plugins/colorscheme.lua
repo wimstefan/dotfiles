@@ -6,7 +6,7 @@ return {
   -- {{{2 vim-artesanal
   {
     'wimstefan/vim-artesanal',
-    event = 'VeryLazy',
+    lazy = false,
     config = function()
       vim.g.artesanal_dimmed = false
       vim.g.artesanal_transparent = true
@@ -16,7 +16,7 @@ return {
   -- {{{2 tokyonight
   {
     'folke/tokyonight.nvim',
-    event = 'VeryLazy',
+    lazy = false,
     opts = function()
       return {
         style = 'moon',
@@ -43,7 +43,6 @@ return {
     'catppuccin/nvim',
     name = 'catppuccin',
     lazy = false,
-    priority = 1000,
     opts = {
       styles = {
         comments = { 'italic' },
@@ -114,7 +113,7 @@ return {
   {
     'rose-pine/neovim',
     name = 'rose-pine',
-    event = 'VeryLazy',
+    lazy = false,
     opts = {
       dark_variant = 'moon',
       disable_background = true,
@@ -128,7 +127,7 @@ return {
   -- {{{2 zenbones
   {
     'mcchrish/zenbones.nvim',
-    event = 'VeryLazy',
+    lazy = false,
     config = function()
       local flavours = { 'zenbones', 'zenwritten', 'neobones', 'nordbones', 'seoulbones', 'tokyobones' }
       for _, flavour in ipairs(flavours) do
@@ -148,7 +147,7 @@ return {
   -- {{{2 nvim-base16
   {
     'RRethy/nvim-base16',
-    event = 'VeryLazy'
+    lazy = false
   }
   -- }}}2
 }
