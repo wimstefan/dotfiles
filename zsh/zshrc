@@ -439,6 +439,10 @@ function fman() { # use fzf to list all manpages and read
   man -k . | fzf --prompt='Man> ' | awk '{print $1}' | xargs -r man
 }
 
+function help() {
+  "$@" --help 2>&1 | bat --plain --language=help
+}
+
 # Dynamic titles
 function terminal_title_precmd() {
     print -Pn -- "\e]2;%n@%m:%~\a"
@@ -459,7 +463,7 @@ function npm-update()
 
 function pip-update()
 {
-  for i in $(pip freeze --user | cut -d '=' -f 1); echo "--- $i ---" && pip install -U --user $i
+  for i in $(pip freeze --user | cut -d '=' -f 1); echo "--- $i ---" && pip install -U --user $i --break-system-packages
 }
 
 # }}}3
@@ -511,13 +515,8 @@ if [[ $USER != root ]]; then
     export TERM_CMD='-e'
   fi
 
-  export XDG_RUNTIME_DIR=/tmp/${UID}-runtime-dir
-  if test -z ${XDG_RUNTIME_DIR}; then
-    export XDG_RUNTIME_DIR=/tmp/${UID}-runtime-dir
-    if ! test -d ${XDG_RUNTIME_DIR}; then
-      mkdir ${XDG_RUNTIME_DIR}
-      chmod 0700 ${XDG_RUNTIME_DIR}
-    fi
+  if test -f $HOME/system/.openai_key.gpg; then
+    export OPENAI_API_KEY=$(gpg -q --no-verbose -d --batch $HOME/system/.openai_key.gpg)
   fi
   # }}}3
   # - Aliases {{{3
@@ -871,14 +870,13 @@ if [[ -n $KITTY_INSTALLATION_DIR ]]; then
   kitty-integration
   unfunction kitty-integration
 fi
-# }}}1
 
 # fzf configuration
 export FZF_DEFAULT_OPTS='
   -m
   --cycle
   --layout reverse
-  --inline-info
+  --info=inline-right
   --no-separator
   --height ~90%
   --padding 1
@@ -971,3 +969,6 @@ function zn () {
     return
   fi
 }
+# }}}1
+
+alias luamake=/home/swimmer/.local/share/nvim/lspconfig/lua-language-server.git/3rd/luamake/luamake
