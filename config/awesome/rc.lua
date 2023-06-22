@@ -331,6 +331,11 @@ local tooltip_bat = awful.tooltip({
 -- Power widget }}}
 -- {{{2 Wifi widget
 widget_wifi = wibox.widget.textbox()
+widget_wifi:buttons(gears.table.join(
+  awful.button({}, 1, function()
+    awful.spawn('wpa_gui')
+  end)
+))
 vicious.register(widget_wifi, vicious.widgets.wifiiw, '[${ssid}] ${rate}MB/s ${linp}%', 10, 'wlan0')
 -- Wifi widget }}}
 -- {{{2 Textclock widget
@@ -890,7 +895,7 @@ awful.keyboard.append_global_keybindings({
     function() awful.spawn("rofi -theme '~/.config/rofi/config-sidebar.rasi' -modi emoji -show emoji") end,
     { description = 'Emoji picker 😸', group = 'applications' }),
   awful.key({}, 'Print',
-    function() awful.spawn.with_shell('scrot -s -F ~/tmp/screenshots/scrot-%F-%R.png') end,
+    function() awful.spawn.with_shell('scrot -s -q 100 -F ~/tmp/screenshots/scrot-%F-%R.png') end,
     { description = 'Print screen', group = 'controls' }),
 })
 
