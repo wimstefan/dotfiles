@@ -68,7 +68,6 @@ return {
         }),
         sources = cmp.config.sources({
           { name = 'nvim_lsp' },
-          { name = 'nvim_lsp_signature_help' },
           { name = 'snippy' },
           {
             name = 'path',
@@ -102,7 +101,9 @@ return {
           documentation = cmp.config.window.bordered()
         },
         experimental = {
-          ghost_text = true
+          ghost_text = {
+            enabled = true
+          }
         },
         sorting = {
           comparators = {
@@ -163,6 +164,26 @@ return {
       require('Comment').setup({
         pre_hook = require('ts_context_commentstring.integrations.comment_nvim').create_pre_hook()
       })
+      vim.keymap.set('n', 'g>', require('Comment.api').call('comment.linewise', 'g@'),
+        { expr = true, desc = 'Comment region linewise' })
+      vim.keymap.set('n', 'g>c', require('Comment.api').call('comment.linewise.current', 'g@$'),
+        { expr = true, desc = 'Comment current line' })
+      vim.keymap.set('n', 'g>b', require('Comment.api').call('comment.blockwise.current', 'g@$'),
+        { expr = true, desc = 'Comment current block' })
+      vim.keymap.set('n', 'g<', require('Comment.api').call('uncomment.linewise', 'g@'),
+        { expr = true, desc = 'Uncomment region linewise' })
+      vim.keymap.set('n', 'g<c', require('Comment.api').call('uncomment.linewise.current', 'g@$'),
+        { expr = true, desc = 'Uncomment current line' })
+      vim.keymap.set('n', 'g<b', require('Comment.api').call('uncomment.blockwise.current', 'g@$'),
+        { expr = true, desc = 'Uncomment current block' })
+      vim.keymap.set('x', 'g>', function()
+        vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes('<ESC>', true, false, true), 'nx', false)
+        require('Comment.api').locked('comment.linewise')(vim.fn.visualmode())
+      end, { desc = 'Comment region linewise (visual)' })
+      vim.keymap.set('x', 'g<', function()
+        vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes('<ESC>', true, false, true), 'nx', false)
+        require('Comment.api').locked('uncomment.linewise')(vim.fn.visualmode())
+      end, { desc = 'Uncomment region linewise (visual)' })
     end
   },
   -- }}}2
@@ -229,6 +250,8 @@ return {
       { '<C-x>', function() return require('dial.map').dec_normal() end, expr = true, noremap = true, desc = 'Decrement' },
       { '<C-a>', function() return require('dial.map').inc_visual() end, mode = 'v', expr = true, noremap = true, desc = 'Increment visual selection' },
       { '<C-x>', function() return require('dial.map').dec_visual() end, mode = 'v', expr = true, noremap = true, desc = 'Decrement visual selection' },
+      { 'g<C-a>', function() return require('dial.map').inc_gnormal() end, mode = 'n', expr = true, noremap = true, desc = 'Increment visual selection' },
+      { 'g<C-x>', function() return require('dial.map').dec_gnormal() end, mode = 'n', expr = true, noremap = true, desc = 'Decrement visual selection' },
       { 'g<C-a>', function() return require('dial.map').inc_gvisual() end, mode = 'v', expr = true, noremap = true, desc = 'Increment visual selection' },
       { 'g<C-x>', function() return require('dial.map').dec_gvisual() end, mode = 'v', expr = true, noremap = true, desc = 'Decrement visual selection' }
     },
