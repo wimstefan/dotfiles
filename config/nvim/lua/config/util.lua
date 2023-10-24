@@ -57,7 +57,7 @@ function ToggleDetails()
     vim.opt.mouse = 'a'
     vim.opt.cursorcolumn = true
     vim.opt.cursorline = true
-    vim.opt.signcolumn = 'yes'
+    vim.opt.signcolumn = 'number'
     vim.opt.foldenable = true
     vim.opt.list = true
     vim.opt.number = true

@@ -4,20 +4,21 @@ local M = {
   opts = {}
 }
 
-local buftypes = {
+M.buftypes = {
   'help',
   'nofile',
   'prompt',
   'quickfix',
   'terminal'
 }
-local filetypes = {
+M.filetypes = {
   '^toggleterm$'
 }
-local force_inactive_filetypes = {
+M.force_inactive_filetypes = {
   '^$',
   '^lazy$',
   '^netrw$',
+  '^oil$',
   '^toggleterm$',
   '^undotree$'
 }
@@ -100,9 +101,9 @@ function M.load()
   heirline.setup({
     statusline = {
       static = {
-        buftypes = buftypes,
-        filetypes = filetypes,
-        force_inactive_filetypes = force_inactive_filetypes,
+        buftypes = M.buftypes,
+        filetypes = M.filetypes,
+        force_inactive_filetypes = M.force_inactive_filetypes,
         mode_colors = {
           n = 'green',
           i = 'red',
@@ -150,18 +151,21 @@ function M.load()
       statusline.FileTypeBlock
     },
     statuscolumn = {
-      static = {
-        buftypes = buftypes,
-        filetypes = filetypes,
-        force_inactive_filetypes = force_inactive_filetypes
-      },
       condition = function(self)
         return not conditions.buffer_matches({
           buftype = self.buftypes,
           filetype = self.force_inactive_filetypes,
         })
       end,
-      statuscolumn
+      static = statuscolumn.static,
+      init = statuscolumn.init,
+      statuscolumn.folds,
+      spacer,
+      align,
+      statuscolumn.line_numbers,
+      spacer,
+      statuscolumn.git_signs,
+      -- statuscolumn.signs,
     },
     tabline = tabline
   })
@@ -170,4 +174,5 @@ end
 vim.cmd([[au FileType * if index(['wipe', 'delete'], &bufhidden) >= 0 | set nobuflisted | endif]])
 
 function M.config() M.load() end
+
 return M

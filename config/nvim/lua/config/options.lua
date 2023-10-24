@@ -2,6 +2,7 @@ local indent = 2
 
 vim.opt.termguicolors = true
 vim.opt.number = true
+vim.opt.numberwidth = 3
 vim.opt.relativenumber = true
 vim.opt.cursorline = true
 vim.opt.cursorlineopt = 'number'
@@ -21,6 +22,9 @@ vim.opt.listchars = {
 }
 vim.opt.laststatus = 3
 vim.opt.fillchars:append({
+  stl = ' ',
+  stlnc = ' ',
+  wbr = ' ',
   diff = ' ',
   horiz = '─',
   horizup = '┴',
