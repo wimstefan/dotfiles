@@ -45,6 +45,7 @@ return {
       vim.opt.foldlevel = 99
       vim.opt.foldlevelstart = 99
       vim.opt.foldcolumn = 'auto:1'
+      vim.opt.foldtext = 'v:lua.vim.treesitter.foldtext()'
       vim.opt.fillchars:append({
         foldsep = '🮍',
         foldopen = '',
@@ -146,15 +147,15 @@ return {
     'lukas-reineke/indent-blankline.nvim',
     event = 'VeryLazy',
     keys = {
-      { ',ti', vim.cmd.IndentBlanklineToggle, desc = 'IndentBlankline: toggle' }
+      { ',ti', vim.cmd.IBLToggle, desc = 'IndentBlankline: toggle' }
     },
+    main = 'ibl',
     opts = {
       enabled = false,
-      char = '▏',
-      disable_with_nolist = true,
-      use_treesitter = true,
-      show_current_context = true,
-      show_current_context_start = true
+      indent = {
+        highlight = { 'Error', 'Character', 'Type', 'String', 'Label', 'Keyword' },
+        char = '▏'
+      }
     }
   },
   -- }}}2
