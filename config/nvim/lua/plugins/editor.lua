@@ -112,6 +112,18 @@ return {
           }
         }
       })
+
+      fzf_lua.register_ui_select(function(_, items)
+        local min_h, max_h = 0.15, 0.70
+        local h = (#items + 4) / vim.o.lines
+        if h < min_h then
+          h = min_h
+        elseif h > max_h then
+          h = max_h
+        end
+        return { winopts = { height = h, width = 0.60, row = 0.40 } }
+      end)
+
     end
   },
   -- }}}2
@@ -176,12 +188,64 @@ return {
     'folke/flash.nvim',
     event = 'VeryLazy',
     opts = {
-      search = {
-        mode = 'fuzzy',
-        incremental = true
-      },
       jump = {
         autojump = true
+      },
+      label = {
+        rainbow = {
+          enabled = true
+        }
+      },
+      modes = {
+        char = {
+          jump_labels = true
+        }
+      },
+      prompt = {
+        enabled = true,
+        prefix = { { '󰛕 ', 'FlashPromptIcon' } }
+      }
+    },
+    keys = {
+      {
+        '\\',
+        mode = { 'n', 'o', 'x' },
+        function()
+          require('flash').jump()
+        end,
+        desc = 'Flash',
+      },
+      {
+        '\\r',
+        mode = { 'o', 'x' },
+        function()
+          require('flash').treesitter_search()
+        end,
+        desc = 'Flash: Treesitter Search',
+      },
+      {
+        '\\t',
+        mode = { 'n', 'o', 'x' },
+        function()
+          require('flash').treesitter()
+        end,
+        desc = 'Flash: Treesitter',
+      },
+      {
+        'r',
+        mode = 'o',
+        function()
+          require('flash').remote()
+        end,
+        desc = 'Flash: Remote',
+      },
+      {
+        '<C-s>',
+        mode = { 'c' },
+        function()
+          require('flash').toggle()
+        end,
+        desc = 'Flash: Toggle Search',
       }
     }
   },
@@ -281,11 +345,17 @@ return {
   {
     'AckslD/muren.nvim',
     keys = {
-      { '<Leader>R', vim.cmd.MurenToggle, desc = 'Muren' },
-      { '<Leader>Rf', vim.cmd.MurenFresh, desc = 'Muren: fresh' },
-      { '<Leader>Ru', vim.cmd.MurenUnique, desc = 'Muren: unique' }
+      { '<Leader>R', function() require('muren.api').toggle_ui() end, desc = 'Muren' },
+      { '<Leader>Rf', function() require('muren.api').open_fresh_ui() end, desc = 'Muren: fresh' },
+      { '<Leader>Ru', function() require('muren.api').open_unique_ui() end, desc = 'Muren: unique' }
     },
-    config = true
+    opts = {
+      patterns_width = 33,
+      patterns_height = 11,
+      options_width = 22,
+      preview_height = 33,
+      anchor = 'top_right'
+    }
   }
   -- }}}
 }
