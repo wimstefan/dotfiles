@@ -986,7 +986,7 @@ ruled.client.connect_signal('request::rules', function()
   ruled.client.append_rule { rule_any = { class = { 'thunderbird' } }, properties = { tag = '7' } }
   ruled.client.append_rule { rule_any = { class = { 'Darktable', 'Gimp', 'Inkscape', 'scribus' } },
     properties = { tag = '8' } }
-  ruled.client.append_rule { rule_any = { class = { 'Audacious', 'Audacity', 'puddletag' } }, properties = { tag = '9' } }
+  ruled.client.append_rule { rule_any = { class = { 'Audacious', 'Audacity', 'puddletag', 'Signal' } }, properties = { tag = '9' } }
 
   -- Application & host specific rules
   ruled.client.append_rule { rule_any = { class = { 'Mixxx', 'libreoffice' } }, properties = { shape = shape.rectangle } }
@@ -1179,6 +1179,9 @@ awful.spawn.with_shell(
   '/usr/local/src/Tools/x11/picom-FT-Labs.git/build/src/picom --config $HOME/.config/picom/awesomewm.conf &;'
   -- 'picom --config $HOME/.config/picom/awesomewm.conf &;'
 )
+if hostname == 'swimmer' or hostname == 'tj' then
+  awful.spawn.once('signal-desktop --use-tray-icon --stay-in-tray')
+end
 -- 1}}}
 
 -- {{{1 Memory management
