@@ -187,6 +187,25 @@ return {
     end
   },
   -- }}}2
+  -- {{{2 multicursors.nvim
+  {
+    'smoka7/multicursors.nvim',
+    event = 'VeryLazy',
+    dependencies = {
+      'smoka7/hydra.nvim',
+    },
+    opts = {},
+    cmd = { 'MCstart', 'MCvisual', 'MCclear', 'MCpattern', 'MCvisualPattern', 'MCunderCursor' },
+    keys = {
+      {
+        mode = { 'v', 'n' },
+        '<Leader>v',
+        '<cmd>MCstart<CR>',
+        desc = 'Create a selection for selected text or word under the cursor',
+      },
+    },
+  },
+  -- }}}2
   -- {{{2 smartyank.nvim
   {
     'ibhagwan/smartyank.nvim',
@@ -222,17 +241,38 @@ return {
       'text'
     },
     config = function()
-      local autolist = require('autolist')
-      autolist.setup()
-      autolist.create_mapping_hook('i', '<CR>', autolist.new)
-      autolist.create_mapping_hook('i', '<Tab>', autolist.indent)
-      autolist.create_mapping_hook('i', '<S-Tab>', autolist.indent, '<C-D>')
-      autolist.create_mapping_hook('n', 'o', autolist.new)
-      autolist.create_mapping_hook('n', 'O', autolist.new_before)
-      autolist.create_mapping_hook('n', '>>', autolist.indent)
-      autolist.create_mapping_hook('n', '<<', autolist.indent)
-      autolist.create_mapping_hook('n', '<C-r>', autolist.force_recalculate)
-      autolist.create_mapping_hook('n', '<leader>x', autolist.invert_entry, '')
+      require('autolist').setup({
+        cycle = {
+          '*',
+          '-',
+          '.',
+          '1)',
+          'a)'
+        }
+      })
+
+      vim.keymap.set('i', '<CR>', '<CR><Cmd>AutolistNewBullet<CR>')
+      vim.keymap.set('i', '<Tab>', function()
+        require('autolist').cycle_next_dr()
+        require('autolist').tab()
+      end, { desc = 'Autolist: increase indentation' })
+      vim.keymap.set('i', '<S-Tab>', function()
+        require('autolist').cycle_prev_dr()
+        require('autolist').shift_tab()
+      end, { desc = 'Autolist: decrease indentation' })
+      vim.keymap.set('n', 'o', 'o<Cmd>AutolistNewBullet<CR>')
+      vim.keymap.set('n', 'O', 'O<Cmd>AutolistNewBulletBefore<CR>')
+      vim.keymap.set('n', '<CR>', '<Cmd>AutolistToggleCheckbox<CR>')
+      vim.keymap.set('n', '<C-r>', '<Cmd>AutolistRecalculate<CR>')
+
+      vim.keymap.set('n', '<Leader>an', require('autolist').cycle_next_dr, { expr = true })
+      vim.keymap.set('n', '<Leader>ap', require('autolist').cycle_prev_dr, { expr = true })
+
+      vim.keymap.set('n', '>>', '>><Cmd>AutolistRecalculate<CR>')
+      vim.keymap.set('n', '<<', '<<<Cmd>AutolistRecalculate<CR>')
+      vim.keymap.set('n', 'dd', 'dd<Cmd>AutolistRecalculate<CR>')
+      vim.keymap.set('v', 'd', 'd<Cmd>AutolistRecalculate<CR>')
+
     end
   },
   -- }}}2
