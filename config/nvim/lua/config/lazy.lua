@@ -42,6 +42,15 @@ require('lazy').setup({
   },
   checker = {
     enabled = true
+  },
+  performance = {
+    rtp = {
+      disabled_plugins = {
+        'netrwPlugin',
+        'tohtml',
+        'tutor'
+      }
+    }
   }
 })
 require('lazy.view.config').keys.profile_filter = '<C-p>'

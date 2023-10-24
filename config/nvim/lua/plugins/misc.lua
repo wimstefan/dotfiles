@@ -51,6 +51,27 @@ return {
     }
   },
   -- }}}2
+  -- {{{2 oil.nvim
+  {
+    'stevearc/oil.nvim',
+    dependencies = 'nvim-tree/nvim-web-devicons',
+    event = 'VeryLazy',
+    config = function()
+      require('oil').setup()
+      vim.api.nvim_create_autocmd('User', {
+        pattern = 'OilEnter',
+        callback = vim.schedule_wrap(function(args)
+          if vim.api.nvim_get_current_buf() == args.data.buf and require('oil').get_cursor_entry() then
+            require('oil').select({ preview = true })
+          end
+        end),
+      })
+    end,
+    keys = {
+      { '-', function() require('oil').open() end, desc = 'Oil: open parent directory' }
+    }
+  },
+  -- }}}
   -- {{{2 toggleterm.nvim
   {
     'akinsho/toggleterm.nvim',
