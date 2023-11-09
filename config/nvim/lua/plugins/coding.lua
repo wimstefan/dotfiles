@@ -206,13 +206,6 @@ return {
     },
   },
   -- }}}2
-  -- {{{2 smartyank.nvim
-  {
-    'ibhagwan/smartyank.nvim',
-    event = 'VeryLazy',
-    config = true
-  },
-  -- }}}2
   -- {{{2 text-case.nvim
   {
     'johmsalas/text-case.nvim',
