@@ -290,16 +290,16 @@ return {
       'CursorHold',
       'CursorHoldI'
     },
-    opts = function()
-      vim.fn.sign_define('LightBulbSign', { text = ' ', texthl = 'WarningMsg', linehl = '', numhl = '' })
-      vim.api.nvim_create_autocmd({ 'CursorHold', 'CursorHoldI' }, {
-        desc = 'LSP: show lightbulb',
-        callback = function()
-          require('nvim-lightbulb').update_lightbulb()
-        end
-      })
-      require('nvim-lightbulb').update_lightbulb()
-    end
+    opts = {
+      sign = {
+        enabled = true,
+        text = ' ',
+        hl = 'WarningMsg'
+      },
+      autocmd = {
+        enabled = true
+      }
+    }
   },
   -- }}}2
   -- {{{2 hover.nvim
@@ -371,3 +371,4 @@ return {
   -- }}}2
 }
 -- vim: foldmethod=marker foldlevel=1
+
