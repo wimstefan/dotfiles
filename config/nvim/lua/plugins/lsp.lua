@@ -94,6 +94,7 @@ return {
           vim.bo[bufnr].omnifunc = 'v:lua.vim.lsp.omnifunc'
         end
         -- keybindings
+        vim.keymap.del('n', 'K', { buffer = bufnr })
         vim.keymap.set('n', ',lI', vim.cmd.LspInfo,
           { desc = 'LSP: info' }, { buffer = bufnr })
         vim.keymap.set('n', ',lrs', vim.cmd.LspRestart,
@@ -178,7 +179,7 @@ return {
           lsp_messages = lsp_messages .. 'no implementation' .. lsp_msg_sep
         end
         if client.supports_method('textDocument/inlayHint') then
-          vim.keymap.set('n', ',lH', function() vim.lsp.buf.inlay_hint(0) end,
+          vim.keymap.set('n', ',lH', function() vim.lsp.inlay_hint(0) end,
             { desc = 'LSP: hints' }, { buffer = bufnr })
         else
           vim.keymap.set('n', ',lH', [[<Nop>]], { buffer = bufnr })
@@ -227,12 +228,38 @@ return {
                 validProperties = {},
               },
             },
-          },
+            html = {
+              format = {
+                templating = true,
+                wrapLineLength = 120,
+                wrapAttributes = 'auto',
+              },
+              hover = {
+                documentation = true,
+                references = true,
+              }
+            }
+          }
         },
         intelephense = {},
         jsonls = {},
         lua_ls = {
           cmd = { vim.fn.stdpath('data') .. '/lspconfig/lua-language-server/bin/lua-language-server' },
+          on_init = function(client)
+            local path = client.workspace_folders[1].name
+            if not vim.loop.fs_stat(path .. '/.luarc.json') and not vim.loop.fs_stat(path .. '/.luarc.jsonc') then
+              client.config.settings = vim.tbl_deep_extend('force', client.config.settings.Lua, {
+                runtime = {
+                  version = 'LuaJIT'
+                },
+                workspace = {
+                  library = { vim.env.VIMRUNTIME }
+                }
+              })
+              client.notify('workspace/didChangeConfiguration', { settings = client.config.settings })
+            end
+            return true
+          end,
           settings = {
             Lua = {
               completion = {
@@ -259,9 +286,6 @@ return {
               },
               hint = {
                 enable = true
-              },
-              workspace = {
-                checkThirdParty = false
               }
             }
           }
@@ -371,4 +395,3 @@ return {
   -- }}}2
 }
 -- vim: foldmethod=marker foldlevel=1
-
