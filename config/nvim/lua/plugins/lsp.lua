@@ -179,7 +179,7 @@ return {
           lsp_messages = lsp_messages .. 'no implementation' .. lsp_msg_sep
         end
         if client.supports_method('textDocument/inlayHint') then
-          vim.keymap.set('n', ',lH', function() vim.lsp.inlay_hint(0) end,
+          vim.keymap.set('n', ',lH', function() vim.lsp.inlay_hint.enable(0) end,
             { desc = 'LSP: hints' }, { buffer = bufnr })
         else
           vim.keymap.set('n', ',lH', [[<Nop>]], { buffer = bufnr })
@@ -201,7 +201,7 @@ return {
         vim.notify(lsp_messages, vim.log.levels.INFO, { title = '[LSP]' })
       end
 
-      local capabilities = require('cmp_nvim_lsp').default_capabilities(vim.lsp.protocol.make_client_capabilities())
+      local capabilities = require('cmp_nvim_lsp').default_capabilities()
       capabilities.textDocument.foldingRange = {
         dynamicRegistration = false,
         lineFoldingOnly = true
@@ -321,6 +321,9 @@ return {
         hl = 'WarningMsg'
       },
       autocmd = {
+        enabled = true
+      },
+      number = {
         enabled = true
       }
     }
