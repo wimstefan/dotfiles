@@ -18,9 +18,9 @@ end
 
 local my_font
 if hostname == 'tj' then
-  my_font = 'operator'
-else
   my_font = 'triple'
+else
+  my_font = 'monaspace'
 end
 
 local function basename(s)
@@ -43,6 +43,27 @@ wez.on('format-tab-title', function(tab)
     { Text = tab_prefix },
     { Text = pane.is_zoomed and tab_title .. '  ' or tab_title }
   }
+end)
+
+local padding = {
+  left = '0.8%',
+  right = '0.8%',
+  top = '0.8%',
+  bottom = '0'
+}
+wez.on('update-status', function(window, pane)
+  local overrides = window:get_config_overrides() or {}
+  if string.find(pane:get_title(), '^n-vi-m-.*') then
+    overrides.window_padding = {
+      left = 0,
+      right = 0,
+      top = 0,
+      bottom = 0
+    }
+  else
+    overrides.window_padding = padding
+  end
+  window:set_config_overrides(overrides)
 end)
 
 wez.on('update-right-status', function(window, pane)
@@ -92,7 +113,7 @@ local scheme_pool = {
   my_rose_pine_moon = 'my_rose_pine_moon',
   my_rose_pine_dawn = 'my_rose_pine_dawn'
 }
-local selected_scheme = scheme_pool.catppuccin_latte
+local selected_scheme = scheme_pool.tokyonight_night
 local colour_dir = os.getenv('XDG_CONFIG_HOME') .. '/wezterm/colours/'
 local opacity
 local scheme
@@ -189,7 +210,7 @@ config.front_end = 'WebGpu'
 -- {{{1 Font configuration
 -- {{{2 font_fallback
 local function font_fallback(name)
-  local names = { name, 'nonicons', 'JoyPixels', 'Iosevka Artesanal' }
+  local names = { name, 'nonicons', 'Noto Color Emoji', 'Iosevka Artesanal' }
   return wez.font_with_fallback(names)
 end
 
@@ -208,8 +229,10 @@ local function font_set(name)
     -- font = font_fallback({ family = 'Iosevka Artesanal', harfbuzz_features = { 'calt', 'ccmp', 'dlig', 'onum' } })
   elseif string.match(name, 'jet') then
     font = font_fallback({ family = 'JetBrains Mono', harfbuzz_features = { 'cv06', 'cv07', 'cv11', 'ss20', 'zero' } })
-  elseif string.match(name, 'mona') then
+  elseif string.match(name, 'monolisa') then
     font = font_fallback({ family = 'MonoLisa', harfbuzz_features = { 'case', 'liga', 'dlig', 'onum' } })
+  elseif string.match(name, 'monaspace') then
+    font = font_fallback({ family = 'Monaspace Argon', weight = 'Light', harfbuzz_features = { 'ss01', 'ss02', 'ss03', 'ss04', 'ss05', 'ss06', 'ss07', 'ss08', 'calt', 'dlig', 'liga' } })
   elseif string.match(name, 'operator') then
     font = font_fallback({ family = 'Liga Operator Mono', weight = 'Light', harfbuzz_features = { 'ss05' } })
   elseif string.match(name, 'plex') then
@@ -234,7 +257,7 @@ local function font_rules(name)
   local rules = {}
   if string.match(name, 'custom')
     or string.match(name, 'fantasque')
-    or string.match(name, 'mona')
+    or string.match(name, 'monolisa')
     or string.match(name, 'recursive')
     or string.match(name, 'triple')
   then
@@ -263,6 +286,18 @@ local function font_rules(name)
           weight = 'Regular',
           style = 'Italic',
           harfbuzz_features = { 'ss05' }
+        })
+      },
+    }
+  elseif string.match(name, 'monaspace') then
+    rules = {
+      {
+        intensity = 'Normal',
+        italic = true,
+        font = font_fallback({
+          family = 'Monaspace Radon',
+          weight = 'Light',
+          harfbuzz_features = { 'ss01', 'ss02', 'ss03', 'ss04', 'ss05', 'ss06', 'ss07', 'ss08', 'calt', 'dlig', 'liga' }
         })
       },
     }
@@ -348,7 +383,9 @@ local function font_size(name)
       size = 10.0
     elseif string.match(name, 'operator') then
       size = 10.7
-    elseif string.match(name, 'mona') then
+    elseif string.match(name, 'monaspace') then
+      size = 10.0
+    elseif string.match(name, 'monolisa') then
       size = 10.0
     elseif string.match(name, 'plex') then
       size = 10.0
@@ -370,7 +407,9 @@ local function font_size(name)
       size = 10.4
     elseif string.match(name, 'jet') then
       size = 9.5
-    elseif string.match(name, 'mona') then
+    elseif string.match(name, 'monaspace') then
+      size = 9.0
+    elseif string.match(name, 'monolisa') then
       size = 9.0
     elseif string.match(name, 'operator') then
       size = 9.8
@@ -381,7 +420,7 @@ local function font_size(name)
     elseif string.match(name, 'recursive') then
       size = 9.2
     elseif string.match(name, 'triple') then
-      size = 9.5
+      size = 10.0
     end
   end
   return size
@@ -424,7 +463,7 @@ local function set_geometry(x)
     if hostname == 'swimmer' then
       if (my_font == 'pt') then
         value = 64
-      elseif (my_font == 'fantasque' or my_font == 'iosevka' or my_font == 'mona' or my_font == 'recursive' or my_font == 'triple') then
+      elseif (my_font == 'fantasque' or my_font == 'iosevka' or my_font or my_font == 'monaspace' == 'monolisa' or my_font == 'recursive' or my_font == 'triple') then
         value = 61
       elseif (my_font == 'custom' or my_font == 'jet' or my_font == 'operator' or my_font == 'plex') then
         value = 56
@@ -434,7 +473,7 @@ local function set_geometry(x)
     elseif hostname == 'komala' then
       if (my_font == 'pt') then
         value = 64
-      elseif (my_font == 'fantasque' or my_font == 'hasklig' or my_font == 'iosevka' or my_font == 'mona' or my_font == 'recursive' or my_font == 'triple') then
+      elseif (my_font == 'fantasque' or my_font == 'hasklig' or my_font == 'iosevka' or my_font == 'monaspace' or my_font == 'monolisa' or my_font == 'recursive' or my_font == 'triple') then
         value = 61
       elseif (my_font == 'custom' or my_font == 'jet' or my_font == 'operator') then
         value = 56
@@ -444,7 +483,7 @@ local function set_geometry(x)
     elseif hostname == 'tj' then
       if (my_font == 'pt' or my_font == 'recursive') then
         value = 51
-      elseif (my_font == 'hasklig' or my_font == 'iosevka' or my_font == 'mona' or my_font == 'operator' or my_font == 'plex' or my_font == 'triple') then
+      elseif (my_font == 'hasklig' or my_font == 'iosevka' or my_font == 'monaspace' or my_font == 'monolisa' or my_font == 'operator' or my_font == 'plex' or my_font == 'triple') then
         value = 50
       elseif (my_font == 'fantasque' or my_font == 'jet') then
         value = 44
@@ -462,6 +501,7 @@ config.font_rules = font_rules(my_font)
 config.font_size = font_size(my_font)
 config.char_select_font_size = font_size(my_font) - 1
 config.command_palette_font_size = font_size(my_font) - 1
+config.freetype_load_flags = 'NO_HINTING|MONOCHROME'
 config.freetype_load_target = ft_target('load')
 config.freetype_render_target = ft_target('render')
 -- allow_square_glyphs_to_overflow_width = 'Always'
@@ -560,12 +600,6 @@ config.term = 'wezterm'
 config.check_for_updates = false
 config.adjust_window_size_when_changing_font_size = false
 config.window_background_opacity = opacity
-config.window_padding = {
-  left = '0.8%',
-  right = '0.8%',
-  top = '0.8%',
-  bottom = '0'
-}
 config.initial_cols = set_geometry('cols')
 config.initial_rows = set_geometry('rows')
 config.enable_kitty_graphics = true
