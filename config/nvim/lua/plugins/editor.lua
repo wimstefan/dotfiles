@@ -309,7 +309,7 @@ return {
   -- }}}2
   -- {{{2 zk-nvim
   {
-    'mickael-menu/zk-nvim',
+    'zk-org/zk-nvim',
     keys = {
       '<Leader>zf',
       '<Leader>zl',
