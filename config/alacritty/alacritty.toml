@@ -1,0 +1,53 @@
+import = [ '~/.config/alacritty/tokyonight_moon.toml' ]
+
+[colors]
+draw_bold_text_with_bright_colors = true
+
+[font]
+builtin_box_drawing = false
+size = 10.0
+
+[font.bold]
+family = "Monaspace Argon"
+
+[font.bold_italic]
+family = "Monaspace Radon"
+
+[font.italic]
+family = "Monaspace Radon Light"
+
+[font.normal]
+family = "Monaspace Argon Light"
+
+[mouse]
+hide_when_typing = true
+
+[[mouse.bindings]]
+action = "ExpandSelection"
+mouse = "Right"
+
+[[mouse.bindings]]
+action = "ExpandSelection"
+mods = "Control"
+mouse = "Right"
+
+[[mouse.bindings]]
+action = "PasteSelection"
+mode = "~Vi"
+mouse = "Middle"
+
+[selection]
+semantic_escape_chars = "│`|\"' {}<>\t"
+
+[window]
+dynamic_padding = true
+dynamic_title = true
+opacity = 0.2
+
+[window.dimensions]
+columns = 170
+lines = 50
+
+[window.padding]
+x = 14
+y = 14
