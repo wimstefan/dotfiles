@@ -124,7 +124,7 @@ return {
           vim.keymap.set('n', ',lca',
             function()
               require('fzf-lua').lsp_code_actions({
-                winopts = { relative = 'cursor', height = 0.2, width = 0.4, col = 0.9, row = 1.01 }
+                winopts = { relative = 'cursor', height = 0.4, width = 0.8, col = 0.9, row = 1.01 }
               })
             end,
             { desc = 'LSP: code actions' }, { buffer = bufnr })
@@ -215,7 +215,9 @@ return {
             'bash'
           }
         },
-        cssls = {},
+        cssls = {
+          provideFormatter = true
+        },
         html = {
           filetypes = {
             'html',
@@ -356,45 +358,7 @@ return {
     keys = {
       { '<Leader>s', vim.cmd.Outline, desc = 'Outline: toggle' },
     },
-    opts = {
-      preview_window = {
-        winhl = '',
-      },
-      symbols = {
-        File = { icon = require('config.ui').icons.kinds.File, hl = '@text.uri' },
-        Module = { icon = require('config.ui').icons.kinds.Module, hl = '@namespace' },
-        Namespace = { icon = require('config.ui').icons.kinds.Namespace, hl = '@namespace' },
-        Package = { icon = require('config.ui').icons.kinds.Package, hl = '@namespace' },
-        Class = { icon = require('config.ui').icons.kinds.Class, hl = '@type' },
-        Method = { icon = require('config.ui').icons.kinds.Method, hl = '@method' },
-        Property = { icon = require('config.ui').icons.kinds.Property, hl = '@method' },
-        Field = { icon = require('config.ui').icons.kinds.Field, hl = '@field' },
-        Constructor = { icon = require('config.ui').icons.kinds.Constructor, hl = '@constructor' },
-        Enum = { icon = require('config.ui').icons.kinds.Enum, hl = '@type' },
-        Interface = { icon = require('config.ui').icons.kinds.Interface, hl = '@type' },
-        Function = { icon = require('config.ui').icons.kinds.Function, hl = '@function' },
-        Variable = { icon = require('config.ui').icons.kinds.Variable, hl = '@constant' },
-        Constant = { icon = require('config.ui').icons.kinds.Constant, hl = '@constant' },
-        String = { icon = require('config.ui').icons.kinds.String, hl = '@string' },
-        Number = { icon = require('config.ui').icons.kinds.Number, hl = '@number' },
-        Boolean = { icon = require('config.ui').icons.kinds.Boolean, hl = '@boolean' },
-        Array = { icon = require('config.ui').icons.kinds.Array, hl = '@constant' },
-        Object = { icon = require('config.ui').icons.kinds.Object, hl = '@type' },
-        Key = { icon = require('config.ui').icons.kinds.Keyword, hl = '@type' },
-        Null = { icon = 'NULL', hl = '@type' },
-        EnumMember = { icon = require('config.ui').icons.kinds.EnumMember, hl = '@field' },
-        Struct = { icon = require('config.ui').icons.kinds.Struct, hl = '@type' },
-        Event = { icon = require('config.ui').icons.kinds.Event, hl = '@type' },
-        Operator = { icon = require('config.ui').icons.kinds.Operator, hl = '@operator' },
-        TypeParameter = { icon = require('config.ui').icons.kinds.TypeParameter, hl = '@parameter' },
-        Component = { icon = '󰅴', hl = '@function' },
-        Fragment = { icon = '󰅴', hl = '@constant' },
-        TypeAlias = { icon = ' ', hl = '@type' },
-        Parameter = { icon = require('config.ui').icons.kinds.TypeParameter, hl = '@parameter' },
-        StaticMethod = { icon = require('config.ui').icons.kinds.Package, hl = '@function' },
-        Macro = { icon = ' ', hl = '@macro' }
-      }
-    }
+    config = true
   },
   -- }}}2
   -- {{{2 inc-rename.nvim
