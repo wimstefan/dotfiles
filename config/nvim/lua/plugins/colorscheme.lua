@@ -109,21 +109,6 @@ return {
     }
   },
   -- }}}2
-  -- {{{2 rose-pine
-  {
-    'rose-pine/neovim',
-    name = 'rose-pine',
-    lazy = false,
-    opts = {
-      dark_variant = 'moon',
-      disable_background = true,
-      disable_float_background = false,
-      bold_vert_split = true,
-      groups = {},
-      highlight_groups = {}
-    }
-  },
-  -- }}}2
   -- {{{2 zenbones
   {
     'mcchrish/zenbones.nvim',
@@ -142,12 +127,6 @@ return {
         }
       end
     end
-  },
-  -- }}}2
-  -- {{{2 nvim-base16
-  {
-    'RRethy/nvim-base16',
-    lazy = false
   }
   -- }}}2
 }
