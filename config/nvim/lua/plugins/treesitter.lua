@@ -6,15 +6,6 @@ return {
       'nvim-treesitter/nvim-treesitter-refactor',
       'windwp/nvim-ts-autotag',
       {
-        'JoosepAlviste/nvim-ts-context-commentstring',
-        config = function()
-          require('ts_context_commentstring').setup({
-            enable = true,
-            enable_autocmd = false
-          })
-        end
-      },
-      {
         'HiPhish/rainbow-delimiters.nvim',
         event = 'VeryLazy',
         config = function()
@@ -40,7 +31,11 @@ return {
           enable = true
         },
         incremental_selection = {
-          enable = false
+          enable = true,
+          keymaps = {
+            node_incremental = 'v',
+            node_decremental = 'V',
+          }
         },
         indent = {
           enable = true
@@ -59,6 +54,15 @@ return {
             enable = true
           }
         }
+      })
+    end
+  },
+  {
+    'JoosepAlviste/nvim-ts-context-commentstring',
+    config = function()
+      vim.g.skip_ts_context_commentstring_module = true
+      require('ts_context_commentstring').setup({
+        enable_autocmd = false
       })
     end
   }
