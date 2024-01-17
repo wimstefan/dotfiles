@@ -133,6 +133,13 @@ return {
     end
   },
   -- }}}2
+  -- {{{2 smartyank.nvim
+  {
+    'ibhagwan/smartyank.nvim',
+    event = 'VeryLazy',
+    config = true
+  },
+  -- }}}2
   -- {{{2 ultimate-autopair.nvim
   {
     'altermo/ultimate-autopair.nvim',
@@ -213,7 +220,7 @@ return {
     opts = {}
   },
   -- }}}2
-  -- undotree
+  -- {{{2 undotree
   {
     'jiaoshijie/undotree',
     keys = {
