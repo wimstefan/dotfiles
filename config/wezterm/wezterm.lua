@@ -18,7 +18,7 @@ end
 
 local my_font
 if hostname == 'tj' then
-  my_font = 'triple'
+  my_font = 'monaspace'
 else
   my_font = 'monaspace'
 end
@@ -53,7 +53,7 @@ local padding = {
 }
 wez.on('update-status', function(window, pane)
   local overrides = window:get_config_overrides() or {}
-  if string.find(pane:get_title(), '^n-vi-m-.*') then
+  if string.find(pane:get_title(), '^n-vi-m-.*|^e .*|^v .*') then
     overrides.window_padding = {
       left = 0,
       right = 0,
@@ -232,7 +232,7 @@ local function font_set(name)
   elseif string.match(name, 'monolisa') then
     font = font_fallback({ family = 'MonoLisa', harfbuzz_features = { 'case', 'liga', 'dlig', 'onum' } })
   elseif string.match(name, 'monaspace') then
-    font = font_fallback({ family = 'Monaspace Argon', weight = 'Light', harfbuzz_features = { 'ss01', 'ss02', 'ss03', 'ss04', 'ss05', 'ss06', 'ss07', 'ss08', 'calt', 'dlig', 'liga' } })
+    font = font_fallback({ family = 'Monaspace Argon', weight = 'ExtraLight', harfbuzz_features = { 'ss01', 'ss02', 'ss03', 'ss04', 'ss05', 'ss06', 'ss07', 'ss08', 'calt', 'dlig', 'liga' } })
   elseif string.match(name, 'operator') then
     font = font_fallback({ family = 'Liga Operator Mono', weight = 'Light', harfbuzz_features = { 'ss05' } })
   elseif string.match(name, 'plex') then
@@ -296,17 +296,39 @@ local function font_rules(name)
         italic = true,
         font = font_fallback({
           family = 'Monaspace Radon',
-          weight = 'Light',
+          weight = 'ExtraLight',
           harfbuzz_features = { 'ss01', 'ss02', 'ss03', 'ss04', 'ss05', 'ss06', 'ss07', 'ss08', 'calt', 'dlig', 'liga' }
         })
       },
+      {
+        intensity = 'Bold',
+        italic = true,
+        font = font_fallback({
+          family = 'Monaspace Radon',
+          weight = 'Regular',
+          harfbuzz_features = { 'ss01', 'ss02', 'ss03', 'ss04', 'ss05', 'ss06', 'ss07', 'ss08', 'calt', 'dlig', 'liga' }
+        })
+      },
+      {
+        intensity = 'Bold',
+        italic = false,
+        font = font_fallback({
+          family = 'Monaspace Argon',
+          weight = 'Regular',
+          harfbuzz_features = { 'ss01', 'ss02', 'ss03', 'ss04', 'ss05', 'ss06', 'ss07', 'ss08', 'calt', 'dlig', 'liga' }
+        })
+      }
     }
   elseif string.match(name, 'operator') then
     rules = {
       {
         intensity = 'Bold',
         italic = false,
-        font = font_fallback({ family = 'Liga Operator Mono', weight = 'Book', harfbuzz_features = { 'ss05' } })
+        font = font_fallback({
+          family = 'Liga Operator Mono',
+          weight = 'Book',
+          harfbuzz_features = { 'ss05' }
+        })
       },
       {
         intensity = 'Normal',
@@ -501,7 +523,7 @@ config.font_rules = font_rules(my_font)
 config.font_size = font_size(my_font)
 config.char_select_font_size = font_size(my_font) - 1
 config.command_palette_font_size = font_size(my_font) - 1
-config.freetype_load_flags = 'NO_HINTING|MONOCHROME'
+config.freetype_load_flags = 'DEFAULT'
 config.freetype_load_target = ft_target('load')
 config.freetype_render_target = ft_target('render')
 -- allow_square_glyphs_to_overflow_width = 'Always'
