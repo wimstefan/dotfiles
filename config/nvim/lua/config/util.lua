@@ -25,7 +25,7 @@ function Prettify()
   if vim.fn.filereadable(vim.fn.expand(vim.fn.getenv('HOME') .. '/.config/colours/nvim_theme.lua')) == 1 then
     vim.cmd.luafile(vim.fn.getenv('HOME') .. '/.config/colours/nvim_theme.lua')
   else
-    vim.cmd.colorscheme('quiet')
+    vim.cmd.colorscheme('default')
   end
   -- highlights
   vim.api.nvim_set_hl(0, 'Normal', { bg = 'none' })
