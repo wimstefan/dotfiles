@@ -59,7 +59,7 @@ return {
       local stl = Bar('statusline')
       stl:add_item(mode)
       stl:add_item(Item({
-        hl = { fg = color.blue, bg = color.bg1 },
+        hl = { fg = color.blue },
         prefix = ' ',
         content = core.group({
           core.code('l'),
@@ -69,7 +69,7 @@ return {
         suffix = ' '
       }))
       stl:add_item(Item({
-        hl = { fg = color.bg, bg = color.blue },
+        hl = { fg = color.fg4 },
         prefix = ' ',
         content = core.code('P'),
         suffix = ' '
@@ -119,7 +119,7 @@ return {
         end,
       }))
       stl:add_item(nut.git.branch({
-        hl = { bg = color.magenta, fg = color.bg },
+        hl = { bg = color.magenta, fg = 'white' },
         prefix = '  ',
         suffix = ' ',
         on_click = function()
@@ -343,7 +343,7 @@ return {
       },
       warning = {
         alpha = 0.9,
-        colorcode = '#e78284'
+        colorcode = '#b3003f'
       }
     }
   },
