@@ -2,6 +2,7 @@ return {
   {
     'nvim-treesitter/nvim-treesitter',
     build = ':TSUpdate',
+    event = 'BufReadPre',
     dependencies = {
       'nvim-treesitter/nvim-treesitter-refactor',
       'windwp/nvim-ts-autotag',
