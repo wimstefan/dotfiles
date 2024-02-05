@@ -6,7 +6,7 @@ return {
   -- {{{2 vim-artesanal
   {
     'wimstefan/vim-artesanal',
-    lazy = false,
+    event = 'VeryLazy',
     config = function()
       vim.g.artesanal_dimmed = false
       vim.g.artesanal_transparent = true
@@ -42,7 +42,7 @@ return {
   {
     'catppuccin/nvim',
     name = 'catppuccin',
-    lazy = false,
+    event = 'VeryLazy',
     opts = {
       styles = {
         comments = { 'italic' },
@@ -112,7 +112,7 @@ return {
   -- {{{2 zenbones
   {
     'mcchrish/zenbones.nvim',
-    lazy = false,
+    event = 'VeryLazy',
     config = function()
       local flavours = { 'zenbones', 'zenwritten', 'neobones', 'nordbones', 'seoulbones', 'tokyobones' }
       for _, flavour in ipairs(flavours) do
