@@ -9,12 +9,6 @@ return {
   {
     'neovim/nvim-lspconfig',
     event = 'BufReadPre',
-    dependencies = {
-      {
-        'hrsh7th/cmp-nvim-lsp',
-        opts = {}
-      }
-    },
     config = function()
       require('lspconfig.ui.windows').default_options.border = require('config.ui').borders
 
@@ -201,7 +195,9 @@ return {
         vim.notify(lsp_messages, vim.log.levels.INFO, { title = '[LSP]' })
       end
 
-      local capabilities = require('cmp_nvim_lsp').default_capabilities()
+      local capabilities = vim.tbl_deep_extend('force',
+        vim.lsp.protocol.make_client_capabilities(),
+        require('autocomplete.capabilities'))
       capabilities.textDocument.foldingRange = {
         dynamicRegistration = false,
         lineFoldingOnly = true
@@ -292,6 +288,8 @@ return {
             }
           }
         },
+        marksman = {},
+        taplo = {},
         rust_analyzer = {},
         vimls = {},
       }
