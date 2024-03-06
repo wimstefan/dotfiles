@@ -50,6 +50,11 @@ vim.opt.ignorecase = true
 vim.opt.gdefault = true
 vim.opt.inccommand = 'split'
 vim.opt.selection = 'exclusive'
+vim.opt.completeopt = {
+  'menuone',
+  'noinsert',
+  'popup'
+}
 vim.opt.diffopt:append({
   'vertical',
   'indent-heuristic',
