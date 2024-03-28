@@ -2,6 +2,7 @@ return {
   -- {{{2 neodev.nvim
   {
     'folke/neodev.nvim',
+    event = 'VeryLazy',
     opts = {}
   },
   -- }}}2
@@ -75,125 +76,131 @@ return {
         }
       })
 
-      -- LSP functions
-      local on_attach = function(client, bufnr)
-        local unpack = unpack or table.unpack
-        local lsp_messages = ''
-        local lsp_msg_sep = ' ∷ '
-        lsp_messages = lsp_msg_sep .. 'LSP attached' .. lsp_msg_sep
-        -- options
-        if vim.bo[bufnr].filetype == 'lua' then
-          vim.bo[bufnr].omnifunc = 'v:lua.vim.lua_omnifunc'
-        else
-          vim.bo[bufnr].omnifunc = 'v:lua.vim.lsp.omnifunc'
-        end
-        -- keybindings
-        vim.keymap.del('n', 'K', { buffer = bufnr })
-        vim.keymap.set('n', ',lI', vim.cmd.LspInfo,
-          { desc = 'LSP: info' }, { buffer = bufnr })
-        vim.keymap.set('n', ',lrs', vim.cmd.LspRestart,
-          { desc = 'LSP: restart' }, { buffer = bufnr })
-        vim.keymap.set('n', ',lF', function() require('fzf-lua').lsp_finder() end,
-          { desc = 'LSP: finder' }, { buffer = bufnr })
-        vim.keymap.set('n', ',ly', require('fzf-lua').lsp_document_symbols,
-          { desc = 'LSP: document symbols' }, { buffer = bufnr })
-        vim.keymap.set('n', ',lY', require('fzf-lua').lsp_live_workspace_symbols,
-          { desc = 'LSP: workspace symbols' }, { buffer = bufnr })
-        vim.keymap.set('n', ',ld', require('fzf-lua').lsp_document_diagnostics,
-          { desc = 'Diagnostics: document diagnostics' }, { buffer = bufnr })
-        vim.keymap.set('n', ',lD', require('fzf-lua').lsp_workspace_diagnostics,
-          { desc = 'Diagnostics: workspace diagnostics' }, { buffer = bufnr })
-        vim.keymap.set('n', ',lrn',
-          function()
-            if pcall(require, 'inc_rename') then
-              return ':IncRename ' .. vim.fn.expand('<cword>')
-            else
-              vim.lsp.buf.rename()
-            end
-          end,
-          { desc = 'LSP: rename', expr = true, replace_keycodes = false }, { buffer = bufnr })
-        vim.keymap.set('n', ',lw', function() Dump(vim.lsp.buf.list_workspace_folders()) end,
-          { desc = 'LSP: list workspace folders' }, { buffer = bufnr })
-        if client.supports_method('textDocument/codeAction') then
-          vim.keymap.set('n', ',lca',
-            function()
-              require('fzf-lua').lsp_code_actions({
-                winopts = { relative = 'cursor', height = 0.4, width = 0.8, col = 0.9, row = 1.01 }
-              })
-            end,
-            { desc = 'LSP: code actions' }, { buffer = bufnr })
-        else
-          lsp_messages = lsp_messages .. 'no codeAction' .. lsp_msg_sep
-        end
-        if client.supports_method('textDocument/formatting') then
-          local fmt_opts = vim.bo[bufnr].ft == 'lua'
-            and 'async=true,bufnr=0,name="lua_ls"'
-            or 'async=true,bufnr=0'
-          vim.keymap.set('n', ',lf', function() vim.lsp.buf.format(fmt_opts) end,
-            { desc = 'LSP: formatting' }, { buffer = bufnr })
-        else
-          lsp_messages = lsp_messages .. 'no format' .. lsp_msg_sep
-        end
-        if client.supports_method('textDocument/rangeFormatting') then
-          vim.keymap.set('v', ',lf',
-            function()
-              local _, csrow, cscol, cerow, cecol
-              local mode = vim.fn.mode()
-              assert(mode == 'v' or mode == 'V' or mode == '')
-              _, csrow, cscol, _ = unpack(vim.fn.getpos('.'))
-              _, cerow, cecol, _ = unpack(vim.fn.getpos('v'))
-              if mode == 'V' then
-                cscol, cecol = 0, 999
-              end
-              local fmt_opts = {
-                async   = true,
-                bufnr   = 0,
-                name    = vim.bo[bufnr].ft == 'lua' and 'lua_ls' or nil,
-                start   = { csrow, cscol },
-                ['end'] = { cerow, cecol },
-              }
-              vim.lsp.buf.format(fmt_opts)
-            end,
-            { desc = 'LSP: range formatting' }, { buffer = bufnr })
-        else
-          lsp_messages = lsp_messages .. 'no rangeFormat' .. lsp_msg_sep
-        end
-        if client.supports_method('textDocument/hover') then
-          vim.keymap.set('n', ',lh', vim.lsp.buf.hover,
-            { desc = 'LSP: hover' }, { buffer = bufnr })
-        else
-          vim.keymap.set('n', ',lh', [[<Nop>]], { buffer = bufnr })
-          lsp_messages = lsp_messages .. 'no hovering' .. lsp_msg_sep
-        end
-        if client.supports_method('textDocument/implementation') then
-          vim.keymap.set('n', ',li', function() require('fzf-lua').lsp_implementations() end,
-            { desc = 'LSP: implementations' }, { buffer = bufnr })
-        else
-          vim.keymap.set('n', ',li', [[<Nop>]], { buffer = bufnr })
-          lsp_messages = lsp_messages .. 'no implementation' .. lsp_msg_sep
-        end
-        if client.supports_method('textDocument/inlayHint') then
-          vim.keymap.set('n', ',lH', function() vim.lsp.inlay_hint.enable(0) end,
-            { desc = 'LSP: hints' }, { buffer = bufnr })
-        else
-          vim.keymap.set('n', ',lH', [[<Nop>]], { buffer = bufnr })
-          lsp_messages = lsp_messages .. 'no hints' .. lsp_msg_sep
-        end
-        if client.supports_method('textDocument/signatureHelp') then
-          vim.keymap.set('i', '<C-s>',
-            function() vim.lsp.buf.signature_help({ border = require('config.ui').borders }) end,
-            { desc = 'LSP: signature help' }, { buffer = bufnr })
-          vim.keymap.set('n', ',ls',
-            function() vim.lsp.buf.signature_help({ border = require('config.ui').borders }) end,
-            { desc = 'LSP: signature help' }, { buffer = bufnr })
-        else
-          vim.keymap.set('n', ',ls', [[<Nop>]], { buffer = bufnr })
-          lsp_messages = lsp_messages .. 'no signatureHelp' .. lsp_msg_sep
-        end
+      -- LSP config
+      vim.api.nvim_create_autocmd('LspAttach', {
+        group = vim.api.nvim_create_augroup('UserLspConfig', {}),
+        callback = function(ev)
+          local unpack = unpack or table.unpack
+          local client = vim.lsp.get_client_by_id(ev.data.client_id)
+          local lsp_messages = ''
+          local lsp_msg_sep = ' ∷ '
+          lsp_messages = lsp_msg_sep .. 'LSP attached' .. lsp_msg_sep
+          -- Enable completion triggered by <c-x><c-o>
+          if vim.bo[ev.buf].filetype == 'lua' then
+            vim.bo[ev.buf].omnifunc = 'v:lua.vim.lua_omnifunc'
+          else
+            vim.bo[ev.buf].omnifunc = 'v:lua.vim.lsp.omnifunc'
+          end
 
-        -- messages
-        vim.notify(lsp_messages, vim.log.levels.INFO, { title = '[LSP]' })
-      end
+          -- Buffer local mappings.
+          local opts = { buffer = ev.buf }
+          vim.keymap.del('n', 'K', opts)
+          vim.keymap.set('n', ',lI', vim.cmd.LspInfo,
+            { desc = 'LSP: info' }, opts)
+          vim.keymap.set('n', ',lrs', vim.cmd.LspRestart,
+            { desc = 'LSP: restart' }, opts)
+          vim.keymap.set('n', ',lF', function() require('fzf-lua').lsp_finder() end,
+            { desc = 'LSP: finder' }, opts)
+          vim.keymap.set('n', ',ly', require('fzf-lua').lsp_document_symbols,
+            { desc = 'LSP: document symbols' }, opts)
+          vim.keymap.set('n', ',lY', require('fzf-lua').lsp_live_workspace_symbols,
+            { desc = 'LSP: workspace symbols' }, opts)
+          vim.keymap.set('n', ',ld', require('fzf-lua').lsp_document_diagnostics,
+            { desc = 'Diagnostics: document diagnostics' }, opts)
+          vim.keymap.set('n', ',lD', require('fzf-lua').lsp_workspace_diagnostics,
+            { desc = 'Diagnostics: workspace diagnostics' }, opts)
+          vim.keymap.set('n', ',lrn',
+            function()
+              if pcall(require, 'inc_rename') then
+                return ':IncRename ' .. vim.fn.expand('<cword>')
+              else
+                vim.lsp.buf.rename()
+              end
+            end,
+            { desc = 'LSP: rename', expr = true, replace_keycodes = false }, opts)
+          vim.keymap.set('n', ',lw', function() Dump(vim.lsp.buf.list_workspace_folders()) end,
+            { desc = 'LSP: list workspace folders' }, opts)
+          if client.supports_method('textDocument/codeAction') then
+            vim.keymap.set('n', ',lca',
+              function()
+                require('fzf-lua').lsp_code_actions({
+                  winopts = { relative = 'cursor', height = 0.4, width = 0.8, col = 0.9, row = 1.01 }
+                })
+              end,
+              { desc = 'LSP: code actions' }, opts)
+          else
+            lsp_messages = lsp_messages .. 'no codeAction' .. lsp_msg_sep
+          end
+          if client.supports_method('textDocument/formatting') then
+            local fmt_opts = vim.bo[ev.buf].ft == 'lua'
+              and 'async=true,bufnr=0,name="lua_ls"'
+              or 'async=true,bufnr=0'
+            vim.keymap.set('n', ',lf', function() vim.lsp.buf.format(fmt_opts) end,
+              { desc = 'LSP: formatting' }, opts)
+          else
+            lsp_messages = lsp_messages .. 'no format' .. lsp_msg_sep
+          end
+          if client.supports_method('textDocument/rangeFormatting') then
+            vim.keymap.set('v', ',lf',
+              function()
+                local _, csrow, cscol, cerow, cecol
+                local mode = vim.fn.mode()
+                assert(mode == 'v' or mode == 'V' or mode == '')
+                _, csrow, cscol, _ = unpack(vim.fn.getpos('.'))
+                _, cerow, cecol, _ = unpack(vim.fn.getpos('v'))
+                if mode == 'V' then
+                  cscol, cecol = 0, 999
+                end
+                local fmt_opts = {
+                  async   = true,
+                  bufnr   = 0,
+                  name    = vim.bo[ev.buf].ft == 'lua' and 'lua_ls' or nil,
+                  start   = { csrow, cscol },
+                  ['end'] = { cerow, cecol },
+                }
+                vim.lsp.buf.format(fmt_opts)
+              end,
+              { desc = 'LSP: range formatting' }, opts)
+          else
+            lsp_messages = lsp_messages .. 'no rangeFormat' .. lsp_msg_sep
+          end
+          if client.supports_method('textDocument/hover') then
+            vim.keymap.set('n', ',lh', vim.lsp.buf.hover,
+              { desc = 'LSP: hover' }, opts)
+          else
+            vim.keymap.set('n', ',lh', [[<Nop>]], opts)
+            lsp_messages = lsp_messages .. 'no hovering' .. lsp_msg_sep
+          end
+          if client.supports_method('textDocument/implementation') then
+            vim.keymap.set('n', ',li', function() require('fzf-lua').lsp_implementations() end,
+              { desc = 'LSP: implementations' }, opts)
+          else
+            vim.keymap.set('n', ',li', [[<Nop>]], opts)
+            lsp_messages = lsp_messages .. 'no implementation' .. lsp_msg_sep
+          end
+          if client.supports_method('textDocument/inlayHint') then
+            vim.keymap.set('n', ',lH', function() vim.lsp.inlay_hint.enable(0) end,
+              { desc = 'LSP: hints' }, opts)
+          else
+            vim.keymap.set('n', ',lH', [[<Nop>]], opts)
+            lsp_messages = lsp_messages .. 'no hints' .. lsp_msg_sep
+          end
+          if client.supports_method('textDocument/signatureHelp') then
+            vim.keymap.set('i', '<C-s>',
+              function() vim.lsp.buf.signature_help({ border = require('config.ui').borders }) end,
+              { desc = 'LSP: signature help' }, opts)
+            vim.keymap.set('n', ',ls',
+              function() vim.lsp.buf.signature_help({ border = require('config.ui').borders }) end,
+              { desc = 'LSP: signature help' }, opts)
+          else
+            vim.keymap.set('n', ',ls', [[<Nop>]], opts)
+            lsp_messages = lsp_messages .. 'no signatureHelp' .. lsp_msg_sep
+          end
+
+          -- messages
+          vim.notify(lsp_messages, vim.log.levels.INFO, { title = '[LSP]' })
+        end
+      })
 
       local capabilities = vim.tbl_deep_extend('force',
         vim.lsp.protocol.make_client_capabilities(),
@@ -245,24 +252,21 @@ return {
           cmd = { vim.fn.stdpath('data') .. '/lspconfig/lua-language-server/bin/lua-language-server' },
           on_init = function(client)
             local path = client.workspace_folders[1].name
-            if not vim.loop.fs_stat(path .. '/.luarc.json') and not vim.loop.fs_stat(path .. '/.luarc.jsonc') then
-              client.config.settings = vim.tbl_deep_extend('force', client.config.settings.Lua, {
-                runtime = {
-                  version = 'LuaJIT'
-                },
-                workspace = {
-                  library = { vim.env.VIMRUNTIME }
-                }
-              })
-              client.notify('workspace/didChangeConfiguration', { settings = client.config.settings })
+            if vim.loop.fs_stat(path .. '/.luarc.json') and not vim.loop.fs_stat(path .. '/.luarc.jsonc') then
+              return
             end
-            return true
+            client.config.settings = vim.tbl_deep_extend('force', client.config.settings.Lua, {
+              runtime = {
+                version = 'LuaJIT'
+              },
+              workspace = {
+                library = { vim.env.VIMRUNTIME }
+              }
+            })
+            client.notify('workspace/didChangeConfiguration', { settings = client.config.settings })
           end,
           settings = {
             Lua = {
-              completion = {
-                callsnippet = 'Replace'
-              },
               diagnostics = {
                 neededFileStatus = {
                   ['codestyle-check'] = 'Any'
