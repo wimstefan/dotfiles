@@ -59,7 +59,7 @@ return {
       local stl = Bar('statusline')
       stl:add_item(mode)
       stl:add_item(Item({
-        hl = { fg = color.blue },
+        hl = { fg = color.yellow },
         prefix = ' ',
         content = core.group({
           core.code('l'),
@@ -213,16 +213,6 @@ return {
       }))
       nougat.set_tabline(tal)
     end
-  },
-  -- }}}2
-  -- {{{2 dropbar.nvim
-  {
-    'Bekaboo/dropbar.nvim',
-    event = 'VeryLazy',
-    config = true,
-    keys = {
-      { '<Leader>d', function() require('dropbar.api').pick() end, desc = 'Dropbar: Pick mode' }
-    }
   },
   -- }}}2
   -- {{{2 nvim-ufo
