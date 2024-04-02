@@ -215,6 +215,25 @@ return {
     end
   },
   -- }}}2
+  -- {{{2 statuscol.nvim
+  {
+    'luukvbaal/statuscol.nvim',
+    event = 'VeryLazy',
+    opts = function()
+      local builtin = require('statuscol.builtin')
+      return {
+        relculright = true,
+        setopt = true,
+        segments = {
+          { text = { builtin.foldfunc, '' }, click = 'v:lua.ScFa' },
+          { text = { ' %s' }, click = 'v:lua.ScSa' },
+          { text = { builtin.lnumfunc, ' ' }, click = 'v:lua.ScLa' }
+        }
+      }
+    end,
+    config = true
+  },
+  -- }}}2
   -- {{{2 nvim-ufo
   {
     'kevinhwang91/nvim-ufo',
@@ -240,7 +259,7 @@ return {
     opts = function()
       vim.opt.foldlevel = 99
       vim.opt.foldlevelstart = 99
-      vim.opt.foldcolumn = 'auto:1'
+      vim.opt.foldcolumn = 'auto'
       vim.opt.foldtext = 'v:lua.vim.treesitter.foldtext()'
       vim.opt.fillchars:append({
         foldsep = '🮍',
