@@ -132,81 +132,12 @@ return {
     }
   },
   -- }}}2
-  -- {{{2 autolist.nvim
-  {
-    'gaoDean/autolist.nvim',
-    ft = {
-      'markdown',
-      'text'
-    },
-    config = function()
-      require('autolist').setup({
-        cycle = {
-          '*',
-          '-',
-          '.',
-          '1)',
-          'a)'
-        }
-      })
-
-      vim.keymap.set('i', '<CR>', '<CR><Cmd>AutolistNewBullet<CR>')
-      vim.keymap.set('i', '<Tab>', function()
-        require('autolist').cycle_next_dr()
-        require('autolist').tab()
-      end, { desc = 'Autolist: increase indentation' })
-      vim.keymap.set('i', '<S-Tab>', function()
-        require('autolist').cycle_prev_dr()
-        require('autolist').shift_tab()
-      end, { desc = 'Autolist: decrease indentation' })
-      vim.keymap.set('n', 'o', 'o<Cmd>AutolistNewBullet<CR>')
-      vim.keymap.set('n', 'O', 'O<Cmd>AutolistNewBulletBefore<CR>')
-      vim.keymap.set('n', '<CR>', '<Cmd>AutolistToggleCheckbox<CR>')
-      vim.keymap.set('n', '<C-r>', '<Cmd>AutolistRecalculate<CR>')
-
-      vim.keymap.set('n', '<Leader>an', require('autolist').cycle_next_dr, { expr = true })
-      vim.keymap.set('n', '<Leader>ap', require('autolist').cycle_prev_dr, { expr = true })
-
-      vim.keymap.set('n', '>>', '>><Cmd>AutolistRecalculate<CR>')
-      vim.keymap.set('n', '<<', '<<<Cmd>AutolistRecalculate<CR>')
-      vim.keymap.set('n', 'dd', 'dd<Cmd>AutolistRecalculate<CR>')
-      vim.keymap.set('v', 'd', 'd<Cmd>AutolistRecalculate<CR>')
-
-    end
-  },
-  -- }}}2
   -- {{{2 vim-simple-align
   {
     'kg8m/vim-simple-align',
     cmd = 'SimpleAlign'
-  },
-  -- }}}2
-  -- {{{2 dial.nvim
-  {
-    'monaqa/dial.nvim',
-    keys = {
-      { '<C-a>', function() return require('dial.map').inc_normal() end, expr = true, noremap = true, desc = 'Increment' },
-      { '<C-x>', function() return require('dial.map').dec_normal() end, expr = true, noremap = true, desc = 'Decrement' },
-      { '<C-a>', function() return require('dial.map').inc_visual() end, mode = 'v', expr = true, noremap = true, desc = 'Increment visual selection' },
-      { '<C-x>', function() return require('dial.map').dec_visual() end, mode = 'v', expr = true, noremap = true, desc = 'Decrement visual selection' },
-      { 'g<C-a>', function() return require('dial.map').inc_gnormal() end, mode = 'n', expr = true, noremap = true, desc = 'Increment visual selection' },
-      { 'g<C-x>', function() return require('dial.map').dec_gnormal() end, mode = 'n', expr = true, noremap = true, desc = 'Decrement visual selection' },
-      { 'g<C-a>', function() return require('dial.map').inc_gvisual() end, mode = 'v', expr = true, noremap = true, desc = 'Increment visual selection' },
-      { 'g<C-x>', function() return require('dial.map').dec_gvisual() end, mode = 'v', expr = true, noremap = true, desc = 'Decrement visual selection' }
-    },
-    config = function()
-      local augend = require('dial.augend')
-      require('dial.config').augends:register_group({
-        default = {
-          augend.integer.alias.decimal,
-          augend.integer.alias.hex,
-          augend.date.alias['%Y/%m/%d'],
-          augend.constant.alias.bool,
-          augend.semver.alias.semver
-        }
-      })
-    end
   }
   -- }}}2
 }
 -- vim: foldmethod=marker foldlevel=1
+
