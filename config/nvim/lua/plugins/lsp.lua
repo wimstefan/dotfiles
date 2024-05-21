@@ -19,49 +19,15 @@ return {
       vim.lsp.handlers['textDocument/hover'] = vim.lsp.with(vim.lsp.handlers.hover,
         { border = require('config.ui').borders })
 
-      -- diagnostic handling
-      local diagnostic_signs = require('config.ui').icons.diagnostics
-      local diagnostic_severity_fullnames = { 'Error', 'Warning', 'Information', 'Hint', 'Ok' }
-      local diagnostic_severity_shortnames = { 'Error', 'Warn', 'Info', 'Hint', 'Ok' }
-      for index, icon in ipairs(diagnostic_signs) do
-        local fullname = diagnostic_severity_fullnames[index]
-        local shortname = diagnostic_severity_shortnames[index]
-
-        vim.fn.sign_define('DiagnosticSign' .. shortname, {
-          text = icon,
-          texthl = 'Diagnostic' .. shortname,
-          linehl = '',
-          numhl = '',
-        })
-
-        vim.fn.sign_define('LspDiagnosticsSign' .. fullname, {
-          text = icon,
-          texthl = 'LspDiagnosticsSign' .. fullname,
-          linehl = '',
-          numhl = '',
-        })
-      end
-
-      local enabled = true
-      local function toggle_diagnostics()
-        enabled = not enabled
-        if enabled then
-          vim.diagnostic.enable()
-          vim.notify('Diagnostics enabled', vim.log.levels.INFO, { title = '[LSP]' })
-        else
-          vim.diagnostic.disable()
-          vim.notify('Diagnostics disabled', vim.log.levels.INFO, { title = '[LSP]' })
-        end
-      end
-
+      -- Diagnostic
       vim.keymap.set('n', '[d', function() vim.diagnostic.goto_prev({ float = false }) end,
         { desc = 'Diagnostic: got to previous error' })
       vim.keymap.set('n', ']d', function() vim.diagnostic.goto_next({ float = false }) end,
         { desc = 'Diagnostic: got to next error' })
-      vim.keymap.set('n', ',dt', function() toggle_diagnostics() end, { desc = 'Diagnostics: toggle' })
-      vim.keymap.set('n', ',df', vim.diagnostic.open_float, { desc = 'Diagnostics: open floating window' })
-      vim.keymap.set('n', ',dl', vim.diagnostic.setloclist, { desc = 'Diagnostics: populate location list' })
-      vim.keymap.set('n', ',dq', vim.diagnostic.setqflist, { desc = 'Diagnostics: populate quickfix' })
+      vim.keymap.set('n', ',dt', function() vim.diagnostic.enable(not vim.diagnostic.is_enabled()) end, { desc = 'Diagnostic: toggle' })
+      vim.keymap.set('n', ',df', vim.diagnostic.open_float, { desc = 'Diagnostic: open floating window' })
+      vim.keymap.set('n', ',dl', vim.diagnostic.setloclist, { desc = 'Diagnostic: populate location list' })
+      vim.keymap.set('n', ',dq', vim.diagnostic.setqflist, { desc = 'Diagnostic: populate quickfix' })
 
       vim.diagnostic.config({
         float = {
@@ -70,6 +36,15 @@ return {
           header = '',
           scope = 'line',
           source = 'always'
+        },
+        signs = {
+          text = {
+            [1] = require('config.ui').icons.diagnostics[1],
+            [2] = require('config.ui').icons.diagnostics[2],
+            [3] = require('config.ui').icons.diagnostics[3],
+            [4] = require('config.ui').icons.diagnostics[4],
+            [5] = require('config.ui').icons.diagnostics[5]
+          }
         },
         virtual_text = {
           source = 'always'
@@ -106,9 +81,9 @@ return {
           vim.keymap.set('n', ',lY', require('fzf-lua').lsp_live_workspace_symbols,
             { desc = 'LSP: workspace symbols' }, opts)
           vim.keymap.set('n', ',ld', require('fzf-lua').lsp_document_diagnostics,
-            { desc = 'Diagnostics: document diagnostics' }, opts)
+            { desc = 'Diagnostic: document diagnostics' }, opts)
           vim.keymap.set('n', ',lD', require('fzf-lua').lsp_workspace_diagnostics,
-            { desc = 'Diagnostics: workspace diagnostics' }, opts)
+            { desc = 'Diagnostic: workspace diagnostics' }, opts)
           vim.keymap.set('n', ',lrn',
             function()
               if pcall(require, 'inc_rename') then
@@ -179,7 +154,7 @@ return {
             lsp_messages = lsp_messages .. 'no implementation' .. lsp_msg_sep
           end
           if client.supports_method('textDocument/inlayHint') then
-            vim.keymap.set('n', ',lH', function() vim.lsp.inlay_hint.enable(0) end,
+            vim.keymap.set('n', ',lH', function() vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled()) end,
               { desc = 'LSP: hints' }, opts)
           else
             vim.keymap.set('n', ',lH', [[<Nop>]], opts)
@@ -292,7 +267,6 @@ return {
             }
           }
         },
-        marksman = {},
         taplo = {},
         rust_analyzer = {},
         vimls = {},
@@ -372,3 +346,4 @@ return {
   -- }}}2
 }
 -- vim: foldmethod=marker foldlevel=1
+
