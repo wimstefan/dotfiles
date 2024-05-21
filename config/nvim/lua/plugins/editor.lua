@@ -8,18 +8,18 @@ return {
     'ibhagwan/fzf-lua',
     keys = {
       { '<Leader>F', function() require('fzf-lua').builtin() end, desc = 'Fzf: builtin' },
-      { '<Leader>b', function() require('fzf-lua').buffers() end, desc = 'Fzf: buffers' },
+      { '<Leader>b', function() require('fzf-lua').buffers({ formatter = 'path.filename_first' }) end, desc = 'Fzf: buffers' },
       { '<Leader>c', function() require('fzf-lua').colorschemes() end, desc = 'Fzf: colorschemes' },
-      { '<Leader>f', function() require('fzf-lua').files() end, desc = 'Fzf: files' },
-      { '<Leader>o', function() require('fzf-lua').oldfiles() end, desc = 'Fzf: oldfiles' },
+      { '<Leader>f', function() require('fzf-lua').files({ formatter = 'path.filename_first' }) end, desc = 'Fzf: files' },
+      { '<Leader>o', function() require('fzf-lua').oldfiles({ formatter = 'path.filename_first' }) end, desc = 'Fzf: oldfiles' },
       { '<Leader>h', function() require('fzf-lua').help_tags() end, desc = 'Fzf: help' },
       { '<Leader>k', function() require('fzf-lua').man_pages() end, desc = 'Fzf: man' },
-      { '<Leader>t', function() require('fzf-lua').tabs() end, desc = 'Fzf: tabs' },
+      { '<Leader>t', function() require('fzf-lua').tabs({ formatter = 'path.filename_first' }) end, desc = 'Fzf: tabs' },
       { '<Leader>?', function() require('fzf-lua').lgrep_curbuf() end, desc = 'Fzf: grep current file' },
-      { '<Leader>/', function() require('fzf-lua').live_grep_native() end, desc = 'Fzf: grep all files' },
+      { '<Leader>/', function() require('fzf-lua').live_grep_native({ formatter = 'path.filename_first' }) end, desc = 'Fzf: grep all files' },
       { '<Leader>fgb', function() require('fzf-lua').git_bcommits() end, desc = 'Fzf: git buffer commits' },
       { '<Leader>fgc', function() require('fzf-lua').git_commits() end, desc = 'Fzf: git commits' },
-      { '<Leader>fgf', function() require('fzf-lua').git_files() end, desc = 'Fzf: git files' },
+      { '<Leader>fgf', function() require('fzf-lua').git_files({ formatter = 'path.filename_first' }) end, desc = 'Fzf: git files' },
       { '<Leader>fgs', function() require('fzf-lua').git_status() end, desc = 'Fzf: git status' },
       { '<Leader>fc', function() require('fzf-lua').command_history() end, desc = 'Fzf: command history' },
       { '<Leader>fh', function() require('fzf-lua').highlights() end, desc = 'Fzf: highlights' },
@@ -29,7 +29,7 @@ return {
       { '<Leader>fr', function() require('fzf-lua').registers() end, desc = 'Fzf: registers' },
       { '<Leader>fs', function() require('fzf-lua').spell_suggest() end, desc = 'Fzf: spell suggest' },
       { '<Leader>ft', function() require('fzf-lua').filetypes() end, desc = 'Fzf: filetypes' },
-      { '<Leader>fw', function() require('fzf-lua').grep_cword() end, desc = 'Fzf: grep string' }
+      { '<Leader>fw', function() require('fzf-lua').grep_cword({ formatter = 'path.filename_first' }) end, desc = 'Fzf: grep string' }
     },
     config = function()
       local fzf_lua = require('fzf-lua')
@@ -74,7 +74,7 @@ return {
           winopts = right_column
         },
         files = {
-          prompt = 'Files❯ ',
+          prompt = 'Files❯ '
         },
         filetypes = {
           winopts = {
@@ -103,6 +103,11 @@ return {
         },
         highlights = {
           winopts = right_column
+        },
+        lsp = {
+          symbols = {
+            winopts = right_column
+          }
         },
         spell_suggest = {
           winopts = {
@@ -162,23 +167,33 @@ return {
         col = 2
       },
       on_attach = function(bufnr)
-        local gs = package.loaded.gitsigns
-        vim.keymap.set('n', ']c', "&diff ? ']c' : '<cmd>Gitsigns next_hunk<CR>'",
-          { expr = true, replace_keycodes = false },
+        local gitsigns = require('gitsigns')
+        vim.keymap.set('n', ']c', function()
+            if vim.wo.diff then
+              vim.cmd.normal({ ']c', bang = true })
+            else
+              gitsigns.nav_hunk('next')
+            end
+          end,
           { desc = 'Gitsigns: next hunk' })
-        vim.keymap.set('n', '[c', "&diff ? '[c' : '<cmd>Gitsigns prev_hunk<CR>'",
-          { expr = true, replace_keycodes = false },
+        vim.keymap.set('n', '[c', function()
+            if vim.wo.diff then
+              vim.cmd.normal({ '[c', bang = true })
+            else
+              gitsigns.nav_hunk('prev')
+            end
+          end,
           { desc = 'Gitsigns: previous hunk' })
-        vim.keymap.set('n', '<Leader>gp', gs.preview_hunk_inline, { desc = 'Gitsigns: preview hunk' }, { buffer = bufnr })
-        vim.keymap.set('n', '<Leader>gb', function() gs.blame_line { full = true } end, { desc = 'Gitsigns: blame line' },
+        vim.keymap.set('n', '<Leader>gp', gitsigns.preview_hunk_inline, { desc = 'Gitsigns: preview hunk' }, { buffer = bufnr })
+        vim.keymap.set('n', '<Leader>gb', function() gitsigns.blame_line { full = true } end, { desc = 'Gitsigns: blame line' },
           { buffer = bufnr })
-        vim.keymap.set('n', '<Leader>gd', gs.diffthis, { desc = 'Gitsigns: diffthis' }, { buffer = bufnr })
-        vim.keymap.set('n', '<Leader>gD', function() gs.diffthis('~') end, { desc = 'Gitsigns: diffthis ~' },
+        vim.keymap.set('n', '<Leader>gd', gitsigns.diffthis, { desc = 'Gitsigns: diffthis' }, { buffer = bufnr })
+        vim.keymap.set('n', '<Leader>gD', function() gitsigns.diffthis('~') end, { desc = 'Gitsigns: diffthis ~' },
           { buffer = bufnr })
-        vim.keymap.set('n', '<Leader>gs', gs.stage_hunk, { desc = 'Gitsigns: stage hunk' }, { buffer = bufnr })
-        vim.keymap.set('n', '<Leader>gu', gs.undo_stage_hunk, { desc = 'Gitsigns: undo stage hunk' }, { buffer = bufnr })
-        vim.keymap.set('n', '<Leader>gx', gs.toggle_deleted, { desc = 'Gitsigns: toggle deleted' }, { buffer = bufnr })
-        vim.keymap.set('n', '<Leader>gr', gs.reset_hunk, { desc = 'Gitsigns: reset hunk' }, { buffer = bufnr })
+        vim.keymap.set('n', '<Leader>gs', gitsigns.stage_hunk, { desc = 'Gitsigns: stage hunk' }, { buffer = bufnr })
+        vim.keymap.set('n', '<Leader>gu', gitsigns.undo_stage_hunk, { desc = 'Gitsigns: undo stage hunk' }, { buffer = bufnr })
+        vim.keymap.set('n', '<Leader>gx', gitsigns.toggle_deleted, { desc = 'Gitsigns: toggle deleted' }, { buffer = bufnr })
+        vim.keymap.set('n', '<Leader>gr', gitsigns.reset_hunk, { desc = 'Gitsigns: reset hunk' }, { buffer = bufnr })
       end
     }
   },
@@ -199,6 +214,9 @@ return {
       modes = {
         char = {
           jump_labels = true
+        },
+        search = {
+          enabled = true
         }
       },
       prompt = {
@@ -327,7 +345,7 @@ return {
       end
 
       require('zk').setup({
-        picker = 'fzf'
+        picker = 'fzf_lua'
       })
 
       require('zk.commands').add('ZkRecents', make_edit_fn({ createdAfter = '1 week ago' }, { title = 'Zk Recents' }))
