@@ -5,7 +5,25 @@ return {
     event = 'BufReadPre',
     dependencies = {
       'nvim-treesitter/nvim-treesitter-refactor',
-      'windwp/nvim-ts-autotag',
+      {
+        'folke/ts-comments.nvim',
+        opts = {},
+        event = 'VeryLazy',
+        enabled = vim.fn.has('nvim-0.10.0') == 1,
+      },
+      {
+        'windwp/nvim-ts-autotag',
+        event = 'VeryLazy',
+        config = function()
+          require('nvim-ts-autotag').setup({
+            opts = {
+              enable_close = true,
+              enable_rename = true,
+              enable_close_on_slash = false
+            }
+          })
+        end
+      },
       {
         'HiPhish/rainbow-delimiters.nvim',
         event = 'VeryLazy',
@@ -25,9 +43,6 @@ return {
     config = function()
       require('nvim-treesitter.configs').setup({
         auto_install = true,
-        autotag = {
-          enable = true
-        },
         highlight = {
           enable = true
         },
@@ -55,15 +70,6 @@ return {
             enable = true
           }
         }
-      })
-    end
-  },
-  {
-    'JoosepAlviste/nvim-ts-context-commentstring',
-    config = function()
-      vim.g.skip_ts_context_commentstring_module = true
-      require('ts_context_commentstring').setup({
-        enable_autocmd = false
       })
     end
   }
