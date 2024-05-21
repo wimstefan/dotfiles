@@ -28,11 +28,61 @@ function Prettify()
     vim.cmd.colorscheme('default')
   end
   -- highlights
+  local function get_hex(name, attr)
+    local bit = require('bit')
+    local ok, hl = pcall(vim.api.nvim_get_hl_by_name, name, true)
+    if not ok then return 'NONE' end
+    hl.foreground = hl.foreground and '#' .. bit.tohex(hl.foreground, 6)
+    hl.background = hl.background and '#' .. bit.tohex(hl.background, 6)
+    attr = ({ bg = 'background', fg = 'foreground' })[attr] or attr
+    return hl[attr] or 'NONE'
+  end
+  local cs = vim.g.colors_name
   vim.api.nvim_set_hl(0, 'Normal', { bg = 'none' })
   vim.api.nvim_set_hl(0, 'NormalNC', { bg = 'none' })
   vim.api.nvim_set_hl(0, 'Folded', { bg = 'none' })
   vim.api.nvim_set_hl(0, 'ColorColumn', { link = 'Visual' })
   vim.api.nvim_set_hl(0, 'CursorLineNr', { fg = 'orange', bold = true, italic = true })
+  if cs == 'default' or cs == 'lunaperche' or cs == 'habamax' then
+    print(cs)
+    vim.api.nvim_set_hl(0, 'Conceal', { ctermfg = 255, fg = 255, ctermbg = 244, bg = 244 })
+    vim.api.nvim_set_hl(0, 'StatusLine', { blend = 20 })
+    vim.api.nvim_set_hl(0, 'StatusLineNC', { blend = 20 })
+  elseif string.match(cs, '^tokyonight') then
+    print(cs)
+    local dimmed_bg = get_hex('StatusLine', 'bg')
+    vim.api.nvim_set_hl(0, 'helpCommand', { fg = get_hex('helpCommand', 'fg'), bg = dimmed_bg, italic = true })
+    vim.api.nvim_set_hl(0, '@text.literal.markdown_inline',
+      { fg = get_hex('@text.literal.markdown_inline', 'fg'), bg = dimmed_bg, italic = true })
+    vim.api.nvim_set_hl(0, 'Search', { link = 'DiagnosticVirtualTextInfo' })
+    vim.api.nvim_set_hl(0, 'IncSearch', { link = 'DiagnosticVirtualTextWarn' })
+    vim.api.nvim_set_hl(0, 'Visual', { bg = dimmed_bg, bold = true })
+  elseif cs == 'vim' then
+    print(cs)
+    vim.opt.termguicolors = false
+    vim.api.nvim_set_hl(0, 'CursorColumn', { bg = 'none' })
+    vim.api.nvim_set_hl(0, 'FoldColumn', { bg = 'none' })
+    vim.api.nvim_set_hl(0, 'SignColumn', { bg = 'none' })
+    vim.api.nvim_set_hl(0, 'CursorLineNr', { ctermfg = 11, ctermbg = 'none' })
+    vim.api.nvim_set_hl(0, 'LineNr', { ctermfg = 8, ctermbg = 'none' })
+    vim.api.nvim_set_hl(0, 'Conceal', { ctermfg = 255, fg = 255, ctermbg = 244, bg = 244 })
+    vim.api.nvim_set_hl(0, 'Error', { ctermfg = 1, fg = 1, underline = true })
+    vim.api.nvim_set_hl(0, 'ErrorMsg', { ctermfg = 0, fg = 0, ctermbg = 'Red', bg = 'Red' })
+    vim.api.nvim_set_hl(0, 'Pmenu', { fg = 'none' })
+    vim.api.nvim_set_hl(0, 'Search', { ctermfg = 0, fg = 0, ctermbg = 11, bg = 11 })
+    vim.api.nvim_set_hl(0, 'SpellBad', { ctermfg = 1, fg = 1, underdouble = true })
+    vim.api.nvim_set_hl(0, 'SpellCap', { ctermfg = 12, fg = 12, underdouble = true })
+    vim.api.nvim_set_hl(0, 'SpellRare', { ctermfg = 13, fg = 13, underdouble = true })
+    vim.api.nvim_set_hl(0, 'SpellLocal', { ctermfg = 14, fg = 14, underdouble = true })
+    vim.api.nvim_set_hl(0, 'StatusLine', { bold = true, reverse = true })
+    vim.api.nvim_set_hl(0, 'StatusLineNC', { reverse = true })
+    vim.api.nvim_set_hl(0, 'WildMenu', { ctermfg = 0, ctermbg = 11 })
+    if vim.opt.background:get() == 'light' then
+      vim.api.nvim_set_hl(0, 'Visual', { ctermfg = 'none', fg = 'none', ctermbg = 253, bg = 253, bold = true })
+    else
+      vim.api.nvim_set_hl(0, 'Visual', { ctermfg = 'none', fg = 'none', ctermbg = 237, bg = 237, bold = true })
+    end
+  end
 
   vim.notify('Applying visual tweaks', vim.log.levels.INFO, { title = '[UI]' })
 end
