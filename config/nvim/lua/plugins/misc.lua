@@ -2,13 +2,6 @@ return {
   -- {{{2 plenary.nvim
   'nvim-lua/plenary.nvim',
   -- }}}2
-  -- {{{2 nvim-luapad
-  {
-    'rafcamlet/nvim-luapad',
-    cmd = 'Luapad',
-    dependencies = 'antoinemadec/FixCursorHold.nvim'
-  },
-  -- }}}2
   -- {{{2 Projects
   {
     'gennaro-tedesco/nvim-possession',
@@ -62,7 +55,7 @@ return {
         pattern = 'OilEnter',
         callback = vim.schedule_wrap(function(args)
           if vim.api.nvim_get_current_buf() == args.data.buf and require('oil').get_cursor_entry() then
-            require('oil').select({ preview = true })
+            require('oil').open_preview()
           end
         end),
       })
