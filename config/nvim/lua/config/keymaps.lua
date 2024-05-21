@@ -2,8 +2,10 @@ vim.keymap.set('', 'cd', [[<Cmd>cd %:h | pwd<CR>]])
 vim.keymap.set('n', '<Leader>G', [[:grep<Space>]])
 vim.keymap.set('n', '<Leader>i', [[<Cmd>Inspect!<CR>]])
 vim.keymap.set('n', '<Leader>K', function() ShowMan() end, { desc = 'Search man pages for current word' })
-vim.keymap.set('n', '<Leader>m', [[<Cmd>messages<cr>]])
+vim.keymap.set('n', '<Leader>m', [[<Cmd>messages<CR>]])
 vim.keymap.set('n', '<Leader>P', function() Prettify() end, { desc = 'Apply visual tweaks' })
+vim.keymap.set('n', ',cd', [[<Cmd>color default | set termguicolors<CR>]], { desc = 'Apply default colorscheme' })
+vim.keymap.set('n', ',cv', [[<Cmd>color vim | set notermguicolors<CR>]], { desc = 'Apply vim colorscheme' })
 vim.keymap.set('n', '<C-h>', function() ToggleHlSearch() end, { desc = 'Toggle search highlighting' })
 vim.keymap.set('n', '<F10>', function() ToggleDetails() end, { desc = 'Toggle decorations' })
 -- {{{2 lazy.nvim
@@ -61,4 +63,3 @@ vim.keymap.set('n', '<Leader>ss', [[G?--<CR>jVGd :r ~/.mutt/short-signature<CR>]
 vim.keymap.set('n', '<Leader>sl', [[G?--<CR>jVGd :r ~/.mutt/signature<CR>]])
 -- }}}2
 -- vim: foldmethod=marker foldlevel=1
-
