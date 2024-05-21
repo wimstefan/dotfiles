@@ -26,6 +26,7 @@ vim.keymap.set('n', '<Leader>qa', [[<Cmd>qa!<CR>]])
 vim.keymap.set('n', '<Leader>wqa', [[<Cmd>wqa!<CR>]])
 vim.keymap.set('n', 'cn', '*``cgn')
 vim.keymap.set('n', 'cN', '*``cgN')
+vim.keymap.set('x', 'gci', ':g/./normal gcc<CR><Cmd>nohls<CR>', { desc = 'Invert comments' })
 -- }}}2
 -- {{{2 buffers
 vim.keymap.set('n', '<Tab>', vim.cmd.bnext, { desc = 'Go to next buffer' })
@@ -60,3 +61,4 @@ vim.keymap.set('n', '<Leader>ss', [[G?--<CR>jVGd :r ~/.mutt/short-signature<CR>]
 vim.keymap.set('n', '<Leader>sl', [[G?--<CR>jVGd :r ~/.mutt/signature<CR>]])
 -- }}}2
 -- vim: foldmethod=marker foldlevel=1
+

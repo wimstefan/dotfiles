@@ -53,46 +53,6 @@ return {
     opts = {}
   },
   -- }}}2
-  -- {{{2 Comment.nvim
-  {
-    'numToStr/Comment.nvim',
-    event = 'VeryLazy',
-    keys = {
-      {
-        'gci',
-        [[:g/./lua require('Comment.api').toggle.linewise.current()<CR><Cmd>nohls<CR>]],
-        mode = 'x',
-        silent = true,
-        desc = 'Invert comments'
-      }
-    },
-    config = function()
-      require('Comment').setup({
-        pre_hook = require('ts_context_commentstring.integrations.comment_nvim').create_pre_hook()
-      })
-      vim.keymap.set('n', 'g>', require('Comment.api').call('comment.linewise', 'g@'),
-        { expr = true, desc = 'Comment region linewise' })
-      vim.keymap.set('n', 'g>c', require('Comment.api').call('comment.linewise.current', 'g@$'),
-        { expr = true, desc = 'Comment current line' })
-      vim.keymap.set('n', 'g>b', require('Comment.api').call('comment.blockwise.current', 'g@$'),
-        { expr = true, desc = 'Comment current block' })
-      vim.keymap.set('n', 'g<', require('Comment.api').call('uncomment.linewise', 'g@'),
-        { expr = true, desc = 'Uncomment region linewise' })
-      vim.keymap.set('n', 'g<c', require('Comment.api').call('uncomment.linewise.current', 'g@$'),
-        { expr = true, desc = 'Uncomment current line' })
-      vim.keymap.set('n', 'g<b', require('Comment.api').call('uncomment.blockwise.current', 'g@$'),
-        { expr = true, desc = 'Uncomment current block' })
-      vim.keymap.set('x', 'g>', function()
-        vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes('<ESC>', true, false, true), 'nx', false)
-        require('Comment.api').locked('comment.linewise')(vim.fn.visualmode())
-      end, { desc = 'Comment region linewise (visual)' })
-      vim.keymap.set('x', 'g<', function()
-        vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes('<ESC>', true, false, true), 'nx', false)
-        require('Comment.api').locked('uncomment.linewise')(vim.fn.visualmode())
-      end, { desc = 'Uncomment region linewise (visual)' })
-    end
-  },
-  -- }}}2
   -- {{{2 multicursors.nvim
   {
     'smoka7/multicursors.nvim',
