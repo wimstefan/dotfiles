@@ -19,6 +19,7 @@ vim.keymap.set({ 'n', 'x' }, 'j', function() return vim.v.count > 0 and 'j' or '
   { expr = true, replace_keycodes = false })
 vim.keymap.set({ 'n', 'x' }, 'k', function() return vim.v.count > 0 and 'k' or 'gk' end,
   { expr = true, replace_keycodes = false })
+vim.keymap.set('n', ',to', function() vim.opt.scrolloff = 999 - vim.o.scrolloff end, { desc = 'Toggle scrolloff' })
 -- }}}2
 -- {{{2 editing
 vim.keymap.set('n', '<Leader>w', [[<Cmd>w!<CR>]])
