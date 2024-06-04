@@ -40,6 +40,16 @@ vim.opt.fillchars:append({
 vim.opt.mouse = 'a'
 vim.opt.mousemodel = 'extend'
 
+vim.opt.foldlevel = 99
+vim.opt.foldlevelstart = 99
+vim.opt.foldcolumn = 'auto'
+vim.opt.fillchars:append({
+  foldsep = '🮍',
+  foldopen = '',
+  foldclose = ''
+})
+vim.wo.foldexpr = 'v:lua.vim.treesitter.foldexpr()'
+
 vim.opt.shiftwidth = indent
 vim.opt.shiftround = true
 vim.opt.softtabstop = indent

@@ -1,12 +1,28 @@
 return {
-  -- {{{2 notifier.nvim
+  -- {{{2 noice.nvim
   {
-    'vigoux/notifier.nvim',
-    lazy = false,
+    'folke/noice.nvim',
+    event = 'VeryLazy',
     keys = {
-      { '<Leader>n', vim.cmd.NotifierReplay, desc = 'Notifications' }
+      { '<Leader>n', vim.cmd.NoiceAll, desc = 'Notifications' }
     },
-    opts = {}
+    opts = {
+      lsp = {
+        override = {
+          ['vim.lsp.util.convert_input_to_markdown_lines'] = true,
+          ['vim.lsp.util.stylize_markdown'] = true
+        }
+      },
+      presets = {
+        bottom_search = true,
+        command_palette = true,
+        inc_rename = true,
+        lsp_doc_border = true
+      }
+    },
+    dependencies = {
+      'MunifTanjim/nui.nvim'
+    }
   },
   -- }}}2
   -- {{{2 nougat.nvim
@@ -234,89 +250,6 @@ return {
     config = true
   },
   -- }}}2
-  -- {{{2 nvim-ufo
-  {
-    'kevinhwang91/nvim-ufo',
-    dependencies = 'kevinhwang91/promise-async',
-    event = 'BufReadPost',
-    keys = {
-      { '[z', function() require('ufo').goPreviousClosedFold() end, desc = 'Ufo: go to previous closed fold' },
-      { ']z', function() require('ufo').goNextClosedFold() end, desc = 'Ufo: go to next closed fold' },
-      { 'zR', function() require('ufo').openAllFolds() end, desc = 'Ufo: open all folds' },
-      { 'zM', function() require('ufo').closeAllFolds() end, desc = 'Ufo: close all folds' },
-      { 'zr', function() require('ufo').openFoldsExceptKinds() end, desc = 'Ufo: open folds except kinds' },
-      { 'zm', function() require('ufo').closeFoldsWith() end, desc = 'Ufo: close folds' },
-      { 'zp',
-        function()
-          local winid = require('ufo').peekFoldedLinesUnderCursor()
-          if not winid then
-            vim.lsp.buf.hover()
-          end
-        end,
-        desc = 'Ufo: preview'
-      }
-    },
-    opts = function()
-      vim.opt.foldlevel = 99
-      vim.opt.foldlevelstart = 99
-      vim.opt.foldcolumn = 'auto'
-      vim.opt.foldtext = 'v:lua.vim.treesitter.foldtext()'
-      vim.opt.fillchars:append({
-        foldsep = '🮍',
-        foldopen = '',
-        foldclose = ''
-      })
-
-      local handler = function(virtText, lnum, endLnum, width, truncate)
-        local newVirtText = {}
-        local suffix = (' ··· %d lines ···'):format(endLnum - lnum)
-        local sufWidth = vim.fn.strdisplaywidth(suffix)
-        local targetWidth = width - sufWidth
-        local curWidth = 0
-        for _, chunk in ipairs(virtText) do
-          local chunkText = chunk[1]
-          local chunkWidth = vim.fn.strdisplaywidth(chunkText)
-          if targetWidth > curWidth + chunkWidth then
-            table.insert(newVirtText, chunk)
-          else
-            chunkText = truncate(chunkText, targetWidth - curWidth)
-            local hlGroup = chunk[2]
-            table.insert(newVirtText, { chunkText, hlGroup })
-            chunkWidth = vim.fn.strdisplaywidth(chunkText)
-            -- str width returned from truncate() may less than 2nd argument, need padding
-            if curWidth + chunkWidth < targetWidth then
-              suffix = suffix .. (' '):rep(targetWidth - curWidth - chunkWidth)
-            end
-            break
-          end
-          curWidth = curWidth + chunkWidth
-        end
-        table.insert(newVirtText, { suffix, 'MoreMsg' })
-        return newVirtText
-      end
-
-      require('ufo').setup({
-        fold_virt_text_handler = handler,
-        preview = {
-          win_config = {
-            winhighlight = 'Normal:Folded',
-            winblend = 0
-          },
-          mappings = {
-            scrollU = '<C-u>',
-            scrollD = '<C-d>'
-          }
-        },
-        provider_selector = function(bufnr, filetype, buftype)
-          local ftMap = {
-            git = ''
-          }
-          return ftMap[filetype] or { 'treesitter', 'indent' }
-        end
-      })
-    end
-  },
-  -- }}}2
   -- {{{2 which-key.nvim
   {
     'folke/which-key.nvim',
@@ -400,7 +333,8 @@ return {
     },
     opts = {
       highlighter = {
-        auto_enable = true
+        auto_enable = true,
+        lsp = true
       }
     }
   }
