@@ -1,9 +1,8 @@
 return {
-  -- {{{2 neodev.nvim
+  -- {{{2 lazydev.nvim
   {
-    'folke/neodev.nvim',
-    event = 'VeryLazy',
-    opts = {}
+    'folke/lazydev.nvim',
+    event = 'VeryLazy'
   },
   -- }}}2
   -- {{{2 nvim-lspconfig
@@ -20,10 +19,6 @@ return {
         { border = require('config.ui').borders })
 
       -- Diagnostic
-      vim.keymap.set('n', '[d', function() vim.diagnostic.goto_prev({ float = false }) end,
-        { desc = 'Diagnostic: got to previous error' })
-      vim.keymap.set('n', ']d', function() vim.diagnostic.goto_next({ float = false }) end,
-        { desc = 'Diagnostic: got to next error' })
       vim.keymap.set('n', ',dt', function() vim.diagnostic.enable(not vim.diagnostic.is_enabled()) end, { desc = 'Diagnostic: toggle' })
       vim.keymap.set('n', ',df', vim.diagnostic.open_float, { desc = 'Diagnostic: open floating window' })
       vim.keymap.set('n', ',dl', vim.diagnostic.setloclist, { desc = 'Diagnostic: populate location list' })
@@ -335,24 +330,30 @@ return {
     end
   },
   -- }}}2
-  -- {{{2 nvim-lightbulb
+  -- {{{2 clear-action.nvim
   {
-    'kosayoda/nvim-lightbulb',
-    event = {
-      'CursorHold',
-      'CursorHoldI'
-    },
+    'luckasRanarison/clear-action.nvim',
+    event = 'LspAttach',
     opts = {
-      sign = {
-        enabled = true,
-        text = ' ',
-        hl = 'WarningMsg'
-      },
-      autocmd = {
-        enabled = true
-      },
-      number = {
-        enabled = true
+      signs = {
+        enable = true,
+        silent = false,
+        combine = false,
+        position = 'eol',
+        show_label = true,
+        icons = {
+          quickfix = '  󰁨 ',
+          refactor = '  󰍉 ',
+          source = '  󰜛 ',
+          combined = '  󰍉 '
+        },
+        highlights = {
+          quickfix = '@markup.italic',
+          refactor = '@markup.italic',
+          source = '@markup.italic',
+          combined = '@markup.italic',
+          label = '@markup.italic'
+        }
       }
     }
   },
@@ -396,5 +397,3 @@ return {
   -- }}}2
 }
 -- vim: foldmethod=marker foldlevel=1
-
-
