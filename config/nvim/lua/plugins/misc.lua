@@ -129,13 +129,6 @@ return {
     ft = 'log'
   },
   -- }}}2
-  -- {{{2 rasi.vim
-  {
-    'Fymyte/rasi.vim',
-    ft = 'rasi',
-    build = ':TSInstall rasi'
-  },
-  -- }}}2
   -- {{{2 unicode.vim
   {
     'chrisbra/unicode.vim',
