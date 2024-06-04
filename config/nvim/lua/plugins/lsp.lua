@@ -106,6 +106,53 @@ return {
           else
             lsp_messages = lsp_messages .. 'no codeAction' .. lsp_msg_sep
           end
+          if client.supports_method('textDocument/completion') then
+            vim.lsp.completion.enable(true, client.id, ev.buf, { autotrigger = true })
+            vim.keymap.set({ 'i', 's' }, '<C-y>', function() return vim.fn.pumvisible() and '<C-y>' or '<CR>' end,
+              { expr = true, desc = 'Completion: accept' }, opts)
+            vim.keymap.set({ 'i', 's' }, '<C-e>', function() return vim.fn.pumvisible() and '<C-e>' or '/' end,
+              { expr = true, desc = 'Completion: dismiss' }, opts)
+            vim.keymap.set({ 'i', 's' }, '<C-n>', function()
+              if vim.fn.pumvisible() then
+                vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes('<C-n>', true, false, true), 'n', true)
+              else
+                if next(vim.lsp.get_clients { bufnr = 0 }) then
+                  vim.lsp.completion.trigger()
+                else
+                  if vim.bo.omnifunc == '' then
+                    vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes('<C-x><C-n>', true, false, true), 'n', true)
+                  else
+                    vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes('<C-x><C-o>', true, false, true), 'n', true)
+                  end
+                end
+              end
+            end, { desc = 'Completion: next' }, opts)
+            vim.keymap.set({ 'i', 's' }, '<C-u>', '<C-x><C-n>', { desc = 'Completion: buffer completions' }, opts)
+            vim.keymap.set({ 'i', 's' }, '<Tab>', function()
+              local suggestion = require('supermaven-nvim.completion_preview')
+              if suggestion.has_suggestion() then
+                suggestion.on_accept_suggestion()
+              elseif vim.fn.pumvisible() then
+                vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes('<C-n>', true, false, true), 'n', true)
+              elseif vim.snippet.active { direction = 1 } then
+                vim.snippet.jump(1)
+              else
+                vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes('<Tab>', true, false, true), 'n', true)
+              end
+            end, { desc = 'Completion: supermaven, snippet or next completion' }, opts)
+            vim.keymap.set({ 'i', 's' }, '<S-Tab>', function()
+              if vim.fn.pumvisible() then
+                vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes('<C-p>', true, false, true), 'n', true)
+              elseif vim.snippet.active { direction = -1 } then
+                vim.snippet.jump(-1)
+              else
+                vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes('<S-Tab>', true, false, true), 'n', true)
+              end
+            end, {}, { 'i', 's' })
+            vim.keymap.set('s', '<BS>', '<C-o>s', { desc = 'Completion: remove snippet placeholder' }, opts)
+          else
+            lsp_messages = lsp_messages .. 'no completion' .. lsp_msg_sep
+          end
           if client.supports_method('textDocument/formatting') then
             local fmt_opts = vim.bo[ev.buf].ft == 'lua'
               and 'async=true,bufnr=0,name="lua_ls"'
@@ -177,13 +224,12 @@ return {
         end
       })
 
-      local capabilities = vim.tbl_deep_extend('force',
-        vim.lsp.protocol.make_client_capabilities(),
-        require('autocomplete.capabilities'))
+      local capabilities = vim.lsp.protocol.make_client_capabilities()
       capabilities.textDocument.foldingRange = {
         dynamicRegistration = false,
         lineFoldingOnly = true
       }
+      capabilities.textDocument.completion.completionItem.snippetSupport = true
 
       -- LSP servers
       local servers = {
@@ -242,6 +288,10 @@ return {
           end,
           settings = {
             Lua = {
+              completion = {
+                callSnippet = 'Both',
+                keyworsSnippet = 'Both'
+              },
               diagnostics = {
                 neededFileStatus = {
                   ['codestyle-check'] = 'Any'
@@ -346,4 +396,5 @@ return {
   -- }}}2
 }
 -- vim: foldmethod=marker foldlevel=1
+
 

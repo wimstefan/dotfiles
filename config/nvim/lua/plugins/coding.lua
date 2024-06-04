@@ -1,34 +1,10 @@
 return {
-  -- {{{2 autocomplete.nvim
+  -- {{{2 supermaven-nvim
   {
-    'deathbeam/autocomplete.nvim',
-    event = {
-      'CmdlineEnter',
-      'InsertEnter'
-    },
+    'supermaven-inc/supermaven-nvim',
+    event = 'BufEnter',
     config = function()
-      vim.keymap.set('i', '<Tab>', function()
-        return vim.fn.pumvisible() ~= 0 and '<C-y>' or '<Tab>'
-      end, { expr = true, replace_keycodes = true })
-      vim.keymap.set('i', '<CR>', function()
-        return vim.fn.pumvisible() ~= 0 and '<C-e><CR>' or '<CR>'
-      end, { expr = true, replace_keycodes = true })
-
-      require('autocomplete.buffer').setup({
-        border = require('config.ui').borders,
-        server_side_filtering = true,
-        entry_mapper = function(entry)
-          local icons = require('config.ui').icons
-          local kind = entry.kind
-          local icon = icons.kinds[kind]
-          entry.kind = icon and icon .. ' ' .. kind or kind
-          return entry
-        end
-      })
-      require('autocomplete.cmd').setup()
-      require('autocomplete.signature').setup({
-        border = require('config.ui').borders
-      })
+      require('supermaven-nvim').setup({})
     end
   },
   -- }}}2
@@ -100,4 +76,3 @@ return {
   -- }}}2
 }
 -- vim: foldmethod=marker foldlevel=1
-
