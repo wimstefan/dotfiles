@@ -27,10 +27,15 @@ return {
     keys = '.'
   },
   -- }}}2
-  -- {{{2 vim-unimpaired
+  -- {{{2 nvim-impairative
   {
-    'tpope/vim-unimpaired',
-    event = 'VeryLazy'
+    'idanarye/nvim-impairative',
+    event = 'VeryLazy',
+    config = function()
+      require('impairative').setup({
+        replicate_unimpaired = true
+      })
+    end
   },
   -- }}}2
   -- {{{2 nvim-bqf
