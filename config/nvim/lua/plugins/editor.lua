@@ -275,10 +275,16 @@ return {
     opts = {}
   },
   -- }}}2
-  -- {{{2 vim-renamer
+  -- {{{2 grug-far.nvim
   {
-    'qpkorr/vim-renamer',
-    cmd = 'Renamer'
+    'MagicDuck/grug-far.nvim',
+    event = 'VeryLazy',
+    keys = {
+      { '<Leader>R', function() require('grug-far').grug_far() end, desc = 'Grug-Far' },
+      { '<Leader>Rf', function() require('grug-far').grug_far({ prefills = { flags = vim.fn.expand('%') } }) end, desc = 'Grug-Far: current file' },
+      { '<Leader>Rv', function() require('grug-far').with_visual_selection({ prefills = { flags = vim.fn.expand('%') } }) end, desc = 'Grug-Far: visual selection' },
+      { '<Leader>Rw', function() require('grug-far').grug_far({ prefills = { search = vim.fn.expand('<cword>') } }) end, desc = 'Grug-Far: current file' },
+    }
   },
   -- }}}2
   -- {{{2 vim-dirdiff
@@ -357,24 +363,7 @@ return {
       vim.keymap.set('n', '<Leader>zr', [[<Cmd>ZkRecents<CR>]])
       vim.keymap.set('n', '<Leader>zt', [[<Cmd>ZkTags<CR>]])
     end
-  },
-  -- }}}2
-  -- {{{2 muren.nvim
-  {
-    'AckslD/muren.nvim',
-    keys = {
-      { '<Leader>R', function() require('muren.api').toggle_ui() end, desc = 'Muren' },
-      { '<Leader>Rf', function() require('muren.api').open_fresh_ui() end, desc = 'Muren: fresh' },
-      { '<Leader>Ru', function() require('muren.api').open_unique_ui() end, desc = 'Muren: unique' }
-    },
-    opts = {
-      patterns_width = 33,
-      patterns_height = 11,
-      options_width = 22,
-      preview_height = 33,
-      anchor = 'top_right'
-    }
   }
-  -- }}}
+  -- }}}2
 }
 -- vim: foldmethod=marker foldlevel=1
