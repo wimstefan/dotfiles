@@ -6,7 +6,7 @@ return {
   -- {{{2 vim-artesanal
   {
     'wimstefan/vim-artesanal',
-    event = 'VeryLazy',
+    event = { 'ColorScheme', 'UiEnter' },
     config = function()
       vim.g.artesanal_dimmed = false
       vim.g.artesanal_transparent = true
@@ -16,7 +16,7 @@ return {
   -- {{{2 tokyonight
   {
     'folke/tokyonight.nvim',
-    lazy = false,
+    event = { 'ColorScheme', 'UiEnter' },
     opts = function()
       return {
         style = 'moon',
@@ -41,7 +41,7 @@ return {
   -- {{{2 zenbones
   {
     'mcchrish/zenbones.nvim',
-    lazy = false,
+    event = { 'ColorScheme', 'UiEnter' },
     config = function()
       local flavours = { 'zenbones', 'zenwritten', 'neobones', 'nordbones', 'seoulbones', 'tokyobones' }
       for _, flavour in ipairs(flavours) do
