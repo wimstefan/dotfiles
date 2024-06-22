@@ -2,7 +2,8 @@ return {
   -- {{{2 lazydev.nvim
   {
     'folke/lazydev.nvim',
-    event = 'VeryLazy'
+    event = 'VeryLazy',
+    opts = {}
   },
   -- }}}2
   -- {{{2 nvim-lspconfig
@@ -49,21 +50,21 @@ return {
       -- LSP config
       vim.api.nvim_create_autocmd('LspAttach', {
         group = vim.api.nvim_create_augroup('UserLspConfig', {}),
-        callback = function(ev)
+        callback = function(args)
           local unpack = unpack or table.unpack
-          local client = vim.lsp.get_client_by_id(ev.data.client_id)
+          local client = vim.lsp.get_client_by_id(args.data.client_id)
           local lsp_messages = ''
           local lsp_msg_sep = ' ∷ '
           lsp_messages = lsp_msg_sep .. 'LSP attached' .. lsp_msg_sep
           -- Enable completion triggered by <c-x><c-o>
-          if vim.bo[ev.buf].filetype == 'lua' then
-            vim.bo[ev.buf].omnifunc = 'v:lua.vim.lua_omnifunc'
+          if vim.bo[args.buf].filetype == 'lua' then
+            vim.bo[args.buf].omnifunc = 'v:lua.vim.lua_omnifunc'
           else
-            vim.bo[ev.buf].omnifunc = 'v:lua.vim.lsp.omnifunc'
+            vim.bo[args.buf].omnifunc = 'v:lua.vim.lsp.omnifunc'
           end
 
           -- Buffer local mappings.
-          local opts = { buffer = ev.buf }
+          local opts = { buffer = args.buf }
           vim.keymap.del('n', 'K', opts)
           vim.keymap.set('n', ',lI', vim.cmd.LspInfo,
             { desc = 'LSP: info' }, opts)
@@ -79,15 +80,8 @@ return {
             { desc = 'Diagnostic: document diagnostics' }, opts)
           vim.keymap.set('n', ',lD', require('fzf-lua').lsp_workspace_diagnostics,
             { desc = 'Diagnostic: workspace diagnostics' }, opts)
-          vim.keymap.set('n', ',lrn',
-            function()
-              if pcall(require, 'inc_rename') then
-                return ':IncRename ' .. vim.fn.expand('<cword>')
-              else
-                vim.lsp.buf.rename()
-              end
-            end,
-            { desc = 'LSP: rename', expr = true, replace_keycodes = false }, opts)
+          vim.keymap.set('n', ',lrn', function() vim.lsp.buf.rename() end,
+            { desc = 'LSP: rename' }, opts)
           vim.keymap.set('n', ',lw', function() Dump(vim.lsp.buf.list_workspace_folders()) end,
             { desc = 'LSP: list workspace folders' }, opts)
           if client.supports_method('textDocument/codeAction') then
@@ -102,7 +96,7 @@ return {
             lsp_messages = lsp_messages .. 'no codeAction' .. lsp_msg_sep
           end
           if client.supports_method('textDocument/completion') then
-            vim.lsp.completion.enable(true, client.id, ev.buf, { autotrigger = true })
+            vim.lsp.completion.enable(true, client.id, args.buf, { autotrigger = true })
             vim.keymap.set({ 'i', 's' }, '<C-y>', function() return vim.fn.pumvisible() and '<C-y>' or '<CR>' end,
               { expr = true, desc = 'Completion: accept' }, opts)
             vim.keymap.set({ 'i', 's' }, '<C-e>', function() return vim.fn.pumvisible() and '<C-e>' or '/' end,
@@ -149,7 +143,7 @@ return {
             lsp_messages = lsp_messages .. 'no completion' .. lsp_msg_sep
           end
           if client.supports_method('textDocument/formatting') then
-            local fmt_opts = vim.bo[ev.buf].ft == 'lua'
+            local fmt_opts = vim.bo[args.buf].ft == 'lua'
               and 'async=true,bufnr=0,name="lua_ls"'
               or 'async=true,bufnr=0'
             vim.keymap.set('n', ',lf', function() vim.lsp.buf.format(fmt_opts) end,
@@ -171,7 +165,7 @@ return {
                 local fmt_opts = {
                   async   = true,
                   bufnr   = 0,
-                  name    = vim.bo[ev.buf].ft == 'lua' and 'lua_ls' or nil,
+                  name    = vim.bo[args.buf].ft == 'lua' and 'lua_ls' or nil,
                   start   = { csrow, cscol },
                   ['end'] = { cerow, cecol },
                 }
@@ -289,7 +283,8 @@ return {
               },
               diagnostics = {
                 neededFileStatus = {
-                  ['codestyle-check'] = 'Any'
+                  ['codestyle-check'] = 'Any',
+                  ['need-check-nil'] = 'None'
                 },
                 globals = {
                   'use',
@@ -370,29 +365,27 @@ return {
         init = function()
           require('hover.providers.lsp')
           require('hover.providers.man')
+          require('hover.providers.fold_preview')
         end,
         preview_opts = {
-          border = nil
+          border = require('config.ui').borders
         },
         title = true
       })
     end
   },
   -- }}}2
-  -- {{{2 outline.nvim
+  -- {{{2 aerial.nvim
   {
-    'hedyhli/outline.nvim',
+    'stevearc/aerial.nvim',
     keys = {
-      { '<Leader>s', vim.cmd.Outline, desc = 'Outline: toggle' },
+      { '<Leader>s', vim.cmd.AerialToggle, desc = 'Aerial: toggle' },
     },
-    config = true
-  },
-  -- }}}2
-  -- {{{2 inc-rename.nvim
-  {
-    'smjonas/inc-rename.nvim',
-    cmd = 'IncRename',
-    opts = {}
+    opts = {
+      backends = { 'lsp', 'treesitter', 'markdown', 'man', 'asciidoc' },
+      filter_kind = false,
+      show_guides = false
+    }
   }
   -- }}}2
 }
