@@ -29,7 +29,8 @@ vim.keymap.set('n', '<Leader>qa', [[<Cmd>qa!<CR>]])
 vim.keymap.set('n', '<Leader>wqa', [[<Cmd>wqa!<CR>]])
 vim.keymap.set('n', 'cn', '*``cgn')
 vim.keymap.set('n', 'cN', '*``cgN')
-vim.keymap.set('x', 'gci', ':g/./normal gcc<CR><Cmd>nohls<CR>', { desc = 'Invert comments' })
+vim.keymap.set('x', 'gci', ':normal gcc<CR><Cmd>nohls<CR>', { desc = 'Invert comments' })
+vim.keymap.set('n', 'z=', function() require('fzf-lua').spell_suggest() end, { desc = 'Spell suggestion' })
 -- }}}2
 -- {{{2 buffers
 vim.keymap.set('n', '<Tab>', vim.cmd.bnext, { desc = 'Go to next buffer' })
