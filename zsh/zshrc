@@ -58,11 +58,11 @@ export ZLS_COLORS=$LS_COLORS
 zmodload zsh/complist
 autoload -U compinit && compinit -u
 
-zstyle ':completion:*' completer _complete _approximate
-
+zstyle '*:compinit' arguments -i -u
 zstyle ':completion:complete:*' use-cache on
 zstyle ':completion:complete:*' cache-path '${XDG_CACHE_HOME}/zsh'
 
+zstyle ':completion:*' completer _complete _approximate
 zstyle ':completion:*' menu select search
 zstyle ':completion:*' complete-options true
 zstyle ':completion:*' squeeze-slashes false
@@ -195,7 +195,7 @@ local colorfg='%F'
 local uncolorfg='%f'
 local colorbg='%K'
 local uncolorbg='%k'
-local mytime='%*'
+local mytime='%D{%d/%m} %*'
 local mydate='%D'
 local line_tty='%y'
 local rootorwhat='%(!.#.»)'
@@ -345,13 +345,13 @@ alias -g L='| less'
 alias -g W='| wc -l'
 alias -g Z='| fzf'
 # commands
-alias ls=exa
-alias l1='exa -1'
-alias ll='exa -hlg --git'
-alias lt='exa -hlg --git --sort=new'
-alias la='exa -hlga --git'
-alias lr='exa -hlgR --git --tree --icons $@'
-alias lS='exa -hlg --git --sort=size --reverse'
+alias ls=eza
+alias l1='eza -1'
+alias ll='eza -hlg --git'
+alias lt='eza -hlg --git --sort=new'
+alias la='eza -hlga --git'
+alias lr='eza -hlgR --git --tree --icons $@'
+alias lS='eza -hlg --git --sort=size --reverse'
 alias b=${(z)BROWSER}
 alias e=${(z)VISUAL:-${(z)EDITOR}}
 alias p=${(z)PAGER}
@@ -632,10 +632,18 @@ if [[ $USER != root ]]; then
         rsync -az   --delete /home/swimmer/.config/zsh/external/ $host:.config/zsh/external/
         rsync -az            /home/swimmer/.config/zsh/zsh_aliases $host:.config/zsh/zsh_aliases
         rsync -az            /home/swimmer/.config/zsh/.zshrc $host:.config/zsh/.zshrc
+        echo "Syncing git config on $host ..."
+        rsync -az            /home/swimmer/.gitconfig $host:
+        rsync -az            /home/swimmer/.config/lazygit/config.yml $host:.config/lazygit/
+        echo "Syncing zellij config on $host ..."
+        rsync -az            /home/swimmer/.config/zellij/config.kdl $host:.config/zellij/config.kdl
+        rsync -az            /home/swimmer/.config/zellij/layouts/swap.kdl $host:.config/zellij/layouts/swap.kdl
+        rsync -azkL --delete /home/swimmer/.config/zellij/plugins/ $host:.config/zellij/plugins/
+        rsync -azkL --delete /home/swimmer/.config/zellij/themes/ $host:.config/zellij/themes/
         echo "Syncing vim & neovim on $host ..."
         rsync -az            /home/swimmer/.vimrc $host:
         rsync -azk  --delete /home/swimmer/.vim/ $host:.vim/
-        rsync -azK  --delete /home/swimmer/.config/nvim/ $host:.config/nvim/
+        rsync -azK  --delete --exclude 'spell' /home/swimmer/.config/nvim/ $host:.config/nvim/
         echo "Syncing bat on $host ..."
         rsync -az            /home/swimmer/.config/bat/ $host:.config/bat/
         echo "Syncing file explorers on $host ..."
@@ -644,9 +652,10 @@ if [[ $USER != root ]]; then
         rsync -az   --delete /home/swimmer/.local/share/mc/skins/ $host:.local/share/mc/skins/
         rsync -az   --delete /home/swimmer/.config/vifm/vifmrc $host:.config/vifm/vifmrc
         rsync -az   --delete /home/swimmer/.config/vifm/colors/ $host:.config/vifm/colors/
+        rsync -az   --delete /home/swimmer/.config/vifm/plugins/ $host:.config/vifm/plugins/
         echo "Syncing cli browsers on $host ..."
         rsync -az            /home/swimmer/.w3m/config $host:.w3m/config
-        rsync -az            /home/swimmer/.elinks/elinks.conf $host:.elinks/elinks.conf
+        rsync -az            /home/swimmer/.config/elinks/elinks.conf $host:.config/elinks/elinks.conf
         echo "Syncing moc themes on $host ..."
         rsync -azk  --delete /home/swimmer/.moc/themes/ $host:.moc/themes/
       }
@@ -658,17 +667,15 @@ if [[ $USER != root ]]; then
         rsync -az            /home/swimmer/.Xresources $host:
         rsync -az   --delete --exclude '.thumbs' --exclude '.xcf' /home/swimmer/system/wallpapers/ $host\:system/wallpapers/
         rsync -azK  --delete /usr/local/share/cursors/ $host:/usr/local/share/cursors/
-        rsync -az   --delete /usr/local/share/icons/ $host:/usr/local/share/icons/
+        rsync -azkL --delete /usr/local/share/icons/ $host:/usr/local/share/icons/
         rsync -azkL --delete /usr/local/share/themes/ $host:/usr/local/share/themes/
         rsync -azkL --delete /usr/share/fonts/owned/ $host:/usr/share/fonts/owned/
         rsync -az   --delete /home/swimmer/.config/libreoffice/4/user/template/ $host:.config/libreoffice/4/user/template/
-        rsync -az            /home/swimmer/.gitconfig $host:
         rsync -az            /home/swimmer/.gtkrc-2.0 $host:
         rsync -az            /home/swimmer/.config/gtk-3.0/ $host:.config/gtk-3.0/
         rsync -az            /home/swimmer/.config/fontconfig/fonts.conf $host:.config/fontconfig/
         rsync -az            /home/swimmer/.config/Trolltech.conf $host:.config/
         rsync -azkL --delete /home/swimmer/.config/colours/ $host:.config/colours/
-        rsync -az            /home/swimmer/.config/lazygit/config.yml $host:.config/lazygit/
         rsync -azKl --delete /home/swimmer/.config/alacritty/ $host:.config/alacritty/
         rsync -az   --delete /home/swimmer/.config/dunst/ $host:.config/dunst/
         rsync -az   --delete /home/swimmer/.config/awesome/ $host:.config/awesome/
@@ -679,12 +686,9 @@ if [[ $USER != root ]]; then
         rsync -azKl --delete /home/swimmer/.config/rofi/ $host:.config/rofi/
         rsync -az   --delete /home/swimmer/.config/sxhkd/ $host:.config/sxhkd/
         rsync -azKl --delete /home/swimmer/.config/wezterm/ $host:.config/wezterm/
-        rsync -azL  --delete /home/swimmer/.terminfo/w/wezterm $host:.terminfo/w/
+        rsync -azL  --delete /home/swimmer/.terminfo/w/ $host:.terminfo/w/
         rsync -azL  --delete /usr/local/share/applications/wezterm.desktop $host:/usr/local/share/applications/
         for j in strip-ansi-escapes sync-color-schemes wezterm{,-gui,-mux-server}; rsync -azL --delete /home/swimmer/.local/bin/$j $host:/usr/local/bin/
-        rsync -az            /home/swimmer/.config/zellij/config.kdl $host:.config/zellij/config.kdl
-        rsync -az            /home/swimmer/.config/zellij/layouts/swap.kdl $host:.config/zellij/layouts/swap.kdl
-        rsync -azkL --delete /home/swimmer/.config/zellij/themes/ $host:.config/zellij/themes/
         rsync -az            /usr/local/bin/bg-toggle $host:/usr/local/bin/
       }
 
@@ -847,8 +851,9 @@ fi
 # }}}2
 # END user config # }}}1
 # External modules # {{{1
-if type fasd &> /dev/null; then
-  eval "$(fasd --init auto)"
+if type zoxide &> /dev/null; then
+  export _ZO_ECHO='1'
+  eval "$(zoxide init zsh)"
 fi
 [ -f $ZDOTDIR/external/forgit.git/forgit.plugin.zsh ] && source $ZDOTDIR/external/forgit.git/forgit.plugin.zsh
 if [[ -f $ZDOTDIR/external/zsh-autosuggestions.git/zsh-autosuggestions.zsh ]]; then
@@ -881,7 +886,7 @@ export FZF_DEFAULT_OPTS='
   --height ~90%
   --padding 1
   --margin 1
-  --preview "bat {}"
+  --preview "fzf-preview.sh {}"
   --preview-window right:70%:hidden:wrap
   --bind "?:toggle-preview"
   --color "bg+:-1,fg+:-1,hl:36,hl+:36,info:75"
@@ -915,7 +920,7 @@ _fzf_comprun() {
     cd) fzf --preview 'tree -C {}' "$@" ;;
     export|unset) fzf --preview "eval 'echo \$'{}" "$@" ;;
     ssh) fzf --preview 'dig {}' "$@" ;;
-    *) fzf --preview 'bat -n --color=always {}' "$@" ;;
+    *) fzf --preview 'fzf-preview.sh {}' "$@" ;;
   esac
 }
 
@@ -926,6 +931,9 @@ _fzf_comprun() {
 
 # zellij
 alias zx=zellij
+alias zxa='zellij action'
+alias zxc='zellij action start-or-reload-plugin file:${XDG_CONFIG_HOME}/zellij/plugins/cached.wasm'
+alias zxd='zellij action start-or-reload-plugin file:${XDG_CONFIG_HOME}/zellij/plugins/zellij-plugin-detach.wasm'
 function zr () { zellij run --name "$*" -- zsh -ic "$*";}
 function zrf () { zellij run --name "$*" --floating -- zsh -ic "$*";}
 function ze () { zellij edit "$*";}
