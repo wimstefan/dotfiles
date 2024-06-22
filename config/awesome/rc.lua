@@ -1177,8 +1177,7 @@ client.connect_signal('unfocus', function(c) c.border_color = beautiful.border_c
 awful.spawn.with_shell(
   'pkill picom;' ..
   'while pgrep -x picom >/dev/null; do sleep 1; done;' ..
-  -- '/usr/local/src/Tools/x11/picom-FT-Labs.git/build/src/picom --config $HOME/.config/picom/awesomewm.conf &;'
-  'picom --config $HOME/.config/picom/awesomewm.conf &;'
+  '/usr/local/src/Tools/x11/picom-yshui.git/build/src/picom --config $HOME/.config/picom/awesomewm.conf &;'
 )
 if hostname == 'swimmer' or hostname == 'tj' then
   awful.spawn.once('signal-desktop --use-tray-icon --stay-in-tray')
