@@ -40,7 +40,7 @@ return {
   -- }}}2
   -- {{{2 zenbones
   {
-    'mcchrish/zenbones.nvim',
+    'zenbones-theme/zenbones.nvim',
     event = { 'ColorScheme', 'UiEnter' },
     config = function()
       local flavours = { 'zenbones', 'zenwritten', 'neobones', 'nordbones', 'seoulbones', 'tokyobones' }
