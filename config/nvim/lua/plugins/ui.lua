@@ -4,7 +4,8 @@ return {
     'folke/noice.nvim',
     event = 'VeryLazy',
     keys = {
-      { '<Leader>n', vim.cmd.NoiceAll, desc = 'Notifications' }
+      { '<Leader>n', vim.cmd.NoiceAll, desc = 'Notifications' },
+      { '<Leader>np', vim.cmd.NoicePick, desc = 'Notification picker' }
     },
     opts = {
       lsp = {
