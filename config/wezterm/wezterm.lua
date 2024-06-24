@@ -45,27 +45,6 @@ wez.on('format-tab-title', function(tab)
   }
 end)
 
-local padding = {
-  left = '0.8%',
-  right = '0.8%',
-  top = '0.8%',
-  bottom = '0'
-}
-wez.on('update-status', function(window, pane)
-  local overrides = window:get_config_overrides() or {}
-  if string.find(pane:get_title(), '^n-vi-m-.*|^e .*|^v .*') then
-    overrides.window_padding = {
-      left = 0,
-      right = 0,
-      top = 0,
-      bottom = 0
-    }
-  else
-    overrides.window_padding = padding
-  end
-  window:set_config_overrides(overrides)
-end)
-
 wez.on('update-right-status', function(window, pane)
   local title = pane:get_title()
   local date = wez.strftime('[%H:%M] %a %b %d %Y  ')
@@ -99,6 +78,8 @@ local scheme_pool = {
   catppuccin_mocha = 'catppuccin_mocha',
   atelier_cave_base16 = 'Atelier Cave (base16)',
   atelier_cave_light_base16 = 'Atelier Cave Light (base16)',
+  galaxy_dark = 'galaxy_dark',
+  galaxy_light = 'galaxy_light',
   github_dark = 'Github Dark',
   github_light = 'Github (base16)',
   seoulbones_dark = 'seoulbones_dark',
@@ -113,13 +94,13 @@ local scheme_pool = {
   my_rose_pine_moon = 'my_rose_pine_moon',
   my_rose_pine_dawn = 'my_rose_pine_dawn'
 }
-local selected_scheme = scheme_pool.tokyonight_night
+local selected_scheme = scheme_pool.galaxy_light
 local colour_dir = os.getenv('XDG_CONFIG_HOME') .. '/wezterm/colours/'
 local opacity
 local scheme
 if string.match(selected_scheme, '^base16') then
   scheme = wez.color.load_base16_scheme(colour_dir .. selected_scheme .. '.yaml')
-elseif string.match(selected_scheme, '^catppuccin_') or string.match(selected_scheme, '^tokyonight_') then
+elseif string.match(selected_scheme, '^catppuccin_') or string.match(selected_scheme, '^tokyonight_') or string.match(selected_scheme, '^galaxy_') then
   scheme = wez.color.load_scheme(colour_dir .. selected_scheme .. '.toml')
 elseif string.match(selected_scheme, 'my_rose_pine$') then
   scheme = require('colours/rose_pine').colors()
@@ -156,11 +137,11 @@ if l > 0.5 then
     C_BG = bg:darken(0.4)
   end
   scheme.selection_bg = 'rgba(88% 88% 88% 30%)'
-  opacity = 0.01
+  opacity = 0.03
 else
   C_FG = fg:darken(0.8)
   scheme.selection_bg = 'rgba(44% 44% 44% 40%)'
-  opacity = 0.01
+  opacity = 0.03
 end
 scheme.foreground = C_FG
 scheme.background = C_BG
@@ -232,7 +213,7 @@ local function font_set(name)
   elseif string.match(name, 'monolisa') then
     font = font_fallback({ family = 'MonoLisa', harfbuzz_features = { 'case', 'liga', 'dlig', 'onum' } })
   elseif string.match(name, 'monaspace') then
-    font = font_fallback({ family = 'Monaspace Argon', weight = 'ExtraLight', harfbuzz_features = { 'ss01', 'ss02', 'ss03', 'ss04', 'ss05', 'ss06', 'ss07', 'ss08', 'calt', 'dlig', 'liga' } })
+    font = font_fallback({ family = 'Monaspace Argon', weight = 'Light', harfbuzz_features = { 'ss01', 'ss02', 'ss03', 'ss04', 'ss05', 'ss06', 'ss07', 'ss08', 'liga' } })
   elseif string.match(name, 'operator') then
     font = font_fallback({ family = 'Liga Operator Mono', weight = 'Light', harfbuzz_features = { 'ss05' } })
   elseif string.match(name, 'plex') then
@@ -296,8 +277,8 @@ local function font_rules(name)
         italic = true,
         font = font_fallback({
           family = 'Monaspace Radon',
-          weight = 'ExtraLight',
-          harfbuzz_features = { 'ss01', 'ss02', 'ss03', 'ss04', 'ss05', 'ss06', 'ss07', 'ss08', 'calt', 'dlig', 'liga' }
+          weight = 'Light',
+          harfbuzz_features = { 'ss01', 'ss02', 'ss03', 'ss04', 'ss05', 'ss06', 'ss07', 'ss08', 'liga' }
         })
       },
       {
@@ -305,8 +286,8 @@ local function font_rules(name)
         italic = true,
         font = font_fallback({
           family = 'Monaspace Radon',
-          weight = 'Regular',
-          harfbuzz_features = { 'ss01', 'ss02', 'ss03', 'ss04', 'ss05', 'ss06', 'ss07', 'ss08', 'calt', 'dlig', 'liga' }
+          weight = 'Medium',
+          harfbuzz_features = { 'ss01', 'ss02', 'ss03', 'ss04', 'ss05', 'ss06', 'ss07', 'ss08', 'liga' }
         })
       },
       {
@@ -314,8 +295,8 @@ local function font_rules(name)
         italic = false,
         font = font_fallback({
           family = 'Monaspace Argon',
-          weight = 'Regular',
-          harfbuzz_features = { 'ss01', 'ss02', 'ss03', 'ss04', 'ss05', 'ss06', 'ss07', 'ss08', 'calt', 'dlig', 'liga' }
+          weight = 'Medium',
+          harfbuzz_features = { 'ss01', 'ss02', 'ss03', 'ss04', 'ss05', 'ss06', 'ss07', 'ss08', 'liga' }
         })
       }
     }
@@ -356,17 +337,17 @@ local function font_rules(name)
       {
         intensity = 'Bold',
         italic = false,
-        font = font_fallback({ family = 'IBM Plex Mono SmBld', harfbuzz_features = { 'zero' } })
+        font = font_fallback({ family = 'IBM Plex Mono SmBld', harfbuzz_features = { 'onum', 'zero' } })
       },
       {
         intensity = 'Normal',
         italic = true,
-        font = font_fallback({ family = 'IBM Plex Mono Text', style = 'Italic', harfbuzz_features = { 'zero' } })
+        font = font_fallback({ family = 'IBM Plex Mono Text', style = 'Italic', harfbuzz_features = { 'onum', 'zero' } })
       },
       {
         intensity = 'Bold',
         italic = true,
-        font = font_fallback({ family = 'IBM Plex Mono SmBld', style = 'Italic', harfbuzz_features = { 'zero' } })
+        font = font_fallback({ family = 'IBM Plex Mono SmBld', style = 'Italic', harfbuzz_features = { 'onum', 'zero' } })
       },
     }
   elseif string.match(name, 'pt') then
@@ -374,13 +355,13 @@ local function font_rules(name)
       {
         intensity = 'Normal',
         italic = true,
-        -- font = font_fallback({ family = 'IBM Plex Mono Text', style = 'Italic', harfbuzz_features = { 'zero' } })
+        -- font = font_fallback({ family = 'IBM Plex Mono Text', style = 'Italic', harfbuzz_features = { 'onum', 'zero' } })
         font = font_fallback({ family = 'Codelia Ligatures Medium', style = 'Italic' })
       },
       {
         intensity = 'Bold',
         italic = true,
-        -- font = font_fallback({ family = 'IBM Plex Mono SmBld', style = 'Italic', harfbuzz_features = { 'zero' } })
+        -- font = font_fallback({ family = 'IBM Plex Mono SmBld', style = 'Italic', harfbuzz_features = { 'onum', 'zero' } })
         font = font_fallback({ family = 'Codelia Ligatures Bold', style = 'Italic' })
       },
     }
@@ -406,7 +387,7 @@ local function font_size(name)
     elseif string.match(name, 'operator') then
       size = 10.7
     elseif string.match(name, 'monaspace') then
-      size = 10.0
+      size = 9.5
     elseif string.match(name, 'monolisa') then
       size = 10.0
     elseif string.match(name, 'plex') then
@@ -430,7 +411,7 @@ local function font_size(name)
     elseif string.match(name, 'jet') then
       size = 9.5
     elseif string.match(name, 'monaspace') then
-      size = 9.0
+      size = 8.5
     elseif string.match(name, 'monolisa') then
       size = 9.0
     elseif string.match(name, 'operator') then
@@ -483,9 +464,11 @@ local function set_geometry(x)
     value = 160
   elseif x == 'rows' then
     if hostname == 'swimmer' then
-      if (my_font == 'pt') then
-        value = 64
-      elseif (my_font == 'fantasque' or my_font == 'iosevka' or my_font or my_font == 'monaspace' == 'monolisa' or my_font == 'recursive' or my_font == 'triple') then
+      if (my_font == 'monaspace') then
+        value = 66
+      elseif (my_font == 'pt') then
+        value = 63
+      elseif (my_font == 'fantasque' or my_font == 'iosevka' or my_font == 'monolisa' or my_font == 'recursive' or my_font == 'triple') then
         value = 61
       elseif (my_font == 'custom' or my_font == 'jet' or my_font == 'operator' or my_font == 'plex') then
         value = 56
@@ -493,9 +476,11 @@ local function set_geometry(x)
         value = 53
       end
     elseif hostname == 'komala' then
-      if (my_font == 'pt') then
+      if (my_font == 'monaspace') then
+        value = 67
+      elseif (my_font == 'pt') then
         value = 64
-      elseif (my_font == 'fantasque' or my_font == 'hasklig' or my_font == 'iosevka' or my_font == 'monaspace' or my_font == 'monolisa' or my_font == 'recursive' or my_font == 'triple') then
+      elseif (my_font == 'fantasque' or my_font == 'hasklig' or my_font == 'iosevka' or my_font == 'monolisa' or my_font == 'recursive' or my_font == 'triple') then
         value = 61
       elseif (my_font == 'custom' or my_font == 'jet' or my_font == 'operator') then
         value = 56
@@ -526,9 +511,7 @@ config.command_palette_font_size = font_size(my_font) - 1
 config.freetype_load_flags = 'DEFAULT'
 config.freetype_load_target = ft_target('load')
 config.freetype_render_target = ft_target('render')
--- allow_square_glyphs_to_overflow_width = 'Always'
 config.warn_about_missing_glyphs = false
-config.underline_position = '-2.2pt'
 config.underline_thickness = '220%'
 config.unicode_version = 15
 config.window_frame = {
