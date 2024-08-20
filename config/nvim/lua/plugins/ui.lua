@@ -101,20 +101,14 @@ return {
     }
   },
   -- }}}2
-  -- {{{2 vim-web-devicons
+  -- {{{2 mini.icons
   {
-    'nvim-tree/nvim-web-devicons',
-    dependencies = {
-      'lifepillar/vim-colortemplate',
-      lazy = false
-    },
-    opts = {}
-  },
-  -- }}}2
-  -- {{{2 nvim-nonicons
-  {
-    'yamatsum/nvim-nonicons',
-    opts = {}
+    'echasnovski/mini.icons',
+    version = false,
+    config = function()
+      require('mini.icons').setup()
+      MiniIcons.mock_nvim_web_devicons()
+    end
   },
   -- }}}2
   -- {{{2 ccc.nvim

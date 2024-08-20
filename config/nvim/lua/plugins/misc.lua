@@ -50,7 +50,7 @@ return {
   -- {{{2 oil.nvim
   {
     'stevearc/oil.nvim',
-    dependencies = 'nvim-tree/nvim-web-devicons',
+    dependencies = { 'echasnovski/mini.icons', opts = {} },
     event = 'VeryLazy',
     keys = {
       { '-', function() require('oil').open() end, desc = 'Oil: open parent directory' }
@@ -147,4 +147,3 @@ return {
   -- }}}2
 }
 -- vim: foldmethod=marker foldlevel=1
-
