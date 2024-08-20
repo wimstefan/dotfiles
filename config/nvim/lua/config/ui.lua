@@ -12,8 +12,8 @@ M.icons = {
     -- added = '󰐖 ', modified = '󰅗  ', removed = '󰍵  ', renamed = '󰛂 '
     -- added = '󰜄  ', modified = '󰅘  ', removed = '󰛲  ', renamed = '󰜶 '
     added = '󰐙 ',
-    modified = '󰅚  ',
-    removed = '󰍷  ',
+    modified = '󰅚 ',
+    removed = '󰍷 ',
     renamed = '󰳠 ',
     untracked = ' ',
     ignored   = ' ',
