@@ -642,7 +642,7 @@ if [[ $USER != root ]]; then
         rsync -azkL --delete /home/swimmer/.config/zellij/themes/ $host:.config/zellij/themes/
         echo "Syncing vim & neovim on $host ..."
         rsync -az            /home/swimmer/.vimrc $host:
-        rsync -azk  --delete /home/swimmer/.vim/ $host:.vim/
+        rsync -azk  --delete --exclude 'pack' /home/swimmer/.vim/ $host:.vim/
         rsync -azK  --delete --exclude 'spell' /home/swimmer/.config/nvim/ $host:.config/nvim/
         echo "Syncing bat on $host ..."
         rsync -az            /home/swimmer/.config/bat/ $host:.config/bat/
@@ -949,10 +949,9 @@ _fzf_comprun() {
 [ -f "${XDG_CONFIG_HOME:-$HOME/.config}"/fzf/fzf.zsh ] && source "${XDG_CONFIG_HOME:-$HOME/.config}"/fzf/fzf.zsh
 
 # zellij
+. <( zellij setup --generate-completion zsh | sed -Ee 's/^(_(zellij) ).*/compdef \1\2/' )
 alias zx=zellij
 alias zxa='zellij action'
-alias zxc='zellij action start-or-reload-plugin file:${XDG_CONFIG_HOME}/zellij/plugins/cached.wasm'
-alias zxd='zellij action start-or-reload-plugin file:${XDG_CONFIG_HOME}/zellij/plugins/zellij-plugin-detach.wasm'
 function zr () { zellij run --name "$*" -- zsh -ic "$*";}
 function zrf () { zellij run --name "$*" --floating -- zsh -ic "$*";}
 function ze () { zellij edit "$*";}
