@@ -202,28 +202,6 @@ return {
   {
     'folke/flash.nvim',
     event = 'VeryLazy',
-    opts = {
-      jump = {
-        autojump = true
-      },
-      label = {
-        rainbow = {
-          enabled = true
-        }
-      },
-      modes = {
-        char = {
-          jump_labels = true
-        },
-        search = {
-          enabled = true
-        }
-      },
-      prompt = {
-        enabled = true,
-        prefix = { { '󰛕 ', 'FlashPromptIcon' } }
-      }
-    },
     keys = {
       {
         '\\',
@@ -265,6 +243,28 @@ return {
         end,
         desc = 'Flash: Toggle Search',
       }
+    },
+    opts = {
+      jump = {
+        autojump = true
+      },
+      label = {
+        rainbow = {
+          enabled = true
+        }
+      },
+      modes = {
+        char = {
+          jump_labels = true
+        },
+        search = {
+          enabled = true
+        }
+      },
+      prompt = {
+        enabled = true,
+        prefix = { { '󰛕 ', 'FlashPromptIcon' } }
+      }
     }
   },
   -- }}}2
@@ -284,7 +284,8 @@ return {
       { '<Leader>Rf', function() require('grug-far').grug_far({ prefills = { flags = vim.fn.expand('%') } }) end, desc = 'Grug-Far: current file' },
       { '<Leader>Rv', function() require('grug-far').with_visual_selection({ prefills = { flags = vim.fn.expand('%') } }) end, desc = 'Grug-Far: visual selection' },
       { '<Leader>Rw', function() require('grug-far').grug_far({ prefills = { search = vim.fn.expand('<cword>') } }) end, desc = 'Grug-Far: current file' },
-    }
+    },
+    opts = {}
   },
   -- }}}2
   -- {{{2 vim-dirdiff

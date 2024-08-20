@@ -27,18 +27,18 @@ return {
     'smoka7/multicursors.nvim',
     event = 'VeryLazy',
     dependencies = {
-      'smoka7/hydra.nvim',
+      'nvimtools/hydra.nvim',
     },
-    opts = {},
     cmd = { 'MCstart', 'MCvisual', 'MCclear', 'MCpattern', 'MCvisualPattern', 'MCunderCursor' },
     keys = {
       {
         mode = { 'v', 'n' },
         '<Leader>v',
         '<cmd>MCstart<CR>',
-        desc = 'Create a selection for selected text or word under the cursor',
-      },
+        desc = 'Create a selection for selected text or word under the cursor'
+      }
     },
+    opts = {}
   },
   -- }}}2
   -- {{{2 text-case.nvim
@@ -69,3 +69,4 @@ return {
   -- }}}2
 }
 -- vim: foldmethod=marker foldlevel=1
+

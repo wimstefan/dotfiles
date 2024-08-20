@@ -31,11 +31,9 @@ return {
   {
     'idanarye/nvim-impairative',
     event = 'VeryLazy',
-    config = function()
-      require('impairative').setup({
-        replicate_unimpaired = true
-      })
-    end
+    opts = {
+      replicate_unimpaired = true
+    }
   },
   -- }}}2
   -- {{{2 nvim-bqf
@@ -54,7 +52,10 @@ return {
     'stevearc/oil.nvim',
     dependencies = 'nvim-tree/nvim-web-devicons',
     event = 'VeryLazy',
-    config = function()
+    keys = {
+      { '-', function() require('oil').open() end, desc = 'Oil: open parent directory' }
+    },
+    opts = function()
       require('oil').setup()
       vim.api.nvim_create_autocmd('User', {
         pattern = 'OilEnter',
@@ -64,10 +65,7 @@ return {
           end
         end),
       })
-    end,
-    keys = {
-      { '-', function() require('oil').open() end, desc = 'Oil: open parent directory' }
-    }
+    end
   },
   -- }}}
   -- {{{2 toggleterm.nvim
@@ -149,3 +147,4 @@ return {
   -- }}}2
 }
 -- vim: foldmethod=marker foldlevel=1
+

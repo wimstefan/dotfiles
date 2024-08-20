@@ -360,19 +360,18 @@ return {
       { 'H', function() require('hover').hover() end, desc = 'hover.nvim' },
       { 'gH', function() require('hover').hover_select() end, desc = 'hover.nvim (select)' }
     },
-    config = function()
-      require('hover').setup({
-        init = function()
-          require('hover.providers.lsp')
-          require('hover.providers.man')
-          require('hover.providers.fold_preview')
-        end,
-        preview_opts = {
-          border = require('config.ui').borders
-        },
-        title = true
-      })
-    end
+    opts = {
+      init = function()
+        require('hover.providers.lsp')
+        require('hover.providers.man')
+        require('hover.providers.diagnostic')
+        require('hover.providers.fold_preview')
+      end,
+      preview_opts = {
+        border = require('config.ui').borders
+      },
+      title = true
+    }
   },
   -- }}}2
   -- {{{2 aerial.nvim
@@ -390,3 +389,4 @@ return {
   -- }}}2
 }
 -- vim: foldmethod=marker foldlevel=1
+

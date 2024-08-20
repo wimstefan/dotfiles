@@ -2,6 +2,9 @@ return {
   -- {{{2 noice.nvim
   {
     'folke/noice.nvim',
+    dependencies = {
+      'MunifTanjim/nui.nvim'
+    },
     event = 'VeryLazy',
     keys = {
       { '<Leader>n', vim.cmd.NoiceAll, desc = 'Notifications' },
@@ -19,16 +22,14 @@ return {
         command_palette = true,
         lsp_doc_border = true
       }
-    },
-    dependencies = {
-      'MunifTanjim/nui.nvim'
     }
   },
   -- }}}2
   -- {{{2 statuscol.nvim
   {
     'luukvbaal/statuscol.nvim',
-    event = 'VeryLazy',
+    event = 'UiEnter',
+    config = true,
     opts = function()
       local builtin = require('statuscol.builtin')
       return {
@@ -40,8 +41,7 @@ return {
           { text = { builtin.lnumfunc, ' ' }, click = 'v:lua.ScLa' }
         }
       }
-    end,
-    config = true
+    end
   },
   -- }}}2
   -- {{{2 which-key.nvim
