@@ -80,6 +80,8 @@ local scheme_pool = {
   atelier_cave_light_base16 = 'Atelier Cave Light (base16)',
   galaxy_dark = 'galaxy_dark',
   galaxy_light = 'galaxy_light',
+  cyberdream = 'cyberdream',
+  cyberdream_light = 'cyberdream-light',
   github_dark = 'Github Dark',
   github_light = 'Github (base16)',
   seoulbones_dark = 'seoulbones_dark',
@@ -94,7 +96,7 @@ local scheme_pool = {
   my_rose_pine_moon = 'my_rose_pine_moon',
   my_rose_pine_dawn = 'my_rose_pine_dawn'
 }
-local selected_scheme = scheme_pool.galaxy_light
+local selected_scheme = scheme_pool.cyberdream
 local colour_dir = os.getenv('XDG_CONFIG_HOME') .. '/wezterm/colours/'
 local opacity
 local scheme
@@ -102,6 +104,8 @@ if string.match(selected_scheme, '^base16') then
   scheme = wez.color.load_base16_scheme(colour_dir .. selected_scheme .. '.yaml')
 elseif string.match(selected_scheme, '^catppuccin_') or string.match(selected_scheme, '^tokyonight_') or string.match(selected_scheme, '^galaxy_') then
   scheme = wez.color.load_scheme(colour_dir .. selected_scheme .. '.toml')
+elseif string.match(selected_scheme, '^cyberdream') then
+  scheme = require('colours/' .. selected_scheme)
 elseif string.match(selected_scheme, 'my_rose_pine$') then
   scheme = require('colours/rose_pine').colors()
 elseif string.match(selected_scheme, 'my_rose_pine_moon$') then
@@ -137,11 +141,11 @@ if l > 0.5 then
     C_BG = bg:darken(0.4)
   end
   scheme.selection_bg = 'rgba(88% 88% 88% 30%)'
-  opacity = 0.03
+  opacity = 0
 else
   C_FG = fg:darken(0.8)
   scheme.selection_bg = 'rgba(44% 44% 44% 40%)'
-  opacity = 0.03
+  opacity = 0
 end
 scheme.foreground = C_FG
 scheme.background = C_BG
@@ -185,7 +189,6 @@ config.pane_select_fg_color = C_FG
 config.pane_select_bg_color = C_BG
 config.force_reverse_video_cursor = true
 config.webgpu_preferred_adapter = gpus[1]
-config.front_end = 'WebGpu'
 -- 1}}}
 
 -- {{{1 Font configuration
@@ -411,7 +414,7 @@ local function font_size(name)
     elseif string.match(name, 'jet') then
       size = 9.5
     elseif string.match(name, 'monaspace') then
-      size = 8.5
+      size = 9.5
     elseif string.match(name, 'monolisa') then
       size = 9.0
     elseif string.match(name, 'operator') then
@@ -508,7 +511,6 @@ config.font_rules = font_rules(my_font)
 config.font_size = font_size(my_font)
 config.char_select_font_size = font_size(my_font) - 1
 config.command_palette_font_size = font_size(my_font) - 1
-config.freetype_load_flags = 'DEFAULT'
 config.freetype_load_target = ft_target('load')
 config.freetype_render_target = ft_target('render')
 config.warn_about_missing_glyphs = false
