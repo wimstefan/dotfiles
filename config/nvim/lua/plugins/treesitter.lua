@@ -42,7 +42,11 @@ return {
     },
     config = function()
       require('nvim-treesitter.configs').setup({
+        ensure_installed = {},
+        sync_install = true,
         auto_install = true,
+        ignore_install = {},
+        modules = {},
         highlight = {
           enable = true
         },
