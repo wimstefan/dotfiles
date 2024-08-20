@@ -1179,9 +1179,6 @@ awful.spawn.with_shell(
   'while pgrep -x picom >/dev/null; do sleep 1; done;' ..
   '/usr/local/src/Tools/x11/picom-yshui.git/build/src/picom --config $HOME/.config/picom/awesomewm.conf &;'
 )
-if hostname == 'swimmer' or hostname == 'tj' then
-  awful.spawn.once('signal-desktop --use-tray-icon --stay-in-tray')
-end
 -- 1}}}
 
 -- {{{1 Memory management
