@@ -49,11 +49,7 @@ return {
     'folke/which-key.nvim',
     event = 'VeryLazy',
     opts = {
-      window = {
-        border = require('config.ui').borders,
-        margin = { 0, 0, 2, 0 },
-        padding = { 2, 2, 2, 2 }
-      },
+      preset = 'modern',
       plugins = {
         marks = true,
         registers = true,
@@ -61,6 +57,10 @@ return {
           enabled = true,
           suggestions = 40
         }
+      },
+      win = {
+        border = require('config.ui').borders,
+        padding = { 2, 2, 2, 2 }
       }
     }
   },
@@ -87,17 +87,45 @@ return {
   -- {{{2 indent-blankline.nvim
   {
     'lukas-reineke/indent-blankline.nvim',
+    main = 'ibl',
     event = 'VeryLazy',
     keys = {
       { ',ti', vim.cmd.IBLToggle, desc = 'IndentBlankline: toggle' }
     },
-    main = 'ibl',
     opts = {
       enabled = false,
       indent = {
         highlight = { 'Error', 'Character', 'Type', 'String', 'Label', 'Keyword' },
         char = '▏'
+      },
+      scope = {
+        highlight = { 'NonText' }
       }
+    }
+  },
+  -- }}}2
+  -- {{{2 markview.nvim
+  {
+    'OXY2DEV/markview.nvim',
+    ft = 'markdown',
+    dependencies = {
+      'nvim-treesitter/nvim-treesitter',
+      'echasnovski/mini.icons'
+    },
+    opts = function()
+      require('markview').setup({
+        modes = { 'n', 'I' },
+        hybrid_modes = { 'i' }
+      })
+    end
+  },
+  -- }}}2
+  -- {{{2 helpview.nvim
+  {
+    'OXY2DEV/helpview.nvim',
+    lazy = false,
+    dependencies = {
+      'nvim-treesitter/nvim-treesitter'
     }
   },
   -- }}}2
@@ -129,4 +157,3 @@ return {
   -- }}}2
 }
 -- vim: foldmethod=marker foldlevel=1
-
