@@ -13,12 +13,6 @@ return {
     config = function()
       require('lspconfig.ui.windows').default_options.border = require('config.ui').borders
 
-      -- LSP handlers
-      vim.lsp.handlers['textDocument/signatureHelp'] = vim.lsp.with(vim.lsp.handlers.signature_help,
-        { border = require('config.ui').borders })
-      vim.lsp.handlers['textDocument/hover'] = vim.lsp.with(vim.lsp.handlers.hover,
-        { border = require('config.ui').borders })
-
       -- Diagnostic
       vim.keymap.set('n', ',dt', function() vim.diagnostic.enable(not vim.diagnostic.is_enabled()) end, { desc = 'Diagnostic: toggle' })
       vim.keymap.set('n', ',df', vim.diagnostic.open_float, { desc = 'Diagnostic: open floating window' })
