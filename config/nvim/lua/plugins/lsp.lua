@@ -118,17 +118,14 @@ return {
             end, { desc = 'Completion: next' }, opts)
             vim.keymap.set({ 'i', 's' }, '<C-u>', '<C-x><C-n>', { desc = 'Completion: buffer completions' }, opts)
             vim.keymap.set({ 'i', 's' }, '<Tab>', function()
-              local suggestion = require('supermaven-nvim.completion_preview')
-              if suggestion.has_suggestion() then
-                suggestion.on_accept_suggestion()
-              elseif vim.fn.pumvisible() then
+              if vim.fn.pumvisible() then
                 vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes('<C-n>', true, false, true), 'n', true)
               elseif vim.snippet.active { direction = 1 } then
                 vim.snippet.jump(1)
               else
                 vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes('<Tab>', true, false, true), 'n', true)
               end
-            end, { desc = 'Completion: supermaven, snippet or next completion' }, opts)
+            end, { desc = 'Completion: next snippet or completion' }, opts)
             vim.keymap.set({ 'i', 's' }, '<S-Tab>', function()
               if vim.fn.pumvisible() then
                 vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes('<C-p>', true, false, true), 'n', true)
@@ -137,7 +134,7 @@ return {
               else
                 vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes('<S-Tab>', true, false, true), 'n', true)
               end
-            end, {}, { 'i', 's' })
+            end, { desc = 'Completion: previous snippet or completion' }, opts)
             vim.keymap.set('s', '<BS>', '<C-o>s', { desc = 'Completion: remove snippet placeholder' }, opts)
           else
             lsp_messages = lsp_messages .. 'no completion' .. lsp_msg_sep
@@ -389,4 +386,3 @@ return {
   -- }}}2
 }
 -- vim: foldmethod=marker foldlevel=1
-

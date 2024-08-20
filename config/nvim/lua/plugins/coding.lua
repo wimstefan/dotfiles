@@ -1,13 +1,4 @@
 return {
-  -- {{{2 supermaven-nvim
-  {
-    'supermaven-inc/supermaven-nvim',
-    event = 'BufEnter',
-    config = function()
-      require('supermaven-nvim').setup({})
-    end
-  },
-  -- }}}2
   -- {{{2 ultimate-autopair.nvim
   {
     'altermo/ultimate-autopair.nvim',
@@ -69,4 +60,3 @@ return {
   -- }}}2
 }
 -- vim: foldmethod=marker foldlevel=1
-
