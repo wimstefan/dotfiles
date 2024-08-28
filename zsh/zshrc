@@ -635,6 +635,8 @@ if [[ $USER != root ]]; then
         echo "Syncing git config on $host ..."
         rsync -az            /home/swimmer/.gitconfig $host:
         rsync -az            /home/swimmer/.config/lazygit/config.yml $host:.config/lazygit/
+        echo "Syncing yazi config on $host ..."
+        rsync -az            /home/swimmer/.config/yazi/ $host:.config/yazi/
         echo "Syncing zellij config on $host ..."
         rsync -az            /home/swimmer/.config/zellij/config.kdl $host:.config/zellij/config.kdl
         rsync -az            /home/swimmer/.config/zellij/layouts/swap.kdl $host:.config/zellij/layouts/swap.kdl
