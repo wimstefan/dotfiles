@@ -318,7 +318,7 @@ return {
   -- }}}2
   -- {{{2 clear-action.nvim
   {
-    'luckasRanarison/clear-action.nvim',
+    'IsaacShelton/clear-action.nvim',
     event = 'LspAttach',
     opts = {
       signs = {
