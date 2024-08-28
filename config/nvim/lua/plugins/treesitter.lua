@@ -8,12 +8,10 @@ return {
       {
         'folke/ts-comments.nvim',
         opts = {},
-        event = 'VeryLazy',
         enabled = vim.fn.has('nvim-0.10.0') == 1,
       },
       {
         'windwp/nvim-ts-autotag',
-        event = 'VeryLazy',
         config = function()
           require('nvim-ts-autotag').setup({
             opts = {
@@ -26,7 +24,6 @@ return {
       },
       {
         'HiPhish/rainbow-delimiters.nvim',
-        event = 'VeryLazy',
         config = function()
           vim.g.rainbow_delimiters = {
             strategy = {
