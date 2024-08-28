@@ -259,7 +259,11 @@ local function formatted_filetype(hlgroup)
 end
 
 local function filetype()
-  return string.format(' [%s]', vim.bo.filetype):lower()
+  if vim.bo.filetype ~= '' then
+    return string.format(' [%s]', vim.bo.filetype):lower()
+  else
+    return ''
+  end
 end
 
 StatusLine = {}
