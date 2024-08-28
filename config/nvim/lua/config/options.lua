@@ -40,6 +40,7 @@ vim.opt.fillchars:append({
 vim.opt.mouse = 'a'
 vim.opt.mousemodel = 'extend'
 
+vim.g.markdown_folding = true
 vim.opt.foldlevel = 99
 vim.opt.foldlevelstart = 99
 vim.opt.foldcolumn = 'auto'
