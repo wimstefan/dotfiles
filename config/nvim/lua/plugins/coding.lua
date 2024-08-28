@@ -1,9 +1,12 @@
 return {
-  -- {{{2 ultimate-autopair.nvim
+  -- {{{2 nvim-autopairs
   {
-    'altermo/ultimate-autopair.nvim',
-    event = 'VeryLazy',
-    opts = {}
+    'windwp/nvim-autopairs',
+    event = 'InsertEnter',
+    config = true,
+    opts = {
+      fast_wrap = {}
+    }
   },
   -- }}}2
   -- {{{2 nvim-surround
