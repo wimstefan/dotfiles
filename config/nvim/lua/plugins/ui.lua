@@ -104,20 +104,33 @@ return {
     }
   },
   -- }}}2
-  -- {{{2 markview.nvim
+  -- {{{2 foldtext.nvim
   {
-    'OXY2DEV/markview.nvim',
-    ft = 'markdown',
-    dependencies = {
-      'nvim-treesitter/nvim-treesitter',
-      'echasnovski/mini.icons'
-    },
-    opts = function()
-      require('markview').setup({
-        modes = { 'n', 'I' },
-        hybrid_modes = { 'i' }
-      })
-    end
+    'OXY2DEV/foldtext.nvim',
+    lazy = false,
+    opts = {
+      default = {
+        { type = 'indent' },
+        {
+          type = 'raw',
+          text = function(_)
+            local lines = vim.api.nvim_buf_get_lines(0, vim.v.foldstart - 1, vim.v.foldend + 1, false)
+            local offset = 1
+            while lines[offset]:find('%w') == nil do
+              offset = offset + 1
+            end
+            return lines[offset]:match('^%s*(.-)%s*$'):sub(1, 30)
+          end,
+          hl = 'Comment',
+          gradient_repeat = true
+        },
+        {
+          type = 'fold_size',
+          prefix = ' --- ',
+          postfix = ' lines --- '
+        }
+      }
+    }
   },
   -- }}}2
   -- {{{2 helpview.nvim
@@ -127,6 +140,25 @@ return {
     dependencies = {
       'nvim-treesitter/nvim-treesitter'
     }
+  },
+  -- }}}2
+  -- {{{2 markview.nvim
+  {
+    'OXY2DEV/markview.nvim',
+    ft = 'markdown',
+    dependencies = {
+      'nvim-treesitter/nvim-treesitter',
+      'echasnovski/mini.icons'
+    },
+    keys = {
+      { ',tm', function() require('markview').commands.toggle() end, desc = 'Markview: toggle' }
+    },
+    opts = function()
+      require('markview').setup({
+        modes = { 'n', 'I' },
+        hybrid_modes = { 'i' }
+      })
+    end,
   },
   -- }}}2
   -- {{{2 mini.icons
