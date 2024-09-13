@@ -328,10 +328,10 @@ return {
         position = 'eol',
         show_label = true,
         icons = {
-          quickfix = '  󰁨 ',
-          refactor = '  󰍉 ',
-          source = '  󰜛 ',
-          combined = '  󰍉 '
+          quickfix = ' ' .. require('config.ui').icons.diagnostics[6],
+          refactor = ' ' .. require('config.ui').icons.diagnostics[4],
+          source = ' ' .. require('config.ui').icons.diagnostics[7],
+          combined = ' ' .. require('config.ui').icons.diagnostics[4]
         },
         highlights = {
           quickfix = '@markup.italic',
