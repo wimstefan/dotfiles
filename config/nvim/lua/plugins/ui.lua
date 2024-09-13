@@ -84,22 +84,23 @@ return {
     }
   },
   -- }}}2
-  -- {{{2 indent-blankline.nvim
+  -- {{{2 hlchunk.nvim
   {
-    'lukas-reineke/indent-blankline.nvim',
-    main = 'ibl',
+    'shellRaining/hlchunk.nvim',
     event = 'VeryLazy',
     keys = {
-      { ',ti', vim.cmd.IBLToggle, desc = 'IndentBlankline: toggle' }
+      { ',tie', vim.cmd.EnableHLIndent, desc = 'Enable indent highlight' },
+      { ',tid', vim.cmd.DisableHLIndent, desc = 'Disable indent highlight' }
     },
     opts = {
-      enabled = false,
-      indent = {
-        highlight = { 'Error', 'Character', 'Type', 'String', 'Label', 'Keyword' },
-        char = '▏'
+      exclude_filetypes = {
+        mail = true
       },
-      scope = {
-        highlight = { 'NonText' }
+      chunk = {
+        enable = true
+      },
+      indent = {
+        enable = true
       }
     }
   },
@@ -151,7 +152,8 @@ return {
       'echasnovski/mini.icons'
     },
     keys = {
-      { ',tm', function() require('markview').commands.toggle() end, desc = 'Markview: toggle' }
+      { ',tm', function() require('markview').commands.toggle() end, desc = 'Markview: toggle' },
+      { ',tms', function() require('markview').commands.splitEnable() end, desc = 'Markview: split toggle' }
     },
     opts = function()
       require('markview').setup({
