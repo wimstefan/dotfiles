@@ -188,6 +188,7 @@ config.color_scheme = selected_scheme
 config.pane_select_fg_color = C_FG
 config.pane_select_bg_color = C_BG
 config.force_reverse_video_cursor = true
+config.front_end = 'WebGpu'
 config.webgpu_preferred_adapter = gpus[1]
 -- 1}}}
 
@@ -251,26 +252,26 @@ local function font_rules(name)
       {
         intensity = 'Normal',
         italic = true,
-        -- font = font_fallback({ family = 'Iosevka Artesanal', weight = 'Book', style = 'Italic' })
+        font = font_fallback({ family = 'Iosevka Artesanal', weight = 'Book', style = 'Italic' })
         -- font = font_fallback({ family = 'IBM Plex Mono Text', style = 'Italic', harfbuzz_features = { 'zero' } })
-        font = font_fallback({
-          family = 'Liga Operator Mono',
-          weight = 'Book',
-          style = 'Italic',
-          harfbuzz_features = { 'ss05' }
-        })
+        -- font = font_fallback({
+        --   family = 'Liga Operator Mono',
+        --   weight = 'Book',
+        --   style = 'Italic',
+        --   harfbuzz_features = { 'ss05' }
+        -- })
       },
       {
         intensity = 'Bold',
         italic = true,
-        -- font = font_fallback({ family = 'Iosevka Artesanal', weight = 'Bold', style = 'Italic' })
+        font = font_fallback({ family = 'Iosevka Artesanal', weight = 'Bold', style = 'Italic' })
         -- font = font_fallback({ family = 'IBM Plex Mono SmBld', style = 'Italic', harfbuzz_features = { 'zero' } })
-        font = font_fallback({
-          family = 'Liga Operator Mono',
-          weight = 'Regular',
-          style = 'Italic',
-          harfbuzz_features = { 'ss05' }
-        })
+        -- font = font_fallback({
+        --   family = 'Liga Operator Mono',
+        --   weight = 'Regular',
+        --   style = 'Italic',
+        --   harfbuzz_features = { 'ss05' }
+        -- })
       },
     }
   elseif string.match(name, 'monaspace') then
@@ -384,7 +385,7 @@ local function font_size(name)
     elseif string.match(name, 'hasklig') then
       size = 10.5
     elseif string.match(name, 'iosevka') then
-      size = 11.0
+      size = 10.0
     elseif string.match(name, 'jet') then
       size = 10.0
     elseif string.match(name, 'operator') then
@@ -410,7 +411,7 @@ local function font_size(name)
     elseif string.match(name, 'hasklig') then
       size = 9.5
     elseif string.match(name, 'iosevka') then
-      size = 10.4
+      size = 10.0
     elseif string.match(name, 'jet') then
       size = 9.5
     elseif string.match(name, 'monaspace') then
