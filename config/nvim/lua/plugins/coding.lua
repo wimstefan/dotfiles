@@ -16,25 +16,6 @@ return {
     opts = {}
   },
   -- }}}2
-  -- {{{2 multicursors.nvim
-  {
-    'smoka7/multicursors.nvim',
-    event = 'VeryLazy',
-    dependencies = {
-      'nvimtools/hydra.nvim',
-    },
-    cmd = { 'MCstart', 'MCvisual', 'MCclear', 'MCpattern', 'MCvisualPattern', 'MCunderCursor' },
-    keys = {
-      {
-        mode = { 'v', 'n' },
-        '<Leader>v',
-        '<cmd>MCstart<CR>',
-        desc = 'Create a selection for selected text or word under the cursor'
-      }
-    },
-    opts = {}
-  },
-  -- }}}2
   -- {{{2 text-case.nvim
   {
     'johmsalas/text-case.nvim',
