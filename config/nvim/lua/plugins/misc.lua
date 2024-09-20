@@ -47,27 +47,18 @@ return {
     }
   },
   -- }}}2
-  -- {{{2 oil.nvim
+  -- {{{2 yazi.nvim
   {
-    'stevearc/oil.nvim',
-    dependencies = { 'echasnovski/mini.icons', opts = {} },
+    'mikavilpas/yazi.nvim',
     event = 'VeryLazy',
     keys = {
-      { '-', function() require('oil').open() end, desc = 'Oil: open parent directory' }
+      { '<Leader>y', '<Cmd>Yazi<CR>', desc = 'Open yazi at the current file' },
+      { '<Leader>yw', '<Cmd>Yazi cwd<CR>', desc = "Open the file manager in nvim's working directory" },
+      { ',ty', '<Cmd>Yazi toggle<CR>', desc = 'Resume the last yazi session' }
     },
-    opts = function()
-      require('oil').setup()
-      vim.api.nvim_create_autocmd('User', {
-        pattern = 'OilEnter',
-        callback = vim.schedule_wrap(function(args)
-          if vim.api.nvim_get_current_buf() == args.data.buf and require('oil').get_cursor_entry() then
-            require('oil').open_preview()
-          end
-        end),
-      })
-    end
+    opts = {}
   },
-  -- }}}
+  -- }}}2
   -- {{{2 toggleterm.nvim
   {
     'akinsho/toggleterm.nvim',
@@ -91,31 +82,6 @@ return {
       direction = 'float',
       float_opts = {
         border = require('config.ui').borders
-      }
-    }
-  },
-  -- }}}2
-  -- {{{2 fm-nvim
-  {
-    'is0n/fm-nvim',
-    cmd = {
-      'Fzf',
-      'Lazygit',
-      'Vifm'
-    },
-    keys = {
-      { '<Leader>Z', vim.cmd.Fzf, desc = 'Fzf' },
-      { '<Leader>L', vim.cmd.Lazygit, desc = 'Lazygit' },
-      { '<Leader>X', vim.cmd.Vifm, desc = 'Vifm' }
-    },
-    opts = {
-      ui = {
-        default = 'float',
-        float = {
-          border = require('config.ui').borders,
-          float_hl = 'Normal',
-          border_hl = 'FloatBorder'
-        }
       }
     }
   },
