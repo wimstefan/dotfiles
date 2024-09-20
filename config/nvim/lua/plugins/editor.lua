@@ -198,6 +198,23 @@ return {
     }
   },
   -- }}}2
+  -- {{{2 neogit
+  {
+    'NeogitOrg/neogit',
+    dependencies = {
+      'nvim-lua/plenary.nvim',
+      'sindrets/diffview.nvim',
+      'ibhagwan/fzf-lua'
+    },
+    event = 'VeryLazy',
+    keys = {
+      { '<Leader>gn', vim.cmd.Neogit, desc = 'Neogit' }
+    },
+    opts = {
+      graph_style = 'unicode'
+    }
+  },
+  -- }}}2
   -- {{{2 flash.nvim
   {
     'folke/flash.nvim',
