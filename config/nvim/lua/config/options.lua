@@ -125,5 +125,5 @@ vim.filetype.add({
     ['/tmp/.*tangoartisan.*'] = 'html',
     ['/tmp/.*voswimmer.nl.*'] = 'html',
     ['~/%.mutt/.*rc'] = 'muttrc',
-  },
+  }
 })
