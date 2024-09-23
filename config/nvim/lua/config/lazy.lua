@@ -46,7 +46,6 @@ require('lazy').setup({
   performance = {
     rtp = {
       disabled_plugins = {
-        'netrwPlugin',
         'tohtml',
         'tutor'
       }
@@ -54,4 +53,3 @@ require('lazy').setup({
   }
 })
 require('lazy.view.config').keys.profile_filter = '<C-p>'
-
