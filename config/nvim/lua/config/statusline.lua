@@ -14,7 +14,7 @@ local function lsp_clients()
   for _, client in pairs(clients) do
     table.insert(c, client.name)
   end
-  return '%#NoiceLspProgressClient# 󰌘 ' .. table.concat(c, '|') .. '%*'
+  return '%#NoiceLspProgressClient# 󰌘 ' .. table.concat(c, '|') .. ' %*'
 end
 
 --- @return string
@@ -32,7 +32,7 @@ local function filename()
   if fname == '' then
     return ''
   end
-  return '%#Bold#' .. fname .. '%*'
+  return '%#Bold# ' .. fname .. ' %*'
 end
 
 --- @return string
@@ -41,7 +41,7 @@ local function filestatus()
     return '%#Error# ● %*'
   end
   if vim.bo.readonly == true then
-    return '%#Error#  %*'
+    return '%#Error#   %*'
   end
   return ''
 end
@@ -119,7 +119,7 @@ local function lsp_active()
   local clients = vim.lsp.get_clients({ bufnr = current_buf })
 
   if #clients > 0 then
-    return ' %#NoiceLspProgressTitle# LSP%*'
+    return ' %#NoiceLspProgressTitle#  LSP%*'
   end
 
   return ''
