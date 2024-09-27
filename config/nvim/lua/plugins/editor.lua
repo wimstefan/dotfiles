@@ -20,6 +20,7 @@ return {
       { '<Leader>fgb', function() require('fzf-lua').git_bcommits() end, desc = 'Fzf: git buffer commits' },
       { '<Leader>fgc', function() require('fzf-lua').git_commits() end, desc = 'Fzf: git commits' },
       { '<Leader>fgf', function() require('fzf-lua').git_files({ formatter = 'path.filename_first' }) end, desc = 'Fzf: git files' },
+      { '<Leader>fgl', function() require('fzf-lua').git_blame() end, desc = 'Fzf: git blame' },
       { '<Leader>fgs', function() require('fzf-lua').git_status() end, desc = 'Fzf: git status' },
       { '<Leader>fc', function() require('fzf-lua').command_history() end, desc = 'Fzf: command history' },
       { '<Leader>fh', function() require('fzf-lua').highlights() end, desc = 'Fzf: highlights' },
