@@ -188,8 +188,6 @@ config.color_scheme = selected_scheme
 config.pane_select_fg_color = C_FG
 config.pane_select_bg_color = C_BG
 config.force_reverse_video_cursor = true
-config.front_end = 'WebGpu'
-config.webgpu_preferred_adapter = gpus[1]
 -- 1}}}
 
 -- {{{1 Font configuration
