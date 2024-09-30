@@ -24,6 +24,7 @@ return {
       { '<Leader>fgs', function() require('fzf-lua').git_status() end, desc = 'Fzf: git status' },
       { '<Leader>fc', function() require('fzf-lua').command_history() end, desc = 'Fzf: command history' },
       { '<Leader>fh', function() require('fzf-lua').highlights() end, desc = 'Fzf: highlights' },
+      { '<Leader>fj', function() require('fzf-lua').jumps() end, desc = 'Fzf: marks' },
       { '<Leader>fk', function() require('fzf-lua').keymaps() end, desc = 'Fzf: keymaps' },
       { '<Leader>fm', function() require('fzf-lua').marks() end, desc = 'Fzf: marks' },
       { '<Leader>fq', function() require('fzf-lua').quickfix() end, desc = 'Fzf: quickfix' },
