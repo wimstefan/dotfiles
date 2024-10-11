@@ -877,7 +877,7 @@ awful.keyboard.append_global_keybindings({
   awful.key({ modkey }, 'x',
     function()
       awful.spawn.with_shell('tdrop -n Explore -a -m -w 90% -h 90% -y 9% -x 9% ' ..
-        terminal .. CLASS .. "'Explore' " .. CMD .. 'vifm')
+        terminal .. CLASS .. "'Explore' " .. CMD .. 'yazi')
     end,
     { description = 'Explore', group = 'applications' }),
   awful.key({ modkey }, 's',
