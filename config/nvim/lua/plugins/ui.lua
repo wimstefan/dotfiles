@@ -7,8 +7,8 @@ return {
     },
     event = 'VeryLazy',
     keys = {
-      { '<Leader>n', vim.cmd.NoiceAll, desc = 'Notifications' },
-      { '<Leader>np', vim.cmd.NoicePick, desc = 'Notification picker' }
+      { '<Leader>N', vim.cmd.NoiceAll, desc = 'Notifications' },
+      { '<Leader>Np', vim.cmd.NoicePick, desc = 'Notification picker' }
     },
     opts = {
       lsp = {
