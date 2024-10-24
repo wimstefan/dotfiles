@@ -49,6 +49,7 @@ vim.opt.fillchars:append({
   foldopen = '',
   foldclose = ''
 })
+vim.wo.foldmethod = 'expr'
 vim.wo.foldexpr = 'v:lua.vim.treesitter.foldexpr()'
 
 vim.opt.shiftwidth = indent
@@ -72,6 +73,7 @@ vim.opt.completeopt = {
   'noinsert',
   'popup'
 }
+
 vim.opt.diffopt:append({
   'vertical',
   'indent-heuristic',
