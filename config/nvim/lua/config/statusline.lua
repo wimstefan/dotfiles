@@ -260,7 +260,7 @@ end
 
 local function filetype()
   if vim.bo.filetype ~= '' then
-    return string.format(' [%s]', vim.bo.filetype):lower()
+    return string.format('[%s]', vim.bo.filetype):lower()
   else
     return ''
   end
