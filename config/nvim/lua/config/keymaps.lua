@@ -32,6 +32,8 @@ vim.keymap.set('n', 'cn', '*``cgn')
 vim.keymap.set('n', 'cN', '*``cgN')
 vim.keymap.set('x', 'gci', ':normal gcc<CR><Cmd>nohls<CR>', { desc = 'Invert comments' })
 vim.keymap.set('n', 'z=', function() require('fzf-lua').spell_suggest() end, { desc = 'Spell suggestion' })
+vim.keymap.set({ 'i', 's' }, '<C-f>', '<C-x><C-f>', { desc = 'Completion: file completions' })
+vim.keymap.set({ 'i', 's' }, '<C-u>', '<C-x><C-n>', { desc = 'Completion: buffer completions' })
 -- }}}2
 -- {{{2 buffers
 vim.keymap.set('n', '<Tab>', vim.cmd.bnext, { desc = 'Go to next buffer' })

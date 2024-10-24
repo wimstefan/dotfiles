@@ -110,7 +110,6 @@ return {
                 end
               end
             end, { desc = 'Completion: next' }, opts)
-            vim.keymap.set({ 'i', 's' }, '<C-u>', '<C-x><C-n>', { desc = 'Completion: buffer completions' }, opts)
             vim.keymap.set({ 'i', 's' }, '<Tab>', function()
               if vim.fn.pumvisible() then
                 vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes('<C-n>', true, false, true), 'n', true)
