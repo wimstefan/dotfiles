@@ -531,6 +531,7 @@ config.show_tab_index_in_tab_bar = true
 
 -- Behaviour
 config.term = 'wezterm'
+config.max_fps = 120
 config.check_for_updates = false
 config.adjust_window_size_when_changing_font_size = false
 config.window_background_opacity = opacity
