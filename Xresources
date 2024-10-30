@@ -21,7 +21,7 @@ Xft.hintstyle: hintslight
 Xft.hinting: 1
 Xft.antialias: 1
 
-Xcursor.theme: catppuccin-latte-light-cursors
+Xcursor.theme: catppuccin-latte-dark-cursors
 
 *internalBorder:           24
 *loginShell:               true
