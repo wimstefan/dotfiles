@@ -192,8 +192,9 @@ return {
         vim.keymap.set('n', '<Leader>gd', gitsigns.diffthis, { desc = 'Gitsigns: diffthis' }, { buffer = bufnr })
         vim.keymap.set('n', '<Leader>gD', function() gitsigns.diffthis('~') end, { desc = 'Gitsigns: diffthis ~' },
           { buffer = bufnr })
-        vim.keymap.set('n', '<Leader>gs', gitsigns.stage_hunk, { desc = 'Gitsigns: stage hunk' }, { buffer = bufnr })
-        vim.keymap.set('n', '<Leader>gu', gitsigns.undo_stage_hunk, { desc = 'Gitsigns: undo stage hunk' }, { buffer = bufnr })
+        vim.keymap.set({ 'n', 'v' }, '<Leader>gs', gitsigns.stage_hunk, { desc = 'Gitsigns: stage hunk' },
+          { buffer = bufnr })
+        vim.keymap.set({ 'n', 'v' }, '<Leader>gu', gitsigns.undo_stage_hunk, { desc = 'Gitsigns: undo stage hunk' }, { buffer = bufnr })
         vim.keymap.set('n', '<Leader>gx', gitsigns.toggle_deleted, { desc = 'Gitsigns: toggle deleted' }, { buffer = bufnr })
         vim.keymap.set('n', '<Leader>gr', gitsigns.reset_hunk, { desc = 'Gitsigns: reset hunk' }, { buffer = bufnr })
       end
