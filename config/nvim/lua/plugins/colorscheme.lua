@@ -1,5 +1,4 @@
 return {
-  -- {{{2 vim-artesanal
   {
     'wimstefan/vim-artesanal',
     event = { 'ColorScheme', 'UiEnter' },
@@ -8,8 +7,6 @@ return {
       vim.g.artesanal_transparent = true
     end
   },
-  -- }}}2
-  -- {{{2 tokyonight
   {
     'folke/tokyonight.nvim',
     event = { 'ColorScheme', 'UiEnter' },
@@ -37,8 +34,6 @@ return {
       }
     end
   },
-  -- }}}2
-  -- {{{2 cyberdream
   {
     'scottmckendry/cyberdream.nvim',
     event = { 'ColorScheme', 'UiEnter' },
@@ -49,6 +44,4 @@ return {
       }
     }
   }
-  -- }}}2
 }
--- vim: foldmethod=marker foldlevel=1

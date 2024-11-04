@@ -90,9 +90,7 @@ function Prettify()
 
   vim.notify('Applying visual tweaks', vim.log.levels.INFO, { title = '[UI]' })
 end
-
 -- }}}2
-
 -- {{{2 toggle detailed information for easier paste
 function ToggleDetails()
   local mouse_opts = vim.api.nvim_get_option_value('mouse', {})
@@ -120,9 +118,7 @@ function ToggleDetails()
     vim.notify('Details enabled', vim.log.levels.INFO, { title = '[UI]' })
   end
 end
-
 -- }}}2
-
 -- {{{2 quickfix/location toggle made by ibhagwan
 function FindQF(type)
   local wininfo = vim.fn.getwininfo()
@@ -183,17 +179,13 @@ function ToggleQF(type)
     end
   end
 end
-
 -- }}}2
-
 -- {{{2 show manpage of current word
 function ShowMan()
   local cword = vim.fn.expand('<cword>')
   vim.cmd.Man(cword)
 end
-
 -- }}}2
-
 -- {{{2 toggle hlsearch
 function ToggleHlSearch()
   local current_hls = vim.api.nvim_get_option_value('hlsearch', {})
@@ -205,7 +197,5 @@ function ToggleHlSearch()
     vim.notify('Search highlighting disabled', vim.log.levels.INFO, { title = '[UI]' })
   end
 end
-
 -- }}}2
-
 -- vim: foldmethod=marker foldlevel=1

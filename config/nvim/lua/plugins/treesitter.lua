@@ -75,4 +75,3 @@ return {
     end
   }
 }
--- vim: foldmethod=marker foldlevel=1

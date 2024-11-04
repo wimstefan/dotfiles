@@ -42,7 +42,7 @@ vim.opt.mousemodel = 'extend'
 
 vim.g.markdown_folding = true
 vim.opt.foldlevel = 99
-vim.opt.foldlevelstart = 99
+vim.opt.foldlevelstart = 2
 vim.opt.foldcolumn = 'auto'
 vim.opt.fillchars:append({
   foldsep = '🮍',

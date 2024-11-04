@@ -1,8 +1,5 @@
 return {
-  -- {{{2 plenary.nvim
   'nvim-lua/plenary.nvim',
-  -- }}}2
-  -- {{{2 Projects
   {
     'gennaro-tedesco/nvim-possession',
     keys = {
@@ -20,14 +17,10 @@ return {
       }
     }
   },
-  -- }}}2
-  -- {{{2 vim-repeat
   {
     'tpope/vim-repeat',
     keys = '.'
   },
-  -- }}}2
-  -- {{{2 nvim-impairative
   {
     'idanarye/nvim-impairative',
     event = 'VeryLazy',
@@ -35,8 +28,6 @@ return {
       replicate_unimpaired = true
     }
   },
-  -- }}}2
-  -- {{{2 nvim-bqf
   {
     'kevinhwang91/nvim-bqf',
     dependencies = 'junegunn/fzf',
@@ -46,8 +37,6 @@ return {
       auto_resize_height = true
     }
   },
-  -- }}}2
-  -- {{{2 yazi.nvim
   {
     'mikavilpas/yazi.nvim',
     event = 'VeryLazy',
@@ -58,8 +47,6 @@ return {
     },
     opts = {}
   },
-  -- }}}2
-  -- {{{2 toggleterm.nvim
   {
     'akinsho/toggleterm.nvim',
     cmd = 'ToggleTerm',
@@ -85,20 +72,14 @@ return {
       }
     }
   },
-  -- }}}2
-  -- {{{2 vim-gnupg
   {
     'jamessan/vim-gnupg',
     lazy = false
   },
-  -- }}}2
-  -- {{{2 vim-log-highlighting
   {
     'MTDL9/vim-log-highlighting',
     ft = 'log'
   },
-  -- }}}2
-  -- {{{2 unicode.vim
   {
     'chrisbra/unicode.vim',
     cmd = {
@@ -110,6 +91,4 @@ return {
       { 'gu', vim.cmd.UnicodeName, desc = 'Lookup Unicode character' }
     }
   }
-  -- }}}2
 }
--- vim: foldmethod=marker foldlevel=1

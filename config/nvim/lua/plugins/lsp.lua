@@ -1,12 +1,9 @@
 return {
-  -- {{{2 lazydev.nvim
   {
     'folke/lazydev.nvim',
     event = 'VeryLazy',
     opts = {}
   },
-  -- }}}2
-  -- {{{2 nvim-lspconfig
   {
     'neovim/nvim-lspconfig',
     event = 'BufReadPre',
@@ -314,8 +311,6 @@ return {
       end
     end
   },
-  -- }}}2
-  -- {{{2 clear-action.nvim
   {
     'IsaacShelton/clear-action.nvim',
     event = 'LspAttach',
@@ -342,8 +337,6 @@ return {
       }
     }
   },
-  -- }}}2
-  -- {{{2 hover.nvim
   {
     'lewis6991/hover.nvim',
     keys = {
@@ -363,8 +356,6 @@ return {
       title = true
     }
   },
-  -- }}}2
-  -- {{{2 aerial.nvim
   {
     'stevearc/aerial.nvim',
     keys = {
@@ -376,6 +367,4 @@ return {
       show_guides = false
     }
   }
-  -- }}}2
 }
--- vim: foldmethod=marker foldlevel=1

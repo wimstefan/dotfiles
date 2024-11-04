@@ -1,5 +1,4 @@
 return {
-  -- {{{2 fzf
   {
     'junegunn/fzf',
     build = './install --all --xdg'
@@ -133,8 +132,6 @@ return {
 
     end
   },
-  -- }}}2
-  -- {{{2 gitsigns.nvim
   {
     'lewis6991/gitsigns.nvim',
     event = 'BufReadPre',
@@ -200,8 +197,6 @@ return {
       end
     }
   },
-  -- }}}2
-  -- {{{2 neogit
   {
     'NeogitOrg/neogit',
     dependencies = {
@@ -217,8 +212,6 @@ return {
       graph_style = 'unicode'
     }
   },
-  -- }}}2
-  -- {{{2 flash.nvim
   {
     'folke/flash.nvim',
     event = 'VeryLazy',
@@ -287,15 +280,11 @@ return {
       }
     }
   },
-  -- }}}2
-  -- {{{2 spaceless.nvim
   {
     'lewis6991/spaceless.nvim',
     event = 'VeryLazy',
     opts = {}
   },
-  -- }}}2
-  -- {{{2 grug-far.nvim
   {
     'MagicDuck/grug-far.nvim',
     event = 'VeryLazy',
@@ -307,14 +296,10 @@ return {
     },
     opts = {}
   },
-  -- }}}2
-  -- {{{2 vim-dirdiff
   {
     'will133/vim-dirdiff',
     cmd = 'DirDiff'
   },
-  -- }}}2
-  -- {{{2 paperplanes.nvim
   {
     'rktjmp/paperplanes.nvim',
     cmd = 'PP',
@@ -325,8 +310,6 @@ return {
       notifier = vim.notify or print
     }
   },
-  -- }}}2
-  -- {{{2 pantran.nvim
   {
     'potamides/pantran.nvim',
     cmd = 'Pantran',
@@ -351,8 +334,6 @@ return {
       })
     end
   },
-  -- }}}2
-  -- {{{2 zk-nvim
   {
     'zk-org/zk-nvim',
     keys = {
@@ -385,6 +366,4 @@ return {
       vim.keymap.set('n', '<Leader>zt', [[<Cmd>ZkTags<CR>]])
     end
   }
-  -- }}}2
 }
--- vim: foldmethod=marker foldlevel=1

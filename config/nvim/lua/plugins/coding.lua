@@ -1,5 +1,4 @@
 return {
-  -- {{{2 nvim-autopairs
   {
     'windwp/nvim-autopairs',
     event = 'InsertEnter',
@@ -8,15 +7,11 @@ return {
       fast_wrap = {}
     }
   },
-  -- }}}2
-  -- {{{2 nvim-surround
   {
     'kylechui/nvim-surround',
     event = 'VeryLazy',
     opts = {}
   },
-  -- }}}2
-  -- {{{2 multicursor.nvim
   {
     'jake-stewart/multicursor.nvim',
     branch = '1.0',
@@ -57,15 +52,11 @@ return {
       vim.api.nvim_set_hl(0, 'MultiCursorDisabledVisual', { link = 'Visual' })
     end
   },
-  -- }}}2
-  -- {{{2 text-case.nvim
   {
     'johmsalas/text-case.nvim',
     event = 'VeryLazy',
     opts = {}
   },
-  -- }}}2
-  -- {{{2 undotree
   {
     'jiaoshijie/undotree',
     keys = {
@@ -77,12 +68,8 @@ return {
       }
     }
   },
-  -- }}}2
-  -- {{{2 vim-simple-align
   {
     'kg8m/vim-simple-align',
     cmd = 'SimpleAlign'
   }
-  -- }}}2
 }
--- vim: foldmethod=marker foldlevel=1

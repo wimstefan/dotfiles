@@ -1,5 +1,4 @@
 return {
-  -- {{{2 noice.nvim
   {
     'folke/noice.nvim',
     dependencies = {
@@ -24,8 +23,6 @@ return {
       }
     }
   },
-  -- }}}2
-  -- {{{2 statuscol.nvim
   {
     'luukvbaal/statuscol.nvim',
     event = 'UiEnter',
@@ -43,8 +40,6 @@ return {
       }
     end
   },
-  -- }}}2
-  -- {{{2 which-key.nvim
   {
     'folke/which-key.nvim',
     event = 'VeryLazy',
@@ -64,8 +59,6 @@ return {
       }
     }
   },
-  -- }}}2
-  -- {{{2 deadcolumn.nvim
   {
     'Bekaboo/deadcolumn.nvim',
     event = 'VeryLazy',
@@ -83,8 +76,6 @@ return {
       }
     }
   },
-  -- }}}2
-  -- {{{2 hlchunk.nvim
   {
     'shellRaining/hlchunk.nvim',
     event = 'VeryLazy',
@@ -104,8 +95,6 @@ return {
       }
     }
   },
-  -- }}}2
-  -- {{{2 foldtext.nvim
   {
     'OXY2DEV/foldtext.nvim',
     lazy = false,
@@ -133,8 +122,6 @@ return {
       }
     }
   },
-  -- }}}2
-  -- {{{2 helpview.nvim
   {
     'OXY2DEV/helpview.nvim',
     lazy = false,
@@ -142,8 +129,6 @@ return {
       'nvim-treesitter/nvim-treesitter'
     }
   },
-  -- }}}2
-  -- {{{2 markview.nvim
   {
     'OXY2DEV/markview.nvim',
     ft = 'markdown',
@@ -162,8 +147,6 @@ return {
       })
     end,
   },
-  -- }}}2
-  -- {{{2 mini.icons
   {
     'echasnovski/mini.icons',
     version = false,
@@ -172,8 +155,6 @@ return {
       MiniIcons.mock_nvim_web_devicons()
     end
   },
-  -- }}}2
-  -- {{{2 ccc.nvim
   {
     'uga-rosa/ccc.nvim',
     event = 'BufReadPost',
@@ -188,6 +169,4 @@ return {
       }
     }
   }
-  -- }}}2
 }
--- vim: foldmethod=marker foldlevel=1
