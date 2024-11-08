@@ -55,8 +55,8 @@ vim.keymap.set('t', '<A-l>', [[<C-\><C-N><C-w>l]])
 -- {{{2 quickfix
 vim.keymap.set('n', '<C-c>', function() ToggleQF('q') end, { desc = 'Toggle quickfix window' })
 vim.keymap.set('n', '<A-c>', function() ToggleQF('l') end, { desc = 'Toggle location list window' })
-vim.keymap.set('n', '[\\', vim.cmd.colder)
-vim.keymap.set('n', ']\\', vim.cmd.cnewer)
+vim.keymap.set('n', '[\\', vim.cmd.colder, { desc = 'Quickfix: go to older error list' })
+vim.keymap.set('n', ']\\', vim.cmd.cnewer, { desc = 'Quickfix: go to newer error list' })
 -- }}}2
 -- {{{2 signatures
 vim.keymap.set('n', '<Leader>sa',
