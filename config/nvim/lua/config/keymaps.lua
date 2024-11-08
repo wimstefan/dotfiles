@@ -7,7 +7,6 @@ vim.keymap.set('n', '<Leader>M', [[<Cmd>messages<CR>]])
 vim.keymap.set('n', '<Leader>P', function() Prettify() end, { desc = 'Apply visual tweaks' })
 vim.keymap.set('n', ',cd', [[<Cmd>color default | set termguicolors<CR>]], { desc = 'Apply default colorscheme' })
 vim.keymap.set('n', ',cv', [[<Cmd>color vim | set notermguicolors<CR>]], { desc = 'Apply vim colorscheme' })
-vim.keymap.set('n', '<C-h>', function() ToggleHlSearch() end, { desc = 'Toggle search highlighting' })
 vim.keymap.set('n', '<F10>', function() ToggleDetails() end, { desc = 'Toggle decorations' })
 -- {{{2 lazy.nvim
 vim.keymap.set('n', '<Leader>l', require('lazy').home, { desc = 'Lazy' })
@@ -39,7 +38,6 @@ vim.keymap.set({ 'i', 's' }, '<C-u>', '<C-x><C-n>', { desc = 'Completion: buffer
 vim.keymap.set('n', '<Tab>', vim.cmd.bnext, { desc = 'Go to next buffer' })
 vim.keymap.set('n', '<S-Tab>', vim.cmd.bprev, { desc = 'Go to previous buffer' })
 vim.keymap.set('n', '<Leader><Leader>', '<C-^>')
-vim.keymap.set('n', '<Leader>bd', function() vim.cmd.bdelete() end, { desc = 'Delete buffer' })
 vim.keymap.set('n', '<Leader>bl', function() vim.cmd.buffer('#') end, { desc = 'Go to last buffer' })
 -- }}}2
 -- {{{2 tabs

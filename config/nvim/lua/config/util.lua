@@ -186,16 +186,4 @@ function ShowMan()
   vim.cmd.Man(cword)
 end
 -- }}}2
--- {{{2 toggle hlsearch
-function ToggleHlSearch()
-  local current_hls = vim.api.nvim_get_option_value('hlsearch', {})
-  if current_hls == false then
-    vim.opt.hlsearch = true
-    vim.notify('Search highlighting enabled', vim.log.levels.INFO, { title = '[UI]' })
-  else
-    vim.opt.hlsearch = false
-    vim.notify('Search highlighting disabled', vim.log.levels.INFO, { title = '[UI]' })
-  end
-end
--- }}}2
 -- vim: foldmethod=marker foldlevel=1

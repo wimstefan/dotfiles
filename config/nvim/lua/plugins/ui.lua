@@ -24,23 +24,6 @@ return {
     }
   },
   {
-    'luukvbaal/statuscol.nvim',
-    event = 'UiEnter',
-    config = true,
-    opts = function()
-      local builtin = require('statuscol.builtin')
-      return {
-        relculright = true,
-        setopt = true,
-        segments = {
-          { text = { builtin.foldfunc, '' }, click = 'v:lua.ScFa' },
-          { text = { ' %s' }, click = 'v:lua.ScSa' },
-          { text = { builtin.lnumfunc, ' ' }, click = 'v:lua.ScLa' }
-        }
-      }
-    end
-  },
-  {
     'folke/which-key.nvim',
     event = 'VeryLazy',
     opts = {
@@ -170,4 +153,3 @@ return {
     }
   }
 }
-
