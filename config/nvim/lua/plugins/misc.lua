@@ -4,20 +4,39 @@ return {
     'folke/snacks.nvim',
     event = 'VeryLazy',
     opts = {
-      statuscolumn = { enabled = true },
+      statuscolumn = {
+        enabled = true,
+        folds = {
+          open = true,
+          git_hl = true
+        }
+      },
+      styles = {
+        terminal = {
+          position = 'float',
+          border = require('config.ui').borders
+        },
+      },
       win = { border = require('config.ui').borders }
     },
     keys = {
-      { '<Leader>bd', function() Snacks.bufdelete() end, desc = 'Delete Buffer' },
+      { ',sr', function() Snacks.rename.rename_file() end, desc = 'Snacks: rename file' },
+      { '<Leader>bd', function() Snacks.bufdelete() end, desc = 'Snacks: delete buffer' },
       { '<Leader>L', function() Snacks.lazygit() end, desc = 'Lazygit' },
       { '<Leader>gf', function() Snacks.lazygit.log_file() end, desc = 'Lazygit Current File History' },
       { '<Leader>gl', function() Snacks.lazygit.log() end, desc = 'Lazygit Log (cwd)' },
-      { '<C-\\>', mode = { 'n', 't' }, function() Snacks.terminal.toggle({ 'zsh' }) end, desc = 'Terminal' }
+      { '<C-\\>', mode = { 'n', 't' }, function() Snacks.terminal.toggle() end, desc = 'Terminal' },
+      { ']]', function() Snacks.words.jump(vim.v.count1) end, desc = 'Snacks: next reference' },
+      { '[[', function() Snacks.words.jump(-vim.v.count1) end, desc = 'Snacks: prev reference' }
     },
     init = function()
       vim.api.nvim_create_autocmd('User', {
         pattern = 'VeryLazy',
         callback = function()
+          _G.dd = function(...)
+            Snacks.debug.inspect(...)
+          end
+          vim.print = _G.dd
           Snacks.toggle.option('background', { off = 'light', on = 'dark', name = 'background' }):map('yob')
           Snacks.toggle.option('hlsearch', { name = 'search highlighting' }):map('yoh')
           Snacks.toggle.option('spell', { name = 'spelling' }):map('yos')
