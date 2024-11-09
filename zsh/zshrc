@@ -984,14 +984,14 @@ function zl () {
         | sed 's|\.kdl||' \
         | fzf --multi \
         || exit)"
-    zellij --session "${ZJ_LAYOUT}" --layout "${ZJ_LAYOUT}"
+    zellij attach --create "${ZJ_LAYOUT}" options --default-layout "${ZJ_LAYOUT}"
   fi
 }
 function zn () {
   ZJ_SESSION="$1"
 
   if [ "${ZJ_SESSION}" != "" ]; then
-    zellij --session "${ZJ_SESSION}" --layout "${ZJ_SESSION}"
+    zellij attach --create "${ZJ_SESSION}" options --default-layout "${ZJ_SESSION}"
   else
     echo "No session defined"
     return
