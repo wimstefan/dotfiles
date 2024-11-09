@@ -357,14 +357,14 @@ return {
     }
   },
   {
-    'stevearc/aerial.nvim',
+    'oskarrrrrrr/symbols.nvim',
     keys = {
-      { '<Leader>s', vim.cmd.AerialToggle, desc = 'Aerial: toggle' },
+      { '<Leader>s', vim.cmd.SymbolsToggle, desc = 'Symbols: toggle' },
     },
     opts = {
-      backends = { 'lsp', 'treesitter', 'markdown', 'man', 'asciidoc' },
-      filter_kind = false,
-      show_guides = false
+      sidebar = {
+        open_direction = 'try-right'
+      }
     }
   }
 }
