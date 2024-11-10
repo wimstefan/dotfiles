@@ -26,8 +26,8 @@ return {
       { '<Leader>gf', function() Snacks.lazygit.log_file() end, desc = 'Lazygit Current File History' },
       { '<Leader>gl', function() Snacks.lazygit.log() end, desc = 'Lazygit Log (cwd)' },
       { '<C-\\>', mode = { 'n', 't' }, function() Snacks.terminal.toggle() end, desc = 'Terminal' },
-      { ']]', function() Snacks.words.jump(vim.v.count1) end, desc = 'Snacks: next reference' },
-      { '[[', function() Snacks.words.jump(-vim.v.count1) end, desc = 'Snacks: prev reference' }
+      { ']]', mode = { 'n', 't' }, function() Snacks.words.jump(vim.v.count1) end, desc = 'Snacks: next reference' },
+      { '[[', mode = { 'n', 't' }, function() Snacks.words.jump(-vim.v.count1) end, desc = 'Snacks: prev reference' }
     },
     init = function()
       vim.api.nvim_create_autocmd('User', {
