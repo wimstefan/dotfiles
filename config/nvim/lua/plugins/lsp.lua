@@ -227,18 +227,18 @@ return {
           settings = {
             css = {
               lint = {
-                validProperties = {},
+                validProperties = {}
               },
             },
             html = {
               format = {
                 templating = true,
                 wrapLineLength = 120,
-                wrapAttributes = 'auto',
+                wrapAttributes = 'auto'
               },
               hover = {
                 documentation = true,
-                references = true,
+                references = true
               }
             }
           }
@@ -296,7 +296,7 @@ return {
         },
         taplo = {},
         rust_analyzer = {},
-        vimls = {},
+        vimls = {}
       }
       for name, opts in pairs(servers) do
         if type(opts) == 'function' then
