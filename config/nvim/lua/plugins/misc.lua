@@ -33,10 +33,6 @@ return {
       vim.api.nvim_create_autocmd('User', {
         pattern = 'VeryLazy',
         callback = function()
-          _G.dd = function(...)
-            Snacks.debug.inspect(...)
-          end
-          vim.print = _G.dd
           Snacks.toggle.option('background', { off = 'light', on = 'dark', name = 'background' }):map('yob')
           Snacks.toggle.option('hlsearch', { name = 'search highlighting' }):map('yoh')
           Snacks.toggle.option('spell', { name = 'spelling' }):map('yos')
