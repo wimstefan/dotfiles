@@ -184,7 +184,7 @@ return {
             lsp_messages = lsp_messages .. 'no hints' .. lsp_msg_sep
           end
           if client.supports_method('textDocument/signatureHelp') then
-            vim.keymap.set('i', '<C-s>',
+            vim.keymap.set({ 'i', 's' }, '<C-s>',
               function() vim.lsp.buf.signature_help({ border = require('config.ui').borders }) end,
               { desc = 'LSP: signature help' }, opts)
             vim.keymap.set('n', ',ls',
