@@ -75,7 +75,7 @@ return {
             { desc = 'LSP: rename' }, opts)
           vim.keymap.set('n', ',lw', function() Dump(vim.lsp.buf.list_workspace_folders()) end,
             { desc = 'LSP: list workspace folders' }, opts)
-          if client.supports_method('textDocument/codeAction') then
+          if client:supports_method('textDocument/codeAction', args.buf) then
             vim.keymap.set('n', ',lca',
               function()
                 require('fzf-lua').lsp_code_actions({
@@ -86,7 +86,7 @@ return {
           else
             lsp_messages = lsp_messages .. 'no codeAction' .. lsp_msg_sep
           end
-          if client.supports_method('textDocument/completion') then
+          if client:supports_method('textDocument/completion', args.buf) then
             vim.lsp.completion.enable(true, client.id, args.buf, { autotrigger = true })
             vim.keymap.set({ 'i', 's' }, '<C-y>', function() return vim.fn.pumvisible() and '<C-y>' or '<CR>' end,
               { expr = true, desc = 'Completion: accept' }, opts)
@@ -129,7 +129,7 @@ return {
           else
             lsp_messages = lsp_messages .. 'no completion' .. lsp_msg_sep
           end
-          if client.supports_method('textDocument/formatting') then
+          if client:supports_method('textDocument/formatting', args.buf) then
             local fmt_opts = vim.bo[args.buf].ft == 'lua'
               and 'async=true,bufnr=0,name="lua_ls"'
               or 'async=true,bufnr=0'
@@ -138,7 +138,7 @@ return {
           else
             lsp_messages = lsp_messages .. 'no format' .. lsp_msg_sep
           end
-          if client.supports_method('textDocument/rangeFormatting') then
+          if client:supports_method('textDocument/rangeFormatting', args.buf) then
             vim.keymap.set('v', ',lf',
               function()
                 local _, csrow, cscol, cerow, cecol
@@ -162,28 +162,28 @@ return {
           else
             lsp_messages = lsp_messages .. 'no rangeFormat' .. lsp_msg_sep
           end
-          if client.supports_method('textDocument/hover') then
-            vim.keymap.set('n', ',lh', vim.lsp.buf.hover,
+          if client:supports_method('textDocument/hover', args.buf) then
+            vim.keymap.set('n', ',lh', function() vim.lsp.buf.hover() end,
               { desc = 'LSP: hover' }, opts)
           else
             vim.keymap.set('n', ',lh', [[<Nop>]], opts)
             lsp_messages = lsp_messages .. 'no hovering' .. lsp_msg_sep
           end
-          if client.supports_method('textDocument/implementation') then
+          if client:supports_method('textDocument/implementation', args.buf) then
             vim.keymap.set('n', ',li', function() require('fzf-lua').lsp_implementations() end,
               { desc = 'LSP: implementations' }, opts)
           else
             vim.keymap.set('n', ',li', [[<Nop>]], opts)
             lsp_messages = lsp_messages .. 'no implementation' .. lsp_msg_sep
           end
-          if client.supports_method('textDocument/inlayHint') then
+          if client:supports_method('textDocument/inlayHint', args.buf) then
             vim.keymap.set('n', ',lH', function() vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled()) end,
               { desc = 'LSP: hints' }, opts)
           else
             vim.keymap.set('n', ',lH', [[<Nop>]], opts)
             lsp_messages = lsp_messages .. 'no hints' .. lsp_msg_sep
           end
-          if client.supports_method('textDocument/signatureHelp') then
+          if client:supports_method('textDocument/signatureHelp', args.buf) then
             vim.keymap.set({ 'i', 's' }, '<C-s>',
               function() vim.lsp.buf.signature_help({ border = require('config.ui').borders }) end,
               { desc = 'LSP: signature help' }, opts)
@@ -248,16 +248,22 @@ return {
         lua_ls = {
           cmd = { vim.fn.stdpath('data') .. '/lspconfig/lua-language-server/bin/lua-language-server' },
           on_init = function(client)
-            local path = client.workspace_folders[1].name
-            if vim.loop.fs_stat(path .. '/.luarc.json') and not vim.loop.fs_stat(path .. '/.luarc.jsonc') then
-              return
+            if client.workspace_folders then
+              local path = client.workspace_folders[1].name
+              if vim.uv.fs_stat(path .. '/.luarc.json') or vim.uv.fs_stat(path .. '/.luarc.jsonc') then
+                return
+              end
             end
             client.config.settings = vim.tbl_deep_extend('force', client.config.settings.Lua, {
               runtime = {
                 version = 'LuaJIT'
               },
               workspace = {
-                library = { vim.env.VIMRUNTIME }
+                library = {
+                  lua,
+                  vim.env.VIMRUNTIME,
+                  '${3rd}/luv/library'
+                }
               }
             })
             client.notify('workspace/didChangeConfiguration', { settings = client.config.settings })
@@ -339,32 +345,36 @@ return {
   },
   {
     'lewis6991/hover.nvim',
-    keys = {
-      { 'H', function() require('hover').hover() end, desc = 'hover.nvim' },
-      { 'gH', function() require('hover').hover_select() end, desc = 'hover.nvim (select)' }
-    },
-    opts = {
-      init = function()
-        require('hover.providers.lsp')
-        require('hover.providers.man')
-        require('hover.providers.diagnostic')
-        require('hover.providers.fold_preview')
-      end,
-      preview_opts = {
-        border = require('config.ui').borders
-      },
-      title = true
-    }
+    event = 'VeryLazy',
+    config = function()
+      require('hover').setup({
+        init = function()
+          require('hover.providers.lsp')
+          require('hover.providers.man')
+          require('hover.providers.diagnostic')
+          require('hover.providers.fold_preview')
+        end,
+        preview_opts = {
+          border = require('config.ui').borders
+        },
+        title = true
+      })
+      vim.keymap.set('n', 'H', require('hover').hover, { desc = 'hover.nvim' })
+      vim.keymap.set('n', 'gH', require('hover').hover_select, { desc = 'hover.nvim (select)' })
+    end
   },
   {
     'oskarrrrrrr/symbols.nvim',
+    config = function()
+      local r = require('symbols.recipes')
+      require('symbols').setup(r.DefaultFilters, r.AsciiSymbols, {
+        sidebar = {
+          open_direction = 'try-right'
+        }
+      })
+    end,
     keys = {
       { '<Leader>s', vim.cmd.SymbolsToggle, desc = 'Symbols: toggle' },
     },
-    opts = {
-      sidebar = {
-        open_direction = 'try-right'
-      }
-    }
   }
 }
