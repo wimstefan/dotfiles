@@ -15,7 +15,7 @@ vim.keymap.set('n', 'yoz', function()
   else
     vim.opt.foldenable = false
   end
-end, { desc = 'Toggle folds'})
+end, { desc = 'Toggle folds' })
 -- {{{2 lazy.nvim
 vim.keymap.set('n', '<Leader>l', require('lazy').home, { desc = 'Lazy' })
 vim.keymap.set('n', '<Leader>ll', [[:Lazy load<Space>]], { desc = 'Lazy: load' })
