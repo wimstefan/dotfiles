@@ -35,7 +35,7 @@ return {
       vim.keymap.set('v', 'M', mc.matchCursors, { desc = 'Cursors: match new cursors within visual selection by regex' })
       vim.keymap.set('v', 'I', mc.insertVisual, { desc = 'Cursors: append for each line of visual selections' })
       vim.keymap.set('v', 'A', mc.appendVisual, { desc = 'Cursors: insert for each line of visual selections' })
-      vim.keymap.set('v', 'S', mc.splitCursors, { desc = 'Cursors: split visual selection by regex' })
+      vim.keymap.set('v', '|', mc.splitCursors, { desc = 'Cursors: split visual selection by regex' })
 
       vim.keymap.set('n', '<Esc>', function()
         if not mc.cursorsEnabled() then
