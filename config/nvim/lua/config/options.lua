@@ -61,7 +61,7 @@ vim.opt.fillchars:append({
   foldopen = '',
   foldclose = ''
 })
-vim.opt.foldmethod = 'expr'
+vim.wo.foldmethod = 'expr'
 vim.wo.foldexpr = 'v:lua.vim.treesitter.foldexpr()'
 
 vim.opt.shiftwidth = indent

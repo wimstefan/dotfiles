@@ -6,7 +6,7 @@ return {
   },
   {
     'neovim/nvim-lspconfig',
-    event = 'BufReadPre',
+    lazy = false,
     config = function()
       require('lspconfig.ui.windows').default_options.border = require('config.ui').borders
 
@@ -128,6 +128,11 @@ return {
             vim.keymap.set('s', '<BS>', '<C-o>s', { desc = 'Completion: remove snippet placeholder' }, opts)
           else
             lsp_messages = lsp_messages .. 'no completion' .. lsp_msg_sep
+          end
+          if client:supports_method('textDocument/foldingRange', args.buf) then
+            vim.wo.foldexpr = 'v:lua.vim.lsp.foldexpr()'
+          else
+            lsp_messages = lsp_messages .. 'no folding' .. lsp_msg_sep
           end
           if client:supports_method('textDocument/formatting', args.buf) then
             local fmt_opts = vim.bo[args.buf].ft == 'lua'
