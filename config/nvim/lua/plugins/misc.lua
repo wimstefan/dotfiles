@@ -74,8 +74,8 @@ return {
           Snacks.toggle.option('hlsearch', { name = 'search highlighting' }):map('yoh')
           Snacks.toggle.option('spell', { name = 'spelling' }):map('yos')
           Snacks.toggle.option('wrap', { name = 'wrap' }):map('yow')
+          Snacks.toggle.option('number', { name = 'absolute number' }):map('yol')
           Snacks.toggle.option('relativenumber', { name = 'relative number' }):map('yor')
-          Snacks.toggle.line_number({ name = 'line number' }):map('yol')
         end
       })
     end
