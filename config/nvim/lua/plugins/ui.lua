@@ -126,7 +126,13 @@ return {
     opts = function()
       require('markview').setup({
         modes = { 'n', 'I' },
-        hybrid_modes = { 'i' }
+        hybrid_modes = { 'i' },
+        list_items = {
+          marker_star = {
+            text = ' ',
+            hl = 'MarkviewListItemStar'
+          }
+        }
       })
     end,
   },
@@ -139,17 +145,16 @@ return {
     end
   },
   {
-    'uga-rosa/ccc.nvim',
+    'eero-lehtinen/oklch-color-picker.nvim',
     event = 'BufReadPost',
-    keys = {
-      { ',ct', vim.cmd.CccHighlighterToggle, desc = 'Ccc: toggle highlights' },
-      { ',cp', vim.cmd.CccPick, desc = 'Ccc: edit color' }
-    },
-    opts = {
-      highlighter = {
-        auto_enable = true,
-        lsp = true
-      }
-    }
+    config = function()
+      require('oklch-color-picker').setup({})
+      vim.keymap.set('n', ',ct', function()
+        require('oklch-color-picker.highlight').toggle()
+      end, { desc = 'Toggle color highlighting' })
+      vim.keymap.set('n', ',cp', function()
+        require('oklch-color-picker').pick_under_cursor()
+      end, { desc = 'Color pick under cursor' })
+    end
   }
 }
