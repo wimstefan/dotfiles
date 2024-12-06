@@ -52,7 +52,6 @@ return {
       { ',sr', function() Snacks.rename.rename_file() end, desc = 'Snacks: rename file' },
       { ',ss', function() Snacks.scratch() end, desc = 'Toggle Scratch Buffer' },
       { ',sS', function() Snacks.scratch.select() end, desc = 'Select Scratch Buffer' },
-      { '<Leader>bd', function() Snacks.bufdelete() end, desc = 'Snacks: delete buffer' },
       { '<Leader>L', function() Snacks.lazygit() end, desc = 'Lazygit' },
       { '<Leader>gf', function() Snacks.lazygit.log_file() end, desc = 'Lazygit Current File History' },
       { '<Leader>gl', function() Snacks.lazygit.log() end, desc = 'Lazygit Log (cwd)' },
