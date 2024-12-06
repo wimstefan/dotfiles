@@ -397,7 +397,7 @@ local function font_size(name)
     elseif string.match(name, 'pt') then
       size = 10.0
     elseif string.match(name, 'recursive') then
-      size = 9.9
+      size = 9.5
     elseif string.match(name, 'triple') then
       size = 10.5
     end
