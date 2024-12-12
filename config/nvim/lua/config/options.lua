@@ -76,7 +76,6 @@ vim.opt.ignorecase = true
 vim.opt.gdefault = true
 vim.opt.inccommand = 'split'
 vim.opt.selection = 'exclusive'
-vim.opt.scrolloff = 4
 
 vim.opt.completeopt = {
   'menuone',

@@ -5,6 +5,7 @@ return {
     lazy = false,
     priority = 1000,
     opts = {
+      animate = { enabled = true },
       bigfile = { enabled = true },
       dashboard = {
         enabled = true,
@@ -24,13 +25,30 @@ return {
             height = 8,
             padding = 2,
             indent = 0,
-            cmd = 'hub --no-pager diff --stat -B -M -C'
+            cmd = 'git --no-pager diff --stat -B -M -C'
           },
           { section = 'startup' }
         }
       },
+      indent = {
+        enabled = true,
+        chunk = {
+          enabled = true,
+          char = {
+            corner_top = '╭',
+            corner_bottom = '╰',
+            arrow = '▶'
+            -- arrow = '─'
+          }
+        },
+        indent = { enabled = false },
+        scope = { enabled = true }
+      },
+      input = { enabled = true },
       notifier = { enabled = true },
       quickfile = { enabled = true },
+      scope = { enabled = true },
+      scroll = { enabled = true },
       statuscolumn = {
         enabled = true,
         folds = {
@@ -52,6 +70,8 @@ return {
       { ',sr', function() Snacks.rename.rename_file() end, desc = 'Snacks: rename file' },
       { ',ss', function() Snacks.scratch() end, desc = 'Toggle Scratch Buffer' },
       { ',sS', function() Snacks.scratch.select() end, desc = 'Select Scratch Buffer' },
+      { ',sz', function() Snacks.zen() end, desc = 'Toggle Zen Mode' },
+      { ',sZ', function() Snacks.zen.zoom() end, desc = 'Toggle Zoom' },
       { '<Leader>L', function() Snacks.lazygit() end, desc = 'Lazygit' },
       { '<Leader>gf', function() Snacks.lazygit.log_file() end, desc = 'Lazygit Current File History' },
       { '<Leader>gl', function() Snacks.lazygit.log() end, desc = 'Lazygit Log (cwd)' },
@@ -76,6 +96,8 @@ return {
           Snacks.toggle.option('wrap', { name = 'wrap' }):map('yow')
           Snacks.toggle.option('number', { name = 'absolute number' }):map('yol')
           Snacks.toggle.option('relativenumber', { name = 'relative number' }):map('yor')
+          Snacks.toggle.indent({ name = 'indent' }):map(',ti')
+          Snacks.toggle.scroll({ name = 'scroll' }):map(',ts')
         end
       })
     end

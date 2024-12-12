@@ -60,25 +60,6 @@ return {
     }
   },
   {
-    'shellRaining/hlchunk.nvim',
-    event = 'VeryLazy',
-    keys = {
-      { ',tie', vim.cmd.EnableHLIndent, desc = 'Enable indent highlight' },
-      { ',tid', vim.cmd.DisableHLIndent, desc = 'Disable indent highlight' }
-    },
-    opts = {
-      exclude_filetypes = {
-        mail = true
-      },
-      chunk = {
-        enable = true
-      },
-      indent = {
-        enable = true
-      }
-    }
-  },
-  {
     'OXY2DEV/foldtext.nvim',
     lazy = false,
     opts = {
