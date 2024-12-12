@@ -8,7 +8,8 @@ return {
     }
   },
   {
-    'kylechui/nvim-surround',
+    'echasnovski/mini.surround',
+    version = false,
     event = 'VeryLazy',
     opts = {}
   },
@@ -53,11 +54,6 @@ return {
     end
   },
   {
-    'johmsalas/text-case.nvim',
-    event = 'VeryLazy',
-    opts = {}
-  },
-  {
     'jiaoshijie/undotree',
     keys = {
       { ',tu', function() require('undotree').toggle() end, noremap = true, silent = true, desc = 'Undotree' }
@@ -69,7 +65,9 @@ return {
     }
   },
   {
-    'kg8m/vim-simple-align',
-    cmd = 'SimpleAlign'
+    'echasnovski/mini.align',
+    version = false,
+    event = 'VeryLazy',
+    opts = {}
   }
 }
