@@ -8,7 +8,7 @@ vim.keymap.set('n', '<Leader>P', function() Prettify() end, { desc = 'Apply visu
 vim.keymap.set('n', ',cd', [[<Cmd>color default | set termguicolors<CR>]], { desc = 'Apply default colorscheme' })
 vim.keymap.set('n', ',cv', [[<Cmd>color vim | set notermguicolors<CR>]], { desc = 'Apply vim colorscheme' })
 vim.keymap.set('n', '<F10>', function() ToggleDetails() end, { desc = 'Toggle decorations' })
-vim.keymap.set('n', 'yoz', function()
+vim.keymap.set('n', 'yof', function()
   local enabled = vim.api.nvim_get_option_value('foldenable', {})
   if enabled == false then
     vim.opt.foldenable = true
