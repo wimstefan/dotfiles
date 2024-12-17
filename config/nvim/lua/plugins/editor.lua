@@ -94,9 +94,12 @@ return {
           commits = {
             winopts = right_column
           },
-          status = {
+          blame = {
             winopts = right_column
           },
+          status = {
+            winopts = right_column
+          }
         },
         grep = {
           cmd = 'ugrep -RIjnkzs --hidden --ignore-files --exclude-dir=".git"',
