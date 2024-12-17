@@ -22,7 +22,7 @@ return {
           height = 8,
           padding = 2,
           indent = 0,
-          cmd = 'git --no-pager diff --stat -B -M -C'
+          cmd = 'git --no-pager diff --stat --stat-graph-width=30 -B -M -C'
         },
         { section = 'startup' }
       }
