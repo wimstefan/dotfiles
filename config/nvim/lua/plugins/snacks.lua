@@ -47,7 +47,7 @@ return {
     notifier = {
       enabled = true,
       style = 'fancy',
-      top_down = false
+      top_down = true
     },
     quickfile = { enabled = true },
     scope = { enabled = true },
