@@ -15,7 +15,9 @@ return {
       { '<Leader>k', function() require('fzf-lua').man_pages() end, desc = 'Fzf: man' },
       { '<Leader>t', function() require('fzf-lua').tabs({ formatter = 'path.filename_first' }) end, desc = 'Fzf: tabs' },
       { '<Leader>?', function() require('fzf-lua').lgrep_curbuf() end, desc = 'Fzf: grep current file' },
-      { '<Leader>/', function() require('fzf-lua').live_grep_native({ formatter = 'path.filename_first' }) end, desc = 'Fzf: grep all files' },
+      { '<Leader>??', function() require('fzf-lua').lgrep_curbuf({ resume = true }) end, desc = 'Fzf: grep current file' },
+      { '<Leader>/', function() require('fzf-lua').live_grep_native() end, desc = 'Fzf: grep all files' },
+      { '<Leader>//', function() require('fzf-lua').live_grep_native({ resume = true }) end, desc = 'Fzf: grep all files' },
       { '<Leader>fgb', function() require('fzf-lua').git_bcommits() end, desc = 'Fzf: git buffer commits' },
       { '<Leader>fgc', function() require('fzf-lua').git_commits() end, desc = 'Fzf: git commits' },
       { '<Leader>fgf', function() require('fzf-lua').git_files({ formatter = 'path.filename_first' }) end, desc = 'Fzf: git files' },
@@ -103,6 +105,9 @@ return {
         },
         grep = {
           cmd = 'ugrep -RIjnkzs --hidden --ignore-files --exclude-dir=".git"',
+          winopts = right_column
+        },
+        grep_curbuf = {
           winopts = right_column
         },
         highlights = {
