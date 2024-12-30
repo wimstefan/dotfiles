@@ -41,21 +41,21 @@ return {
       -- LSP config
       vim.api.nvim_create_autocmd('LspAttach', {
         group = vim.api.nvim_create_augroup('UserLspConfig', {}),
-        callback = function(args)
+        callback = function(event)
           local unpack = unpack or table.unpack
-          local client = vim.lsp.get_client_by_id(args.data.client_id)
+          local client = vim.lsp.get_client_by_id(event.data.client_id)
           local lsp_messages = ''
           local lsp_msg_sep = ' ∷ '
           lsp_messages = lsp_msg_sep .. 'LSP attached' .. lsp_msg_sep
           -- Enable completion triggered by <c-x><c-o>
-          if vim.bo[args.buf].filetype == 'lua' then
-            vim.bo[args.buf].omnifunc = 'v:lua.vim.lua_omnifunc'
+          if vim.bo[event.buf].filetype == 'lua' then
+            vim.bo[event.buf].omnifunc = 'v:lua.vim.lua_omnifunc'
           else
-            vim.bo[args.buf].omnifunc = 'v:lua.vim.lsp.omnifunc'
+            vim.bo[event.buf].omnifunc = 'v:lua.vim.lsp.omnifunc'
           end
 
           -- Buffer local mappings.
-          local opts = { buffer = args.buf }
+          local opts = { buffer = event.buf }
           vim.keymap.del('n', 'K', opts)
           vim.keymap.set('n', ',lI', vim.cmd.LspInfo,
             { desc = 'LSP: info' }, opts)
@@ -75,7 +75,7 @@ return {
             { desc = 'LSP: rename' }, opts)
           vim.keymap.set('n', ',lw', function() Dump(vim.lsp.buf.list_workspace_folders()) end,
             { desc = 'LSP: list workspace folders' }, opts)
-          if client:supports_method('textDocument/codeAction', args.buf) then
+          if client:supports_method('textDocument/codeAction', event.buf) then
             vim.keymap.set('n', ',lca',
               function()
                 require('fzf-lua').lsp_code_actions({
@@ -86,8 +86,8 @@ return {
           else
             lsp_messages = lsp_messages .. 'no codeAction' .. lsp_msg_sep
           end
-          if client:supports_method('textDocument/completion', args.buf) then
-            vim.lsp.completion.enable(true, client.id, args.buf, { autotrigger = true })
+          if client:supports_method('textDocument/completion', event.buf) then
+            vim.lsp.completion.enable(true, client.id, event.buf, { autotrigger = true })
             vim.keymap.set({ 'i', 's' }, '<C-y>', function() return vim.fn.pumvisible() and '<C-y>' or '<CR>' end,
               { expr = true, desc = 'Completion: accept' }, opts)
             vim.keymap.set({ 'i', 's' }, '<C-e>', function() return vim.fn.pumvisible() and '<C-e>' or '/' end,
@@ -129,13 +129,13 @@ return {
           else
             lsp_messages = lsp_messages .. 'no completion' .. lsp_msg_sep
           end
-          if client:supports_method('textDocument/foldingRange', args.buf) then
+          if client:supports_method('textDocument/foldingRange', event.buf) then
             vim.wo.foldexpr = 'v:lua.vim.lsp.foldexpr()'
           else
             lsp_messages = lsp_messages .. 'no folding' .. lsp_msg_sep
           end
-          if client:supports_method('textDocument/formatting', args.buf) then
-            local fmt_opts = vim.bo[args.buf].ft == 'lua'
+          if client:supports_method('textDocument/formatting', event.buf) then
+            local fmt_opts = vim.bo[event.buf].ft == 'lua'
               and 'async=true,bufnr=0,name="lua_ls"'
               or 'async=true,bufnr=0'
             vim.keymap.set('n', ',lf', function() vim.lsp.buf.format(fmt_opts) end,
@@ -143,7 +143,7 @@ return {
           else
             lsp_messages = lsp_messages .. 'no format' .. lsp_msg_sep
           end
-          if client:supports_method('textDocument/rangeFormatting', args.buf) then
+          if client:supports_method('textDocument/rangeFormatting', event.buf) then
             vim.keymap.set('v', ',lf',
               function()
                 local _, csrow, cscol, cerow, cecol
@@ -157,7 +157,7 @@ return {
                 local fmt_opts = {
                   async   = true,
                   bufnr   = 0,
-                  name    = vim.bo[args.buf].ft == 'lua' and 'lua_ls' or nil,
+                  name    = vim.bo[event.buf].ft == 'lua' and 'lua_ls' or nil,
                   start   = { csrow, cscol },
                   ['end'] = { cerow, cecol },
                 }
@@ -167,28 +167,28 @@ return {
           else
             lsp_messages = lsp_messages .. 'no rangeFormat' .. lsp_msg_sep
           end
-          if client:supports_method('textDocument/hover', args.buf) then
+          if client:supports_method('textDocument/hover', event.buf) then
             vim.keymap.set('n', ',lh', function() vim.lsp.buf.hover() end,
               { desc = 'LSP: hover' }, opts)
           else
             vim.keymap.set('n', ',lh', [[<Nop>]], opts)
             lsp_messages = lsp_messages .. 'no hovering' .. lsp_msg_sep
           end
-          if client:supports_method('textDocument/implementation', args.buf) then
+          if client:supports_method('textDocument/implementation', event.buf) then
             vim.keymap.set('n', ',li', function() require('fzf-lua').lsp_implementations() end,
               { desc = 'LSP: implementations' }, opts)
           else
             vim.keymap.set('n', ',li', [[<Nop>]], opts)
             lsp_messages = lsp_messages .. 'no implementation' .. lsp_msg_sep
           end
-          if client:supports_method('textDocument/inlayHint', args.buf) then
+          if client:supports_method('textDocument/inlayHint', event.buf) then
             vim.keymap.set('n', ',lH', function() vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled()) end,
               { desc = 'LSP: hints' }, opts)
           else
             vim.keymap.set('n', ',lH', [[<Nop>]], opts)
             lsp_messages = lsp_messages .. 'no hints' .. lsp_msg_sep
           end
-          if client:supports_method('textDocument/signatureHelp', args.buf) then
+          if client:supports_method('textDocument/signatureHelp', event.buf) then
             vim.keymap.set({ 'i', 's' }, '<C-s>',
               function() vim.lsp.buf.signature_help({ border = require('config.ui').borders }) end,
               { desc = 'LSP: signature help' }, opts)
