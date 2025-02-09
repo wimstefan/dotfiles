@@ -63,15 +63,15 @@ return {
             { desc = 'LSP: info' }, opts)
           vim.keymap.set('n', ',lrs', vim.cmd.LspRestart,
             { desc = 'LSP: restart' }, opts)
-          vim.keymap.set('n', ',lF', function() require('fzf-lua').lsp_finder() end,
-            { desc = 'LSP: finder' }, opts)
-          vim.keymap.set('n', ',ly', require('fzf-lua').lsp_document_symbols,
+          vim.keymap.set('n', ',lr', function() Snacks.picker.lsp_references() end,
+            { desc = 'LSP: references' }, opts)
+          vim.keymap.set('n', ',ly', function() Snacks.picker.lsp_symbols() end,
             { desc = 'LSP: document symbols' }, opts)
-          vim.keymap.set('n', ',lY', require('fzf-lua').lsp_live_workspace_symbols,
+          vim.keymap.set('n', ',lY', function() Snacks.picker.lsp_workspace_symbols() end,
             { desc = 'LSP: workspace symbols' }, opts)
-          vim.keymap.set('n', ',ld', require('fzf-lua').lsp_document_diagnostics,
+          vim.keymap.set('n', ',ld', function() Snacks.picker.diagnostics_buffer() end,
             { desc = 'Diagnostic: document diagnostics' }, opts)
-          vim.keymap.set('n', ',lD', require('fzf-lua').lsp_workspace_diagnostics,
+          vim.keymap.set('n', ',lD', function() Snacks.picker.diagnostics() end,
             { desc = 'Diagnostic: workspace diagnostics' }, opts)
           vim.keymap.set('n', ',lrn', function() vim.lsp.buf.rename() end,
             { desc = 'LSP: rename' }, opts)
@@ -80,16 +80,16 @@ return {
           if client:supports_method('textDocument/codeAction', event.buf) then
             vim.keymap.set('n', ',lca',
               function()
-                require('fzf-lua').lsp_code_actions({
-                  winopts = { relative = 'cursor', height = 0.4, width = 0.8, col = 0.9, row = 1.01 }
-                })
+                vim.lsp.buf.code_action()
               end,
               { desc = 'LSP: code actions' }, opts)
           else
             lsp_messages = lsp_messages .. 'no codeAction' .. lsp_msg_sep
           end
           if client:supports_method('textDocument/foldingRange', event.buf) then
-            vim.wo.foldexpr = 'v:lua.vim.lsp.foldexpr()'
+            local win = vim.api.nvim_get_current_win()
+            vim.wo[win][0].foldmethod = 'expr'
+            vim.wo[win][0].foldexpr = 'v:lua.vim.lsp.foldexpr()'
           else
             lsp_messages = lsp_messages .. 'no folding' .. lsp_msg_sep
           end
@@ -134,7 +134,7 @@ return {
             lsp_messages = lsp_messages .. 'no hovering' .. lsp_msg_sep
           end
           if client:supports_method('textDocument/implementation', event.buf) then
-            vim.keymap.set('n', ',li', function() require('fzf-lua').lsp_implementations() end,
+            vim.keymap.set('n', ',li', function() Snacks.picker.lsp_implementations() end,
               { desc = 'LSP: implementations' }, opts)
           else
             vim.keymap.set('n', ',li', [[<Nop>]], opts)
@@ -333,12 +333,15 @@ return {
       local r = require('symbols.recipes')
       require('symbols').setup(r.DefaultFilters, r.AsciiSymbols, {
         sidebar = {
-          open_direction = 'try-right'
+          open_direction = 'try-right',
+          preview = {
+            show_always = true
+          }
         }
       })
     end,
     keys = {
-      { '<Leader>s', vim.cmd.SymbolsToggle, desc = 'Symbols: toggle' },
+      { '<Leader>Y', vim.cmd.SymbolsToggle, desc = 'Symbols: toggle' },
     },
   }
 }

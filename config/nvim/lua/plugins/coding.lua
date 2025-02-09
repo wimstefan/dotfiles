@@ -66,16 +66,5 @@ return {
       vim.api.nvim_set_hl(0, 'MultiCursorDisabledCursor', { link = 'Visual' })
       vim.api.nvim_set_hl(0, 'MultiCursorDisabledVisual', { link = 'Visual' })
     end
-  },
-  {
-    'jiaoshijie/undotree',
-    keys = {
-      { ',tu', function() require('undotree').toggle() end, noremap = true, silent = true, desc = 'Undotree' }
-    },
-    opts = {
-      window = {
-        winblend = 0
-      }
-    }
   }
 }

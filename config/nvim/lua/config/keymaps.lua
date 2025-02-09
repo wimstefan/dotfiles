@@ -3,7 +3,6 @@ vim.keymap.set('', 'cd', [[<Cmd>cd %:h | pwd<CR>]])
 vim.keymap.set('n', '<Leader>G', [[:grep<Space>]])
 vim.keymap.set('n', '<Leader>i', [[<Cmd>Inspect!<CR>]])
 vim.keymap.set('n', '<Leader>K', function() ShowMan() end, { desc = 'Search man pages for current word' })
-vim.keymap.set('n', '<Leader>M', [[<Cmd>messages<CR>]])
 vim.keymap.set('n', '<Leader>P', function() Prettify() end, { desc = 'Apply visual tweaks' })
 vim.keymap.set('n', ',cd', [[<Cmd>color default | set termguicolors<CR>]], { desc = 'Apply default colorscheme' })
 vim.keymap.set('n', ',cv', [[<Cmd>color vim | set notermguicolors<CR>]], { desc = 'Apply vim colorscheme' })
@@ -37,7 +36,7 @@ vim.keymap.set('n', '<Leader>wqa', [[<Cmd>wqa!<CR>]])
 vim.keymap.set('n', 'cn', '*``cgn')
 vim.keymap.set('n', 'cN', '*``cgN')
 vim.keymap.set('x', 'gci', ':normal gcc<CR><Cmd>nohls<CR>', { desc = 'Invert comments' })
-vim.keymap.set('n', 'z=', function() require('fzf-lua').spell_suggest() end, { desc = 'Spell suggestion' })
+vim.keymap.set('n', 'z=', function() Snacks.picker.spelling() end, { desc = 'Spell suggestion' })
 vim.keymap.set({ 'i', 's' }, '<C-f>', '<C-x><C-f>', { desc = 'Completion: file completions' })
 vim.keymap.set({ 'i', 's' }, '<C-u>', '<C-x><C-n>', { desc = 'Completion: buffer completions' })
 -- }}}2
@@ -65,12 +64,12 @@ vim.keymap.set('n', '[\\', vim.cmd.colder, { desc = 'Quickfix: go to older error
 vim.keymap.set('n', ']\\', vim.cmd.cnewer, { desc = 'Quickfix: go to newer error list' })
 -- }}}2
 -- {{{2 signatures
-vim.keymap.set('n', '<Leader>sa',
+vim.keymap.set('n', ',sa',
   [[1G:s#\(Stefan Wimmer\) <.*>#\1 <stefan@tangoartisan.com>#<CR>G?--<CR>jVGd :r ~/.mutt/short-signature-artisan<CR>/^To:<CR>]])
-vim.keymap.set('n', '<Leader>sg',
+vim.keymap.set('n', ',sg',
   [[1G:s#\(Stefan Wimmer\) <.*>#\1 <wimstefan@gmail.com>#<CR>G?--<CR>jVGd :r ~/.mutt/short-signature-gmail<CR>/^To:<CR>]])
-vim.keymap.set('n', '<Leader>st', [[G?--<CR>jVGd :r ~/.mutt/short-signature-tango<CR>]])
-vim.keymap.set('n', '<Leader>ss', [[G?--<CR>jVGd :r ~/.mutt/short-signature<CR>]])
-vim.keymap.set('n', '<Leader>sl', [[G?--<CR>jVGd :r ~/.mutt/signature<CR>]])
+vim.keymap.set('n', ',st', [[G?--<CR>jVGd :r ~/.mutt/short-signature-tango<CR>]])
+vim.keymap.set('n', ',ss', [[G?--<CR>jVGd :r ~/.mutt/short-signature<CR>]])
+vim.keymap.set('n', ',sl', [[G?--<CR>jVGd :r ~/.mutt/signature<CR>]])
 -- }}}2
 -- vim: foldmethod=marker foldlevel=1
