@@ -46,16 +46,5 @@ return {
   {
     'MTDL9/vim-log-highlighting',
     ft = 'log'
-  },
-  {
-    'chrisbra/unicode.vim',
-    cmd = {
-      'UnicodeName',
-      'UnicodeTable'
-    },
-    keys = {
-      { '<Leader>ut', vim.cmd.UnicodeTable, desc = 'Open unicode table' },
-      { 'gu', vim.cmd.UnicodeName, desc = 'Lookup Unicode character' }
-    }
   }
 }
