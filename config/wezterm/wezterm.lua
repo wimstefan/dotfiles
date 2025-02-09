@@ -537,6 +537,7 @@ config.adjust_window_size_when_changing_font_size = false
 config.window_background_opacity = opacity
 config.initial_cols = set_geometry('cols')
 config.initial_rows = set_geometry('rows')
+config.webgpu_power_preference = 'HighPerformance'
 config.enable_kitty_graphics = true
 config.selection_word_boundary = ' \t\n{}"\'`,;@│*'
 config.clean_exit_codes = { 127, 130, 255 }
