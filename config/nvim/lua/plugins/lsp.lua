@@ -15,6 +15,10 @@ return {
       vim.keymap.set('n', ',df', vim.diagnostic.open_float, { desc = 'Diagnostic: open floating window' })
       vim.keymap.set('n', ',dl', vim.diagnostic.setloclist, { desc = 'Diagnostic: populate location list' })
       vim.keymap.set('n', ',dq', vim.diagnostic.setqflist, { desc = 'Diagnostic: populate quickfix' })
+      vim.keymap.set('n', ',dL', function()
+        local new_config = not vim.diagnostic.config().virtual_lines
+        vim.diagnostic.config({ virtual_lines = new_config })
+      end, { desc = 'Diagnostic: toggle virtual_lines' })
 
       vim.diagnostic.config({
         float = {
@@ -33,9 +37,7 @@ return {
             [5] = require('config.ui').icons.diagnostics[5]
           }
         },
-        virtual_text = {
-          source = 'always'
-        }
+        virtual_lines = true
       })
 
       -- LSP config
