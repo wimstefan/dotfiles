@@ -1179,6 +1179,7 @@ awful.spawn.with_shell(
   'while pgrep -x picom >/dev/null; do sleep 1; done;' ..
   '/usr/local/src/Tools/x11/picom-yshui.git/build/src/picom --config $HOME/.config/picom/awesomewm.conf &;'
 )
+awful.spawn.with_shell('echo "Starting PipeWire" && gentoo-pipewire-launcher restart &')
 -- 1}}}
 
 -- {{{1 Memory management
