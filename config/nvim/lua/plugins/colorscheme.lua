@@ -39,9 +39,7 @@ return {
     event = { 'ColorScheme', 'UiEnter' },
     opts = {
       italic_comments = true,
-      theme = {
-        variant = 'auto'
-      }
+      variant = 'auto'
     }
   }
 }
