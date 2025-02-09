@@ -63,31 +63,36 @@ return {
     }
   },
   {
-    'OXY2DEV/helpview.nvim',
-    lazy = false,
-    dependencies = {
-      'nvim-treesitter/nvim-treesitter'
-    }
-  },
-  {
     'OXY2DEV/markview.nvim',
     ft = 'markdown',
-    dependencies = {
-      'nvim-treesitter/nvim-treesitter',
-      'echasnovski/mini.icons'
-    },
     keys = {
       { ',tm', function() require('markview').commands.toggle() end, desc = 'Markview: toggle' },
-      { ',tms', function() require('markview').commands.splitEnable() end, desc = 'Markview: split toggle' }
     },
     opts = function()
       require('markview').setup({
-        modes = { 'n', 'I' },
-        hybrid_modes = { 'i' },
-        list_items = {
-          marker_star = {
-            text = ' ',
-            hl = 'MarkviewListItemStar'
+        preview = {
+          modes = { 'n', 'I' },
+          hybrid_modes = { 'i' }
+        },
+        markdown = {
+          list_items = {
+            indent_size = 2,
+            shift_width = 2,
+            marker_minus = {
+              add_padding = false,
+              text = '',
+              hl = 'MarkviewListItemMinus'
+            },
+            marker_plus = {
+              add_padding = false,
+              text = '',
+              hl = 'MarkviewListItemPlus'
+            },
+            marker_star = {
+              add_padding = true,
+              text = '',
+              hl = 'MarkviewListItemStar'
+            }
           }
         }
       })
@@ -115,4 +120,3 @@ return {
     end
   }
 }
-
