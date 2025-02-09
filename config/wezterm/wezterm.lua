@@ -17,7 +17,7 @@ else
 end
 
 local my_font
-if hostname == 'tj' then
+if hostname == 'tj-old' then
   my_font = 'monaspace'
 else
   my_font = 'monaspace'
@@ -401,31 +401,57 @@ local function font_size(name)
     elseif string.match(name, 'triple') then
       size = 10.5
     end
+  elseif hostname == 'tj-old' then
+    if string.match(name, 'custom') then
+      size = 10.0
+    elseif string.match(name, 'fantasque') then
+      size = 12.0
+    elseif string.match(name, 'hasklig') then
+      size = 11.0
+    elseif string.match(name, 'iosevka') then
+      size = 12.0
+    elseif string.match(name, 'jet') then
+      size = 11.0
+    elseif string.match(name, 'monaspace') then
+      size = 10.5
+    elseif string.match(name, 'monolisa') then
+      size = 10.0
+    elseif string.match(name, 'operator') then
+      size = 12.0
+    elseif string.match(name, 'plex') then
+      size = 11.0
+    elseif string.match(name, 'pt') then
+      size = 11.0
+    elseif string.match(name, 'recursive') then
+      size = 11.0
+    elseif string.match(name, 'triple') then
+      size = 11.0
+    end
   elseif hostname == 'tj' then
     if string.match(name, 'custom') then
-      size = 9.0
+      size = 11.0
     elseif string.match(name, 'fantasque') then
-      size = 11.4
+      size = 12.5
     elseif string.match(name, 'hasklig') then
-      size = 9.5
+      size = 11.0
     elseif string.match(name, 'iosevka') then
-      size = 10.0
+      size = 11.0
     elseif string.match(name, 'jet') then
-      size = 9.5
+      size = 11.0
     elseif string.match(name, 'monaspace') then
-      size = 9.5
+      size = 10.3
     elseif string.match(name, 'monolisa') then
-      size = 9.0
+      size = 11.0
     elseif string.match(name, 'operator') then
-      size = 9.8
+      size = 11.0
     elseif string.match(name, 'plex') then
-      size = 10.4
+      size = 11.0
     elseif string.match(name, 'pt') then
-      size = 9.5
+      size = 11.5
     elseif string.match(name, 'recursive') then
-      size = 9.2
+      size = 11.0
     elseif string.match(name, 'triple') then
-      size = 10.0
+      size = 12.0
     end
   end
   return size
@@ -488,6 +514,16 @@ local function set_geometry(x)
         value = 56
       elseif (my_font == 'plex') then
         value = 53
+      end
+    elseif hostname == 'tj-old' then
+      if (my_font == 'pt' or my_font == 'recursive') then
+        value = 51
+      elseif (my_font == 'hasklig' or my_font == 'iosevka' or my_font == 'monaspace' or my_font == 'monolisa' or my_font == 'operator' or my_font == 'plex' or my_font == 'triple') then
+        value = 50
+      elseif (my_font == 'fantasque' or my_font == 'jet') then
+        value = 44
+      elseif (my_font == 'custom') then
+        value = 41
       end
     elseif hostname == 'tj' then
       if (my_font == 'pt' or my_font == 'recursive') then

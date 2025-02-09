@@ -638,8 +638,6 @@ if [[ $USER != root ]]; then
         echo "Syncing git config on $host ..."
         rsync -az            /home/swimmer/.gitconfig $host:
         rsync -az            /home/swimmer/.config/lazygit/config.yml $host:.config/lazygit/
-        echo "Syncing yazi config on $host ..."
-        rsync -az            /home/swimmer/.config/yazi/ $host:.config/yazi/
         echo "Syncing zellij config on $host ..."
         rsync -az            /home/swimmer/.config/zellij/config.kdl $host:.config/zellij/config.kdl
         rsync -az            /home/swimmer/.config/zellij/layouts/swap.kdl $host:.config/zellij/layouts/swap.kdl
@@ -658,6 +656,7 @@ if [[ $USER != root ]]; then
         rsync -az   --delete /home/swimmer/.config/vifm/vifmrc $host:.config/vifm/vifmrc
         rsync -az   --delete /home/swimmer/.config/vifm/colors/ $host:.config/vifm/colors/
         rsync -az   --delete /home/swimmer/.config/vifm/plugins/ $host:.config/vifm/plugins/
+        rsync -az            /home/swimmer/.config/yazi/ $host:.config/yazi/
         echo "Syncing cli browsers on $host ..."
         rsync -az            /home/swimmer/.w3m/config $host:.w3m/config
         rsync -az            /home/swimmer/.config/elinks/elinks.conf $host:.config/elinks/elinks.conf
@@ -697,6 +696,64 @@ if [[ $USER != root ]]; then
         rsync -az            /usr/local/bin/bg-toggle $host:/usr/local/bin/
       }
 
+      function sync-cli-tj-new() {
+      # zsh, vim, mc
+        local host=$1
+        echo "Syncing zsh on $host ..."
+        rsync -az   --delete /home/swimmer/.config/fzf/fzf.*sh $host:.config/fzf/
+        rsync -az   --delete /home/swimmer/.config/zsh/external/ $host:.config/zsh/external/
+        rsync -az            /home/swimmer/.config/zsh/zsh_aliases $host:.config/zsh/zsh_aliases
+        rsync -az            /home/swimmer/.config/zsh/.zshrc $host:.config/zsh/.zshrc
+        echo "Syncing git config on $host ..."
+        rsync -az            /home/swimmer/.gitconfig $host:
+        rsync -az            /home/swimmer/.config/lazygit/config.yml $host:.config/lazygit/
+        echo "Syncing zellij config on $host ..."
+        rsync -az            /home/swimmer/.config/zellij/config.kdl $host:.config/zellij/config.kdl
+        rsync -az            /home/swimmer/.config/zellij/layouts/swap.kdl $host:.config/zellij/layouts/swap.kdl
+        rsync -azkL --delete /home/swimmer/.config/zellij/plugins/ $host:.config/zellij/plugins/
+        rsync -azkL --delete /home/swimmer/.config/zellij/themes/ $host:.config/zellij/themes/
+        echo "Syncing vim & neovim on $host ..."
+        rsync -az            /home/swimmer/.vimrc $host:
+        rsync -azk  --delete --exclude 'pack' /home/swimmer/.vim/ $host:.vim/
+        rsync -azK  --delete --exclude 'spell' /home/swimmer/.config/nvim/ $host:.config/nvim/
+        echo "Syncing bat on $host ..."
+        rsync -az            /home/swimmer/.config/bat/ $host:.config/bat/
+        echo "Syncing file explorers on $host ..."
+        rsync -az            /home/swimmer/.config/yazi/ $host:.config/yazi/
+        echo "Syncing cli browsers on $host ..."
+        rsync -az            /home/swimmer/.w3m/config $host:.w3m/config
+        rsync -az            /home/swimmer/.config/elinks/elinks.conf $host:.config/elinks/elinks.conf
+        echo "Syncing moc themes on $host ..."
+        rsync -azk  --delete /home/swimmer/.moc/themes/ $host:.moc/themes/
+      }
+
+      function sync-x-tj-new() {
+      # terminal & X settings
+        local host=$1
+        echo "Syncing terminal & X settings on $host ..."
+        rsync -az            /home/swimmer/.Xresources $host:
+        rsync -az   --delete --exclude '.thumbs' --exclude '.xcf' /home/swimmer/system/wallpapers/ $host\:system/wallpapers/
+        rsync -azK  --delete /usr/local/share/cursors/ $host:/usr/local/share/cursors/
+        rsync -azkL --delete /usr/local/share/icons/ $host:/usr/local/share/icons/
+        rsync -azkL --delete /usr/local/share/themes/ $host:/usr/local/share/themes/
+        rsync -azkL --delete /usr/share/fonts/owned/ $host:/usr/share/fonts/owned/
+        rsync -az   --delete /home/swimmer/.config/libreoffice/4/user/template/ $host:.config/libreoffice/4/user/template/
+        rsync -az            /home/swimmer/.config/gtk-3.0/ $host:.config/gtk-3.0/
+        rsync -az            /home/swimmer/.config/fontconfig/fonts.conf $host:.config/fontconfig/
+        rsync -azkL --delete /home/swimmer/.config/colours/ $host:.config/colours/
+        rsync -azKl --delete /home/swimmer/.config/Kvantum/ $host:.config/Kvantum/
+        rsync -az   --delete /home/swimmer/.config/dunst/ $host:.config/dunst/
+        rsync -az   --delete /home/swimmer/.config/awesome/ $host:.config/awesome/
+        rsync -azKl --delete /home/swimmer/.config/kitty/ $host:.config/kitty/
+        rsync -az   --delete /home/swimmer/.config/picom/ $host:.config/picom/
+        rsync -azKl --delete /home/swimmer/.config/rofi/ $host:.config/rofi/
+        rsync -azKl --delete /home/swimmer/.config/wezterm/ $host:.config/wezterm/
+        rsync -azL  --delete /home/swimmer/.terminfo/w/ $host:.terminfo/w/
+        rsync -azL  --delete /usr/local/share/applications/wezterm.desktop $host:/usr/local/share/applications/
+        for j in strip-ansi-escapes sync-color-schemes wezterm{,-gui,-mux-server}; rsync -azL --delete /home/swimmer/.local/bin/$j $host:/usr/local/bin/
+        rsync -az            /usr/local/bin/bg-toggle $host:/usr/local/bin/
+      }
+
       function sync-misc() {
       # diverse
         local host=$1
@@ -714,7 +771,7 @@ if [[ $USER != root ]]; then
               echo "$i is down"
             fi
             ;;
-          (tj)
+          (tj-old)
             echo "<< $i >>"
             if ping -c1 $i > /dev/null; then
               sync-dotfiles $i
@@ -724,8 +781,18 @@ if [[ $USER != root ]]; then
               echo "$i is down"
             fi
             ;;
+          (tj)
+            echo "<< $i >>"
+            if ping -c1 $i > /dev/null; then
+              sync-dotfiles $i
+              sync-cli-tj-new $i
+              sync-x-tj-new $i
+            else
+              echo "$i is down"
+            fi
+            ;;
           (all)
-            for h in komala tj; do
+            for h in komala tj tj-old; do
               echo "<< $h >>"
               if ping -c1 $h > /dev/null; then
                 sync-dotfiles $h
@@ -751,8 +818,8 @@ if [[ $USER != root ]]; then
 
   fi
   # }}}4
-  # . tj # {{{4
-  if [[ $HOST == tj ]]; then
+  # . tj-old # {{{4
+  if [[ $HOST == tj-old ]]; then
     echo "Loading host specific settings for $HOST ..."
 
     # X related stuff
@@ -765,6 +832,17 @@ if [[ $USER != root ]]; then
     alias tj-ncmpcpp='ncmpcpp -p 6601 -c $HOME/.ncmpcpp/tj-config'
     alias prelisten-ncmpcpp='ncmpcpp -p 6602 -c $HOME/.ncmpcpp/prelisten-config'
     alias hdmi-mplayer='mplayer -ao alsa:device=hdmi'
+    alias hdmi-vlc='vlc --alsa-audio-device=hdmi'
+    alias exif='exiftool -@ $HOME/system/tags $@'
+  fi
+  # }}}4
+  # . tj# {{{4
+  if [[ $HOST == tj ]]; then
+    echo "Loading host specific settings for $HOST ..."
+
+    # Key management
+    eval `keychain --eval --agents gpg,ssh 451CEE7036BBF00C id_rsa`
+
     alias hdmi-vlc='vlc --alsa-audio-device=hdmi'
     alias exif='exiftool -@ $HOME/system/tags $@'
   fi

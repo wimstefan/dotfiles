@@ -8,6 +8,11 @@
   Xcursor.size: 36
   *font: xft:monospace:pixelsize=16.0
   *faceName: xft:monospace:pixelsize=16.0
+#elif SRVR_tj-old
+  Xft.dpi: 120
+  Xcursor.size: 36
+  *font: xft:monospace:pixelsize=18.0
+  *faceName: xft:monospace:pixelsize=18.0
 #elif SRVR_tj
   Xft.dpi: 120
   Xcursor.size: 36

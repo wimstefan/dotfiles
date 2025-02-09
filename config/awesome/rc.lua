@@ -52,9 +52,14 @@ local hostname = io.lines('/proc/sys/kernel/hostname')()
 if hostname == 'swimmer' then
   TYPE = 'desktop'
   TEMPFILE = '/sys/devices/virtual/thermal/thermal_zone0/temp'
-elseif hostname == 'tj' then
+elseif hostname == 'tj-old' then
+  BAT = 'BAT0'
   TYPE = 'laptop'
   TEMPFILE = '/sys/devices/pci0000:00/0000:00:18.3/hwmon/hwmon3/temp1_input'
+elseif hostname == 'tj' then
+  BAT = 'BAT1'
+  TYPE = 'laptop'
+  TEMPFILE = '/sys/devices/pci0000:00/0000:00:08.1/0000:04:00.0/hwmon/hwmon3/temp1_input'
 end
 
 local terminal = os.getenv('TERMINAL')
@@ -248,6 +253,7 @@ end, tooltip_temp)
 -- {{{2 Power widget
 local symbol_power = wibox.widget.imagebox()
 local widget_power = lain.widget.bat({
+  battery = BAT,
   notify = 'on',
   settings = function()
     if (not bat_now.status) or bat_now.status == 'N/A' or type(bat_now.perc) ~= 'number' then
@@ -337,7 +343,11 @@ widget_wifi:buttons(gears.table.join(
     awful.spawn('wpa_gui')
   end)
 ))
-vicious.register(widget_wifi, vicious.widgets.wifiiw, '[${ssid}] ${rate}MB/s ${linp}%', 10, 'wlan0')
+if hostname == 'tj-old' then
+  vicious.register(widget_wifi, vicious.widgets.wifiiw, '[${ssid}] ${rate}MB/s ${linp}%', 10, 'wlan0')
+elseif hostname == 'tj' then
+  vicious.register(widget_wifi, vicious.widgets.wifiiw, '[${ssid}] ${rate}MB/s ${linp}%', 10, 'wlo1')
+end
 -- Wifi widget }}}
 -- {{{2 Textclock widget
 local mytextclock = wibox.widget.textclock('<span font="' ..
@@ -456,7 +466,7 @@ screen.connect_signal('request::desktop_decoration', function(s)
 
   ---@diagnostic disable-next-line: unused-local
   local update_tags = function(self, c3, index, objects)
-    if hostname == 'tj' then
+    if hostname == 'tj-old' then
       if (c3.selected) then
         beautiful.taglist_font = beautiful.taglist_font_focus
       elseif c3.urgent then
