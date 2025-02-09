@@ -215,7 +215,7 @@ local function font_set(name)
   elseif string.match(name, 'monolisa') then
     font = font_fallback({ family = 'MonoLisa', harfbuzz_features = { 'case', 'liga', 'dlig', 'onum' } })
   elseif string.match(name, 'monaspace') then
-    font = font_fallback({ family = 'Monaspace Argon', weight = 'Light', harfbuzz_features = { 'ss01', 'ss02', 'ss03', 'ss04', 'ss05', 'ss06', 'ss07', 'ss08', 'ss09', 'liga' } })
+    font = font_fallback({ family = 'Monaspace Argon', weight = 'Light', harfbuzz_features = { 'ss01', 'ss02', 'ss03', 'ss04', 'ss05', 'ss06', 'ss07', 'ss08', 'ss09', 'calt', 'liga' } })
   elseif string.match(name, 'operator') then
     font = font_fallback({ family = 'Liga Operator Mono', weight = 'Light', harfbuzz_features = { 'ss05' } })
   elseif string.match(name, 'plex') then
@@ -280,7 +280,7 @@ local function font_rules(name)
         font = font_fallback({
           family = 'Monaspace Radon',
           weight = 'Light',
-          harfbuzz_features = { 'ss01', 'ss02', 'ss03', 'ss04', 'ss05', 'ss06', 'ss07', 'ss08', 'ss09', 'liga' }
+          harfbuzz_features = { 'ss01', 'ss02', 'ss03', 'ss04', 'ss05', 'ss06', 'ss07', 'ss08', 'ss09', 'calt', 'liga' }
         })
       },
       {
@@ -289,7 +289,7 @@ local function font_rules(name)
         font = font_fallback({
           family = 'Monaspace Radon',
           weight = 'Medium',
-          harfbuzz_features = { 'ss01', 'ss02', 'ss03', 'ss04', 'ss05', 'ss06', 'ss07', 'ss08', 'ss09', 'liga' }
+          harfbuzz_features = { 'ss01', 'ss02', 'ss03', 'ss04', 'ss05', 'ss06', 'ss07', 'ss08', 'ss09', 'calt', 'liga' }
         })
       },
       {
@@ -298,7 +298,7 @@ local function font_rules(name)
         font = font_fallback({
           family = 'Monaspace Argon',
           weight = 'Medium',
-          harfbuzz_features = { 'ss01', 'ss02', 'ss03', 'ss04', 'ss05', 'ss06', 'ss07', 'ss08', 'ss09', 'liga' }
+          harfbuzz_features = { 'ss01', 'ss02', 'ss03', 'ss04', 'ss05', 'ss06', 'ss07', 'ss08', 'ss09', 'calt', 'liga' }
         })
       }
     }
