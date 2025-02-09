@@ -88,49 +88,6 @@ return {
           else
             lsp_messages = lsp_messages .. 'no codeAction' .. lsp_msg_sep
           end
-          if client:supports_method('textDocument/completion', event.buf) then
-            vim.lsp.completion.enable(true, client.id, event.buf, { autotrigger = true })
-            vim.keymap.set({ 'i', 's' }, '<C-y>', function() return vim.fn.pumvisible() and '<C-y>' or '<CR>' end,
-              { expr = true, desc = 'Completion: accept' }, opts)
-            vim.keymap.set({ 'i', 's' }, '<C-e>', function() return vim.fn.pumvisible() and '<C-e>' or '/' end,
-              { expr = true, desc = 'Completion: dismiss' }, opts)
-            vim.keymap.set({ 'i', 's' }, '<C-n>', function()
-              if vim.fn.pumvisible() then
-                vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes('<C-n>', true, false, true), 'n', true)
-              else
-                if next(vim.lsp.get_clients { bufnr = 0 }) then
-                  vim.lsp.completion.trigger()
-                else
-                  if vim.bo.omnifunc == '' then
-                    vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes('<C-x><C-n>', true, false, true), 'n', true)
-                  else
-                    vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes('<C-x><C-o>', true, false, true), 'n', true)
-                  end
-                end
-              end
-            end, { desc = 'Completion: next' }, opts)
-            vim.keymap.set({ 'i', 's' }, '<Tab>', function()
-              if vim.fn.pumvisible() then
-                vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes('<C-n>', true, false, true), 'n', true)
-              elseif vim.snippet.active { direction = 1 } then
-                vim.snippet.jump(1)
-              else
-                vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes('<Tab>', true, false, true), 'n', true)
-              end
-            end, { desc = 'Completion: next snippet or completion' }, opts)
-            vim.keymap.set({ 'i', 's' }, '<S-Tab>', function()
-              if vim.fn.pumvisible() then
-                vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes('<C-p>', true, false, true), 'n', true)
-              elseif vim.snippet.active { direction = -1 } then
-                vim.snippet.jump(-1)
-              else
-                vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes('<S-Tab>', true, false, true), 'n', true)
-              end
-            end, { desc = 'Completion: previous snippet or completion' }, opts)
-            vim.keymap.set('s', '<BS>', '<C-o>s', { desc = 'Completion: remove snippet placeholder' }, opts)
-          else
-            lsp_messages = lsp_messages .. 'no completion' .. lsp_msg_sep
-          end
           if client:supports_method('textDocument/foldingRange', event.buf) then
             vim.wo.foldexpr = 'v:lua.vim.lsp.foldexpr()'
           else
@@ -207,7 +164,7 @@ return {
         end
       })
 
-      local capabilities = vim.lsp.protocol.make_client_capabilities()
+      local capabilities = require('blink.cmp').get_lsp_capabilities()
       capabilities.textDocument.foldingRange = {
         dynamicRegistration = false,
         lineFoldingOnly = true
