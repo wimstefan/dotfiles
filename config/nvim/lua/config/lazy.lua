@@ -20,6 +20,11 @@ require('lazy').setup({
   git = {
     timeout = 24
   },
+  install = {
+    colorscheme = {
+      'default'
+    }
+  },
   ui = {
     border = require('config.ui').borders,
     icons = {
