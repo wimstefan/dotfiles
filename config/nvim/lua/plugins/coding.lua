@@ -8,6 +8,18 @@ return {
     }
   },
   {
+    'echasnovski/mini.ai',
+    version = false,
+    event = 'VeryLazy',
+    opts = {}
+  },
+  {
+    'echasnovski/mini.align',
+    version = false,
+    event = 'VeryLazy',
+    opts = {}
+  },
+  {
     'echasnovski/mini.surround',
     version = false,
     event = 'VeryLazy',
@@ -30,6 +42,8 @@ return {
 
       vim.keymap.set({ 'n', 'v' }, '<C-n>', function() mc.addCursor('*') end, { desc = 'Cursors: add a cursor and jump to the next word under cursor' })
       vim.keymap.set({ 'n', 'v' }, '<C-s>', function() mc.skipCursor('*') end, { desc = 'Cursors: jump to the next word under cursor but do not add a cursor' })
+      vim.keymap.set({ 'n', 'v' }, '<Leader>mA', mc.matchAllAddCursors, { desc = 'Cursors: add all matches in the document' })
+      vim.keymap.set({ 'n', 'v' }, '<C-q>', mc.toggleCursor, { desc = 'Cursors: toggle main cursor' })
 
       vim.keymap.set({ 'n', 'v' }, '<Leader>ma', mc.alignCursors, { desc = 'Cursors: align' })
 
@@ -63,11 +77,5 @@ return {
         winblend = 0
       }
     }
-  },
-  {
-    'echasnovski/mini.align',
-    version = false,
-    event = 'VeryLazy',
-    opts = {}
   }
 }
