@@ -515,6 +515,9 @@ if [[ $USER != root ]]; then
     export TERM_CMD='-e'
   fi
 
+  if test -f $HOME/system/.gemini_key.gpg; then
+    export GEMINI_API_KEY=$(gpg -q --no-verbose -d --batch $HOME/system/.gemini_key.gpg)
+  fi
   if test -f $HOME/system/.openai_key.gpg; then
     export OPENAI_API_KEY=$(gpg -q --no-verbose -d --batch $HOME/system/.openai_key.gpg)
   fi
@@ -998,5 +1001,3 @@ function zn () {
   fi
 }
 # }}}1
-
-alias luamake=/home/swimmer/.local/share/nvim/lspconfig/lua-language-server.git/3rd/luamake/luamake
