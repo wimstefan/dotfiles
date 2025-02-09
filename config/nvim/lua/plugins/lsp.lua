@@ -78,10 +78,7 @@ return {
           vim.keymap.set('n', ',lw', function() Dump(vim.lsp.buf.list_workspace_folders()) end,
             { desc = 'LSP: list workspace folders' }, opts)
           if client:supports_method('textDocument/codeAction', event.buf) then
-            vim.keymap.set('n', ',lca',
-              function()
-                vim.lsp.buf.code_action()
-              end,
+            vim.keymap.set('n', ',lca', function() vim.lsp.buf.code_action() end,
               { desc = 'LSP: code actions' }, opts)
           else
             lsp_messages = lsp_messages .. 'no codeAction' .. lsp_msg_sep
