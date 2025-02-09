@@ -61,8 +61,9 @@ vim.opt.fillchars:append({
   foldopen = '',
   foldclose = ''
 })
-vim.wo.foldmethod = 'expr'
-vim.wo.foldexpr = 'v:lua.vim.treesitter.foldexpr()'
+local win = vim.api.nvim_get_current_win()
+vim.wo[win][0].foldmethod = 'expr'
+vim.wo[win][0].foldexpr = 'v:lua.vim.treesitter.foldexpr()'
 
 vim.opt.shiftwidth = indent
 vim.opt.shiftround = true
@@ -82,7 +83,8 @@ vim.opt.completeopt = {
   'fuzzy',
   'noselect',
   'noinsert',
-  'popup'
+  'popup',
+  'preinsert'
 }
 
 vim.opt.diffopt:append({
