@@ -30,6 +30,10 @@ return {
     explorer = {
       replace_netrw = true
     },
+    image = {
+      enabled = true,
+      force = true
+    },
     indent = {
       enabled = true,
       chunk = {
@@ -59,17 +63,6 @@ return {
       },
       formatters = {
         file = { filename_first = true }
-      },
-      win = {
-        input = {
-          keys = {
-            ['<Alt-Shift-m>'] = { 'toggle_maximize', mode = { 'i', 'n' } },
-            ['<Alt-Shift-p>'] = { 'toggle_preview', mode = { 'i', 'n' } },
-            ['<Alt-Shift-w>'] = { 'cycle_win', mode = { 'i', 'n' } },
-            ['<Alt-Shift-i>'] = { 'toggle_ignored', mode = { 'i', 'n' } },
-            ['<Alt-Shift-h>'] = { 'toggle_hidden', mode = { 'i', 'n' } }
-          }
-        }
       }
     },
     quickfile = { enabled = true },
