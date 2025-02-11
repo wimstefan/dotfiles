@@ -209,7 +209,7 @@ return {
       end
 
       require('zk').setup({
-        picker = 'fzf'
+        picker = 'snacks_picker'
       })
 
       require('zk.commands').add('ZkRecents', make_edit_fn({ createdAfter = '1 week ago' }, { title = 'Zk Recents' }))
