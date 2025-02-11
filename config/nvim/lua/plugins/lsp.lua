@@ -12,6 +12,8 @@ return {
 
       -- Diagnostic
       vim.keymap.set('n', ',dt', function() vim.diagnostic.enable(not vim.diagnostic.is_enabled()) end, { desc = 'Diagnostic: toggle' })
+      vim.keymap.set('n', ',dd', function() Snacks.picker.diagnostics_buffer() end, { desc = 'Diagnostic: document diagnostics' })
+      vim.keymap.set('n', ',dD', function() Snacks.picker.diagnostics() end, { desc = 'Diagnostic: workspace diagnostics' })
       vim.keymap.set('n', ',df', vim.diagnostic.open_float, { desc = 'Diagnostic: open floating window' })
       vim.keymap.set('n', ',dl', vim.diagnostic.setloclist, { desc = 'Diagnostic: populate location list' })
       vim.keymap.set('n', ',dq', vim.diagnostic.setqflist, { desc = 'Diagnostic: populate quickfix' })
@@ -69,10 +71,12 @@ return {
             { desc = 'LSP: document symbols' }, opts)
           vim.keymap.set('n', ',lY', function() Snacks.picker.lsp_workspace_symbols() end,
             { desc = 'LSP: workspace symbols' }, opts)
-          vim.keymap.set('n', ',ld', function() Snacks.picker.diagnostics_buffer() end,
-            { desc = 'Diagnostic: document diagnostics' }, opts)
-          vim.keymap.set('n', ',lD', function() Snacks.picker.diagnostics() end,
-            { desc = 'Diagnostic: workspace diagnostics' }, opts)
+          vim.keymap.set('n', ',ld', function() Snacks.picker.lsp_definitions() end,
+            { desc = 'LSP: definitions' }, opts)
+          vim.keymap.set('n', ',lt', function() Snacks.picker.lsp_type_definitions() end,
+            { desc = 'LSP: type definitions' }, opts)
+          vim.keymap.set('n', ',lD', function() Snacks.picker.lsp_declarations() end,
+            { desc = 'LSP: declarations' }, opts)
           vim.keymap.set('n', ',lrn', function() vim.lsp.buf.rename() end,
             { desc = 'LSP: rename' }, opts)
           vim.keymap.set('n', ',lw', function() Dump(vim.lsp.buf.list_workspace_folders()) end,
