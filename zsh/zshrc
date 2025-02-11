@@ -771,7 +771,7 @@ if [[ $USER != root ]]; then
               echo "$i is down"
             fi
             ;;
-          (tj-old)
+          (oldie)
             echo "<< $i >>"
             if ping -c1 $i > /dev/null; then
               sync-dotfiles $i
@@ -792,7 +792,7 @@ if [[ $USER != root ]]; then
             fi
             ;;
           (all)
-            for h in komala tj tj-old; do
+            for h in komala tj oldie; do
               echo "<< $h >>"
               if ping -c1 $h > /dev/null; then
                 sync-dotfiles $h
@@ -818,8 +818,8 @@ if [[ $USER != root ]]; then
 
   fi
   # }}}4
-  # . tj-old # {{{4
-  if [[ $HOST == tj-old ]]; then
+  # . oldie # {{{4
+  if [[ $HOST == oldie ]]; then
     echo "Loading host specific settings for $HOST ..."
 
     # X related stuff

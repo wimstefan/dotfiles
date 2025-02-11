@@ -52,7 +52,7 @@ local hostname = io.lines('/proc/sys/kernel/hostname')()
 if hostname == 'swimmer' then
   TYPE = 'desktop'
   TEMPFILE = '/sys/devices/virtual/thermal/thermal_zone0/temp'
-elseif hostname == 'tj-old' then
+elseif hostname == 'oldie' then
   BAT = 'BAT0'
   TYPE = 'laptop'
   TEMPFILE = '/sys/devices/pci0000:00/0000:00:18.3/hwmon/hwmon3/temp1_input'
@@ -343,7 +343,7 @@ widget_wifi:buttons(gears.table.join(
     awful.spawn('wpa_gui')
   end)
 ))
-if hostname == 'tj-old' then
+if hostname == 'oldie' then
   vicious.register(widget_wifi, vicious.widgets.wifiiw, '[${ssid}] ${rate}MB/s ${linp}%', 10, 'wlan0')
 elseif hostname == 'tj' then
   vicious.register(widget_wifi, vicious.widgets.wifiiw, '[${ssid}] ${rate}MB/s ${linp}%', 10, 'wlo1')
@@ -466,7 +466,7 @@ screen.connect_signal('request::desktop_decoration', function(s)
 
   ---@diagnostic disable-next-line: unused-local
   local update_tags = function(self, c3, index, objects)
-    if hostname == 'tj-old' then
+    if hostname == 'oldie' then
       if (c3.selected) then
         beautiful.taglist_font = beautiful.taglist_font_focus
       elseif c3.urgent then
