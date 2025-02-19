@@ -58,7 +58,7 @@ return {
       },
       previewers = {
         diff = {
-          native = false,
+          builtin = false,
           cmd = { 'bat' }
         }
       }
