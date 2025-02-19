@@ -44,8 +44,8 @@ return {
         }
       },
       sources = {
-        cmdline = {}
-      },
+        default = { 'lsp', 'path', 'snippets', 'buffer', 'omni' }
+      }
     },
     opts_extend = { 'sources.default' }
   }
