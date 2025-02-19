@@ -5,7 +5,6 @@ return {
   opts = {
     bigfile = { enabled = true },
     dashboard = {
-      enabled = true,
       width = math.floor(vim.o.columns * 0.44),
       sections = {
         { section = 'header', padding = 2 },
@@ -30,12 +29,8 @@ return {
     explorer = {
       replace_netrw = true
     },
-    image = {
-      enabled = true,
-      force = true
-    },
+    image = { enabled = true },
     indent = {
-      enabled = true,
       chunk = {
         enabled = true,
         char = {
@@ -43,8 +38,6 @@ return {
           corner_bottom = '╰',
           arrow = '▶',
           horizontal = '▶'
-          -- arrow = '─',
-          -- horizontal = '─'
         }
       },
       indent = { enabled = false },
@@ -52,7 +45,6 @@ return {
     },
     input = { enabled = true },
     notifier = {
-      enabled = true,
       style = 'fancy',
       top_down = true
     },
@@ -63,13 +55,18 @@ return {
       },
       formatters = {
         file = { filename_first = true }
+      },
+      previewers = {
+        diff = {
+          native = false,
+          cmd = { 'bat' }
+        }
       }
     },
     quickfile = { enabled = true },
     scope = { enabled = true },
     scroll = { enabled = true },
     statuscolumn = {
-      enabled = true,
       folds = {
         open = true,
         git_hl = true
