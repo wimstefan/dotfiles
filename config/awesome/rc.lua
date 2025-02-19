@@ -55,7 +55,7 @@ if hostname == 'swimmer' then
 elseif hostname == 'oldie' then
   BAT = 'BAT0'
   TYPE = 'laptop'
-  TEMPFILE = '/sys/devices/pci0000:00/0000:00:18.3/hwmon/hwmon3/temp1_input'
+  TEMPFILE = '/sys/devices/pci0000:00/0000:00:18.3/hwmon/hwmon4/temp1_input'
 elseif hostname == 'tj' then
   BAT = 'BAT1'
   TYPE = 'laptop'
