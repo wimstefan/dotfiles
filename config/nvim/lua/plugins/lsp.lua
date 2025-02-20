@@ -39,7 +39,10 @@ return {
             [5] = require('config.ui').icons.diagnostics[5]
           }
         },
-        virtual_lines = true
+        virtual_lines = {
+          enabled = true,
+          virt_lines_overflow = 'scroll'
+        }
       })
 
       -- LSP config
