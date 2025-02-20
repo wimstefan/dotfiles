@@ -44,7 +44,14 @@ return {
         }
       },
       sources = {
-        default = { 'lsp', 'path', 'snippets', 'buffer', 'omni' }
+        default = { 'cmdline', 'lsp', 'path', 'snippets', 'buffer', 'lazydev', 'omni' },
+        providers = {
+          lazydev = {
+            name = 'LazyDev',
+            module = 'lazydev.integrations.blink',
+            score_offset = 100
+          }
+        }
       }
     },
     opts_extend = { 'sources.default' }
