@@ -10,29 +10,33 @@ return {
   {
     'folke/tokyonight.nvim',
     event = { 'ColorScheme', 'UiEnter' },
-    opts = function()
-      return {
-        style = 'night',
-        light_style = 'day',
-        transparent = true,
-        styles = {
-          comments = { italic = true },
-          keywords = {},
-          functions = { italic = true },
-          variables = {},
-          sidebars = 'transparent',
-          floats = 'dark'
-        },
-        on_colors = function(colours)
-          colours.green = '#50b498'
-          colours.yellow = '#ffb450'
-        end,
-        plugins = {
-          all = package.loaded.lazy == nil,
-          auto = true
-        }
+    opts = {
+      style = 'night',
+      light_style = 'day',
+      transparent = true,
+      styles = {
+        comments = { italic = true },
+        keywords = {},
+        functions = { italic = true },
+        variables = {},
+        sidebars = 'transparent',
+        floats = 'dark'
+      },
+      on_colors = function(colours)
+        colours.green = '#50b498'
+        colours.yellow = '#ffb450'
+      end,
+      plugins = {
+        all = package.loaded.lazy == nil,
+        auto = true
       }
-    end
+    }
+  },
+  {
+    'neko-night/nvim',
+    name = 'neko-night',
+    event = { 'ColorScheme', 'UiEnter' },
+    opts = {},
   },
   {
     'scottmckendry/cyberdream.nvim',
