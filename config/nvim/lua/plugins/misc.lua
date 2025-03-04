@@ -21,15 +21,6 @@ return {
     keys = '.'
   },
   {
-    'kevinhwang91/nvim-bqf',
-    dependencies = 'junegunn/fzf',
-    event = 'BufReadPost',
-    opts = {
-      auto_enable = true,
-      auto_resize_height = true
-    }
-  },
-  {
     'mikavilpas/yazi.nvim',
     event = 'VeryLazy',
     keys = {

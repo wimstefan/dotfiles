@@ -49,6 +49,7 @@ return {
       top_down = true
     },
     picker = {
+      prompt = ' ' .. require('config.ui').icons.diagnostics[4] .. ' ',
       layout = 'ivy',
       matcher = {
         frecency = true
@@ -108,6 +109,7 @@ return {
     { '<Leader>si', function() Snacks.picker.icons() end, desc = 'Snacks: icons' },
     { '<Leader>sj', function() Snacks.picker.jumps() end, desc = 'Snacks: jumps' },
     { '<Leader>sk', function() Snacks.picker.keymaps() end, desc = 'Snacks: keymaps' },
+    { '<Leader>sl', function() Snacks.picker.loclist() end, desc = 'Snacks: location list' },
     { '<Leader>sm', function() Snacks.picker.marks() end, desc = 'Snacks: marks' },
     { '<Leader>sq', function() Snacks.picker.qflist() end, desc = 'Snacks: quickfix list' },
     { '<Leader>sr', function() Snacks.picker.registers() end, desc = 'Snacks: registers' },

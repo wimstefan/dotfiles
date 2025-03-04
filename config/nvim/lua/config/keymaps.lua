@@ -58,8 +58,7 @@ vim.keymap.set('t', '<A-k>', [[<C-\><C-N><C-w>k]])
 vim.keymap.set('t', '<A-l>', [[<C-\><C-N><C-w>l]])
 -- }}}2
 -- {{{2 quickfix
-vim.keymap.set('n', '<C-c>', function() ToggleQF('q') end, { desc = 'Toggle quickfix window' })
-vim.keymap.set('n', '<A-c>', function() ToggleQF('l') end, { desc = 'Toggle location list window' })
+vim.keymap.set('n', '<C-c>', function() Snacks.picker.qflist() end, { desc = 'Toggle quickfix window' })
 vim.keymap.set('n', '[\\', vim.cmd.colder, { desc = 'Quickfix: go to older error list' })
 vim.keymap.set('n', ']\\', vim.cmd.cnewer, { desc = 'Quickfix: go to newer error list' })
 -- }}}2
