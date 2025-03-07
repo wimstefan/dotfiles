@@ -535,6 +535,9 @@ end
 config.font = font_set(my_font)
 config.font_rules = font_rules(my_font)
 config.font_size = font_size(my_font)
+if hostname == 'tj' then
+  config.freetype_load_flags = 'NO_HINTING'
+end
 config.char_select_font_size = font_size(my_font) - 1
 config.command_palette_font_size = font_size(my_font) - 1
 config.freetype_load_target = ft_target('load')
