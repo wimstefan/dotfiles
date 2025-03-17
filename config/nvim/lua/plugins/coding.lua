@@ -20,6 +20,33 @@ return {
     opts = {}
   },
   {
+    'echasnovski/mini.completion',
+    version = false,
+    dependencies = 'echasnovski/mini.icons',
+    event = 'VeryLazy',
+    config = function()
+      require('mini.icons').setup()
+      MiniIcons.tweak_lsp_kind()
+      require('mini.completion').setup({
+        window = {
+          info = {
+            border = require('config.ui').borders
+          },
+          signature = {
+            border = require('config.ui').borders
+          }
+        },
+        lsp_completion = {
+          source_func = 'omnifunc',
+          auto_setup = false
+        }
+      })
+      vim.keymap.set('i', '<Tab>', [[pumvisible() ? '<C-n>' : '<Tab>']], { desc = 'Completion: next', expr = true })
+      vim.keymap.set('i', '<S-Tab>', [[pumvisible() ? '<C-p>' : '<S-Tab>']], { desc = 'Completion: prev', expr = true })
+
+    end
+  },
+  {
     'echasnovski/mini.surround',
     version = false,
     event = 'VeryLazy',

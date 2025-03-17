@@ -55,11 +55,7 @@ return {
           local lsp_msg_sep = ' ∷ '
           lsp_messages = lsp_msg_sep .. 'LSP attached' .. lsp_msg_sep
           -- Enable completion triggered by <c-x><c-o>
-          if vim.bo[event.buf].filetype == 'lua' then
-            vim.bo[event.buf].omnifunc = 'v:lua.vim.lua_omnifunc'
-          else
-            vim.bo[event.buf].omnifunc = 'v:lua.vim.lsp.omnifunc'
-          end
+          vim.bo[event.buf].omnifunc = 'v:lua.MiniCompletion.completefunc_lsp'
 
           -- Buffer local mappings.
           local opts = { buffer = event.buf }
@@ -168,12 +164,12 @@ return {
         end
       })
 
-      local capabilities = require('blink.cmp').get_lsp_capabilities()
+      local capabilities = vim.lsp.protocol.make_client_capabilities()
+      capabilities.textDocument.completion.completionItem.snippetSupport = true
       capabilities.textDocument.foldingRange = {
         dynamicRegistration = false,
         lineFoldingOnly = true
       }
-      capabilities.textDocument.completion.completionItem.snippetSupport = true
 
       -- LSP servers
       local servers = {
