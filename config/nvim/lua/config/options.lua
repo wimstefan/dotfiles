@@ -32,6 +32,7 @@ vim.opt.listchars = {
   extends = '>',
   precedes = '<'
 }
+vim.opt.winborder = require('config.ui').borders
 
 vim.opt.shortmess = 'ltToOCFI'
 vim.opt.laststatus = 3

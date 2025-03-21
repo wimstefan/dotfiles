@@ -14,6 +14,7 @@ return {
         {
           section = 'terminal',
           enabled = function()
+            vim.opt.winborder = 'shadow'
             return Snacks.git.get_root() ~= nil
           end,
           icon = ' ',
@@ -84,7 +85,6 @@ return {
         border = require('config.ui').borders
       }
     },
-    win = { border = require('config.ui').borders }
   },
   keys = {
     { '<Leader>S', function() Snacks.picker() end, desc = 'Snacks: picker' },

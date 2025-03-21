@@ -20,14 +20,6 @@ return {
       require('mini.icons').setup()
       MiniIcons.tweak_lsp_kind()
       require('mini.completion').setup({
-        window = {
-          info = {
-            border = require('config.ui').borders
-          },
-          signature = {
-            border = require('config.ui').borders
-          }
-        },
         lsp_completion = {
           source_func = 'omnifunc',
           auto_setup = false

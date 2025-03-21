@@ -13,7 +13,6 @@ return {
         }
       },
       win = {
-        border = require('config.ui').borders,
         padding = { 2, 2, 2, 2 }
       }
     }

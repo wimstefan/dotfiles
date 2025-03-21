@@ -8,7 +8,6 @@ return {
     'neovim/nvim-lspconfig',
     lazy = false,
     config = function()
-      require('lspconfig.ui.windows').default_options.border = require('config.ui').borders
 
       -- Diagnostic
       vim.keymap.set('n', ',dt', function() vim.diagnostic.enable(not vim.diagnostic.is_enabled()) end, { desc = 'Diagnostic: toggle' })
@@ -24,7 +23,6 @@ return {
 
       vim.diagnostic.config({
         float = {
-          border = require('config.ui').borders,
           focusable = false,
           header = '',
           scope = 'line',
@@ -149,10 +147,10 @@ return {
           end
           if client:supports_method('textDocument/signatureHelp', event.buf) then
             vim.keymap.set({ 'i', 's' }, '<C-s>',
-              function() vim.lsp.buf.signature_help({ border = require('config.ui').borders }) end,
+              function() vim.lsp.buf.signature_help() end,
               { desc = 'LSP: signature help' }, opts)
             vim.keymap.set('n', ',ls',
-              function() vim.lsp.buf.signature_help({ border = require('config.ui').borders }) end,
+              function() vim.lsp.buf.signature_help() end,
               { desc = 'LSP: signature help' }, opts)
           else
             vim.keymap.set('n', ',ls', [[<Nop>]], opts)
@@ -284,6 +282,9 @@ return {
   {
     'IsaacShelton/clear-action.nvim',
     event = 'LspAttach',
+    keys = {
+      { ',tc', vim.cmd.CodeActionToggleSigns, desc = 'Toggle: code actions' }
+    },
     opts = {
       signs = {
         enable = true,
@@ -318,9 +319,6 @@ return {
           require('hover.providers.diagnostic')
           require('hover.providers.fold_preview')
         end,
-        preview_opts = {
-          border = require('config.ui').borders
-        },
         title = true
       })
       vim.keymap.set('n', 'H', require('hover').hover, { desc = 'hover.nvim' })
@@ -335,7 +333,7 @@ return {
         sidebar = {
           open_direction = 'try-right',
           preview = {
-            show_always = true
+            show_always = false
           }
         }
       })
