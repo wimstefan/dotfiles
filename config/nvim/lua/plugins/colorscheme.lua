@@ -36,7 +36,7 @@ return {
     'neko-night/nvim',
     name = 'neko-night',
     event = { 'ColorScheme', 'UiEnter' },
-    opts = {},
+    opts = {}
   },
   {
     'scottmckendry/cyberdream.nvim',
