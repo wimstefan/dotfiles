@@ -198,7 +198,6 @@ return {
       '<Leader>zr',
       '<Leader>zt'
     },
-    dependencies = 'junegunn/fzf',
     config = function()
       local function make_edit_fn(defaults, picker_options)
         return function(options)
