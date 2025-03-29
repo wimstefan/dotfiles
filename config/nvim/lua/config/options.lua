@@ -84,11 +84,15 @@ vim.opt.completeopt = {
   'fuzzy',
   'noselect',
   'noinsert',
-  'popup',
-  'preinsert'
+  'popup'
+}
+vim.opt.completefuzzycollect = {
+  'files',
+  'keyword'
 }
 
 vim.opt.diffopt:append({
+  'inline:char',
   'vertical',
   'indent-heuristic',
   'linematch:60',
