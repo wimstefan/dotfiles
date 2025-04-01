@@ -144,10 +144,10 @@ return {
     'MagicDuck/grug-far.nvim',
     event = 'VeryLazy',
     keys = {
-      { '<Leader>R', function() require('grug-far').grug_far() end, desc = 'Grug-Far' },
-      { '<Leader>Rf', function() require('grug-far').grug_far({ prefills = { flags = vim.fn.expand('%') } }) end, desc = 'Grug-Far: current file' },
+      { '<Leader>R', function() require('grug-far').open() end, desc = 'Grug-Far' },
+      { '<Leader>Rf', function() require('grug-far').open({ prefills = { flags = vim.fn.expand('%') } }) end, desc = 'Grug-Far: current file' },
       { '<Leader>Rv', function() require('grug-far').with_visual_selection({ prefills = { flags = vim.fn.expand('%') } }) end, desc = 'Grug-Far: visual selection' },
-      { '<Leader>Rw', function() require('grug-far').grug_far({ prefills = { search = vim.fn.expand('<cword>') } }) end, desc = 'Grug-Far: current word' },
+      { '<Leader>Rw', function() require('grug-far').open({ prefills = { search = vim.fn.expand('<cword>') } }) end, desc = 'Grug-Far: current word' },
     },
     opts = {}
   },
