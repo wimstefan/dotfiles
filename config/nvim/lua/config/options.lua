@@ -13,6 +13,7 @@ vim.g.clipboard = {
 }
 
 vim.opt.termguicolors = true
+vim.opt.guicursor = ''
 vim.opt.number = true
 vim.opt.numberwidth = 3
 vim.opt.relativenumber = true
