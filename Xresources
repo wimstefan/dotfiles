@@ -10,12 +10,12 @@
   *faceName: xft:monospace:pixelsize=16.0
 #elif SRVR_tj
   Xft.dpi: 96
-  Xcursor.size: 36
+  Xcursor.size: 24
   *font: xft:monospace:pixelsize=18.0
   *faceName: xft:monospace:pixelsize=18.0
 #elif SRVR_oldie
   Xft.dpi: 120
-  Xcursor.size: 36
+  Xcursor.size: 24
   *font: xft:monospace:pixelsize=18.0
   *faceName: xft:monospace:pixelsize=18.0
 #endif
