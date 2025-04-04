@@ -28,9 +28,19 @@ vim.diagnostic.config({
       [5] = require('config.ui').icons.diagnostics[5]
     }
   },
+  virtual_text = {
+    current_line = true,
+    severity = {
+      min = 'INFO',
+      max = 'WARN'
+    }
+  },
   virtual_lines = {
-    enabled = true,
-    virt_lines_overflow = 'scroll'
+    current_line = true,
+    virt_lines_overflow = 'scroll',
+    severity = {
+      min = 'ERROR'
+    }
   }
 })
 
@@ -65,20 +75,35 @@ vim.lsp.config['bashls'] = {
 vim.lsp.config['cssls'] = {
   cmd = { 'vscode-css-language-server', '--stdio' },
   filetypes = { 'css', 'scss', 'less' },
+  init_options = {
+    provideFormatter = true
+  },
   root_markers = { 'package.json', '.git' },
   settings = {
     css = { validate = true },
     scss = { validate = true },
-    less = { validate = true },
-  },
-  provideFormatter = true
+    less = { validate = true }
+  }
 }
 vim.lsp.config['html'] = {
   cmd = { 'vscode-html-language-server', '--stdio' },
   filetypes = {
     'html',
     'html-eex',
-    'liquid'
+    'liquid',
+    'templ'
+  },
+  init_options = {
+    provideFormatter = true,
+    embeddedLanguages = {
+      css = true,
+      javascript = true
+    },
+    configurationSection = {
+      'html',
+      'css',
+      'javascript'
+    }
   },
   settings = {
     html = {
@@ -100,6 +125,9 @@ vim.lsp.config['luals'] = {
   root_markers = { '.luarc.json', '.luarc.jsonc' },
   settings = {
     Lua = {
+      codeLens = {
+        enable = true
+      },
       completion = {
         callSnippet = 'Both',
         keyworsSnippet = 'Both'
@@ -130,19 +158,18 @@ vim.lsp.config['luals'] = {
       runtime = {
         version = 'LuaJIT'
       },
+      telemetry = {
+        enable = false
+      },
       workspace = {
-        library = {
-          lua,
-          vim.env.VIMRUNTIME,
-          '${3rd}/luv/library'
-        }
+        checkThirdParty = false,
+        -- library = {
+        --   vim.env.VIMRUNTIME,
+        --   '${3rd}/luv/library'
+        -- }
       }
     }
   }
-}
-vim.lsp.config['intelephense'] = {
-  cmd = { 'intelephense', '--stdio' },
-  filetypes = { 'php' }
 }
 vim.lsp.config['jsonls'] = {
   cmd = { 'vscode-json-language-server', '--stdio' },
@@ -159,8 +186,13 @@ vim.lsp.config['vimls'] = {
   cmd = { 'vim-language-server', '--stdio' },
   filetypes = { 'vim' }
 }
+vim.lsp.config['zk'] = {
+  cmd = { 'zk', 'lsp' },
+  filetypes = { 'markdown' },
+  root_markers = { '.zk' }
+}
 
-vim.lsp.enable({ 'bashls', 'cssls', 'html', 'luals', 'intelephense', 'jsonls', 'taplo', 'vimls' })
+vim.lsp.enable({ 'bashls', 'cssls', 'html', 'luals', 'jsonls', 'taplo', 'vimls', 'zk' })
 
 vim.api.nvim_create_autocmd('LspAttach', {
   group = vim.api.nvim_create_augroup('UserLspConfig', {}),
@@ -281,11 +313,6 @@ vim.api.nvim_create_autocmd('LspAttach', {
 })
 
 return {
-  {
-    'folke/lazydev.nvim',
-    event = 'VeryLazy',
-    opts = {}
-  },
   {
     'IsaacShelton/clear-action.nvim',
     event = 'LspAttach',
