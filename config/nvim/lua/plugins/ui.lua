@@ -62,42 +62,6 @@ return {
     }
   },
   {
-    'OXY2DEV/markview.nvim',
-    ft = 'markdown',
-    keys = {
-      { ',tm', function() require('markview').commands.toggle() end, desc = 'Markview: toggle' },
-    },
-    opts = function()
-      require('markview').setup({
-        preview = {
-          modes = { 'n', 'I' },
-          hybrid_modes = { 'i' }
-        },
-        markdown = {
-          list_items = {
-            indent_size = 2,
-            shift_width = 2,
-            marker_minus = {
-              add_padding = false,
-              text = '',
-              hl = 'MarkviewListItemMinus'
-            },
-            marker_plus = {
-              add_padding = false,
-              text = '',
-              hl = 'MarkviewListItemPlus'
-            },
-            marker_star = {
-              add_padding = true,
-              text = '',
-              hl = 'MarkviewListItemStar'
-            }
-          }
-        }
-      })
-    end,
-  },
-  {
     'echasnovski/mini.icons',
     version = false,
     config = function()
