@@ -81,10 +81,11 @@ vim.opt.inccommand = 'split'
 vim.opt.selection = 'exclusive'
 
 vim.opt.completeopt = {
+  'menu',
   'menuone',
   'fuzzy',
-  'noselect',
   'noinsert',
+  'noselect',
   'popup'
 }
 vim.opt.completefuzzycollect = {
