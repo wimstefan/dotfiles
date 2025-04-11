@@ -1,6 +1,6 @@
 #ifdef SRVR_swimmer
   Xft.dpi: 192
-  Xcursor.size: 48
+  Xcursor.size: 36
   *font: xft:monospace:pixelsize=30.0
   *faceName: xft:monospace:pixelsize=30.0
 #elif SRVR_komala
