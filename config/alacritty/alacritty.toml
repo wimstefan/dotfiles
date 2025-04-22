@@ -4,7 +4,7 @@ draw_bold_text_with_bright_colors = true
 
 [font]
 builtin_box_drawing = false
-size = 10.0
+size = 9.0
 
 [font.bold]
 family = "Monaspace Argon"
@@ -52,4 +52,4 @@ x = 14
 y = 14
 
 [general]
-import = [ '~/.config/alacritty/tokyonight_moon.toml' ]
+import = [ '~/.local/share/nvim/lazy/cyberdream.nvim/extras/alacritty/cyberdream.toml' ]
