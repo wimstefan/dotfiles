@@ -18,9 +18,9 @@ end
 
 local my_font
 if hostname == 'oldie' then
-  my_font = 'monaspace'
+  my_font = 'triple'
 else
-  my_font = 'monaspace'
+  my_font = 'triple'
 end
 
 local function basename(s)
@@ -223,11 +223,7 @@ local function font_set(name)
   elseif string.match(name, 'recursive') then
     font = font_fallback({ family = 'Rec Mono Custom', weight = 'Regular' })
   elseif string.match(name, 'triple') then
-    if string.match(appearance, 'light') then
-      font = font_fallback({ family = 'Triplicate T4', weight = 'Regular', harfbuzz_features = { 'onum' } })
-    else
-      font = font_fallback({ family = 'Triplicate T3', weight = 'Regular', harfbuzz_features = { 'onum' } })
-    end
+    font = font_fallback({ family = 'Triplicate T4', weight = 'Regular', harfbuzz_features = { 'onum' } })
   end
   return font
 end
@@ -374,27 +370,27 @@ local function font_size(name)
   local size
   if hostname == 'swimmer' or hostname == 'komala' then
     if string.match(name, 'custom') then
-      size = 10.0
+      size = 9.5
     elseif string.match(name, 'fantasque') then
-      size = 11.4
+      size = 11.0
     elseif string.match(name, 'hasklig') then
-      size = 10.5
+      size = 10.0
     elseif string.match(name, 'iosevka') then
       size = 10.0
     elseif string.match(name, 'jet') then
-      size = 10.0
+      size = 9.5
     elseif string.match(name, 'operator') then
-      size = 10.7
+      size = 10.0
     elseif string.match(name, 'monaspace') then
       size = 9.5
     elseif string.match(name, 'plex') then
-      size = 10.0
+      size = 9.5
     elseif string.match(name, 'pt') then
-      size = 10.0
+      size = 9.5
     elseif string.match(name, 'recursive') then
       size = 9.5
     elseif string.match(name, 'triple') then
-      size = 10.5
+      size = 10.0
     end
   elseif hostname == 'oldie' then
     if string.match(name, 'custom') then
@@ -418,7 +414,7 @@ local function font_size(name)
     elseif string.match(name, 'recursive') then
       size = 9.0
     elseif string.match(name, 'triple') then
-      size = 9.0
+      size = 10.0
     end
   elseif hostname == 'tj' then
     if string.match(name, 'custom') then
@@ -567,6 +563,8 @@ config.adjust_window_size_when_changing_font_size = false
 config.window_background_opacity = opacity
 config.initial_cols = set_geometry('cols')
 config.initial_rows = set_geometry('rows')
+config.front_end = 'WebGpu'
+config.webgpu_preferred_adapter = wez.gui.enumerate_gpus()[0]
 config.webgpu_power_preference = 'HighPerformance'
 config.enable_kitty_graphics = true
 config.selection_word_boundary = ' \t\n{}"\'`,;@│*'
