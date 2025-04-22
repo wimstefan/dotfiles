@@ -45,7 +45,6 @@ vim.diagnostic.config({
 })
 
 -- LSP config
-local capabilities = vim.lsp.protocol.make_client_capabilities()
 vim.lsp.config('*', {
   capabilities = {
     textDocument = {
@@ -229,7 +228,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
     vim.keymap.set('n', ',lw', function() Dump(vim.lsp.buf.list_workspace_folders()) end,
       { desc = 'LSP: list workspace folders' }, opts)
     if client:supports_method('textDocument/codeAction', event.buf) then
-      vim.keymap.set('n', ',lca', function() vim.lsp.buf.code_action() end,
+      vim.keymap.set({ 'n', 'v' }, ',lca', function() require('actions-preview').code_actions() end,
         { desc = 'LSP: code actions' }, opts)
     else
       lsp_messages = lsp_messages .. 'no codeAction' .. lsp_msg_sep
@@ -338,6 +337,17 @@ return {
           source = '@markup.italic',
           combined = '@markup.italic',
           label = '@markup.italic'
+        }
+      }
+    }
+  },
+  {
+    'aznhe21/actions-preview.nvim',
+    event = 'LspAttach',
+    opts = {
+      snacks = {
+        layout = {
+          preset = 'ivy'
         }
       }
     }
