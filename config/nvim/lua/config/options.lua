@@ -84,6 +84,7 @@ vim.opt.completeopt = {
   'menu',
   'menuone',
   'fuzzy',
+  'nearest',
   'noinsert',
   'noselect',
   'popup'
