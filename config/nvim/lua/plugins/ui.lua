@@ -1,3 +1,13 @@
+require('vim._extui').enable({
+  enable = true,
+  msg = {
+    pos = 'box',
+    box = {
+      timeout = 8000,
+    },
+  },
+})
+
 return {
   {
     'folke/which-key.nvim',

@@ -25,6 +25,7 @@ vim.opt.showbreak = '  » '
 vim.opt.conceallevel = 2
 vim.opt.splitbelow = true
 vim.opt.splitright = true
+vim.opt.cmdheight = 0
 vim.opt.list = true
 vim.opt.listchars = {
   tab = '› ',

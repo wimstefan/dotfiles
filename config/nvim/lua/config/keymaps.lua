@@ -1,6 +1,7 @@
 vim.keymap.set('n', '-', vim.cmd.Lexplore, { desc = 'Explore' })
 vim.keymap.set('', 'cd', [[<Cmd>cd %:h | pwd<CR>]])
 vim.keymap.set('n', '<Leader>G', [[:grep<Space>]])
+vim.keymap.set('n', '<Leader>M', vim.cmd.messages, { desc = 'Messages' })
 vim.keymap.set('n', '<Leader>i', [[<Cmd>Inspect!<CR>]])
 vim.keymap.set('n', '<Leader>K', function() ShowMan() end, { desc = 'Search man pages for current word' })
 vim.keymap.set('n', '<Leader>P', function() Prettify() end, { desc = 'Apply visual tweaks' })
