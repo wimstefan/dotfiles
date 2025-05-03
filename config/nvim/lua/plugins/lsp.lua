@@ -233,6 +233,14 @@ vim.api.nvim_create_autocmd('LspAttach', {
     else
       lsp_messages = lsp_messages .. 'no codeAction' .. lsp_msg_sep
     end
+    if client:supports_method('textDocument/documentColor') then
+      vim.notify('LSP: document color for ' .. client.name)
+      vim.lsp.document_color.enable()
+      vim.keymap.set('n', ',lC', function() vim.lsp.document_color.enable(not vim.lsp.document_color.is_enabled()) end,
+        { desc = 'LSP: toggle document colors' }, opts)
+    else
+      lsp_messages = lsp_messages .. 'no documentColor' .. lsp_msg_sep
+    end
     if client:supports_method('textDocument/foldingRange', event.buf) then
       local win = vim.api.nvim_get_current_win()
       vim.wo[win][0].foldmethod = 'expr'
