@@ -109,12 +109,22 @@ augroup('General', function(g)
   })
 end)
 
-augroup('Colours', function(g)
+augroup('UI', function(g)
   aucmd({ 'ColorScheme', 'UiEnter' }, {
     group = g,
     desc = 'Apply visual tweaks',
     callback = function()
       Prettify()
+    end
+  })
+  aucmd('TextYankPost', {
+    group = g,
+    desc = 'Highlight yanked text',
+    callback = function()
+      vim.hl.on_yank({
+        higroup = { '@text.strong', '@text.emphasis' },
+        timeout = 1000
+      })
     end
   })
 end)
