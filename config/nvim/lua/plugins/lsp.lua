@@ -37,7 +37,6 @@ vim.diagnostic.config({
   },
   virtual_lines = {
     current_line = true,
-    virt_lines_overflow = 'scroll',
     severity = {
       min = 'ERROR'
     }
