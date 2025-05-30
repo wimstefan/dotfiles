@@ -73,11 +73,9 @@ vim.lsp.config['bashls'] = {
 vim.lsp.config['cssls'] = {
   cmd = { 'vscode-css-language-server', '--stdio' },
   filetypes = { 'css', 'scss', 'less' },
-  init_options = {
-    provideFormatter = true
-  },
   root_markers = { 'package.json', '.git' },
   settings = {
+    provideFormatter = true,
     css = { validate = true },
     scss = { validate = true },
     less = { validate = true }
@@ -91,7 +89,7 @@ vim.lsp.config['html'] = {
     'liquid',
     'templ'
   },
-  init_options = {
+  settings = {
     provideFormatter = true,
     embeddedLanguages = {
       css = true,
@@ -101,9 +99,7 @@ vim.lsp.config['html'] = {
       'html',
       'css',
       'javascript'
-    }
-  },
-  settings = {
+    },
     html = {
       format = {
         templating = true,
@@ -160,11 +156,7 @@ vim.lsp.config['luals'] = {
         enable = false
       },
       workspace = {
-        checkThirdParty = false,
-        -- library = {
-        --   vim.env.VIMRUNTIME,
-        --   '${3rd}/luv/library'
-        -- }
+        checkThirdParty = false
       }
     }
   }
@@ -172,8 +164,8 @@ vim.lsp.config['luals'] = {
 vim.lsp.config['jsonls'] = {
   cmd = { 'vscode-json-language-server', '--stdio' },
   filetypes = { 'json', 'jsonc' },
-  init_options = {
-    provideFormatter = true,
+  settings = {
+    provideFormatter = true
   }
 }
 vim.lsp.config['taplo'] = {
