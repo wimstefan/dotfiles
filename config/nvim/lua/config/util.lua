@@ -40,18 +40,14 @@ function Prettify()
   local cs = vim.g.colors_name
   vim.api.nvim_set_hl(0, 'Normal', { bg = 'none' })
   vim.api.nvim_set_hl(0, 'NormalNC', { bg = 'none' })
-  vim.api.nvim_set_hl(0, 'Folded', { link = 'DiffAdd' })
   vim.api.nvim_set_hl(0, 'CursorColumn', { bg = 'none' })
-  vim.api.nvim_set_hl(0, 'FoldColumn', { link = 'DiffAdd' })
   vim.api.nvim_set_hl(0, 'SignColumn', { bg = 'none' })
   vim.api.nvim_set_hl(0, 'ColorColumn', { link = 'Visual' })
   vim.api.nvim_set_hl(0, 'CursorLineNr', { fg = 'orange', bold = true, italic = true })
   if cs == 'default' or cs == 'lunaperche' or cs == 'habamax' then
-    print(cs)
     vim.api.nvim_set_hl(0, 'StatusLine', { blend = 20 })
     vim.api.nvim_set_hl(0, 'StatusLineNC', { blend = 20 })
   elseif string.match(cs, '^tokyonight') then
-    print(cs)
     local dimmed_bg = get_hex('StatusLine', 'bg')
     vim.api.nvim_set_hl(0, 'helpCommand', { fg = get_hex('helpCommand', 'fg'), bg = dimmed_bg, italic = true })
     vim.api.nvim_set_hl(0, '@text.literal.markdown_inline',
@@ -60,10 +56,8 @@ function Prettify()
     vim.api.nvim_set_hl(0, 'IncSearch', { link = 'DiagnosticVirtualTextWarn' })
     vim.api.nvim_set_hl(0, 'Visual', { bg = dimmed_bg, bold = true })
   elseif cs == 'vim' then
-    print(cs)
     vim.opt.termguicolors = false
     vim.api.nvim_set_hl(0, 'CursorColumn', { bg = 'none' })
-    vim.api.nvim_set_hl(0, 'FoldColumn', { bg = 'DiffAdd' })
     vim.api.nvim_set_hl(0, 'SignColumn', { bg = 'none' })
     vim.api.nvim_set_hl(0, 'CursorLineNr', { ctermfg = 11, ctermbg = 'none' })
     vim.api.nvim_set_hl(0, 'LineNr', { ctermfg = 240 })
