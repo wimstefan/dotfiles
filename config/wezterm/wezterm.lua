@@ -18,9 +18,9 @@ end
 
 local my_font
 if hostname == 'oldie' then
-  my_font = 'triple'
+  my_font = 'monaspace'
 else
-  my_font = 'triple'
+  my_font = 'monaspace'
 end
 
 local function basename(s)
@@ -213,7 +213,7 @@ local function font_set(name)
   elseif string.match(name, 'jet') then
     font = font_fallback({ family = 'JetBrains Mono', harfbuzz_features = { 'cv06', 'cv07', 'cv11', 'ss20', 'zero' } })
   elseif string.match(name, 'monaspace') then
-    font = font_fallback({ family = 'Monaspace Argon', weight = 'Light', harfbuzz_features = { 'ss01', 'ss02', 'ss03', 'ss04', 'ss05', 'ss06', 'ss07', 'ss08', 'ss09', 'calt', 'liga' } })
+    font = font_fallback({ family = 'MonaspiceXe Nerd Font Propo', weight = 'Light', harfbuzz_features = { 'ss01', 'ss02', 'ss03', 'ss04', 'ss05', 'ss06', 'ss07', 'ss08', 'ss09', 'calt', 'liga' } })
   elseif string.match(name, 'operator') then
     font = font_fallback({ family = 'Liga Operator Mono', weight = 'Light', harfbuzz_features = { 'ss05' } })
   elseif string.match(name, 'plex') then
@@ -271,7 +271,7 @@ local function font_rules(name)
         intensity = 'Normal',
         italic = true,
         font = font_fallback({
-          family = 'Monaspace Radon',
+          family = 'MonaspiceRn Nerd Font Propo',
           weight = 'Light',
           harfbuzz_features = { 'ss01', 'ss02', 'ss03', 'ss04', 'ss05', 'ss06', 'ss07', 'ss08', 'ss09', 'calt', 'liga' }
         })
@@ -280,7 +280,7 @@ local function font_rules(name)
         intensity = 'Bold',
         italic = true,
         font = font_fallback({
-          family = 'Monaspace Radon',
+          family = 'MonaspiceRn Nerd Font Propo',
           weight = 'Medium',
           harfbuzz_features = { 'ss01', 'ss02', 'ss03', 'ss04', 'ss05', 'ss06', 'ss07', 'ss08', 'ss09', 'calt', 'liga' }
         })
@@ -289,7 +289,7 @@ local function font_rules(name)
         intensity = 'Bold',
         italic = false,
         font = font_fallback({
-          family = 'Monaspace Argon',
+          family = 'MonaspiceXe Nerd Font Propo',
           weight = 'Medium',
           harfbuzz_features = { 'ss01', 'ss02', 'ss03', 'ss04', 'ss05', 'ss06', 'ss07', 'ss08', 'ss09', 'calt', 'liga' }
         })
@@ -418,27 +418,27 @@ local function font_size(name)
     end
   elseif hostname == 'tj' then
     if string.match(name, 'custom') then
-      size = 10.0
-    elseif string.match(name, 'fantasque') then
-      size = 11.5
-    elseif string.match(name, 'hasklig') then
-      size = 10.0
-    elseif string.match(name, 'iosevka') then
-      size = 10.5
-    elseif string.match(name, 'jet') then
-      size = 10.0
-    elseif string.match(name, 'monaspace') then
-      size = 10.0
-    elseif string.match(name, 'operator') then
-      size = 10.5
-    elseif string.match(name, 'plex') then
-      size = 10.0
-    elseif string.match(name, 'pt') then
-      size = 10.5
-    elseif string.match(name, 'recursive') then
-      size = 10.0
-    elseif string.match(name, 'triple') then
       size = 11.0
+    elseif string.match(name, 'fantasque') then
+      size = 13.0
+    elseif string.match(name, 'hasklig') then
+      size = 11.0
+    elseif string.match(name, 'iosevka') then
+      size = 11.5
+    elseif string.match(name, 'jet') then
+      size = 11.0
+    elseif string.match(name, 'monaspace') then
+      size = 11.0
+    elseif string.match(name, 'operator') then
+      size = 12.0
+    elseif string.match(name, 'plex') then
+      size = 11.0
+    elseif string.match(name, 'pt') then
+      size = 11.5
+    elseif string.match(name, 'recursive') then
+      size = 11.0
+    elseif string.match(name, 'triple') then
+      size = 12.0
     end
   end
   return size
