@@ -1,11 +1,5 @@
 require('vim._extui').enable({
-  enable = true,
-  msg = {
-    pos = 'box',
-    box = {
-      timeout = 8000,
-    },
-  },
+  enable = true
 })
 
 return {
