@@ -14,7 +14,7 @@ return {
     opts = {}
   },
   {
-    'jamessan/vim-gnupg',
+    'benoror/gpg.nvim',
     lazy = false
   },
   {
