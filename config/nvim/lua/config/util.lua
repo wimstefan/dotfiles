@@ -37,7 +37,7 @@ function Prettify()
     attr = ({ bg = 'background', fg = 'foreground' })[attr] or attr
     return hl[attr] or 'NONE'
   end
-  local cs = vim.g.colors_name
+  local cs = vim.g.colors_name or 'default'
   vim.api.nvim_set_hl(0, 'Normal', { bg = 'none' })
   vim.api.nvim_set_hl(0, 'NormalNC', { bg = 'none' })
   vim.api.nvim_set_hl(0, 'CursorColumn', { bg = 'none' })
@@ -56,7 +56,6 @@ function Prettify()
     vim.api.nvim_set_hl(0, 'IncSearch', { link = 'DiagnosticVirtualTextWarn' })
     vim.api.nvim_set_hl(0, 'Visual', { bg = dimmed_bg, bold = true })
   elseif cs == 'vim' then
-    vim.opt.termguicolors = false
     vim.api.nvim_set_hl(0, 'CursorColumn', { bg = 'none' })
     vim.api.nvim_set_hl(0, 'SignColumn', { bg = 'none' })
     vim.api.nvim_set_hl(0, 'CursorLineNr', { ctermfg = 11, ctermbg = 'none' })
