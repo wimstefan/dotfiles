@@ -11,7 +11,10 @@ return {
       { '<Leader>yw', '<Cmd>Yazi cwd<CR>', desc = "Open the file manager in nvim's working directory" },
       { ',ty', '<Cmd>Yazi toggle<CR>', desc = 'Resume the last yazi session' }
     },
-    opts = {}
+    dependencies = 'folke/snacks.nvim',
+    opts = {
+      yazi_floating_window_border = require('config.ui').borders
+    }
   },
   {
     'benoror/gpg.nvim',
