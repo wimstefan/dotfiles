@@ -37,5 +37,18 @@ return {
         colorcode = '#b3003f'
       }
     }
+  },
+  {
+    'eero-lehtinen/oklch-color-picker.nvim',
+    event = 'BufReadPost',
+    config = function()
+      require('oklch-color-picker').setup({})
+      vim.keymap.set('n', ',ct', function()
+        require('oklch-color-picker.highlight').toggle()
+      end, { desc = 'Toggle color highlighting' })
+      vim.keymap.set('n', ',cp', function()
+        require('oklch-color-picker').pick_under_cursor()
+      end, { desc = 'Color pick under cursor' })
+    end
   }
 }
