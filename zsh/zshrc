@@ -960,6 +960,8 @@ export FZF_DEFAULT_OPTS='
   -m
   --cycle
   --layout reverse
+  --header-border
+  --input-border
   --info=inline-right
   --no-separator
   --height ~90%
