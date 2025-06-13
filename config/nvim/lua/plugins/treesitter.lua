@@ -5,6 +5,7 @@ return {
     event = 'BufReadPre',
     dependencies = {
       'nvim-treesitter/nvim-treesitter-refactor',
+      'nvim-treesitter/nvim-treesitter-textobjects',
       {
         'folke/ts-comments.nvim',
         opts = {},
@@ -55,12 +56,12 @@ return {
                 shift_width = 2,
                 marker_minus = {
                   add_padding = false,
-                  text = '',
+                  text = '',
                   hl = 'MarkviewListItemMinus'
                 },
                 marker_plus = {
                   add_padding = false,
-                  text = '',
+                  text = '',
                   hl = 'MarkviewListItemPlus'
                 },
                 marker_star = {
@@ -68,6 +69,11 @@ return {
                   text = '',
                   hl = 'MarkviewListItemStar'
                 }
+              }
+            },
+            markdown_inline = {
+              images = {
+                enable = false
               }
             }
           })
