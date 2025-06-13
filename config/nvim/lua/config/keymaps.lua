@@ -17,10 +17,10 @@ vim.keymap.set('n', 'yof', function()
   end
 end, { desc = 'Toggle folds' })
 -- {{{2 lazy.nvim
-vim.keymap.set('n', '<Leader>l', require('lazy').home, { desc = 'Lazy' })
+vim.keymap.set('n', '<Leader>l', function() vim.cmd.Lazy('home') end, { desc = 'Lazy' })
 vim.keymap.set('n', '<Leader>ll', [[:Lazy load<Space>]], { desc = 'Lazy: load' })
-vim.keymap.set('n', '<Leader>lp', require('lazy').profile, { desc = 'Lazy: profile' })
-vim.keymap.set('n', '<Leader>ls', require('lazy').sync, { desc = 'Lazy: sync' })
+vim.keymap.set('n', '<Leader>lp', function() vim.cmd.Lazy('profile') end, { desc = 'Lazy: profile' })
+vim.keymap.set('n', '<Leader>ls', function() vim.cmd.Lazy('sync') end, { desc = 'Lazy: sync' })
 -- }}}2
 -- {{{2 navigation
 vim.keymap.set({ 'n', 'x' }, 'j', function() return vim.v.count > 0 and 'j' or 'gj' end,
