@@ -12,6 +12,8 @@ vim.g.clipboard = {
   }
 }
 
+vim.opt.background = 'dark'
+
 vim.opt.termguicolors = true
 vim.opt.guicursor = ''
 vim.opt.number = true

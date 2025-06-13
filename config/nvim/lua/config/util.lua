@@ -21,13 +21,6 @@ end
 
 -- {{{2 apply visual tweaks
 function Prettify()
-  -- colorscheme
-  if vim.fn.filereadable(vim.fn.expand(vim.fn.getenv('HOME') .. '/.config/colours/nvim_theme.lua')) == 1 then
-    vim.cmd.luafile(vim.fn.getenv('HOME') .. '/.config/colours/nvim_theme.lua')
-  else
-    vim.cmd.colorscheme('default')
-  end
-  -- highlights
   local function get_hex(name, attr)
     local bit = require('bit')
     local ok, hl = pcall(vim.api.nvim_get_hl_by_name, name, true)
@@ -45,16 +38,8 @@ function Prettify()
   vim.api.nvim_set_hl(0, 'ColorColumn', { link = 'Visual' })
   vim.api.nvim_set_hl(0, 'CursorLineNr', { fg = 'orange', bold = true, italic = true })
   if cs == 'default' or cs == 'lunaperche' or cs == 'habamax' then
-    vim.api.nvim_set_hl(0, 'StatusLine', { blend = 20 })
-    vim.api.nvim_set_hl(0, 'StatusLineNC', { blend = 20 })
-  elseif string.match(cs, '^tokyonight') then
-    local dimmed_bg = get_hex('StatusLine', 'bg')
-    vim.api.nvim_set_hl(0, 'helpCommand', { fg = get_hex('helpCommand', 'fg'), bg = dimmed_bg, italic = true })
-    vim.api.nvim_set_hl(0, '@text.literal.markdown_inline',
-      { fg = get_hex('@text.literal.markdown_inline', 'fg'), bg = dimmed_bg, italic = true })
-    vim.api.nvim_set_hl(0, 'Search', { link = 'DiagnosticVirtualTextInfo' })
-    vim.api.nvim_set_hl(0, 'IncSearch', { link = 'DiagnosticVirtualTextWarn' })
-    vim.api.nvim_set_hl(0, 'Visual', { bg = dimmed_bg, bold = true })
+    vim.api.nvim_set_hl(0, 'StatusLine', { blend = 80 })
+    vim.api.nvim_set_hl(0, 'StatusLineNC', { blend = 80 })
   elseif cs == 'vim' then
     vim.api.nvim_set_hl(0, 'CursorColumn', { bg = 'none' })
     vim.api.nvim_set_hl(0, 'SignColumn', { bg = 'none' })
