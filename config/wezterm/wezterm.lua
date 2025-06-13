@@ -80,7 +80,7 @@ local scheme_pool = {
   atelier_cave_light_base16 = 'Atelier Cave Light (base16)',
   galaxy_dark = 'galaxy_dark',
   galaxy_light = 'galaxy_light',
-  cyberdream = 'cyberdream',
+  cyberdream_dark = 'cyberdream',
   cyberdream_light = 'cyberdream-light',
   github_dark = 'Github Dark',
   github_light = 'Github (base16)',
@@ -96,7 +96,7 @@ local scheme_pool = {
   my_rose_pine_moon = 'my_rose_pine_moon',
   my_rose_pine_dawn = 'my_rose_pine_dawn'
 }
-local selected_scheme = scheme_pool.cyberdream
+local selected_scheme = scheme_pool.cyberdream_light
 local colour_dir = os.getenv('XDG_CONFIG_HOME') .. '/wezterm/colours/'
 local opacity
 local scheme
@@ -557,7 +557,8 @@ config.show_tab_index_in_tab_bar = true
 
 -- Behaviour
 config.term = 'wezterm'
-config.max_fps = 240
+config.animation_fps = 250
+config.max_fps = 250
 config.check_for_updates = false
 config.adjust_window_size_when_changing_font_size = false
 config.window_background_opacity = opacity
