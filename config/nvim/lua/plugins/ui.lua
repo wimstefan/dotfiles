@@ -1,3 +1,4 @@
+-- Messaging
 require('vim._extui').enable({
   enable = true
 })
@@ -18,6 +19,19 @@ return {
       },
       win = {
         padding = { 2, 2, 2, 2 }
+      }
+    }
+  },
+  {
+    'chrisgrieser/nvim-origami',
+    event = 'VeryLazy',
+    opts = {
+      foldtext = {
+        enabled = true,
+        padding = 4,
+        lineCount = {
+          template = '.. [ %d lines ] ..'
+        }
       }
     }
   },

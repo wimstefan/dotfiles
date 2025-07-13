@@ -70,11 +70,6 @@ vim.opt.fillchars:append({
 local win = vim.api.nvim_get_current_win()
 vim.wo[win][0].foldmethod = 'expr'
 vim.wo[win][0].foldexpr = 'v:lua.vim.treesitter.foldexpr()'
-vim.g.foldtext = function()
-  local line = vim.fn.getline(vim.v.foldstart)
-  local folded_line_count = vim.v.foldend - vim.v.foldstart + 1
-  return '... [' .. folded_line_count .. ' lines] ... ' .. line
-end
 
 vim.opt.shiftwidth = indent
 vim.opt.shiftround = true
