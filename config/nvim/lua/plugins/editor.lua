@@ -30,6 +30,7 @@ return {
         internal = true,
         linematch = 60
       },
+      gh = true,
       preview_config = {
         relative = 'cursor',
         row = 1,
