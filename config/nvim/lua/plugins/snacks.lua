@@ -30,7 +30,11 @@ return {
     explorer = {
       replace_netrw = true
     },
-    image = { enabled = true },
+    image = {
+      doc = {
+        enabled = false
+      }
+    },
     indent = {
       chunk = {
         enabled = true,

@@ -70,11 +70,6 @@ return {
                   hl = 'MarkviewListItemStar'
                 }
               }
-            },
-            markdown_inline = {
-              images = {
-                enable = false
-              }
             }
           })
         end
