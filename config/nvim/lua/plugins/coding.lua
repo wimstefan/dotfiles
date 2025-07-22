@@ -3,6 +3,9 @@ return {
     'windwp/nvim-autopairs',
     event = 'InsertEnter',
     config = true,
+    keys = {
+      { ',ta', function() require('nvim-autopairs').toggle() end, desc = 'Toggle autopairs' }
+    },
     opts = {
       fast_wrap = {}
     }
