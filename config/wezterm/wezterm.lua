@@ -17,11 +17,7 @@ else
 end
 
 local my_font
-if hostname == 'oldie' then
-  my_font = 'monaspace'
-else
-  my_font = 'monaspace'
-end
+my_font = 'monaspace'
 
 local function basename(s)
   return string.gsub(s, '(.*[/\\])(.*)', '%2')
@@ -96,7 +92,7 @@ local scheme_pool = {
   my_rose_pine_moon = 'my_rose_pine_moon',
   my_rose_pine_dawn = 'my_rose_pine_dawn'
 }
-local selected_scheme = scheme_pool.cyberdream_light
+local selected_scheme = scheme_pool.cyberdream_dark
 local colour_dir = os.getenv('XDG_CONFIG_HOME') .. '/wezterm/colours/'
 local opacity
 local scheme
@@ -271,8 +267,8 @@ local function font_rules(name)
         intensity = 'Normal',
         italic = true,
         font = font_fallback({
-          family = 'MonaspiceRn Nerd Font Propo',
-          weight = 'Light',
+          family = 'MonaspiceXe Nerd Font Propo',
+          style = 'Italic',
           harfbuzz_features = { 'ss01', 'ss02', 'ss03', 'ss04', 'ss05', 'ss06', 'ss07', 'ss08', 'ss09', 'calt', 'liga' }
         })
       },
@@ -280,7 +276,8 @@ local function font_rules(name)
         intensity = 'Bold',
         italic = true,
         font = font_fallback({
-          family = 'MonaspiceRn Nerd Font Propo',
+          family = 'MonaspiceXe Nerd Font Propo',
+          style = 'Italic',
           weight = 'Medium',
           harfbuzz_features = { 'ss01', 'ss02', 'ss03', 'ss04', 'ss05', 'ss06', 'ss07', 'ss08', 'ss09', 'calt', 'liga' }
         })
