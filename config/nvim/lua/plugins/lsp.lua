@@ -62,7 +62,7 @@ vim.lsp.config('*', {
   single_file_support = true
 })
 
-vim.lsp.config['bashls'] = {
+vim.lsp.config['bash'] = {
   cmd = { 'bash-language-server', 'start' },
   filetypes = {
     'sh',
@@ -70,7 +70,23 @@ vim.lsp.config['bashls'] = {
     'zsh'
   }
 }
-vim.lsp.config['cssls'] = {
+vim.lsp.config['basics'] = {
+  cmd = { 'basics-language-server' },
+  settings = {
+    buffer = {
+      enable = true,
+      minCompletionLength = 4
+    },
+    path = {
+      enable = true
+    },
+    snippet = {
+      enable = false,
+      sources = {}
+    }
+  }
+}
+vim.lsp.config['css'] = {
   cmd = { 'vscode-css-language-server', '--stdio' },
   filetypes = { 'css', 'scss', 'less' },
   root_markers = { 'package.json', '.git' },
@@ -89,6 +105,9 @@ vim.lsp.config['html'] = {
     'liquid',
     'templ'
   },
+  on_attach = function(client)
+    vim.lsp.linked_editing_range.enable(true, { client_id = client.id })
+  end,
   settings = {
     provideFormatter = true,
     embeddedLanguages = {
@@ -113,7 +132,7 @@ vim.lsp.config['html'] = {
     }
   }
 }
-vim.lsp.config['luals'] = {
+vim.lsp.config['lua_ls'] = {
   cmd = { 'lua-language-server' },
   filetypes = { 'lua' },
   root_markers = { '.luarc.json', '.luarc.jsonc' },
@@ -156,12 +175,15 @@ vim.lsp.config['luals'] = {
         enable = false
       },
       workspace = {
-        checkThirdParty = false
+        checkThirdParty = false,
+        library = {
+          vim.env.VIMRUNTIME
+        }
       }
     }
   }
 }
-vim.lsp.config['jsonls'] = {
+vim.lsp.config['json'] = {
   cmd = { 'vscode-json-language-server', '--stdio' },
   filetypes = { 'json', 'jsonc' },
   settings = {
@@ -172,7 +194,7 @@ vim.lsp.config['taplo'] = {
   cmd = { 'taplo', 'lsp', 'stdio' },
   filetypes = { 'toml' }
 }
-vim.lsp.config['vimls'] = {
+vim.lsp.config['vim'] = {
   cmd = { 'vim-language-server', '--stdio' },
   filetypes = { 'vim' }
 }
@@ -182,7 +204,7 @@ vim.lsp.config['zk'] = {
   root_markers = { '.zk' }
 }
 
-vim.lsp.enable({ 'bashls', 'cssls', 'html', 'luals', 'jsonls', 'taplo', 'vimls', 'zk' })
+vim.lsp.enable({ 'bash', 'basics', 'css', 'html', 'lua_ls', 'json', 'taplo', 'vim', 'zk' })
 
 vim.api.nvim_create_autocmd('LspAttach', {
   group = vim.api.nvim_create_augroup('UserLspConfig', {}),
@@ -197,7 +219,6 @@ vim.api.nvim_create_autocmd('LspAttach', {
 
     -- Buffer local mappings.
     local opts = { buffer = event.buf }
-    vim.keymap.del('n', 'K', opts)
     vim.keymap.set('n', ',lI', function() vim.cmd.checkhealth('lsp') end,
       { desc = 'LSP: info' }, opts)
     vim.keymap.set('n', ',lL', function() vim.cmd(string.format('tabnew %s', vim.lsp.get_log_path())) end,
@@ -303,6 +324,17 @@ vim.api.nvim_create_autocmd('LspAttach', {
 })
 
 return {
+  {
+    'folke/lazydev.nvim',
+    ft = 'lua',
+    opts = {
+      library = {
+        { path = 'snacks.nvim', words = { 'Snacks' } },
+        { path = '${3rd}/luv/library', words = { 'vim%.uv' } },
+        { path = 'wezterm-types', mods = { 'wez', 'wezterm' } }
+      }
+    }
+  },
   {
     'IsaacShelton/clear-action.nvim',
     event = 'LspAttach',
