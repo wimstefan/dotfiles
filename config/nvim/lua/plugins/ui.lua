@@ -1,7 +1,5 @@
 -- Messaging
-require('vim._extui').enable({
-  enable = true
-})
+require('vim._extui').enable({})
 
 return {
   {
