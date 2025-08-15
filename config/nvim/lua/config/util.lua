@@ -98,6 +98,12 @@ function ToggleDetails()
   end
 end
 -- }}}2
+-- {{{2 show help page of current word
+function ShowHelp()
+  local cword = vim.fn.expand('<cword>')
+  vim.cmd.help(cword)
+end
+-- }}}2
 -- {{{2 show manpage of current word
 function ShowMan()
   local cword = vim.fn.expand('<cword>')
