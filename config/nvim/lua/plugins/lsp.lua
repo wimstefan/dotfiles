@@ -26,6 +26,18 @@ vim.diagnostic.config({
       [3] = require('config.ui').icons.diagnostics[3],
       [4] = require('config.ui').icons.diagnostics[4],
       [5] = require('config.ui').icons.diagnostics[5]
+    },
+    linehl = {
+      [vim.diagnostic.severity.ERROR] = 'DiagnosticError',
+      [vim.diagnostic.severity.WARN] = 'DiagnosticWarn',
+      [vim.diagnostic.severity.HINT] = 'DiagnosticHint',
+      [vim.diagnostic.severity.INFO] = 'DiagnosticInfo'
+    },
+    numhl = {
+      [vim.diagnostic.severity.ERROR] = 'DiagnosticError',
+      [vim.diagnostic.severity.WARN] = 'DiagnosticWarn',
+      [vim.diagnostic.severity.HINT] = 'DiagnosticHint',
+      [vim.diagnostic.severity.INFO] = 'DiagnosticInfo'
     }
   },
   virtual_text = {
@@ -175,10 +187,7 @@ vim.lsp.config['lua_ls'] = {
         enable = false
       },
       workspace = {
-        checkThirdParty = false,
-        library = {
-          vim.env.VIMRUNTIME
-        }
+        checkThirdParty = false
       }
     }
   }
@@ -328,6 +337,7 @@ return {
     'folke/lazydev.nvim',
     ft = 'lua',
     opts = {
+      runtime = vim.env.VIMRUNTIME,
       library = {
         { path = 'snacks.nvim', words = { 'Snacks' } },
         { path = '${3rd}/luv/library', words = { 'vim%.uv' } },
