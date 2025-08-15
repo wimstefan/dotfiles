@@ -85,6 +85,10 @@ vim.opt.gdefault = true
 vim.opt.inccommand = 'split'
 vim.opt.selection = 'exclusive'
 
+vim.opt.autocomplete = true
+vim.opt.complete:append({
+  'o'
+})
 vim.opt.completeopt = {
   'menu',
   'menuone',
@@ -97,6 +101,15 @@ vim.opt.completeopt = {
 vim.opt.completefuzzycollect = {
   'files',
   'keyword'
+}
+
+vim.opt.wildmode = {
+  'noselect:lastused',
+  'full'
+}
+vim.opt.wildoptions = {
+  'pum',
+  'fuzzy'
 }
 
 vim.opt.diffopt:append({
