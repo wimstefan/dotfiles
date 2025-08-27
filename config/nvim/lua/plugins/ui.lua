@@ -24,6 +24,7 @@ return {
     'chrisgrieser/nvim-origami',
     event = 'VeryLazy',
     opts = {
+      useLspFoldsWithTreesitterFallback = false,
       foldtext = {
         enabled = true,
         padding = 4,
