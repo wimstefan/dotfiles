@@ -112,13 +112,16 @@ vim.opt.wildoptions = {
   'fuzzy'
 }
 
-vim.opt.diffopt:append({
+vim.opt.diffopt = {
+  'internal',
+  'filler',
+  'closeoff',
   'inline:char',
   'vertical',
   'indent-heuristic',
   'linematch:60',
   'algorithm:histogram'
-})
+}
 vim.opt.spellfile = vim.fn.stdpath('config') .. '/spell/myspell.utf-8.add'
 vim.opt.spelllang = {
   'en',
