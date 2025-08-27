@@ -21,7 +21,8 @@ return {
     lazy = false
   },
   {
-    'MTDL9/vim-log-highlighting',
-    ft = 'log'
+    'fei6409/log-highlight.nvim',
+    lazy = false,
+    opts = {}
   }
 }
