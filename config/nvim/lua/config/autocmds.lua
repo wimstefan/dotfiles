@@ -70,10 +70,25 @@ augroup('General', function(g)
     pattern = 'checkhealth',
     desc = 'Format checkhealth output',
     callback = function()
+      vim.opt_local.foldlevel = 99
+      vim.opt.foldlevelstart = 99
       vim.opt_local.list = false
       vim.opt_local.number = false
       vim.opt_local.relativenumber = false
       vim.opt_local.colorcolumn = ''
+    end
+  })
+  aucmd('FileType', {
+    group = g,
+    pattern = {
+      'help',
+      'man',
+      'snacks_dashboard'
+    },
+    desc = 'Disable folding',
+    callback = function()
+      vim.opt_local.foldlevel = 99
+      vim.opt.foldlevelstart = 99
     end
   })
   local unpack = unpack or table.unpack
