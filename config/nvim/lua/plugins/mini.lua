@@ -1,20 +1,20 @@
 return {
   {
-    'echasnovski/mini.ai',
+    'nvim-mini/mini.ai',
     version = false,
     event = 'VeryLazy',
     opts = {}
   },
   {
-    'echasnovski/mini.align',
+    'nvim-mini/mini.align',
     version = false,
     event = 'VeryLazy',
     opts = {}
   },
   {
-    'echasnovski/mini.completion',
+    'nvim-mini/mini.completion',
     version = false,
-    dependencies = 'echasnovski/mini.icons',
+    dependencies = 'nvim-mini/mini.icons',
     event = 'VeryLazy',
     config = function()
       require('mini.icons').setup()
@@ -31,7 +31,7 @@ return {
     end
   },
   {
-    'echasnovski/mini.icons',
+    'nvim-mini/mini.icons',
     version = false,
     config = function()
       require('mini.icons').setup()
@@ -39,13 +39,13 @@ return {
     end
   },
   {
-    'echasnovski/mini.surround',
+    'nvim-mini/mini.surround',
     version = false,
     event = 'VeryLazy',
     opts = {}
   },
   {
-    'echasnovski/mini.sessions',
+    'nvim-mini/mini.sessions',
     event = 'BufReadPre',
     keys = {
       { '<Leader>pd', function() require('mini.sessions').delete() end, desc = 'Session: delete' },
