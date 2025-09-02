@@ -35,19 +35,6 @@ require('nvim-treesitter.configs').setup({
     }
   }
 })
-vim.api.nvim_create_autocmd('PackChanged', {
-  group = vim.api.nvim_create_augroup('pack', { clear = true }),
-  callback = function(args)
-    local spec = args.data.spec
-    local cwd_path = args.data.path
-    vim.notify('Installation path:' .. cwd_path, vim.log.levels.INFO)
-    if spec and spec.name == 'nvim-treesitter' and args.data.kind == 'update' then
-      vim.schedule(function()
-        require('nvim-treesitter').update()
-      end)
-    end
-  end
-})
 
 vim.pack.add({
   { src = 'https://github.com/nvim-treesitter/nvim-treesitter-refactor' }

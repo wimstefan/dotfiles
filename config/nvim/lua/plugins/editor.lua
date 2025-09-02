@@ -1,22 +1,6 @@
 vim.pack.add({
   { src = 'https://github.com/junegunn/fzf' }
 })
-vim.api.nvim_create_autocmd('PackChanged', {
-  group = vim.api.nvim_create_augroup('pack', { clear = true }),
-  callback = function(args)
-    local spec = args.data.spec
-    local cwd_path = vim.fn.stdpath('data') .. '/site/pack/core/opt/fzf'
-    vim.notify('Installation path:' .. cwd_path, vim.log.levels.INFO)
-    if spec and spec.name == 'fzf' and args.data.kind == 'update' or args.data.kind == 'install' then
-      vim.notify('Installing/updating fzf in' .. cwd_path, vim.log.levels.INFO)
-      vim.schedule(function()
-        vim.system({ './install', '--all', '--xdg' }, { cwd = cwd_path, text = true })
-        vim.system({ 'make' }, { cwd = cwd_path, text = true })
-        vim.system({ 'make', 'install' }, { cwd = cwd_path, text = true })
-      end)
-    end
-  end
-})
 
 vim.pack.add({
   { src = 'https://github.com/lewis6991/gitsigns.nvim' }

@@ -3,6 +3,29 @@ local function augroup(name, fnc)
   fnc(vim.api.nvim_create_augroup(name, { clear = true }))
 end
 
+augroup('Pack', function(g)
+  aucmd('PackChanged', {
+    group = g,
+    callback = function(args)
+      local spec = args.data.spec
+      if spec and spec.name == 'fzf' and args.data.kind == 'update' or args.data.kind == 'install' then
+        local cwd_path = vim.fn.stdpath('data') .. '/site/pack/core/opt/fzf'
+        vim.notify('Installing/updating fzf in' .. cwd_path, vim.log.levels.INFO)
+        vim.schedule(function()
+          vim.system({ './install', '--all', '--xdg' }, { cwd = cwd_path, text = true })
+          vim.system({ 'make' }, { cwd = cwd_path, text = true })
+          vim.system({ 'make', 'install' }, { cwd = cwd_path, text = true })
+        end)
+      end
+      if spec and spec.name == 'nvim-treesitter' and args.data.kind == 'update' then
+        vim.schedule(function()
+          require('nvim-treesitter').update()
+        end)
+      end
+    end
+  })
+end)
+
 augroup('General', function(g)
   aucmd('BufWritePost', {
     group = g,
