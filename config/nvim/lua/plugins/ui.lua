@@ -1,67 +1,96 @@
 -- Messaging
 require('vim._extui').enable({})
 
-return {
-  {
-    'folke/which-key.nvim',
-    event = 'VeryLazy',
-    opts = {
-      preset = 'helix',
-      plugins = {
-        marks = true,
-        registers = true,
-        spelling = {
-          enabled = true,
-          suggestions = 40
-        }
-      },
-      win = {
-        padding = { 2, 2, 2, 2 }
-      }
+vim.pack.add({
+  { src = 'https://github.com/folke/which-key.nvim' }
+})
+require('which-key').setup({
+  preset = 'helix',
+  plugins = {
+    marks = true,
+    registers = true,
+    spelling = {
+      enabled = true,
+      suggestions = 40
     }
   },
-  {
-    'chrisgrieser/nvim-origami',
-    event = 'VeryLazy',
-    opts = {
-      useLspFoldsWithTreesitterFallback = false,
-      foldtext = {
-        enabled = true,
-        padding = 4,
-        lineCount = {
-          template = '.. [ %d lines ] ..'
-        }
-      }
-    }
-  },
-  {
-    'Bekaboo/deadcolumn.nvim',
-    event = 'VeryLazy',
-    init = function()
-      vim.opt.colorcolumn = '80'
-    end,
-    opts = {
-      blending = {
-        threshold = 0.75,
-        colorcode = '#f8f9fe'
-      },
-      warning = {
-        alpha = 0.9,
-        colorcode = '#b3003f'
-      }
-    }
-  },
-  {
-    'eero-lehtinen/oklch-color-picker.nvim',
-    event = 'BufReadPost',
-    config = function()
-      require('oklch-color-picker').setup({})
-      vim.keymap.set('n', ',ct', function()
-        require('oklch-color-picker.highlight').toggle()
-      end, { desc = 'Toggle color highlighting' })
-      vim.keymap.set('n', ',cp', function()
-        require('oklch-color-picker').pick_under_cursor()
-      end, { desc = 'Color pick under cursor' })
-    end
+  win = {
+    padding = { 2, 2, 2, 2 }
   }
-}
+})
+
+vim.pack.add({
+  { src = 'https://github.com/chrisgrieser/nvim-origami' }
+})
+require('origami').setup({
+  useLspFoldsWithTreesitterFallback = false,
+  foldtext = {
+    enabled = true,
+    padding = 4,
+    lineCount = {
+      template = '.. [ %d lines ] ..'
+    }
+  }
+})
+
+vim.pack.add({
+  {
+    src = 'https://github.com/OXY2DEV/markview.nvim',
+    name = 'markview',
+    data = {
+      ft = 'markdown'
+    }
+  }
+})
+require('markview').setup({
+  preview = {
+    modes = { 'n', 'I' },
+    hybrid_modes = { 'i' }
+  },
+  markdown = {
+    list_items = {
+      indent_size = 2,
+      shift_width = 2,
+      marker_minus = {
+        add_padding = false,
+        text = '',
+        hl = 'MarkviewListItemMinus'
+      },
+      marker_plus = {
+        add_padding = false,
+        text = '',
+        hl = 'MarkviewListItemPlus'
+      },
+      marker_star = {
+        add_padding = true,
+        text = '',
+        hl = 'MarkviewListItemStar'
+      }
+    }
+  }
+})
+vim.keymap.set('n', ',tm', function() require('markview').commands.toggle() end, { desc = 'Markview: toggle' })
+
+vim.pack.add({
+  { src = 'https://github.com/Bekaboo/deadcolumn.nvim' },
+})
+require('deadcolumn').setup({
+  function()
+    vim.opt.colorcolumn = '80'
+  end,
+  blending = {
+    threshold = 0.75,
+    colorcode = '#f8f9fe'
+  },
+  warning = {
+    alpha = 0.9,
+    colorcode = '#b3003f'
+  }
+})
+
+vim.pack.add({
+  { src = 'https://github.com/eero-lehtinen/oklch-color-picker.nvim' }
+})
+require('oklch-color-picker').setup()
+vim.keymap.set('n', ',ct', function() require('oklch-color-picker.highlight').toggle() end, { desc = 'Toggle color highlighting' })
+vim.keymap.set('n', ',cp', function() require('oklch-color-picker').pick_under_cursor() end, { desc = 'Color pick under cursor' })

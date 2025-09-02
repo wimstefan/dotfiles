@@ -144,6 +144,13 @@ vim.lsp.config['html'] = {
     }
   }
 }
+vim.lsp.config['json'] = {
+  cmd = { 'vscode-json-language-server', '--stdio' },
+  filetypes = { 'json', 'jsonc' },
+  settings = {
+    provideFormatter = true
+  }
+}
 vim.lsp.config['lua_ls'] = {
   cmd = { 'lua-language-server' },
   filetypes = { 'lua' },
@@ -192,12 +199,10 @@ vim.lsp.config['lua_ls'] = {
     }
   }
 }
-vim.lsp.config['json'] = {
-  cmd = { 'vscode-json-language-server', '--stdio' },
-  filetypes = { 'json', 'jsonc' },
-  settings = {
-    provideFormatter = true
-  }
+vim.lsp.config['marksman'] = {
+  cmd = { 'marksman', 'server' },
+  filetypes = { 'markdown', 'markdown.mdx' },
+  root_markers = { '.marksman.toml', '.git' }
 }
 vim.lsp.config['taplo'] = {
   cmd = { 'taplo', 'lsp', 'stdio' },
@@ -213,7 +218,7 @@ vim.lsp.config['zk'] = {
   root_markers = { '.zk' }
 }
 
-vim.lsp.enable({ 'bash', 'basics', 'css', 'html', 'lua_ls', 'json', 'taplo', 'vim', 'zk' })
+vim.lsp.enable({ 'bash', 'basics', 'css', 'html', 'json', 'lua_ls', 'marksman', 'taplo', 'vim', 'zk' })
 
 vim.api.nvim_create_autocmd('LspAttach', {
   group = vim.api.nvim_create_augroup('UserLspConfig', {}),
@@ -254,13 +259,6 @@ vim.api.nvim_create_autocmd('LspAttach', {
     else
       lsp_messages = lsp_messages .. 'no codeAction' .. lsp_msg_sep
     end
-    if client:supports_method('textDocument/foldingRange', event.buf) then
-      local win = vim.api.nvim_get_current_win()
-      vim.wo[win][0].foldmethod = 'expr'
-      vim.wo[win][0].foldexpr = 'v:lua.vim.lsp.foldexpr()'
-    else
-      lsp_messages = lsp_messages .. 'no folding' .. lsp_msg_sep
-    end
     if client:supports_method('textDocument/formatting', event.buf) then
       local fmt_opts = vim.bo[event.buf].ft == 'lua'
         and 'async=true,bufnr=0,name="lua_ls"'
@@ -269,6 +267,11 @@ vim.api.nvim_create_autocmd('LspAttach', {
         { desc = 'LSP: formatting' }, opts)
     else
       lsp_messages = lsp_messages .. 'no format' .. lsp_msg_sep
+    end
+    if client:supports_method('textDocument/onTypeFormatting', event.buf) then
+      vim.lsp.on_type_formatting.enable()
+    else
+      lsp_messages = lsp_messages .. 'no on-type formatting' .. lsp_msg_sep
     end
     if client:supports_method('textDocument/rangeFormatting', event.buf) then
       vim.keymap.set('v', ',lf',
@@ -332,92 +335,87 @@ vim.api.nvim_create_autocmd('LspAttach', {
   end
 })
 
-return {
+vim.pack.add({
   {
-    'folke/lazydev.nvim',
-    ft = 'lua',
-    opts = {
-      runtime = vim.env.VIMRUNTIME,
-      library = {
-        { path = 'snacks.nvim', words = { 'Snacks' } },
-        { path = '${3rd}/luv/library', words = { 'vim%.uv' } },
-        { path = 'wezterm-types', mods = { 'wez', 'wezterm' } }
-      }
-    }
-  },
-  {
-    'IsaacShelton/clear-action.nvim',
-    event = 'LspAttach',
-    keys = {
-      { ',tc', vim.cmd.CodeActionToggleSigns, desc = 'Toggle: code actions' }
-    },
-    opts = {
-      signs = {
-        enable = true,
-        silent = false,
-        combine = false,
-        position = 'eol',
-        show_label = true,
-        icons = {
-          quickfix = ' ' .. require('config.ui').icons.diagnostics[6],
-          refactor = ' ' .. require('config.ui').icons.diagnostics[4],
-          source = ' ' .. require('config.ui').icons.diagnostics[7],
-          combined = ' ' .. require('config.ui').icons.diagnostics[4]
-        },
-        highlights = {
-          quickfix = '@markup.italic',
-          refactor = '@markup.italic',
-          source = '@markup.italic',
-          combined = '@markup.italic',
-          label = '@markup.italic'
-        }
-      }
-    }
-  },
-  {
-    'aznhe21/actions-preview.nvim',
-    event = 'LspAttach',
-    opts = {
-      snacks = {
-        layout = {
-          preset = 'ivy'
-        }
-      }
-    }
-  },
-  {
-    'lewis6991/hover.nvim',
-    event = 'VeryLazy',
-    config = function()
-      require('hover').setup({
-        init = function()
-          require('hover.providers.lsp')
-          require('hover.providers.man')
-          require('hover.providers.diagnostic')
-          require('hover.providers.fold_preview')
-          require('hover.providers.highlight')
-        end,
-        title = true
-      })
-      vim.keymap.set('n', 'H', require('hover').hover, { desc = 'hover.nvim' })
-      vim.keymap.set('n', 'gH', require('hover').hover_select, { desc = 'hover.nvim (select)' })
-    end
-  },
-  {
-    'oskarrrrrrr/symbols.nvim',
-    config = function()
-      local r = require('symbols.recipes')
-      require('symbols').setup(r.DefaultFilters, r.AsciiSymbols, {
-        sidebar = {
-          open_direction = 'try-right',
-          preview = {
-            show_always = false
-          }
-        }
-      })
-    end,
-    keys = {
-      { '<Leader>Y', vim.cmd.SymbolsToggle, desc = 'Symbols: toggle' },
+    src = 'https://github.com/folke/lazydev.nvim',
+    data = {
+      ft = 'lua'
     }
   }
-}
+})
+require('lazydev').setup({
+  runtime = vim.env.VIMRUNTIME,
+  library = {
+    { path = 'snacks.nvim', words = { 'Snacks' } },
+    { path = '${3rd}/luv/library', words = { 'vim%.uv' } },
+    { path = 'wezterm-types', mods = { 'wez', 'wezterm' } }
+  }
+})
+
+vim.pack.add({
+  { src = 'https://github.com/IsaacShelton/clear-action.nvim' }
+})
+require('clear-action').setup({
+  signs = {
+    enable = true,
+    silent = false,
+    combine = false,
+    position = 'eol',
+    show_label = true,
+    icons = {
+      quickfix = ' ' .. require('config.ui').icons.diagnostics[6],
+      refactor = ' ' .. require('config.ui').icons.diagnostics[4],
+      source = ' ' .. require('config.ui').icons.diagnostics[7],
+      combined = ' ' .. require('config.ui').icons.diagnostics[4]
+    },
+    highlights = {
+      quickfix = '@markup.italic',
+      refactor = '@markup.italic',
+      source = '@markup.italic',
+      combined = '@markup.italic',
+      label = '@markup.italic'
+    }
+  }
+})
+vim.keymap.set('n', ',tc', vim.cmd.CodeActionToggleSigns, { desc = 'Toggle: code actions' })
+
+vim.pack.add({
+  { src = 'https://github.com/aznhe21/actions-preview.nvim' }
+})
+require('actions-preview').setup({
+  snacks = {
+    layout = {
+      preset = 'ivy'
+    }
+  }
+})
+
+vim.pack.add({
+  { src = 'https://github.com/lewis6991/hover.nvim' }
+})
+require('hover').setup({
+  init = function()
+    require('hover.providers.lsp')
+    require('hover.providers.man')
+    require('hover.providers.diagnostic')
+    require('hover.providers.fold_preview')
+    require('hover.providers.highlight')
+  end,
+  title = true
+})
+vim.keymap.set('n', 'H', require('hover').hover, { desc = 'hover.nvim' })
+vim.keymap.set('n', 'gH', require('hover').hover_select, { desc = 'hover.nvim (select)' })
+
+vim.pack.add({
+  { src = 'https://github.com/oskarrrrrrr/symbols.nvim' }
+})
+local r = require('symbols.recipes')
+require('symbols').setup(r.DefaultFilters, r.AsciiSymbols, {
+  sidebar = {
+    open_direction = 'try-right',
+    preview = {
+      show_always = false
+    }
+  }
+})
+vim.keymap.set('n', '<Leader>Y', vim.cmd.SymbolsToggle, { desc = 'Symbols: toggle' })

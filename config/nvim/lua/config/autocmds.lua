@@ -71,7 +71,7 @@ augroup('General', function(g)
     desc = 'Format checkhealth output',
     callback = function()
       vim.opt_local.foldlevel = 99
-      vim.opt.foldlevelstart = 99
+      vim.opt_local.foldlevelstart = 99
       vim.opt_local.list = false
       vim.opt_local.number = false
       vim.opt_local.relativenumber = false
@@ -88,7 +88,7 @@ augroup('General', function(g)
     desc = 'Disable folding',
     callback = function()
       vim.opt_local.foldlevel = 99
-      vim.opt.foldlevelstart = 99
+      vim.opt_local.foldlevelstart = 99
     end
   })
   local unpack = unpack or table.unpack
@@ -203,6 +203,7 @@ augroup('Help', function(g)
     pattern = {
       'help',
       'man',
+      'nvim-pack',
       'startuptime',
       'qf',
       'checkhealth'

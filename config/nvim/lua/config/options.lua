@@ -116,11 +116,11 @@ vim.opt.diffopt = {
   'internal',
   'filler',
   'closeoff',
-  'inline:char',
-  'vertical',
+  'algorithm:patience',
   'indent-heuristic',
-  'linematch:60',
-  'algorithm:histogram'
+  'inline:char',
+  'linematch:40',
+  'vertical'
 }
 vim.opt.spellfile = vim.fn.stdpath('config') .. '/spell/myspell.utf-8.add'
 vim.opt.spelllang = {

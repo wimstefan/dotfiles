@@ -1,5 +1,7 @@
+-- {{{1 key mappings
 vim.keymap.set('n', '-', vim.cmd.Lexplore, { desc = 'Explore' })
 vim.keymap.set('', 'cd', [[<Cmd>cd %:h | pwd<CR>]])
+vim.keymap.set('n', '<Leader>pu', function() vim.pack.update() end, { desc = 'Packages update'})
 vim.keymap.set('n', '<Leader>G', [[:grep<Space>]])
 vim.keymap.set('n', '<Leader>M', vim.cmd.messages, { desc = 'Messages' })
 vim.keymap.set('n', '<Leader>i', [[<Cmd>Inspect!<CR>]])
@@ -9,12 +11,6 @@ vim.keymap.set('n', '<Leader>P', function() Prettify() end, { desc = 'Apply visu
 vim.keymap.set('n', ',cd', [[<Cmd>color default | set termguicolors<CR>]], { desc = 'Apply default colorscheme' })
 vim.keymap.set('n', ',cv', [[<Cmd>color vim | set notermguicolors<CR>]], { desc = 'Apply vim colorscheme' })
 vim.keymap.set('n', '<F10>', function() ToggleDetails() end, { desc = 'Toggle decorations' })
--- {{{2 lazy.nvim
-vim.keymap.set('n', '<Leader>l', function() vim.cmd.Lazy('home') end, { desc = 'Lazy' })
-vim.keymap.set('n', '<Leader>ll', [[:Lazy load<Space>]], { desc = 'Lazy: load' })
-vim.keymap.set('n', '<Leader>lp', function() vim.cmd.Lazy('profile') end, { desc = 'Lazy: profile' })
-vim.keymap.set('n', '<Leader>ls', function() vim.cmd.Lazy('sync') end, { desc = 'Lazy: sync' })
--- }}}2
 -- {{{2 navigation
 vim.keymap.set({ 'n', 'x' }, 'j', function() return vim.v.count > 0 and 'j' or 'gj' end,
   { expr = true, replace_keycodes = false })
@@ -65,4 +61,32 @@ vim.keymap.set('n', ',st', [[G?--<CR>jVGd :r ~/.mutt/short-signature-tango<CR>]]
 vim.keymap.set('n', ',ss', [[G?--<CR>jVGd :r ~/.mutt/short-signature<CR>]])
 vim.keymap.set('n', ',sl', [[G?--<CR>jVGd :r ~/.mutt/signature<CR>]])
 -- }}}2
+-- }}}1
+-- {{{1 abbreviations
+vim.cmd.inoreabbrev({ 'svw', 'stefan@vos-wimmer.nl' })
+vim.cmd.inoreabbrev({ 'kvw', 'komala@vos-wimmer.nl' })
+vim.cmd.inoreabbrev({ 'stta', 'stefan@tangoartisan.com' })
+
+vim.cmd.inoreabbrev({ 'dATE', "<C-R>=strftime('%Y-%m-%d')<CR>" })
+-- {{{2 english
+vim.cmd.inoreabbrev({ 'grz', 'Greetz, Stefan' })
+vim.cmd.inoreabbrev({ 'ky', 'Kindly yours,<CR>Stefan' })
+-- }}}2
+-- {{{2 nederlands
+vim.cmd.inoreabbrev({ 'mvg', 'Met vriendelijke groet,<CR>Stefan' })
+vim.cmd.inoreabbrev({ 'vg', 'Vriendelijke groet,<CR>Stefan' })
+vim.cmd.inoreabbrev({ 'lg', 'Lieve groet,<CR>Stefan' })
+vim.cmd.inoreabbrev({ 'TZT', 'Te zijner tijd' })
+vim.cmd.inoreabbrev({ 'tzt', 'te zijner tijd' })
+-- }}}2
+-- {{{2 deutsch
+vim.cmd.inoreabbrev({ 'AL', 'Alles Liebe,<CR>Stefan' })
+vim.cmd.inoreabbrev({ 'LG', 'Lieben Gruß,<CR>Stefan' })
+vim.cmd.inoreabbrev({ 'VG', 'Mit wohlwollendem Gruß,<CR>Stefan' })
+-- }}}2
+-- {{{2 grammar
+vim.cmd.inoreabbrev({ 'ljk', 'lijk' })
+vim.cmd.inoreabbrev({ 'ljik', 'lijk' })
+-- }}}2
+-- }}}1
 -- vim: foldmethod=marker foldlevel=1
