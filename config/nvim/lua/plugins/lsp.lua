@@ -235,7 +235,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
     local opts = { buffer = event.buf }
     vim.keymap.set('n', ',lI', function() vim.cmd.checkhealth('lsp') end,
       { desc = 'LSP: info' }, opts)
-    vim.keymap.set('n', ',lL', function() vim.cmd(string.format('tabnew %s', vim.lsp.get_log_path())) end,
+    vim.keymap.set('n', ',lL', function() vim.cmd(string.format('tabnew %s', vim.lsp.log.get_filename())) end,
       { desc = 'LSP: log' }, opts)
     vim.keymap.set('n', ',lr', function() Snacks.picker.lsp_references() end,
       { desc = 'LSP: references' }, opts)
