@@ -1,7 +1,7 @@
 -- {{{1 key mappings
 vim.keymap.set('n', '-', vim.cmd.Lexplore, { desc = 'Explore' })
 vim.keymap.set('', 'cd', [[<Cmd>cd %:h | pwd<CR>]])
-vim.keymap.set('n', '<Leader>pu', function() vim.pack.update() end, { desc = 'Packages update'})
+vim.keymap.set('n', '<Leader>pu', function() vim.pack.update() end, { desc = 'Packages update' })
 vim.keymap.set('n', '<Leader>G', [[:grep<Space>]])
 vim.keymap.set('n', '<Leader>M', vim.cmd.messages, { desc = 'Messages' })
 vim.keymap.set('n', '<Leader>i', [[<Cmd>Inspect!<CR>]])
@@ -11,6 +11,7 @@ vim.keymap.set('n', '<Leader>P', function() Prettify() end, { desc = 'Apply visu
 vim.keymap.set('n', ',cd', [[<Cmd>color default | set termguicolors<CR>]], { desc = 'Apply default colorscheme' })
 vim.keymap.set('n', ',cv', [[<Cmd>color vim | set notermguicolors<CR>]], { desc = 'Apply vim colorscheme' })
 vim.keymap.set('n', '<F10>', function() ToggleDetails() end, { desc = 'Toggle decorations' })
+vim.keymap.set('c', '<Tab', '<C-n>', { desc = 'Tab key for command line completion' })
 -- {{{2 navigation
 vim.keymap.set({ 'n', 'x' }, 'j', function() return vim.v.count > 0 and 'j' or 'gj' end,
   { expr = true, replace_keycodes = false })

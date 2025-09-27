@@ -10,7 +10,7 @@ augroup('Pack', function(g)
       local spec = args.data.spec
       if spec and spec.name == 'fzf' and args.data.kind == 'update' or args.data.kind == 'install' then
         local cwd_path = vim.fn.stdpath('data') .. '/site/pack/core/opt/fzf'
-        vim.notify('Installing/updating fzf in' .. cwd_path, vim.log.levels.INFO)
+        vim.notify('Installing/updating fzf in ' .. cwd_path, vim.log.levels.INFO)
         vim.schedule(function()
           vim.system({ './install', '--all', '--xdg' }, { cwd = cwd_path, text = true })
           vim.system({ 'make' }, { cwd = cwd_path, text = true })
@@ -114,6 +114,15 @@ augroup('General', function(g)
       vim.opt_local.foldlevelstart = 99
     end
   })
+  aucmd('FileType', {
+    group = g,
+    pattern = 'snacks_picker_input',
+    desc = 'Disable completion in Snacks picker',
+    callback = function()
+      vim.b.minicompletion_disable = true
+    end
+  })
+
   local unpack = unpack or table.unpack
   local ignore_filetype = { 'gitcommit', 'gitrebase' }
   local ignore_buftype = { 'quickfix', 'nofile', 'help' }
@@ -143,6 +152,13 @@ augroup('General', function(g)
       if vim.wo.previewwindow then
         vim.opt_local.foldenable = false
       end
+    end
+  })
+  aucmd('CmdlineChanged', {
+    group = g,
+    desc = 'Use wildtrigger for command line',
+    callback = function()
+      vim.fn.wildtrigger()
     end
   })
 end)
@@ -177,14 +193,6 @@ augroup('Commentstrings', function(g)
     desc = 'commentstring for pfmain & toml',
     callback = function()
       vim.opt_local.commentstring = '#%s'
-    end
-  })
-  aucmd('FileType', {
-    group = g,
-    pattern = 'vifm',
-    desc = 'commentstring for vifm',
-    callback = function()
-      vim.opt_local.commentstring = '"%s'
     end
   })
   aucmd('FileType', {

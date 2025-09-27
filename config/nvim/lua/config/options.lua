@@ -85,18 +85,14 @@ vim.opt.gdefault = true
 vim.opt.inccommand = 'split'
 vim.opt.selection = 'exclusive'
 
-vim.opt.autocomplete = true
 vim.opt.complete:append({
   'o'
 })
 vim.opt.completeopt = {
-  'menu',
   'menuone',
   'fuzzy',
-  'nearest',
-  'noinsert',
   'noselect',
-  'popup'
+  'nosort'
 }
 vim.opt.completefuzzycollect = {
   'files',
