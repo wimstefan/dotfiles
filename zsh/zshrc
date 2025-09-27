@@ -366,7 +366,7 @@ alias dmesg='dmesg --human'
 alias les=less
 alias gcal='gcal -s1'
 alias cr=check-repos.sh
-alias duf='duf -theme ansi'
+alias duf='duf --style ascii --theme ansi'
 alias mtr='mtr --curses'
 alias eix='eix --force-color'
 alias w3m='TERM=xterm-256color w3m'
