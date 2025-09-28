@@ -1,47 +1,63 @@
 vim.pack.add({
-  { src = 'https://github.com/nvim-treesitter/nvim-treesitter' }
-})
-require('nvim-treesitter.configs').setup({
-  ensure_installed = {},
-  sync_install = true,
-  auto_install = true,
-  ignore_install = {},
-  modules = {},
-  highlight = {
-    enable = true
-  },
-  incremental_selection = {
-    enable = true,
-    keymaps = {
-      node_incremental = 'v',
-      node_decremental = 'V',
-    }
-  },
-  indent = {
-    enable = true
-  },
-  refactor = {
-    highlight_current_scope = {
-      enable = false
-    },
-    highlight_definitions = {
-      enable = true
-    },
-    navigation = {
-      enable = true
-    },
-    smart_rename = {
-      enable = true
-    }
+  {
+    src = 'https://github.com/nvim-treesitter/nvim-treesitter',
+    version = 'main'
   }
 })
-
-vim.pack.add({
-  { src = 'https://github.com/nvim-treesitter/nvim-treesitter-refactor' }
+require('nvim-treesitter').setup()
+local ts_parsers = {
+  'bash',
+  'cmake',
+  'comment',
+  'css',
+  'diff',
+  'git_config',
+  'gitattributes',
+  'gitcommit',
+  'gitignore',
+  'gpg',
+  'html',
+  'json',
+  'kdl',
+  'lua',
+  'luadoc',
+  'make',
+  'markdown',
+  'markdown_inline',
+  'muttrc',
+  'query',
+  'regex',
+  'rst',
+  'scss',
+  'toml',
+  'vim',
+  'vimdoc',
+  'yaml',
+  'xml',
+  'xresources',
+  'yaml'
+}
+require('nvim-treesitter').install(ts_parsers)
+vim.api.nvim_create_autocmd('FileType', {
+  group = vim.api.nvim_create_augroup('treesitter.setup', {}),
+  callback = function(args)
+    local buf = args.buf
+    local filetype = args.match
+    local language = vim.treesitter.language.get_lang(filetype) or filetype
+    if not vim.treesitter.language.add(language) then
+      return
+    end
+    vim.treesitter.start(buf, language)
+    vim.bo[buf].indentexpr = "v:lua.require('nvim-treesitter').indentexpr()"
+    vim.bo[buf].syntax = 'on'
+  end
 })
 
 vim.pack.add({
-  { src = 'https://github.com/nvim-treesitter/nvim-treesitter-textobjects' }
+  {
+    src = 'https://github.com/nvim-treesitter/nvim-treesitter-textobjects',
+    version = 'main'
+  }
 })
 
 vim.pack.add({
