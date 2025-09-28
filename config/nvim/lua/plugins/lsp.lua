@@ -224,10 +224,10 @@ vim.api.nvim_create_autocmd('LspAttach', {
   group = vim.api.nvim_create_augroup('UserLspConfig', {}),
   callback = function(event)
     local unpack = unpack or table.unpack
-    local client = assert(vim.lsp.get_client_by_id(event.data.client_id))
+    local client = vim.lsp.get_client_by_id(event.data.client_id)
     local lsp_messages = ''
     local lsp_msg_sep = ' ∷ '
-    lsp_messages = lsp_msg_sep .. 'LSP attached' .. lsp_msg_sep
+    lsp_messages = lsp_msg_sep .. 'LSP [' .. client.name .. ']' .. lsp_msg_sep
     -- Enable completion triggered by <c-x><c-o>
     vim.bo[event.buf].omnifunc = 'v:lua.MiniCompletion.completefunc_lsp'
 
@@ -256,22 +256,19 @@ vim.api.nvim_create_autocmd('LspAttach', {
     if client:supports_method('textDocument/codeAction', event.buf) then
       vim.keymap.set({ 'n', 'v' }, ',lca', function() require('actions-preview').code_actions() end,
         { desc = 'LSP: code actions' }, opts)
-    else
-      lsp_messages = lsp_messages .. 'no codeAction' .. lsp_msg_sep
+      lsp_messages = lsp_messages .. 'code actions' .. lsp_msg_sep
     end
     if client:supports_method('textDocument/formatting', event.buf) then
       local fmt_opts = vim.bo[event.buf].ft == 'lua'
-        and 'async=true,bufnr=0,name="lua_ls"'
-        or 'async=true,bufnr=0'
-      vim.keymap.set('n', ',lf', function() vim.lsp.buf.format(fmt_opts) end,
+        and 'async = true, name = "lua_ls", bufnr = ' .. event.buf
+        or 'async = true, bufnr = ' .. event.buf
+      vim.keymap.set('n', ',lf', function() vim.lsp.buf.format({ fmt_opts }) end,
         { desc = 'LSP: formatting' }, opts)
-    else
-      lsp_messages = lsp_messages .. 'no format' .. lsp_msg_sep
+      lsp_messages = lsp_messages .. 'formatting' .. lsp_msg_sep
     end
     if client:supports_method('textDocument/onTypeFormatting', event.buf) then
       vim.lsp.on_type_formatting.enable()
-    else
-      lsp_messages = lsp_messages .. 'no on-type formatting' .. lsp_msg_sep
+      lsp_messages = lsp_messages .. 'on-type formatting' .. lsp_msg_sep
     end
     if client:supports_method('textDocument/rangeFormatting', event.buf) then
       vim.keymap.set('v', ',lf',
@@ -294,29 +291,21 @@ vim.api.nvim_create_autocmd('LspAttach', {
           vim.lsp.buf.format(fmt_opts)
         end,
         { desc = 'LSP: range formatting' }, opts)
-    else
-      lsp_messages = lsp_messages .. 'no rangeFormat' .. lsp_msg_sep
+      lsp_messages = lsp_messages .. 'range formatting' .. lsp_msg_sep
     end
     if client:supports_method('textDocument/hover', event.buf) then
-      vim.keymap.set('n', ',lh', function() vim.lsp.buf.hover() end,
-        { desc = 'LSP: hover' }, opts)
-    else
-      vim.keymap.set('n', ',lh', [[<Nop>]], opts)
-      lsp_messages = lsp_messages .. 'no hovering' .. lsp_msg_sep
+      vim.keymap.set('n', ',lh', function() vim.lsp.buf.hover() end, { desc = 'LSP: hover' }, opts)
+      lsp_messages = lsp_messages .. 'hovering' .. lsp_msg_sep
     end
     if client:supports_method('textDocument/implementation', event.buf) then
       vim.keymap.set('n', ',li', function() Snacks.picker.lsp_implementations() end,
         { desc = 'LSP: implementations' }, opts)
-    else
-      vim.keymap.set('n', ',li', [[<Nop>]], opts)
-      lsp_messages = lsp_messages .. 'no implementation' .. lsp_msg_sep
+      lsp_messages = lsp_messages .. 'implementations' .. lsp_msg_sep
     end
     if client:supports_method('textDocument/inlayHint', event.buf) then
       vim.keymap.set('n', ',lH', function() vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled()) end,
         { desc = 'LSP: hints' }, opts)
-    else
-      vim.keymap.set('n', ',lH', [[<Nop>]], opts)
-      lsp_messages = lsp_messages .. 'no hints' .. lsp_msg_sep
+      lsp_messages = lsp_messages .. 'hints' .. lsp_msg_sep
     end
     if client:supports_method('textDocument/signatureHelp', event.buf) then
       vim.keymap.set({ 'i', 's' }, '<C-s>',
@@ -325,9 +314,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
       vim.keymap.set('n', ',ls',
         function() vim.lsp.buf.signature_help() end,
         { desc = 'LSP: signature help' }, opts)
-    else
-      vim.keymap.set('n', ',ls', [[<Nop>]], opts)
-      lsp_messages = lsp_messages .. 'no signatureHelp' .. lsp_msg_sep
+      lsp_messages = lsp_messages .. 'signature_help' .. lsp_msg_sep
     end
 
     -- messages
