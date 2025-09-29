@@ -380,29 +380,15 @@ require('actions-preview').setup({
 vim.pack.add({
   { src = 'https://github.com/lewis6991/hover.nvim' }
 })
-require('hover').setup({
-  init = function()
-    require('hover.providers.lsp')
-    require('hover.providers.man')
-    require('hover.providers.diagnostic')
-    require('hover.providers.fold_preview')
-    require('hover.providers.highlight')
-  end,
+require('hover').config({
+  providers = {
+    'hover.providers.lsp',
+    'hover.providers.man',
+    'hover.providers.diagnostic',
+    'hover.providers.fold_preview',
+    'hover.providers.highlight'
+  },
   title = true
 })
-vim.keymap.set('n', 'H', require('hover').hover, { desc = 'hover.nvim' })
-vim.keymap.set('n', 'gH', require('hover').hover_select, { desc = 'hover.nvim (select)' })
-
-vim.pack.add({
-  { src = 'https://github.com/oskarrrrrrr/symbols.nvim' }
-})
-local r = require('symbols.recipes')
-require('symbols').setup(r.DefaultFilters, r.AsciiSymbols, {
-  sidebar = {
-    open_direction = 'try-right',
-    preview = {
-      show_always = false
-    }
-  }
-})
-vim.keymap.set('n', '<Leader>Y', vim.cmd.SymbolsToggle, { desc = 'Symbols: toggle' })
+vim.keymap.set('n', 'H', function() require('hover').open() end, { desc = 'hover.nvim (open)' })
+vim.keymap.set('n', 'gH', function() require('hover').enter() end, { desc = 'hover.nvim (enter)' })
