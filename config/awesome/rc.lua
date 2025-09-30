@@ -51,7 +51,7 @@ beautiful.init(gears.filesystem.get_configuration_dir() .. 'themes/xresources/th
 local hostname = io.lines('/proc/sys/kernel/hostname')()
 if hostname == 'swimmer' then
   TYPE = 'desktop'
-  TEMPFILE = '/sys/devices/virtual/thermal/thermal_zone0/temp'
+  TEMPFILE = '/sys/devices/pci0000:00/0000:00:18.3/hwmon/hwmon1/temp1_input'
 elseif hostname == 'oldie' then
   BAT = 'BAT0'
   TYPE = 'laptop'
@@ -59,7 +59,7 @@ elseif hostname == 'oldie' then
 elseif hostname == 'tj' then
   BAT = 'BAT1'
   TYPE = 'laptop'
-  TEMPFILE = '/sys/devices/pci0000:00/0000:00:08.1/0000:04:00.0/hwmon/hwmon3/temp1_input'
+  TEMPFILE = '/sys/devices/pci0000:00/0000:00:18.3/hwmon/hwmon5/temp1_input'
 end
 
 local terminal = os.getenv('TERMINAL')
@@ -878,7 +878,7 @@ awful.keyboard.append_global_keybindings({
     { description = 'Darktable', group = 'applications' }),
   awful.key({ modkey }, 'e', function() awful.spawn(editor_cmd) end,
     { description = 'Editor', group = 'applications' }),
-  awful.key({ modkey }, 'g', function() awful.spawn('gimp') end,
+  awful.key({ modkey }, 'g', function() awful.spawn('gimp-3') end,
     { description = 'Gimp', group = 'applications' }),
   awful.key({ modkey }, 'o', function() awful.spawn('libreoffice') end,
     { description = 'Libreoffice', group = 'applications' }),
@@ -896,7 +896,7 @@ awful.keyboard.append_global_keybindings({
         math.floor(beautiful.wibar_height + 20) .. ' -x 14 ' .. terminal .. CLASS .. "'Scratchpad'")
     end,
     { description = 'Scratchpad', group = 'applications' }),
-  awful.key({ modkey }, 't', function() awful.spawn('thunderbird') end,
+  awful.key({ modkey }, 't', function() awful.spawn('thunderbird-bin') end,
     { description = 'Thunderbird', group = 'applications' }),
   awful.key({ modkey }, 'u', function() awful.spawn('ta-mixxx') end,
     { description = 'Mixxx', group = 'applications' }),

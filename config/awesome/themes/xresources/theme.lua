@@ -89,7 +89,7 @@ if is_dark_bg then
   theme.tint_symbol = theme.green_alt
 else
   theme.tint_fg = theme.foreground .. "88"
-  theme.tint_bg = theme.background .. "22"
+  theme.tint_bg = theme.background .. "66"
   theme.tint_active = theme.blue_alt .. "FF"
   theme.tint_marked = theme.yellow_alt .. "AA"
   theme.tint_symbol = theme.cyan_alt
@@ -180,20 +180,26 @@ end
 theme.tasklist_bg_minimized = theme.bg_normal
 
 theme.hotkeys_fg               = theme.foreground
-theme.hotkeys_bg               = theme.background
+theme.hotkeys_bg               = theme.tint_bg
 theme.hotkeys_modifiers_fg     = theme.blue_alt
+if is_dark_bg then
+  theme.hotkeys_label_fg       = theme.black
+else
+  theme.hotkeys_label_fg       = theme.white
+end
 theme.hotkeys_border_color     = theme.tint_marked
 theme.hotkeys_border_width     = theme.border_width * 1.4
 theme.hotkeys_group_margin     = dpi(24)
 theme.hotkeys_font             = theme.font_name .. "Bold 9.5"
 theme.hotkeys_description_font = theme.font_name .. "Book 9.5"
 
+theme.notification_bg           = theme.tint_bg
 theme.notification_border_width = theme.border_width * 0.8
 
 theme.tooltip_border_color = theme.tint_symbol
 theme.tooltip_border_width = theme.border_width * 0.6
 theme.tooltip_fg           = theme.fg_normal
-theme.tooltip_bg           = theme.bg_normal
+theme.tooltip_bg           = theme.tint_bg
 theme.tooltip_font         = theme.font_name .. "Book 10"
 
 theme.menu_height       = dpi(24)
