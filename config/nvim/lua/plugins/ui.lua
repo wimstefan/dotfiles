@@ -20,20 +20,6 @@ require('which-key').setup({
 })
 
 vim.pack.add({
-  { src = 'https://github.com/chrisgrieser/nvim-origami' }
-})
-require('origami').setup({
-  useLspFoldsWithTreesitterFallback = false,
-  foldtext = {
-    enabled = true,
-    padding = 4,
-    lineCount = {
-      template = '.. [ %d lines ] ..'
-    }
-  }
-})
-
-vim.pack.add({
   {
     src = 'https://github.com/OXY2DEV/markview.nvim',
     data = {
@@ -62,7 +48,7 @@ require('markview').setup({
       },
       marker_star = {
         add_padding = true,
-        text = '',
+        text = '󰓒',
         hl = 'MarkviewListItemStar'
       }
     }

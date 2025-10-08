@@ -64,6 +64,7 @@ vim.opt.foldlevelstart = 2
 vim.opt.foldcolumn = 'auto'
 vim.opt.fillchars:append({
   fold = ' ',
+  foldinner = ' ',
   foldsep = '🮍',
   foldopen = '',
   foldclose = ''
