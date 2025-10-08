@@ -168,7 +168,6 @@ vim.api.nvim_create_autocmd('LspProgress', {
   end
 })
 vim.api.nvim_create_autocmd('User', {
-  pattern = 'VeryLazy',
   callback = function()
     _G.dd = function(...)
       Snacks.debug.inspect(...)
