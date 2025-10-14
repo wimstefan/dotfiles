@@ -38,6 +38,7 @@ vim.opt.listchars = {
   precedes = '<'
 }
 vim.opt.winborder = require('config.ui').borders
+vim.opt.pumborder = require('config.ui').borders
 
 vim.opt.shortmess = 'ltToOCFI'
 vim.opt.laststatus = 3
@@ -86,6 +87,7 @@ vim.opt.gdefault = true
 vim.opt.inccommand = 'split'
 vim.opt.selection = 'exclusive'
 
+vim.bo.autocomplete = vim.bo.buftype == ''
 vim.opt.complete:append({
   'o'
 })
