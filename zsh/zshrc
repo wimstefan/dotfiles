@@ -408,7 +408,7 @@ function hc() { herbstclient $@ }
 function dirdiff() { # compare two directories with vim
   DIR1=$(printf '%q' $1); shift
   DIR2=$(printf '%q' $1); shift
-  $EDITOR $@ -c DirDiff\ ${DIR1}\ ${DIR2}
+  $EDITOR $@ -c DiffTool\ ${DIR1}\ ${DIR2}
 }
 
 function viz() { # edit AND source ~/.zshrc

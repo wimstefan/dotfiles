@@ -17,3 +17,5 @@ require('plugins.misc')
 require('plugins.snacks')
 require('plugins.treesitter')
 require('plugins.ui')
+
+vim.cmd('packadd nvim.difftool')

@@ -118,10 +118,6 @@ vim.keymap.set('n', '<Leader>Rw',
   { desc = 'Grug-Far: current word' })
 
 vim.pack.add({
-  { src = 'https://github.com/will133/vim-dirdiff' }
-})
-
-vim.pack.add({
   { src = 'https://github.com/rktjmp/paperplanes.nvim' }
 })
 require('paperplanes').setup({
