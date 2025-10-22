@@ -148,7 +148,7 @@ require('pantran').setup({
       vim.notify('No DEEPL_AUTH_KEY available', vim.log.levels.WARN)
     end
   end,
-  default_engine = 'deepl'
+  default_engine = vim.env.DEEPL_AUTH_KEY and 'deepl' or 'google'
 })
 
 vim.pack.add({
