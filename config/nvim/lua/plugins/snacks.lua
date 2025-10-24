@@ -66,6 +66,11 @@ require('snacks').setup({
         builtin = false,
         cmd = { 'bat' }
       }
+    },
+    sources = {
+      lsp_symbols = {
+        keep_parents = true
+      }
     }
   },
   quickfile = { enabled = true },
