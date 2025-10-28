@@ -187,9 +187,6 @@ vim.api.nvim_create_autocmd('User', {
     Snacks.toggle.option('wrap', { name = 'wrap' }):map('yow')
     Snacks.toggle.option('relativenumber', { name = 'relative number' }):map('yor')
     Snacks.toggle.line_number({ name = 'absolute number' }):map('yol')
-    Snacks.toggle.dim({ name = 'dimming' }):map('yod')
-    Snacks.toggle.zen({ name = 'zen' }):map('yoz')
-    Snacks.toggle.zoom({ name = 'zoom' }):map('yoZ')
     Snacks.toggle.indent({ name = 'indent' }):map(',ti')
     Snacks.toggle.scroll({ name = 'scroll' }):map(',ts')
   end

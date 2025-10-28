@@ -79,3 +79,31 @@ vim.pack.add({
 require('oklch-color-picker').setup()
 vim.keymap.set('n', ',ct', function() require('oklch-color-picker.highlight').toggle() end, { desc = 'Toggle color highlighting' })
 vim.keymap.set('n', ',cp', function() require('oklch-color-picker').pick_under_cursor() end, { desc = 'Color pick under cursor' })
+
+vim.pack.add({
+  { src = 'https://github.com/folke/twilight.nvim' }
+})
+require('twilight').setup()
+vim.keymap.set('n', 'yot', function() require('twilight').toggle() end, { desc = 'Twilight: toggle' })
+
+vim.pack.add({
+  { src = 'https://github.com/folke/zen-mode.nvim' }
+})
+require('zen-mode').setup({
+  window = {
+    options = {
+      signcolumn = 'no',
+      number = false,
+      relativenumber = false
+    }
+  },
+  plugins = {
+    twilight = {
+      enabled = true
+    },
+    gitsigns = {
+      enabled = false
+    }
+  }
+})
+vim.keymap.set('n', 'yoz', function() require('zen-mode').toggle() end, { desc = 'Zen mode: toggle' })
