@@ -68,6 +68,12 @@ require('snacks').setup({
       }
     },
     sources = {
+      gh_issue = {
+        layout = 'default'
+      },
+      gh_pr = {
+        layout = 'default'
+      },
       lsp_symbols = {
         keep_parents = true
       }
