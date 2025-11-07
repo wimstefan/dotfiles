@@ -35,7 +35,8 @@ local ts_parsers = {
   'yaml',
   'xml',
   'xresources',
-  'yaml'
+  'yaml',
+  'zsh'
 }
 require('nvim-treesitter').install(ts_parsers)
 vim.api.nvim_create_autocmd('FileType', {
