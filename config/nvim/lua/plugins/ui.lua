@@ -54,7 +54,7 @@ require('markview').setup({
     }
   }
 })
-vim.keymap.set('n', ',tm', function() require('markview').commands.toggle() end, { desc = 'Markview: toggle' })
+vim.keymap.set('n', ',tm', function() require('markview').commands.toggle() end, { desc = 'Toggle Markview' })
 
 vim.pack.add({
   { src = 'https://github.com/Bekaboo/deadcolumn.nvim' },
@@ -84,7 +84,7 @@ vim.pack.add({
   { src = 'https://github.com/folke/twilight.nvim' }
 })
 require('twilight').setup()
-vim.keymap.set('n', 'yot', function() require('twilight').toggle() end, { desc = 'Twilight: toggle' })
+vim.keymap.set('n', ',tt', function() require('twilight').toggle() end, { desc = 'Toggle Twilight' })
 
 vim.pack.add({
   { src = 'https://github.com/folke/zen-mode.nvim' }
@@ -106,4 +106,4 @@ require('zen-mode').setup({
     }
   }
 })
-vim.keymap.set('n', 'yoz', function() require('zen-mode').toggle() end, { desc = 'Zen mode: toggle' })
+vim.keymap.set('n', ',tz', function() require('zen-mode').toggle() end, { desc = 'Toggle Zen mode' })

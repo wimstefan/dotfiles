@@ -364,7 +364,7 @@ require('clear-action').setup({
     }
   }
 })
-vim.keymap.set('n', ',tc', vim.cmd.CodeActionToggleSigns, { desc = 'Toggle: code actions' })
+vim.keymap.set('n', ',tc', vim.cmd.CodeActionToggleSigns, { desc = 'Toggle code actions' })
 
 vim.pack.add({
   { src = 'https://github.com/aznhe21/actions-preview.nvim' }
