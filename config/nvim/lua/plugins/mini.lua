@@ -27,6 +27,16 @@ require('mini.icons').setup()
 MiniIcons.mock_nvim_web_devicons()
 
 vim.pack.add({
+  { src = 'https://github.com/nvim-mini/mini.indentscope' }
+})
+require('mini.indentscope').setup({
+  draw = {
+    delay = 1
+  },
+  symbol = '┊'
+})
+
+vim.pack.add({
   { src = 'https://github.com/nvim-mini/mini.surround' }
 })
 require('mini.surround').setup()

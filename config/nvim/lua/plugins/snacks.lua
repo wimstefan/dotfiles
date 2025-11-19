@@ -34,19 +34,6 @@ require('snacks').setup({
       enabled = false
     }
   },
-  indent = {
-    chunk = {
-      enabled = true,
-      char = {
-        corner_top = '╭',
-        corner_bottom = '╰',
-        arrow = '▶',
-        horizontal = '▶'
-      }
-    },
-    indent = { enabled = false },
-    scope = { enabled = true }
-  },
   input = { enabled = true },
   notifier = {
     style = 'fancy',
