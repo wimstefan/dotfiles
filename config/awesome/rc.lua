@@ -1190,6 +1190,9 @@ awful.spawn.with_shell(
   '/usr/local/src/Tools/x11/picom-yshui.git/build/src/picom --config $HOME/.config/picom/awesomewm.conf &;'
 )
 awful.spawn.with_shell('echo "Starting PipeWire" && gentoo-pipewire-launcher restart &')
+awful.spawn.with_shell('launch-terminals.sh &')
+awful.spawn.with_shell('firefox-bin &')
+awful.spawn.with_shell('signal-desktop --use-tray-icon &')
 -- 1}}}
 
 -- {{{1 Memory management
