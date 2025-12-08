@@ -537,7 +537,7 @@ config.freetype_load_target = ft_target('load')
 config.freetype_render_target = ft_target('render')
 config.warn_about_missing_glyphs = false
 config.underline_thickness = '220%'
-config.unicode_version = 15
+config.unicode_version = 17
 config.window_frame = {
   font = wez.font({ family = 'PayPal Sans Big' }),
   font_size = font_size(my_font) - 2
