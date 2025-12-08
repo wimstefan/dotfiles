@@ -2,13 +2,13 @@ local M = {}
 -- icons
 M.icons = {
   diagnostics = {
-    ' ',
-    ' ',
-    ' ',
-    ' ',
-    '󰄭 ',
-    '󰌶 ',
-    '󰜘 '
+    ' ',
+    ' ',
+    ' ',
+    ' ',
+    ' ',
+    ' ',
+    ' '
   },
   git = {
     -- added = '󰐖 ', modified = '󰅗  ', removed = '󰍵  ', renamed = '󰛂 '

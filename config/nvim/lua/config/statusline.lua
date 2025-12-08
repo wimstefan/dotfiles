@@ -46,21 +46,6 @@ local function filestatus()
   return ''
 end
 
---- @param severity integer
---- @return integer
-local function get_lsp_diagnostics_count(severity)
-  if not rawget(vim, 'lsp') then
-    return 0
-  end
-
-  local count = vim.diagnostic.count(0, { serverity = severity })[severity]
-  if count == nil then
-    return 0
-  end
-
-  return count
-end
-
 --- @param type string
 --- @return integer
 local function get_git_diff(type)
@@ -120,46 +105,6 @@ local function lsp_active()
 
   if #clients > 0 then
     return ' %#NoiceLspProgressTitle#  LSP%*'
-  end
-
-  return ''
-end
-
---- @return string
-local function diagnostics_error()
-  local count = get_lsp_diagnostics_count(vim.diagnostic.severity.ERROR)
-  if count > 0 then
-    return string.format('%%#DiagnosticError# %s%s%%*', require('config.ui').icons.diagnostics[1], count)
-  end
-
-  return ''
-end
-
---- @return string
-local function diagnostics_warns()
-  local count = get_lsp_diagnostics_count(vim.diagnostic.severity.WARN)
-  if count > 0 then
-    return string.format('%%#DiagnosticWarn# %s%s%%*', require('config.ui').icons.diagnostics[2], count)
-  end
-
-  return ''
-end
-
---- @return string
-local function diagnostics_hint()
-  local count = get_lsp_diagnostics_count(vim.diagnostic.severity.HINT)
-  if count > 0 then
-    return string.format('%%#DiagnosticHint# %s%s%%*', require('config.ui').icons.diagnostics[3], count)
-  end
-
-  return ''
-end
-
---- @return string
-local function diagnostics_info()
-  local count = get_lsp_diagnostics_count(vim.diagnostic.severity.INFO)
-  if count > 0 then
-    return string.format('%%#DiagnosticInfo# %s%s%%*', require('config.ui').icons.diagnostics[4], count)
   end
 
   return ''
@@ -310,10 +255,7 @@ StatusLine.active = function()
     '%=',
     '%=',
     '%S ',
-    diagnostics_error(),
-    diagnostics_warns(),
-    diagnostics_hint(),
-    diagnostics_info(),
+    vim.diagnostic.status(),
     lsp_active(),
     lsp_clients(),
     filetype(),
