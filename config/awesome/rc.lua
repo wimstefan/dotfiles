@@ -987,12 +987,12 @@ ruled.client.connect_signal('request::rules', function()
     properties = { floating = true }
   }
   -- Tag associations
-  ruled.client.append_rule { rule_any = { class = { '^sys' } }, properties = { tag = '1' } }
-  ruled.client.append_rule { rule_any = { class = { '^work' } }, properties = { tag = '2' } }
+  ruled.client.append_rule { rule_any = { class = { '^sys' } }, properties = { tag = '1', maximized = true } }
+  ruled.client.append_rule { rule_any = { class = { '^work' } }, properties = { tag = '2', maximized = true } }
   ruled.client.append_rule { rule_any = { class = { '^com' } }, properties = { tag = '3' } }
-  ruled.client.append_rule { rule_any = { class = { '^tj' } }, properties = { tag = '3' } }
-  ruled.client.append_rule { rule_any = { class = { '^komala' } }, properties = { tag = '5' } }
-  ruled.client.append_rule { rule_any = { class = { 'laptop$', '^home', '^swimmer' } }, properties = { tag = '6' } }
+  ruled.client.append_rule { rule_any = { class = { '^tj' } }, properties = { tag = '3', maximized = true } }
+  ruled.client.append_rule { rule_any = { class = { '^komala' } }, properties = { tag = '5', maximized = true } }
+  ruled.client.append_rule { rule_any = { class = { 'laptop$', '^home', '^swimmer' } }, properties = { tag = '6', maximized = true } }
   ruled.client.append_rule { rule_any = { class = { 'thunderbird' } }, properties = { tag = '7' } }
   ruled.client.append_rule { rule_any = { class = { 'Darktable', 'Gimp', 'Inkscape', 'scribus' } },
     properties = { tag = '8' } }
