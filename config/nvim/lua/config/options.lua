@@ -97,10 +97,6 @@ vim.opt.completeopt = {
   'noselect',
   'nosort'
 }
-vim.opt.completefuzzycollect = {
-  'files',
-  'keyword'
-}
 
 vim.opt.wildmode = {
   'noselect:lastused',
