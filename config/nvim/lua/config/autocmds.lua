@@ -156,6 +156,7 @@ augroup('General', function(g)
   })
   aucmd('CmdlineChanged', {
     group = g,
+    pattern = ':',
     desc = 'Use wildtrigger for command line',
     callback = function()
       vim.fn.wildtrigger()
