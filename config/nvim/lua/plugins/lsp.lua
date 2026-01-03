@@ -113,7 +113,6 @@ vim.lsp.config['html'] = {
   cmd = { 'vscode-html-language-server', '--stdio' },
   filetypes = {
     'html',
-    'html-eex',
     'liquid',
     'templ'
   },
@@ -170,7 +169,7 @@ vim.lsp.config['lua_ls'] = {
           ['need-check-nil'] = 'None'
         },
         globals = {
-          'use',
+          'require',
           'vim'
         }
       },
