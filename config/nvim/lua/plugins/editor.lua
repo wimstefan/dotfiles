@@ -7,24 +7,15 @@ vim.pack.add({
 })
 require('gitsigns').setup({
   signs = {
-    add = { text = '│', show_count = true },
-    change = { text = '│', show_count = true },
+    add = { show_count = true },
+    change = { show_count = true },
     delete = { show_count = true },
     topdelete = { show_count = true },
     changedelete = { show_count = true }
   },
-  count_chars = {
-    [1] = '¹',
-    [2] = '²',
-    [3] = '³',
-    [4] = '⁴',
-    [5] = '⁵',
-    [6] = '⁶',
-    [7] = '⁷',
-    [8] = '⁸',
-    [9] = '⁹',
-    ['+'] = '⁺'
-  },
+  numhl = true,
+  linehl = true,
+  word_diff = true,
   diff_opts = {
     internal = true,
     linematch = 60
