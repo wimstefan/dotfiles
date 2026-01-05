@@ -21,15 +21,6 @@ end
 
 -- {{{2 apply visual tweaks
 function Prettify()
-  local function get_hex(name, attr)
-    local bit = require('bit')
-    local ok, hl = pcall(vim.api.nvim_get_hl(), name, true)
-    if not ok then return 'NONE' end
-    hl.foreground = hl.foreground and '#' .. bit.tohex(hl.foreground, 6)
-    hl.background = hl.background and '#' .. bit.tohex(hl.background, 6)
-    attr = ({ bg = 'background', fg = 'foreground' })[attr] or attr
-    return hl[attr] or 'NONE'
-  end
   local cs = vim.g.colors_name or 'default'
   vim.api.nvim_set_hl(0, 'Normal', { bg = 'none' })
   vim.api.nvim_set_hl(0, 'NormalNC', { bg = 'none' })
@@ -38,10 +29,9 @@ function Prettify()
   vim.api.nvim_set_hl(0, 'SignColumn', { bg = 'none' })
   vim.api.nvim_set_hl(0, 'ColorColumn', { link = 'Visual' })
   vim.api.nvim_set_hl(0, 'CursorLineNr', { fg = 'orange', bold = true, italic = true })
-  if cs == 'default' or cs == 'lunaperche' or cs == 'habamax' then
-    vim.api.nvim_set_hl(0, 'StatusLine', { blend = 80 })
-    vim.api.nvim_set_hl(0, 'StatusLineNC', { blend = 80 })
-  elseif cs == 'vim' then
+  vim.api.nvim_set_hl(0, 'StatusLine', { blend = 80 })
+  vim.api.nvim_set_hl(0, 'StatusLineNC', { blend = 80 })
+  if cs == 'vim' then
     vim.api.nvim_set_hl(0, 'CursorColumn', { bg = 'none' })
     vim.api.nvim_set_hl(0, 'SignColumn', { bg = 'none' })
     vim.api.nvim_set_hl(0, 'CursorLineNr', { ctermfg = 11, ctermbg = 'none' })
@@ -93,7 +83,7 @@ function ToggleDetails()
     vim.opt.list = true
     vim.opt.number = true
     vim.opt.relativenumber = true
-    vim.opt.colorcolumn = limited
+    vim.opt.colorcolumn = '+1'
     vim.notify('Details enabled', vim.log.levels.INFO, { title = '[UI]' })
   end
 end
