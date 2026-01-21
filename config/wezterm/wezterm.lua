@@ -205,7 +205,6 @@ local function font_set(name)
     font = font_fallback({ family = 'Hasklig', harfbuzz_features = { 'onum' } })
   elseif string.match(name, 'iosevka') then
     font = font_fallback({ family = 'IosevkaArtesanal Nerd Font', harfbuzz_features = { 'calt', 'ccmp', 'dlig', 'onum' } })
-    -- font = font_fallback({ family = 'Iosevka Artesanal', harfbuzz_features = { 'calt', 'ccmp', 'dlig', 'onum' } })
   elseif string.match(name, 'jet') then
     font = font_fallback({ family = 'JetBrains Mono', harfbuzz_features = { 'cv06', 'cv07', 'cv11', 'ss20', 'zero' } })
   elseif string.match(name, 'monaspace') then
@@ -239,26 +238,14 @@ local function font_rules(name)
       {
         intensity = 'Normal',
         italic = true,
-        font = font_fallback({ family = 'Iosevka Artesanal', weight = 'Book', style = 'Italic' })
-        -- font = font_fallback({ family = 'IBM Plex Mono Text', style = 'Italic', harfbuzz_features = { 'zero' } })
-        -- font = font_fallback({
-        --   family = 'Liga Operator Mono',
-        --   weight = 'Book',
-        --   style = 'Italic',
-        --   harfbuzz_features = { 'ss05' }
-        -- })
+        -- font = font_fallback({ family = 'IosevkaArtesanal Nerd Font', weight = 'Regular', style = 'Italic' })
+        font = font_fallback({ family = 'Liga Operator Mono', weight = 'Regular', style = 'Italic', harfbuzz_features = { 'ss05' } })
       },
       {
         intensity = 'Bold',
         italic = true,
-        font = font_fallback({ family = 'Iosevka Artesanal', weight = 'Bold', style = 'Italic' })
-        -- font = font_fallback({ family = 'IBM Plex Mono SmBld', style = 'Italic', harfbuzz_features = { 'zero' } })
-        -- font = font_fallback({
-        --   family = 'Liga Operator Mono',
-        --   weight = 'Regular',
-        --   style = 'Italic',
-        --   harfbuzz_features = { 'ss05' }
-        -- })
+        -- font = font_fallback({ family = 'IosevkaArtesanal Nerd Font', weight = 'Bold', style = 'Italic' })
+        font = font_fallback({ family = 'Liga Operator Mono', weight = 'Medium', style = 'Italic', harfbuzz_features = { 'ss05' } })
       },
     }
   elseif string.match(name, 'monaspace') then
@@ -329,7 +316,7 @@ local function font_rules(name)
       {
         intensity = 'Bold',
         italic = false,
-        font = font_fallback({ family = 'IBM Plex Mono SmBld', harfbuzz_features = { 'onum', 'zero' } })
+        font = font_fallback({ family = 'IBM Plex Mono Bold', harfbuzz_features = { 'onum', 'zero' } })
       },
       {
         intensity = 'Normal',
@@ -339,7 +326,7 @@ local function font_rules(name)
       {
         intensity = 'Bold',
         italic = true,
-        font = font_fallback({ family = 'IBM Plex Mono SmBld', style = 'Italic', harfbuzz_features = { 'onum', 'zero' } })
+        font = font_fallback({ family = 'IBM Plex Mono Bold', style = 'Italic', harfbuzz_features = { 'onum', 'zero' } })
       },
     }
   elseif string.match(name, 'pt') then
@@ -373,7 +360,7 @@ local function font_size(name)
     elseif string.match(name, 'hasklig') then
       size = 10.0
     elseif string.match(name, 'iosevka') then
-      size = 10.0
+      size = 10.5
     elseif string.match(name, 'jet') then
       size = 9.5
     elseif string.match(name, 'operator') then
@@ -383,33 +370,9 @@ local function font_size(name)
     elseif string.match(name, 'plex') then
       size = 9.5
     elseif string.match(name, 'pt') then
-      size = 9.5
+      size = 10.0
     elseif string.match(name, 'recursive') then
       size = 9.5
-    elseif string.match(name, 'triple') then
-      size = 10.0
-    end
-  elseif hostname == 'oldie' then
-    if string.match(name, 'custom') then
-      size = 9.0
-    elseif string.match(name, 'fantasque') then
-      size = 10.0
-    elseif string.match(name, 'hasklig') then
-      size = 9.0
-    elseif string.match(name, 'iosevka') then
-      size = 10.0
-    elseif string.match(name, 'jet') then
-      size = 9.0
-    elseif string.match(name, 'monaspace') then
-      size = 9.0
-    elseif string.match(name, 'operator') then
-      size = 10.0
-    elseif string.match(name, 'plex') then
-      size = 9.0
-    elseif string.match(name, 'pt') then
-      size = 9.0
-    elseif string.match(name, 'recursive') then
-      size = 9.0
     elseif string.match(name, 'triple') then
       size = 10.0
     end
@@ -421,7 +384,7 @@ local function font_size(name)
     elseif string.match(name, 'hasklig') then
       size = 11.0
     elseif string.match(name, 'iosevka') then
-      size = 11.5
+      size = 12.0
     elseif string.match(name, 'jet') then
       size = 11.0
     elseif string.match(name, 'monaspace') then
@@ -431,7 +394,7 @@ local function font_size(name)
     elseif string.match(name, 'plex') then
       size = 11.0
     elseif string.match(name, 'pt') then
-      size = 11.5
+      size = 12.0
     elseif string.match(name, 'recursive') then
       size = 11.0
     elseif string.match(name, 'triple') then
@@ -498,16 +461,6 @@ local function set_geometry(x)
         value = 56
       elseif (my_font == 'plex') then
         value = 53
-      end
-    elseif hostname == 'oldie' then
-      if (my_font == 'pt' or my_font == 'recursive') then
-        value = 51
-      elseif (my_font == 'hasklig' or my_font == 'iosevka' or my_font == 'monaspace' or my_font == 'operator' or my_font == 'plex' or my_font == 'triple') then
-        value = 50
-      elseif (my_font == 'fantasque' or my_font == 'jet') then
-        value = 44
-      elseif (my_font == 'custom') then
-        value = 41
       end
     elseif hostname == 'tj' then
       if (my_font == 'pt' or my_font == 'recursive') then
