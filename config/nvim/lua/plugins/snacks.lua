@@ -69,12 +69,6 @@ require('snacks').setup({
   quickfile = { enabled = true },
   scope = { enabled = true },
   scroll = { enabled = true },
-  statuscolumn = {
-    folds = {
-      open = true,
-      git_hl = true
-    }
-  },
   words = { enabled = true },
   styles = {
     notification_history = {

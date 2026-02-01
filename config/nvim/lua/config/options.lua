@@ -23,6 +23,7 @@ vim.opt.cursorline = true
 vim.opt.cursorlineopt = 'number'
 vim.opt.showtabline = 0
 vim.opt.showcmdloc = 'statusline'
+vim.opt.signcolumn = 'number'
 vim.opt.linebreak = true
 vim.opt.showbreak = '  » '
 vim.opt.conceallevel = 2
@@ -62,7 +63,6 @@ vim.opt.mousemodel = 'extend'
 vim.g.markdown_folding = true
 vim.opt.foldlevel = 99
 vim.opt.foldlevelstart = 2
-vim.opt.foldcolumn = 'auto'
 vim.opt.fillchars:append({
   fold = ' ',
   foldinner = ' ',
@@ -70,9 +70,8 @@ vim.opt.fillchars:append({
   foldopen = '',
   foldclose = ''
 })
-local win = vim.api.nvim_get_current_win()
-vim.wo[win][0].foldmethod = 'expr'
-vim.wo[win][0].foldexpr = 'v:lua.vim.treesitter.foldexpr()'
+vim.wo.foldmethod = 'expr'
+vim.wo.foldexpr = 'v:lua.vim.treesitter.foldexpr()'
 
 vim.opt.shiftwidth = indent
 vim.opt.shiftround = true

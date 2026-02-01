@@ -57,21 +57,14 @@ require('markview').setup({
 vim.keymap.set('n', ',tm', function() require('markview').commands.toggle() end, { desc = 'Toggle Markview' })
 
 vim.pack.add({
-  { src = 'https://github.com/Bekaboo/deadcolumn.nvim' },
+  { src = 'https://github.com/netmute/foldchanged.nvim' }
 })
-require('deadcolumn').setup({
-  function()
-    vim.opt.colorcolumn = '80'
-  end,
-  blending = {
-    threshold = 0.75,
-    colorcode = '#f8f9fe'
-  },
-  warning = {
-    alpha = 0.9,
-    colorcode = '#b3003f'
-  }
+require('foldchanged').setup()
+
+vim.pack.add({
+  { src = 'https://github.com/netmute/foldsigns.nvim' }
 })
+require('foldsigns').setup()
 
 vim.pack.add({
   { src = 'https://github.com/eero-lehtinen/oklch-color-picker.nvim' }
