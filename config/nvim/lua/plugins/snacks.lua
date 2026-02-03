@@ -23,17 +23,10 @@ require('snacks').setup({
         indent = 0,
         cmd = 'git --no-pager diff --stat --stat-graph-width=30 -B -M -C'
       },
-      -- { section = 'startup' }
     }
   },
-  explorer = {
-    replace_netrw = true
-  },
-  image = {
-    doc = {
-      enabled = false
-    }
-  },
+  explorer = { enabled = false },
+  image = { enabled = false },
   input = { enabled = true },
   notifier = {
     style = 'fancy',
@@ -83,7 +76,6 @@ require('snacks').setup({
 })
 
 vim.keymap.set('n', '<Leader>S', function() Snacks.picker() end, { desc = 'Snacks: picker' })
-vim.keymap.set('n', '<Leader>e', function() Snacks.explorer() end, { desc = 'Snacks: explorer' })
 vim.keymap.set('n', '<Leader>b', function() Snacks.picker.buffers() end, { desc = 'Snacks: buffers' })
 vim.keymap.set('n', '<Leader>c', function() Snacks.picker.colorschemes() end, { desc = 'Snacks: colorschemes' })
 vim.keymap.set('n', '<Leader>f', function() Snacks.picker.smart() end, { desc = 'Snacks: files, buffers & recent files' })
