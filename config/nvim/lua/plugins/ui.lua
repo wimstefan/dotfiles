@@ -1,5 +1,5 @@
 -- Messaging
-require('vim._extui').enable({})
+require('vim._core.ui2').enable({})
 
 vim.pack.add({
   { src = 'https://github.com/folke/which-key.nvim' }
@@ -55,6 +55,7 @@ require('markview').setup({
   }
 })
 vim.keymap.set('n', ',tm', function() require('markview').commands.toggle() end, { desc = 'Toggle Markview' })
+vim.keymap.set('n', ',tms', function() require('markview').commands.splitToggle() end, { desc = 'Toggle Split Markview' })
 
 vim.pack.add({
   { src = 'https://github.com/netmute/foldchanged.nvim' }
