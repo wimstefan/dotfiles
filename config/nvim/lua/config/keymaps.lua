@@ -12,6 +12,7 @@ vim.keymap.set('n', ',cd', [[<Cmd>color default | set termguicolors<CR>]], { des
 vim.keymap.set('n', ',cv', [[<Cmd>color vim | set notermguicolors<CR>]], { desc = 'Apply vim colorscheme' })
 vim.keymap.set('n', '<F10>', function() ToggleDetails() end, { desc = 'Toggle decorations' })
 vim.keymap.set('c', '<Tab', '<C-n>', { desc = 'Tab key for command line completion' })
+vim.keymap.set('c', '<BS>', function() if vim.fn.getcmdline() ~= '' then return '<BS>' end end, { expr = true, desc = '<BS> does not leave cmdline' })
 -- {{{2 navigation
 vim.keymap.set({ 'n', 'x' }, 'j', function() return vim.v.count > 0 and 'j' or 'gj' end,
   { expr = true, replace_keycodes = false })
