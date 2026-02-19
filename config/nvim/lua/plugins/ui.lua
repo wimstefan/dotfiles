@@ -2,6 +2,15 @@
 require('vim._core.ui2').enable({})
 
 vim.pack.add({
+  { src = 'https://github.com/serhez/teide.nvim' }
+})
+require('teide').setup({
+  style = 'darker',
+  transparent = true
+})
+vim.cmd.colorscheme('teide')
+
+vim.pack.add({
   { src = 'https://github.com/folke/which-key.nvim' }
 })
 require('which-key').setup({
