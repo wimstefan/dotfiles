@@ -61,8 +61,6 @@ vim.opt.mouse = 'a'
 vim.opt.mousemodel = 'extend'
 
 vim.g.markdown_folding = true
-vim.opt.foldlevel = 99
-vim.opt.foldlevelstart = 2
 vim.opt.fillchars:append({
   fold = ' ',
   foldinner = ' ',
@@ -72,6 +70,11 @@ vim.opt.fillchars:append({
 })
 vim.wo.foldmethod = 'expr'
 vim.wo.foldexpr = 'v:lua.vim.treesitter.foldexpr()'
+vim.g.foldtext = function()
+  local line = vim.fn.getline(vim.v.foldstart)
+  local folded_line_count = vim.v.foldend - vim.v.foldstart + 1
+  return ' ... [' .. folded_line_count .. ' lines] ... ' .. line
+end
 
 vim.opt.shiftwidth = indent
 vim.opt.shiftround = true

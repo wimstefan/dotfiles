@@ -67,16 +67,6 @@ vim.keymap.set('n', ',tm', function() require('markview').commands.toggle() end,
 vim.keymap.set('n', ',tms', function() require('markview').commands.splitToggle() end, { desc = 'Toggle Split Markview' })
 
 vim.pack.add({
-  { src = 'https://github.com/netmute/foldchanged.nvim' }
-})
-require('foldchanged').setup()
-
-vim.pack.add({
-  { src = 'https://github.com/netmute/foldsigns.nvim' }
-})
-require('foldsigns').setup()
-
-vim.pack.add({
   { src = 'https://github.com/eero-lehtinen/oklch-color-picker.nvim' }
 })
 require('oklch-color-picker').setup()
