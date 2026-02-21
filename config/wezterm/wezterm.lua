@@ -17,7 +17,7 @@ else
 end
 
 local my_font
-my_font = 'monaspace'
+my_font = 'iosevka'
 
 local function basename(s)
   return string.gsub(s, '(.*[/\\])(.*)', '%2')
@@ -189,7 +189,7 @@ config.force_reverse_video_cursor = true
 -- {{{1 Font configuration
 -- {{{2 font_fallback
 local function font_fallback(name)
-  local names = { name, 'nonicons', 'Noto Color Emoji', 'Iosevka Artesanal' }
+  local names = { name, 'nonicons', 'Noto Color Emoji' }
   return wez.font_with_fallback(names)
 end
 
