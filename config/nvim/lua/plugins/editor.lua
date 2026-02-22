@@ -45,16 +45,15 @@ require('gitsigns').setup({
       end,
       { desc = 'Gitsigns: previous hunk' })
     vim.keymap.set('n', '<Leader>gp', gitsigns.preview_hunk_inline, { desc = 'Gitsigns: preview hunk' }, { buffer = bufnr })
-    vim.keymap.set('n', '<Leader>gb', function() gitsigns.blame_line { full = true } end, { desc = 'Gitsigns: blame line' },
-      { buffer = bufnr })
+    vim.keymap.set('n', '<Leader>gb', function() gitsigns.blame_line { full = true } end, { desc = 'Gitsigns: blame line' }, { buffer = bufnr })
+    vim.keymap.set('n', '<Leader>gB', function() gitsigns.blame { full = true } end, { desc = 'Gitsigns: blame' }, { buffer = bufnr })
     vim.keymap.set('n', '<Leader>gd', gitsigns.diffthis, { desc = 'Gitsigns: diffthis' }, { buffer = bufnr })
-    vim.keymap.set('n', '<Leader>gD', function() gitsigns.diffthis('~') end, { desc = 'Gitsigns: diffthis ~' },
-      { buffer = bufnr })
-    vim.keymap.set({ 'n', 'v' }, '<Leader>gs', gitsigns.stage_hunk, { desc = 'Gitsigns: stage hunk' },
-      { buffer = bufnr })
+    vim.keymap.set({ 'n', 'v' }, '<Leader>gr', gitsigns.reset_hunk, { desc = 'Gitsigns: reset hunk' }, { buffer = bufnr })
+    vim.keymap.set({ 'n', 'v' }, '<Leader>gs', gitsigns.stage_hunk, { desc = 'Gitsigns: stage hunk' }, { buffer = bufnr })
     vim.keymap.set({ 'n', 'v' }, '<Leader>gu', gitsigns.undo_stage_hunk, { desc = 'Gitsigns: undo stage hunk' }, { buffer = bufnr })
+    vim.keymap.set('n', '<Leader>gh', gitsigns.toggle_linehl, { desc = 'Gitsigns: toggle line highlight' }, { buffer = bufnr })
+    vim.keymap.set('n', '<Leader>gw', gitsigns.toggle_word_diff, { desc = 'Gitsigns: toggle word diff' }, { buffer = bufnr })
     vim.keymap.set('n', '<Leader>gx', gitsigns.toggle_deleted, { desc = 'Gitsigns: toggle deleted' }, { buffer = bufnr })
-    vim.keymap.set('n', '<Leader>gr', gitsigns.reset_hunk, { desc = 'Gitsigns: reset hunk' }, { buffer = bufnr })
   end
 })
 
