@@ -41,12 +41,6 @@ require('snacks').setup({
     formatters = {
       file = { filename_first = true }
     },
-    previewers = {
-      diff = {
-        builtin = false,
-        cmd = { 'bat' }
-      }
-    },
     sources = {
       gh_issue = {
         layout = 'default'
