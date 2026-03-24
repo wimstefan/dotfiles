@@ -46,6 +46,11 @@ local function filestatus()
   return ''
 end
 
+--- @return string
+local function progress_status()
+  return '%#Bold# ' .. vim.ui.progress_status() .. ' %*'
+end
+
 --- @param type string
 --- @return integer
 local function get_git_diff(type)
@@ -252,6 +257,7 @@ StatusLine.active = function()
     filename(),
     filestatus(),
     full_git(),
+    progress_status(),
     '%=',
     '%=',
     '%S ',
