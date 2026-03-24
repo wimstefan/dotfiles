@@ -112,4 +112,4 @@ require('rainbow-delimiters.setup').setup({
     lua = 'rainbow-blocks'
   }
 })
-
+vim.keymap.set('n', ',tr', function() require('rainbow-delimiters').toggle() end, { desc = 'Toggle rainbow delimiters' })
