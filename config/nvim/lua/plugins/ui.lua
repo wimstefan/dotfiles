@@ -1,5 +1,9 @@
 -- Messaging
-require('vim._core.ui2').enable({})
+require('vim._core.ui2').enable({
+  msg = {
+    targets = 'msg'
+  }
+})
 
 vim.pack.add({
   { src = 'https://github.com/serhez/teide.nvim' }
@@ -65,13 +69,6 @@ require('markview').setup({
 })
 vim.keymap.set('n', ',tm', function() require('markview').commands.toggle() end, { desc = 'Toggle Markview' })
 vim.keymap.set('n', ',tms', function() require('markview').commands.splitToggle() end, { desc = 'Toggle Split Markview' })
-
-vim.pack.add({
-  { src = 'https://github.com/eero-lehtinen/oklch-color-picker.nvim' }
-})
-require('oklch-color-picker').setup()
-vim.keymap.set('n', ',ct', function() require('oklch-color-picker.highlight').toggle() end, { desc = 'Toggle color highlighting' })
-vim.keymap.set('n', ',cp', function() require('oklch-color-picker').pick_under_cursor() end, { desc = 'Color pick under cursor' })
 
 vim.pack.add({
   { src = 'https://github.com/folke/twilight.nvim' }
