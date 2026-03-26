@@ -604,7 +604,7 @@ if [[ $USER != root ]]; then
     export POLYBAR_HEIGHT=55
 
     # Key management
-    eval `keychain --eval --agents gpg,ssh 451CEE7036BBF00C id_rsa`
+    eval `keychain --eval --ssh-allow-gpg 451CEE7036BBF00C id_rsa`
 
     alias tcom='tmux start-server && tmux attach -d -t com'
     alias lp='lp -o media=A4 -o page-border=single'
@@ -825,7 +825,7 @@ if [[ $USER != root ]]; then
     export POLYBAR_HEIGHT=35
 
     # Key management
-    eval `keychain --eval --agents gpg,ssh 451CEE7036BBF00C id_rsa`
+    eval `keychain --eval --ssh-allow-gpg 451CEE7036BBF00C id_rsa`
 
     alias tj='tmux start-server && tmux attach -d -t tj'
     alias tj-ncmpcpp='ncmpcpp -p 6601 -c $HOME/.ncmpcpp/tj-config'
@@ -840,7 +840,7 @@ if [[ $USER != root ]]; then
     echo "Loading host specific settings for $HOST ..."
 
     # Key management
-    eval `keychain --eval --agents gpg,ssh 451CEE7036BBF00C id_rsa`
+    eval `keychain --eval --ssh-allow-gpg 451CEE7036BBF00C id_rsa`
 
     alias hdmi-vlc='vlc --alsa-audio-device=hdmi'
     alias exif='exiftool -@ $HOME/system/tags $@'
@@ -851,7 +851,7 @@ if [[ $USER != root ]]; then
     echo "Loading host specific settings for $HOST ..."
 
     # Key management
-    eval `keychain --eval --agents ssh id_rsa`
+    eval `keychain --eval --ssh-allow-gpg id_rsa`
 
   fi
   # }}}4
@@ -867,7 +867,7 @@ else
   path=($HOME/bin $HOME/.local/bin $path)
   # }}}3
   # - Key management # {{{3
-  eval `keychain --eval --agents ssh`
+  eval `keychain --eval --ssh-allow-gpg id_rsa`
   # }}}3
   # - Aliases # {{{3
   alias mess='multitail -Z red,black,inverse -T -x "%m %u@%h %f (%t) [%l]" -m 0 -wh 12 -n 70 -f -cS syslog "/var/log/sshd" -m 0 -n 70 -f -cS syslog "/var/log/mail" -m 0 -n 70 -f -cS syslog -ev "---- MARK ----" "/var/log/messages"'
@@ -1084,3 +1084,6 @@ function zn () {
   fi
 }
 # }}}1
+
+# opencode
+export PATH=/home/swimmer/.opencode/bin:$PATH
