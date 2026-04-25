@@ -90,17 +90,6 @@ vim.pack.add({
 })
 
 vim.pack.add({
-  { src = 'https://github.com/windwp/nvim-ts-autotag' }
-})
-require('nvim-ts-autotag').setup({
-  opts = {
-    enable_close = true,
-    enable_rename = true,
-    enable_close_on_slash = false
-  }
-})
-
-vim.pack.add({
   { src = 'https://github.com/HiPhish/rainbow-delimiters.nvim' }
 })
 require('rainbow-delimiters.setup').setup({
