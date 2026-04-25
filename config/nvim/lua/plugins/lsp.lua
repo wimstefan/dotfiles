@@ -227,8 +227,6 @@ vim.api.nvim_create_autocmd('LspAttach', {
     local lsp_messages = ''
     local lsp_msg_sep = ' ∷ '
     lsp_messages = lsp_msg_sep .. 'LSP [' .. client.name .. ']' .. lsp_msg_sep
-    -- Enable completion triggered by <c-x><c-o>
-    vim.bo[event.buf].omnifunc = 'v:lua.MiniCompletion.completefunc_lsp'
 
     -- Buffer local mappings.
     local opts = { buffer = event.buf }
@@ -256,6 +254,18 @@ vim.api.nvim_create_autocmd('LspAttach', {
       vim.keymap.set({ 'n', 'v' }, ',lca', function() require('actions-preview').code_actions() end,
         { desc = 'LSP: code actions' }, opts)
       lsp_messages = lsp_messages .. 'code actions' .. lsp_msg_sep
+    end
+    if client:supports_method('textDocument/completion', event.buf) then
+      vim.lsp.completion.enable(true, client.id, event.buf, { autotrigger = true })
+      vim.keymap.set('i', '<Tab>', [[pumvisible() ? '<C-n>' : '<Tab>']], { desc = 'Completion: next', expr = true })
+      vim.keymap.set('i', '<S-Tab>', [[pumvisible() ? '<C-p>' : '<S-Tab>']], { desc = 'Completion: prev', expr = true })
+      lsp_messages = lsp_messages .. 'auto completion' .. lsp_msg_sep
+    else
+      lsp_messages = lsp_messages .. 'no completion' .. lsp_msg_sep
+    end
+    if client:supports_method('textDocument/foldingRange') then
+      local win = vim.api.nvim_get_current_win()
+      vim.wo[win][0].foldexpr = 'v:lua.vim.lsp.foldexpr()'
     end
     if client:supports_method('textDocument/formatting', event.buf) then
       local fmt_opts = vim.bo[event.buf].ft == 'lua'

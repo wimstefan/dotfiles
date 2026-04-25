@@ -9,18 +9,6 @@ vim.pack.add({
 require('mini.align').setup()
 
 vim.pack.add({
-  { src = 'https://github.com/nvim-mini/mini.completion' }
-})
-require('mini.completion').setup({
-  lsp_completion = {
-    source_func = 'omnifunc',
-    auto_setup = false
-  }
-})
-vim.keymap.set('i', '<Tab>', [[pumvisible() ? '<C-n>' : '<Tab>']], { desc = 'Completion: next', expr = true })
-vim.keymap.set('i', '<S-Tab>', [[pumvisible() ? '<C-p>' : '<S-Tab>']], { desc = 'Completion: prev', expr = true })
-
-vim.pack.add({
   { src = 'https://github.com/nvim-mini/mini.icons' }
 })
 require('mini.icons').setup()

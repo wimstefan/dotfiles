@@ -99,7 +99,8 @@ vim.opt.completeopt = {
   'menuone',
   'fuzzy',
   'noselect',
-  'nosort'
+  'nosort',
+  'popup'
 }
 
 vim.opt.wildmode = {
