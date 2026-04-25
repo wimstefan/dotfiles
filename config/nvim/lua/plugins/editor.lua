@@ -58,35 +58,9 @@ require('gitsigns').setup({
 })
 
 vim.pack.add({
-  { src = 'https://github.com/folke/flash.nvim' }
+  { src = 'https://github.com/yorickpeterse/nvim-jump' }
 })
-require('flash').setup({
-  jump = {
-    autojump = true
-  },
-  label = {
-    rainbow = {
-      enabled = true
-    }
-  },
-  modes = {
-    char = {
-      jump_labels = true
-    },
-    search = {
-      enabled = true
-    }
-  },
-  prompt = {
-    enabled = true,
-    prefix = { { '󰛕 ', 'FlashPromptIcon' } }
-  }
-})
-vim.keymap.set({ 'n', 'o', 'x' }, '\\', function() require('flash').jump() end, { desc = 'Flash' })
-vim.keymap.set({ 'o', 'x' }, '\\r', function() require('flash').treesitter_search() end, { desc = 'Flash: Treesitter Search' })
-vim.keymap.set({ 'n', 'o', 'x' }, '\\t', function() require('flash').treesitter() end, { desc = 'Flash: Treesitter' })
-vim.keymap.set('o', 'r', function() require('flash').remote() end, { desc = 'Flash: Remote' })
-vim.keymap.set('c', '<C-s>', function() require('flash').toggle() end, { desc = 'Flash: Toggle Search' })
+vim.keymap.set({ 'n', 'x', 'o' }, 's', function() require('jump').start() end, { desc = 'Jump' })
 
 vim.pack.add({
   { src = 'https://github.com/lewis6991/spaceless.nvim' }
