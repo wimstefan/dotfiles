@@ -88,6 +88,8 @@ vim.opt.ignorecase = true
 vim.opt.gdefault = true
 vim.opt.inccommand = 'split'
 vim.opt.selection = 'exclusive'
+vim.opt.scrolloff = 99
+vim.opt.scrolloffpad = 1
 
 vim.bo.autocomplete = vim.bo.buftype == ''
 vim.opt.complete:append({
