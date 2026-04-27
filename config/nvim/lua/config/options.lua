@@ -12,8 +12,6 @@ vim.g.clipboard = {
   }
 }
 
-vim.opt.background = 'dark'
-
 vim.opt.termguicolors = true
 vim.opt.guicursor = ''
 vim.opt.number = true
@@ -68,8 +66,6 @@ vim.opt.fillchars:append({
   foldopen = '',
   foldclose = ''
 })
-vim.wo.foldmethod = 'expr'
-vim.wo.foldexpr = 'v:lua.vim.treesitter.foldexpr()'
 vim.g.foldtext = function()
   local line = vim.fn.getline(vim.v.foldstart)
   local folded_line_count = vim.v.foldend - vim.v.foldstart + 1

@@ -45,14 +45,13 @@ vim.api.nvim_create_autocmd('FileType', {
     local bufnr = args.buf
     local filetype = args.match
     local language = vim.treesitter.language.get_lang(filetype) or filetype
-    if not vim.treesitter.language.add(language) then
-      return
+    if language and vim.treesitter.language.add(language) then
+      vim.treesitter.start(bufnr, language)
+      vim.wo[0][0].foldmethod = 'expr'
+      vim.wo[0][0].foldexpr = 'v:lua.vim.treesitter.foldexpr()'
+      vim.bo[bufnr].indentexpr = "v:lua.require('nvim-treesitter').indentexpr()"
+      vim.bo[bufnr].syntax = 'on'
     end
-    if not pcall(vim.treesitter.start, bufnr, language) then
-      return
-    end
-    vim.bo[bufnr].indentexpr = "v:lua.require('nvim-treesitter').indentexpr()"
-    vim.bo[bufnr].syntax = 'on'
   end
 })
 vim.api.nvim_create_autocmd('User', {
