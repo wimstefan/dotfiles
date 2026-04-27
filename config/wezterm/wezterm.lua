@@ -489,7 +489,8 @@ config.command_palette_font_size = font_size(my_font) - 1
 config.freetype_load_target = ft_target('load')
 config.freetype_render_target = ft_target('render')
 config.warn_about_missing_glyphs = false
-config.underline_thickness = '220%'
+config.underline_position = -2.0
+config.underline_thickness = '240%'
 config.unicode_version = 17
 config.window_frame = {
   font = wez.font({ family = 'PayPal Sans Big' }),
