@@ -9,7 +9,6 @@ vim.pack.add({
 vim.pack.add({
   { src = 'https://github.com/mikavilpas/yazi.nvim' }
 })
-vim.g.loaded_netrwPlugin = 1
 vim.api.nvim_create_autocmd('UiEnter', {
   callback = function()
     require('yazi').setup({
