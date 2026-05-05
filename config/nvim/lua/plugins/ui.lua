@@ -1,9 +1,80 @@
 -- Messaging
-require('vim._core.ui2').enable({
+local ui2 = require('vim._core.ui2')
+ui2.enable({
+  enable = true,
   msg = {
-    targets = 'msg'
+    targets = {
+      [''] = 'msg',
+      empty = 'cmd',
+      confirm = 'dialog',
+      emsg = 'pager',
+      echo = 'msg',
+      echomsg = 'msg',
+      echoerr = 'pager',
+      completion = 'cmd',
+      list_cmd = 'cmd',
+      lua_error = 'pager',
+      lua_print = 'msg',
+      progress = 'msg',
+      quickfix = 'pager',
+      rpc_error = 'pager',
+      search_cmd = 'cmd',
+      search_count = 'cmd',
+      shell_cmd = 'msg',
+      shell_err = 'pager',
+      shell_out = 'msg',
+      shell_ret = 'msg',
+      undo = 'msg',
+      verbose = 'pager',
+      wildlist = 'cmd',
+      wmsg = 'msg'
+    },
+    cmd = {
+      height = 0.5
+    },
+    dialog = {
+      height = 0.5
+    },
+    msg = {
+      height = 0.3,
+      timeout = 5000
+    },
+    pager = {
+      height = 0.5
+    }
   }
 })
+
+-- Set location of msg window to upper right corner
+vim.api.nvim_create_autocmd('FileType', {
+  pattern = 'msg',
+  callback = function()
+    local win = ui2.wins and ui2.wins.msg
+    if win and vim.api.nvim_win_is_valid(win) then
+      vim.api.nvim_set_option_value(
+        'winhighlight',
+        'Normal:NormalFloat,FloatBorder:FloatBorder',
+        { scope = 'local', win = win }
+      )
+    end
+  end,
+})
+
+local msgs = require('vim._core.ui2.messages')
+local orig_set_pos = msgs.set_pos
+msgs.set_pos = function(target)
+  local ui2 = require('vim._core.ui2')
+  orig_set_pos(target)
+  if (target == 'msg' or target == nil) and vim.api.nvim_win_is_valid(ui2.wins.msg) then
+    pcall(vim.api.nvim_win_set_config, ui2.wins.msg, {
+      relative = 'editor',
+      anchor = 'NE',
+      row = 1,
+      col = vim.o.columns - 1,
+      border = require('config.ui').borders
+    })
+  end
+end
 
 -- LSP progress
 local progress = vim.defaulttable()
