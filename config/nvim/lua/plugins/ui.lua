@@ -194,6 +194,7 @@ require('zen-mode').setup({
   window = {
     options = {
       signcolumn = 'no',
+      list = false,
       number = false,
       relativenumber = false
     }
