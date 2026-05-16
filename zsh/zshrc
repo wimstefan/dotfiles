@@ -499,6 +499,11 @@ if [[ $USER != root ]]; then
     export TERM_TITLE='--title'
     export TERM_NAME='--class'
     export TERM_CMD='--command'
+  elif [[ $TERMINAL == 'ghostty' ]]; then
+    export TERM_OPT=
+    export TERM_TITLE='--title='
+    export TERM_NAME='--class='
+    export TERM_CMD='-e'
   elif [[ $TERMINAL == 'kitty' ]]; then
     export TERM_OPT=
     export TERM_TITLE='--title'

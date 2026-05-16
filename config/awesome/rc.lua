@@ -67,6 +67,10 @@ if terminal == 'alacritty' then
   TITLE = ' --title '
   CLASS = ' --class '
   CMD = ' -e '
+elseif terminal == 'ghostty' then
+  TITLE = ' --title='
+  CLASS = ' --class='
+  CMD = ' -e '
 elseif terminal == 'kitty' then
   TITLE = ' --title '
   CLASS = ' --class='
@@ -892,8 +896,13 @@ awful.keyboard.append_global_keybindings({
     { description = 'Explore', group = 'applications' }),
   awful.key({ modkey }, 's',
     function()
-      awful.spawn.with_shell('tdrop -n Scratchpad -a -m -w 75% -h 66% -y ' ..
-        math.floor(beautiful.wibar_height + 20) .. ' -x 14 ' .. terminal .. CLASS .. "'Scratchpad'")
+      if terminal == 'ghostty' then
+        awful.spawn.with_shell('tdrop -n Scratchpad -a -m -w 75% -h 66% -y ' ..
+          math.floor(beautiful.wibar_height + 20) .. ' -x 14 ' .. terminal .. ' --maximize=false --title=Scratchpad --class=Scratchpad --x11-instance-name=Scratchpad')
+      else
+        awful.spawn.with_shell('tdrop -n Scratchpad -a -m -w 75% -h 66% -y ' ..
+          math.floor(beautiful.wibar_height + 20) .. ' -x 14 ' .. terminal .. CLASS .. "'Scratchpad'")
+      end
     end,
     { description = 'Scratchpad', group = 'applications' }),
   awful.key({ modkey }, 't', function() awful.spawn('thunderbird-bin') end,
@@ -989,7 +998,7 @@ ruled.client.connect_signal('request::rules', function()
   -- Tag associations
   ruled.client.append_rule { rule_any = { class = { '^sys' } }, properties = { tag = '1', maximized = true } }
   ruled.client.append_rule { rule_any = { class = { '^work' } }, properties = { tag = '2', maximized = true } }
-  ruled.client.append_rule { rule_any = { class = { '^com' } }, properties = { tag = '3' } }
+  ruled.client.append_rule { rule_any = { class = { '^com' } }, properties = { tag = '3', maximized = true } }
   ruled.client.append_rule { rule_any = { class = { '^tj' } }, properties = { tag = '3', maximized = true } }
   ruled.client.append_rule { rule_any = { class = { '^komala' } }, properties = { tag = '5', maximized = true } }
   ruled.client.append_rule { rule_any = { class = { 'laptop$', '^home', '^swimmer' } }, properties = { tag = '6', maximized = true } }
