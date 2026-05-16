@@ -82,22 +82,6 @@ vim.lsp.config['bash'] = {
     'zsh'
   }
 }
-vim.lsp.config['basics'] = {
-  cmd = { 'basics-language-server' },
-  settings = {
-    buffer = {
-      enable = true,
-      minCompletionLength = 4
-    },
-    path = {
-      enable = true
-    },
-    snippet = {
-      enable = false,
-      sources = {}
-    }
-  }
-}
 vim.lsp.config['css'] = {
   cmd = { 'vscode-css-language-server', '--stdio' },
   filetypes = { 'css', 'scss', 'less' },
@@ -203,9 +187,10 @@ vim.lsp.config['marksman'] = {
   filetypes = { 'markdown', 'markdown.mdx' },
   root_markers = { '.marksman.toml', '.git' }
 }
-vim.lsp.config['taplo'] = {
-  cmd = { 'taplo', 'lsp', 'stdio' },
-  filetypes = { 'toml' }
+vim.lsp.config['tombi'] = {
+  cmd = { 'tombi', 'lsp' },
+  filetypes = { 'toml' },
+  root_markers = { 'tombi.toml', 'pyproject.toml', '.git' }
 }
 vim.lsp.config['vim'] = {
   cmd = { 'vim-language-server', '--stdio' },
@@ -217,7 +202,7 @@ vim.lsp.config['zk'] = {
   root_markers = { '.zk' }
 }
 
-vim.lsp.enable({ 'bash', 'basics', 'css', 'html', 'json', 'lua_ls', 'marksman', 'taplo', 'vim', 'zk' })
+vim.lsp.enable({ 'bash', 'css', 'html', 'json', 'lua_ls', 'marksman', 'tombi', 'vim', 'zk' })
 
 vim.api.nvim_create_autocmd('LspAttach', {
   group = vim.api.nvim_create_augroup('UserLspConfig', {}),
@@ -259,7 +244,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
       vim.lsp.completion.enable(true, client.id, event.buf, { autotrigger = true })
       vim.keymap.set('i', '<Tab>', [[pumvisible() ? '<C-n>' : '<Tab>']], { desc = 'Completion: next', expr = true })
       vim.keymap.set('i', '<S-Tab>', [[pumvisible() ? '<C-p>' : '<S-Tab>']], { desc = 'Completion: prev', expr = true })
-      lsp_messages = lsp_messages .. 'auto completion' .. lsp_msg_sep
+      lsp_messages = lsp_messages .. 'completion' .. lsp_msg_sep
     else
       lsp_messages = lsp_messages .. 'no completion' .. lsp_msg_sep
     end
@@ -401,3 +386,8 @@ require('hover').config({
 })
 vim.keymap.set('n', 'H', function() require('hover').open() end, { desc = 'hover.nvim (open)' })
 vim.keymap.set('n', 'gH', function() require('hover').enter() end, { desc = 'hover.nvim (enter)' })
+
+vim.pack.add({
+  { src = 'https://github.com/antonk52/filepaths_ls.nvim' }
+})
+vim.lsp.enable('filepaths_ls')
