@@ -176,8 +176,8 @@ augroup('UI', function(g)
     group = g,
     desc = 'Highlight yanked text',
     callback = function()
-      vim.hl.on_yank({
-        higroup = { '@text.strong', '@text.emphasis' },
+      vim.hl.hl_op({
+        higroup = { '@markup.strong', '@markup.emphasis' },
         timeout = 1000
       })
     end
