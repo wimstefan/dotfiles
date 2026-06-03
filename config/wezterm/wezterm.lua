@@ -189,7 +189,7 @@ config.force_reverse_video_cursor = true
 -- {{{1 Font configuration
 -- {{{2 font_fallback
 local function font_fallback(name)
-  local names = { name, 'nonicons', 'Noto Color Emoji' }
+  local names = { name, 'Noto Color Emoji' }
   return wez.font_with_fallback(names)
 end
 
