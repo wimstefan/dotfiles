@@ -1,7 +1,12 @@
 vim.pack.add({
   { src = 'https://github.com/nvim-mini/mini.ai' }
 })
-require('mini.ai').setup()
+require('mini.ai').setup({
+  mappings = {
+    around_last = 'aL',
+    inside_last = 'iL',
+  }
+})
 
 vim.pack.add({
   { src = 'https://github.com/nvim-mini/mini.align' }
