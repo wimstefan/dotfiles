@@ -184,7 +184,7 @@ vim.lsp.config['lua_ls'] = {
 }
 vim.lsp.config['marksman'] = {
   cmd = { 'marksman', 'server' },
-  filetypes = { 'markdown', 'markdown.mdx' },
+  filetypes = { 'markdown' },
   root_markers = { '.marksman.toml', '.git' }
 }
 vim.lsp.config['tombi'] = {
@@ -334,31 +334,23 @@ require('lazydev').setup({
 })
 
 vim.pack.add({
-  { src = 'https://github.com/IsaacShelton/clear-action.nvim' }
+  { src = 'https://github.com/kosayoda/nvim-lightbulb' }
 })
-require('clear-action').setup({
-  signs = {
-    enable = true,
-    silent = false,
-    combine = false,
-    position = 'eol',
-    show_label = true,
-    icons = {
-      quickfix = ' ' .. require('config.ui').icons.diagnostics[6],
-      refactor = ' ' .. require('config.ui').icons.diagnostics[4],
-      source = ' ' .. require('config.ui').icons.diagnostics[7],
-      combined = ' ' .. require('config.ui').icons.diagnostics[4]
-    },
-    highlights = {
-      quickfix = '@markup.italic',
-      refactor = '@markup.italic',
-      source = '@markup.italic',
-      combined = '@markup.italic',
-      label = '@markup.italic'
-    }
+require('nvim-lightbulb').setup({
+  code_lenses = true,
+  sign = {
+    enabled = false
+  },
+  virtual_text = {
+    enabled = true,
+    text = require('config.ui').icons.diagnostics[6],
+    lens_text = require('config.ui').icons.diagnostics[4],
+    hl = 'WarningMsg'
+  },
+  autocmd = {
+    enabled = true
   }
 })
-vim.keymap.set('n', ',tc', vim.cmd.CodeActionToggleSigns, { desc = 'Toggle code actions' })
 
 vim.pack.add({
   { src = 'https://github.com/aznhe21/actions-preview.nvim' }
