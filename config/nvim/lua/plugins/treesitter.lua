@@ -101,3 +101,8 @@ require('rainbow-delimiters.setup').setup({
   }
 })
 vim.keymap.set('n', ',tr', function() require('rainbow-delimiters').toggle() end, { desc = 'Toggle rainbow delimiters' })
+
+vim.pack.add({
+  { src = 'https://github.com/so1ve/textobject-hud.nvim' }
+})
+vim.keymap.set('n', '<Leader>t', function() require('textobject-hud').open() end, { desc = 'Show available textobjects' })
