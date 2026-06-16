@@ -204,7 +204,7 @@ local function font_set(name)
   elseif string.match(name, 'hasklig') then
     font = font_fallback({ family = 'Hasklig', harfbuzz_features = { 'onum' } })
   elseif string.match(name, 'iosevka') then
-    font = font_fallback({ family = 'IosevkaArtesanal Nerd Font', harfbuzz_features = { 'calt', 'ccmp', 'dlig', 'onum' } })
+    font = font_fallback({ family = 'Iosevka Artesanal', harfbuzz_features = { 'calt', 'ccmp', 'dlig', 'onum' } })
   elseif string.match(name, 'jet') then
     font = font_fallback({ family = 'JetBrains Mono', harfbuzz_features = { 'cv06', 'cv07', 'cv11', 'ss20', 'zero' } })
   elseif string.match(name, 'monaspace') then
@@ -238,13 +238,13 @@ local function font_rules(name)
       {
         intensity = 'Normal',
         italic = true,
-        -- font = font_fallback({ family = 'IosevkaArtesanal Nerd Font', weight = 'Regular', style = 'Italic' })
+        -- font = font_fallback({ family = 'Iosevka Artesanal', weight = 'Regular', style = 'Italic' })
         font = font_fallback({ family = 'Liga Operator Mono', weight = 'Regular', style = 'Italic', harfbuzz_features = { 'ss05' } })
       },
       {
         intensity = 'Bold',
         italic = true,
-        -- font = font_fallback({ family = 'IosevkaArtesanal Nerd Font', weight = 'Bold', style = 'Italic' })
+        -- font = font_fallback({ family = 'Iosevka Artesanal', weight = 'Bold', style = 'Italic' })
         font = font_fallback({ family = 'Liga Operator Mono', weight = 'Medium', style = 'Italic', harfbuzz_features = { 'ss05' } })
       },
     }
