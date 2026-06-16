@@ -57,7 +57,7 @@ function Prettify()
     end
   end
 
-  vim.notify('Applying visual tweaks', vim.log.levels.INFO, { title = '[UI]' })
+  vim.notify('Applying visual tweaks [' .. vim.g.colors_name .. ']', vim.log.levels.INFO, { title = '[UI]' })
 end
 -- }}}2
 -- {{{2 toggle detailed information for easier paste
