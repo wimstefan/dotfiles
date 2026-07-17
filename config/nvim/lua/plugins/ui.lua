@@ -123,7 +123,12 @@ require('teide').setup({
   style = 'darker',
   transparent = true
 })
-vim.cmd.colorscheme('teide')
+
+if vim.o.background == 'dark' then
+  vim.cmd.colorscheme('teide')
+else
+  vim.cmd.colorscheme('default')
+end
 
 vim.pack.add({
   { src = 'https://github.com/folke/which-key.nvim' }
