@@ -85,7 +85,15 @@ vim.pack.add({
 })
 
 vim.pack.add({
-  { src = 'https://github.com/folke/ts-comments.nvim' }
+  {
+    src = 'https://github.com/celeste3z/celeste_comment.nvim',
+    name = 'celeste_comment'
+  }
+})
+require('celeste_comment').setup({
+  mappings = {
+    invert = 'gci'
+  }
 })
 
 vim.pack.add({
