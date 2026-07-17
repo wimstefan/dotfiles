@@ -378,8 +378,3 @@ require('hover').config({
 })
 vim.keymap.set('n', 'H', function() require('hover').open() end, { desc = 'hover.nvim (open)' })
 vim.keymap.set('n', 'gH', function() require('hover').enter() end, { desc = 'hover.nvim (enter)' })
-
-vim.pack.add({
-  { src = 'https://github.com/antonk52/filepaths_ls.nvim' }
-})
-vim.lsp.enable('filepaths_ls')
