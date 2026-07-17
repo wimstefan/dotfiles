@@ -31,6 +31,10 @@ function Prettify()
   vim.api.nvim_set_hl(0, 'CursorLineNr', { fg = 'orange', bold = true, italic = true, update = true })
   vim.api.nvim_set_hl(0, 'StatusLine', { blend = 80, update = true })
   vim.api.nvim_set_hl(0, 'StatusLineNC', { blend = 80, update = true })
+  if vim.opt.background:get() == 'light' then
+    vim.api.nvim_set_hl(0, 'CursorLine', { bg = '#f0f8ff', update = true })
+    vim.api.nvim_set_hl(0, 'Visual', { ctermfg = 'none', fg = 'none', bg = '#f0f0ff', bold = true, update = true })
+  end
   if cs == 'vim' then
     vim.api.nvim_set_hl(0, 'CursorColumn', { bg = 'none', update = true })
     vim.api.nvim_set_hl(0, 'SignColumn', { bg = 'none', update = true })
