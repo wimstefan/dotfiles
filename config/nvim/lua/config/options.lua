@@ -4,11 +4,11 @@ vim.g.clipboard = {
   name = 'OSC 52',
   copy = {
     ['+'] = require('vim.ui.clipboard.osc52').copy('+'),
-    ['*'] = require('vim.ui.clipboard.osc52').copy('*'),
+    ['*'] = require('vim.ui.clipboard.osc52').copy('*')
   },
   paste = {
     ['+'] = require('vim.ui.clipboard.osc52').paste('+'),
-    ['*'] = require('vim.ui.clipboard.osc52').paste('*'),
+    ['*'] = require('vim.ui.clipboard.osc52').paste('*')
   }
 }
 
@@ -36,6 +36,7 @@ vim.opt.listchars = {
   extends = '>',
   precedes = '<'
 }
+vim.opt.previewpopup = 'width:10,height:60'
 vim.opt.winborder = require('config.ui').borders
 vim.opt.pumborder = require('config.ui').borders
 
