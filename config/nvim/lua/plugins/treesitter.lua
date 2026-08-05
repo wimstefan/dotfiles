@@ -24,7 +24,6 @@ local ts_parsers = {
   'make',
   'markdown',
   'markdown_inline',
-  'muttrc',
   'query',
   'regex',
   'rst',
