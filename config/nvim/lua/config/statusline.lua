@@ -51,6 +51,12 @@ local function progress_status()
   return '%#Bold# ' .. vim.ui.progress_status() .. ' %*'
 end
 
+--- @return string
+local function search_count()
+  vim.cmd('redrawstatus!')
+  return '%#Bold#' .. '%{v:hlsearch ? "(" . searchcount().current . "/" . searchcount().total . ") " : ""}' .. '%*'
+end
+
 --- @param type string
 --- @return integer
 local function get_git_diff(type)
@@ -264,6 +270,7 @@ StatusLine.active = function()
     vim.diagnostic.status(),
     lsp_active(),
     lsp_clients(),
+    search_count(),
     filetype(),
     ' ▊',
   }
