@@ -522,6 +522,7 @@ if [[ $USER != root ]]; then
 
   if test -f $HOME/system/.gemini_key.gpg; then
     export GEMINI_API_KEY=$(gpg -q --no-verbose -d --batch $HOME/system/.gemini_key.gpg)
+    export GOOGLE_GENERATIVE_AI_API_KEY=$(gpg -q --no-verbose -d --batch $HOME/system/.gemini_key.gpg)
   fi
   if test -f $HOME/system/.openai_key.gpg; then
     export OPENAI_API_KEY=$(gpg -q --no-verbose -d --batch $HOME/system/.openai_key.gpg)
