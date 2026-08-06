@@ -56,6 +56,26 @@ require('gitsigns').setup({
 })
 
 vim.pack.add({
+  { src = 'https://github.com/barrettruth/diffs.nvim' }
+})
+vim.g.diffs = {
+  extra_filetypes = {
+    'diff',
+    'patch'
+  },
+  integrations = {
+    gitsigns = true
+  }
+}
+
+vim.pack.add({
+  { src = 'https://github.com/SunnyTamang/select-undo.nvim' }
+})
+require('select-undo').setup({
+  max_history = 1000
+})
+
+vim.pack.add({
   { src = 'https://github.com/yorickpeterse/nvim-jump' }
 })
 vim.keymap.set({ 'n', 'x', 'o' }, 's', function() require('jump').start() end, { desc = 'Jump' })
