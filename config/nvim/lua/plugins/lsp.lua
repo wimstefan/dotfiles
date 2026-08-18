@@ -236,6 +236,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
     vim.keymap.set('n', ',lw', function() Dump(vim.lsp.buf.list_workspace_folders()) end,
       { desc = 'LSP: list workspace folders' }, opts)
     if client:supports_method('textDocument/codeAction', event.buf) then
+      require('plugins.lightbulb').attach_lightbulb(event.buf, client)
       vim.keymap.set({ 'n', 'v' }, ',lca', function() require('actions-preview').code_actions() end,
         { desc = 'LSP: code actions' }, opts)
       lsp_messages = lsp_messages .. 'code actions' .. lsp_msg_sep
@@ -330,25 +331,6 @@ require('lazydev').setup({
     { path = 'snacks.nvim', words = { 'Snacks' } },
     { path = '${3rd}/luv/library', words = { 'vim%.uv' } },
     { path = 'wezterm-types', mods = { 'wez', 'wezterm' } }
-  }
-})
-
-vim.pack.add({
-  { src = 'https://github.com/kosayoda/nvim-lightbulb' }
-})
-require('nvim-lightbulb').setup({
-  code_lenses = true,
-  sign = {
-    enabled = false
-  },
-  virtual_text = {
-    enabled = true,
-    text = require('config.ui').icons.diagnostics[6],
-    lens_text = require('config.ui').icons.diagnostics[4],
-    hl = 'WarningMsg'
-  },
-  autocmd = {
-    enabled = true
   }
 })
 
