@@ -67,6 +67,11 @@ vim.lsp.config('*', {
       foldingRange = {
         dynamicRegistration = false,
         lineFoldingOnly = true
+      },
+      {
+        semanticTokens = {
+          multilineTokenSupport = true,
+        },
       }
     }
   },
@@ -182,11 +187,6 @@ vim.lsp.config['lua_ls'] = {
     }
   }
 }
-vim.lsp.config['marksman'] = {
-  cmd = { 'marksman', 'server' },
-  filetypes = { 'markdown' },
-  root_markers = { '.marksman.toml', '.git' }
-}
 vim.lsp.config['tombi'] = {
   cmd = { 'tombi', 'lsp' },
   filetypes = { 'toml' },
@@ -202,7 +202,7 @@ vim.lsp.config['zk'] = {
   root_markers = { '.zk' }
 }
 
-vim.lsp.enable({ 'bash', 'css', 'html', 'json', 'lua_ls', 'marksman', 'tombi', 'vim', 'zk' })
+vim.lsp.enable({ 'bash', 'css', 'html', 'json', 'lua_ls', 'tombi', 'vim', 'zk' })
 
 vim.api.nvim_create_autocmd('LspAttach', {
   group = vim.api.nvim_create_augroup('UserLspConfig', {}),
