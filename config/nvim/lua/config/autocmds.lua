@@ -266,3 +266,25 @@ augroup('Help', function(g)
     end
   })
 end)
+
+augroup('CmdAtom', function(g)
+  local last
+  local maxseq = {}
+  vim.api.nvim_create_autocmd('CmdAtom', {
+    group = g,
+    callback = function(ev)
+      local is_redo_or_undo = ev.data.changed and (ev.data.undoseq or 0) <= (maxseq[ev.buf] or 0)
+      maxseq[ev.buf] = vim.fn.undotree(ev.buf).seq_last
+      if ev.data.changed and not is_redo_or_undo and ev.data.lhs ~= '.' then
+        last = ev.data
+      end
+    end
+  })
+  vim.keymap.set('n', '.', function()
+    vim.schedule(function()
+      if last then
+        vim.api.nvim_feedkeys(last.keys or last.lhs, last.keys and 'n' or 'm', false)
+      end
+    end)
+  end)
+end)

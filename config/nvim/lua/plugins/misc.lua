@@ -1,12 +1,5 @@
 vim.pack.add({
-  { src = 'https://github.com/tpope/vim-repeat' }
-})
-
-vim.pack.add({
-  { src = 'https://github.com/nvim-lua/plenary.nvim' }
-})
-
-vim.pack.add({
+  { src = 'https://github.com/nvim-lua/plenary.nvim' },
   { src = 'https://github.com/mikavilpas/yazi.nvim' }
 })
 vim.api.nvim_create_autocmd('UiEnter', {
