@@ -40,7 +40,13 @@ vim.opt.previewpopup = 'width:10,height:60'
 vim.opt.winborder = require('config.ui').borders
 vim.opt.pumborder = require('config.ui').borders
 
-vim.opt.shortmess = 'ltToOCFI'
+vim.opt.messagesopt:append({
+  'maxheight:80',
+  'timeout:8000'
+})
+vim.opt.shortmess:append({
+  'cI'
+})
 vim.opt.laststatus = 3
 vim.opt.fillchars:append({
   stl = ' ',

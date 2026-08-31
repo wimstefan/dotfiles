@@ -28,19 +28,6 @@ ui2.enable({
       verbose = 'pager',
       wildlist = 'cmd',
       wmsg = 'msg'
-    },
-    cmd = {
-      height = 0.5
-    },
-    dialog = {
-      height = 0.5
-    },
-    msg = {
-      height = 0.3,
-      timeout = 5000
-    },
-    pager = {
-      height = 0.5
     }
   }
 })
@@ -57,7 +44,7 @@ vim.api.nvim_create_autocmd('FileType', {
         { scope = 'local', win = win }
       )
     end
-  end,
+  end
 })
 
 local msgs = require('vim._core.ui2.messages')
