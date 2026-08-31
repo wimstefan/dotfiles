@@ -136,42 +136,16 @@ require('which-key').setup({
 })
 
 vim.pack.add({
-  {
-    src = 'https://github.com/OXY2DEV/markview.nvim',
-    data = {
-      ft = 'markdown'
-    }
-  }
+  { src = 'https://github.com/delphinus/md-render.nvim' }
 })
-require('markview').setup({
-  preview = {
-    modes = { 'n', 'I' },
-    hybrid_modes = { 'i' }
-  },
-  markdown = {
-    list_items = {
-      indent_size = 2,
-      shift_width = 2,
-      marker_minus = {
-        add_padding = false,
-        text = '',
-        hl = 'MarkviewListItemMinus'
-      },
-      marker_plus = {
-        add_padding = false,
-        text = '',
-        hl = 'MarkviewListItemPlus'
-      },
-      marker_star = {
-        add_padding = true,
-        text = '󰓒',
-        hl = 'MarkviewListItemStar'
-      }
-    }
-  }
+vim.api.nvim_create_autocmd('FileType', {
+  pattern = 'markdown',
+  callback = function()
+    require('md-render').preview.auto_toggle()
+  end
 })
-vim.keymap.set('n', ',tm', function() require('markview').commands.toggle() end, { desc = 'Toggle Markview' })
-vim.keymap.set('n', ',tms', function() require('markview').commands.splitToggle() end, { desc = 'Toggle Split Markview' })
+vim.keymap.set('n', ',tm', function() require('md-render').preview.auto_toggle() end, { desc = 'Toggle Markdown' })
+vim.keymap.set('n', ',tms', function() require('md-render').preview.split({ mods = { vertical = true } }) end, { desc = 'Toggle Split Markdown' })
 
 vim.pack.add({
   { src = 'https://github.com/folke/twilight.nvim' }
