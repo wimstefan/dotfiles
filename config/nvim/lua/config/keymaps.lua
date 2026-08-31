@@ -1,5 +1,4 @@
 -- {{{1 key mappings
-vim.keymap.set('n', '-', vim.cmd.Lexplore, { desc = 'Explore' })
 vim.keymap.set('', 'cd', [[<Cmd>cd %:h | pwd<CR>]])
 vim.keymap.set('n', '<Leader>pu', function() vim.pack.update() end, { desc = 'Packages update' })
 vim.keymap.set('n', '<Leader>G', [[:grep<Space>]])

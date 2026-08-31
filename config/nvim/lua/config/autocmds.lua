@@ -165,7 +165,7 @@ augroup('General', function(g)
 end)
 
 augroup('UI', function(g)
-  aucmd({ 'ColorScheme', 'UiEnter' }, {
+  aucmd('UiEnter', {
     group = g,
     desc = 'Apply visual tweaks',
     callback = function()
@@ -181,6 +181,32 @@ augroup('UI', function(g)
         timeout = 1000
       })
     end
+  })
+
+  local dir_extmarks_ns = vim.api.nvim_create_namespace('dir_icons')
+  aucmd('User', {
+    group = g,
+    desc =
+    'Let mini.icons decide the appropriate icon for each file or directory in the listing and place it before each name as an inline extmark; also mark empty directories for clarity',
+    pattern = 'DirReadPost',
+    callback = function(args)
+      vim.api.nvim_buf_clear_namespace(args.buf, dir_extmarks_ns, 0, -1)
+      local file_names = vim.api.nvim_buf_get_lines(args.buf, 0, -1, true)
+      if #file_names == 1 and file_names[1] == '' then
+        vim.api.nvim_buf_set_extmark(args.buf, dir_extmarks_ns, 0, 0, {
+          virt_text = { { '<directory empty>', 'DiagnosticWarn' } },
+          virt_text_pos = 'inline',
+        })
+        return
+      end
+      for i, filename in ipairs(file_names) do
+        local icon, hl, _ = MiniIcons.get(filename:sub(-1) == '/' and 'directory' or 'file', filename)
+        vim.api.nvim_buf_set_extmark(args.buf, dir_extmarks_ns, i - 1, 0, {
+          virt_text = { { icon, hl }, { ' ', hl } },
+          virt_text_pos = 'inline',
+        })
+      end
+    end,
   })
 end)
 

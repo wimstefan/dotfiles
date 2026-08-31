@@ -5,7 +5,7 @@ vim.pack.add({
 vim.api.nvim_create_autocmd('UiEnter', {
   callback = function()
     require('yazi').setup({
-      open_for_directories = true,
+      open_for_directories = false,
       yazi_floating_window_border = require('config.ui').borders
     })
     vim.keymap.set('n', '<Leader>y', '<Cmd>Yazi<CR>', { desc = 'Open yazi at the current file' })
