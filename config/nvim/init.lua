@@ -4,8 +4,8 @@ vim.g.maplocalleader = ','
 
 vim.loader.enable()
 
-require('config.options')
 require('config.util')
+require('config.options')
 require('config.autocmds')
 require('config.keymaps')
 require('config.statusline')
