@@ -53,7 +53,7 @@ end
 
 --- @return string
 local function search_count()
-  return '%#Bold#' .. '%{searchcount().total > 0 ? "(" . searchcount().current . "/" . searchcount().total . ") " : ""}' .. '%*'
+  return '%#Bold#' .. '%{v:hlsearch ? "(" . searchcount().current . "/" . searchcount().total . ") " : ""}' .. '%*'
 end
 
 --- @param type string
