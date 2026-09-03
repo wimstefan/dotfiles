@@ -696,8 +696,6 @@ if [[ $USER != root ]]; then
         rsync -az   --delete /home/swimmer/.config/sxhkd/ $host:.config/sxhkd/
         rsync -azKl --delete /home/swimmer/.config/wezterm/ $host:.config/wezterm/
         rsync -azL  --delete /home/swimmer/.terminfo/w/ $host:.terminfo/w/
-        rsync -azL  --delete /usr/local/share/applications/wezterm.desktop $host:/usr/local/share/applications/
-        for j in strip-ansi-escapes sync-color-schemes wezterm{,-gui,-mux-server}; rsync -azL --delete /home/swimmer/.local/bin/$j $host:/usr/local/bin/
         rsync -az            /usr/local/bin/bg-toggle $host:/usr/local/bin/
       }
 
@@ -754,8 +752,6 @@ if [[ $USER != root ]]; then
         rsync -azKl --delete /home/swimmer/.config/rofi/ $host:.config/rofi/
         rsync -azKl --delete /home/swimmer/.config/wezterm/ $host:.config/wezterm/
         rsync -azL  --delete /home/swimmer/.terminfo/w/ $host:.terminfo/w/
-        rsync -azL  --delete /usr/local/share/applications/wezterm.desktop $host:/usr/local/share/applications/
-        for j in strip-ansi-escapes sync-color-schemes wezterm{,-gui,-mux-server}; rsync -azL --delete /home/swimmer/.local/bin/$j $host:/usr/local/bin/
         rsync -az            /usr/local/bin/bg-toggle $host:/usr/local/bin/
       }
 
