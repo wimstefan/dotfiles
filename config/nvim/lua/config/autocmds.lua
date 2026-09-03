@@ -295,18 +295,22 @@ end)
 
 augroup('CmdAtom', function(g)
   local last
-  local maxseq = {}
   vim.api.nvim_create_autocmd('CmdAtom', {
     group = g,
     callback = function(ev)
-      local is_redo_or_undo = ev.data.changed and (ev.data.undoseq or 0) <= (maxseq[ev.buf] or 0)
-      maxseq[ev.buf] = vim.fn.undotree(ev.buf).seq_last
+      local is_redo_or_undo = ev.data.changed and (ev.data.undoseq or 0) <= (vim.b[ev.buf].maxseq or 0)
+      vim.b[ev.buf].maxseq = math.max(vim.b[ev.buf].maxseq or 0, ev.data.undoseq or 0)
       if ev.data.changed and not is_redo_or_undo and ev.data.lhs ~= '.' then
         last = ev.data
       end
-    end
+    end,
   })
   vim.keymap.set('n', '.', function()
+    local mc = vim.api.nvim_create_namespace('nvim.multicursor')
+    if #vim.api.nvim_buf_get_extmarks(0, mc, 0, -1, { limit = 1 }) > 0 then
+      vim.api.nvim_feedkeys('.', 'n', false)
+      return
+    end
     vim.schedule(function()
       if last then
         vim.api.nvim_feedkeys(last.keys or last.lhs, last.keys and 'n' or 'm', false)
