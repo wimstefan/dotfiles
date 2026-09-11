@@ -132,59 +132,16 @@ vim.lsp.config['html'] = {
     }
   }
 }
+vim.lsp.config['emmylua_ls'] = {
+  cmd = { 'emmylua_ls' },
+  filetypes = { 'lua' },
+  root_markers = { '.emmyrc.json', '.luarc.json', '.git' },
+}
 vim.lsp.config['json'] = {
   cmd = { 'vscode-json-language-server', '--stdio' },
   filetypes = { 'json', 'jsonc' },
   settings = {
     provideFormatter = true
-  }
-}
-vim.lsp.config['lua_ls'] = {
-  cmd = { 'lua-language-server' },
-  filetypes = { 'lua' },
-  root_markers = { '.luarc.json', '.luarc.jsonc' },
-  settings = {
-    Lua = {
-      codeLens = {
-        enable = true
-      },
-      completion = {
-        callSnippet = 'Both',
-        keyworsSnippet = 'Both'
-      },
-      diagnostics = {
-        neededFileStatus = {
-          ['codestyle-check'] = 'Any',
-          ['need-check-nil'] = 'None'
-        },
-        globals = {
-          'require',
-          'vim'
-        }
-      },
-      format = {
-        enable = true,
-        defaultConfig = {
-          indent_style = 'space',
-          indent_size = '2',
-          continuation_indent = '2',
-          quote_style = 'single',
-          align_array_table = 'false'
-        }
-      },
-      hint = {
-        enable = true
-      },
-      runtime = {
-        version = 'LuaJIT'
-      },
-      telemetry = {
-        enable = false
-      },
-      workspace = {
-        checkThirdParty = false
-      }
-    }
   }
 }
 vim.lsp.config['tombi'] = {
@@ -202,7 +159,7 @@ vim.lsp.config['zk'] = {
   root_markers = { '.zk' }
 }
 
-vim.lsp.enable({ 'bash', 'css', 'html', 'json', 'lua_ls', 'tombi', 'vim', 'zk' })
+vim.lsp.enable({ 'bash', 'css', 'emmylua_ls', 'html', 'json', 'tombi', 'vim', 'zk' })
 
 vim.api.nvim_create_autocmd('LspAttach', {
   group = vim.api.nvim_create_augroup('UserLspConfig', {}),
