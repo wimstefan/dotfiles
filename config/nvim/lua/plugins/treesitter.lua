@@ -91,7 +91,7 @@ vim.pack.add({
 })
 require('celeste_comment').setup({
   mappings = {
-    invert = 'gci'
+    line_invert = 'gci'
   }
 })
 
