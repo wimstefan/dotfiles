@@ -56,7 +56,7 @@ require('gitsigns').setup({
 })
 
 vim.pack.add({
-  { src = 'https://github.com/barrettruth/diffs.nvim' }
+  { src = 'https://forge.barrettruth.com/barrettruth/diffs.nvim' }
 })
 vim.g.diffs = {
   extra_filetypes = {
