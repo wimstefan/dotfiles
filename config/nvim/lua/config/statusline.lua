@@ -4,12 +4,10 @@ local statusline_augroup = vim.api.nvim_create_augroup('native_statusline', { cl
 -- LSP clients attached to buffer
 local function lsp_clients()
   local current_buf = vim.api.nvim_get_current_buf()
-
   local clients = vim.lsp.get_clients({ bufnr = current_buf })
   if next(clients) == nil then
     return ''
   end
-
   local c = {}
   for _, client in pairs(clients) do
     table.insert(c, client.name)
@@ -22,8 +20,9 @@ local function tab_info()
   local fname = vim.fn.expand('%:t')
   if fname == '' then
     return ''
+  else
+    return '%#WildMenu# ' .. fname .. ' %*'
   end
-  return '%#WildMenu# ' .. fname .. ' %*'
 end
 
 --- @return string
@@ -31,8 +30,9 @@ local function filename()
   local fname = vim.fn.expand('%:~')
   if fname == '' then
     return ''
+  else
+    return '%#Bold# ' .. fname .. ' %*'
   end
-  return '%#Bold# ' .. fname .. ' %*'
 end
 
 --- @return string
@@ -53,7 +53,13 @@ end
 
 --- @return string
 local function search_count()
-  return '%#Bold#' .. '%{v:hlsearch ? "(" . searchcount().current . "/" . searchcount().total . ") " : ""}' .. '%*'
+  local count = vim.fn.searchcount()
+  if vim.tbl_isempty(count) or count.total == 0 then
+    return ''
+  else
+    local result = ('(%d/%d) '):format(count.current, count.total)
+    return '%#Bold#' .. result .. '%*'
+  end
 end
 
 --- @param type string
@@ -62,9 +68,9 @@ local function get_git_diff(type)
   local gsd = vim.b.gitsigns_status_dict
   if gsd and gsd[type] then
     return gsd[type]
+  else
+    return 0
   end
-
-  return 0
 end
 
 vim.api.nvim_set_hl(0, 'ModeNormal', { reverse = true })
