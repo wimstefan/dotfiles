@@ -56,7 +56,6 @@ export ZLS_COLORS=$LS_COLORS
 # }}}2
 # - Completion {{{2
 zmodload zsh/complist
-autoload -U compinit && compinit -u
 
 zstyle '*:compinit' arguments -i -u
 zstyle ':completion:complete:*' use-cache on
@@ -94,11 +93,7 @@ zstyle ':completion:*' keep-prefix true
 
 zstyle -e ':completion:*:(ssh|scp|sftp|rsh|rsync):hosts' hosts 'reply=(${=${${(f)"$(cat {/etc/ssh_,~/.ssh/known_}hosts(|2)(N) /dev/null)"}%%[# ]*}//,/ })'
 
-bindkey -M menuselect '^xg' clear-screen
-bindkey -M menuselect '^xi' vi-insert
-bindkey -M menuselect '^xh' accept-and-hold
-bindkey -M menuselect '^xn' accept-and-infer-next-history
-bindkey -M menuselect '^xu' undo
+autoload -U compinit && compinit -u
 # }}}2
 # - Key bindings {{{2
 # create a zkbd compatible hash;
@@ -372,9 +367,10 @@ alias eix='eix --force-color'
 alias w3m='TERM=xterm-256color w3m'
 alias history='history -i -44'
 alias time=/usr/bin/time
-alias explore=yazi
+alias explore='yazi'
 alias x='explore .'
-alias lg=lazygit
+alias lg='lazygit'
+alias glow='glow -t'
 ## ugrep
 alias uq='ug -Q'
 alias ux='ug -UX'
@@ -490,7 +486,6 @@ if [[ $USER != root ]]; then
   export MPD_HOST=localhost
   export MPD_PORT=6600
   export GPG_TTY=`tty`
-  export GTK2_RC_FILES=$HOME/.gtkrc-2.0
   export BROWSER=my-eye-into-the-world
   export COLORTERM=truecolor
   export TERMINAL=wezterm
@@ -681,8 +676,6 @@ if [[ $USER != root ]]; then
         rsync -azkL --delete /usr/local/share/themes/ $host:/usr/local/share/themes/
         rsync -azkL --delete /usr/share/fonts/owned/ $host:/usr/share/fonts/owned/
         rsync -az   --delete /home/swimmer/.config/libreoffice/4/user/template/ $host:.config/libreoffice/4/user/template/
-        rsync -az            /home/swimmer/.gtkrc-2.0 $host:
-        rsync -az            /home/swimmer/.config/gtk-3.0/ $host:.config/gtk-3.0/
         rsync -az            /home/swimmer/.config/fontconfig/fonts.conf $host:.config/fontconfig/
         rsync -azkL --delete /home/swimmer/.config/colours/ $host:.config/colours/
         rsync -azKl --delete /home/swimmer/.config/alacritty/ $host:.config/alacritty/
@@ -741,7 +734,6 @@ if [[ $USER != root ]]; then
         rsync -azkL --delete /usr/local/share/themes/ $host:/usr/local/share/themes/
         rsync -azkL --delete /usr/share/fonts/owned/ $host:/usr/share/fonts/owned/
         rsync -az   --delete /home/swimmer/.config/libreoffice/4/user/template/ $host:.config/libreoffice/4/user/template/
-        rsync -az            /home/swimmer/.config/gtk-3.0/ $host:.config/gtk-3.0/
         rsync -az            /home/swimmer/.config/fontconfig/fonts.conf $host:.config/fontconfig/
         rsync -azkL --delete /home/swimmer/.config/colours/ $host:.config/colours/
         rsync -azKl --delete /home/swimmer/.config/Kvantum/ $host:.config/Kvantum/
