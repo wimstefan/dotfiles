@@ -40,9 +40,9 @@ local ts_parsers = {
 require('nvim-treesitter').install(ts_parsers)
 vim.api.nvim_create_autocmd('FileType', {
   group = vim.api.nvim_create_augroup('treesitter.setup', {}),
-  callback = function(args)
-    local bufnr = args.buf
-    local filetype = args.match
+  callback = function(ev)
+    local bufnr = ev.buf
+    local filetype = ev.match
     local language = vim.treesitter.language.get_lang(filetype) or filetype
     if language and vim.treesitter.language.add(language) then
       vim.treesitter.start(bufnr, language)
