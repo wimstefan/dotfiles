@@ -29,6 +29,8 @@ function Prettify()
   vim.api.nvim_set_hl(0, 'SignColumn', { bg = 'none', update = true })
   vim.api.nvim_set_hl(0, 'ColorColumn', { link = 'Visual', update = true })
   vim.api.nvim_set_hl(0, 'CursorLineNr', { fg = 'orange', bold = true, italic = true, update = true })
+  vim.api.nvim_set_hl(0, 'SpellBad', { link = 'ErrorMsg', update = true })
+  vim.api.nvim_set_hl(0, 'SpellBad', { undercurl = true, bold = true, italic = true, update = true })
   vim.api.nvim_set_hl(0, 'StatusLine', { blend = 80, update = true })
   vim.api.nvim_set_hl(0, 'StatusLineNC', { blend = 80, update = true })
   if vim.opt.background:get() == 'light' then
