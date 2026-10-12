@@ -10,7 +10,7 @@
   *faceName: xft:monospace:pixelsize=16.0
 #elif SRVR_tj
   Xft.dpi: 96
-  Xcursor.size: 24
+  Xcursor.size: 22
   *font: xft:monospace:pixelsize=18.0
   *faceName: xft:monospace:pixelsize=18.0
 #elif SRVR_oldie
@@ -26,7 +26,7 @@ Xft.hintstyle: hintslight
 Xft.hinting: 1
 Xft.antialias: 1
 
-Xcursor.theme: catppuccin-latte-dark-cursors
+Xcursor.theme: Bibata-Modern-Classic
 
 *internalBorder:           24
 *loginShell:               true
