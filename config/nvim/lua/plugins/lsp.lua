@@ -79,14 +79,6 @@ vim.lsp.config('*', {
   single_file_support = true
 })
 
-vim.lsp.config['bash'] = {
-  cmd = { 'bash-language-server', 'start' },
-  filetypes = {
-    'sh',
-    'bash',
-    'zsh'
-  }
-}
 vim.lsp.config['css'] = {
   cmd = { 'vscode-css-language-server', '--stdio' },
   filetypes = { 'css', 'scss', 'less' },
