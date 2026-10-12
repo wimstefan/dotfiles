@@ -315,23 +315,6 @@ vim.api.nvim_create_autocmd('LspAttach', {
 })
 
 vim.pack.add({
-  {
-    src = 'https://github.com/folke/lazydev.nvim',
-    data = {
-      ft = 'lua'
-    }
-  }
-})
-require('lazydev').setup({
-  runtime = vim.env.VIMRUNTIME,
-  library = {
-    { path = 'snacks.nvim', words = { 'Snacks' } },
-    { path = '${3rd}/luv/library', words = { 'vim%.uv' } },
-    { path = 'wezterm-types', mods = { 'wez', 'wezterm' } }
-  }
-})
-
-vim.pack.add({
   { src = 'https://github.com/aznhe21/actions-preview.nvim' }
 })
 require('actions-preview').setup({
