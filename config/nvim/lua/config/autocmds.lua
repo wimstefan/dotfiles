@@ -8,7 +8,7 @@ augroup('Pack', function(g)
     group = g,
     callback = function(ev)
       local name, kind = ev.data.spec.name, ev.data.kind
-      if name == 'fzf' and kind == 'update' or kind == 'install' then
+      if name == 'fzf' and (kind == 'update' or kind == 'install') then
         local cwd_path = vim.fn.stdpath('data') .. '/site/pack/core/opt/fzf'
         vim.notify('Installing/updating fzf in ' .. cwd_path, vim.log.levels.INFO)
         vim.schedule(function()
@@ -71,9 +71,7 @@ augroup('General', function(g)
     },
     desc = 'Enable spelling',
     callback = function()
-      if not vim.bo.filetype ~= ({ 'man', 'help' }) then
-        vim.opt_local.spell = true
-      end
+      vim.opt_local.spell = true
     end
   })
   aucmd('FileType', {
