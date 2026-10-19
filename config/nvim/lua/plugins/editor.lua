@@ -134,6 +134,13 @@ require('pantran').setup({
 })
 
 vim.pack.add({
+  { src = 'https://github.com/umiyosh/ai-polish.nvim' }
+})
+require('ai-polish').setup({
+  model = 'gemini-3.5-flash'
+})
+
+vim.pack.add({
   { src = 'https://github.com/zk-org/zk-nvim' }
 })
 require('zk').setup({
