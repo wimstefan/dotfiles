@@ -207,7 +207,7 @@ local function line_info()
   local cur_pos = vim.api.nvim_win_get_cursor(0)[2]
   local cur_line = vim.api.nvim_win_get_cursor(0)[1]
   if lines > 1 then
-    return string.format('   %s:%s of %s ', cur_pos, cur_line, lines)
+    return string.format('   %s:%s of %s ', cur_line, cur_pos, lines)
   else
     return ''
   end
