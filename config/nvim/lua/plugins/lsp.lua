@@ -256,7 +256,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
         name = vim.bo[event.buf].ft == 'lua' and 'lua_ls' or nil,
         bufnr = event.buf,
       }
-      vim.keymap.set('n', ',lf', function() vim.lsp.buf.format({ fmt_opts }) end,
+      vim.keymap.set('n', ',lf', function() vim.lsp.buf.format(fmt_opts) end,
         { desc = 'LSP: formatting' }, opts)
       lsp_messages = lsp_messages .. 'formatting' .. lsp_msg_sep
     end
@@ -277,8 +277,8 @@ vim.api.nvim_create_autocmd('LspAttach', {
           end
           local fmt_opts = {
             async   = true,
-            bufnr   = 0,
             name    = vim.bo[event.buf].ft == 'lua' and 'lua_ls' or nil,
+            bufnr   = event.buf,
             start   = { csrow, cscol },
             ['end'] = { cerow, cecol },
           }
