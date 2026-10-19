@@ -45,13 +45,15 @@ vim.diagnostic.config({
     severity = {
       min = 'INFO',
       max = 'WARN'
-    }
+    },
+    source = true
   },
   virtual_lines = {
     current_line = true,
     severity = {
       min = 'ERROR'
-    }
+    },
+    source = true
   }
 })
 
