@@ -141,10 +141,11 @@ vim.pack.add({
 vim.api.nvim_create_autocmd('FileType', {
   pattern = 'markdown',
   callback = function()
-    require('md-render').preview.toggle()
+    vim.cmd('MdRender toggle')
+    vim.cmd('MdRender auto on')
   end
 })
-vim.keymap.set('n', ',tm', function() require('md-render').preview.toggle() end, { desc = 'Toggle Markdown' })
+vim.keymap.set('n', ',tm', function() require('md-render').preview.auto_toggle() end, { desc = 'Toggle Markdown' })
 vim.keymap.set('n', ',tms', function() require('md-render').preview.split({ mods = { vertical = true } }) end, { desc = 'Toggle Split Markdown' })
 
 vim.pack.add({
