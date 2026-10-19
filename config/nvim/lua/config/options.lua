@@ -73,7 +73,7 @@ vim.opt.fillchars:append({
   foldopen = '',
   foldclose = ''
 })
-vim.g.foldtext = function()
+vim.opt.foldtext = function()
   local line = vim.fn.getline(vim.v.foldstart)
   local folded_line_count = vim.v.foldend - vim.v.foldstart + 1
   return ' ... [' .. folded_line_count .. ' lines] ... ' .. line
@@ -94,7 +94,7 @@ vim.opt.selection = 'exclusive'
 vim.opt.scrolloff = 99
 vim.opt.scrolloffpad = 1
 
-vim.bo.autocomplete = vim.bo.buftype == ''
+vim.o.autocomplete = vim.bo.buftype == ''
 vim.opt.complete:append({
   'o'
 })
