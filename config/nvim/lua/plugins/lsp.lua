@@ -70,10 +70,8 @@ vim.lsp.config('*', {
         dynamicRegistration = false,
         lineFoldingOnly = true
       },
-      {
-        semanticTokens = {
-          multilineTokenSupport = true,
-        },
+      semanticTokens = {
+        multilineTokenSupport = true,
       }
     }
   },
@@ -253,9 +251,11 @@ vim.api.nvim_create_autocmd('LspAttach', {
       vim.wo[win][0].foldexpr = 'v:lua.vim.lsp.foldexpr()'
     end
     if client:supports_method('textDocument/formatting', event.buf) then
-      local fmt_opts = vim.bo[event.buf].ft == 'lua'
-        and 'async = true, name = "lua_ls", bufnr = ' .. event.buf
-        or 'async = true, bufnr = ' .. event.buf
+      local fmt_opts = {
+        async = true,
+        name = vim.bo[event.buf].ft == 'lua' and 'lua_ls' or nil,
+        bufnr = event.buf,
+      }
       vim.keymap.set('n', ',lf', function() vim.lsp.buf.format({ fmt_opts }) end,
         { desc = 'LSP: formatting' }, opts)
       lsp_messages = lsp_messages .. 'formatting' .. lsp_msg_sep
