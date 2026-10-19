@@ -11,7 +11,7 @@ vim.keymap.set('n', ',cd', [[<Cmd>color default<CR>]], { desc = 'Apply default c
 vim.keymap.set('n', ',cl', [[<Cmd>color lunaperche<CR>]], { desc = 'Apply lunaperche colorscheme' })
 vim.keymap.set('n', ',cq', [[<Cmd>color quiet<CR>]], { desc = 'Apply quiet colorscheme' })
 vim.keymap.set('n', '<F10>', function() ToggleDetails() end, { desc = 'Toggle decorations' })
-vim.keymap.set('c', '<Tab', '<C-n>', { desc = 'Tab key for command line completion' })
+vim.keymap.set('c', '<Tab>', '<C-n>', { desc = 'Tab key for command line completion' })
 vim.keymap.set('c', '<BS>', function() if vim.fn.getcmdline() ~= '' then return '<BS>' end end, { expr = true, desc = '<BS> does not leave cmdline' })
 -- {{{2 navigation
 vim.keymap.set({ 'n', 'x' }, 'j', function() return vim.v.count > 0 and 'j' or 'gj' end,
