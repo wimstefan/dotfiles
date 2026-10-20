@@ -94,7 +94,7 @@ vim.opt.selection = 'exclusive'
 vim.opt.scrolloff = 99
 vim.opt.scrolloffpad = 1
 
-vim.bo.autocomplete = vim.bo.buftype == ''
+vim.opt.autocomplete = vim.bo.buftype == ''
 vim.opt.complete:append({
   'o'
 })

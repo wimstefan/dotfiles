@@ -117,7 +117,7 @@ augroup('General', function(g)
     pattern = 'snacks_picker_input',
     desc = 'Disable completion in Snacks picker',
     callback = function()
-      vim.b.minicompletion_disable = true
+      vim.bo.autocomplete = false
     end
   })
 
