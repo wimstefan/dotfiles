@@ -530,10 +530,15 @@ config.inactive_pane_hsb = {
   brightness = 1.0
 }
 -- Hyperlinks
+-- https://github.com/wezterm/wezterm/issues/3803
 config.hyperlink_rules = {
   {
-    regex = '\\b\\w+://(?:[\\w.-]+)\\.[a-z0-9]{2,15}\\S*\\b',
-    format = '$0',
+    regex = [[\b\w+://(?:[^\s()<>"'`]|\((?:[^\s()<>]|\([^\s()<>]*\))*\))*(?:[\w/#=&%~+-]|\((?:[^\s()<>]|\([^\s()<>]*\))*\))]],
+    format = '$0'
+  },
+  {
+    regex = [[\b[\w.+-]+@[\w-]+(\.[\w-]+)+\b(?!:)]],
+    format = 'mailto:$0'
   }
 }
 -- Key bindings
