@@ -163,7 +163,7 @@ augroup('General', function(g)
 end)
 
 augroup('UI', function(g)
-  aucmd('UiEnter', {
+  aucmd('ColorScheme', {
     group = g,
     desc = 'Apply visual tweaks',
     callback = function()
