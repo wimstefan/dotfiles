@@ -71,22 +71,3 @@ require('celeste_comment').setup({
     line_invert = 'gci'
   }
 })
-
-vim.pack.add({
-  { src = 'https://github.com/HiPhish/rainbow-delimiters.nvim' }
-})
-require('rainbow-delimiters.setup').setup({
-  strategy = {
-    [''] = require('rainbow-delimiters').strategy['global']
-  },
-  query = {
-    [''] = 'rainbow-delimiters',
-    lua = 'rainbow-blocks'
-  }
-})
-vim.keymap.set('n', ',tr', function() require('rainbow-delimiters').toggle() end, { desc = 'Toggle rainbow delimiters' })
-
-vim.pack.add({
-  { src = 'https://github.com/so1ve/textobject-hud.nvim' }
-})
-vim.keymap.set('n', '<Leader>t', function() require('textobject-hud').open() end, { desc = 'Show available textobjects' })
