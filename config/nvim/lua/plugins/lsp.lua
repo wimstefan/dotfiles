@@ -142,7 +142,7 @@ vim.lsp.config['lua_ls'] = {
       },
       completion = {
         callSnippet = 'Both',
-        keyworsSnippet = 'Both'
+        keywordSnippet = 'Both'
       },
       diagnostics = {
         neededFileStatus = {
@@ -240,8 +240,6 @@ vim.api.nvim_create_autocmd('LspAttach', {
     end
     if client:supports_method('textDocument/completion', event.buf) then
       vim.lsp.completion.enable(true, client.id, event.buf, { autotrigger = true })
-      vim.keymap.set('i', '<Tab>', [[pumvisible() ? '<C-n>' : '<Tab>']], { desc = 'Completion: next', expr = true })
-      vim.keymap.set('i', '<S-Tab>', [[pumvisible() ? '<C-p>' : '<S-Tab>']], { desc = 'Completion: prev', expr = true })
       lsp_messages = lsp_messages .. 'completion' .. lsp_msg_sep
     else
       lsp_messages = lsp_messages .. 'no completion' .. lsp_msg_sep

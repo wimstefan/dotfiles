@@ -26,6 +26,8 @@ vim.keymap.set('n', '<Leader>wqa', [[<Cmd>wqa!<CR>]])
 vim.keymap.set('n', 'cn', '*``cgn')
 vim.keymap.set('n', 'cN', '*``cgN')
 vim.keymap.set('n', 'z=', function() Snacks.picker.spelling() end, { desc = 'Spell suggestion' })
+vim.keymap.set('i', '<Tab>', [[pumvisible() ? '<C-n>' : '<Tab>']], { desc = 'Completion: next', expr = true })
+vim.keymap.set('i', '<S-Tab>', [[pumvisible() ? '<C-p>' : '<S-Tab>']], { desc = 'Completion: prev', expr = true })
 vim.keymap.set({ 'i', 's' }, '<C-t>', '<C-x><C-f>', { desc = 'Completion: file completions' })
 vim.keymap.set({ 'i', 's' }, '<C-u>', '<C-x><C-n>', { desc = 'Completion: buffer completions' })
 -- }}}2
