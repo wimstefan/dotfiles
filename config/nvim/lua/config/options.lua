@@ -94,16 +94,17 @@ vim.opt.selection = 'exclusive'
 vim.opt.scrolloff = 99
 vim.opt.scrolloffpad = 1
 
-vim.opt.autocomplete = vim.bo.buftype == ''
+vim.opt.autocomplete = true
 vim.opt.complete:append({
   'o'
 })
 vim.opt.completeopt = {
   'menuone',
-  'fuzzy',
+  'popup',
   'noselect',
   'nosort',
-  'popup'
+  'fuzzy',
+  'pathopt'
 }
 
 vim.opt.wildmode = {
