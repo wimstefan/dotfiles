@@ -59,14 +59,20 @@ vim.pack.add({
   { src = 'https://github.com/barrettruth/diffs.nvim' }
 })
 vim.g.diffs = {
-  extra_filetypes = {
-    'diff',
-    'patch'
-  },
   integrations = {
     gitsigns = true
   }
 }
+vim.api.nvim_create_autocmd('FileType', {
+  group = vim.api.nvim_create_augroup('MyDiffs', { clear = true }),
+  pattern = {
+    'diff',
+    'patch'
+  },
+  callback = function(event)
+    require('diffs').attach(event.buf)
+  end,
+})
 
 vim.pack.add({
   { src = 'https://github.com/SunnyTamang/select-undo.nvim' }
