@@ -204,11 +204,11 @@ local function font_set(name)
   elseif string.match(name, 'hasklig') then
     font = font_fallback({ family = 'Hasklig', harfbuzz_features = { 'onum' } })
   elseif string.match(name, 'iosevka') then
-    font = font_fallback({ family = 'Iosevka Artesanal', harfbuzz_features = { 'calt', 'ccmp', 'dlig', 'onum' } })
+    font = font_fallback({ family = 'IosevkaArtesanal Nerd Font', harfbuzz_features = { 'calt', 'ccmp', 'dlig', 'onum' } })
   elseif string.match(name, 'jet') then
     font = font_fallback({ family = 'JetBrains Mono', harfbuzz_features = { 'cv06', 'cv07', 'cv11', 'ss20', 'zero' } })
   elseif string.match(name, 'monaspace') then
-    font = font_fallback({ family = 'MonaspiceXe Nerd Font Propo', weight = 'Light', harfbuzz_features = { 'ss01', 'ss02', 'ss03', 'ss04', 'ss05', 'ss06', 'ss07', 'ss08', 'ss09', 'calt', 'liga' } })
+    font = font_fallback({ family = 'MonaspiceXe Nerd Font Propo', weight = 'Regular', harfbuzz_features = { 'ss01', 'ss02', 'ss03', 'ss04', 'ss05', 'ss06', 'ss07', 'ss08', 'ss09', 'calt', 'liga' } })
   elseif string.match(name, 'operator') then
     font = font_fallback({ family = 'Liga Operator Mono', weight = 'Light', harfbuzz_features = { 'ss05' } })
   elseif string.match(name, 'plex') then
@@ -265,7 +265,7 @@ local function font_rules(name)
         font = font_fallback({
           family = 'MonaspiceXe Nerd Font Propo',
           style = 'Italic',
-          weight = 'Medium',
+          weight = 'Bold',
           harfbuzz_features = { 'ss01', 'ss02', 'ss03', 'ss04', 'ss05', 'ss06', 'ss07', 'ss08', 'ss09', 'calt', 'liga' }
         })
       },
@@ -274,7 +274,7 @@ local function font_rules(name)
         italic = false,
         font = font_fallback({
           family = 'MonaspiceXe Nerd Font Propo',
-          weight = 'Medium',
+          weight = 'Bold',
           harfbuzz_features = { 'ss01', 'ss02', 'ss03', 'ss04', 'ss05', 'ss06', 'ss07', 'ss08', 'ss09', 'calt', 'liga' }
         })
       }
@@ -436,7 +436,11 @@ end
 local function set_geometry(x)
   local value = 0
   if x == 'cols' then
-    value = 160
+    if hostname == 'swimmer' then
+      value = 220
+    elseif hostname == 'tj' then
+      value = 210
+    end
   elseif x == 'rows' then
     if hostname == 'swimmer' then
       if (my_font == 'monaspace') then
@@ -444,7 +448,7 @@ local function set_geometry(x)
       elseif (my_font == 'pt') then
         value = 63
       elseif (my_font == 'fantasque' or my_font == 'iosevka' or my_font == 'recursive' or my_font == 'triple') then
-        value = 61
+        value = 64
       elseif (my_font == 'custom' or my_font == 'jet' or my_font == 'operator' or my_font == 'plex') then
         value = 56
       elseif (my_font == 'hasklig') then
@@ -466,7 +470,7 @@ local function set_geometry(x)
       if (my_font == 'pt' or my_font == 'recursive') then
         value = 51
       elseif (my_font == 'hasklig' or my_font == 'iosevka' or my_font == 'monaspace' or my_font == 'operator' or my_font == 'plex' or my_font == 'triple') then
-        value = 50
+        value = 62
       elseif (my_font == 'fantasque' or my_font == 'jet') then
         value = 44
       elseif (my_font == 'custom') then
