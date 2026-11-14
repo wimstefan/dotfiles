@@ -1002,10 +1002,10 @@ ruled.client.connect_signal('request::rules', function()
   ruled.client.append_rule { rule_any = { class = { '^tj' } }, properties = { tag = '3', maximized = true } }
   ruled.client.append_rule { rule_any = { class = { '^komala' } }, properties = { tag = '5', maximized = true } }
   ruled.client.append_rule { rule_any = { class = { 'laptop$', '^home', '^swimmer' } }, properties = { tag = '6', maximized = true } }
-  ruled.client.append_rule { rule_any = { class = { 'thunderbird' } }, properties = { tag = '7' } }
+  ruled.client.append_rule { rule_any = { class = { 'signal', 'thunderbird' } }, properties = { tag = '7' } }
   ruled.client.append_rule { rule_any = { class = { 'Darktable', 'Gimp', 'Inkscape', 'scribus' } },
     properties = { tag = '8' } }
-  ruled.client.append_rule { rule_any = { class = { 'Audacious', 'Audacity', 'puddletag', 'Signal' } }, properties = { tag = '9' } }
+  ruled.client.append_rule { rule_any = { class = { 'Audacious', 'Audacity', 'puddletag' } }, properties = { tag = '9' } }
 
   -- Application & host specific rules
   ruled.client.append_rule { rule_any = { class = { 'Mixxx', 'libreoffice' } }, properties = { shape = shape.rectangle } }
