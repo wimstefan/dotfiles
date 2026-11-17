@@ -118,24 +118,6 @@ else
 end
 
 vim.pack.add({
-  { src = 'https://github.com/folke/which-key.nvim' }
-})
-require('which-key').setup({
-  preset = 'helix',
-  plugins = {
-    marks = true,
-    registers = true,
-    spelling = {
-      enabled = true,
-      suggestions = 40
-    }
-  },
-  win = {
-    padding = { 2, 2, 2, 2 }
-  }
-})
-
-vim.pack.add({
   { src = 'https://github.com/delphinus/md-render.nvim' }
 })
 vim.api.nvim_create_autocmd('FileType', {

@@ -84,6 +84,8 @@ augroup('General', function(g)
       vim.opt_local.tabstop = 2
       vim.opt_local.softtabstop = 2
       vim.opt_local.shiftwidth = 2
+      vim.opt_local.foldlevel = 99
+      vim.opt_local.foldlevelstart = 99
     end
   })
   aucmd('FileType', {
@@ -104,20 +106,12 @@ augroup('General', function(g)
     pattern = {
       'help',
       'man',
-      'snacks_dashboard'
+      'nvim-undotree'
     },
     desc = 'Disable folding',
     callback = function()
       vim.opt_local.foldlevel = 99
       vim.opt_local.foldlevelstart = 99
-    end
-  })
-  aucmd('FileType', {
-    group = g,
-    pattern = 'snacks_picker_input',
-    desc = 'Disable completion in Snacks picker',
-    callback = function()
-      vim.bo.autocomplete = false
     end
   })
 

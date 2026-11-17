@@ -82,11 +82,6 @@ require('select-undo').setup({
 })
 
 vim.pack.add({
-  { src = 'https://github.com/yorickpeterse/nvim-jump' }
-})
-vim.keymap.set({ 'n', 'x', 'o' }, 's', function() require('jump').start() end, { desc = 'Jump' })
-
-vim.pack.add({
   { src = 'https://github.com/lewis6991/spaceless.nvim' }
 })
 
@@ -150,7 +145,7 @@ vim.pack.add({
   { src = 'https://github.com/zk-org/zk-nvim' }
 })
 require('zk').setup({
-  picker = 'snacks_picker',
+  picker = 'minipick',
   function()
     local function make_edit_fn(defaults, picker_options)
       return function(options)

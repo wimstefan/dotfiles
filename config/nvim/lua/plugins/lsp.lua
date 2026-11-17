@@ -1,9 +1,8 @@
 -- Diagnostic
 vim.keymap.set('n', ',dt', function() vim.diagnostic.enable(not vim.diagnostic.is_enabled()) end,
   { desc = 'Diagnostic: toggle' })
-vim.keymap.set('n', ',dd', function() Snacks.picker.diagnostics_buffer() end,
-  { desc = 'Diagnostic: document diagnostics' })
-vim.keymap.set('n', ',dD', function() Snacks.picker.diagnostics() end, { desc = 'Diagnostic: workspace diagnostics' })
+vim.keymap.set('n', ',dd', function() MiniExtra.pickers.diagnostic({ scope = 'current' }) end, { desc = 'Diagnostic: document diagnostics' })
+vim.keymap.set('n', ',dD', function() MiniExtra.pickers.diagnostic({ scope = 'all' }) end, { desc = 'Diagnostic: workspace diagnostics' })
 vim.keymap.set('n', ',df', vim.diagnostic.open_float, { desc = 'Diagnostic: open floating window' })
 vim.keymap.set('n', ',dl', vim.diagnostic.setloclist, { desc = 'Diagnostic: populate location list' })
 vim.keymap.set('n', ',dq', vim.diagnostic.setqflist, { desc = 'Diagnostic: populate quickfix' })
@@ -168,7 +167,11 @@ vim.lsp.config['lua_ls'] = {
         enable = true
       },
       runtime = {
-        version = 'LuaJIT'
+        version = 'LuaJIT',
+        path = {
+          'lua/?.lua',
+          'lua/?/init.lua'
+        }
       },
       telemetry = {
         enable = false
@@ -216,17 +219,17 @@ vim.api.nvim_create_autocmd('LspAttach', {
       { desc = 'LSP: info' }, opts)
     vim.keymap.set('n', ',lL', function() vim.cmd(string.format('tabnew %s', vim.lsp.log.get_filename())) end,
       { desc = 'LSP: log' }, opts)
-    vim.keymap.set('n', ',lr', function() Snacks.picker.lsp_references() end,
+    vim.keymap.set('n', ',lr', function() MiniExtra.pickers.lsp({ scope = 'references' }) end,
       { desc = 'LSP: references' }, opts)
-    vim.keymap.set('n', ',ly', function() Snacks.picker.lsp_symbols() end,
+    vim.keymap.set('n', ',ly', function() MiniExtra.pickers.lsp({ scope = 'document_symbol' }) end,
       { desc = 'LSP: document symbols' }, opts)
-    vim.keymap.set('n', ',lY', function() Snacks.picker.lsp_workspace_symbols() end,
+    vim.keymap.set('n', ',lY', function() MiniExtra.pickers.lsp({ scope = 'workspace_symbol' }) end,
       { desc = 'LSP: workspace symbols' }, opts)
-    vim.keymap.set('n', ',ld', function() Snacks.picker.lsp_definitions() end,
+    vim.keymap.set('n', ',ld', function() MiniExtra.pickers.lsp({ scope = 'definition' }) end,
       { desc = 'LSP: definitions' }, opts)
-    vim.keymap.set('n', ',lt', function() Snacks.picker.lsp_type_definitions() end,
+    vim.keymap.set('n', ',lt', function() MiniExtra.pickers.lsp({ scope = 'type_definition' }) end,
       { desc = 'LSP: type definitions' }, opts)
-    vim.keymap.set('n', ',lD', function() Snacks.picker.lsp_declarations() end,
+    vim.keymap.set('n', ',lD', function() MiniExtra.pickers.lsp({ scope = 'declaration' }) end,
       { desc = 'LSP: declarations' }, opts)
     vim.keymap.set('n', ',lrn', function() vim.lsp.buf.rename() end,
       { desc = 'LSP: rename' }, opts)
@@ -290,7 +293,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
       lsp_messages = lsp_messages .. 'hovering' .. lsp_msg_sep
     end
     if client:supports_method('textDocument/implementation', event.buf) then
-      vim.keymap.set('n', ',li', function() Snacks.picker.lsp_implementations() end,
+      vim.keymap.set('n', ',li', function() MiniExtra.pickers.lsp({ scope = 'implementation' }) end,
         { desc = 'LSP: implementations' }, opts)
       lsp_messages = lsp_messages .. 'implementations' .. lsp_msg_sep
     end
@@ -316,13 +319,6 @@ vim.api.nvim_create_autocmd('LspAttach', {
 
 vim.pack.add({
   { src = 'https://github.com/aznhe21/actions-preview.nvim' }
-})
-require('actions-preview').setup({
-  snacks = {
-    layout = {
-      preset = 'ivy'
-    }
-  }
 })
 
 vim.pack.add({

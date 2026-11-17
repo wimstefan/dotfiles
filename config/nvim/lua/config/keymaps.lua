@@ -23,9 +23,10 @@ vim.keymap.set('n', '<Leader>wa', [[<Cmd>wa!<CR>]])
 vim.keymap.set('n', '<Leader>q', [[<Cmd>q!<CR>]])
 vim.keymap.set('n', '<Leader>qa', [[<Cmd>qa!<CR>]])
 vim.keymap.set('n', '<Leader>wqa', [[<Cmd>wqa!<CR>]])
+vim.keymap.set('n', '<Leader>u', function() vim.cmd.Undotree() end, { desc = 'UndoTree' })
 vim.keymap.set('n', 'cn', '*``cgn')
 vim.keymap.set('n', 'cN', '*``cgN')
-vim.keymap.set('n', 'z=', function() Snacks.picker.spelling() end, { desc = 'Spell suggestion' })
+vim.keymap.set('n', 'z=', function() MiniExtra.pickers.spellsuggest() end, { desc = 'Spell suggestion' })
 vim.keymap.set('i', '<Tab>', [[pumvisible() ? '<C-n>' : '<Tab>']], { desc = 'Completion: next', expr = true })
 vim.keymap.set('i', '<S-Tab>', [[pumvisible() ? '<C-p>' : '<S-Tab>']], { desc = 'Completion: prev', expr = true })
 vim.keymap.set({ 'i', 's' }, '<C-t>', '<C-x><C-f>', { desc = 'Completion: file completions' })
@@ -42,14 +43,40 @@ vim.keymap.set('n', '<Leader>bl', function() vim.cmd.buffer('#') end, { desc = '
 vim.keymap.set('n', '<Leader>td', vim.cmd.tabclose)
 -- }}}2
 -- {{{2 terminals
-vim.keymap.set('t', '<Esc>', [[<C-\><C-N>]])
-vim.keymap.set('t', '<A-h>', [[<C-\><C-N><C-w>h]])
-vim.keymap.set('t', '<A-j>', [[<C-\><C-N><C-w>j]])
-vim.keymap.set('t', '<A-k>', [[<C-\><C-N><C-w>k]])
-vim.keymap.set('t', '<A-l>', [[<C-\><C-N><C-w>l]])
+vim.keymap.set({ 'n', 't' }, '<C-\\>', (function()
+  local buf, win = nil, nil
+  local was_insert = true
+  local cfg = function()
+    return {
+      relative = 'editor',
+      width = math.floor(vim.o.columns * 0.9),
+      height = math.floor(vim.o.lines * 0.9),
+      row = math.floor(vim.o.lines * 0.1),
+      col = math.floor(vim.o.columns * 0.1),
+      style = 'minimal',
+      border = 'rounded',
+    }
+  end
+  return function()
+    buf = (buf and vim.api.nvim_buf_is_valid(buf)) and buf or nil
+    win = (win and vim.api.nvim_win_is_valid(win)) and win or nil
+    if not buf and not win then
+      vim.cmd('split | terminal')
+      buf = vim.api.nvim_get_current_buf()
+      vim.api.nvim_win_close(vim.api.nvim_get_current_win(), true)
+      win = vim.api.nvim_open_win(buf, true, cfg())
+    elseif not win and buf then
+      win = vim.api.nvim_open_win(buf, true, cfg())
+    elseif win then
+      was_insert = vim.api.nvim_get_mode().mode == 't'
+      return vim.api.nvim_win_close(win, true)
+    end
+    if was_insert then vim.cmd('startinsert') end
+  end
+end)(), { desc = 'Toggle float terminal' })
 -- }}}2
 -- {{{2 quickfix
-vim.keymap.set('n', '<C-c>', function() Snacks.picker.qflist() end, { desc = 'Toggle quickfix window' })
+vim.keymap.set('n', '<C-c>', function() MiniExtra.pickers.list({ scope = 'quickfix' }) end, { desc = 'Toggle quickfix window' })
 vim.keymap.set('n', '[\\', vim.cmd.colder, { desc = 'Quickfix: go to older error list' })
 vim.keymap.set('n', ']\\', vim.cmd.cnewer, { desc = 'Quickfix: go to newer error list' })
 -- }}}2
