@@ -36,9 +36,13 @@ vim.opt.listchars = {
   extends = '>',
   precedes = '<'
 }
-vim.opt.previewpopup = 'width:10,height:60'
 vim.opt.winborder = require('config.ui').borders
 vim.opt.pumborder = require('config.ui').borders
+vim.opt.previewpopup = {
+  width = 10,
+  height = 60,
+  border = require('config.ui').borders
+}
 
 vim.opt.messagesopt:append({
   'maxheight:80',
