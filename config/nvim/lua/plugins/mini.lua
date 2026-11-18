@@ -33,6 +33,7 @@ require('mini.clue').setup({
     { mode = { 'i', 'c' }, keys = '<C-r>' },
     { mode = 'n', keys = '<C-w>' },
     { mode = { 'n', 'x' }, keys = 's' },
+    { mode = { 'n', 'x' }, keys = 'yo' },
     { mode = { 'n', 'x' }, keys = 'z' }
   },
   window = {
@@ -104,7 +105,7 @@ vim.keymap.set('n', '<Leader>o', function() MiniExtra.pickers.oldfiles() end, { 
 vim.keymap.set('n', '<Leader>h', function() MiniPick.builtin.help() end, { desc = 'Mini: help' })
 vim.keymap.set('n', '<Leader>k', function() MiniExtra.pickers.manpages() end, { desc = 'Mini: man' })
 vim.keymap.set('n', '<Leader>r', function() MiniPick.builtin.resume() end, { desc = 'Mini: resume' })
-vim.keymap.set('n', '<Leader>?', function() MiniExtra.pickers.buf_lines() end, { desc = 'Mini: grep open buffers' })
+vim.keymap.set('n', '<Leader>?', function() MiniExtra.pickers.buf_lines({ scope = 'current' }) end, { desc = 'Mini: grep current buffer' })
 vim.keymap.set('n', '<Leader>/', function() MiniPick.builtin.grep_live() end, { desc = 'Mini: grep current directory recursively' })
 vim.keymap.set('n', '<Leader>N', function() MiniNotify.show_history() end, { desc = 'Mini: notifications' })
 

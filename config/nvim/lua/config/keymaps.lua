@@ -42,6 +42,35 @@ vim.keymap.set('n', '<Leader>bl', function() vim.cmd.buffer('#') end, { desc = '
 -- {{{2 tabs
 vim.keymap.set('n', '<Leader>td', vim.cmd.tabclose)
 -- }}}2
+-- {{{2 some toggles
+vim.keymap.set('n', 'yob', function()
+  local to_light = vim.o.background == 'dark'
+  vim.o.background = to_light and 'light' or 'dark'
+end, { desc = 'Toggle light/dark background' })
+vim.keymap.set('n', 'yoh', function()
+  local visible = vim.v.hlsearch == 1
+  vim.o.hlsearch = not visible
+  if visible then vim.cmd.nohlsearch() end
+end, { desc = 'Toggle search highlighting' })
+vim.keymap.set('n', 'yoi', function()
+  local disabled = not vim.b.miniindentscope_disable
+  vim.b.miniindentscope_disable = disabled
+  if disabled then require('mini.indentscope').undraw() end
+end, { desc = 'Toggle indent scope guide' })
+vim.keymap.set('n', 'yon', function()
+  vim.opt.number = not vim.opt.number:get()
+end, { desc = 'Toggle absolute line numbers' })
+vim.keymap.set('n', 'yor', function()
+  if not vim.wo.number then return end
+  vim.opt.relativenumber = not vim.opt.relativenumber:get()
+end, { desc = 'Toggle relative line numbers' })
+vim.keymap.set('n', 'yos', function()
+  vim.opt.spell = not vim.opt.spell:get()
+end, { desc = 'Toggle spell checking' })
+vim.keymap.set('n', 'yow', function()
+  vim.opt.wrap = not vim.opt.wrap:get()
+end, { desc = 'Toggle line wrapping' })
+-- }}}2
 -- {{{2 terminals
 vim.keymap.set({ 'n', 't' }, '<C-\\>', (function()
   local buf, win = nil, nil
